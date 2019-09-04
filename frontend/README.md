@@ -1,6 +1,6 @@
 # frontend
 
-> frontend do sies
+>  
 
 ## Build Setup
 
