@@ -20,6 +20,8 @@
         "vue": "^2.5.17"
     },
     "dependencies": {
-        "mem": "^5.1.1"
+        "js-yaml": "^3.13.1",
+        "mem": "^5.1.1",
+        "webpack-dev-server": "^3.8.0"
     }
 }
