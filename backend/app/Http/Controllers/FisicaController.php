@@ -9,24 +9,15 @@ use App\Fisica;
 use App\Telefone;
 use App\Endereco;
 use App\User;
+use App\Traits\UserTrait;
+use JWTAuth;
 
 class FisicaController extends Controller
 {
+    use UserTrait;
 
-    public function index()
-    {
-     
-    }
-
-    public function create()
-    {
-    
-
-    }
-    
     public function store(Request $request)
-    {   
-        $role = $request->input('role');
+    {  
 
         $this->validate($request, [
             'name' => 'required',
@@ -34,7 +25,8 @@ class FisicaController extends Controller
             'email' => 'required|email|unique:users',
             ]); 
 
-        app('App\Http\Controllers\UserController')->register($request, $role);
+        $this->register($request);
+       // app('App\Http\Controllers\UserController')->register($request, $role);
             
             $pfisica = new Fisica();
             $cpf = $pfisica->cpf = $request->input('cpf');
@@ -44,8 +36,16 @@ class FisicaController extends Controller
 
             $pfisica->save();
 
-        app('App\Http\Controllers\UserController')->login($request);    
+            $user = User::first();
+            $token = JWTAuth::fromUser($user);
+            return Response::json([
+                'token'=> $token,
+                'name' => $request->input('name'),
+                'role' => $request->input('role'),
+                'user_id'=> $id
+             ], 201);
 
+        //app('App\Http\Controllers\UserController')->login($request);    
        
     }
 

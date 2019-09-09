@@ -21,15 +21,11 @@ Route::resource('/curriculo', 'CurriculoController', [
 
 Auth::routes(); 
 
-Route::post('/user', [
-    'uses' => 'UserController@register'
-]);
-
-Route::post('/user/login', [
+Route::post('/login', [
     'uses' => 'UserController@login'
 ]);
 
-Route::post('/user/logout', [
+Route::post('/logout', [
     'uses' => 'UserController@logout',
     'middleware' => 'jwt.auth'
 ]);

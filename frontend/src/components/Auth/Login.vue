@@ -37,7 +37,7 @@
         methods: {
             login(){
                 this.loginError = false;
-                axios.post('http://localhost:8000/api/user/login', 
+                axios.post('http://localhost:8000/api/login', 
                 //pra autenticar, precisa de mais uma header
                 //essa header só vai dizer pro beck q isso é uma chamada ajax
                     {email: this.email, password: this.password},
@@ -54,7 +54,7 @@
                             this.$session.set('role', response.data.role),
                             this.$session.set('user_id', response.data.user_id)
 
-                            console.log(this.$session.get('user_id'));
+                             console.log(response);
 
                             /*if(role === 'ADMIN'){
                                 //redireciona pra dash do admin
@@ -77,7 +77,7 @@
                     .catch(error => {
                         this.loginError = true
                         console.log(error)
-                        alert('Algo deu ruim')
+
                     }
                     );
             }

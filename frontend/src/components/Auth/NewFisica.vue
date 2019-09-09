@@ -68,7 +68,14 @@
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
-                        (response) => console.log(response)
+                        (response) => {
+                            this.$session.start(),
+                            this.$session.set('jwt', response.data.token),
+                            this.$session.set('name', response.data.name),
+                            this.$session.set('role', response.data.role),
+                            this.$session.set('user_id', response.data.user_id),
+                            console.log(this.$session.get('jwt'))
+                        }
                     )
                     .catch(
                         (error) => console.log(error)
