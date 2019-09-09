@@ -17,7 +17,7 @@
 
                      <div class="form-group"> 
                         <label for="estadoCivil">Estado Civil</label>
-                            <select class="custom-select" name="estadocivil" v-model="estadocivil">
+                            <select class="custom-select" name="estadoCivil" v-model="estadoCivil">
                                 <option selected>Selecione a opção</option>
 							    <option value="solteiro">Solteiro(a)</option>
 							    <option value="casado">Casado(a)</option>
@@ -32,17 +32,17 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <label class="radio-inline">
-                                        <input type="radio" id="femaleRadio" value="Female"  v-model="genero"> Masculino
+                                        <input type="radio" id="femaleRadio" value="Feminino"  v-model="genero"> Masculino
                                     </label>
                                 </div>
                                 <div class="col-sm-4">
                                     <label class="radio-inline">
-                                        <input type="radio" id="maleRadio" value="Male"  v-model="genero"> Feminino
+                                        <input type="radio" id="maleRadio" value="Masculino"  v-model="genero"> Feminino
                                     </label>
                                 </div>
                                 <div class="col-sm-4">
                                     <label class="radio-inline">
-                                        <input type="radio" id="other" value="Other"  v-model="genero"> Outro
+                                        <input type="radio" id="other" value="Outro"  v-model="genero"> Outro
                                     </label>
                                 </div>
                             </div>
@@ -412,7 +412,7 @@
                 historico: '',
                 emailAlt: '',
 
-                estadocivil: '',
+                estadoCivil: '',
                 pais: '',
                 estado: '',
                 escolaridade: ''
@@ -421,8 +421,8 @@
         },
         methods: {
             register(){
-                const token = localStorage.getItem('token');
-                const user_id = window.sessionStorage.getItem('user_id');
+                const token = this.$session.get('jwt');
+               
 
                 axios.post('http://localhost:8000/api/curriculo?token=' + token, 
               
@@ -445,23 +445,26 @@
                         pretensao: this.pretensao,
                         qualificacoes: this.qualificacoes,
                         historico: this.historico,
-                        estadoCivil: this.estadocivil,
+                        estadoCivil: this.estadoCivil,
                         pais: this.pais,
                         estado: this.estado,
                         escolaridade: this.escolaridade,
                         emailAlt: this.emailAlt,
                         linkedin: this.linkedin,
-                        user_id: this.user_id
+                        user_id: this.$session.get('user_id')
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
-                        (response) => console.log(this.user_id)
+                        (response) => console.log(response)
                     )
                     .catch(
                         (error) => console.log(error)
                     );
             },
           
+        },
+        mounted() {
+             console.log(this.$session.get('user_id'));
         },
         
     }

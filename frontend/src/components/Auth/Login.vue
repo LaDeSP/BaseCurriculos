@@ -46,16 +46,15 @@
                         (response) => {
                             //muda o estado com vuex, loginUser() põe isLoggedIn como true
                          //   store.commit('loginUser')
-                       
+                         // localStorage.setItem('user_id', response.data.user_id),
+                            
+                            this.$session.start(),
+                            this.$session.set('jwt', response.data.token),
+                            this.$session.set('name', response.data.name),
+                            this.$session.set('role', response.data.role),
+                            this.$session.set('user_id', response.data.user_id)
 
-                            localStorage.setItem('token', response.data.token),
-                           // localStorage.setItem('user_id', response.data.user_id),
-                            window.sessionStorage.setItem('user_id', response.data.user_id),
-                            localStorage.setItem('name',  response.data.name),
-                            localStorage.setItem('role', response.data.role),
-                            localStorage.setItem('isLogged', true)
-
-                            console.log(response.data.user_id);
+                            console.log(this.$session.get('user_id'));
 
                             /*if(role === 'ADMIN'){
                                 //redireciona pra dash do admin
@@ -85,17 +84,6 @@
         }
     }
 
-/*ISSO DAQUI É PRA OLHAR NO TOKEN E PEGAR ALGO DELE, PRA DECRYPT -> quero pegar o token
-const token = response.data.token;
-//decrypt token
-const base64Url = token.split('.')[1];
-const base64 = base64Url.replace('-', '+').replace('_', '/');
-//passo um base64 e me volta uma string
-console.log(JSON.parse(window.atob(base64))); 
-//quero store o token pra mandar com requests futuras
-localStorage.setItem('token', token);
-//não é o decrypted é o raw mesmo
-*/
 </script>
 <style>
 #login-esp{

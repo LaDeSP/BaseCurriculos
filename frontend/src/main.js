@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import VueFilterDateFormat from 'vue-filter-date-format'
+import VueSession from 'vue-session'
 
 
 import App from './App.vue'
@@ -19,6 +20,7 @@ import DeuRuim from './components/DeuRuim.vue';
 
 Vue.use(VueFilterDateFormat)
 Vue.use(VueRouter);
+Vue.use(VueSession)
 const token = localStorage.getItem('token');
 axios.defaults.headers.common['Authorization'] = token;
 

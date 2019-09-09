@@ -22,7 +22,7 @@ class CurriculoController extends Controller
 
     public function create()
     {
-        //pode chamar aqui dps todos os países/estados pra serem listados de acordo na view
+        //pode [9chamar aqui dps todos os países/estados pra serem listados de acordo na view
 
     }
     
@@ -34,10 +34,7 @@ class CurriculoController extends Controller
             $contato = new Contato();
             $endereco = new Endereco();
             $pfisica = new Fisica();
-  
-            $pfisica->nascimento = $request->input('nascimento');
-            $pfisica->genero = $request->input('genero');
-            $pfisica->estadocivil = $request->input('estadocivil');
+            $user_id =  $request->input('user_id');
 
             $endereco->rua = $request->input('rua');
             $endereco->bairro = $request->input('bairro');
@@ -48,7 +45,7 @@ class CurriculoController extends Controller
 
             $endereco->save();
 
-            $contato->emailAlt = $request->input('emailAlt');
+            $email = $contato->emailAlt = $request->input('emailAlt');
             $contato->celular = $request->input('celular');
             $contato->fixo = $request->input('fixo');
             $contato->facebook = $request->input('facebook');
@@ -62,19 +59,22 @@ class CurriculoController extends Controller
             $curriculo->area = $request->input('area');
             $curriculo->pretensao = $request->input('pretensao');
             $curriculo->qualificacoes = $request->input('qualificacoes');
-            $curriculo->historico = $request->input('historico');
+            $curriculo->historicoProfissional = $request->input('historico');
             $curriculo->escolaridade = $request->input('escolaridade');
             
-            return Response::json([
-                'user_id' =>  $request->input('user_id')
-             ], 201);
+           Fisica::where('user_id', $user_id)
+            ->update(array(
+                'data_nascimento' => $request->input('nascimento'),
+                'genero'  => $request->input('genero'),
+                'estado_civil' => $request->input('estadoCivil'),
+                'contatos_id' => $contato->id, //pega ultimo id inserido
+                'enderecos_id' => $endereco->id
 
-            $curriculo->fisicas_id = Fisica::where('user_id', $request->input('user_id'))->first()->id;
-            //$pfisica->contatos_id = Contato::where('email', $request->input('email'))->first()->id;
-           // $pfisica->enderecos_id = Endereco::where('cep', $cep)->first()->id;
+            ));
 
-            $curriculo->save();
-            $pfisica->save(); 
+           $curriculo->fisicas_id = Fisica::where('user_id', $user_id)->first()->id;
+           $curriculo->save();
+         
        
     }
 

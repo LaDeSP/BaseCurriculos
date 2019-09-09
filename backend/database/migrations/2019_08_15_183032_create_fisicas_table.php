@@ -17,7 +17,7 @@ class CreateFisicasTable extends Migration
             $table->increments('id');
             $table->string('cpf')->unique();
             $table->string('genero')->nullable();
-            $table->string('estadocivil')->nullable();
+            $table->string('estado_civil')->nullable();
             $table->date('data_nascimento')->nullable();
             $table->integer('contatos_id')->unsigned()->nullable();
             $table->integer('enderecos_id')->unsigned()->nullable();
