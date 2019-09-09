@@ -15,6 +15,15 @@ class CreateCurriculosTable extends Migration
     {
         Schema::create('curriculos', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('objetivos');
+            $table->string('area');
+            $table->string('pretensao');
+            $table->string('escolaridade');
+            $table->string('curso')->nullable();
+            $table->string('estado')->nullable();
+            $table->string('cidade')->nullable();
+            $table->string('instituicao')->nullable();
+
             $table->string('qualificacoes');
             $table->string('historicoProfissional');
             $table->integer('fisicas_id')->unsigned();

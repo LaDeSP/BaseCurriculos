@@ -19,12 +19,12 @@ class UserController extends Controller {
         
       
         $this->validate($request, [
-            'username' => 'required',
+            'name' => 'required',
             'email' => 'required|email|unique:users'
         ]);
 
         $user = new User([
-            'name' => $request->input('username'),
+            'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
             'role' => $role
@@ -32,9 +32,6 @@ class UserController extends Controller {
 
         $user->save();
 
-        return response()->json([
-            'message' => "Deu bom, user criado"
-        ], 201);
     }
 
     public function login(Request $request){
@@ -61,42 +58,19 @@ class UserController extends Controller {
             ], 500);
         }
       //  $user = JWTAuth::parseToken()->toUser();
-      $user = User::where('email', $request->input('email'))->first();
+      $user = User::where('email', $request->input('email'))->first()->name;
       $role = User::where('email', $request->input('email'))->get()->first()->role;
      
       $user_id = User::where('email', $request->input('email'))->get()->first()->id;
 
-      if($role === 'ALUNO'){
-        $pessoa = Pessoa::where('user_id', $user_id)->get()->first()->id;
-        $aluno = Aluno::where('pessoa_id', $pessoa)->get()->first()->id;
-        return response()->json([
-            'token' => $token,
-            'user' => $user,
-            'aluno_id' => $aluno
-        ], 200);
-      }else if($role === 'COORDENADOR'){
-        $pessoa = Pessoa::where('user_id', $user_id)->get()->first()->id;
-        $coordenador = Coordenador::where('pessoa_id', $pessoa)->get()->first()->id;
-        return response()->json([
-            'token' => $token,
-            'user' => $user,
-            'coor_id' => $coordenador
-        ], 200);
-      }else if($role === 'SUPERVISOR'){
-        $pessoa = Pessoa::where('user_id', $user_id)->get()->first()->id;
-        $supervisor = Supervisor::where('pessoa_id', $pessoa)->get()->first()->id;
-        return response()->json([
-            'token' => $token,
-            'user' => $user,
-            'super_id' => $supervisor
-        ], 200);
-      }else{
           //se deu certo, token é enviado lá pro front
           return response()->json([
             'token' => $token,
-            'user' => $user
+            'user' => $user,
+            'role'=> $role,
+            'user_id'=>$user_id
         ], 200);
-      }  
+        
       
     }
 

@@ -15,11 +15,14 @@ class CreateContatosTable extends Migration
     {
         Schema::create('contatos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email');
-            $table->string('telefone');
+            $table->string('emailAlt');
             $table->string('linkedin')->nullable();
-            $table->string('telefoneComercial')->nullable();
-            $table->string('telefoneCelular')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('site')->nullable();
+            $table->string('outraRede')->nullable();
+            $table->string('fixo')->nullable();
+            $table->string('celular')->nullable();
             $table->timestamps();
         });
     }
