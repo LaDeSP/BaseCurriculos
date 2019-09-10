@@ -10,26 +10,17 @@
                 class="form-control" v-model="titulo">
             </div>
             <div class="form-group">
-                <label for="area">Área</label>
-                <input type="text" class="form-control" name="area" v-model="area">
+                <label for="local">Local</label>
+                <input type="text" class="form-control" name="local" v-model="local">
             </div>
-            <div class="form-group"> 
-                <label for="empresa">Empresa</label>
-                    <select class="custom-select" name="empresa" v-model="empresa">
-                        <option value="" disabled selected>Selecione uma empresa</option>
-                        <option v-for="emp in empresas" :key="emp.id" :value="emp.id">
-                            {{emp.nome}}
-                        </option>
-                    </select>
+             <div class="form-group">
+                <label for="salario">Salário</label>
+                <input type="salario" id="salario" name="salario" 
+                class="form-control" v-model="salario">
             </div>
-            <div class="form-group"> 
-                <label for="supervisor">Supervisor</label>
-                    <select class="custom-select" name="supervisor" v-model="supervisor">
-                        <option value="" disabled selected>Selecione um supervisor</option>
-                        <option v-for="sup in supervisores" :key="sup.id" :value="sup.id">
-                            {{sup.pessoa.nome}}
-                        </option>
-                    </select>
+            <div class="form-group">
+                <label for="beneficios">Benefícios</label>
+                <textarea class="form-control" id="beneficios" rows="3" v-model="beneficios"></textarea>
             </div>
             <div class="form-group">
                 <label for="requisitos">Requisitos</label>

@@ -11,7 +11,7 @@ class Curriculo extends Model
 	];
 	
     public function fisica(){
-    	return $this->hasOne(Fisica::class, 'id', 'fisicas_id');
+    	return $this->belongsTo(Fisica::class, 'fisicas_id');
 	}
 }
 

@@ -5,17 +5,19 @@ use Illuminate\Http\Request;
 
 use Response;
 
+use App\Traits\UserTrait;
 use App\Juridica;
-use App\Telefone;
+use App\Contato;
 use App\Endereco;
 use App\User;
+use JWTAuth;
 
 class JuridicaController extends Controller
 {
+    use UserTrait;
    
     public function store(Request $request)
     {   
-        $role = $request->input('role');
 
         $this->validate($request, [
             'name' => 'required',
@@ -23,7 +25,7 @@ class JuridicaController extends Controller
             'email' => 'required|email|unique:users',
             ]); 
 
-        app('App\Http\Controllers\UserController')->register($request, $role);
+            $this->register($request);
             
             $pjuridica = new Juridica();
             $cnpj = $pjuridica->cnpj = $request->input('cnpj');
@@ -34,17 +36,14 @@ class JuridicaController extends Controller
 
             $pjuridica->save();
 
-        app('App\Http\Controllers\UserController')->login($request);    
-
-       
-    }
-
-    public function show($id)
-    {  
-        $aluno = Aluno::where('id', $id)->with('pessoa', 'endereco', 'telefone', 'instituicao', 'campus', 'curso')->get();
-        return Response::json([
-           'aluno' => $aluno
-        ], 201);
+            $user = User::first();
+            $token = JWTAuth::fromUser($user);
+            return Response::json([
+                'token'=> $token,
+                'name' => $request->input('name'),
+                'role' => $request->input('role'),
+                'user_id'=> $id
+             ], 201); 
     }
 
     public function edit($id)
@@ -63,40 +62,50 @@ class JuridicaController extends Controller
 
     }
 
-    public function update(Request $request, $id)
-    {
-        $alu = Aluno::find($id);
-        if(isset($alu)) {
-           
-            //entro na tabela pessoa, busco o id dela q é igual ao id de pessoa_id dentro de aluno, pego o nome apenas
-            //$alu->pessoa()->where('id', $alu->pessoa_id)->update(['nome'=> $request->input('nome')]);
-            $target = $alu->pessoa()->where('id', $alu->pessoa_id)->get()->first()->nome;
+    public function addData(Request $request){
 
-            $alu->telefone()->where('id', $alu->tel_id)->update([
-                'fixo' => $request->input('fixo'),
-                'celular' => $request->input('celular')
-                ]);
+        $contato = new Contato();
+        $endereco = new Endereco();
 
-            $alu->endereco()->where('id', $alu->end_id)->update([
-                'rua'=> $request->input('rua'),
-                'bairro' => $request->input('bairro'),
-                'cidade' => $request->input('cidade'),
-                'cep' => $request->input('cep')
-                ]);
+        $con_id = Contato::insertGetId([
+            'celular' => $request->input('celular'),
+            'fixo' => $request->input('fixo'),
+            'linkedin' => $request->input('linkedin'),
+            'facebook' => $request->input('facebook'),
+            'twitter' => $request->input('twitter'),
+            'site' => $request->input('site'),
+            'outraRede' => $request->input('outraRede')
+        ]);
 
-            $alu->inst_id = $request->input('instituicao');
-            $alu->campus_id = $request->input('campus');
-            $alu->curso_id = $request->input('curso');
-            $alu->semestre = $request->input('semestre');
-            $alu->save();
-
-            $log = new Log();
-            $log->log('editou', 'aluno', $target);
-        }
+        $end_id = Endereco::insertGetId([
+            'rua' => $request->input('rua'),
+            'bairro' => $request->input('bairro'),
+            'cidade' => $request->input('cidade'),
+            'estado' => $request->input('estado'),
+            'complemento' => $request->input('complemento'),
+            'numero' => $request->input('numero'),
+            'pais' => $request->input('pais'),
+            'cep' => $request->input('cep')
+        ]);
         
+        Juridica::where('user_id', $request->input('user_id'))
+        ->update(array(
+            'razao' => $request->input('razao'),
+            'missao' => $request->input('missao'),
+            'contatos_id' => $con_id, 
+            'enderecos_id' => $end_id
+
+        ));
+
         return Response::json([
-            'msg' => 'update ok'
+            'msg' => 'deu ok'
          ], 201);
+
+    }
+
+    public function update(Request $request)
+    {
+      
     }
 
     public function destroy($id)

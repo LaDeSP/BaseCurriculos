@@ -26,7 +26,6 @@ class FisicaController extends Controller
             ]); 
 
         $this->register($request);
-       // app('App\Http\Controllers\UserController')->register($request, $role);
             
             $pfisica = new Fisica();
             $cpf = $pfisica->cpf = $request->input('cpf');
@@ -43,9 +42,7 @@ class FisicaController extends Controller
                 'name' => $request->input('name'),
                 'role' => $request->input('role'),
                 'user_id'=> $id
-             ], 201);
-
-        //app('App\Http\Controllers\UserController')->login($request);    
+             ], 201); 
        
     }
 

@@ -14,6 +14,7 @@ import Logout from './components/Auth/Logout.vue';
 import NewJuridica from './components/Auth/NewJuridica.vue';
 import NewFisica from './components/Auth/NewFisica.vue';
 import NewCurriculo from  './components/Create/NewCurriculo.vue';
+import NewJuridicaData from  './components/Create/NewJuridicaData.vue';
 
 
 import DeuRuim from './components/DeuRuim.vue';
@@ -33,6 +34,7 @@ const routes = [
     {path: '/new-juridica', component: NewJuridica},
     {path: '/new-fisica', component: NewFisica},
     {path: '/new-curriculo', component: NewCurriculo},
+    {path: '/add-juridica', component: NewJuridicaData},
     {path: '*', component: DeuRuim}
 ];
 

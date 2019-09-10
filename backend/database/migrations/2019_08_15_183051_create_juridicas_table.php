@@ -17,7 +17,8 @@ class CreateJuridicasTable extends Migration
             $table->increments('id');
             $table->string('cnpj')->unique();
             $table->string('ramo');
-            $table->string('trabalheConoscoURL')->nullable();
+            $table->string('razao')->nullable();
+            $table->string('missao')->nullable();
             $table->integer('contatos_id')->unsigned()->nullable();
             $table->integer('enderecos_id')->unsigned()->nullable();
             $table->timestamps();
