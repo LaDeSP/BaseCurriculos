@@ -18,6 +18,21 @@ class FisicaController extends Controller
 
     public function store(Request $request)
     {  
+        if(!$request->name){
+            $error[] = 'Insira o nome!';
+        }
+        if(!$request->cpf){
+            $error[] = 'Insira o cpf!';
+        }
+        if(!$request->email){
+            $error[] = 'Insira o email!';
+        }
+        
+        if(isset($error)){
+            return Response::json([
+            'error' => $error
+        ], 201);
+        }
 
         $this->validate($request, [
             'name' => 'required',
@@ -41,7 +56,8 @@ class FisicaController extends Controller
                 'token'=> $token,
                 'name' => $request->input('name'),
                 'role' => $request->input('role'),
-                'user_id'=> $id
+                'user_id'=> $id,
+                'message'=>'Pessoa física cadastrada com sucesso!'
              ], 201); 
        
     }
