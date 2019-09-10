@@ -18,6 +18,23 @@ class JuridicaController extends Controller
    
     public function store(Request $request)
     {   
+        if(!$request->name){
+            $error[] = 'Insira o nome!';
+        }
+        if(!$request->cnpj){
+            $error[] = 'Insira o CNPJ!';
+        }
+        if(!$request->email){
+            $error[] = 'Insira o email!';
+        }
+        if(!$request->ramo){
+            $error[] = 'Insira o ramo!';
+        }
+        if(isset($error)){
+            return Response::json([
+            'error' => $error
+        ], 201);
+        }
 
         $this->validate($request, [
             'name' => 'required',
@@ -42,7 +59,8 @@ class JuridicaController extends Controller
                 'token'=> $token,
                 'name' => $request->input('name'),
                 'role' => $request->input('role'),
-                'user_id'=> $id
+                'user_id'=> $id,
+                'message' => 'Pessoa Jurídica cadastrada com sucesso!'
              ], 201); 
     }
 
