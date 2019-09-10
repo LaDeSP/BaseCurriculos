@@ -299,7 +299,6 @@
 </template>
 
 <script>
-  import axios from 'axios';
 
     export default {
     
@@ -328,12 +327,13 @@
         },
         methods: {
             register(){
-                
                 const token = this.$session.get('jwt');
+                let uri = 'http://localhost:8000/api/data/pjuridica?token=';
+
                 if(!token){
                     console.log('loga ai seu corno');
                 }else{
-                     axios.post('http://localhost:8000/api/data/pjuridica?token=' + token, 
+                     this.axios.post(uri + token, 
               
                     {
                         razao: this.razao,

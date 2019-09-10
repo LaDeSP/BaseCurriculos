@@ -1,30 +1,30 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router';
-import axios from 'axios';
 import VueFilterDateFormat from 'vue-filter-date-format'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import VueSession from 'vue-session'
 
+Vue.use(VueFilterDateFormat)
+Vue.use(VueRouter);
+Vue.use(VueSession)
+Vue.use(VueAxios, axios)
+const token = localStorage.getItem('token');
+axios.defaults.headers.common['Authorization'] = token;
 
 import App from './App.vue'
 import Login from './components/Auth/Login.vue';
 import Logout from './components/Auth/Logout.vue';
-
-
 //CADASTROS
 import NewJuridica from './components/Auth/NewJuridica.vue';
 import NewFisica from './components/Auth/NewFisica.vue';
 import NewCurriculo from  './components/Create/NewCurriculo.vue';
 import NewJuridicaData from  './components/Create/NewJuridicaData.vue';
+import NewArea from  './components/Create/NewArea.vue';
+import NewVaga from  './components/Create/NewVaga.vue';
 
 
 import DeuRuim from './components/DeuRuim.vue';
-
-Vue.use(VueFilterDateFormat)
-Vue.use(VueRouter);
-Vue.use(VueSession)
-const token = localStorage.getItem('token');
-axios.defaults.headers.common['Authorization'] = token;
-
 
 const routes = [
     {path: '', component: Login},
@@ -35,6 +35,8 @@ const routes = [
     {path: '/new-fisica', component: NewFisica},
     {path: '/new-curriculo', component: NewCurriculo},
     {path: '/add-juridica', component: NewJuridicaData},
+    {path: '/new-area', component: NewArea},
+    {path: '/new-vaga', component: NewVaga},
     {path: '*', component: DeuRuim}
 ];
 

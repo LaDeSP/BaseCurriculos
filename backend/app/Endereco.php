@@ -11,11 +11,11 @@ class Endereco extends Model
         'estado', 'pais'
     ];
     
-    public function pfisica(){
+    public function fisica(){
         return $this->hasOne(Fisica::class);
     }
 
-    public function pjuridica(){
+    public function juridica(){
         return $this->hasOne(Juridica::class);
     }
 }

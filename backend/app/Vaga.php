@@ -6,13 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vaga extends Model
 {
-    public function perfilBuscado(){
-    	return $this->hasOne(PerfilBuscado::class, 'id', 'perfisbuscados_id');
-	}
+
+	protected $fillable = [
+		'titulo', 'local', 'salario', 'beneficio', 'jornada',
+		'requisito', 'juridicas_id', 'areas_id'
+	];
+
     public function area(){
-    	return $this->hasOne(Area::class, 'id', 'areas_id');
+    	return $this->belongsTo(Area::class, 'areas_id');
 	}
     public function juridica(){
-    	return $this->hasOne(Juridica::class, 'id', 'juridicas_id');
+    	return $this->belongsTo(Juridica::class, 'juridicas_id');
 	}
 }

@@ -19,16 +19,16 @@ class CreateVagasTable extends Migration
             $table->string('local');
             $table->string('salario');
             $table->string('beneficio');
-            $table->string('quantidade_horas');
+            $table->string('jornada');
+            $table->string('requisito');
             $table->integer('juridicas_id')->unsigned();
             $table->integer('areas_id')->unsigned();
-            $table->integer('perfisbuscados_id')->unsigned();
-
+          
             $table->timestamps();
 
             $table->foreign('juridicas_id')->references('id')->on('juridicas')->onDelete('cascade');
             $table->foreign('areas_id')->references('id')->on('areas')->onDelete('cascade');
-            $table->foreign('perfisbuscados_id')->references('id')->on('perfisbuscados')->onDelete('cascade');
+          
         });
     }
 

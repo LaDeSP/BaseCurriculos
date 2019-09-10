@@ -13,10 +13,24 @@
                 <label for="local">Local</label>
                 <input type="text" class="form-control" name="local" v-model="local">
             </div>
+            <div class="form-group"> 
+                <label for="area">Área de Atuação</label>
+                    <select class="custom-select" name="area" v-model="area">
+                        <option value="" disabled selected>Selecione uma Área</option>
+                        <option v-for="area in areas" :key="area.id" :value="area.id">
+                            {{area.tipo}}
+                        </option>
+                    </select>
+            </div>
              <div class="form-group">
                 <label for="salario">Salário</label>
                 <input type="salario" id="salario" name="salario" 
                 class="form-control" v-model="salario">
+            </div>
+            <div class="form-group">
+                <label for="jornada">Jornada de Trabalho</label>
+                <input type="jornada" id="jornada" name="jornada" 
+                class="form-control" v-model="jornada">
             </div>
             <div class="form-group">
                 <label for="beneficios">Benefícios</label>
@@ -34,7 +48,6 @@
 </template>
 
 <script>
-  import axios from 'axios';
 
     export default {
     
@@ -42,52 +55,48 @@
             return{
 
                 titulo: '',
-                area: '',
-                empresa: '',
-                supervisor: '',
+                local: '',
+                salario: '',
+                beneficios: '',
                 requisitos: '',
-                ////
-                supervisores: [],
-                empresas: [],
-                isAdmin: false,
-                isCoor: false
-                ///
-                
+                area: '',
+                jornada: '',
+                areas: [],
+                uri: 'http://localhost:8000/api/vagas?token='
+               
             }
         },
         methods: {
             register(){
-                const token = localStorage.getItem('token');
-                const user_id = localStorage.getItem('user_id');
-
-                axios.post('http://localhost:8000/api/vaga?token=' + token, 
+                const token = this.$session.get('jwt');
+                const user_id = this.$session.get('user_id');
+           
+                this.axios.post(this.uri + token, 
                     {
                         titulo: this.titulo,
-                        area: this.area,
-                        empresa: this.empresa,
-                        supervisor: this.supervisor,
-                        isAdmin: this.isAdmin,
+                        local: this.local,
+                        salario: this.salario,
+                        beneficios: this.beneficios,
                         requisitos: this.requisitos,
-                        coordenador: user_id
+                        area: this.area,
+                        jornada: this.jornada,
+                        user_id: this.user_id     
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
                         (response) => console.log(response),
-                        //alert("Cadastrado com sucesso"),
                     )
                     .catch(
-                        (error) => console.log(this.role)
+                        (error) => console.log(error),
+                        
                     );
-
-                    this.$router.push({ name: 'vagas' })
             },
          
-            loadES(){
-                const token = localStorage.getItem('token');
-                axios.get('http://localhost:8000/api/vaga/create?token=' + token)
+            loadArea(){
+                const token = this.$session.get('jwt');
+                this.axios.get(this.uri + token)
                     .then(response => {
-                        this.empresas = response.data.empresas
-                        this.supervisores = response.data.supervisores
+                        this.areas = response.data.areas
                         console.log(response)
                     })
                     .catch(
@@ -104,7 +113,7 @@
                 }
         },
         mounted(){
-            this.loadES();
+            this.loadArea();
         }
         
     }

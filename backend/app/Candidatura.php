@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Candidatura extends Model
 {
     public function vaga(){
-    	return $this->hasOne(Vaga::class, 'id', 'vagas_id');
+    	return $this->hasOne(Vaga::class,  'vagas_id');
 	}
     public function curriculo(){
-    	return $this->hasOne(Curriculo::class, 'id', 'curriculoss_id');
+    	return $this->belongsTo(Curriculo::class,  'curriculos_id');
 	}
 }

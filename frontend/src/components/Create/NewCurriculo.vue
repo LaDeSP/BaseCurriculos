@@ -383,14 +383,12 @@
 </template>
 
 <script>
-  import axios from 'axios';
 
     export default {
     
         data(){
             return{
 
-            
                 nome: '',
                 nascimento: '',
                 genero: '',
@@ -422,9 +420,9 @@
         methods: {
             register(){
                 const token = this.$session.get('jwt');
-               
-
-                axios.post('http://localhost:8000/api/curriculo?token=' + token, 
+                const user_id = this.$session.get('user_id');
+                let uri = 'http://localhost:8000/api/curriculo?token=';
+                this.axios.post(uri + token, 
               
                     {
                         nome: this.nome,
@@ -451,7 +449,7 @@
                         escolaridade: this.escolaridade,
                         emailAlt: this.emailAlt,
                         linkedin: this.linkedin,
-                        user_id: this.$session.get('user_id')
+                        user_id: this.user_id
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(

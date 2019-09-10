@@ -15,4 +15,8 @@ class Juridica extends Model
     public function endereco(){
     	return $this->belongsTo(Endereco::class,  'enderecos_id');
 	}
+	public function vagas(){
+    	return $this->hasMany(Vaga::class);
+	}
+
 }

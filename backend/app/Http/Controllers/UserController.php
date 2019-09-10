@@ -43,7 +43,8 @@ class UserController extends Controller
       return Response::json([
         'name'=> $name,
         'role' => $role,
-        'user_id' => $user_id
+        'user_id' => $user_id,
+        'teste' => auth()->user()->role
      ], 201);
         
       

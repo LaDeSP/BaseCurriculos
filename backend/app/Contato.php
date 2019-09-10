@@ -10,11 +10,11 @@ class Contato extends Model
         'emailAlt', 'linkedin', 'facebook', 'twitter', 'site', 'outraRede', 'fixo', 'celular'
     ];
     
-    public function pfisica(){
+    public function fisica(){
         return $this->hasOne(Fisica::class);
     }
 
-    public function pjuridica(){
+    public function juridica(){
         return $this->hasOne(Juridica::class);
     }
 }

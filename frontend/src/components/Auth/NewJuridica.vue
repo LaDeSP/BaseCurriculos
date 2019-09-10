@@ -43,9 +43,8 @@
 </template>
 
 <script>
-  import axios from 'axios';
 
-    export default {
+   export default {
     
         data(){
             return{
@@ -63,7 +62,7 @@
             
             register(){
 
-                axios.post('http://localhost:8000/api/pjuridica', 
+                this.axios.post('http://localhost:8000/api/pjuridica', 
 
                     {
                         
@@ -83,7 +82,7 @@
                             this.$session.set('name', response.data.name),
                             this.$session.set('role', response.data.role),
                             this.$session.set('user_id', response.data.user_id),
-                            console.log(this.$session.get('jwt'))
+                            console.log(response)
                            
                         }
                     )

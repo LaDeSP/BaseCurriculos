@@ -36,7 +36,6 @@
 </template>
 
 <script>
-  import axios from 'axios';
 
     export default {
     
@@ -55,7 +54,7 @@
             
             register(){
 
-                axios.post('http://localhost:8000/api/pfisica', 
+                this.axios.post('http://localhost:8000/api/pfisica', 
                 //pra autenticar, precisa de mais uma header
                 //essa header só vai dizer pro beck q isso é uma chamada ajax
                     {

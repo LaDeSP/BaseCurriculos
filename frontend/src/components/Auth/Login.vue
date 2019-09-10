@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import axios from 'axios';
+
  // import store from './store';
 
     export default {
@@ -37,7 +37,7 @@
         methods: {
             login(){
                 this.loginError = false;
-                axios.post('http://localhost:8000/api/login', 
+                this.axios.post('http://localhost:8000/api/login', 
                 //pra autenticar, precisa de mais uma header
                 //essa header só vai dizer pro beck q isso é uma chamada ajax
                     {email: this.email, password: this.password},

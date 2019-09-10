@@ -12,23 +12,23 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Auth::routes(); 
+
 Route::resource('/pfisica', 'FisicaController');
 Route::resource('/pjuridica', 'JuridicaController');
-
 Route::resource('/curriculo', 'CurriculoController', [
     'middleware' => 'jwt.auth'
 ]);
-
+Route::resource('/vagas', 'VagaController', [
+    'middleware' => 'jwt.auth'
+]);
 Route::post('/data/pjuridica', 'JuridicaController@addData', [
  'middleware' => 'jwt.auth'
 ]);
-
-Auth::routes(); 
-
+Route::post('/areas', 'AreaController@store');
 Route::post('/login', [
     'uses' => 'UserController@login'
 ]);
-
 Route::post('/logout', [
     'uses' => 'UserController@logout',
     'middleware' => 'jwt.auth'
