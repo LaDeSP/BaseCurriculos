@@ -81,7 +81,35 @@ class JuridicaController extends Controller
     }
 
     public function addData(Request $request){
-
+        if(!$request->rua){
+            $error[] = 'Insira uma rua!';
+        }
+        if(!$request->bairro){
+            $error[] = 'Insira o bairro!';
+        }
+        if(!$request->cidade){
+            $error[] = 'Insira uma cidade!';
+        }
+        if(!$request->estado){
+            $error[] = 'Insira um estado!';
+        }
+        if(!$request->pais){
+            $error[] = 'Insira um país!';
+        }
+        if(!$request->cep){
+            $error[] = 'Insira o CEP!';
+        }
+        if(!$request->razao){
+            $error[] = 'Insira sua razão social!';
+        }
+        if(!$request->missao){
+            $error[] = 'Insira sua missão!';
+        }
+        if(isset($error)){
+            return Response::json([
+            'error' => $error
+        ], 201);
+        }
         $contato = new Contato();
         $endereco = new Endereco();
 
@@ -116,7 +144,7 @@ class JuridicaController extends Controller
         ));
 
         return Response::json([
-            'msg' => 'deu ok'
+            'message' => 'Dados cadastrados com sucesso!'
          ], 201);
 
     }
