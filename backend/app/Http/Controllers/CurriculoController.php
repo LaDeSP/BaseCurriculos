@@ -28,6 +28,56 @@ class CurriculoController extends Controller
     
     public function store(Request $request)
     {   
+        public function index()
+    {
+        return view('carro.index');
+    }
+    public function store(Request $request){
+        $carro = new Carro;
+        if(!$request->rua){
+            $error[] = 'Insira a rua!';
+        }
+        if(!$request->bairro){
+            $error[] = 'Insira o bairro!';
+        }
+        if(!$request->cidade){
+            $error[] = 'Insira a cidade!';
+        }
+        if(!$request->estado){
+            $error[] = 'Insira o estado!';
+        }
+        if(!$request->cep){
+            $error[] = 'Insira o CEP!';
+        }
+        if(!$request->pais){
+            $error[] = 'Insira o país!';
+        }
+        if(!$request->emailAlt){
+            $error[] = 'Insira o email alternativo!';
+        }
+        if(!$request->objetivos){
+            $error[] = 'Insira seus objetivos!';
+        }
+        if(!$request->area){
+            $error[] = 'Insira sua área!';
+        }
+        if(!$request->pretensao){
+            $error[] = 'Insira sua pretensão salarial!';
+        }
+        if(!$request->qualificacoes){
+            $error[] = 'Insira suas qualificações!';
+        }
+        if(!$request->historicoProfissional){
+            $error[] = 'Insira seu histórico!';
+        }
+        if(!$request->escolaridade){
+            $error[] = 'Insira sua escolaridade!';
+        }
+        if(isset($error)){
+            return Response::json([
+            'error' => $error
+        ], 201);
+        }
        
 
             $curriculo = new Curriculo();
@@ -74,6 +124,11 @@ class CurriculoController extends Controller
 
            $curriculo->fisicas_id = Fisica::where('user_id', $user_id)->first()->id;
            $curriculo->save();
+        
+         return Response::json([
+            'message' => 'Sucesso ao cadastar currículo'
+        ], 201);
+        }
          
        
     }
