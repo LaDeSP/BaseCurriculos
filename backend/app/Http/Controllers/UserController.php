@@ -44,6 +44,7 @@ class UserController extends Controller
         'name'=> $name,
         'role' => $role,
         'user_id' => $user_id,
+        'token'=>$token,
         'teste' => auth()->user()->role
      ], 201);
         

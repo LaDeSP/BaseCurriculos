@@ -365,7 +365,7 @@
           
         },
         mounted() {
-             console.log(this.$session.get('user_id'));
+             console.log(this.$session.get('jwt'));
         },
         
     }
