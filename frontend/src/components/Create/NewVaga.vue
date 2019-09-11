@@ -97,20 +97,11 @@
                 this.axios.get(this.uri + token)
                     .then(response => {
                         this.areas = response.data.areas
-                        console.log(response)
                     })
                     .catch(
                         error => console.log(error)
                     );
             }
-        },
-        beforeMount(){
-                const role = localStorage.getItem('role');
-                if(role === 'ADMIN'){
-                    this.isAdmin = true
-                }else if(role === 'COORDENADOR'){
-                    isCoor = true
-                }
         },
         mounted(){
             this.loadArea();
