@@ -23,6 +23,8 @@ import NewJuridicaData from  './components/Create/NewJuridicaData.vue';
 import NewArea from  './components/Create/NewArea.vue';
 import NewVaga from  './components/Create/NewVaga.vue';
 
+import Vagas from  './components/Lists/Vagas.vue';
+
 
 import DeuRuim from './components/DeuRuim.vue';
 
@@ -36,7 +38,8 @@ const routes = [
     {path: '/new-curriculo', component: NewCurriculo},
     {path: '/add-juridica', component: NewJuridicaData},
     {path: '/new-area', component: NewArea},
-    {path: '/new-vaga', component: NewVaga},
+    {path: '/new-vaga', name: 'new-vaga', component: NewVaga},
+    {path: '/vagas', component: Vagas},
     {path: '*', component: DeuRuim}
 ];
 

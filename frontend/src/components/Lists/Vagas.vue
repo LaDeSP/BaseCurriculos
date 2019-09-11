@@ -1,49 +1,44 @@
 <template>
     <div class="panel panel-default">
-        <div class="panel-heading"><h2>Vagas de Estágio</h2></div>
+        <div class="panel-heading"><h2>Vagas de Emprego</h2></div>
             <div class="panel-body" v-for="vaga in vagas" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
         
                 <h3><span class="label label-info ">Título: {{vaga.titulo}}</span></h3>
-                <p>Responsável:{{vaga.responsavel}}</p>
-                <p>Área: {{vaga.area}}</p>
-                <p>Empresa: {{vaga.empresa.nome}}</p>
-                <p>Requisitos: {{vaga.requisitos}}</p>
-               <div v-if="isAluno === true">
-                   <router-link v-bind:to="'/nova-solicitacao/' + vaga.id" tag="button" class="btn btn-sm btn-warning">Solicitar</router-link>
-                   <!--<button @click="onRequest(vaga.id, vaga.coor_id, vaga.super_id)" class="btn btn-sm btn-warning">Solicitar</button> -->
+                <p>Local:{{vaga.local}}</p>
+                <p>Área de Atuação: {{vaga.area.tipo}}</p>
+                <p>Salário: {{vaga.salario}}</p>
+                <p>Jornada de Trabalho: {{vaga.jornada}}</p>
+                <p>Benefícios: {{vaga.beneficio}}</p>
+                <p>Requisitos: {{vaga.requisito}}</p>
+                <div v-if="isFIS === true">
+                   <router-link v-bind:to="'' + vaga.id" tag="button" class="btn btn-sm btn-default">Ver mais</router-link>
+                   <button @click="onRequest(vaga.id, vaga.coor_id, vaga.super_id)" class="btn btn-sm btn-primary">Se Candidatar</button> 
+                   <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button> 
                 </div>
-               <div v-if="isAdmin === true">
-                    <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Apagar</button>
-                </div>
-                <div v-else-if="isCoor === true && role_id == vaga.coor_id">
-                    <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Apagar</button>
-                </div>
-    
+               
         </div>
     </div>
 </template>
 
 
 <script>
-    import axios from 'axios';
+   
     export default {
         data(){
             return{
               
                 vagas: [],
                 role: '',
-                isCoor: false,
-                isAdmin: false,
-                role_id: null,
-                isAluno: false
+                uri: 'http://localhost:8000/api/vagas',
+                token: this.$session.get('jwt'),
+                isFIS: false
             }
         },
         methods: {
             loadVagas(){
-                const token = localStorage.getItem('token');
 
-                axios
-                    .get('http://localhost:8000/api/vaga?token=' + token)
+                this.axios
+                    .get(this.uri + '?token=' + this.token)
                     .then(response => {
                         this.vagas = response.data.vagas
                         console.log(response);
@@ -52,9 +47,12 @@
                         error => console.log(error)
                     );
             },
+            onEdit(vaga_id){
+                this.$session.set('vaga_id', vaga_id);
+                this.$router.push({ name: 'new-vaga', params: { editing: true }})
+            },
             onRequest(vagaid, coorid, superid){
                 
-                //const token = localStorage.getItem('token');
                 const user_id = localStorage.getItem('user_id');
                 const vaga_id = vagaid;
                 const coor_id = coorid;
@@ -68,28 +66,12 @@
                 //console.log(super_id)
 
                 this.$router.push({ name: 'novasolicitacao' })
-                /*axios.post('http://localhost:8000/api/solicitacao/?token=' + token, 
-                    {
-                       aluno_id: user_id,
-                       vaga_id: vaga_id,
-                       coor_id: coor_id,
-                       super_id: super_id
-                    },
-                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .then(
-                        (response) => console.log(response),
-                        
-                    )
-                    .catch(
-                        (error) => console.log(this.role)
-                    );
-                    */
             },
             onDelete(id){
-        
-                const token = localStorage.getItem('token');
+
                 this.$emit('vagaDeleted', id);
-                axios.delete('http://localhost:8000/api/vaga/' + id + '?token=' + token)
+
+                this.axios.delete('http://localhost:8000/api/vaga/' + id + '?token=' + this.token)
                     .then(
                         response => console.log(response),
                     )
@@ -98,6 +80,7 @@
                     );
                
             },
+            
             onVagaDeleted(id){
                 const position = this.vagas.findIndex((element) => {
                     return element.id == id;
@@ -106,8 +89,10 @@
                 this.vagas.splice(position, 1);
             }
         },
+        
         beforeMount(){
-                const role = localStorage.getItem('role');
+
+                /*const role = localStorage.getItem('role');
                 if(role === 'ADMIN'){
                     this.isAdmin = true;
                 }else if(role === 'COORDENADOR'){
@@ -117,6 +102,8 @@
                 }else if(role === 'ALUNO'){
                     this.isAluno = true
                 }
+                */
+               if(this.$session.get('role') === 'FISICA'){this.isFIS = true}
                 
         },
         mounted(){
@@ -125,3 +112,14 @@
     }
 </script>
 
+<!--<div v-if="isAluno === true">
+                   <router-link v-bind:to="'/nova-solicitacao/' + vaga.id" tag="button" class="btn btn-sm btn-warning">Solicitar</router-link>
+                   <button @click="onRequest(vaga.id, vaga.coor_id, vaga.super_id)" class="btn btn-sm btn-warning">Solicitar</button> 
+                </div>
+               <div v-if="isAdmin === true">
+                    <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Apagar</button>
+                </div>
+                <div v-else-if="isCoor === true && role_id == vaga.coor_id">
+                    <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Apagar</button>
+                </div>
+    -->

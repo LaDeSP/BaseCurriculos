@@ -15,8 +15,10 @@ class VagaController extends Controller
     public function index(){
 
         $areas = Area::all();
+        $vagas = Vaga::with('juridica', 'area')->get();
         return Response::json([
-            'areas' => $areas
+            'areas' => $areas,
+            'vagas' => $vagas
         ], 201);   
 
     }
@@ -46,23 +48,26 @@ class VagaController extends Controller
 
     public function edit($id)
     {
-        $cursos = Curso::all();
-        $instituicoes = Instituicao::all();
-        $campuses = Campus::all();
-        
-        $aluno = Aluno::find($id);
+        $vaga = Vaga::find($id);
     
         return Response::json([
-            'cursos' => $cursos, 
-            'instituicoes' => $instituicoes,
-            'campuses' => $campuses
+            'vaga'=>$vaga
         ], 201);   
 
     }
 
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
+        Vaga::where('id', $id)->update([
+            'titulo' => $request->titulo,
+            'local' => $request->local,
+            'salario' => $request->salario,
+            'beneficio' => $request->beneficios,
+            'jornada' => $request->jornada,
+            'requisito' => $request->requisitos,
+            'areas_id' => $request->area
+        ]);
       
     }
 

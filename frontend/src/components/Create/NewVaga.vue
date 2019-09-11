@@ -2,7 +2,8 @@
  <div class="row justify-content-center">
     <div class="col-sm-6">
         <form>
-            <h1>Cadastro de Vaga</h1>
+            <h1 v-if="!editing">Cadastro de Vaga</h1>
+            <h1 v-else>Editar Vaga</h1>
 
             <div class="form-group">
                 <label for="titulo">Título</label>
@@ -40,7 +41,12 @@
                 <label for="requisitos">Requisitos</label>
                 <textarea class="form-control" id="requisitos" rows="3" v-model="requisitos"></textarea>
             </div>
-            <button @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
+            <div v-if="editing === false">
+                <button @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
+            </div>
+            <div v-else>
+                <button @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
+            </div>
             <router-link to="/dashboard" class="btn btn-danger">Cancelar</router-link>
         </form>
     </div>
@@ -62,16 +68,18 @@
                 area: '',
                 jornada: '',
                 areas: [],
-                uri: 'http://localhost:8000/api/vagas?token='
+                uri: 'http://localhost:8000/api/vagas',
+                token: this.$session.get('jwt'),
+                editing: false
+                
                
             }
         },
         methods: {
             register(){
-                const token = this.$session.get('jwt');
                 const user_id = this.$session.get('user_id');
            
-                this.axios.post(this.uri + token, 
+                this.axios.post(this.uri + '?token=' + this.token, 
                     {
                         titulo: this.titulo,
                         local: this.local,
@@ -91,12 +99,54 @@
                         
                     );
             },
-         
+            verifyEdit(){
+                if(this.$route.params.editing === true) this.editing = true;
+                
+                    console.log('verifyedit:', this.editing);
+            },
+            edit(){
+                let vaga_id = this.$session.get('vaga_id');
+
+                this.axios.put(this.uri + '/' + vaga_id + '?token=' + this.token, 
+
+                    {
+                        titulo: this.titulo,
+                        local: this.local,
+                        salario: this.salario,
+                        beneficios: this.beneficios,
+                        requisitos: this.requisitos,
+                        area: this.area,
+                        jornada: this.jornada     
+                    },
+                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+                    .then(
+                        (response) => console.log(response)
+                    )
+                    .catch(
+                        (error) => console.log(error)
+                    );
+            },
+
             loadArea(){
-                const token = this.$session.get('jwt');
-                this.axios.get(this.uri + token)
+             
+                this.axios.get(this.uri + '?token=' + this.token)
+
                     .then(response => {
                         this.areas = response.data.areas
+                    })
+                    .catch(
+                        error => console.log(error)
+                    );
+
+                    console.log(this.token);
+            },
+
+            loadDataEdit(){//pra carregar os dados na hora da edição
+                const vaga_id = this.$session.get('vaga_id');
+
+                this.axios.get(this.uri + '/' + this.vaga_id + '?token=' + this.token)
+                    .then(response=>{
+                         
                     })
                     .catch(
                         error => console.log(error)
@@ -105,8 +155,10 @@
         },
         mounted(){
             this.loadArea();
-            console.log(this.$session.get('user_id'))
-            console.log(this.$session.get('jwt'))
+            this.verifyEdit();
+            console.log(this.$route.params)
+            //console.log(this.$session.get('user_id'))
+            //console.log(this.$session.get('jwt'))
         }
         
     }
