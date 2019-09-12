@@ -46,7 +46,7 @@ class VagaController extends Controller
     }
  
 
-    public function edit($id)
+    public function show($id)
     {
         $vaga = Vaga::find($id);
     

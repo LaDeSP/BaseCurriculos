@@ -8,34 +8,26 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'Admin', //admin
+            'name' => 'Admin', 
             'email' => 'admin@admin.com',
             'password' => bcrypt('123456'),
             'role' => 'ADMIN'
         ]);
 
         User::create([
-            'name' =>  'Lana', //coordenador
+            'name' =>  'Lana',
             'email' => 'lana@hotmail.com',
             'password' => bcrypt('123456'),
-            'role' => 'COORDENADOR'
+            'role' => 'FISICA'
         ]);
 
         User::create([
-            'name' =>  'Sansa', //supervisor
+            'name' =>  'Sansa',
             'email' => 'sansa@hotmail.com',
             'password' => bcrypt('123456'),
-            'role' => 'SUPERVISOR'
+            'role' => 'JURIDICA'
         ]);
-
-        User::create([
-            'name' =>  'Troste', //aluno
-            'email' => 'troste@hotmail.com',
-            'password' => bcrypt('123456'),
-            'role' => 'ALUNO'
-        ]);
-
-      
+        
     }
 }
 

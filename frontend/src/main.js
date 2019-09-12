@@ -15,7 +15,7 @@ axios.defaults.headers.common['Authorization'] = token;
 import App from './App.vue'
 import Login from './components/Auth/Login.vue';
 import Logout from './components/Auth/Logout.vue';
-//CADASTROS
+
 import NewJuridica from './components/Auth/NewJuridica.vue';
 import NewFisica from './components/Auth/NewFisica.vue';
 import NewCurriculo from  './components/Create/NewCurriculo.vue';
@@ -24,6 +24,7 @@ import NewArea from  './components/Create/NewArea.vue';
 import NewVaga from  './components/Create/NewVaga.vue';
 
 import Vagas from  './components/Lists/Vagas.vue';
+import FisicaData from  './components/Lists/FisicaData.vue';
 
 
 import DeuRuim from './components/DeuRuim.vue';
@@ -40,6 +41,7 @@ const routes = [
     {path: '/new-area', component: NewArea},
     {path: '/new-vaga', name: 'new-vaga', component: NewVaga},
     {path: '/vagas', component: Vagas},
+    {path: '/profile-fisica', component: FisicaData},
     {path: '*', component: DeuRuim}
 ];
 

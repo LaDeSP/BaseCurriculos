@@ -99,13 +99,17 @@
                         
                     );
             },
+            
             verifyEdit(){
+                
                 if(this.$route.params.editing === true) this.editing = true;
                 
                     console.log('verifyedit:', this.editing);
             },
+
             edit(){
-                let vaga_id = this.$session.get('vaga_id');
+                
+                let vaga_id = this.$route.params.vaga_id;
 
                 this.axios.put(this.uri + '/' + vaga_id + '?token=' + this.token, 
 
@@ -141,24 +145,37 @@
                     console.log(this.token);
             },
 
-            loadDataEdit(){//pra carregar os dados na hora da edição
-                const vaga_id = this.$session.get('vaga_id');
+            loadDataEdit(){
 
-                this.axios.get(this.uri + '/' + this.vaga_id + '?token=' + this.token)
+                const vaga_id = this.$route.params.vaga_id; 
+
+                this.axios.get(this.uri + '/' + vaga_id + '?token=' + this.token)
                     .then(response=>{
                          
+                         this.titulo = response.data.vaga.titulo,
+                         this.local = response.data.vaga.local,
+                         this.salario = response.data.vaga.salario,
+                         this.requisitos = response.data.vaga.requisito,
+                         this.beneficios = response.data.vaga.beneficio,
+                         this.area = response.data.vaga.area,
+                         this.jornada = response.data.vaga.jornada
+                         console.log(response.data.vaga)
                     })
                     .catch(
                         error => console.log(error)
                     );
             }
         },
+
+        created() {
+            
+            this.loadDataEdit();
+            this.loadArea();  
+
+        },
+
         mounted(){
-            this.loadArea();
             this.verifyEdit();
-            console.log(this.$route.params)
-            //console.log(this.$session.get('user_id'))
-            //console.log(this.$session.get('jwt'))
         }
         
     }

@@ -62,7 +62,7 @@
             
             register(){
 
-                this.axios.post('http://localhost:8000/api/pjuridica', 
+                this.axios.post('http://localhost:8000/api/pjuridicas', 
 
                     {
                         
@@ -82,14 +82,12 @@
                             this.$session.set('name', response.data.name),
                             this.$session.set('role', response.data.role),
                             this.$session.set('user_id', response.data.user_id),
-                            console.log(this.$session.get('jwt'))
-                           
+                            this.$router.push({ name: 'DashJUR' })
                         }
                     )
                     .catch(
                         (error) => console.log(error)
                     );
-                    
             }
         },
     }

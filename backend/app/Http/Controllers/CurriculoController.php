@@ -14,26 +14,9 @@ use App\User;
 
 class CurriculoController extends Controller
 {
-
-    public function index()
-    {
-     
-    }
-
-    public function create()
-    {
-        //pode [9chamar aqui dps todos os países/estados pra serem listados de acordo na view
-
-    }
-    
-    public function store(Request $request)
-    {   
-        public function index()
-    {
-        return view('carro.index');
-    }
+        
     public function store(Request $request){
-        $carro = new Carro;
+      
         if(!$request->rua){
             $error[] = 'Insira a rua!';
         }
@@ -129,15 +112,13 @@ class CurriculoController extends Controller
             'message' => 'Sucesso ao cadastar currículo'
         ], 201);
         }
-         
-       
-    }
 
     public function show($id)
     {  
-        $aluno = Aluno::where('id', $id)->with('pessoa', 'endereco', 'telefone', 'instituicao', 'campus', 'curso')->get();
+        $fisicas_id = Fisica::where('user_id', $id)->first()->id;
+        $curriculo = Curriculo::where('fisicas_id', $fisicas_id)->with('contato')->get();
         return Response::json([
-           'aluno' => $aluno
+           'curriculo' => $curriculo
         ], 201);
     }
 
@@ -191,8 +172,5 @@ class CurriculoController extends Controller
         return Response::json([
             'msg' => 'update ok'
          ], 201);
-    }
-
-    
-    
+    } 
 }

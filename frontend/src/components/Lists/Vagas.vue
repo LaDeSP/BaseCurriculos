@@ -47,10 +47,12 @@
                         error => console.log(error)
                     );
             },
+
             onEdit(vaga_id){
-                this.$session.set('vaga_id', vaga_id);
-                this.$router.push({ name: 'new-vaga', params: { editing: true }})
+
+                this.$router.push({ name: 'new-vaga', params: { editing: true, vaga_id }})
             },
+
             onRequest(vagaid, coorid, superid){
                 
                 const user_id = localStorage.getItem('user_id');

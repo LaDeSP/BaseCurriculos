@@ -64,9 +64,9 @@ class FisicaController extends Controller
 
     public function show($id)
     {  
-        $aluno = Aluno::where('id', $id)->with('pessoa', 'endereco', 'telefone', 'instituicao', 'campus', 'curso')->get();
+        $fisica = Fisica::where('user_id', $id)->with('contato', 'endereco', 'user')->get();
         return Response::json([
-           'aluno' => $aluno
+           'fisica' => $fisica
         ], 201);
     }
 

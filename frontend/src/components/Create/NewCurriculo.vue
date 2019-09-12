@@ -82,9 +82,7 @@
   
                 </div>    
                     <hr>
-                <div class="col">
-                    
-                    
+                <div class="col">          
                     <div class="form-group">
                         <label for="pais">País de Nacionalidade</label>
                             <select class="custom-select" name="pais" v-model="pais">
@@ -267,7 +265,7 @@
                             </select>    
                     </div>
                     <div class="form-group"> 
-                        <label for="estado">Estado</label>
+                    <label for="estado">Estado</label>
                                 <select class="custom-select" name="estado" v-model="estado">
                                     <option selected>Selecione a opção</option>
                                     <option value="AC">Acre</option>
@@ -409,20 +407,19 @@
                 qualificacoes: '',
                 historico: '',
                 emailAlt: '',
-
                 estadoCivil: '',
                 pais: '',
                 estado: '',
-                escolaridade: ''
+                escolaridade: '',
+                uri: 'http://localhost:8000/api/curriculos',
+                token: this.$session.get('jwt')
                 
             }
         },
         methods: {
             register(){
-                const token = this.$session.get('jwt');
-                const user_id = this.$session.get('user_id');
-                let uri = 'http://localhost:8000/api/curriculo?token=';
-                this.axios.post(uri + token, 
+                const user_id = this.$session.get('user_id');              
+                this.axios.post(this.uri + '?token=' + this.token, 
               
                     {
                         nome: this.nome,
@@ -459,10 +456,99 @@
                         (error) => console.log(error)
                     );
             },
+            verifyEdit(){
+                
+                if(this.$route.params.editing === true) this.editing = true;
+                
+                    console.log('verifyedit:', this.editing);
+            },
+
+            edit(){
+                
+                let curriculo_id = this.$route.params.curriculo_id;
+
+                this.axios.put(this.uri + '/' + curriculo_id + '?token=' + this.token, 
+
+                    {
+                        nome: this.nome,
+                        nascimento: this.nascimento,
+                        genero: this.genero,
+                        rua: this.rua,
+                        bairro: this.bairro,
+                        cidade: this.cidade,
+                        cep: this.cep,
+                        celular: this.celular,
+                        fixo: this.fixo,
+                        facebook: this.facebook,
+                        twitter: this.twitter,
+                        site: this.site,
+                        outraRede: this.outraRede,
+                        objetivos: this.objetivos,
+                        area: this.area,
+                        pretensao: this.pretensao,
+                        qualificacoes: this.qualificacoes,
+                        historico: this.historico,
+                        estadoCivil: this.estadoCivil,
+                        pais: this.pais,
+                        estado: this.estado,
+                        escolaridade: this.escolaridade,
+                        emailAlt: this.emailAlt,
+                        linkedin: this.linkedin  
+                    },
+                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+                    .then(
+                        (response) => console.log(response)
+                    )
+                    .catch(
+                        (error) => console.log(error)
+                    );
+            },
+            loadDataEdit(){
+
+                const curriculo_id = this.$route.params.vaga_id; 
+
+                this.axios.get(this.uri + '/' + curriculo_id + '?token=' + this.token)
+                    .then(response=>{
+                            
+                            this.nome = response.data.curriculo.nome,
+                            this.nascimento = response.data.curriculo.nascimento,
+                            this.genero = response.data.curriculo.genero,
+                            this.rua = response.data.curriculo.rua,
+                            this.bairro = response.data.curriculo.bairro,
+                            this.cidade = response.data.curriculo.cidade,
+                            this.cep = response.data.curriculo.cep
+                            this.celular = response.data.curriculo.celular
+                            this.fixo = response.data.curriculo.fixo
+                            this.facebook = response.data.curriculo.facebook
+                            this.twitter = response.data.curriculo.twitter
+                            this.site = response.data.curriculo.site
+                            this.outraRede = response.data.curriculo.outraRede
+                            this.objetivos = response.data.curriculo.objetivos
+                            this.area = response.data.curriculo.area
+                            this.pretensao = response.data.curriculo.pretensao
+                            this.qualificacoes = response.data.curriculo.qualificacoes
+                            this.historico = response.data.curriculo.historico
+                            this.estadoCivil = response.data.curriculo.estadoCivil
+                            this.pais = response.data.curriculo.pais
+                            this.estado = response.data.curriculo.estado
+                            this.escolaridade = response.data.curriculo.escolaridade
+                            this.emailAlt = response.data.curriculo.emailAlt
+                            this.linkedin = response.data.curriculo.linkedin
+        
+                            console.log(response.data)
+                    })
+                    .catch(
+                        error => console.log(error)
+                    );
+            }
           
         },
+         created() {
+            this.loadDataEdit();
+        },
+
         mounted() {
-             console.log(this.$session.get('user_id'));
+            this.verifyEdit();
         },
         
     }

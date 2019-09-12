@@ -46,7 +46,7 @@
                 email: '',
                 password: '',
                 cpf: '',
-                role: 'FISICA'
+                role: 'FISICA',
                 
             }
         },
@@ -54,9 +54,8 @@
             
             register(){
 
-                this.axios.post('http://localhost:8000/api/pfisica', 
-                //pra autenticar, precisa de mais uma header
-                //essa header só vai dizer pro beck q isso é uma chamada ajax
+                this.axios.post('http://localhost:8000/api/pfisicas', 
+                
                     {
                         
                         email: this.email, 
@@ -73,19 +72,12 @@
                             this.$session.set('name', response.data.name),
                             this.$session.set('role', response.data.role),
                             this.$session.set('user_id', response.data.user_id),
-                            console.log(this.$session.get('jwt'))
+                            this.$router.push({ name: 'DashFIS' })
                         }
                     )
                     .catch(
                         (error) => console.log(error)
                     );
-
-                  //  if(this.role == 'ADMIN'){
-                    //    this.$router.push({ name: 'ADMDash' })
-                   // }else if(role == 'COORDENADOR'){
-                    //    this.$router.push({ name: 'COORDash' })
-                    //}
-                    
             }
         },
     }

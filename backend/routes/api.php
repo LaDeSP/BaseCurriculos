@@ -14,15 +14,15 @@ use Illuminate\Http\Request;
 */
 Auth::routes(); 
 
-Route::resource('/pfisica', 'FisicaController');
-Route::resource('/pjuridica', 'JuridicaController');
-Route::resource('/curriculo', 'CurriculoController', [
+Route::resource('/pfisicas', 'FisicaController');
+Route::resource('/pjuridicas', 'JuridicaController');
+Route::resource('/curriculos', 'CurriculoController', [
     'middleware' => 'jwt.auth'
 ]);
 Route::resource('/vagas', 'VagaController', [
     'middleware' => 'jwt.auth'
 ]);
-Route::post('/data/pjuridica', 'JuridicaController@addData', [
+Route::post('/data/pjuridicas', 'JuridicaController@addData', [
  'middleware' => 'jwt.auth'
 ]);
 Route::post('/areas', 'AreaController@store');

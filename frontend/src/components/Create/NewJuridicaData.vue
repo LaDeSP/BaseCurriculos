@@ -328,7 +328,7 @@
         methods: {
             register(){
                 const token = this.$session.get('jwt');
-                let uri = 'http://localhost:8000/api/data/pjuridica?token=';
+                let uri = 'http://localhost:8000/api/data/pjuridicas?token=';
 
                 if(!token){
                     console.log('loga ai seu corno');
