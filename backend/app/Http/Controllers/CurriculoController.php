@@ -51,6 +51,15 @@ class CurriculoController extends Controller
         if(!$request->escolaridade){
             $error[] = 'Insira sua escolaridade!';
         }
+        if(!$request->nascimento){
+            $error[] = 'Insira sua data de nascimento!';
+        }
+        if(!$request->genero){
+            $error[] = 'Insira seu genero!';
+        }
+        if(!$request->estadoCivil){
+            $error[] = 'Insira seu estado civil!';
+        }
         if(isset($error)){
             return Response::json([
             'error' => $error

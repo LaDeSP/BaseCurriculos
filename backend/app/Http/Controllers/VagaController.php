@@ -24,7 +24,33 @@ class VagaController extends Controller
     }
 
     public function store(Request $request)
-    {  
+    {   
+        if(!$request->area){
+            $error[] = 'Insira uma área!';
+        }
+        if(!$request->titulo){
+            $error[] = 'Insira um titulo!';
+        }
+        if(!$request->local){
+            $error[] = 'Insira um local!';
+        }
+        if(!$request->salario){
+            $error[] = 'Insira o salário!';
+        }
+        if(!$request->beneficios){
+            $error[] = 'Insira benefícios!';
+        }
+        if(!$request->jornada){
+            $error[] = 'Insira a jornada!';
+        }
+        if(!$request->requisitos){
+            $error[] = 'Insira os requisitos!';
+        }
+        if(isset($error)){
+            return Response::json([
+            'error' => $error
+            ], 201);
+        }
         $juridicas_id = Juridica::where('user_id', $request->user_id)->first()->id;
         $areas_id = $request->area;
 

@@ -13,7 +13,17 @@ use Response;
 class UserController extends Controller
 {
     public function login(Request $request){
-
+        if(!$request->email){
+            $error[] = 'Insira um email!';
+        }
+        if(!$request->password){
+            $error[] = 'Insira uma senha!';
+        }
+        if(isset($error)){
+            return Response::json([
+            'error' => $error
+            ], 201);
+        }
         $this->validate($request, [
             'email' => 'required|email',
             'password' => 'required'
