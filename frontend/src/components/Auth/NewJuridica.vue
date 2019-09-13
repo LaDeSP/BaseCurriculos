@@ -6,25 +6,45 @@
 
             <div class="form-group"> 
                 <label for="cnpj">CNPJ</label>
-                <input type="text" class="form-control" name="cnpj" placeholder="Ex. 999.999.999-99" v-model="cnpj">
+                <ValidationProvider name="cnpj" rules="required">
+                    <div slot-scope="{ errors }">
+                        <input type="text" class="form-control" name="cnpj" placeholder="Ex. 999.999.999-99" v-model="cnpj">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>
             </div>
 
             <div class="form-group">
-                <label for="name">Nome da Empresa</label>
-                <input type="text" id="name" name="name" 
-                class="form-control" v-model="name" placeholder="Ex. nome.sobrenome">
+                <label for="name">Nome</label>
+                <ValidationProvider name="name" rules="required">
+                    <div slot-scope="{ errors }">
+                        <input type="text" id="name" name="name" 
+                        class="form-control" v-model="name" placeholder="Ex. nome.sobrenome">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>
             </div>
 
             <div class="form-group">
                 <label for="ramo">Ramo</label>
-                <input type="ramo" id="ramo" name="ramo" 
-                class="form-control" v-model="ramo">
+                 <ValidationProvider name="ramo" rules="required">
+                    <div slot-scope="{ errors }">
+                        <input type="ramo" id="ramo" name="ramo" 
+                        class="form-control" v-model="ramo">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" 
-                class="form-control" v-model="email">
+                <ValidationProvider name="email" rules="required|email">
+                    <div slot-scope="{ errors }">
+                        <input type="email" id="email" name="email" 
+                        class="form-control" v-model="email">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>
             </div>
 
             <div class="form-group">

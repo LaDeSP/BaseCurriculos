@@ -7,12 +7,22 @@
 
             <div class="form-group">
                 <label for="titulo">Título</label>
-                <input type="titulo" id="titulo" name="titulo" 
-                class="form-control" v-model="titulo">
+                <ValidationProvider name="titulo" rules="required">
+                    <div slot-scope="{ errors }">
+                        <input type="titulo" id="titulo" name="titulo" 
+                        class="form-control" v-model="titulo">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>   
             </div>
             <div class="form-group">
                 <label for="local">Local</label>
-                <input type="text" class="form-control" name="local" v-model="local">
+                <ValidationProvider name="local" rules="required">
+                    <div slot-scope="{ errors }">
+                        <input type="text" class="form-control" name="local" v-model="local">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>   
             </div>
             <div class="form-group"> 
                 <label for="area">Área de Atuação</label>
@@ -25,21 +35,41 @@
             </div>
              <div class="form-group">
                 <label for="salario">Salário</label>
-                <input type="salario" id="salario" name="salario" 
-                class="form-control" v-model="salario">
+                <ValidationProvider name="salario" rules="required">
+                    <div slot-scope="{ errors }">
+                        <input type="salario" id="salario" name="salario" 
+                        class="form-control" v-model="salario">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>   
             </div>
             <div class="form-group">
                 <label for="jornada">Jornada de Trabalho</label>
-                <input type="jornada" id="jornada" name="jornada" 
-                class="form-control" v-model="jornada">
+                <ValidationProvider name="jornada" rules="required">
+                    <div slot-scope="{ errors }">
+                        <input type="jornada" id="jornada" name="jornada" 
+                        class="form-control" v-model="jornada">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>   
             </div>
             <div class="form-group">
                 <label for="beneficios">Benefícios</label>
-                <textarea class="form-control" id="beneficios" rows="3" v-model="beneficios"></textarea>
+                <ValidationProvider name="beneficios" rules="required">
+                    <div slot-scope="{ errors }">
+                        <textarea class="form-control" id="beneficios" rows="3" v-model="beneficios"></textarea>
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>   
             </div>
             <div class="form-group">
                 <label for="requisitos">Requisitos</label>
-                <textarea class="form-control" id="requisitos" rows="3" v-model="requisitos"></textarea>
+                <ValidationProvider name="beneficios" rules="required">
+                    <div slot-scope="{ errors }">
+                        <textarea class="form-control" id="requisitos" rows="3" v-model="requisitos"></textarea>
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>   
             </div>
             <div v-if="editing === false">
                 <button @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>

@@ -8,13 +8,23 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="nome">Nome Completo</label>
-                        <input type="nome" id="nome" name="nome" 
-                        class="form-control" v-model="nome">
+                        <ValidationProvider name="nome" rules="required">
+                            <div slot-scope="{ errors }">
+                                <input type="nome" id="nome" name="nome" 
+                                class="form-control" v-model="nome">
+                                <p>{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>
                     </div>
 
                     <div class="form-group"> 
                         <label for="nascimento">Data de Nascimento</label>
-                        <input type="date" class="form-control" name="nascimento" v-model="nascimento">
+                        <ValidationProvider name="nascimento" rules="required">
+                            <div slot-scope="{ errors }">
+                                <input type="date" class="form-control" name="nascimento" v-model="nascimento">
+                                <p>{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>
                     </div>
 
                      <div class="form-group"> 
@@ -78,8 +88,13 @@
                     </div>
                     <div class="form-group">
                         <label for="emailAlt">Email</label>
-                        <input type="emailAlt" id="emailAlt" name="emailAlt" 
-                        class="form-control" v-model="emailAlt">
+                        <ValidationProvider name="emailAlt" rules="required|email">
+                            <div slot-scope="{ errors }">
+                                <input type="emailAlt" id="emailAlt" name="emailAlt" 
+                                class="form-control" v-model="emailAlt">
+                                <p>{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>
                     </div>
   
                 </div>    
@@ -304,10 +319,20 @@
                         <label for="telefone">Telefone</label>
                         <div class="form-row">
                             <div class="col-6">
-                                <input type="text" class="form-control" name="fixo" placeholder="Fixo" v-model="fixo">
+                                <ValidationProvider name="fixo" rules="required">
+                                    <div slot-scope="{ errors }">
+                                        <input type="text" class="form-control" name="fixo" placeholder="Fixo" v-model="fixo">
+                                        <p>{{ errors[0] }}</p>
+                                    </div>
+                                </ValidationProvider>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular"> 
+                                <ValidationProvider name="celular" rules="required">
+                                    <div slot-scope="{ errors }">
+                                        <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular">
+                                        <p>{{ errors[0] }}</p>
+                                    </div>
+                                </ValidationProvider>
                             </div>
                         </div>
                     </div>
@@ -315,16 +340,36 @@
                         <label for="endereco">Endereço</label>
                             <div class="form-row">
                                 <div class="col-3">
-                                    <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua">
+                                    <ValidationProvider name="rua" rules="required">
+                                        <div slot-scope="{ errors }">
+                                            <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua">
+                                            <p>{{ errors[0] }}</p>
+                                        </div>
+                                    </ValidationProvider>   
                                 </div>
                                 <div class="col-3">
-                                    <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro">
+                                    <ValidationProvider name="bairro" rules="required">
+                                        <div slot-scope="{ errors }">
+                                            <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro">
+                                            <p>{{ errors[0] }}</p>
+                                        </div>
+                                    </ValidationProvider>   
                                 </div>    
                                 <div class="col-3">
-                                    <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade">
+                                    <ValidationProvider name="cidade" rules="required">
+                                        <div slot-scope="{ errors }">
+                                            <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade">
+                                            <p>{{ errors[0] }}</p>
+                                        </div>
+                                    </ValidationProvider>   
                                 </div>    
                                 <div class="col">
-                                    <input type="text" class="form-control" name="cep" placeholder="CEP" v-model="cep">
+                                    <ValidationProvider name="cep" rules="required">
+                                        <div slot-scope="{ errors }">
+                                            <input type="text" class="form-control" name="cep" placeholder="CEP" v-model="cep">
+                                            <p>{{ errors[0] }}</p>
+                                        </div>
+                                    </ValidationProvider>   
                                 </div>
                             </div>
                     </div>
@@ -346,8 +391,13 @@
 
                      <div class="form-group">
                         <label for="pretensao">Pretensão Salarial</label>
-                        <input type="pretensao" id="pretensao" name="pretensao" 
-                        class="form-control" v-model="pretensao">
+                        <ValidationProvider name="pretensao" rules="required">
+                            <div slot-scope="{ errors }">
+                                <input type="pretensao" id="pretensao" name="pretensao" 
+                                class="form-control" v-model="pretensao">
+                                <p>{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>   
                     </div>
 
                      <div class="form-group">
@@ -371,12 +421,22 @@
 
                     <div class="form-group">
                         <label for="qualificacoes">Qualificações</label>
-                        <textarea id="qualificacoes" class="md-textarea form-control" rows="5" name="qualificacoes" v-model="qualificacoes"></textarea>
+                        <ValidationProvider name="qualificacoes" rules="required">
+                            <div slot-scope="{ errors }">
+                                <textarea id="qualificacoes" class="md-textarea form-control" rows="5" name="qualificacoes" v-model="qualificacoes"></textarea>
+                                <p>{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>   
                     </div>
 
                      <div class="form-group">
                         <label for="historicoProfissional">Histórico Profissional</label>
-                        <textarea id="historicoProfissional" class="md-textarea form-control" rows="5" name="historicoProfissional" v-model="historicoProfissional"></textarea>
+                        <ValidationProvider name="historicoProfissional" rules="required">
+                            <div slot-scope="{ errors }">
+                                <textarea id="historicoProfissional" class="md-textarea form-control" rows="5" name="historicoProfissional" v-model="historicoProfissional"></textarea>
+                                <p>{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>   
                     </div>
                     <div v-if="editing === false">
                         <button @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>

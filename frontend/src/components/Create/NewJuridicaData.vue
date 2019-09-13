@@ -6,13 +6,23 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="razao">Razão Social</label>
-                        <input type="razao" id="razao" name="razao" 
-                        class="form-control" v-model="razao">
+                        <ValidationProvider name="razao" rules="required">
+                            <div slot-scope="{ errors }">
+                                <input type="razao" id="razao" name="razao" 
+                                class="form-control" v-model="razao">
+                                <p>{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>   
                     </div>
 
                     <div class="form-group">
                         <label for="missao">Missão</label>
-                        <textarea id="missao" class="md-textarea form-control" rows="5" name="missao" v-model="missao"></textarea>
+                        <ValidationProvider name="missao" rules="required">
+                            <div slot-scope="{ errors }">
+                                <textarea id="missao" class="md-textarea form-control" rows="5" name="missao" v-model="missao"></textarea>
+                                <p>{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>   
                     </div>
 
                    <hr><hr>
@@ -265,10 +275,20 @@
                         <label for="telefone">Telefone</label>
                         <div class="form-row">
                             <div class="col-6">
-                                <input type="text" class="form-control" name="fixo" placeholder="Fixo" v-model="fixo">
+                                <ValidationProvider name="fixo" rules="required">
+                                    <div slot-scope="{ errors }">                                 
+                                        <input type="text" class="form-control" name="fixo" placeholder="Fixo" v-model="fixo">
+                                        <p>{{ errors[0] }}</p>
+                                    </div>
+                                </ValidationProvider>  
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular"> 
+                                <ValidationProvider name="celular" rules="required">
+                                    <div slot-scope="{ errors }">        
+                                        <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular"> 
+                                        <p>{{ errors[0] }}</p>
+                                    </div>
+                                </ValidationProvider> 
                             </div>
                         </div>
                     </div>
@@ -276,16 +296,36 @@
                         <label for="endereco">Endereço</label>
                             <div class="form-row">
                                 <div class="col-3">
-                                    <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua">
+                                    <ValidationProvider name="rua" rules="required">
+                                        <div slot-scope="{ errors }">
+                                            <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua">
+                                            <p>{{ errors[0] }}</p>
+                                        </div>
+                                    </ValidationProvider>   
                                 </div>
                                 <div class="col-3">
-                                    <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro">
+                                    <ValidationProvider name="bairro" rules="required">
+                                        <div slot-scope="{ errors }">
+                                            <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro">
+                                            <p>{{ errors[0] }}</p>
+                                        </div>
+                                    </ValidationProvider>   
                                 </div>    
                                 <div class="col-3">
-                                    <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade">
+                                    <ValidationProvider name="cidade" rules="required">
+                                        <div slot-scope="{ errors }">
+                                            <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade">
+                                            <p>{{ errors[0] }}</p>
+                                        </div>
+                                    </ValidationProvider>   
                                 </div>    
                                 <div class="col">
-                                    <input type="text" class="form-control" name="cep" placeholder="CEP" v-model="cep">
+                                    <ValidationProvider name="cep" rules="required">
+                                        <div slot-scope="{ errors }">
+                                            <input type="text" class="form-control" name="cep" placeholder="CEP" v-model="cep">
+                                            <p>{{ errors[0] }}</p>
+                                        </div>
+                                    </ValidationProvider>   
                                 </div>
                             </div>
                     </div>

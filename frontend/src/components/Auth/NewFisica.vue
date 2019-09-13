@@ -5,8 +5,13 @@
             <h1>Cadastro de Pessoa Física</h1>
             <div class="form-group">
                 <label for="name">Nome</label>
-                <input type="text" id="name" name="name" 
-                class="form-control" v-model="name" placeholder="Ex. nome.sobrenome">
+                <ValidationProvider name="name" rules="required">
+                    <div slot-scope="{ errors }">
+                        <input type="text" id="name" name="name" 
+                        class="form-control" v-model="name" placeholder="Ex. nome.sobrenome">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>
             </div>
 
             <div class="form-group"> 
