@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Response;
-
-
 use App\Fisica;
 use App\Curriculo;
 use App\Contato;
@@ -35,9 +33,6 @@ class CurriculoController extends Controller
         if(!$request->pais){
             $error[] = 'Insira o país!';
         }
-        if(!$request->emailAlt){
-            $error[] = 'Insira o email alternativo!';
-        }
         if(!$request->objetivos){
             $error[] = 'Insira seus objetivos!';
         }
@@ -61,116 +56,118 @@ class CurriculoController extends Controller
             'error' => $error
         ], 201);
         }
-       
 
-            $curriculo = new Curriculo();
-            $contato = new Contato();
-            $endereco = new Endereco();
-            $pfisica = new Fisica();
-            $user_id =  $request->input('user_id');
-
-            $endereco->rua = $request->input('rua');
-            $endereco->bairro = $request->input('bairro');
-            $endereco->cidade = $request->input('cidade');
-            $endereco->estado = $request->input('estado');
-            $endereco->pais = $request->input('pais');
-            $cep = $endereco->cep = $request->input('cep');
-
-            $endereco->save();
-
-            $email = $contato->emailAlt = $request->input('emailAlt');
-            $contato->celular = $request->input('celular');
-            $contato->fixo = $request->input('fixo');
-            $contato->facebook = $request->input('facebook');
-            $contato->twitter = $request->input('twitter');
-            $contato->site = $request->input('site');
-            $contato->outraRede = $request->input('outraRede');
-
-            $contato->save();
-
-            $curriculo->objetivos = $request->input('objetivos');
-            $curriculo->area = $request->input('area');
-            $curriculo->pretensao = $request->input('pretensao');
-            $curriculo->qualificacoes = $request->input('qualificacoes');
-            $curriculo->historicoProfissional = $request->input('historico');
-            $curriculo->escolaridade = $request->input('escolaridade');
+            $end_id = Endereco::insertGetId([
+                'rua' => $request->rua,
+                'bairro' => $request->bairro,
+                'cidade' => $request->cidade,
+                'estado' => $request->estado,
+                'complemento' => $request->complemento,
+                'numero' => $request->numero,
+                'pais' => $request->pais,
+                'cep' => $request->cep
+            ]);
             
-           Fisica::where('user_id', $user_id)
-            ->update(array(
-                'data_nascimento' => $request->input('nascimento'),
-                'genero'  => $request->input('genero'),
-                'estado_civil' => $request->input('estadoCivil'),
-                'contatos_id' => $contato->id, //pega ultimo id inserido
-                'enderecos_id' => $endereco->id
+            $con_id = Contato::insertGetId([
+                'celular' => $request->celular,
+                'fixo' => $request->fixo,
+                'linkedin' => $request->linkedin,
+                'facebook' => $request->facebook,
+                'twitter' => $request->twitter,
+                'site' => $request->site,
+                'outraRede' => $request->outraRede
+            ]);
 
+            $user_id = $request->input('user_id');
+            Fisica::where('user_id', $user_id)
+            ->update(array(
+                'data_nascimento' => $request->nascimento,
+                'genero'  => $request->genero,
+                'estado_civil' => $request->estadoCivil,
+                'contatos_id' => $con_id, 
+                'enderecos_id' => $end_id
             ));
 
-           $curriculo->fisicas_id = Fisica::where('user_id', $user_id)->first()->id;
-           $curriculo->save();
-        
-         return Response::json([
-            'message' => 'Sucesso ao cadastar currículo'
-        ], 201);
+            Curriculo::create([
+                'objetivos' => $request->objetivos,
+                'area' => $request->area,
+                'pretensao' => $request->pretensao,
+                'qualificacoes' => $request->qualificacoes,
+                'historicoProfissional' => $request->historicoProfissional,
+                'escolaridade' => $request->escolaridade,
+                'fisicas_id' => Fisica::where('user_id', $user_id)->first()->id
+            ]);
+           
+           return Response::json([
+            'PORRAAAAAA'=>$request->input('user_id')
+           ], 201);
         }
 
     public function show($id)
     {  
         $fisicas_id = Fisica::where('user_id', $id)->first()->id;
-        $curriculo = Curriculo::where('fisicas_id', $fisicas_id)->with('contato')->get();
-        return Response::json([
-           'curriculo' => $curriculo
-        ], 201);
-    }
 
-    public function edit($id)
-    {
-        $cursos = Curso::all();
-        $instituicoes = Instituicao::all();
-        $campuses = Campus::all();
+        $fisica = Fisica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->get();
+
+        $curriculo = Curriculo::with(['fisica'])->where('fisicas_id', $fisicas_id)->get();
         
-        $aluno = Aluno::find($id);
-    
         return Response::json([
-            'cursos' => $cursos, 
-            'instituicoes' => $instituicoes,
-            'campuses' => $campuses
+           'curriculo' => $curriculo,
+           'fisica' => $fisica
         ], 201);
-
     }
 
     public function update(Request $request, $id)
     {
-        $alu = Aluno::find($id);
-        if(isset($alu)) {
-           
-            //entro na tabela pessoa, busco o id dela q é igual ao id de pessoa_id dentro de aluno, pego o nome apenas
-            //$alu->pessoa()->where('id', $alu->pessoa_id)->update(['nome'=> $request->input('nome')]);
-            $target = $alu->pessoa()->where('id', $alu->pessoa_id)->get()->first()->nome;
+        $end_id = Fisica::where('user_id', $id)->value('enderecos_id');
+        $con_id = Fisica::where('user_id', $id)->value('contatos_id');
 
-            $alu->telefone()->where('id', $alu->tel_id)->update([
-                'fixo' => $request->input('fixo'),
-                'celular' => $request->input('celular')
-                ]);
+        User::where('id', $id)->update(['name'=>$request->nome]);
 
-            $alu->endereco()->where('id', $alu->end_id)->update([
-                'rua'=> $request->input('rua'),
-                'bairro' => $request->input('bairro'),
-                'cidade' => $request->input('cidade'),
-                'cep' => $request->input('cep')
-                ]);
+        Endereco::where('id', $end_id)->update([
+            'rua' => $request->rua,
+            'bairro' => $request->bairro,
+            'cidade' => $request->cidade,
+            'estado' => $request->estado,
+            'complemento' => $request->complemento,
+            'numero' => $request->numero,
+            'pais' => $request->pais,
+            'cep' => $request->cep
+        ]);
 
-            $alu->inst_id = $request->input('instituicao');
-            $alu->campus_id = $request->input('campus');
-            $alu->curso_id = $request->input('curso');
-            $alu->semestre = $request->input('semestre');
-            $alu->save();
+        Contato::where('id', $con_id)->update([
+            'celular' => $request->celular,
+            'fixo' => $request->fixo,
+            'linkedin' => $request->linkedin,
+            'facebook' => $request->facebook,
+            'twitter' => $request->twitter,
+            'site' => $request->site,
+            'outraRede' => $request->outraRede
+        ]);
 
-            $log = new Log();
-            $log->log('editou', 'aluno', $target);
-        }
+        Fisica::where('user_id', $id)->update(array(
+                'data_nascimento' => $request->nascimento,
+                'genero'  => $request->genero,
+                'estado_civil' => $request->estadoCivil
+            ));
         
+        $fisicas_id = Fisica::where('user_id', $id)->first()->id;
+
+        Curriculo::where('fisicas_id', $fisicas_id)->update([
+            'objetivos' => $request->objetivos,
+            'area' => $request->area,
+            'pretensao' => $request->pretensao,
+            'qualificacoes' => $request->qualificacoes,
+            'historicoProfissional' => $request->historicoProfissional,
+            'escolaridade' => $request->escolaridade
+        ]);
+
         return Response::json([
-            'msg' => 'update ok'
-         ], 201);
-    } 
+            'SEI LA MAN'=>$request->input('user_id')
+           ], 201);
+      
+      
+    }
+
+
 }

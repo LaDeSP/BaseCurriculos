@@ -26,7 +26,7 @@ class CreateCurriculosTable extends Migration
 
             $table->string('qualificacoes');
             $table->string('historicoProfissional');
-            $table->integer('fisicas_id')->unsigned();
+            $table->integer('fisicas_id')->unsigned()->nullable();
             $table->timestamps();
             $table->foreign('fisicas_id')->references('id')->on('fisicas')->onDelete('cascade');
             

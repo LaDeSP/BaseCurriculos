@@ -110,9 +110,7 @@ class JuridicaController extends Controller
             'error' => $error
         ], 201);
         }
-        $contato = new Contato();
-        $endereco = new Endereco();
-
+       
         $con_id = Contato::insertGetId([
             'celular' => $request->input('celular'),
             'fixo' => $request->input('fixo'),

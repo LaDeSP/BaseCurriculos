@@ -36,7 +36,7 @@ const routes = [
     //CADASTROS
     {path: '/new-juridica', component: NewJuridica},
     {path: '/new-fisica', component: NewFisica},
-    {path: '/new-curriculo', component: NewCurriculo},
+    {path: '/new-curriculo', name: 'new-curriculo', component: NewCurriculo},
     {path: '/add-juridica', component: NewJuridicaData},
     {path: '/new-area', component: NewArea},
     {path: '/new-vaga', name: 'new-vaga', component: NewVaga},

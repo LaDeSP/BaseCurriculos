@@ -77,7 +77,6 @@
         },
         methods: {
             register(){
-                const user_id = this.$session.get('user_id');
            
                 this.axios.post(this.uri + '?token=' + this.token, 
                     {
@@ -88,7 +87,7 @@
                         requisitos: this.requisitos,
                         area: this.area,
                         jornada: this.jornada,
-                        user_id: this.user_id     
+                        user_id: this.$session.get('user_id')    
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
@@ -168,7 +167,7 @@
         },
 
         created() {
-            
+            console.log(this.$session.get('user_id'));
             this.loadDataEdit();
             this.loadArea();  
 

@@ -63,8 +63,8 @@ class FisicaController extends Controller
     }
 
     public function show($id)
-    {  
-        $fisica = Fisica::where('user_id', $id)->with('contato', 'endereco', 'user')->get();
+    {   
+        $fisica = Fisica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->get();
         return Response::json([
            'fisica' => $fisica
         ], 201);

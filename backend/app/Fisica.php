@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Fisica extends Model
 {
 	protected $fillable = [
-        'nascimento', 'genero', 'estadocivil', 'contatos_id', 'enderecos_id', 'user_id'
+		'cpf', 'genero', 'estado_civil', 'data_nascimento', 
+		'contatos_id', 'enderecos_id', 'user_id'
 	];
 
 	public function user(){

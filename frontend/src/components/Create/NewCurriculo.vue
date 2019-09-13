@@ -2,6 +2,8 @@
  <div class="row justify-content-center">
     <div class="col-sm-12">
         <form>
+            <h1 v-if="!editing">Cadastro de Currículo</h1>
+            <h1 v-else>Editar Informações</h1>
             <div class="form-row">
                 <div class="col-6">
                     <div class="form-group">
@@ -32,12 +34,12 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <label class="radio-inline">
-                                        <input type="radio" id="femaleRadio" value="Feminino"  v-model="genero"> Masculino
+                                        <input type="radio" id="femaleRadio" value="Masculino"  v-model="genero"> Masculino
                                     </label>
                                 </div>
                                 <div class="col-sm-4">
                                     <label class="radio-inline">
-                                        <input type="radio" id="maleRadio" value="Masculino"  v-model="genero"> Feminino
+                                        <input type="radio" id="maleRadio" value="Feminino"  v-model="genero"> Feminino
                                     </label>
                                 </div>
                                 <div class="col-sm-4">
@@ -332,10 +334,14 @@
                         <textarea id="objetivos" class="md-textarea form-control" rows="5" name="objetivos" v-model="objetivos"></textarea>
                     </div>
 
-                    <div class="form-group">
-                        <label for="area">Área de Interesse</label>
-                        <input type="area" id="area" name="area" 
-                        class="form-control" v-model="area">
+                    <div class="form-group"> 
+                        <label for="area">Área de Atuação</label>
+                            <select class="custom-select" name="area" v-model="area">
+                                <option value="" disabled selected>Selecione uma Área</option>
+                                <option v-for="area in areas" :key="area.id" :value="area.id">
+                                    {{area.tipo}}
+                                </option>
+                            </select>
                     </div>
 
                      <div class="form-group">
@@ -369,10 +375,15 @@
                     </div>
 
                      <div class="form-group">
-                        <label for="historico">Histórico Profissional</label>
-                        <textarea id="historico" class="md-textarea form-control" rows="5" name="historico" v-model="historico"></textarea>
+                        <label for="historicoProfissional">Histórico Profissional</label>
+                        <textarea id="historicoProfissional" class="md-textarea form-control" rows="5" name="historicoProfissional" v-model="historicoProfissional"></textarea>
                     </div>
-                    <button @click.prevent="register" type="submit" class="btn btn-primary">Register</button>
+                    <div v-if="editing === false">
+                        <button @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
+                    </div>
+                    <div v-else>
+                        <button @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
                 </div>
             </div>
         </form>
@@ -405,20 +416,22 @@
                 area: '',
                 pretensao: '',
                 qualificacoes: '',
-                historico: '',
+                historicoProfissional: '',
                 emailAlt: '',
                 estadoCivil: '',
                 pais: '',
                 estado: '',
                 escolaridade: '',
                 uri: 'http://localhost:8000/api/curriculos',
-                token: this.$session.get('jwt')
+                token: this.$session.get('jwt'),
+                editing: false,
+                areas: []
                 
             }
         },
         methods: {
             register(){
-                const user_id = this.$session.get('user_id');              
+                  
                 this.axios.post(this.uri + '?token=' + this.token, 
               
                     {
@@ -439,18 +452,18 @@
                         area: this.area,
                         pretensao: this.pretensao,
                         qualificacoes: this.qualificacoes,
-                        historico: this.historico,
+                        historicoProfissional: this.historicoProfissional,
                         estadoCivil: this.estadoCivil,
                         pais: this.pais,
                         estado: this.estado,
                         escolaridade: this.escolaridade,
                         emailAlt: this.emailAlt,
                         linkedin: this.linkedin,
-                        user_id: this.user_id
+                        user_id: this.$session.get('user_id')
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
-                        (response) => console.log(response)
+                        (response) => console.log(response.data)
                     )
                     .catch(
                         (error) => console.log(error)
@@ -459,15 +472,14 @@
             verifyEdit(){
                 
                 if(this.$route.params.editing === true) this.editing = true;
-                
-                    console.log('verifyedit:', this.editing);
+                console.log('verifyedit:', this.editing);
+                this.loadDataEdit();
             },
 
             edit(){
                 
-                let curriculo_id = this.$route.params.curriculo_id;
-
-                this.axios.put(this.uri + '/' + curriculo_id + '?token=' + this.token, 
+                const user_id = this.$session.get('user_id');
+                this.axios.put(this.uri + '/' + user_id + '?token=' + this.token, 
 
                     {
                         nome: this.nome,
@@ -487,7 +499,7 @@
                         area: this.area,
                         pretensao: this.pretensao,
                         qualificacoes: this.qualificacoes,
-                        historico: this.historico,
+                        historicoProfissional: this.historicoProfissional,
                         estadoCivil: this.estadoCivil,
                         pais: this.pais,
                         estado: this.estado,
@@ -503,39 +515,49 @@
                         (error) => console.log(error)
                     );
             },
+            
+            loadArea(){
+             
+                this.axios.get('http://localhost:8000/api/vagas?token=' + this.token)
+
+                    .then(response => {
+                        this.areas = response.data.areas
+                    })
+                    .catch(
+                        error => console.log(error)
+                    );
+            },
             loadDataEdit(){
 
-                const curriculo_id = this.$route.params.vaga_id; 
+                const user_id = this.$session.get('user_id');
+                const curriculo_id = this.$route.params.curriculo_id; 
 
-                this.axios.get(this.uri + '/' + curriculo_id + '?token=' + this.token)
+                this.axios.get(this.uri + '/' + user_id + '?token=' + this.token)
                     .then(response=>{
-                            
-                            this.nome = response.data.curriculo.nome,
-                            this.nascimento = response.data.curriculo.nascimento,
-                            this.genero = response.data.curriculo.genero,
-                            this.rua = response.data.curriculo.rua,
-                            this.bairro = response.data.curriculo.bairro,
-                            this.cidade = response.data.curriculo.cidade,
-                            this.cep = response.data.curriculo.cep
-                            this.celular = response.data.curriculo.celular
-                            this.fixo = response.data.curriculo.fixo
-                            this.facebook = response.data.curriculo.facebook
-                            this.twitter = response.data.curriculo.twitter
-                            this.site = response.data.curriculo.site
-                            this.outraRede = response.data.curriculo.outraRede
-                            this.objetivos = response.data.curriculo.objetivos
-                            this.area = response.data.curriculo.area
-                            this.pretensao = response.data.curriculo.pretensao
-                            this.qualificacoes = response.data.curriculo.qualificacoes
-                            this.historico = response.data.curriculo.historico
-                            this.estadoCivil = response.data.curriculo.estadoCivil
-                            this.pais = response.data.curriculo.pais
-                            this.estado = response.data.curriculo.estado
-                            this.escolaridade = response.data.curriculo.escolaridade
-                            this.emailAlt = response.data.curriculo.emailAlt
-                            this.linkedin = response.data.curriculo.linkedin
-        
-                            console.log(response.data)
+    
+                        console.log('TESTE', response.data.fisica[0].user.name);
+                        this.nome = response.data.fisica[0].user.name;
+                        this.pretensao = response.data.curriculo[0].pretensao;
+                        this.rua = response.data.fisica[0].endereco.rua; 
+                        this.bairro = response.data.fisica[0].endereco.bairro; 
+                        this.cidade = response.data.fisica[0].endereco.cidade; 
+                        this.cep = response.data.fisica[0].endereco.cep;     
+                        this.celular = response.data.fisica[0].contato.celular; 
+                        this.fixo = response.data.fisica[0].contato.fixo; 
+                        this.facebook = response.data.fisica[0].contato.facebook; 
+                        this.twitter = response.data.fisica[0].contato.twitter; 
+                        this.site = response.data.fisica[0].contato.site; 
+                        this.outraRede = response.data.fisica[0].contato.outraRede;
+                        this.emailAlt = response.data.fisica[0].contato.emailAlt;
+                        this.linkedin = response.data.fisica[0].contato.linkedin;
+                        this.objetivos = response.data.curriculo[0].objetivos; 
+                        this.qualificacoes = response.data.curriculo[0].qualificacoes; 
+                        this.historicoProfissional = response.data.curriculo[0].historicoProfissional;
+                        this.estadoCivil = response.data.fisica[0].estadoCivil; 
+                        this.pais = response.data.curriculo[0].pais; 
+                        this.estado = response.data.curriculo[0].estado; 
+                        this.escolaridade = response.data.curriculo[0].escolaridade; 
+                        this.genero = response.data.curriculo[0].fisica.genero;
                     })
                     .catch(
                         error => console.log(error)
@@ -544,11 +566,13 @@
           
         },
          created() {
-            this.loadDataEdit();
+            this.verifyEdit();
+            this.loadArea();
+            console.log(this.$session.get('user_id'));
         },
 
         mounted() {
-            this.verifyEdit();
+           
         },
         
     }

@@ -24,9 +24,8 @@ class VagaController extends Controller
     }
 
     public function store(Request $request)
-    {   
-        $user = auth()->user()->id;
-        $juridicas_id = Juridica::where('user_id', $user)->first()->id;
+    {  
+        $juridicas_id = Juridica::where('user_id', $request->user_id)->first()->id;
         $areas_id = $request->area;
 
         Vaga::create([

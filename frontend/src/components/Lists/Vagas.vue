@@ -13,8 +13,8 @@
                 <div v-if="isFIS === true">
                    <router-link v-bind:to="'' + vaga.id" tag="button" class="btn btn-sm btn-default">Ver mais</router-link>
                    <button @click="onRequest(vaga.id, vaga.coor_id, vaga.super_id)" class="btn btn-sm btn-primary">Se Candidatar</button> 
-                   <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button> 
                 </div>
+                <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button> 
                
         </div>
     </div>

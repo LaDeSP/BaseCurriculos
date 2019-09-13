@@ -5,32 +5,33 @@
             <div v-if="curriculo.length == 0" class="text-center">
                     <h4> Você ainda não cadastrou seu currículo :/ </h4>
             </div>
-            <div v-else>
+            <div v-else-if="curriculo.length>0">
                 <div v-for="show in curriculo" :key="show.id"> 
-                    <h1>Redes Sociais</h1>
+                    <h3>Redes Sociais</h3>
                     <hr>
-                    <span v-if="typeof show.contato.facebook !== 'undefined'">Facebook: {{show.contato.facebook}}</span>
-                    <span v-if="typeof show.contato.twitter !== 'undefined'">Twitter: {{show.contato.twitter}}</span>
-                    <span v-if="typeof show.contato.linkedin !== 'undefined'">Linkedin: {{show.contato.linkedin}}</span>
-                    <span v-if="typeof show.contato.site !== 'undefined'">Site: {{show.contato.site}}</span>
-                    <span v-if="typeof show.contato.outraRede !== 'undefined'"> Outra: {{show.contato.outraRede}}</span>
+                       {{show.fisica}}
+                        <!--<span v-if="typeof show.fisica.contato.facebook !== 'undefined'">Facebook: {{show.contato.facebook}}</span>
+                        <span v-if="typeof show.fisica.contato.twitter !== 'undefined'">Twitter: {{show.contato.twitter}}</span>
+                        <span v-if="typeof show.fisica.contato.linkedin !== 'undefined'">Linkedin: {{show.contato.linkedin}}</span>
+                        <span v-if="typeof show.fisica.contato.site !== 'undefined'">Site: {{show.contato.site}}</span>
+                        <span v-if="typeof show.fisica.contato.outraRede !== 'undefined'"> Outra: {{show.contato.outraRede}}</span> -->
                     <hr>
-                    <h1>Objetivos</h1>
+                    <h3>Objetivos</h3>
                     <p>{{show.objetivos}}</p>
                     <hr>
-                    <h1>Área de Atuação</h1>
+                    <h3>Área de Atuação</h3>
                     <p>{{show.area.tipo}}</p>
                     <hr>
-                    <h1>Pretensão Salarial</h1>
+                    <h3>Pretensão Salarial</h3>
                     <p>{{show.pretensao}}</p>
                     <hr>
-                    <h1>Formação Acadêmica</h1>
+                    <h3>Formação Acadêmica</h3>
                     <p>{{show.escolaridade}}</p>
                     <hr>
-                    <h1>Histórico Profissional</h1>
+                    <h3>Histórico Profissional</h3>
                     <p>{{show.historicoProfissional}}</p>
                     <hr>
-                    <h1>Qualificações</h1>
+                    <h3>Qualificações</h3>
                     <p>{{show.qualificacoes}}</p>
                 </div>
             </div>  
@@ -58,7 +59,7 @@
                 this.axios.get('http://localhost:8000/api/curriculos/' + user_id + '?token=' + token)
                     .then(response => {
                         this.curriculo = response.data.curriculo
-                        console.log(response);
+                        
                     })
                     .catch(
                         error => console.log(error)
@@ -66,6 +67,7 @@
             }
         },
         created(){
+           
             this.loadCurriculo();
         }
        

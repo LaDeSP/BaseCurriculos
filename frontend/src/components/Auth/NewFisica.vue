@@ -71,8 +71,9 @@
                             this.$session.set('jwt', response.data.token),
                             this.$session.set('name', response.data.name),
                             this.$session.set('role', response.data.role),
-                            this.$session.set('user_id', response.data.user_id),
-                            this.$router.push({ name: 'DashFIS' })
+                            this.$session.set('user_id', response.data.user_id)
+                            console.log(response)
+                            //this.$router.push({ name: 'DashFIS' })
                         }
                     )
                     .catch(
