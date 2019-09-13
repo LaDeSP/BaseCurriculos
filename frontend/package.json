@@ -14,7 +14,8 @@
     "axios": "^0.18.1",
     "mem": "^5.1.1",
     "moment": "^2.22.2",
-    "vue": "^2.5.11",
+    "vee-validate": "^3.0.5",
+    "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
     "vue-filter-date-format": "^1.1.1",
     "vue-flash-message": "^0.7.2",
@@ -37,7 +38,7 @@
     "node-sass": "^4.10.0",
     "sass-loader": "^6.0.7",
     "vue-loader": "^13.0.5",
-    "vue-template-compiler": "^2.4.4",
+    "vue-template-compiler": "^2.6.10",
     "vuex": "^3.0.1",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1"

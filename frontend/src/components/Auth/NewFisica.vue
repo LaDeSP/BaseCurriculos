@@ -11,13 +11,23 @@
 
             <div class="form-group"> 
                 <label for="cpf">CPF</label>
-                <input type="text" class="form-control" name="cpf" placeholder="Ex. 999.999.999-99" v-model="cpf">
+                <ValidationProvider name="cpf" rules="required">
+                    <div slot-scope="{ errors }">
+                        <input type="text" class="form-control" name="cpf" placeholder="Ex. 999.999.999-99" v-model="cpf">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" 
-                class="form-control" v-model="email">
+                <ValidationProvider name="email" rules="required|email">
+                    <div slot-scope="{ errors }">
+                        <input type="email" id="email" name="email" 
+                        class="form-control" v-model="email">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>
             </div>
 
             <div class="form-group">

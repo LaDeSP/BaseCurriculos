@@ -4,6 +4,20 @@ import VueFilterDateFormat from 'vue-filter-date-format'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueSession from 'vue-session'
+import { extend } from 'vee-validate';
+import { required, email } from 'vee-validate/dist/rules';
+import { ValidationProvider } from 'vee-validate';
+
+extend('required', {
+  ...required,
+  message: 'This field is required'
+});
+extend('email', {...email, message: 'Email válido please'} );
+extend('secret', {
+  validate: value => value === 'example',
+  message: 'This is not the magic word'
+});
+Vue.component('ValidationProvider', ValidationProvider);
 
 Vue.use(VueFilterDateFormat)
 Vue.use(VueRouter);
