@@ -44,7 +44,7 @@
             <hr>
             
             <button @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
-            <router-link to="/dashboard" class="btn btn-danger">Cancelar</router-link>
+            <router-link to="/login" class="btn btn-default">Voltar</router-link>
         </form>
     </div>
 </div>
@@ -87,8 +87,7 @@
                             this.$session.set('name', response.data.name),
                             this.$session.set('role', response.data.role),
                             this.$session.set('user_id', response.data.user_id)
-                            console.log(response)
-                            //this.$router.push({ name: 'DashFIS' })
+                            this.$router.push({ name: 'dashboard-fisica' })
                         }
                     )
                     .catch(

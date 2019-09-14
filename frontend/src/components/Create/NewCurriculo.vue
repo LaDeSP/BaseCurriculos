@@ -440,9 +440,11 @@
                     </div>
                     <div v-if="editing === false">
                         <button @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
+                        <router-link class="btn btn-default" to="/dashboard-fisica">Voltar</router-link>
                     </div>
                     <div v-else>
                         <button @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
+                         <router-link class="btn btn-default" to="/dashboard-fisica">Voltar</router-link>
                     </div>
                 </div>
             </div>
@@ -531,9 +533,11 @@
             },
             verifyEdit(){
                 
-                if(this.$route.params.editing === true) this.editing = true;
+               if(this.$route.params.editing === true){
+                    this.editing = true;
+                    this.loadDataEdit();
+                }
                 console.log('verifyedit:', this.editing);
-                this.loadDataEdit();
             },
 
             edit(){
@@ -625,15 +629,10 @@
             }
           
         },
-         created() {
+        created() {
             this.verifyEdit();
             this.loadArea();
-            console.log(this.$session.get('user_id'));
-        },
-
-        mounted() {
-           
-        },
+        }
         
     }
 </script>

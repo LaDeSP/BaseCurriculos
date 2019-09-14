@@ -15,7 +15,8 @@
                 class="form-control" v-model="password">
             </div>
             <button @click.prevent="login" type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
-            
+            <router-link to="/new-fisica" class="btn btn-lg btn-primary btn-block btn-success">Cadastrar - Fisica</router-link>
+            <router-link to="/new-juridica" class="btn btn-lg btn-primary btn-block btn-success">Cadastrar - Juridica</router-link>
         </form>
     </div>
 </div>    

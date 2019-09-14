@@ -7,7 +7,8 @@
     export default {
         mounted () {
             //remove token
-            localStorage.removeItem('token')
+            this.$session.remove('jwt');
+            this.$session.destroy();
             //seta isLoggedIn pra falso
            // store.commit('logoutUser')
             //redireciona pro login

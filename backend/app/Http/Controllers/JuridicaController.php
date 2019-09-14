@@ -64,22 +64,6 @@ class JuridicaController extends Controller
              ], 201); 
     }
 
-    public function edit($id)
-    {
-        $cursos = Curso::all();
-        $instituicoes = Instituicao::all();
-        $campuses = Campus::all();
-        
-        $aluno = Aluno::find($id);
-    
-        return Response::json([
-            'cursos' => $cursos, 
-            'instituicoes' => $instituicoes,
-            'campuses' => $campuses
-        ], 201);
-
-    }
-
     public function addData(Request $request){
         if(!$request->rua){
             $error[] = 'Insira uma rua!';
@@ -147,36 +131,72 @@ class JuridicaController extends Controller
 
     }
 
-    public function update(Request $request)
+    public function show($id)
     {
+        $juridica = Juridica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->get();
+        return Response::json([
+            'juridica' => $juridica
+         ], 201);
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $end_id = Juridica::where('user_id', $id)->value('enderecos_id');
+        $con_id = Juridica::where('user_id', $id)->value('contatos_id');
+
+        //User::where('id', $id)->update(['name'=>$request->nome]);
+
+        Endereco::where('id', $end_id)->update([
+            'rua' => $request->rua,
+            'bairro' => $request->bairro,
+            'cidade' => $request->cidade,
+            'estado' => $request->estado,
+            'complemento' => $request->complemento,
+            'numero' => $request->numero,
+            'pais' => $request->pais,
+            'cep' => $request->cep
+        ]);
+
+        Contato::where('id', $con_id)->update([
+            'celular' => $request->celular,
+            'fixo' => $request->fixo,
+            'linkedin' => $request->linkedin,
+            'facebook' => $request->facebook,
+            'twitter' => $request->twitter,
+            'site' => $request->site,
+            'outraRede' => $request->outraRede
+        ]);
+
+        Juridica::where('user_id', $id)->update(array(
+                'razao' => $request->razao,
+                'missao' => $request->missao,
+                'contatos_id' => $con_id, 
+                'enderecos_id' => $end_id
+            ));
+
+        return Response::json([
+            'SEI LA MAN'=>$request->user_id
+           ], 201);
+      
       
     }
 
     public function destroy($id)
     {
-        //deleto pessoa, aluno, telefone e endereço, dps altero os ids de end e tel pra poder deletar cascada
-        //user não é deletado quando aluno é deletado
-        $end_id = Aluno::where('id', $id)->first()->end_id;
-        $tel_id = Aluno::where('id', $id)->first()->tel_id;
-        $pessoa_id = Aluno::where('id', $id)->first()->pessoa_id;
-        $user_id = Pessoa::where('id', $pessoa_id)->first()->user_id;
-        $target = Pessoa::where('id', $pessoa_id)->first()->nome;
+    
+        $end_id = Juridica::where('user_id', $id)->first()->enderecos_id;
+        $cont_id = Juridica::where('user_id', $id)->first()->contatos_id;
         
-        $pessoa = Pessoa::find($pessoa_id);
-        $pessoa->delete();
+        $user = User::find($id);
+        $user->delete();
 
         $end = Endereco::find($end_id);
         $end->delete();
 
-        $tel = Telefone::find($tel_id);
-        $tel->delete();
-
-        $user = User::find($user_id);
-        $user->delete();
-
-        $log = new Log();
-        $log->log('deletou', 'aluno', $target);
-
+        $cont = Contato::find($cont_id);
+        $cont->delete();
+        
         return Response::json([
             'msg' => 'deletado ok'
          ], 201);

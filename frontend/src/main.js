@@ -39,7 +39,9 @@ import NewVaga from  './components/Create/NewVaga.vue';
 
 import Vagas from  './components/Lists/Vagas.vue';
 import FisicaData from  './components/Lists/FisicaData.vue';
-
+import JuridicaData from  './components/Lists/JuridicaData.vue';
+import DashFIS from './components/Dashboards/DashFisica.vue';
+import DashJUR from './components/Dashboards/DashJuridica.vue';
 
 import DeuRuim from './components/DeuRuim.vue';
 
@@ -47,16 +49,20 @@ const routes = [
     {path: '', component: Login},
     {path: '/login', name: 'login', component: Login},
     {path: '/logout', name: 'logout', component: Logout},
-    //CADASTROS
     {path: '/new-juridica', component: NewJuridica},
     {path: '/new-fisica', component: NewFisica},
     {path: '/new-curriculo', name: 'new-curriculo', component: NewCurriculo},
-    {path: '/add-juridica', component: NewJuridicaData},
+    {path: '/add-juridica', name: 'add-juridica', component: NewJuridicaData},
     {path: '/new-area', component: NewArea},
     {path: '/new-vaga', name: 'new-vaga', component: NewVaga},
     {path: '/vagas', component: Vagas},
     {path: '/profile-fisica', component: FisicaData},
+    {path: '/profile-juridica', component: JuridicaData},
+    {path: '/profile-juridica', component: JuridicaData},
+    {path: '/dashboard-fisica', name: 'dashboard-fisica', component: DashFIS},
+    {path: '/dashboard-juridica', name: 'dashboard-juridica', component: DashJUR},
     {path: '*', component: DeuRuim}
+
 ];
 
 const router = new VueRouter({mode: 'history', routes: routes});

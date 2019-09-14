@@ -2,6 +2,8 @@
  <div class="row justify-content-center">
     <div class="col-sm-12">
         <form>
+            <h1 v-if="!editing">Cadastro de Informações</h1>
+            <h1 v-else>Editar Informações</h1>
             <div class="form-row">
                 <div class="col-6">
                     <div class="form-group">
@@ -330,7 +332,12 @@
                             </div>
                     </div>
                     <hr>
-                    <button @click.prevent="register" type="submit" class="btn btn-primary">Register</button>
+                    <div v-if="editing === false">
+                        <button @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
+                    </div>
+                    <div v-else>
+                        <button @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
                 </div>
             </div>
         </form>
@@ -361,19 +368,21 @@
                 outraRede: '',
                 pais: '',
                 estado: '',
+                editing: false,
+                uri: 'http://localhost:8000/api/pjuridicas',
+                token: this.$session.get('jwt'),
+                user_id: this.$session.get('user_id')
           
                 
             }
         },
         methods: {
             register(){
-                const token = this.$session.get('jwt');
-                let uri = 'http://localhost:8000/api/data/pjuridicas?token=';
-
-                if(!token){
+           
+                if(!this.token){
                     console.log('loga ai seu corno');
                 }else{
-                     this.axios.post(uri + token, 
+                     this.axios.post('http://localhost:8000/api/data/pjuridicas?token=' + this.token, 
               
                     {
                         razao: this.razao,
@@ -402,11 +411,75 @@
                     );
                 }
             },
-          
+             verifyEdit(){
+                
+                if(this.$route.params.editing === true){
+                    this.editing = true;
+                    this.loadDataEdit();
+                }
+                console.log('verifyedit:', this.editing);
+            },
+            edit(){
+                
+                this.axios.put(this.uri + '/' + this.user_id + '?token=' + this.token, 
+
+                    {
+                        razao: this.razao,
+                        missao: this.missao,
+                        rua: this.rua,
+                        bairro: this.bairro,
+                        cidade: this.cidade,
+                        cep: this.cep,
+                        celular: this.celular,
+                        fixo: this.fixo,
+                        facebook: this.facebook,
+                        twitter: this.twitter,
+                        site: this.site,
+                        outraRede: this.outraRede,
+                        pais: this.pais,
+                        estado: this.estado,
+                        linkedin: this.linkedin
+                    },
+                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+                    .then(
+                        (response) => console.log(response)
+                    )
+                    .catch(
+                        (error) => console.log(error)
+                    );
+            },
+            loadDataEdit(){
+
+                this.axios.get(this.uri + '/' + this.user_id + '?token=' + this.token)
+                    .then(response=>{
+    
+                        console.log('TESTE', response.data);
+                        this.razao = response.data.juridica[0].user.name;
+                        this.missao = response.data.juridica[0].missao;
+                        this.rua = response.data.juridica[0].endereco.rua; 
+                        this.bairro = response.data.juridica[0].endereco.bairro; 
+                        this.cidade = response.data.juridica[0].endereco.cidade; 
+                        this.cep = response.data.juridica[0].endereco.cep;     
+                        this.celular = response.data.juridica[0].contato.celular; 
+                        this.fixo = response.data.juridica[0].contato.fixo; 
+                        this.facebook = response.data.juridica[0].contato.facebook; 
+                        this.twitter = response.data.juridica[0].contato.twitter; 
+                        this.site = response.data.juridica[0].contato.site; 
+                        this.outraRede = response.data.juridica[0].contato.outraRede;
+                        this.linkedin = response.data.juridica[0].contato.linkedin;
+                        this.pais = response.data.juridica[0].endereco.pais; 
+                        this.estado = response.data.juridica[0].endereco.estado; 
+    
+                    })
+                    .catch(
+                        error => console.log(error)
+                    );
+            }
         },
-        mounted() {
-             console.log(this.$session.get('jwt'));
-        },
-        
+        created() {
+            this.verifyEdit();
+            console.log(this.$session.get('user_id'));
+        }
+       
     }
 </script>
