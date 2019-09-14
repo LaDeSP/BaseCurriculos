@@ -1,6 +1,8 @@
 <template>
  <div class="row justify-content-center">
     <div class="col-sm-6">
+        <ValidationObserver v-slot="{ invalid }">
+
         <form>
             <h1>Cadastro de Pessoa Física</h1>
             <div class="form-group">
@@ -37,15 +39,22 @@
 
             <div class="form-group">
                 <label for="password">Senha</label>
-                <input type="password" id="password" name="password" 
-                class="form-control" v-model="password">
+                <ValidationProvider name="password" rules="required">
+                    <div slot-scope="{ errors }">
+                        <input type="password" id="password" name="password" 
+                        class="form-control" v-model="password">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>
             </div>
             
             <hr>
             
-            <button @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
+            <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
             <router-link to="/login" class="btn btn-default">Voltar</router-link>
         </form>
+        </ValidationObserver>
+
     </div>
 </div>
 </template>
