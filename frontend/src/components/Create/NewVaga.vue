@@ -24,6 +24,15 @@
                     </div>
                 </ValidationProvider>   
             </div>
+            <div class="form-group">
+                <label for="quantidade">Quantidade</label>
+                <ValidationProvider name="quantidade" rules="required">
+                    <div slot-scope="{ errors }">
+                        <input type="number" class="form-control" name="quantidade" v-model="quantidade">
+                        <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider>   
+            </div>
             <div class="form-group"> 
                 <label for="area">Área de Atuação</label>
                     <select class="custom-select" name="area" v-model="area">
@@ -97,6 +106,7 @@
                 requisitos: '',
                 area: '',
                 jornada: '',
+                quantidade: 0,
                 areas: [],
                 uri: 'http://localhost:8000/api/vagas',
                 token: this.$session.get('jwt'),
@@ -112,11 +122,13 @@
                     {
                         titulo: this.titulo,
                         local: this.local,
+                        quantidade: this.quantidade,
                         salario: this.salario,
                         beneficios: this.beneficios,
                         requisitos: this.requisitos,
                         area: this.area,
                         jornada: this.jornada,
+                        status: 'ATIVA',
                         user_id: this.$session.get('user_id')    
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
@@ -145,6 +157,7 @@
                     {
                         titulo: this.titulo,
                         local: this.local,
+                        quantidade: this.quantidade,
                         salario: this.salario,
                         beneficios: this.beneficios,
                         requisitos: this.requisitos,
@@ -183,6 +196,7 @@
                          
                          this.titulo = response.data.vaga.titulo,
                          this.local = response.data.vaga.local,
+                         this.quantidade = response.data.vaga.quantidade,
                          this.salario = response.data.vaga.salario,
                          this.requisitos = response.data.vaga.requisito,
                          this.beneficios = response.data.vaga.beneficio,

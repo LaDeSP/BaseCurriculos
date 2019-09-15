@@ -21,6 +21,8 @@ class CreateVagasTable extends Migration
             $table->string('beneficio');
             $table->string('jornada');
             $table->string('requisito');
+            $table->integer('quantidade');
+            $table->string('status');
             $table->integer('juridicas_id')->unsigned();
             $table->integer('areas_id')->unsigned();
           

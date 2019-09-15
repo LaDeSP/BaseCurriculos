@@ -14,5 +14,8 @@ class Curriculo extends Model
     public function fisica(){
     	return $this->belongsTo(Fisica::class, 'fisicas_id');
 	}
+	public function candidatura(){
+		return $this->hasMany(Candidatura::class);
+	}
 }
 

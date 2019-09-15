@@ -12,25 +12,8 @@ use App\Curriculo;
 use App\Area;
 use App\Candidatura;
 
-class CandidaturaController extends Controller
+class AgendaController extends Controller
 {
-    public function index(){
-
-        $user_id = auth()->user()->id;
-        $jur_id = Juridica::where('user_id', $user_id)->first()->id;
-        $vaga_id = Vaga::where('juridicas_id', $jur_id)->first()->id;
-        $candidaturas =  Candidatura::with(['vaga', 'curriculo'])->where('vagas_id', $vaga_id)->get();
-        $curriculo_id = Candidatura::where('vagas_id', $vaga_id)->first()->curriculos_id; 
-        $fisica_id = Curriculo::where('id', $curriculo_id)->first()->fisicas_id;
-        $fisicas = Fisica::with(['user'])->where('id', $fisica_id)->get();
-
-        return Response::json([
-            'candidaturas' => $candidaturas,
-            'fisica'=> $fisicas
-        ]);
-
-    }
-
     public function store(Request $request)
     {   
         $vaga_id = $request->vaga_id;

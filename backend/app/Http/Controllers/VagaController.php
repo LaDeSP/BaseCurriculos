@@ -16,10 +16,22 @@ class VagaController extends Controller
 
         $areas = Area::all();
         $vagas = Vaga::with('juridica', 'area')->get();
-        return Response::json([
-            'areas' => $areas,
-            'vagas' => $vagas
-        ], 201);   
+        $user_id = auth()->user()->id; 
+        $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
+        
+        if($juridica_id){
+            return Response::json([
+                'areas' => $areas,
+                'vagas' => $vagas,
+                'auth_jur'=> $juridica_id
+            ], 201);   
+        }else{
+            return Response::json([
+                'areas' => $areas,
+                'vagas' => $vagas
+            ], 201); 
+        }
+       
 
     }
 
@@ -57,6 +69,8 @@ class VagaController extends Controller
         Vaga::create([
             'titulo' => $request->titulo,
             'local' => $request->local,
+            'status'=>$request->status,
+            'quantidade'=>$request->quantidade,
             'salario' => $request->salario,
             'beneficio' => $request->beneficios,
             'jornada' => $request->jornada,
@@ -86,6 +100,7 @@ class VagaController extends Controller
     {
         Vaga::where('id', $id)->update([
             'titulo' => $request->titulo,
+            'quantidade'=>$request->quantidade,
             'local' => $request->local,
             'salario' => $request->salario,
             'beneficio' => $request->beneficios,
@@ -98,28 +113,9 @@ class VagaController extends Controller
 
     public function destroy($id)
     {
-        //deleto pessoa, aluno, telefone e endereço, dps altero os ids de end e tel pra poder deletar cascada
-        //user não é deletado quando aluno é deletado
-        $end_id = Aluno::where('id', $id)->first()->end_id;
-        $tel_id = Aluno::where('id', $id)->first()->tel_id;
-        $pessoa_id = Aluno::where('id', $id)->first()->pessoa_id;
-        $user_id = Pessoa::where('id', $pessoa_id)->first()->user_id;
-        $target = Pessoa::where('id', $pessoa_id)->first()->nome;
-        
-        $pessoa = Pessoa::find($pessoa_id);
-        $pessoa->delete();
-
-        $end = Endereco::find($end_id);
-        $end->delete();
-
-        $tel = Telefone::find($tel_id);
-        $tel->delete();
-
-        $user = User::find($user_id);
-        $user->delete();
-
-        $log = new Log();
-        $log->log('deletou', 'aluno', $target);
+    
+        $vaga = Vaga::find($id);
+        $vaga->delete();
 
         return Response::json([
             'msg' => 'deletado ok'

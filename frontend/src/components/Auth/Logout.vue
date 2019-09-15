@@ -3,16 +3,26 @@
 </template>
 
 <script>
-  //  import store from '../store'
+
     export default {
+        methods:{
+            onDelete(){
+                    const token = this.$session.get('jwt');
+                    this.axios.post('http://localhost:8000/api/logout?token=' + token)
+                    .then(response => {
+                        this.$session.remove('jwt');
+                        this.$session.destroy();
+                        console.log(response);
+                        this.$router.push({ name: 'login' })
+                    }, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+                    .catch(
+                        error => console.log(error)
+                    );
+            
+            }
+        },
         mounted () {
-            //remove token
-            this.$session.remove('jwt');
-            this.$session.destroy();
-            //seta isLoggedIn pra falso
-           // store.commit('logoutUser')
-            //redireciona pro login
-            this.$router.push({ name: 'login' })
+            this.onDelete();
         }
     }
 </script>
