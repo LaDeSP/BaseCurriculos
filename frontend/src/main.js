@@ -7,6 +7,7 @@ import VueSession from 'vue-session'
 import { extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
 import { ValidationProvider } from 'vee-validate';
+import { ValidationObserver } from 'vee-validate';
 
 extend('required', {
   ...required,
@@ -18,6 +19,7 @@ extend('secret', {
   message: 'This is not the magic word'
 });
 Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
 
 Vue.use(VueFilterDateFormat)
 Vue.use(VueRouter);
