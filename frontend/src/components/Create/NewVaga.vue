@@ -1,93 +1,95 @@
 <template>
  <div class="row justify-content-center">
     <div class="col-sm-6">
-        <form>
-            <h1 v-if="!editing">Cadastro de Vaga</h1>
-            <h1 v-else>Editar Vaga</h1>
+        <ValidationObserver v-slot="{ invalid }">
+            <form>
+                <h1 v-if="!editing">Cadastro de Vaga</h1>
+                <h1 v-else>Editar Vaga</h1>
 
-            <div class="form-group">
-                <label for="titulo">Título</label>
-                <ValidationProvider name="titulo" rules="required">
-                    <div slot-scope="{ errors }">
-                        <input type="titulo" id="titulo" name="titulo" 
-                        class="form-control" v-model="titulo">
-                        <p>{{ errors[0] }}</p>
-                    </div>
-                </ValidationProvider>   
-            </div>
-            <div class="form-group">
-                <label for="local">Local</label>
-                <ValidationProvider name="local" rules="required">
-                    <div slot-scope="{ errors }">
-                        <input type="text" class="form-control" name="local" v-model="local">
-                        <p>{{ errors[0] }}</p>
-                    </div>
-                </ValidationProvider>   
-            </div>
-            <div class="form-group">
-                <label for="quantidade">Quantidade</label>
-                <ValidationProvider name="quantidade" rules="required">
-                    <div slot-scope="{ errors }">
-                        <input type="number" class="form-control" name="quantidade" v-model="quantidade">
-                        <p>{{ errors[0] }}</p>
-                    </div>
-                </ValidationProvider>   
-            </div>
-            <div class="form-group"> 
-                <label for="area">Área de Atuação</label>
-                    <select class="custom-select" name="area" v-model="area">
-                        <option value="" disabled selected>Selecione uma Área</option>
-                        <option v-for="area in areas" :key="area.id" :value="area.id">
-                            {{area.tipo}}
-                        </option>
-                    </select>
-            </div>
-             <div class="form-group">
-                <label for="salario">Salário</label>
-                <ValidationProvider name="salario" rules="required">
-                    <div slot-scope="{ errors }">
-                        <input type="salario" id="salario" name="salario" 
-                        class="form-control" v-model="salario">
-                        <p>{{ errors[0] }}</p>
-                    </div>
-                </ValidationProvider>   
-            </div>
-            <div class="form-group">
-                <label for="jornada">Jornada de Trabalho</label>
-                <ValidationProvider name="jornada" rules="required">
-                    <div slot-scope="{ errors }">
-                        <input type="jornada" id="jornada" name="jornada" 
-                        class="form-control" v-model="jornada">
-                        <p>{{ errors[0] }}</p>
-                    </div>
-                </ValidationProvider>   
-            </div>
-            <div class="form-group">
-                <label for="beneficios">Benefícios</label>
-                <ValidationProvider name="beneficios" rules="required">
-                    <div slot-scope="{ errors }">
-                        <textarea class="form-control" id="beneficios" rows="3" v-model="beneficios"></textarea>
-                        <p>{{ errors[0] }}</p>
-                    </div>
-                </ValidationProvider>   
-            </div>
-            <div class="form-group">
-                <label for="requisitos">Requisitos</label>
-                <ValidationProvider name="beneficios" rules="required">
-                    <div slot-scope="{ errors }">
-                        <textarea class="form-control" id="requisitos" rows="3" v-model="requisitos"></textarea>
-                        <p>{{ errors[0] }}</p>
-                    </div>
-                </ValidationProvider>   
-            </div>
-            <div v-if="editing === false">
-                <button @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
-            </div>
-            <div v-else>
-                <button @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
-            </div>
-            <router-link to="/dashboard" class="btn btn-danger">Cancelar</router-link>
-        </form>
+                <div class="form-group">
+                    <label for="titulo">Título</label>
+                    <ValidationProvider name="titulo" rules="required">
+                        <div slot-scope="{ errors }">
+                            <input type="titulo" id="titulo" name="titulo" 
+                            class="form-control" v-model="titulo">
+                            <p>{{ errors[0] }}</p>
+                        </div>
+                    </ValidationProvider>   
+                </div>
+                <div class="form-group">
+                    <label for="local">Local</label>
+                    <ValidationProvider name="local" rules="required">
+                        <div slot-scope="{ errors }">
+                            <input type="text" class="form-control" name="local" v-model="local">
+                            <p>{{ errors[0] }}</p>
+                        </div>
+                    </ValidationProvider>   
+                </div>
+                <div class="form-group">
+                    <label for="quantidade">Quantidade</label>
+                    <ValidationProvider name="quantidade" rules="required">
+                        <div slot-scope="{ errors }">
+                            <input type="number" class="form-control" name="quantidade" v-model="quantidade">
+                            <p>{{ errors[0] }}</p>
+                        </div>
+                    </ValidationProvider>   
+                </div>
+                <div class="form-group"> 
+                    <label for="area">Área de Atuação</label>
+                        <select class="custom-select" name="area" v-model="area">
+                            <option value="" disabled selected>Selecione uma Área</option>
+                            <option v-for="area in areas" :key="area.id" :value="area.id">
+                                {{area.tipo}}
+                            </option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="salario">Salário</label>
+                    <ValidationProvider name="salario" rules="required">
+                        <div slot-scope="{ errors }">
+                            <input type="salario" id="salario" name="salario" 
+                            class="form-control" v-model="salario">
+                            <p>{{ errors[0] }}</p>
+                        </div>
+                    </ValidationProvider>   
+                </div>
+                <div class="form-group">
+                    <label for="jornada">Jornada de Trabalho</label>
+                    <ValidationProvider name="jornada" rules="required">
+                        <div slot-scope="{ errors }">
+                            <input type="jornada" id="jornada" name="jornada" 
+                            class="form-control" v-model="jornada">
+                            <p>{{ errors[0] }}</p>
+                        </div>
+                    </ValidationProvider>   
+                </div>
+                <div class="form-group">
+                    <label for="beneficios">Benefícios</label>
+                    <ValidationProvider name="beneficios" rules="required">
+                        <div slot-scope="{ errors }">
+                            <textarea class="form-control" id="beneficios" rows="3" v-model="beneficios"></textarea>
+                            <p>{{ errors[0] }}</p>
+                        </div>
+                    </ValidationProvider>   
+                </div>
+                <div class="form-group">
+                    <label for="requisitos">Requisitos</label>
+                    <ValidationProvider name="beneficios" rules="required">
+                        <div slot-scope="{ errors }">
+                            <textarea class="form-control" id="requisitos" rows="3" v-model="requisitos"></textarea>
+                            <p>{{ errors[0] }}</p>
+                        </div>
+                    </ValidationProvider>   
+                </div>
+                <div v-if="editing === false">
+                    <button @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
+                </div>
+                <div v-else>
+                    <button :disabled="invalid" @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+                <router-link to="/dashboard" class="btn btn-danger">Cancelar</router-link>
+            </form>
+        </ValidationObserver>
     </div>
 </div>
 </template>
