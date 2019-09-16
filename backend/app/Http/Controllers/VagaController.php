@@ -17,9 +17,9 @@ class VagaController extends Controller
         $areas = Area::all();
         $vagas = Vaga::with('juridica', 'area')->get();
         $user_id = auth()->user()->id; 
-        $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
-        
-        if($juridica_id){
+       
+        if(auth()->user()->role === 'JURIDICA'){
+            $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
             return Response::json([
                 'areas' => $areas,
                 'vagas' => $vagas,
@@ -28,10 +28,10 @@ class VagaController extends Controller
         }else{
             return Response::json([
                 'areas' => $areas,
-                'vagas' => $vagas
+                'vagas' => $vagas,
+                'auth_fis'=>true
             ], 201); 
-        }
-       
+        }        
 
     }
 
@@ -108,6 +108,8 @@ class VagaController extends Controller
             'requisito' => $request->requisitos,
             'areas_id' => $request->area
         ]);
+
+        return Response::json(['area_id', $request->area]);
       
     }
 

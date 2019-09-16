@@ -53,13 +53,15 @@ class JuridicaController extends Controller
 
             $pjuridica->save();
 
-            $user = User::first();
-            $token = JWTAuth::fromUser($user);
+            $credentials = $request->only('email', 'password');
+            $token = JWTAuth::attempt($credentials);
+           // $user = User::find($id);
+            //$token = auth()->login($user);
             return Response::json([
                 'token'=> $token,
                 'name' => $request->input('name'),
                 'role' => $request->input('role'),
-                'user_id'=> $id,
+                'user_id'=> auth()->user()->id,
                 'message' => 'Pessoa Jurídica cadastrada com sucesso!'
              ], 201); 
     }

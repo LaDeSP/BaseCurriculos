@@ -440,11 +440,11 @@
                             </ValidationProvider>   
                         </div>
                         <div v-if="editing === false">
-                            <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
+                            <button  @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
                             <router-link class="btn btn-default" to="/dashboard-fisica">Voltar</router-link>
                         </div>
                         <div v-else>
-                            <button :disabled="invalid" @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
+                            <button @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
                             <router-link class="btn btn-default" to="/dashboard-fisica">Voltar</router-link>
                         </div>
                     </div>
@@ -584,7 +584,7 @@
             
             loadArea(){
              
-                this.axios.get('http://localhost:8000/api/vagas?token=' + this.token)
+                this.axios.get('http://localhost:8000/api/areas?token=' + this.token)
 
                     .then(response => {
                         this.areas = response.data.areas

@@ -109,7 +109,8 @@
                             this.$session.set('name', response.data.name),
                             this.$session.set('role', response.data.role),
                             this.$session.set('user_id', response.data.user_id),
-                            this.$router.push({ name: 'dashboard-juridica' })
+                            console.log(response);
+                            //this.$router.push({ name: 'dashboard-juridica' })
                         }
                     )
                     .catch(

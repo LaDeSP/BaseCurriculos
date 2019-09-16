@@ -16,8 +16,10 @@
                    <router-link v-bind:to="'' + vaga.id" tag="button" class="btn btn-sm btn-default">Ver mais</router-link>
                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button> 
                 </div>
-                <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
-                <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Deletar</button>  
+                <div v-else>
+                    <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
+                    <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Deletar</button>  
+                </div>
                
         </div>
     </div>
@@ -101,8 +103,12 @@
 
         computed:{
              isActive(){
-             
-                return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA' && vaga.juridicas_id == this.auth_jur;})
+                if(this.$session.get('role') === 'FISICA'){
+                    return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA';})
+                }else{
+                    return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA' && vaga.juridicas_id == this.auth_jur;})
+                }
+                
             }
 
         },

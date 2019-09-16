@@ -177,10 +177,11 @@
 
             loadArea(){
              
-                this.axios.get(this.uri + '?token=' + this.token)
+                this.axios.get('http://localhost:8000/api/areas?token=' + this.token)
 
                     .then(response => {
                         this.areas = response.data.areas
+                        console.log(response);
                     })
                     .catch(
                         error => console.log(error)
