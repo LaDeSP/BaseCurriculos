@@ -1,5 +1,4 @@
 <template>
-
    <header class="masthead">
       <NavBarHome></NavBarHome>
     <div class="container">
@@ -18,6 +17,7 @@
 <script>
 
   import NavBarHome from './NavBarHome';
+
   export default {
     data(){
         return {

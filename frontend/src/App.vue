@@ -2,19 +2,19 @@
 
     <div>
       <div v-if="!$route.meta.isHome">
-        <nav-bar></nav-bar>
+        <NavBar></NavBar>
       </div>
 
       <router-view></router-view>
-
+       <ModalMenu1></ModalMenu1>
     </div>
 
 </template>
 
 
 <script>
- import NavBar from './components/NavBar.vue';
-
+  import NavBar from './components/NavBar.vue';
+  import ModalMenu1 from './components/ModalMenu1';
 export default {
 
     data(){
@@ -23,7 +23,7 @@ export default {
       }
     },
     components:{
-        'nav-bar': NavBar
+        NavBar,ModalMenu1
 
     },
     created(){
