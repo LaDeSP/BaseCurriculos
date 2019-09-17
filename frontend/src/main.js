@@ -48,8 +48,12 @@ import DashJUR from './components/Dashboards/DashJuridica.vue';
 
 import DeuRuim from './components/DeuRuim.vue';
 
+import Home from './components/Home.vue';
+
+
+
 const routes = [
-    {path: '', component: Login},
+    {path: '', name:'home', component: Home, meta:{isHome: true}},
     {path: '/login', name: 'login', component: Login},
     {path: '/logout', name: 'logout', component: Logout},
     {path: '/new-juridica', component: NewJuridica},
