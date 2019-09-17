@@ -21,8 +21,10 @@ class CandidaturaController extends Controller
         $vaga_id = Vaga::where('juridicas_id', $jur_id)->first()->id;
         $candidaturas =  Candidatura::with(['vaga', 'curriculo'])->where('vagas_id', $vaga_id)->get();
         $curriculo_id = Candidatura::where('vagas_id', $vaga_id)->first()->curriculos_id; 
+       
         $fisica_id = Curriculo::where('id', $curriculo_id)->first()->fisicas_id;
         $fisicas = Fisica::with(['user'])->where('id', $fisica_id)->get();
+        
 
         return Response::json([
             'candidaturas' => $candidaturas,

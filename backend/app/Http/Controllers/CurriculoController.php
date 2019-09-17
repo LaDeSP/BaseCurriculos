@@ -64,8 +64,19 @@ class CurriculoController extends Controller
             return Response::json([
             'error' => $error
         ], 201);
+        }               
+        
+        $user_id = $request->input('user_id');
+        $fisica = new Fisica();
+        $endereco = Fisica::where('user_id', $user_id)->first()->enderecos_id;
+        if ($endereco){
+            return Response::json([
+                'ja existe o endereço'=>$endereco
+               ], 201);
         }
+            
 
+           
             $end_id = Endereco::insertGetId([
                 'rua' => $request->rua,
                 'bairro' => $request->bairro,
@@ -87,7 +98,6 @@ class CurriculoController extends Controller
                 'outraRede' => $request->outraRede
             ]);
 
-            $user_id = $request->input('user_id');
             Fisica::where('user_id', $user_id)
             ->update(array(
                 'data_nascimento' => $request->nascimento,

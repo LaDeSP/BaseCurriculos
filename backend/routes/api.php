@@ -28,6 +28,9 @@ Route::resource('/candidaturas', 'CandidaturaController', [
 Route::post('/data/pjuridicas', 'JuridicaController@addData', [
  'middleware' => 'jwt.auth'
 ]);
+Route::get('/areas', 'AreaController@index', [
+    'middleware' => 'jwt.auth'
+]);
 Route::post('/areas', 'AreaController@store');
 Route::post('/login', [
     'uses' => 'UserController@login'

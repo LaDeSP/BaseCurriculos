@@ -9,6 +9,16 @@ use App\Area;
 
 class AreaController extends Controller
 {
+    public function index(){
+
+        $areas = Area::all();
+        
+            return Response::json([
+                'areas' => $areas,
+            ], 201);          
+
+    }
+
     public function store(Request $request)
     {  
             Area::create([
