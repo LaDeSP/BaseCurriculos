@@ -5,7 +5,7 @@
   </nav>
     <ul class="nav navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="navbar-brand" href="index.html"> <i class="fas fa-home"></i> Voltar</a>
+        <router-link class="navbar-brand" to="/"><i class="fas fa-home"></i> Voltar</router-link>
       </li>
 
       <li class="nav-item-active">

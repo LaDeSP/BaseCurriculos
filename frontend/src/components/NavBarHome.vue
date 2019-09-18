@@ -6,7 +6,6 @@
     <ul class="nav navbar-nav ml-auto">
       <li class="nav-item">
          <router-link class="navbar-brand" to="/sobre"><i class="far fa-lightbulb"></i> Sobre</router-link>
-
       </li>
 
     </ul>
