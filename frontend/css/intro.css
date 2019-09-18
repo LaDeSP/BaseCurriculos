@@ -18,7 +18,15 @@
     clear: both;
     display: table;
   }
-
+header.masthead1 {
+  text-align: center;
+  color: black;
+  background-image: url("../img/3.jpg");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
+}
 header.masthead {
   text-align: center;
   color: white;

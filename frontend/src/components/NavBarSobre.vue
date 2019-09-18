@@ -5,12 +5,13 @@
   </nav>
     <ul class="nav navbar-nav ml-auto">
       <li class="nav-item">
-         <router-link class="navbar-brand" to="/sobre"><i class="far fa-lightbulb"></i> Sobre</router-link>
+        <a class="navbar-brand" href="index.html"> <i class="fas fa-home"></i> Voltar</a>
+      </li>
 
+      <li class="nav-item-active">
+           <a class="navbar-brand" href="sobre.html"> <i class="far fa-lightbulb"></i> Sobre</a>
       </li>
 
     </ul>
   </nav>
 </template>
-
-

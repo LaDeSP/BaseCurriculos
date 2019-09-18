@@ -36,10 +36,13 @@ import DeuRuim from './components/DeuRuim.vue';
 
 import Home from './components/Home.vue';
 
+import Sobre from './components/Sobre.vue';
+
 
 
 const routes = [
     {path: '', name:'home', component: Home, meta:{isHome: true}},
+    {path: '/sobre', component: Sobre,meta:{isSobre:true}},
     {path: '/login', name: 'login', component: Login},
     {path: '/logout', name: 'logout', component: Logout},
     {path: '/new-juridica', component: NewJuridica},
