@@ -1,7 +1,7 @@
 <template>
 
     <div>
-      <!-- <div v-if="!$route.meta.isSobre">
+      <!-- <div v-if="!$route.meta.isHome">
         <NavBar></NavBar>
       </div> -->
       <router-view></router-view>

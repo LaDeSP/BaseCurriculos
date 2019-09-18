@@ -11,8 +11,8 @@
     </div>
   </header>
   <ModalMenu1></ModalMenu1>
-  <ModalMenu2></ModalMenu2>
-  <ModalMenu3></ModalMenu3>
+  <ModalLoginFi></ModalLoginFi>
+  <ModalLoginJu></ModalLoginJu>
 </div>
 
 
@@ -22,8 +22,8 @@
 
   import NavBarHome from './NavBarHome';
   import ModalMenu1 from './ModalMenu1';
-  import ModalMenu2 from './ModalMenu2';
-  import ModalMenu3 from './ModalMenu3';
+  import ModalLoginFi from './ModalLoginFi';
+  import ModalLoginJu from './ModalLoginJu';
 
   export default {
     data(){
@@ -32,7 +32,7 @@
         }
     },
     components:{
-      NavBarHome,ModalMenu1,ModalMenu2,ModalMenu3
+      NavBarHome,ModalMenu1,ModalLoginFi,ModalLoginJu
     }
   }
 
