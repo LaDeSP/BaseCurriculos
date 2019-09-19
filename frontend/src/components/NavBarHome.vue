@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg  navbar-dark bg-dark" >
   <nav class="navbar  navbar-dark bg-dark">
-    <a class="navbar-brand" href="index.html">Banco de Currículos</a>
+    <router-link class="navbar-brand" to="/">Banco de Currículos</router-link>
   </nav>
     <ul class="nav navbar-nav ml-auto">
       <li class="nav-item">
