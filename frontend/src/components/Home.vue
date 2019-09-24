@@ -1,4 +1,5 @@
 <template>
+<div>
    <header class="masthead">
       <NavBarHome></NavBarHome>
     <div class="container">
@@ -9,7 +10,10 @@
       </div>
     </div>
   </header>
-
+  <ModalMenu1></ModalMenu1>
+  <ModalLoginFi></ModalLoginFi>
+  <ModalLoginJu></ModalLoginJu>
+</div>
 
 
 </template>
@@ -17,6 +21,9 @@
 <script>
 
   import NavBarHome from './NavBarHome';
+  import ModalMenu1 from './ModalMenu1';
+  import ModalLoginFi from './ModalLoginFi';
+  import ModalLoginJu from './ModalLoginJu';
 
   export default {
     data(){
@@ -25,7 +32,7 @@
         }
     },
     components:{
-      NavBarHome
+      NavBarHome,ModalMenu1,ModalLoginFi,ModalLoginJu
     }
   }
 

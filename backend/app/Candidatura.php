@@ -11,9 +11,9 @@ class Candidatura extends Model
 	];
 
     public function vaga(){
-    	return $this->belongsTo(Vaga::class, 'vagas_id');
+    	return $this->belongsTo(Vaga::class);
 	}
     public function curriculo(){
-    	return $this->belongsTo(Curriculo::class, 'curriculos_id');
+    	return $this->hasOne(Curriculo::class, 'id', 'curriculos_id');
 	}
 }
