@@ -6,7 +6,7 @@
         <form>
             <h1>Cadastro de Pessoa Física</h1>
             <div class="form-group">
-                <label for="name">Nome</label>
+                <label for="name">Nome Completo</label>
                 <ValidationProvider name="name" rules="required">
                     <div slot-scope="{ errors }">
                         <input type="text" id="name" name="name" 

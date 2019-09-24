@@ -588,6 +588,7 @@
 
                     .then(response => {
                         this.areas = response.data.areas
+                        this.nome = this.$session.get('name');
                     })
                     .catch(
                         error => console.log(error)

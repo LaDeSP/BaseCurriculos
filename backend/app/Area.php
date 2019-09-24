@@ -13,4 +13,8 @@ class Area extends Model
    public function vagas(){
        return $this->hasMany(Juridica::class);
    }
+
+   public function curriculo(){
+       return  $this->hasOne(Curriculo::class);
+   }
 }

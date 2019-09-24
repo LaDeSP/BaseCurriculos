@@ -17,5 +17,8 @@ class Curriculo extends Model
 	public function candidatura(){
 		return $this->belongsTo(Candidatura::class);
 	}
+	public function contato(){
+    	return $this->hasOne(Contato::class, 'id','contatos_id');
+	}
 }
 

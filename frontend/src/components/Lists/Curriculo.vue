@@ -10,7 +10,7 @@
                     
                     <h3>Redes Sociais</h3>
                     <hr>
-                       {{show.fisica}}
+                       {{show.fisica.contato.facebook}}
                         <!--<span v-if="typeof show.fisica.contato.facebook !== 'undefined'">Facebook: {{show.contato.facebook}}</span>
                         <span v-if="typeof show.fisica.contato.twitter !== 'undefined'">Twitter: {{show.contato.twitter}}</span>
                         <span v-if="typeof show.fisica.contato.linkedin !== 'undefined'">Linkedin: {{show.contato.linkedin}}</span>
