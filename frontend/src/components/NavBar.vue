@@ -96,10 +96,10 @@
           Atividades
         </a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+        <button @click.prevent="onLogout" class="dropdown-item">
           <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-          Logout
-        </a>
+          Sair
+        </button>
       </div>
       </li>
 
@@ -109,3 +109,24 @@
 
 </template>
 
+<script>
+
+    export default {
+        methods:{
+            onLogout(){
+                    const token = this.$session.get('jwt');
+                    this.axios.post('http://localhost:8000/api/logout?token=' + token)
+                    .then(response => {
+                        this.$session.remove('jwt');
+                        this.$session.destroy();
+                        console.log(response);
+                        this.$router.push({ name: 'login' })
+                    }, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+                    .catch(
+                        error => console.log(error)
+                    );
+            
+            }
+        },
+    }
+</script>

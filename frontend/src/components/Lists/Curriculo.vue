@@ -7,6 +7,7 @@
             </div>
             <div v-else-if="curriculo.length>0">
                 <div v-for="show in curriculo" :key="show.id"> 
+                    
                     <h3>Redes Sociais</h3>
                     <hr>
                        {{show.fisica}}
@@ -59,6 +60,7 @@
                 this.axios.get('http://localhost:8000/api/curriculos/' + user_id + '?token=' + token)
                     .then(response => {
                         this.curriculo = response.data.curriculo
+                        console.log(response);
                         
                     })
                     .catch(
