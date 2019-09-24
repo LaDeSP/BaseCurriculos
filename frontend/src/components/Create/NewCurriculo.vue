@@ -5,6 +5,11 @@
             <form>
                 <h1 v-if="!editing">Cadastro de Currículo</h1>
                 <h1 v-else>Editar Informações</h1>
+                <div v-if="notificacoes">
+                    <span v-for="notificacao in notificacoes" :key="notificacao" class="badge badge-danger badge-pill">
+                        {{notificacao}}
+                    </span>
+                </div>
                 <div class="form-row">
                     <div class="col-6">
                         <div class="form-group">
@@ -489,8 +494,8 @@
                 uri: 'http://localhost:8000/api/curriculos',
                 token: this.$session.get('jwt'),
                 editing: false,
-                areas: []
-                
+                areas: [],
+                notificacoes: [] 
             }
         },
         methods: {
@@ -526,9 +531,11 @@
                         user_id: this.$session.get('user_id')
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .then(
-                        (response) => console.log(response.data)
-                    )
+                    .then(response => {
+                        if(response.data.error  != undefined){
+                            this.notificacoes = response.data.error;
+                        }
+                    })
                     .catch(
                         (error) => console.log(error)
                     );
@@ -574,9 +581,11 @@
                         linkedin: this.linkedin  
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .then(
-                        (response) => console.log(response)
-                    )
+                    .then(response => {
+                        if(response.data.error  != undefined){
+                            this.notificacoes = response.data.error;
+                        }
+                    })
                     .catch(
                         (error) => console.log(error)
                     );
@@ -588,6 +597,7 @@
 
                     .then(response => {
                         this.areas = response.data.areas
+                        this.nome = this.$session.get('name');
                     })
                     .catch(
                         error => console.log(error)

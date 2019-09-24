@@ -12,10 +12,13 @@ class Curriculo extends Model
 	];
 	
     public function fisica(){
-    	return $this->belongsTo(Fisica::class, 'fisicas_id');
+    	return $this->hasOne(Fisica::class, 'id','fisicas_id');
 	}
 	public function candidatura(){
-		return $this->hasMany(Candidatura::class);
+		return $this->belongsTo(Candidatura::class);
+	}
+	public function contato(){
+    	return $this->hasOne(Contato::class, 'id','contatos_id');
 	}
 }
 

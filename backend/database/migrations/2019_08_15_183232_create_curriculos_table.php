@@ -6,17 +6,12 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateCurriculosTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+   
     public function up()
     {
         Schema::create('curriculos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('objetivos');
-            $table->string('area');
             $table->string('pretensao');
             $table->string('escolaridade');
             $table->string('curso')->nullable();
@@ -27,8 +22,10 @@ class CreateCurriculosTable extends Migration
             $table->string('qualificacoes');
             $table->string('historicoProfissional');
             $table->integer('fisicas_id')->unsigned()->nullable();
+            $table->integer('areas_id')->unsigned()->nullable();
             $table->timestamps();
             $table->foreign('fisicas_id')->references('id')->on('fisicas')->onDelete('cascade');
+            $table->foreign('areas_id')->references('id')->on('areas')->onDelete('cascade');
             
         });
     }

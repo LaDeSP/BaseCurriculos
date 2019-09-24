@@ -6,7 +6,7 @@
 
     export default {
         methods:{
-            onDelete(){
+            onLogout(){
                     const token = this.$session.get('jwt');
                     this.axios.post('http://localhost:8000/api/logout?token=' + token)
                     .then(response => {
@@ -22,7 +22,7 @@
             }
         },
         mounted () {
-            this.onDelete();
+            this.onLogout();
         }
     }
 </script>
