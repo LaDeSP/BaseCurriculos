@@ -116,6 +116,11 @@ class FisicaController extends Controller
         // Elimina possivel mascara
         $cpf = preg_replace("/[^0-9]/", "", $cpf);
         $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
+
+        $buscaCPF = Fisica::where('cpf', $cpf)->first();
+        if($buscaCPF){
+            return "CPF inserido já foi cadastrado.";
+        }
         
         // Verifica se o numero de digitos informados é igual a 11 
         if (strlen($cpf) != 11) {
