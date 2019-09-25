@@ -23,7 +23,7 @@
 
             <div class="form-group">
                 <label for="cpf">* CPF</label>
-                <ValidationProvider name="cpf" rules="required">
+                <ValidationProvider name="cpf" rules="required|min:11|max:11|numeric">
                     <div slot-scope="{ errors }">
                         <input type="text" class="form-control" name="cpf" placeholder="Ex. 999.999.999-99" v-model="cpf">
                         <p>{{ errors[0] }}</p>
@@ -44,7 +44,7 @@
 
             <div class="form-group">
                 <label for="password">* Senha</label>
-                <ValidationProvider name="password" rules="required">
+                <ValidationProvider name="password" rules="required|min:8">
                     <div slot-scope="{ errors }">
                         <input type="password" id="password" name="password"
                         class="form-control" v-model="password">
