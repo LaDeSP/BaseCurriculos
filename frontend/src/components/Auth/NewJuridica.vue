@@ -7,7 +7,7 @@
 
                 <div class="form-group">
                     <label for="cnpj">* CNPJ</label>
-                    <ValidationProvider name="cnpj" rules="required|numeric">
+                    <ValidationProvider name="cnpj" rules="required|numeric|digits:14">
                         <div slot-scope="{ errors }">
                             <input type="text" class="form-control" name="cnpj" placeholder="Ex. 999.999.999-99" v-model="cnpj">
                             <p>{{ errors[0] }}</p>

@@ -21,6 +21,7 @@ localize('pt_BR', {
       email: 'Digite email válido.',
       numeric: 'Digite apenas números.',
       min: 'Digite {length} caracteres.',
-      max: 'Digite no máximo {length} caracteres.'
+      max: 'Digite no máximo {length} caracteres.',
+      digits: 'O {_field_} precisa de {length} caracteres.'
     }
   });
