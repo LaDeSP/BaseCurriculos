@@ -14,8 +14,8 @@
                 <label for="name">* Nome Completo</label>
                 <ValidationProvider name="name" rules="required">
                     <div slot-scope="{ errors }">
-                        <input type="text" id="name" name="name"
-                        class="form-control" v-model="name" placeholder="Ex. nome.sobrenome">
+                        <input type="text" name="name"
+                        class="form-control" v-model="name">
                         <p>{{ errors[0] }}</p>
                     </div>
                 </ValidationProvider>
@@ -25,7 +25,7 @@
                 <label for="cpf">* CPF</label>
                 <ValidationProvider name="cpf" rules="required|numeric|digits:11">
                     <div slot-scope="{ errors }">
-                        <input type="text" class="form-control" name="cpf" placeholder="Ex. 999.999.999-99" v-model="cpf">
+                        <input type="text" class="form-control" name="cpf" v-model="cpf">
                         <p>{{ errors[0] }}</p>
                     </div>
                 </ValidationProvider>
@@ -35,7 +35,7 @@
                 <label for="email">* Email</label>
                 <ValidationProvider name="email" rules="required|email">
                     <div slot-scope="{ errors }">
-                        <input type="email" id="email" name="email"
+                        <input type="email" name="email"
                         class="form-control" v-model="email">
                         <p>{{ errors[0] }}</p>
                     </div>

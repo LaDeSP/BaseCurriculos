@@ -24,6 +24,7 @@ import NewCurriculo from  './components/Create/NewCurriculo.vue';
 import NewJuridicaData from  './components/Create/NewJuridicaData.vue';
 import NewArea from  './components/Create/NewArea.vue';
 import NewVaga from  './components/Create/NewVaga.vue';
+import NewAgenda from  './components/Create/NewAgenda.vue';
 
 import Vagas from  './components/Lists/Vagas.vue';
 import FisicaData from  './components/Lists/FisicaData.vue';
@@ -48,6 +49,7 @@ const routes = [
     {path: '/new-juridica', component: NewJuridica},
     {path: '/new-fisica', component: NewFisica},
     {path: '/new-curriculo', name: 'new-curriculo', component: NewCurriculo},
+    {path: '/new-agenda', name: 'new-agenda', component: NewAgenda},
     {path: '/add-juridica', name: 'add-juridica', component: NewJuridicaData},
     {path: '/new-area', component: NewArea},
     {path: '/new-vaga', name: 'new-vaga', component: NewVaga},

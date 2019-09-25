@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Area;
 
-class AreaTableSeeder extends Seeder
+class AreasTableSeeder extends Seeder
 {
    
     public function run()

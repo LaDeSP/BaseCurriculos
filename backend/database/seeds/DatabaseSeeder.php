@@ -1,14 +1,15 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Instituicao;
 
 class DatabaseSeeder extends Seeder
 {
     
     public function run()
     {
-        $this->call(AreaTableSeeder::class);   
+        $this->call(AreasTableSeeder::class); 
+        $this->call(UsersTableSeeder::class); 
+        $this->call(VagasTableSeeder::class);    
         
     }
 }
