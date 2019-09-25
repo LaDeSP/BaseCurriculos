@@ -11,7 +11,7 @@ class Contato extends Model
     ];
     
     public function fisica(){
-        return $this->hasOne(Fisica::class);
+        return $this->belongsTo(Fisica::class);
     }
 
     public function juridica(){
