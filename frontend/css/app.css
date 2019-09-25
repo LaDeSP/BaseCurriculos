@@ -12047,15 +12047,19 @@ form.user .btn-user {
   animation: noise-anim-2 3s infinite linear alternate-reverse;
 }
 
-footer.sticky-footer {
-  padding: 2rem 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-}
+footer {
+    background-color: #5a5c69 !important;
+    color: white !important;
+    padding: 0 65px 0 0;
 
-footer.sticky-footer .copyright {
-  line-height: 1;
-  font-size: 0.8rem;
+}
+footer .copyright {
+    margin-bottom: 0;
+    text-align: center;
+    text-decoration: none;
+    float: none;
+    padding-bottom: 10px;
+    font: 18px arial, sans-serif;
 }
 
 body.sidebar-toggled footer.sticky-footer {

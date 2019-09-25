@@ -1,13 +1,11 @@
 <template>
     <!-- Footer -->
-<footer class="page-footer font-small blue">
-
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2018 Copyright:
-    <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
-  </div>
-  <!-- Copyright -->
-
+<footer>
+    <div class="row">
+      <div class="col-lg-6 col-md-9 mx-auto">
+        <p class="copyright"> &copy; Banco de Currículos 2019</p>
+      </div>
+    </div>
 </footer>
 <!-- Footer -->
 </template>
