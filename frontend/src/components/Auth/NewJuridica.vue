@@ -7,7 +7,7 @@
 
                 <div class="form-group">
                     <label for="cnpj">* CNPJ</label>
-                    <ValidationProvider name="cnpj" rules="required">
+                    <ValidationProvider name="cnpj" rules="required|numeric">
                         <div slot-scope="{ errors }">
                             <input type="text" class="form-control" name="cnpj" placeholder="Ex. 999.999.999-99" v-model="cnpj">
                             <p>{{ errors[0] }}</p>
@@ -50,7 +50,7 @@
 
                 <div class="form-group">
                     <label for="password">* Senha</label>
-                    <ValidationProvider name="password" rules="required">
+                    <ValidationProvider name="password" rules="required|min:8">
                         <div slot-scope="{ errors }">
                             <input type="password" id="password" name="password"
                             class="form-control" v-model="password">
