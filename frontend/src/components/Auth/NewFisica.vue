@@ -6,7 +6,7 @@
         <form>
             <h1>Cadastro de Pessoa Física</h1>
             <div class="form-group">
-                <label for="name">Nome Completo</label>
+                <label for="name">* Nome Completo</label>
                 <ValidationProvider name="name" rules="required">
                     <div slot-scope="{ errors }">
                         <input type="text" id="name" name="name"
@@ -17,7 +17,7 @@
             </div>
 
             <div class="form-group">
-                <label for="cpf">CPF</label>
+                <label for="cpf">* CPF</label>
                 <ValidationProvider name="cpf" rules="required">
                     <div slot-scope="{ errors }">
                         <input type="text" class="form-control" name="cpf" placeholder="Ex. 999.999.999-99" v-model="cpf">
@@ -27,7 +27,7 @@
             </div>
 
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email">* Email</label>
                 <ValidationProvider name="email" rules="required|email">
                     <div slot-scope="{ errors }">
                         <input type="email" id="email" name="email"
@@ -38,7 +38,7 @@
             </div>
 
             <div class="form-group">
-                <label for="password">Senha</label>
+                <label for="password">* Senha</label>
                 <ValidationProvider name="password" rules="required">
                     <div slot-scope="{ errors }">
                         <input type="password" id="password" name="password"
