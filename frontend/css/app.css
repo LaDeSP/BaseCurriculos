@@ -49,7 +49,7 @@
 }
 
 html {
-  font-family: Raleway;
+  font-family: sans serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -12501,7 +12501,7 @@ p{
 }
 
 html {
-  font-family: Raleway;
+  font-family: sans serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -25036,7 +25036,7 @@ header.masthead .intro-text .intro-lead-in {
 }
 
 header.masthead .intro-text .intro-heading {
-  font-size: 50px;
+  font-size: 40px;
   font-weight: 700;
   line-height: 50px;
   margin-bottom: 25px;
@@ -25056,7 +25056,7 @@ header.masthead .intro-text .intro-heading {
     font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   }
   header.masthead .intro-text .intro-heading {
-    font-size: 75px;
+    font-size: 68px;
     font-weight: 700;
     line-height: 75px;
     margin-bottom: 50px;
