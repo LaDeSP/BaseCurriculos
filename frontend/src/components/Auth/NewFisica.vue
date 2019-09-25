@@ -23,7 +23,7 @@
 
             <div class="form-group">
                 <label for="cpf">* CPF</label>
-                <ValidationProvider name="cpf" rules="required|min:11|max:11|numeric">
+                <ValidationProvider name="cpf" rules="required|numeric|digits:11">
                     <div slot-scope="{ errors }">
                         <input type="text" class="form-control" name="cpf" placeholder="Ex. 999.999.999-99" v-model="cpf">
                         <p>{{ errors[0] }}</p>
