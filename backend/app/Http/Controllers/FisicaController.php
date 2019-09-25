@@ -28,8 +28,19 @@ class FisicaController extends Controller
         if(!$request->email){
             $error[] = 'Insira o email!';
         }
-        else if(!filter_var($request->email, FILTER_VALIDATE_EMAIL)){
-            $error[] = 'Insira email válido!';
+        else{
+            $buscaEmail = User::where('email', $request->email)->first();
+            if($buscaEmail){
+                $error[] = 'Email inserido já foi cadastrado.';
+            }
+            else {
+                if(!filter_var($request->email, FILTER_VALIDATE_EMAIL)){
+                    $error[] = 'Insira email válido!';
+                }
+            }
+        }
+        if(!$request->password){
+            $error[] = 'Insira uma senha!';
         }
         
         if(isset($error)){
