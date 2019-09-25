@@ -11,7 +11,7 @@
                 </span>
             </div>
             <div class="form-group">
-                <label for="name">Nome Completo</label>
+                <label for="name">* Nome Completo</label>
                 <ValidationProvider name="name" rules="required">
                     <div slot-scope="{ errors }">
                         <input type="text" name="name"
@@ -22,8 +22,8 @@
             </div>
 
             <div class="form-group">
-                <label for="cpf">CPF</label>
-                <ValidationProvider name="cpf" rules="required">
+                <label for="cpf">* CPF</label>
+                <ValidationProvider name="cpf" rules="required|numeric|digits:11">
                     <div slot-scope="{ errors }">
                         <input type="text" class="form-control" name="cpf" v-model="cpf">
                         <p>{{ errors[0] }}</p>
@@ -32,7 +32,7 @@
             </div>
 
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email">* Email</label>
                 <ValidationProvider name="email" rules="required|email">
                     <div slot-scope="{ errors }">
                         <input type="email" name="email"
@@ -43,8 +43,8 @@
             </div>
 
             <div class="form-group">
-                <label for="password">Senha</label>
-                <ValidationProvider name="password" rules="required">
+                <label for="password">* Senha</label>
+                <ValidationProvider name="password" rules="required|min:8">
                     <div slot-scope="{ errors }">
                         <input type="password" id="password" name="password"
                         class="form-control" v-model="password">
