@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-group">
                     <label for="quantidade">Quantidade</label>
-                    <ValidationProvider name="quantidade" rules="required">
+                    <ValidationProvider name="quantidade" rules="required|numeric">
                         <div slot-scope="{ errors }">
                             <input type="number" class="form-control" name="quantidade" v-model="quantidade">
                             <p>{{ errors[0] }}</p>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-group">
                     <label for="salario">Salário</label>
-                    <ValidationProvider name="salario" rules="required">
+                    <ValidationProvider name="salario" rules="required|numeric">
                         <div slot-scope="{ errors }">
                             <input type="salario" id="salario" name="salario" 
                             class="form-control" v-model="salario">

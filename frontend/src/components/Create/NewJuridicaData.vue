@@ -278,7 +278,7 @@
                             <label for="telefone">Telefone</label>
                             <div class="form-row">
                                 <div class="col-6">
-                                    <ValidationProvider name="fixo" rules="required">
+                                    <ValidationProvider name="fixo" rules="required:numeric|min:8|max:8">
                                         <div slot-scope="{ errors }">                                 
                                             <input type="text" class="form-control" name="fixo" placeholder="Fixo" v-model="fixo">
                                             <p>{{ errors[0] }}</p>
@@ -286,7 +286,7 @@
                                     </ValidationProvider>  
                                 </div>
                                 <div class="col">
-                                    <ValidationProvider name="celular" rules="required">
+                                    <ValidationProvider name="celular" rules="required|numeric|min:11|max:11">
                                         <div slot-scope="{ errors }">        
                                             <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular"> 
                                             <p>{{ errors[0] }}</p>
@@ -323,7 +323,7 @@
                                         </ValidationProvider>   
                                     </div>    
                                     <div class="col">
-                                        <ValidationProvider name="cep" rules="required">
+                                        <ValidationProvider name="cep" rules="required|numeric|min:8|max:8">
                                             <div slot-scope="{ errors }">
                                                 <input type="text" class="form-control" name="cep" placeholder="CEP" v-model="cep">
                                                 <p>{{ errors[0] }}</p>
