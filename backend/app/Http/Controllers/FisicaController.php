@@ -21,11 +21,26 @@ class FisicaController extends Controller
         if(!$request->name){
             $error[] = 'Insira o nome!';
         }
-        if(!$request->cpf){
-            $error[] = 'Insira o cpf!';
+        $validaCPF = FisicaController::validaCPF($request->cpf);
+        if($validaCPF!="true"){
+            $error[] = $validaCPF;
         }
         if(!$request->email){
             $error[] = 'Insira o email!';
+        }
+        else{
+            $buscaEmail = User::where('email', $request->email)->first();
+            if($buscaEmail){
+                $error[] = 'Email inserido já foi cadastrado.';
+            }
+            else {
+                if(!filter_var($request->email, FILTER_VALIDATE_EMAIL)){
+                    $error[] = 'Insira email válido!';
+                }
+            }
+        }
+        if(!$request->password){
+            $error[] = 'Insira uma senha!';
         }
         
         if(isset($error)){
@@ -89,6 +104,58 @@ class FisicaController extends Controller
         return Response::json([
             'msg' => 'deletado ok'
          ], 201);
+    }
+
+    function validaCPF($cpf) {
+
+        // Verifica se um número foi informado
+        if(empty($cpf)) {
+            return "Insira um CPF";
+        }
+    
+        // Elimina possivel mascara
+        $cpf = preg_replace("/[^0-9]/", "", $cpf);
+        $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
+
+        $buscaCPF = Fisica::where('cpf', $cpf)->first();
+        if($buscaCPF){
+            return "CPF inserido já foi cadastrado.";
+        }
+        
+        // Verifica se o numero de digitos informados é igual a 11 
+        if (strlen($cpf) != 11) {
+            return "CPF Inválido";
+        }
+        // Verifica se nenhuma das sequências invalidas abaixo 
+        // foi digitada. Caso afirmativo, retorna falso
+        else if ($cpf == '00000000000' || 
+            $cpf == '11111111111' || 
+            $cpf == '22222222222' || 
+            $cpf == '33333333333' || 
+            $cpf == '44444444444' || 
+            $cpf == '55555555555' || 
+            $cpf == '66666666666' || 
+            $cpf == '77777777777' || 
+            $cpf == '88888888888' || 
+            $cpf == '99999999999') {
+            return "CPF Inválido";
+         // Calcula os digitos verificadores para verificar se o
+         // CPF é válido
+         } else {   
+            
+            for ($t = 9; $t < 11; $t++) {
+                
+                for ($d = 0, $c = 0; $c < $t; $c++) {
+                    $d += $cpf{$c} * (($t + 1) - $c);
+                }
+                $d = ((10 * $d) % 11) % 10;
+                if ($cpf{$c} != $d) {
+                    return "CPF Inválido";
+                }
+            }
+    
+            return "true";
+        }
     }
     
 }

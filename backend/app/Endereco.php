@@ -12,10 +12,10 @@ class Endereco extends Model
     ];
     
     public function fisica(){
-        return $this->hasOne(Fisica::class);
+        return $this->belongsTo(Fisica::class);
     }
 
     public function juridica(){
-        return $this->hasOne(Juridica::class);
+        return $this->belongsTo(Juridica::class);
     }
 }

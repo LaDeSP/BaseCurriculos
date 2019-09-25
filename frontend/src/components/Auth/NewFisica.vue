@@ -5,6 +5,11 @@
 
         <form>
             <h1>Cadastro de Pessoa Física</h1>
+            <div v-if="notificacoes">
+                <span v-for="notificacao in notificacoes" :key="notificacao" class="badge badge-danger badge-pill">
+                    {{notificacao}}
+                </span>
+            </div>
             <div class="form-group">
                 <label for="name">* Nome Completo</label>
                 <ValidationProvider name="name" rules="required">
@@ -71,6 +76,8 @@
                 password: '',
                 cpf: '',
                 role: 'FISICA',
+                notificacoes: [],
+
 
             }
         },
@@ -91,6 +98,10 @@
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
                         (response) => {
+                            if(response.data.error  != undefined){
+                                this.notificacoes = response.data.error;
+                                return;
+                            }   
                             this.$session.start(),
                             this.$session.set('jwt', response.data.token),
                             this.$session.set('name', response.data.name),

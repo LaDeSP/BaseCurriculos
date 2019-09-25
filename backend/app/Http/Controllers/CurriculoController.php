@@ -60,6 +60,12 @@ class CurriculoController extends Controller
         if(!$request->estadoCivil){
             $error[] = 'Insira seu estado civil!';
         }
+        if(CurriculoController::celular($request->fixo)==false){
+            $error[] = 'Digite número fixo válido!';
+        }
+        if(CurriculoController::celular($request->celular)==false){
+            $error[] = 'Digite celular válido!';
+        }
         if(isset($error)){
             return Response::json([
             'error' => $error
@@ -191,6 +197,23 @@ class CurriculoController extends Controller
            ], 201);
       
       
+    }
+    function celular($telefone){
+        $telefone= trim(str_replace('/', '', str_replace(' ', '', str_replace('-', '', str_replace(')', '', str_replace('(', '', $telefone))))));
+        $tam=strlen($telefone);
+        if($tam==10){
+            $regexTelefone = "^[0-9]{10}$^";
+        }
+        else { //quando for 11. se for diferente de 10 e 11 vai dar false ali embaixo 
+            $regexTelefone = "^[0-9]{11}$^";
+        }
+    
+        //$regexCel = '/[0-9]{2}[6789][0-9]{3,4}[0-9]{4}/'; // Regex para validar somente celular
+        if (preg_match($regexTelefone, $telefone)) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
 

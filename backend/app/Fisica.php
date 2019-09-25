@@ -16,11 +16,11 @@ class Fisica extends Model
 	}
 
     public function contato(){
-    	return $this->belongsTo(Contato::class,  'contatos_id');
+    	return $this->hasOne(Contato::class,  'id', 'contatos_id');
 	}
 	
     public function endereco(){
-    	return $this->belongsTo(Endereco::class, 'enderecos_id');
+    	return $this->hasOne(Endereco::class, 'id', 'enderecos_id');
 	}
 
 	public function curriculo(){
