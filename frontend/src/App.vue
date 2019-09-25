@@ -1,9 +1,9 @@
 <template>
 
     <div>
-      <!-- <div v-if="!$route.meta.isHome">
+       <div v-if="!$route.meta.isHome">
         <NavBar></NavBar>
-      </div> -->
+      </div> 
       <router-view></router-view>
     </div>
 

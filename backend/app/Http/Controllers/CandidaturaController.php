@@ -17,19 +17,23 @@ class CandidaturaController extends Controller
     public function index(){
 
         $user_id = auth()->user()->id;
-        $jur_id = Juridica::where('user_id', $user_id)->first()->id;
-        $vaga_id = Vaga::where('juridicas_id', $jur_id)->first()->id;
-        $candidaturas =  Candidatura::with(['vaga', 'curriculo'])->where('vagas_id', $vaga_id)->get();
-        $curriculo_id = Candidatura::where('vagas_id', $vaga_id)->first()->curriculos_id; 
-       
-        $fisica_id = Curriculo::where('id', $curriculo_id)->first()->fisicas_id;
-        $fisicas = Fisica::with(['user'])->where('id', $fisica_id)->get();
-        
 
-        return Response::json([
-            'candidaturas' => $candidaturas,
-            'fisica'=> $fisicas
-        ]);
+        if(auth()->user()->role === 'JURIDICA'){
+            $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
+            $vaga_id = Vaga::where('juridicas_id', $juridica_id)->first()->id;
+            $candidaturasJuridica = Candidatura::with(['vaga', 'curriculo'])->where('vagas_id', $vaga_id)->get();
+            return Response::json([
+                'candidaturas' => $candidaturasJuridica
+            ]);
+        }else{
+            $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
+            $curriculo_id = Curriculo::where('fisicas_id', $fisica_id)->first()->id;
+            $candidaturasFisica = Candidatura::with(['vaga', 'curriculo'])
+                ->where('curriculos_id', $curriculo_id)->get();
+            return Response::json([
+                'candidaturasFisica'=>$candidaturasFisica
+            ]);
+        } 
 
     }
 
@@ -44,7 +48,8 @@ class CandidaturaController extends Controller
         if($quantCandidato < $quantVaga){
             Candidatura::create([
                 'vagas_id' => $vaga_id,
-                'curriculos_id' => $curriculos_id
+                'curriculos_id' => $curriculos_id,
+                'status'=>'AGUARDANDO'
             ]);
         }else{
             Vaga::where('id', $vaga_id)

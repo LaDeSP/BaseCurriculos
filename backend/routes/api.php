@@ -13,6 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 Auth::routes(); 
+Route::post('/login', [
+    'uses' => 'UserController@login'
+]);
+Route::post('/logout', [
+    'uses' => 'UserController@logout',
+    'middleware' => 'jwt.auth'
+]);
 
 Route::resource('/pfisicas', 'FisicaController');
 Route::resource('/pjuridicas', 'JuridicaController');
@@ -32,12 +39,6 @@ Route::get('/areas', 'AreaController@index', [
     'middleware' => 'jwt.auth'
 ]);
 Route::post('/areas', 'AreaController@store');
-Route::post('/login', [
-    'uses' => 'UserController@login'
-]);
-Route::post('/logout', [
-    'uses' => 'UserController@logout',
+Route::resource('/agenda', 'AgendaController', [
     'middleware' => 'jwt.auth'
 ]);
-/////////////////////////////////////////////////
-

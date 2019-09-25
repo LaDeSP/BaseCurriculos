@@ -9,7 +9,7 @@
                     <label for="cnpj">CNPJ</label>
                     <ValidationProvider name="cnpj" rules="required">
                         <div slot-scope="{ errors }">
-                            <input type="text" class="form-control" name="cnpj" placeholder="Ex. 999.999.999-99" v-model="cnpj">
+                            <input type="text" class="form-control" name="cnpj" v-model="cnpj">
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>
@@ -19,8 +19,8 @@
                     <label for="name">Nome</label>
                     <ValidationProvider name="name" rules="required">
                         <div slot-scope="{ errors }">
-                            <input type="text" id="name" name="name" 
-                            class="form-control" v-model="name" placeholder="Ex. nome.sobrenome">
+                            <input type="text" name="name" 
+                            class="form-control" v-model="name">
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>
@@ -30,7 +30,7 @@
                     <label for="ramo">Ramo</label>
                     <ValidationProvider name="ramo" rules="required">
                         <div slot-scope="{ errors }">
-                            <input type="ramo" id="ramo" name="ramo" 
+                            <input type="ramo" name="ramo" 
                             class="form-control" v-model="ramo">
                             <p>{{ errors[0] }}</p>
                         </div>
@@ -41,7 +41,7 @@
                     <label for="email">Email</label>
                     <ValidationProvider name="email" rules="required|email">
                         <div slot-scope="{ errors }">
-                            <input type="email" id="email" name="email" 
+                            <input type="email" name="email" 
                             class="form-control" v-model="email">
                             <p>{{ errors[0] }}</p>
                         </div>
@@ -52,7 +52,7 @@
                     <label for="password">Senha</label>
                     <ValidationProvider name="password" rules="required">
                         <div slot-scope="{ errors }">
-                            <input type="password" id="password" name="password" 
+                            <input type="password" name="password" 
                             class="form-control" v-model="password">
                              <p>{{ errors[0] }}</p>
                         </div>

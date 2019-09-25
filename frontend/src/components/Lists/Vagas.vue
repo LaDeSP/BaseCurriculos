@@ -20,7 +20,7 @@
                     <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
                     <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Deletar</button>  
                 </div>
-               
+               <hr>
         </div>
     </div>
 </template>

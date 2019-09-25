@@ -60,12 +60,12 @@ class CurriculoController extends Controller
         if(!$request->estadoCivil){
             $error[] = 'Insira seu estado civil!';
         }
-        if(CurriculoController::celular($request->fixo)==false){
+        /*if(CurriculoController::celular($request->fixo)==false){
             $error[] = 'Digite número fixo válido!';
         }
         if(CurriculoController::celular($request->celular)==false){
             $error[] = 'Digite celular válido!';
-        }
+        } */
         if(isset($error)){
             return Response::json([
             'error' => $error
@@ -198,6 +198,7 @@ class CurriculoController extends Controller
       
       
     }
+
     function celular($telefone){
         $telefone= trim(str_replace('/', '', str_replace(' ', '', str_replace('-', '', str_replace(')', '', str_replace('(', '', $telefone))))));
         $tam=strlen($telefone);

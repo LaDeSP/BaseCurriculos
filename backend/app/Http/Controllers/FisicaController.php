@@ -21,10 +21,10 @@ class FisicaController extends Controller
         if(!$request->name){
             $error[] = 'Insira o nome!';
         }
-        $validaCPF = FisicaController::validaCPF($request->cpf);
+      /*  $validaCPF = FisicaController::validaCPF($request->cpf);
         if($validaCPF!="true"){
             $error[] = $validaCPF;
-        }
+        } */
         if(!$request->email){
             $error[] = 'Insira o email!';
         }
