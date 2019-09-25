@@ -1,13 +1,7 @@
 <template>
 
     <div>
-      <div v-if="type === '$route.meta.isHome'">
-        <NavBar></NavBar>
-      </div>
-      <div v-else-if="type === '$route.meta.isSobre'">
-
-      </div>
-      <div v-else>
+      <div v-if="!$route.meta.isHome & !$route.meta.isSobre">
         <NavBar></NavBar>
       </div>
       <router-view></router-view>
