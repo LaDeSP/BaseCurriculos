@@ -5,6 +5,9 @@
         <NavBar></NavBar>
       </div>
       <div v-else-if="type === '$route.meta.isSobre'">
+
+      </div>
+      <div v-else>
         <NavBar></NavBar>
       </div>
       <router-view></router-view>
