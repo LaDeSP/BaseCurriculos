@@ -9,7 +9,7 @@
                     <label for="cnpj">* CNPJ</label>
                     <ValidationProvider name="cnpj" rules="required|numeric|digits:14">
                         <div slot-scope="{ errors }">
-                            <input type="text" class="form-control" name="cnpj" v-model="cnpj">
+                            <input type="text" class="form-control" name="cnpj" v-model="cnpj" maxlength="14" minlength="14">
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>
@@ -53,7 +53,7 @@
                     <ValidationProvider name="password" rules="required|min:8">
                         <div slot-scope="{ errors }">
                             <input type="password" name="password" 
-                            class="form-control" v-model="password">
+                            class="form-control" v-model="password" minlength="8">
                              <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>

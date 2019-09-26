@@ -29,7 +29,7 @@
                     <label for="quantidade">Quantidade</label>
                     <ValidationProvider name="quantidade" rules="required|numeric">
                         <div slot-scope="{ errors }">
-                            <input type="number" class="form-control" name="quantidade" v-model="quantidade">
+                            <input type="number" class="form-control" name="quantidade" v-model="quantidade" min="0">
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>   
@@ -47,8 +47,8 @@
                     <label for="salario">Salário</label>
                     <ValidationProvider name="salario" rules="required|numeric">
                         <div slot-scope="{ errors }">
-                            <input type="salario" id="salario" name="salario" 
-                            class="form-control" v-model="salario">
+                            <input type="number" id="salario" name="salario" 
+                            class="form-control" v-model="salario" step="any" min="0">
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>   
