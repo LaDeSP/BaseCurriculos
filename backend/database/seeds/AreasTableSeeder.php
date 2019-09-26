@@ -5,7 +5,6 @@ use App\Area;
 
 class AreasTableSeeder extends Seeder
 {
-   
     public function run()
     {
         Area::create(['tipo'=> 'Administração Comercial/Vendas']);

@@ -3,7 +3,7 @@
     <div class="col-sm-6">
         <ValidationObserver v-slot="{ invalid }">
 
-        <form>
+        <form>z
             <h1>Cadastro de Pessoa Física</h1>
             <div v-if="notificacoes">
                 <span v-for="notificacao in notificacoes" :key="notificacao" class="badge badge-danger badge-pill">
@@ -25,7 +25,7 @@
                 <label for="cpf">* CPF</label>
                 <ValidationProvider name="cpf" rules="required|numeric|digits:11">
                     <div slot-scope="{ errors }">
-                        <input type="text" class="form-control" name="cpf" v-model="cpf">
+                        <input type="text" class="form-control" name="cpf" v-model="cpf" maxlength="11" minlength="11">
                         <p>{{ errors[0] }}</p>
                     </div>
                 </ValidationProvider>
@@ -47,7 +47,7 @@
                 <ValidationProvider name="password" rules="required|min:8">
                     <div slot-scope="{ errors }">
                         <input type="password" id="password" name="password"
-                        class="form-control" v-model="password">
+                        class="form-control" v-model="password" minlength="8">
                         <p>{{ errors[0] }}</p>
                     </div>
                 </ValidationProvider>

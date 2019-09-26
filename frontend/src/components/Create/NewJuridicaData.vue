@@ -280,7 +280,7 @@
                                 <div class="col-6">
                                     <ValidationProvider name="fixo" rules="required|numeric|digits:10">
                                         <div slot-scope="{ errors }">                                 
-                                            <input type="text" class="form-control" name="fixo" placeholder="Fixo" v-model="fixo">
+                                            <input type="text" class="form-control" name="fixo" placeholder="Fixo" v-model="fixo" minlength="10" maxlength="10">
                                             <p>{{ errors[0] }}</p>
                                         </div>
                                     </ValidationProvider>  
@@ -288,7 +288,7 @@
                                 <div class="col">
                                     <ValidationProvider name="celular" rules="required|numeric|digits:11">
                                         <div slot-scope="{ errors }">        
-                                            <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular"> 
+                                            <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular" minlength="11" maxlength="11"> 
                                             <p>{{ errors[0] }}</p>
                                         </div>
                                     </ValidationProvider> 
@@ -325,7 +325,7 @@
                                     <div class="col">
                                         <ValidationProvider name="cep" rules="required|numeric|digits:8">
                                             <div slot-scope="{ errors }">
-                                                <input type="text" class="form-control" name="cep" placeholder="CEP" v-model="cep">
+                                                <input type="text" class="form-control" name="cep" placeholder="CEP" v-model="cep" minlength="8" maxlength="8">
                                                 <p>{{ errors[0] }}</p>
                                             </div>
                                         </ValidationProvider>   
