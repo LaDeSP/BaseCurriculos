@@ -11,6 +11,9 @@
                 <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Deletar</button>
             </div>
             <div v-else>
+                <div v-if="agendamento">
+                  
+                </div>
                 <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Desistir</button>
             </div>
             <hr>
@@ -21,6 +24,8 @@
 
 <script>
    
+    import NewAgenda from '../Create/NewAgenda';
+
     export default {
         data(){
             return{
@@ -28,9 +33,11 @@
                 candidaturas: [],
                 uri: 'http://localhost:8000/api/candidaturas',
                 token: this.$session.get('jwt'),
-                isFIS: false
+                isFIS: false,
+                agendamento: false
             }
         },
+        components: {NewAgenda},
         methods: {
             
             loadCandidaturas(){
@@ -42,9 +49,12 @@
                             this.candidaturas = response.data.candidaturas;
                         }else{
                             this.candidaturas = response.data.candidaturasFisica;
+                            if(response.data.candidaturasFisica[0].status === 'EM AGENDAMENTO'){
+                                this.agendamento = true;
+                            }
                         }
                        
-                        console.log(response)
+                        console.log(this.agendamento);
                     })
                     .catch(
                         error => console.log(error)

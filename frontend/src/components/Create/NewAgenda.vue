@@ -78,11 +78,7 @@
                     );
             },
           
-        },
-        mounted(){
-            console.log(this.$route.params.candidaturaId);
-        }
-     
+        }     
         
     }
 </script>
