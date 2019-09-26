@@ -399,13 +399,9 @@
                             <label for="pretensao">Pretensão Salarial</label>
                             <ValidationProvider name="pretensao" rules="required|numeric">
                                 <div slot-scope="{ errors }">
-<<<<<<< HEAD
                                     <input type="pretensao" id="pretensao" name="pretensao"
                                     class="form-control" v-model="pretensao">
-=======
-                                    <input type="number" id="pretensao" name="pretensao" 
-                                    class="form-control" v-model="pretensao" step="any">
->>>>>>> a4f167770b7e6897fabd6533f7d731a37b7f3cba
+
                                     <p>{{ errors[0] }}</p>
                                 </div>
                             </ValidationProvider>
