@@ -400,7 +400,7 @@
                             <ValidationProvider name="pretensao" rules="required|numeric">
                                 <div slot-scope="{ errors }">
                                     <input type="number" id="pretensao" name="pretensao" 
-                                    class="form-control" v-model="pretensao" step="any" min="0">
+                                    class="form-control" v-model="pretensao" step="any">
                                     <p>{{ errors[0] }}</p>
                                 </div>
                             </ValidationProvider>   
