@@ -8,21 +8,21 @@
                 <div class="form-row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="razao">Razão Social</label>
-                            <ValidationProvider name="razao" rules="required">
+                            <label for="razao">* Razão Social</label>
+                            <ValidationProvider name="razao" rules="required|max:50">
                                 <div slot-scope="{ errors }">
                                     <input type="razao" id="razao" name="razao" 
-                                    class="form-control" v-model="razao">
+                                    class="form-control" v-model="razao" maxlength="50">
                                     <p>{{ errors[0] }}</p>
                                 </div>
                             </ValidationProvider>   
                         </div>
 
                         <div class="form-group">
-                            <label for="missao">Missão</label>
-                            <ValidationProvider name="missao" rules="required">
+                            <label for="missao">* Missão</label>
+                            <ValidationProvider name="missao" rules="required|max:500">
                                 <div slot-scope="{ errors }">
-                                    <textarea id="missao" class="md-textarea form-control" rows="5" name="missao" v-model="missao"></textarea>
+                                    <textarea id="missao" class="md-textarea form-control" rows="5" name="missao" v-model="missao" maxlength="500"></textarea>
                                     <p>{{ errors[0] }}</p>
                                 </div>
                             </ValidationProvider>   
@@ -31,28 +31,53 @@
                     <hr><hr>
                         <div class="form-group">
                             <label for="linkedin">Linkedin</label>
-                            <input type="linkedin" id="linkedin" name="linkedin" 
-                            class="form-control" v-model="linkedin">
+                            <ValidationProvider name="linkedin" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="linkedin" id="linkedin" name="linkedin"
+                                    class="form-control" v-model="linkedin" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
-                    <div class="form-group">
+                        <div class="form-group">
                             <label for="facebook">Facebook</label>
-                            <input type="facebook" id="facebook" name="facebook" 
-                            class="form-control" v-model="facebook">
+                            <ValidationProvider name="facebook" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="facebook" id="facebook" name="facebook"
+                                    class="form-control" v-model="facebook" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
                         <div class="form-group">
                             <label for="twitter">Twitter</label>
-                            <input type="twitter" id="twitter" name="twitter" 
-                            class="form-control" v-model="twitter">
+                            <ValidationProvider name="twitter" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="twitter" id="twitter" name="twitter"
+                                    class="form-control" v-model="twitter" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
                         <div class="form-group">
                             <label for="site">Site</label>
-                            <input type="site" id="facebook" name="site" 
-                            class="form-control" v-model="site">
+                            <ValidationProvider name="site" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="site" id="facebook" name="site"
+                                    class="form-control" v-model="site" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
                         <div class="form-group">
                             <label for="outraRede">Outra Rede Social</label>
-                            <input type="outraRede" id="outraRede" name="outraRede" 
-                            class="form-control" v-model="outraRede">
+                            <ValidationProvider name="outraRede" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="outraRede" id="outraRede" name="outraRede"
+                                    class="form-control" v-model="outraRede" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
     
                     </div>    
@@ -275,7 +300,7 @@
                         </div>
 
                         <div class="form-group"> 
-                            <label for="telefone">Telefone</label>
+                            <label for="telefone">* Telefone</label>
                             <div class="form-row">
                                 <div class="col-6">
                                     <ValidationProvider name="fixo" rules="required|numeric|digits:10">
@@ -296,39 +321,39 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="endereco">Endereço</label>
+                            <label for="endereco">* Endereço</label>
                                 <div class="form-row">
                                     <div class="col-3">
-                                        <ValidationProvider name="rua" rules="required">
+                                        <ValidationProvider name="rua" rules="required|max:50">
                                             <div slot-scope="{ errors }">
-                                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua">
+                                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" maxlength="50">
                                                 <p>{{ errors[0] }}</p>
                                             </div>
-                                        </ValidationProvider>   
+                                        </ValidationProvider>
                                     </div>
                                     <div class="col-3">
-                                        <ValidationProvider name="bairro" rules="required">
+                                        <ValidationProvider name="bairro" rules="required|max:50">
                                             <div slot-scope="{ errors }">
-                                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro">
+                                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" maxlength="50">
                                                 <p>{{ errors[0] }}</p>
                                             </div>
-                                        </ValidationProvider>   
-                                    </div>    
+                                        </ValidationProvider>
+                                    </div>
                                     <div class="col-3">
-                                        <ValidationProvider name="cidade" rules="required">
+                                        <ValidationProvider name="cidade" rules="required|max:50">
                                             <div slot-scope="{ errors }">
-                                                <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade">
+                                                <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade" maxlength="50">
                                                 <p>{{ errors[0] }}</p>
                                             </div>
-                                        </ValidationProvider>   
-                                    </div>    
+                                        </ValidationProvider>
+                                    </div>
                                     <div class="col">
                                         <ValidationProvider name="cep" rules="required|numeric|digits:8">
                                             <div slot-scope="{ errors }">
                                                 <input type="text" class="form-control" name="cep" placeholder="CEP" v-model="cep" minlength="8" maxlength="8">
                                                 <p>{{ errors[0] }}</p>
                                             </div>
-                                        </ValidationProvider>   
+                                        </ValidationProvider>
                                     </div>
                                 </div>
                         </div>

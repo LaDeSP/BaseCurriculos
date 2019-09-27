@@ -12,10 +12,10 @@
             </div>
             <div class="form-group">
                 <label for="name">* Nome Completo</label>
-                <ValidationProvider name="name" rules="required">
+                <ValidationProvider name="name" rules="required|max:50">
                     <div slot-scope="{ errors }">
                         <input type="text" name="name"
-                        class="form-control" v-model="name">
+                        class="form-control" v-model="name" maxlength="50">
                         <p>{{ errors[0] }}</p>
                     </div>
                 </ValidationProvider>
@@ -33,10 +33,10 @@
 
             <div class="form-group">
                 <label for="email">* Email</label>
-                <ValidationProvider name="email" rules="required|email">
+                <ValidationProvider name="email" rules="required|email|max:50">
                     <div slot-scope="{ errors }">
                         <input type="email" name="email"
-                        class="form-control" v-model="email">
+                        class="form-control" v-model="email" maxlength="50">
                         <p>{{ errors[0] }}</p>
                     </div>
                 </ValidationProvider>
@@ -44,10 +44,10 @@
 
             <div class="form-group">
                 <label for="password">* Senha</label>
-                <ValidationProvider name="password" rules="required|min:8">
+                <ValidationProvider name="password" rules="required|min:8|max:30">
                     <div slot-scope="{ errors }">
                         <input type="password" id="password" name="password"
-                        class="form-control" v-model="password" minlength="8">
+                        class="form-control" v-model="password" maxlength="30" minlength="8">
                         <p>{{ errors[0] }}</p>
                     </div>
                 </ValidationProvider>

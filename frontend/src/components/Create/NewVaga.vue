@@ -8,26 +8,26 @@
 
                 <div class="form-group">
                     <label for="titulo">Título</label>
-                    <ValidationProvider name="titulo" rules="required">
+                    <ValidationProvider name="titulo" rules="required|max:50">
                         <div slot-scope="{ errors }">
                             <input type="titulo" name="titulo" 
-                            class="form-control" v-model="titulo">
+                            class="form-control" v-model="titulo" maxlength="50">
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>   
                 </div>
                 <div class="form-group">
                     <label for="local">Local</label>
-                    <ValidationProvider name="local" rules="required">
+                    <ValidationProvider name="local" rules="required|max:50">
                         <div slot-scope="{ errors }">
-                            <input type="text" class="form-control" name="local" v-model="local">
+                            <input type="text" class="form-control" name="local" v-model="local" maxlength="50">
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>   
                 </div>
                 <div class="form-group">
                     <label for="quantidade">Quantidade</label>
-                    <ValidationProvider name="quantidade" rules="required|numeric">
+                    <ValidationProvider name="quantidade" rules="required|numeric|min_value:1|integer">
                         <div slot-scope="{ errors }">
                             <input type="number" class="form-control" name="quantidade" v-model="quantidade">
                             <p>{{ errors[0] }}</p>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-group">
                     <label for="salario">Salário</label>
-                    <ValidationProvider name="salario" rules="required|numeric">
+                    <ValidationProvider name="salario" rules="required|numeric|min_value:1">
                         <div slot-scope="{ errors }">
                             <input type="number"  name="salario" 
                             class="form-control" v-model="salario" step="any">
@@ -55,28 +55,28 @@
                 </div>
                 <div class="form-group">
                     <label for="jornada">Jornada de Trabalho</label>
-                    <ValidationProvider name="jornada" rules="required">
+                    <ValidationProvider name="jornada" rules="required|max:50">
                         <div slot-scope="{ errors }">
                             <input type="jornada" name="jornada" 
-                            class="form-control" v-model="jornada">
+                            class="form-control" v-model="jornada" maxlength="50">
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>   
                 </div>
                 <div class="form-group">
                     <label for="beneficios">Benefícios</label>
-                    <ValidationProvider name="beneficios" rules="required">
+                    <ValidationProvider name="beneficios" rules="required|max:500">
                         <div slot-scope="{ errors }">
-                            <textarea class="form-control" rows="3" v-model="beneficios"></textarea>
+                            <textarea class="form-control" rows="3" v-model="beneficios" maxlength="500"></textarea>
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>   
                 </div>
                 <div class="form-group">
                     <label for="requisitos">Requisitos</label>
-                    <ValidationProvider name="beneficios" rules="required">
+                    <ValidationProvider name="requisitos" rules="required|max:500">
                         <div slot-scope="{ errors }">
-                            <textarea class="form-control"  rows="3" v-model="requisitos"></textarea>
+                            <textarea class="form-control"  rows="3" v-model="requisitos" maxlength="500"></textarea>
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>   

@@ -14,10 +14,10 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label for="nome">* Nome Completo</label>
-                            <ValidationProvider name="nome" rules="required">
+                            <ValidationProvider name="nome" rules="required|max:50">
                                 <div slot-scope="{ errors }">
                                     <input type="nome" id="nome" name="nome"
-                                    class="form-control" v-model="nome">
+                                    class="form-control" v-model="nome" maxlength="50">
                                     <p>{{ errors[0] }}</p>
                                 </div>
                             </ValidationProvider>
@@ -69,35 +69,60 @@
                     <hr><hr>
                         <div class="form-group">
                             <label for="linkedin">Linkedin</label>
-                            <input type="linkedin" id="linkedin" name="linkedin"
-                            class="form-control" v-model="linkedin">
+                            <ValidationProvider name="linkedin" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="linkedin" id="linkedin" name="linkedin"
+                                    class="form-control" v-model="linkedin" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
-                    <div class="form-group">
+                        <div class="form-group">
                             <label for="facebook">Facebook</label>
-                            <input type="facebook" id="facebook" name="facebook"
-                            class="form-control" v-model="facebook">
+                            <ValidationProvider name="facebook" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="facebook" id="facebook" name="facebook"
+                                    class="form-control" v-model="facebook" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
                         <div class="form-group">
                             <label for="twitter">Twitter</label>
-                            <input type="twitter" id="twitter" name="twitter"
-                            class="form-control" v-model="twitter">
+                            <ValidationProvider name="twitter" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="twitter" id="twitter" name="twitter"
+                                    class="form-control" v-model="twitter" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
                         <div class="form-group">
                             <label for="site">Site</label>
-                            <input type="site" id="facebook" name="site"
-                            class="form-control" v-model="site">
+                            <ValidationProvider name="site" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="site" id="facebook" name="site"
+                                    class="form-control" v-model="site" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
                         <div class="form-group">
                             <label for="outraRede">Outra Rede Social</label>
-                            <input type="outraRede" id="outraRede" name="outraRede"
-                            class="form-control" v-model="outraRede">
+                            <ValidationProvider name="outraRede" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="outraRede" id="outraRede" name="outraRede"
+                                    class="form-control" v-model="outraRede" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
                         <div class="form-group">
                             <label for="emailAlt">Email</label>
-                            <ValidationProvider name="emailAlt" rules="required|email">
+                            <ValidationProvider name="emailAlt" rules="email|max:50">
                                 <div slot-scope="{ errors }">
                                     <input type="emailAlt" id="emailAlt" name="emailAlt"
-                                    class="form-control" v-model="emailAlt">
+                                    class="form-control" v-model="emailAlt" maxlength="50">
                                     <p>{{ errors[0] }}</p>
                                 </div>
                             </ValidationProvider>
@@ -346,25 +371,25 @@
                             <label for="endereco">* Endereço</label>
                                 <div class="form-row">
                                     <div class="col-3">
-                                        <ValidationProvider name="rua" rules="required">
+                                        <ValidationProvider name="rua" rules="required|max:50">
                                             <div slot-scope="{ errors }">
-                                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua">
+                                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" maxlength="50">
                                                 <p>{{ errors[0] }}</p>
                                             </div>
                                         </ValidationProvider>
                                     </div>
                                     <div class="col-3">
-                                        <ValidationProvider name="bairro" rules="required">
+                                        <ValidationProvider name="bairro" rules="required|max:50">
                                             <div slot-scope="{ errors }">
-                                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro">
+                                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" maxlength="50">
                                                 <p>{{ errors[0] }}</p>
                                             </div>
                                         </ValidationProvider>
                                     </div>
                                     <div class="col-3">
-                                        <ValidationProvider name="cidade" rules="required">
+                                        <ValidationProvider name="cidade" rules="required|max:50">
                                             <div slot-scope="{ errors }">
-                                                <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade">
+                                                <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade" maxlength="50">
                                                 <p>{{ errors[0] }}</p>
                                             </div>
                                         </ValidationProvider>
@@ -380,9 +405,14 @@
                                 </div>
                         </div>
                         <hr>
-                    <div class="form-group">
+                        <div class="form-group">
                             <label for="objetivos">* Objetivos Profissionais</label>
-                            <textarea id="objetivos" class="md-textarea form-control" rows="5" name="objetivos" v-model="objetivos"></textarea>
+                            <ValidationProvider name="objetivos" rules="required|max:500">
+                                <div slot-scope="{ errors }">
+                                    <textarea id="objetivos" class="md-textarea form-control" rows="5" name="objetivos" v-model="objetivos" maxlength="500"></textarea>
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
 
                         <div class="form-group">
@@ -396,11 +426,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="pretensao">Pretensão Salarial</label>
-                            <ValidationProvider name="pretensao" rules="required|numeric">
+                            <label for="pretensao">* Pretensão Salarial</label>
+                            <ValidationProvider name="pretensao" rules="required|numeric|min_value:1">
                                 <div slot-scope="{ errors }">
-                                    <input type="pretensao" id="pretensao" name="pretensao"
-                                    class="form-control" v-model="pretensao">
+                                    <input type="number" id="pretensao" name="pretensao"
+                                    class="form-control" v-model="pretensao" step="any">
 
                                     <p>{{ errors[0] }}</p>
                                 </div>
@@ -409,7 +439,7 @@
 
                         <div class="form-group">
                             <label for="pais">* Nível de Escolaridade</label>
-                                <select class="custom-select" name="pais" v-model="escolaridade">
+                                <select class="custom-select" name="escolaridade" v-model="escolaridade">
                                 <option selected>Selecione a opção</option>
                                     <option value="AC">Ensino Fundamental(Incompleto)</option>
                                     <option value="AL">Ensino Fundamental(Cursando)</option>
@@ -427,10 +457,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="qualificacoes">Qualificações</label>
-                            <ValidationProvider name="qualificacoes" rules="required">
+                            <label for="qualificacoes">* Qualificações</label>
+                            <ValidationProvider name="qualificacoes" rules="required|max:500">
                                 <div slot-scope="{ errors }">
-                                    <textarea id="qualificacoes" class="md-textarea form-control" rows="5" name="qualificacoes" v-model="qualificacoes"></textarea>
+                                    <textarea id="qualificacoes" class="md-textarea form-control" rows="5" name="qualificacoes" v-model="qualificacoes" maxlength="500"></textarea>
                                     <p>{{ errors[0] }}</p>
                                 </div>
                             </ValidationProvider>
@@ -438,9 +468,9 @@
 
                         <div class="form-group">
                             <label for="historicoProfissional">* Histórico Profissional</label>
-                            <ValidationProvider name="historicoProfissional" rules="required">
+                            <ValidationProvider name="historicoProfissional" rules="required|max:500">
                                 <div slot-scope="{ errors }">
-                                    <textarea id="historicoProfissional" class="md-textarea form-control" rows="5" name="historicoProfissional" v-model="historicoProfissional"></textarea>
+                                    <textarea id="historicoProfissional" class="md-textarea form-control" rows="5" name="historicoProfissional" v-model="historicoProfissional" maxlength="500"></textarea>
                                     <p>{{ errors[0] }}</p>
                                 </div>
                             </ValidationProvider>

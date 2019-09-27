@@ -9,7 +9,7 @@
                     <div class="col-6">
 
                         <div class="form-group"> 
-                            <label for="data">Dia</label>
+                            <label for="data">* Dia</label>
                             <ValidationProvider name="data" rules="required">
                                 <div slot-scope="{ errors }">
                                     <input type="date" class="form-control" name="data" v-model="data">
@@ -18,13 +18,23 @@
                             </ValidationProvider>
                         </div>
                         <div class="form-group">
-                            <label for="hora">Hora</label>
-                            <input type="time" name="hora" 
-                            class="form-control" v-model="hora">
+                            <label for="hora">* Hora</label>
+                            <ValidationProvider name="hora" rules="required">
+                                <div slot-scope="{ errors }">
+                                    <input type="time" name="hora" 
+                                    class="form-control" v-model="hora">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
                         <div class="form-group">
                             <label for="observacao">Observação:</label>
-                            <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao"></textarea>
+                            <ValidationProvider name="observacao" rules="max:500">
+                                <div slot-scope="{ errors }">
+                                    <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao" maxlength="500"></textarea>
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
                         <div v-if="editing === false">
                             <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
