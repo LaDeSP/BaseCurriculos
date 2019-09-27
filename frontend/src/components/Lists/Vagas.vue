@@ -18,6 +18,7 @@
                 </div>
                 <div v-else>
                     <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
+                    <button @click="teste(vaga.id)" class="btn btn-sm btn-outline-danger">Desativar</button>  
                     <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Deletar</button>  
                 </div>
                <hr>
@@ -37,7 +38,8 @@
                 uri: 'http://localhost:8000/api/vagas',
                 token: this.$session.get('jwt'),
                 auth_jur: 0,
-                isFIS: false
+                isFIS: false,
+                onDisable: false
             }
         },
         methods: {
@@ -78,6 +80,20 @@
                     );
                
             },
+            teste(id){
+
+                this.axios.post(this.uri + '?token=' + this.token, 
+                    {vaga_id: id},
+                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+                    .then(
+                        (response) => console.log(response),
+                    )
+                    .catch(
+                        (error) => console.log(error),
+                        
+                    );
+               
+            },
             onDelete(id){
 
                 this.$emit('vagaDeleted', id);
@@ -91,7 +107,6 @@
                     );
                
             },
-            
             onVagaDeleted(id){
                 const position = this.vagas.findIndex((element) => {
                     return element.id == id;

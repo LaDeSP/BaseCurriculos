@@ -10,6 +10,7 @@ use App\Fisica;
 use App\Juridica;
 use App\Curriculo;
 use App\Area;
+use App\Agenda;
 use App\Candidatura;
 
 class CandidaturaController extends Controller
@@ -31,10 +32,7 @@ class CandidaturaController extends Controller
             $candidatura_id = Candidatura::where('curriculos_id', $curriculo_id)->first()->id;
             $candidaturasFisica = Candidatura::with(['vaga', 'curriculo'])
                 ->where('curriculos_id', $curriculo_id)->get();
-            $agendamento = Agenda::where([
-                ['candidatura_id', $candidatura_id], 
-                ['status', '==', 'EM AGENDAMENTO']
-            ])->first()->id;
+            
             return Response::json([
                 'candidaturasFisica'=>$candidaturasFisica
             ]);

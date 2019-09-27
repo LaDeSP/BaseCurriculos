@@ -10,7 +10,7 @@
                     <label for="titulo">Título</label>
                     <ValidationProvider name="titulo" rules="required">
                         <div slot-scope="{ errors }">
-                            <input type="titulo" id="titulo" name="titulo" 
+                            <input type="titulo" name="titulo" 
                             class="form-control" v-model="titulo">
                             <p>{{ errors[0] }}</p>
                         </div>
@@ -29,7 +29,7 @@
                     <label for="quantidade">Quantidade</label>
                     <ValidationProvider name="quantidade" rules="required|numeric">
                         <div slot-scope="{ errors }">
-                            <input type="number" class="form-control" name="quantidade" v-model="quantidade" min="0">
+                            <input type="number" class="form-control" name="quantidade" v-model="quantidade">
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>   
@@ -47,8 +47,8 @@
                     <label for="salario">Salário</label>
                     <ValidationProvider name="salario" rules="required|numeric">
                         <div slot-scope="{ errors }">
-                            <input type="number" id="salario" name="salario" 
-                            class="form-control" v-model="salario" step="any" min="0">
+                            <input type="number"  name="salario" 
+                            class="form-control" v-model="salario" step="any">
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>   
@@ -57,7 +57,7 @@
                     <label for="jornada">Jornada de Trabalho</label>
                     <ValidationProvider name="jornada" rules="required">
                         <div slot-scope="{ errors }">
-                            <input type="jornada" id="jornada" name="jornada" 
+                            <input type="jornada" name="jornada" 
                             class="form-control" v-model="jornada">
                             <p>{{ errors[0] }}</p>
                         </div>
@@ -67,7 +67,7 @@
                     <label for="beneficios">Benefícios</label>
                     <ValidationProvider name="beneficios" rules="required">
                         <div slot-scope="{ errors }">
-                            <textarea class="form-control" id="beneficios" rows="3" v-model="beneficios"></textarea>
+                            <textarea class="form-control" rows="3" v-model="beneficios"></textarea>
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>   
@@ -76,7 +76,7 @@
                     <label for="requisitos">Requisitos</label>
                     <ValidationProvider name="beneficios" rules="required">
                         <div slot-scope="{ errors }">
-                            <textarea class="form-control" id="requisitos" rows="3" v-model="requisitos"></textarea>
+                            <textarea class="form-control"  rows="3" v-model="requisitos"></textarea>
                             <p>{{ errors[0] }}</p>
                         </div>
                     </ValidationProvider>   

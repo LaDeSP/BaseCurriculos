@@ -113,6 +113,14 @@ class VagaController extends Controller
       
     }
 
+    public function disable(Request $request){
+        Vaga::where('id', $request->vaga_id)->update([
+            'status'=>'INATIVA'
+        ]);
+    
+        return Response::json(['desativou', $request->vaga_id]);
+    }
+
     public function destroy($id)
     {
     

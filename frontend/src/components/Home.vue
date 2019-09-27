@@ -22,8 +22,8 @@
 
   import NavBarHome from './NavBarHome';
   import ModalMenu1 from './ModalMenu1';
-  import ModalLoginFi from './ModalLoginFi';
-  import ModalLoginJu from './ModalLoginJu';
+  import ModalLoginFi from './ModalLoginFisica';
+  import ModalLoginJu from './ModalLoginJuridica';
 
   export default {
     data(){

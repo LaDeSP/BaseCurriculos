@@ -54,7 +54,7 @@
                             }
                         }
                        
-                        console.log(this.agendamento);
+                        console.log(response.data);
                     })
                     .catch(
                         error => console.log(error)

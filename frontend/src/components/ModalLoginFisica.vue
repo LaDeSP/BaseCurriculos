@@ -55,7 +55,7 @@
 </template>
 
 <script>
-  import ModalCadasFi from './ModalCadasFi';
+  import ModalCadasFi from './ModalCadastroFisica.vue';
 
   export default {
     data(){
