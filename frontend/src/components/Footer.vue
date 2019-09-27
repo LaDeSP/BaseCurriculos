@@ -1,14 +1,13 @@
 <template>
-    <!-- Footer -->
-<footer>
-    <div class="row">
-      <div class="col-lg-6 col-md-9 mx-auto">
+  <footer>
+    <div class="container-fluid">
+      <row>
         <p class="copyright"> &copy; Banco de Currículos 2019</p>
-      </div>
+      </row>
     </div>
-</footer>
-<!-- Footer -->
+  </footer>
 </template>
+
 <script>
     module.exports = {
         data(){

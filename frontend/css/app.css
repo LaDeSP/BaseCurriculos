@@ -12050,15 +12050,10 @@ form.user .btn-user {
 footer {
     background-color: #5a5c69 !important;
     color: white !important;
-    padding: 0 65px 0 0;
-
 }
 footer .copyright {
-    margin-bottom: 0;
     text-align: center;
     text-decoration: none;
-    float: none;
-    padding-bottom: 10px;
     font: 18px arial, sans-serif;
 }
 
