@@ -11,11 +11,11 @@
                             <label for="razao">* Razão Social</label>
                             <ValidationProvider name="razao" rules="required|max:50">
                                 <div slot-scope="{ errors }">
-                                    <input type="razao" id="razao" name="razao" 
+                                    <input type="razao" id="razao" name="razao"
                                     class="form-control" v-model="razao" maxlength="50">
                                     <p>{{ errors[0] }}</p>
                                 </div>
-                            </ValidationProvider>   
+                            </ValidationProvider>
                         </div>
 
                         <div class="form-group">
@@ -25,7 +25,7 @@
                                     <textarea id="missao" class="md-textarea form-control" rows="5" name="missao" v-model="missao" maxlength="500"></textarea>
                                     <p>{{ errors[0] }}</p>
                                 </div>
-                            </ValidationProvider>   
+                            </ValidationProvider>
                         </div>
 
                     <hr><hr>
@@ -79,13 +79,13 @@
                                 </div>
                             </ValidationProvider>
                         </div>
-    
-                    </div>    
+
+                    </div>
                         <hr>
                     <div class="col">
-                        
+
                         <div class="form-group">
-                            <label for="pais">País</label>
+                            <label for="pais">* País</label>
                                 <select class="custom-select" name="pais" v-model="pais">
                                     <option value="" disabled selected>Selecione a opção</option>
                                     <option value="África do Sul" selected>Seleciona a opção</option>
@@ -263,10 +263,10 @@
                                     <option value="Zaire">Zaire</option>
                                     <option value="Zâmbia">Zâmbia</option>
                                     <option value="Zimbábue">Zimbábue</option>
-                                </select>    
+                                </select>
                         </div>
-                        <div class="form-group"> 
-                            <label for="estado">Estado</label>
+                        <div class="form-group">
+                            <label for="estado">* Estado</label>
                                     <select class="custom-select" name="estado" v-model="estado">
                                         <option selected>Selecione a opção</option>
                                         <option value="AC">Acre</option>
@@ -295,28 +295,28 @@
                                         <option value="SC">Santa Catarina</option>
                                         <option value="SP">São Paulo</option>
                                         <option value="SE">Sergipe</option>
-                                        <option value="TO">Tocantins</option> 
+                                        <option value="TO">Tocantins</option>
                                     </select>
                         </div>
 
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <label for="telefone">* Telefone</label>
                             <div class="form-row">
                                 <div class="col-6">
                                     <ValidationProvider name="fixo" rules="required|numeric|digits:10">
-                                        <div slot-scope="{ errors }">                                 
+                                        <div slot-scope="{ errors }">
                                             <input type="text" class="form-control" name="fixo" placeholder="Fixo" v-model="fixo" minlength="10" maxlength="10">
                                             <p>{{ errors[0] }}</p>
                                         </div>
-                                    </ValidationProvider>  
+                                    </ValidationProvider>
                                 </div>
                                 <div class="col">
                                     <ValidationProvider name="celular" rules="required|numeric|digits:11">
-                                        <div slot-scope="{ errors }">        
-                                            <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular" minlength="11" maxlength="11"> 
+                                        <div slot-scope="{ errors }">
+                                            <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular" minlength="11" maxlength="11">
                                             <p>{{ errors[0] }}</p>
                                         </div>
-                                    </ValidationProvider> 
+                                    </ValidationProvider>
                                 </div>
                             </div>
                         </div>
@@ -375,11 +375,11 @@
 <script>
 
     export default {
-    
+
         data(){
             return{
 
-            
+
                 razao: '',
                 missao: '',
                 rua: '',
@@ -399,18 +399,18 @@
                 uri: 'http://localhost:8000/api/pjuridicas',
                 token: this.$session.get('jwt'),
                 user_id: this.$session.get('user_id')
-          
-                
+
+
             }
         },
         methods: {
             register(){
-           
+
                 if(!this.token){
                     console.log('loga ai seu corno');
                 }else{
-                     this.axios.post('http://localhost:8000/api/data/pjuridicas?token=' + this.token, 
-              
+                     this.axios.post('http://localhost:8000/api/data/pjuridicas?token=' + this.token,
+
                     {
                         razao: this.razao,
                         missao: this.missao,
@@ -439,7 +439,7 @@
                 }
             },
              verifyEdit(){
-                
+
                 if(this.$route.params.editing === true){
                     this.editing = true;
                     this.loadDataEdit();
@@ -447,8 +447,8 @@
                 console.log('verifyedit:', this.editing);
             },
             edit(){
-                
-                this.axios.put(this.uri + '/' + this.user_id + '?token=' + this.token, 
+
+                this.axios.put(this.uri + '/' + this.user_id + '?token=' + this.token,
 
                     {
                         razao: this.razao,
@@ -479,24 +479,24 @@
 
                 this.axios.get(this.uri + '/' + this.user_id + '?token=' + this.token)
                     .then(response=>{
-    
+
                         console.log('TESTE', response.data);
                         this.razao = response.data.juridica[0].user.name;
                         this.missao = response.data.juridica[0].missao;
-                        this.rua = response.data.juridica[0].endereco.rua; 
-                        this.bairro = response.data.juridica[0].endereco.bairro; 
-                        this.cidade = response.data.juridica[0].endereco.cidade; 
-                        this.cep = response.data.juridica[0].endereco.cep;     
-                        this.celular = response.data.juridica[0].contato.celular; 
-                        this.fixo = response.data.juridica[0].contato.fixo; 
-                        this.facebook = response.data.juridica[0].contato.facebook; 
-                        this.twitter = response.data.juridica[0].contato.twitter; 
-                        this.site = response.data.juridica[0].contato.site; 
+                        this.rua = response.data.juridica[0].endereco.rua;
+                        this.bairro = response.data.juridica[0].endereco.bairro;
+                        this.cidade = response.data.juridica[0].endereco.cidade;
+                        this.cep = response.data.juridica[0].endereco.cep;
+                        this.celular = response.data.juridica[0].contato.celular;
+                        this.fixo = response.data.juridica[0].contato.fixo;
+                        this.facebook = response.data.juridica[0].contato.facebook;
+                        this.twitter = response.data.juridica[0].contato.twitter;
+                        this.site = response.data.juridica[0].contato.site;
                         this.outraRede = response.data.juridica[0].contato.outraRede;
                         this.linkedin = response.data.juridica[0].contato.linkedin;
-                        this.pais = response.data.juridica[0].endereco.pais; 
-                        this.estado = response.data.juridica[0].endereco.estado; 
-    
+                        this.pais = response.data.juridica[0].endereco.pais;
+                        this.estado = response.data.juridica[0].endereco.estado;
+
                     })
                     .catch(
                         error => console.log(error)
@@ -507,6 +507,6 @@
             this.verifyEdit();
             console.log(this.$session.get('user_id'));
         }
-       
+
     }
 </script>
