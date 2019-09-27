@@ -21,6 +21,12 @@ class FisicaController extends Controller
         if(!$request->name){
             $error[] = 'Insira o nome!';
         }
+        else{
+            if(strlen($request->name)>50){
+                $error[] = 'Insira nome com no máximo 50 aracteres!';
+            }
+        }
+
       /*  $validaCPF = FisicaController::validaCPF($request->cpf);
         if($validaCPF!="true"){
             $error[] = $validaCPF;
