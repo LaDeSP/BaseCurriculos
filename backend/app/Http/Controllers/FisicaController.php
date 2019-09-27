@@ -42,6 +42,14 @@ class FisicaController extends Controller
         if(!$request->password){
             $error[] = 'Insira uma senha!';
         }
+        else{
+            if(strlen($request->password)<8){
+                $error[] = 'Insira uma senha com no mínimo 8 caracteres!';
+            }
+            else if(strlen($request->password)>30){
+                $error[] = 'Insira uma senha com no máximo 30 caracteres!';
+            }
+        }
         
         if(isset($error)){
             return Response::json([
