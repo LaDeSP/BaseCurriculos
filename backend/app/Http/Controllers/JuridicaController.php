@@ -106,30 +106,126 @@ class JuridicaController extends Controller
     }
 
     public function addData(Request $request){
-        if(!$request->rua){
-            $error[] = 'Insira uma rua!';
-        }
-        if(!$request->bairro){
-            $error[] = 'Insira o bairro!';
-        }
-        if(!$request->cidade){
-            $error[] = 'Insira uma cidade!';
-        }
-        if(!$request->estado){
-            $error[] = 'Insira um estado!';
-        }
-        if(!$request->pais){
-            $error[] = 'Insira um país!';
-        }
-        if(!$request->cep){
-            $error[] = 'Insira o CEP!';
-        }
         if(!$request->razao){
             $error[] = 'Insira sua razão social!';
         }
+        else {
+            if(strlen($request->razao)>50){
+                $error[] = 'Insira sua razão social com no máximo 50 caracteres!';
+            }
+        }
+        
         if(!$request->missao){
             $error[] = 'Insira sua missão!';
         }
+        else {
+            if(strlen($request->missao)>500){
+                $error[] = 'Insira sua missão com no máximo 500 caracteres!';
+            }
+        }
+        
+        if($request->linkedin){
+            if(strlen($request->linkedin)>50){
+                $error[] = 'Insira um linkedin com no máximo 50 caracteres!';
+            }
+        }
+
+        if($request->facebook){
+            if(strlen($request->facebook)>50){
+                $error[] = 'Insira um facebook com no máximo 50 caracteres!';
+            }
+        }
+
+        if($request->twitter){
+            if(strlen($request->twitter)>50){
+                $error[] = 'Insira um twitter com no máximo 50 caracteres!';
+            }
+        }
+
+        if($request->site){
+            if(strlen($request->site)>50){
+                $error[] = 'Insira o site com no máximo 50 caracteres!';
+            }
+        }
+
+        if($request->outraRede){
+            if(strlen($request->outraRede)>50){
+                $error[] = 'Insira sua outra rede com no máximo 50 caracteres!';
+            }
+        }
+
+        /*if($request->emailAlt){
+            if(!filter_var($request->emailAlt, FILTER_VALIDATE_EMAIL)){
+                $error[] = 'Insira email válido no campo email alternativo!';
+            }
+            else if(strlen($request->emailAlt)>50){
+                $error[] = 'Insira seu email alternativo com no máximo 50 caracteres!';
+            }
+        }*/
+
+        if(!$request->pais){
+            $error[] = 'Insira o país!';
+        }
+
+        if(!$request->estado){
+            $error[] = 'Insira o estado!';
+        }
+
+        if(!$request->fixo){
+            $error[] = 'Insira número fixo!';
+        }
+        else{
+            /*if(CurriculoController::celular($request->fixo)==false){
+                $error[] = 'Digite número fixo válido!';
+            }*/
+        }
+        
+        if(!$request->celular){
+            $error[] = 'Insira número de celular!';
+        }
+        else{ 
+            /*if(CurriculoController::celular($request->celular)==false){
+                $error[] = 'Digite celular válido!';
+            } */
+        }
+        
+        if(!$request->rua){
+            $error[] = 'Insira a rua!';
+        }
+        else {
+            if(strlen($request->rua)>50){
+                $error[] = 'Insira sua rua com no máximo 50 caracteres!';
+            }
+        }
+
+        if(!$request->bairro){
+            $error[] = 'Insira o bairro!';
+        }
+        else {
+            if(strlen($request->bairro)>50){
+                $error[] = 'Insira seu bairro com no máximo 50 caracteres!';
+            }
+        }
+
+        if(!$request->cidade){
+            $error[] = 'Insira a cidade!';
+        }
+        else {
+            if(strlen($request->cidade)>50){
+                $error[] = 'Insira sua cidade com no máximo 50 caracteres!';
+            }
+        }
+        
+        if(!$request->cep){
+            $error[] = 'Insira o CEP!';
+        }
+        else{
+            /*if(CurriculoController::validarCep($request->cep)==false){
+                $error[] = 'Digite CEP válido!';
+            }*/
+        }
+        
+        
         if(isset($error)){
             return Response::json([
             'error' => $error

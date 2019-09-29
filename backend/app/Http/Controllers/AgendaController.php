@@ -11,7 +11,28 @@ class AgendaController extends Controller
 {
   
     public function store(Request $request)
-    {
+    {   
+        if(!$request->data){
+            $error[] = 'Insira uma data!';
+        }
+
+        if(!$request->hora){
+            $error[] = 'Insira uma hora!';
+        }
+
+
+        if($request->observacao){
+            if(strlen($request->observacao)>500){
+                $error[] = 'Insira suas observações com no máximo 500 caracteres!';
+            }
+        }
+        
+        if(isset($error)){
+            return Response::json([
+            'error' => $error
+        ], 201);
+        }      
+                 
         Agenda::create([
            'data'=>$request->data,
            'hora'=>$request->hora,

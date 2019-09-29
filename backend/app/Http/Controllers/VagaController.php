@@ -37,27 +37,79 @@ class VagaController extends Controller
 
     public function store(Request $request)
     {   
-        if(!$request->area){
-            $error[] = 'Insira uma área!';
-        }
         if(!$request->titulo){
             $error[] = 'Insira um titulo!';
         }
+        else {
+            if(strlen($request->titulo)>50){
+                $error[] = 'Insira título com no máximo 50 caracteres!';
+            }
+        }
+
         if(!$request->local){
             $error[] = 'Insira um local!';
         }
+        else {
+            if(strlen($request->local)>50){
+                $error[] = 'Insira local com no máximo 50 caracteres!';
+            }
+        }
+
+        if(!$request->quantidade){
+            $error[] = 'Insira a quantidade!';
+        }else{
+            if (!is_numeric($request->quantidade)){
+                $error[] = 'Insira a quantidade apenas com números!';
+            }
+            else if ($request->quantidade<1){
+                $error[] = 'Insira a quantidade com número maior ou igual a 1!';
+            }
+        }
+
+        if(!$request->area){
+            $error[] = 'Insira uma área!';
+        }
+        
+        
         if(!$request->salario){
             $error[] = 'Insira o salário!';
         }
-        if(!$request->beneficios){
-            $error[] = 'Insira benefícios!';
+        else{
+            if (!is_numeric($request->salario)){
+                $error[] = 'Insira o salário apenas com números!';
+            }
+            else if ($request->salario<1){
+                $error[] = 'Insira o salário com número maior ou igual a 1!';
+            }
         }
+
         if(!$request->jornada){
             $error[] = 'Insira a jornada!';
         }
+        else{
+            if(strlen($request->jornada)>50){
+                $error[] = 'Insira jornada com no máximo 50 caracteres!';
+            }
+        }
+
+        if(!$request->beneficios){
+            $error[] = 'Insira benefícios!';
+        }
+        else{
+            if(strlen($request->beneficios)>500){
+                $error[] = 'Insira benefícios com no máximo 50 caracteres!';
+            }
+        }
+       
         if(!$request->requisitos){
             $error[] = 'Insira os requisitos!';
+        } 
+        else{
+            if(strlen($request->requisitos)>500){
+                $error[] = 'Insira requisitos com no máximo 50 caracteres!';
+            }
         }
+       
         if(isset($error)){
             return Response::json([
             'error' => $error
