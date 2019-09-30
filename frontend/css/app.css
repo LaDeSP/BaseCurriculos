@@ -12051,16 +12051,16 @@ form.user .btn-user {
  background:#5a5c69 !important;
  color: white !important;
  text-align:center;
- padding:1px 0
+ padding:3px 0
 }
 .mini-footer p {
-  margin:0;
+  margin:3;
   font: 18px arial, sans-serif;
-  line-height:26px;
+  line-height:22px;
   font-size:15px;
 }
 .containerfooter{
-  padding: 12%;
+  padding: 1%;
   text-align: center;
 }
 /* footer {
