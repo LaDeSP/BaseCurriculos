@@ -17,28 +17,9 @@ class FisicaController extends Controller
 {
     use UserTrait;
 
-    public function store(Request $request)
-    {  
-        $messages = [
-            'name.required' => 'Insira um nome!',
-            'name.max' => 'Insira nome com no máximo 50 caracteres',
-            'email.required' => 'Insira um email!',
-            'email.email' => 'Insira um email válido!',
-            'email.unique' => 'Email inserido já existe!',
-            'password.required' => 'Insira uma senha!',
-            'password.min' => 'Senha tem que ter no mínimo 8 caracteres!',
-            'password.max' => 'Senha tem que ter no máximo 30 caracteres!',
-            'cpf.required' => 'Insira um CPF!',
-            'cpf.cpf' => 'Insira um CPF válido!',
-            'cpf.unique' => 'CPF inserido já foi cadastrado.'
-        ];
-        $validator = Validator::make($request->all(), [
-           
-            'name' => 'required|max:50',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|max:30',
-            'cpf' => 'required|cpf|unique:fisicas,cpf'
-        ], $messages);
+    public function store(Request $request){  
+        
+        $validator = Validator::make($request->all(), FisicaController::rules(), FisicaController::messages());
          
         if ($validator->fails()) {
              return Response::json([
@@ -147,6 +128,29 @@ class FisicaController extends Controller
     
             return "true";
         }
+    }
+    public function messages (){
+        return [
+        'name.required' => 'Insira um nome!',
+        'name.max' => 'Insira nome com no máximo 50 caracteres',
+        'email.required' => 'Insira um email!',
+        'email.email' => 'Insira um email válido!',
+        'email.unique' => 'Email inserido já existe!',
+        'password.required' => 'Insira uma senha!',
+        'password.min' => 'Senha tem que ter no mínimo 8 caracteres!',
+        'password.max' => 'Senha tem que ter no máximo 30 caracteres!',
+        'cpf.required' => 'Insira um CPF!',
+        'cpf.cpf' => 'Insira um CPF válido!',
+        'cpf.unique' => 'CPF inserido já foi cadastrado.'
+    ];}
+    public function rules (){
+        return[
+            
+            'name' => 'required|max:50',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8|max:30',
+            'cpf' => 'required|cpf|unique:fisicas,cpf'
+        ];
     }
     
 }
