@@ -3,7 +3,7 @@
     <div class="col-sm-6">
         <ValidationObserver v-slot="{ invalid }">
 
-        <form>z
+        <form>
             <h1>Cadastro de Pessoa Física</h1>
             <div v-if="notificacoes">
                 <span v-for="notificacao in notificacoes" :key="notificacao" class="badge badge-danger badge-pill">
@@ -101,7 +101,7 @@
                             if(response.data.error  != undefined){
                                 this.notificacoes = response.data.error;
                                 return;
-                            }   
+                            }
                             this.$session.start(),
                             this.$session.set('jwt', response.data.token),
                             this.$session.set('name', response.data.name),

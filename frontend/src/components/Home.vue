@@ -4,15 +4,18 @@
       <NavBarHome></NavBarHome>
     <div class="container">
       <div class="intro-text">
-        <div class="intro-lead-in" >Bem-Vindo ao Banco de Currículos,</div>
-        <div class="intro-heading text-uppercase">Prazer em Recebê-lo</div>
-        <a class="btn btn-primary btn-lg text-uppercase " href="#services"  data-toggle="modal" data-target="#tunder">Faça Parte</a>
-      </div>
+          <div class="intro-lead-in" >Bem-Vindo ao Banco de Currículos,</div>
+          <div class="intro-heading text-uppercase">Prazer em Recebê-lo</div>
+          <button @click="showModal" class="btn btn-primary btn-lg text-uppercase ">Faça Parte</button>
+          <Modal v-show="isModalFacaParte" @close="closeModal">
+            <template v-slot:header><h3>Quem é você?</h3></template>
+            <template v-slot:body>
+              <OpcoesHome></OpcoesHome>
+            </template>
+          </Modal>
+        </div>
     </div>
   </header>
-  <ModalMenu1></ModalMenu1>
-  <ModalLoginFi></ModalLoginFi>
-  <ModalLoginJu></ModalLoginJu>
 </div>
 
 
@@ -21,18 +24,30 @@
 <script>
 
   import NavBarHome from './NavBarHome';
-  import ModalMenu1 from './Modal/ModalMenu1';
-  import ModalLoginFi from './Modal/ModalLoginFisica';
-  import ModalLoginJu from './Modal/ModalLoginJuridica';
+  import Modal from './Utils/Modal.vue';
+  import OpcoesHome from './Utils/OpcoesHome.vue';
+
 
   export default {
+     components:{
+      NavBarHome, Modal, OpcoesHome
+    },
     data(){
         return {
-
+          isModalFacaParte: false
         }
     },
-    components:{
-      NavBarHome,ModalMenu1,ModalLoginFi,ModalLoginJu
+    methods: {
+      showModal(){
+        this.isModalFacaParte = true;
+        console.log('showModal', this.isModalFacaParte)
+      },
+      closeModal(){
+        this.isModalFacaParte = false;
+      }
+    },
+    created(){
+      console.log('created', this.isModalFacaParte)
     }
   }
 
