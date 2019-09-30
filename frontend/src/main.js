@@ -39,8 +39,6 @@ import Home from './components/Home.vue';
 
 import Sobre from './components/Sobre.vue';
 
-
-
 const routes = [
     {path: '', name:'home', component: Home, meta:{isHome: true}},
     {path: '/sobre', component: Sobre,meta:{isSobre:true}},

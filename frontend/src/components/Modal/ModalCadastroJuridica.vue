@@ -7,7 +7,7 @@
           <button type="button" class="Close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span> </button>
       </div>
       <div class="modal-body">
-        <NewFisica></NewFisica>
+        <NewJuridica></NewJuridica>
       </div>
       <br>
       <div class="modal-footer">
@@ -19,7 +19,7 @@
 </template>
 <script>
 
-  import NewFisica from '../Auth/NewFisica';
+  import NewJuridica from '../Auth/NewJuridica';
 
   export default {
     data(){
@@ -28,7 +28,7 @@
         }
     },
     components:{
-      NewFisica
+      NewJuridica
     }
   }
 
