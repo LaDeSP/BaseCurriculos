@@ -25,7 +25,7 @@
                         </div>
                   </div>
                   <div class="col-lg-3 text-right" style="padding-left: 35px;">
-                      <i class="fas fa-building fa-5x login-icon"></i>
+
                   </div>
                 </div>
             </div>
