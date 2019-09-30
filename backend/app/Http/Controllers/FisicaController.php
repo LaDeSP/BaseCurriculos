@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use Response;
 
@@ -18,56 +19,32 @@ class FisicaController extends Controller
 
     public function store(Request $request)
     {  
-        if(!$request->name){
-            $error[] = 'Insira o nome!';
+        $messages = [
+            'name.required' => 'Insira um nome!',
+            'name.max' => 'Insira nome com no máximo 50 caracteres',
+            'email.required' => 'Insira um email!',
+            'email.email' => 'Insira um email válido!',
+            'email.unique' => 'Email inserido já existe!',
+            'password.required' => 'Insira uma senha!',
+            'password.min' => 'Senha tem que ter no mínimo 8 caracteres!',
+            'password.max' => 'Senha tem que ter no máximo 30 caracteres!',
+            'cpf.required' => 'Insira um CPF!',
+            'cpf.cpf' => 'Insira um CPF válido!',
+            'cpf.unique' => 'CPF inserido já foi cadastrado.'
+        ];
+        $validator = Validator::make($request->all(), [
+           
+            'name' => 'required|max:50',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8|max:30',
+            'cpf' => 'required|cpf|unique:fisicas,cpf'
+        ], $messages);
+         
+        if ($validator->fails()) {
+             return Response::json([
+                'error' => $validator->messages()
+            ], 201);
         }
-        else{
-            if(strlen($request->name)>50){
-                $error[] = 'Insira nome com no máximo 50 aracteres!';
-            }
-        }
-
-      /*  $validaCPF = FisicaController::validaCPF($request->cpf);
-        if($validaCPF!="true"){
-            $error[] = $validaCPF;
-        } */
-        if(!$request->email){
-            $error[] = 'Insira o email!';
-        }
-        else{
-            $buscaEmail = User::where('email', $request->email)->first();
-            if($buscaEmail){
-                $error[] = 'Email inserido já foi cadastrado.';
-            }
-            else {
-                if(!filter_var($request->email, FILTER_VALIDATE_EMAIL)){
-                    $error[] = 'Insira email válido!';
-                }
-            }
-        }
-        if(!$request->password){
-            $error[] = 'Insira uma senha!';
-        }
-        else{
-            if(strlen($request->password)<8){
-                $error[] = 'Insira uma senha com no mínimo 8 caracteres!';
-            }
-            else if(strlen($request->password)>30){
-                $error[] = 'Insira uma senha com no máximo 30 caracteres!';
-            }
-        }
-        
-        if(isset($error)){
-            return Response::json([
-            'error' => $error
-        ], 201);
-        }
-
-        $this->validate($request, [
-            'name' => 'required',
-            'cpf' => 'required',
-            'email' => 'required|email|unique:users',
-            ]); 
 
         $this->register($request);
             
