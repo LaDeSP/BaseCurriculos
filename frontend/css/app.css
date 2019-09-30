@@ -12047,7 +12047,23 @@ form.user .btn-user {
   animation: noise-anim-2 3s infinite linear alternate-reverse;
 }
 
-footer {
+.mini-footer {
+ background:#5a5c69 !important;
+ color: white !important;
+ text-align:center;
+ padding:1px 0
+}
+.mini-footer p {
+  margin:0;
+  font: 18px arial, sans-serif;
+  line-height:26px;
+  font-size:15px;
+}
+.containerfooter{
+  padding: 12%;
+  text-align: center;
+}
+/* footer {
     background-color: #5a5c69 !important;
     color: white !important;
 }
@@ -12055,7 +12071,7 @@ footer .copyright {
     text-align: center;
     text-decoration: none;
     font: 18px arial, sans-serif;
-}
+} */
 
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
