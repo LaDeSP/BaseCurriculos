@@ -1,13 +1,9 @@
 <template>
     <div class="panel panel-default">
         <div class="col-md-12"> 
-             <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                <label class="btn btn-outline-success active pointer">
-                    <input type="radio" name="options" autocomplete="off" value="corno" @change="onChange()"> Ver Vagas Ativas
-                </label>
-                <label class="btn btn-outline-secondary pointer">
-                    <input type="radio" name="options" autocomplete="off" value="fdp" @change="onChange()"> Ver Vagas Inativas
-                </label>
+            <div class="btn-group btn-group-sm" role="group">
+                <button @click="changeActiveButton('ativa')" type="button" class="active btn btn-outline-success">Ver Vagas Ativas</button>
+                <button @click="changeActiveButton" type="button" class="btn btn-outline-secondary">Ver Vagas Inativas</button>
             </div>
         </div>
         <div class="panel-heading"><h2>Vagas de Emprego</h2></div>
@@ -28,7 +24,12 @@
                 </div>
                 <div v-else>
                     <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
-                    <button @click="onDeactivate(vaga.id)" class="btn btn-sm btn-outline-danger">Desativar</button>  
+                    <span v-if="filterState">
+                        <button @click="changeStatus(vaga.id, 'INATIVA')" class="btn btn-sm btn-outline-danger">Desativar</button>  
+                    </span>
+                    <span v-else>
+                        <button @click="changeStatus(vaga.id, 'ATIVA')" class="btn btn-sm btn-outline-primary">Ativar</button>  
+                    </span>
                     <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Deletar</button>  
                 </div>
                <hr>
@@ -49,14 +50,11 @@
                 token: this.$session.get('jwt'),
                 auth_jur: 0,
                 isFIS: false,
-                filterState: ''
+                filterState: true
             }
         },
         methods: {
-            onChange(){
-                console.log(this.filterState);
-                //this.filterState = !this.filterState;
-            },
+
             loadVagas(){
 
                 this.axios
@@ -94,19 +92,22 @@
                     );
                
             },
-            onDeactivate(id){
+            changeStatus(id, status){
 
-               /* this.axios.post(this.uri + '?token=' + this.token, 
-                    {vaga_id: id},
+               this.axios.post(this.uri + '/' + 'changeStatus' + '?token=' + this.token, 
+                    {
+                        vaga_id: id,
+                        status: status
+                    },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
-                        (response) => console.log(response),
+                        (response) => console.log(response)
                     )
                     .catch(
                         (error) => console.log(error),
                         
                     );
-                    */
+                   
               
                
             },
@@ -130,13 +131,18 @@
 
                 this.vagas.splice(position, 1);
             },
-            filterStateTrue(){
-               this.filterState = true;
-               console.log('fdp', this.filterState);
-            },
-            filterStateFalse(){
-               this.filterState = false;
-               console.log('corno', this.filterState);
+
+            changeActiveButton(tipo){
+                
+                $('.btn-group').on('click', '.btn', function() {
+                    $(this).addClass('active').siblings().removeClass('active');
+                });
+                if(tipo === 'ativa'){
+                    this.filterState = true;
+                }else{
+                    this.filterState = false;
+                }
+                console.log('filtersTATE', this.filterState);
             }
         },
         computed:{
@@ -144,7 +150,11 @@
                 if(this.$session.get('role') === 'FISICA'){
                     return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA';})
                 }else{
-                    return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA' && vaga.juridicas_id == this.auth_jur;})
+                    if(this.filterState === true){
+                        return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA' && vaga.juridicas_id == this.auth_jur;})
+                    }else{
+                        return this.vagas.filter((vaga) => {return vaga.status === 'INATIVA' && vaga.juridicas_id == this.auth_jur;})
+                    }
                 }
             }
 

@@ -1,7 +1,7 @@
 <template>
 
     <div>
-      <div v-if="!$route.meta.isHome & !$route.meta.isSobre">
+      <div v-if="!$route.meta.isHome">
         <NavBar></NavBar>
         <div class="container">
           <router-view></router-view>
@@ -28,7 +28,7 @@ export default {
       }
     },
     components:{
-        NavBar, Footer, Home
+        NavBar, Footer
 
     },
     created(){

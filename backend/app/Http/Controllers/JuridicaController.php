@@ -80,8 +80,6 @@ class JuridicaController extends Controller
         
         Juridica::where('user_id', $request->input('user_id'))
         ->update(array(
-            'razao' => $request->input('razao'),
-            'missao' => $request->input('missao'),
             'contatos_id' => $con_id, 
             'enderecos_id' => $end_id
 
@@ -138,8 +136,6 @@ class JuridicaController extends Controller
         ]);
 
         Juridica::where('user_id', $id)->update(array(
-                'razao' => $request->razao,
-                'missao' => $request->missao,
                 'contatos_id' => $con_id, 
                 'enderecos_id' => $end_id
             ));
@@ -202,10 +198,6 @@ class JuridicaController extends Controller
     }
     public function messages_addData(){
         return $messages = [
-            'razao.required' => 'Insira uma razão!',
-            'razao.max' => 'Insira razão com no máximo 50 caracteres.',
-            'missao.required' => 'Insira uma missão!',
-            'missao.max' => 'Insira missão com no máximo 500 caracteres.',
             'linkedin.max' => 'Insira linkedin com no máximo 50 caracteres.',
             'facebook.max' => 'Insira facebook com no máximo 50 caracteres.',
             'twitter.max' => 'Insira twitter com no máximo 50 caracteres.',
@@ -231,8 +223,6 @@ class JuridicaController extends Controller
     }
     public function rules_addData(){
         return [
-            'razao' => 'required|max:50',
-            'missao' => 'required|max:500',
             'linkedin' => 'max:50',
             'facebook' => 'max:50',
             'twitter' => 'max:50',

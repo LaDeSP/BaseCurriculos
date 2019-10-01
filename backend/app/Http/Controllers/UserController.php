@@ -14,13 +14,15 @@ use Response;
 class UserController extends Controller
 {
     public function login(Request $request){
-        $validator = Validator::make($request->all(), UserController::rules(), UserController::messages());
+        
+       /* $validator = Validator::make($request->all(), UserController::rules(), UserController::messages());
          
         if ($validator->fails()) {
              return Response::json([
                 'error' => $validator->messages()
             ], 201);
-        }   
+        }
+        */   
        
         
         $credentials = $request->only('email', 'password');

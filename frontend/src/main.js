@@ -41,7 +41,7 @@ import Sobre from './components/Home/Sobre.vue';
 
 const routes = [
     {path: '', name:'home', component: Home, meta:{isHome: true}},
-    {path: '/sobre', component: Sobre,meta:{isSobre:true}},
+    {path: '/sobre', component: Sobre,meta:{isHome:true}},
     {path: '/login', name: 'login', component: Login},
     {path: '/logout', name: 'logout', component: Logout},
     {path: '/new-juridica', component: NewJuridica},
