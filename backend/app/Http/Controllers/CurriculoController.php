@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use Response;
 use App\Fisica;
@@ -12,183 +13,14 @@ use App\User;
 
 class CurriculoController extends Controller
 {
-        
     public function store(Request $request){
-      
-        if(!$request->nome){
-            $error[] = 'Insira um nome!';
-        }
-        else{
-            if(strlen($request->nome)>50){
-                $error[] = 'Insira um nome com no máximo 50 caracteres!';
-            }
-        }
-
-        if(!$request->nascimento){
-            $error[] = 'Insira sua data de nascimento!';
-        }
-
-        if(!$request->estadoCivil){
-            $error[] = 'Insira seu estado civil!';
-        }
-
-        if(!$request->genero){
-            $error[] = 'Insira seu genero!';
-        }
-
-        if($request->linkedin){
-            if(strlen($request->linkedin)>50){
-                $error[] = 'Insira um linkedin com no máximo 50 caracteres!';
-            }
-        }
-
-        if($request->facebook){
-            if(strlen($request->facebook)>50){
-                $error[] = 'Insira um facebook com no máximo 50 caracteres!';
-            }
-        }
-
-        if($request->twitter){
-            if(strlen($request->twitter)>50){
-                $error[] = 'Insira um twitter com no máximo 50 caracteres!';
-            }
-        }
-
-        if($request->site){
-            if(strlen($request->site)>50){
-                $error[] = 'Insira o site com no máximo 50 caracteres!';
-            }
-        }
-
-        if($request->outraRede){
-            if(strlen($request->outraRede)>50){
-                $error[] = 'Insira sua outra rede com no máximo 50 caracteres!';
-            }
-        }
-
-        if($request->emailAlt){
-            if(!filter_var($request->emailAlt, FILTER_VALIDATE_EMAIL)){
-                $error[] = 'Insira email válido no campo email alternativo!';
-            }
-            else if(strlen($request->emailAlt)>50){
-                $error[] = 'Insira seu email alternativo com no máximo 50 caracteres!';
-            }
-        }
-
-        if(!$request->pais){
-            $error[] = 'Insira o país!';
-        }
-
-        if(!$request->estado){
-            $error[] = 'Insira o estado!';
-        }
-
-        if(!$request->fixo){
-            $error[] = 'Insira número fixo!';
-        }
-        else{
-            /*if(CurriculoController::celular($request->fixo)==false){
-                $error[] = 'Digite número fixo válido!';
-            }*/
-        }
-        
-        if(!$request->celular){
-            $error[] = 'Insira número de celular!';
-        }
-        else{ 
-            /*if(CurriculoController::celular($request->celular)==false){
-                $error[] = 'Digite celular válido!';
-            } */
-        }
-        
-        if(!$request->rua){
-            $error[] = 'Insira a rua!';
-        }
-        else {
-            if(strlen($request->rua)>50){
-                $error[] = 'Insira sua rua com no máximo 50 caracteres!';
-            }
-        }
-
-        if(!$request->bairro){
-            $error[] = 'Insira o bairro!';
-        }
-        else {
-            if(strlen($request->bairro)>50){
-                $error[] = 'Insira seu bairro com no máximo 50 caracteres!';
-            }
-        }
-
-        if(!$request->cidade){
-            $error[] = 'Insira a cidade!';
-        }
-        else {
-            if(strlen($request->cidade)>50){
-                $error[] = 'Insira sua cidade com no máximo 50 caracteres!';
-            }
-        }
-        
-        if(!$request->cep){
-            $error[] = 'Insira o CEP!';
-        }
-        else{
-            /*if(CurriculoController::validarCep($request->cep)==false){
-                $error[] = 'Digite CEP válido!';
-            }*/
-        }
-        
-        if(!$request->objetivos){
-            $error[] = 'Insira seus objetivos!';
-        }
-        else{
-            if(strlen($request->objetivos)>500){
-                $error[] = 'Insira seus objetivos com no máximo 500 caracteres!';
-            }
-        }
-
-        if(!$request->area){
-            $error[] = 'Insira sua área!';
-        }
-
-        if(!$request->pretensao){
-            $error[] = 'Insira sua pretensão salarial!';
-        }
-        else{
-            if (!is_numeric($request->pretensao)){
-                $error[] = 'Insira sua pretensão salarial apenas com números!';
-            }
-            if($request->pretensao<1){
-                $error[] = 'Insira pretensão salarial com valor maior que 1!';
-            }
-        }
-
-        if(!$request->escolaridade){
-            $error[] = 'Insira sua escolaridade!';
-        }
-
-        if(!$request->qualificacoes){
-            $error[] = 'Insira suas qualificações!';
-        }
-        else{
-            if(strlen($request->qualificacoes)>500){
-                $error[] = 'Insira suas qualificações com no máximo 500 caracteres!';
-            }
-        }
-
-        if(!$request->historicoProfissional){
-            $error[] = 'Insira seu histórico!';
-        }
-        else{
-            if(strlen($request->historicoProfissional)>500){
-                $error[] = 'Insira seu histórifo profissional com no máximo 500 caracteres!';
-            }
-        }
-       
-        if(isset($error)){
-            return Response::json([
-            'error' => $error
-        ], 201);
-        }               
+        $validator = Validator::make($request->all(), CurriculoController::rules(), CurriculoController::messages());
+         
+        if ($validator->fails()) {
+             return Response::json([
+                'error' => $validator->messages()
+            ], 201);
+        }   
         
         $user_id = $request->input('user_id');
       
@@ -267,6 +99,14 @@ class CurriculoController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), CurriculoController::rules(), CurriculoController::messages());
+         
+        if ($validator->fails()) {
+             return Response::json([
+                'error' => $validator->messages()
+            ], 201);
+        }   
+
         $end_id = Fisica::where('user_id', $id)->value('enderecos_id');
         $con_id = Fisica::where('user_id', $id)->value('contatos_id');
 
@@ -316,38 +156,81 @@ class CurriculoController extends Controller
       
       
     }
-
-    function celular($telefone){
-        $telefone= trim(str_replace('/', '', str_replace(' ', '', str_replace('-', '', str_replace(')', '', str_replace('(', '', $telefone))))));
-        $tam=strlen($telefone);
-        if($tam==10){
-            $regexTelefone = "^[0-9]{10}$^";
-        }
-        else { //quando for 11. se for diferente de 10 e 11 vai dar false ali embaixo 
-            $regexTelefone = "^[0-9]{11}$^";
-        }
     
-        //$regexCel = '/[0-9]{2}[6789][0-9]{3,4}[0-9]{4}/'; // Regex para validar somente celular
-        if (preg_match($regexTelefone, $telefone)) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-    function validarCep($cep) {
-        // retira espacos em branco
-        $cep = trim($cep);
-        // expressao regular para avaliar o cep
-        $avaliaCep = ereg("^[0-9]{8}$", $cep);
-        
-        // verifica o resultado
-        if(!$avaliaCep) {            
-            return "false";
-        }
-        else{
-            return "true";
-        }
+    public function rules(){
+        return [
+            'nome' => 'required|max:50',
+            'nascimento' => 'required',
+            'estadoCivil' => 'required',
+            'genero' => 'required',
+            'linkedin' => 'max:50',
+            'facebook' => 'max:50',
+            'twitter' => 'max:50',
+            'site' => 'max:50',
+            'outraRede' => 'max:50',
+            'emailAlt' => 'email',
+            'pais' => 'required',
+            'estado' => 'required',
+            'fixo' => 'required|digits:10',
+            'celular' => 'required|digits_between: 10, 11',
+            'rua' => 'required|max:50',
+            'numero' => 'max:50',
+            'complemento' => 'max:500',
+            'bairro' => 'required|max:50',
+            'cidade' => 'required|max:50',
+            'cep'=> 'required|digits:8',
+            'objetivos'=> 'required|max:500',
+            'area' => 'required',
+            'pretensao' => 'required|numeric|gt:0',
+            'escolaridade' => 'required',
+            'qualificacoes' => 'required|max:500',
+            'historicoProfissional' => 'required|max:500'
+        ];
     }
 
+    public function messages(){
+        return $messages = [
+            'nome.required' => 'Insira um nome!',
+            'nome.max' => 'Insira nome com no máximo 50 caracteres.',
+            'nascimento.required' => 'Insira sua data de nascimento!',
+            'estadoCivil.required' => 'Insira seu estado civil!',
+            'genero.required' => 'Insira seu gênero!',
+            'linkedin.max' => 'Insira linkedin com no máximo 50 caracteres.',
+            'facebook.max' => 'Insira facebook com no máximo 50 caracteres.',
+            'twitter.max' => 'Insira twitter com no máximo 50 caracteres.',
+            'site.max' => 'Insira site com no máximo 50 caracteres.',
+            'outraRede.max' => 'Insira outra rede com no máximo 50 caracteres.',
+            'emailAlt.email' => 'Insira email válido!',
+            'pais.required' => 'Selecione um país!',
+            'estado.required' => 'Selecione um estado!',
+            'fixo.required' => 'Insira um número fixo!',
+            'fixo.digits' => 'Número fixo precisa de 10 digitos! (DDD+numero)',
+            'celular.required' => 'Insira um número de celular!',
+            'celular.digits_between' => 'Número de celular precisa de 10 ou 11 digitos! (DDD+numero)',
+            'rua.required' => 'Insira uma rua!',
+            'rua.max' => 'Insira rua com no máximo 50 caracteres.',
+            'numero.max' => 'Insira número com no máximo 50 caracteres.',
+            'complemento.max' => 'Insira complemento com no máximo 500 caracteres.',
+            'bairro.required' => 'Insira um bairro!',
+            'bairro.max' => 'Insira bairro com no máximo 50 caracteres.',
+            'cidade.required' => 'Insira uma cidade!',
+            'cidade.max' => 'Insira cidade com no máximo 50 caracteres.',
+            'cep.required' => 'Insira um CEP!',
+            'cep.digits' => 'Insira CEP válido!',
+            'objetivos.required' => 'Insira seus objetivos!',
+            'objetivos.max' => 'Insira seus objetivos com no máximo 500 caracteres!',
+            'area.required' => 'Insira sua área!',
+            'pretensao.required' => 'Insira sua pretensão salarial!',
+            'pretensao.numeric' => 'Insira sua pretensão salarial apenas com números!',
+            'pretensao.gt' => 'Insira pretensão salarial com valor maior que 0!',
+            'escolaridade.required' => 'Insira sua escolaridade!',
+            'qualificacoes.required' => 'Insira suas qualificações!',
+            'qualificacoes.max' => 'Insira suas qualificações com no máximo 500 caracteres!',
+            'historicoProfissional.required' => 'Insira seu histórico!',
+            'historicoProfissional.max' => 'Insira seu histórifo profissional com no máximo 500 caracteres!'
+        ];
+    }   
+
+   
 
 }
