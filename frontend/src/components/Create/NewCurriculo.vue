@@ -6,8 +6,8 @@
                 <h1 v-if="!editing">Cadastro de Currículo</h1>
                 <h1 v-else>Editar Informações</h1>
                 <div v-if="notificacoes">
-                    <span v-for="notificacao in notificacoes" :key="notificacao" class="badge badge-danger badge-pill">
-                        {{notificacao}}
+                    <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
+                        {{notificacao[0]}}
                     </span>
                 </div>
                 <div class="form-row">
@@ -565,6 +565,7 @@
                     .then(response => {
                         if(response.data.error  != undefined){
                             this.notificacoes = response.data.error;
+                            return;
                         }
                     })
                     .catch(
@@ -615,6 +616,7 @@
                     .then(response => {
                         if(response.data.error  != undefined){
                             this.notificacoes = response.data.error;
+                            return;
                         }
                     })
                     .catch(

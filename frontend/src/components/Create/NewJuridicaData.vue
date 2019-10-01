@@ -3,6 +3,11 @@
     <div class="col-sm-12">
         <ValidationObserver v-slot="{ invalid }">
             <form>
+                <div v-if="notificacoes">
+                    <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
+                        {{notificacao[0]}}
+                    </span>
+                </div>
                 <h1 v-if="!editing">Cadastro de Informações</h1>
                 <h1 v-else>Editar Informações</h1>
                 <div class="form-row">
@@ -398,7 +403,8 @@
                 editing: false,
                 uri: 'http://localhost:8000/api/pjuridicas',
                 token: this.$session.get('jwt'),
-                user_id: this.$session.get('user_id')
+                user_id: this.$session.get('user_id'),
+                notificacoes: []
 
 
             }
@@ -431,7 +437,12 @@
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
-                        (response) => console.log(response)
+                        (response) => {
+                            if(response.data.error  != undefined){
+                                this.notificacoes = response.data.error;
+                                return;
+                            }   
+                        }
                     )
                     .catch(
                         (error) => console.log(error)
@@ -469,7 +480,12 @@
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
-                        (response) => console.log(response)
+                        (response) => {
+                            if(response.data.error  != undefined){
+                                this.notificacoes = response.data.error;
+                                return;
+                            }   
+                        }
                     )
                     .catch(
                         (error) => console.log(error)
