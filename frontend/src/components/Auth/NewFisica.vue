@@ -1,7 +1,7 @@
 <template>
-<div class="container-fluid">
-  <div class="row">
-    <div class="container-fluid">
+<div class="col-lg-12">
+  <div class="container-fluid fix-form-modal">
+  <div class="row  justify-content-center">
       <ValidationObserver v-slot="{ invalid }">
         <form>
           <div v-if="notificacoes">
@@ -9,51 +9,60 @@
                   {{notificacao[0]}}
               </span>
           </div>
-          <div class="form-group">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" for="name">Nome Completo *</span>
+          <div class="col-sm-12">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" for="name">Nome Completo *</span>
+                </div>
+                <ValidationProvider name="name" rules="required|max:50">
+                  <input type="text" name="name" class="form-control" v-model="name" maxlength="50" required='autofocus'>
+                    <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
+                </ValidationProvider>
               </div>
-              <ValidationProvider name="name" rules="required|max:50">
-                <input type="text" name="name" class="form-control" v-model="name" maxlength="50" required='autofocus'>
-                  <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
-              </ValidationProvider>
+            </div>
+          </div>
+
+          <br>
+          <div class="col-sm-12">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" for="cpf">CPF *</span>
+                </div>
+                <ValidationProvider name="cpf" rules="required|numeric|digits:11">
+                  <input type="text" class="form-control" name="cpf" v-model="cpf" maxlength="11" minlength="11" required='autofocus'>
+                    <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
+                </ValidationProvider>
+              </div>
             </div>
           </div>
           <br>
-          <div class="form-group">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" for="cpf">CPF *</span>
+          <div class="col-sm-12">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" for="email">Email *</span>
+                </div>
+                <ValidationProvider name="email" rules="required|email|max:50">
+                  <input type="email" name="email" class="form-control" v-model="email" maxlength="50" required='autofocus'>
+                    <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
+                </ValidationProvider>
               </div>
-              <ValidationProvider name="cpf" rules="required|numeric|digits:11">
-                <input type="text" class="form-control" name="cpf" v-model="cpf" maxlength="11" minlength="11" required='autofocus'>
-                  <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
-              </ValidationProvider>
             </div>
           </div>
           <br>
-          <div class="form-group">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" for="email">Email *</span>
+          <div class="col-sm-12">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" for="password">Senha *</span>
+                </div>
+                <ValidationProvider name="password" rules="required|min:8|max:30">
+                  <input type="password" id="password" name="password" class="form-control" v-model="password" maxlength="30" minlength="8">
+                    <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
+                </ValidationProvider>
               </div>
-              <ValidationProvider name="email" rules="required|email|max:50">
-                <input type="email" name="email" class="form-control" v-model="email" maxlength="50" required='autofocus'>
-                  <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
-              </ValidationProvider>
-            </div>
-          </div>
-          <br>
-          <div class="form-group">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" for="password">Senha *</span>
-              </div>
-              <ValidationProvider name="password" rules="required|min:8|max:30">
-                <input type="password" id="password" name="password" class="form-control" v-model="password" maxlength="30" minlength="8">
-                  <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
-              </ValidationProvider>
             </div>
           </div>
           <br>
@@ -66,6 +75,7 @@
     </div>
   </div>
 </div>
+
 
 </template>
 

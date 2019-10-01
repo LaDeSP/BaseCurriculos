@@ -6,7 +6,7 @@
         <slot name="header">
           <h5 class="modal-title" id="exampleModalLabel" >Eu sou a header.</h5>
         </slot>
-        <button data-dismiss="modal" @click="close" class="close" aria-label="Close" style='background-color: #ff0000;'>x</button>
+        <button data-dismiss="modal" @click="close" class="close" aria-label="Close" style='color: #ff0000;'>x</button>
         <!-- <button ><span aria-hidden="true">&times;</span></button> -->
       </div>
       <div class="modal-body">
