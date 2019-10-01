@@ -3,64 +3,94 @@
     <div class="col-sm-12">
         <ValidationObserver v-slot="{ invalid }">
             <form>
+                <div v-if="notificacoes">
+                    <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
+                        {{notificacao[0]}}
+                    </span>
+                </div>
                 <h1 v-if="!editing">Cadastro de Informações</h1>
                 <h1 v-else>Editar Informações</h1>
                 <div class="form-row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="razao">Razão Social</label>
-                            <ValidationProvider name="razao" rules="required">
+                            <label for="razao">* Razão Social</label>
+                            <ValidationProvider name="razao" rules="required|max:50">
                                 <div slot-scope="{ errors }">
-                                    <input type="razao" id="razao" name="razao" 
-                                    class="form-control" v-model="razao">
+                                    <input type="razao" id="razao" name="razao"
+                                    class="form-control" v-model="razao" maxlength="50">
                                     <p>{{ errors[0] }}</p>
                                 </div>
-                            </ValidationProvider>   
+                            </ValidationProvider>
                         </div>
 
                         <div class="form-group">
-                            <label for="missao">Missão</label>
-                            <ValidationProvider name="missao" rules="required">
+                            <label for="missao">* Missão</label>
+                            <ValidationProvider name="missao" rules="required|max:500">
                                 <div slot-scope="{ errors }">
-                                    <textarea id="missao" class="md-textarea form-control" rows="5" name="missao" v-model="missao"></textarea>
+                                    <textarea id="missao" class="md-textarea form-control" rows="5" name="missao" v-model="missao" maxlength="500"></textarea>
                                     <p>{{ errors[0] }}</p>
                                 </div>
-                            </ValidationProvider>   
+                            </ValidationProvider>
                         </div>
 
                     <hr><hr>
                         <div class="form-group">
                             <label for="linkedin">Linkedin</label>
-                            <input type="linkedin" id="linkedin" name="linkedin" 
-                            class="form-control" v-model="linkedin">
+                            <ValidationProvider name="linkedin" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="linkedin" id="linkedin" name="linkedin"
+                                    class="form-control" v-model="linkedin" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
-                    <div class="form-group">
+                        <div class="form-group">
                             <label for="facebook">Facebook</label>
-                            <input type="facebook" id="facebook" name="facebook" 
-                            class="form-control" v-model="facebook">
+                            <ValidationProvider name="facebook" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="facebook" id="facebook" name="facebook"
+                                    class="form-control" v-model="facebook" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
                         <div class="form-group">
                             <label for="twitter">Twitter</label>
-                            <input type="twitter" id="twitter" name="twitter" 
-                            class="form-control" v-model="twitter">
+                            <ValidationProvider name="twitter" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="twitter" id="twitter" name="twitter"
+                                    class="form-control" v-model="twitter" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
                         <div class="form-group">
                             <label for="site">Site</label>
-                            <input type="site" id="facebook" name="site" 
-                            class="form-control" v-model="site">
+                            <ValidationProvider name="site" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="site" id="facebook" name="site"
+                                    class="form-control" v-model="site" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
                         <div class="form-group">
                             <label for="outraRede">Outra Rede Social</label>
-                            <input type="outraRede" id="outraRede" name="outraRede" 
-                            class="form-control" v-model="outraRede">
+                            <ValidationProvider name="outraRede" rules="max:50">
+                                <div slot-scope="{ errors }">
+                                    <input type="outraRede" id="outraRede" name="outraRede"
+                                    class="form-control" v-model="outraRede" maxlength="50">
+                                    <p>{{ errors[0] }}</p>
+                                </div>
+                            </ValidationProvider>
                         </div>
-    
-                    </div>    
+
+                    </div>
                         <hr>
                     <div class="col">
-                        
+
                         <div class="form-group">
-                            <label for="pais">País</label>
+                            <label for="pais">* País</label>
                                 <select class="custom-select" name="pais" v-model="pais">
                                     <option value="" disabled selected>Selecione a opção</option>
                                     <option value="África do Sul" selected>Seleciona a opção</option>
@@ -238,10 +268,10 @@
                                     <option value="Zaire">Zaire</option>
                                     <option value="Zâmbia">Zâmbia</option>
                                     <option value="Zimbábue">Zimbábue</option>
-                                </select>    
+                                </select>
                         </div>
-                        <div class="form-group"> 
-                            <label for="estado">Estado</label>
+                        <div class="form-group">
+                            <label for="estado">* Estado</label>
                                     <select class="custom-select" name="estado" v-model="estado">
                                         <option selected>Selecione a opção</option>
                                         <option value="AC">Acre</option>
@@ -270,65 +300,65 @@
                                         <option value="SC">Santa Catarina</option>
                                         <option value="SP">São Paulo</option>
                                         <option value="SE">Sergipe</option>
-                                        <option value="TO">Tocantins</option> 
+                                        <option value="TO">Tocantins</option>
                                     </select>
                         </div>
 
-                        <div class="form-group"> 
-                            <label for="telefone">Telefone</label>
+                        <div class="form-group">
+                            <label for="telefone">* Telefone</label>
                             <div class="form-row">
                                 <div class="col-6">
                                     <ValidationProvider name="fixo" rules="required|numeric|digits:10">
-                                        <div slot-scope="{ errors }">                                 
+                                        <div slot-scope="{ errors }">
                                             <input type="text" class="form-control" name="fixo" placeholder="Fixo" v-model="fixo" minlength="10" maxlength="10">
                                             <p>{{ errors[0] }}</p>
                                         </div>
-                                    </ValidationProvider>  
+                                    </ValidationProvider>
                                 </div>
                                 <div class="col">
                                     <ValidationProvider name="celular" rules="required|numeric|digits:11">
-                                        <div slot-scope="{ errors }">        
-                                            <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular" minlength="11" maxlength="11"> 
+                                        <div slot-scope="{ errors }">
+                                            <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular" minlength="11" maxlength="11">
                                             <p>{{ errors[0] }}</p>
                                         </div>
-                                    </ValidationProvider> 
+                                    </ValidationProvider>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="endereco">Endereço</label>
+                            <label for="endereco">* Endereço</label>
                                 <div class="form-row">
                                     <div class="col-3">
-                                        <ValidationProvider name="rua" rules="required">
+                                        <ValidationProvider name="rua" rules="required|max:50">
                                             <div slot-scope="{ errors }">
-                                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua">
+                                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" maxlength="50">
                                                 <p>{{ errors[0] }}</p>
                                             </div>
-                                        </ValidationProvider>   
+                                        </ValidationProvider>
                                     </div>
                                     <div class="col-3">
-                                        <ValidationProvider name="bairro" rules="required">
+                                        <ValidationProvider name="bairro" rules="required|max:50">
                                             <div slot-scope="{ errors }">
-                                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro">
+                                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" maxlength="50">
                                                 <p>{{ errors[0] }}</p>
                                             </div>
-                                        </ValidationProvider>   
-                                    </div>    
+                                        </ValidationProvider>
+                                    </div>
                                     <div class="col-3">
-                                        <ValidationProvider name="cidade" rules="required">
+                                        <ValidationProvider name="cidade" rules="required|max:50">
                                             <div slot-scope="{ errors }">
-                                                <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade">
+                                                <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade" maxlength="50">
                                                 <p>{{ errors[0] }}</p>
                                             </div>
-                                        </ValidationProvider>   
-                                    </div>    
+                                        </ValidationProvider>
+                                    </div>
                                     <div class="col">
                                         <ValidationProvider name="cep" rules="required|numeric|digits:8">
                                             <div slot-scope="{ errors }">
                                                 <input type="text" class="form-control" name="cep" placeholder="CEP" v-model="cep" minlength="8" maxlength="8">
                                                 <p>{{ errors[0] }}</p>
                                             </div>
-                                        </ValidationProvider>   
+                                        </ValidationProvider>
                                     </div>
                                 </div>
                         </div>
@@ -350,11 +380,11 @@
 <script>
 
     export default {
-    
+
         data(){
             return{
 
-            
+
                 razao: '',
                 missao: '',
                 rua: '',
@@ -373,19 +403,20 @@
                 editing: false,
                 uri: 'http://localhost:8000/api/pjuridicas',
                 token: this.$session.get('jwt'),
-                user_id: this.$session.get('user_id')
-          
-                
+                user_id: this.$session.get('user_id'),
+                notificacoes: []
+
+
             }
         },
         methods: {
             register(){
-           
+
                 if(!this.token){
                     console.log('loga ai seu corno');
                 }else{
-                     this.axios.post('http://localhost:8000/api/data/pjuridicas?token=' + this.token, 
-              
+                     this.axios.post('http://localhost:8000/api/data/pjuridicas?token=' + this.token,
+
                     {
                         razao: this.razao,
                         missao: this.missao,
@@ -406,7 +437,12 @@
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
-                        (response) => console.log(response)
+                        (response) => {
+                            if(response.data.error  != undefined){
+                                this.notificacoes = response.data.error;
+                                return;
+                            }   
+                        }
                     )
                     .catch(
                         (error) => console.log(error)
@@ -414,7 +450,7 @@
                 }
             },
              verifyEdit(){
-                
+
                 if(this.$route.params.editing === true){
                     this.editing = true;
                     this.loadDataEdit();
@@ -422,8 +458,8 @@
                 console.log('verifyedit:', this.editing);
             },
             edit(){
-                
-                this.axios.put(this.uri + '/' + this.user_id + '?token=' + this.token, 
+
+                this.axios.put(this.uri + '/' + this.user_id + '?token=' + this.token,
 
                     {
                         razao: this.razao,
@@ -444,7 +480,12 @@
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
-                        (response) => console.log(response)
+                        (response) => {
+                            if(response.data.error  != undefined){
+                                this.notificacoes = response.data.error;
+                                return;
+                            }   
+                        }
                     )
                     .catch(
                         (error) => console.log(error)
@@ -454,24 +495,24 @@
 
                 this.axios.get(this.uri + '/' + this.user_id + '?token=' + this.token)
                     .then(response=>{
-    
+
                         console.log('TESTE', response.data);
                         this.razao = response.data.juridica[0].user.name;
                         this.missao = response.data.juridica[0].missao;
-                        this.rua = response.data.juridica[0].endereco.rua; 
-                        this.bairro = response.data.juridica[0].endereco.bairro; 
-                        this.cidade = response.data.juridica[0].endereco.cidade; 
-                        this.cep = response.data.juridica[0].endereco.cep;     
-                        this.celular = response.data.juridica[0].contato.celular; 
-                        this.fixo = response.data.juridica[0].contato.fixo; 
-                        this.facebook = response.data.juridica[0].contato.facebook; 
-                        this.twitter = response.data.juridica[0].contato.twitter; 
-                        this.site = response.data.juridica[0].contato.site; 
+                        this.rua = response.data.juridica[0].endereco.rua;
+                        this.bairro = response.data.juridica[0].endereco.bairro;
+                        this.cidade = response.data.juridica[0].endereco.cidade;
+                        this.cep = response.data.juridica[0].endereco.cep;
+                        this.celular = response.data.juridica[0].contato.celular;
+                        this.fixo = response.data.juridica[0].contato.fixo;
+                        this.facebook = response.data.juridica[0].contato.facebook;
+                        this.twitter = response.data.juridica[0].contato.twitter;
+                        this.site = response.data.juridica[0].contato.site;
                         this.outraRede = response.data.juridica[0].contato.outraRede;
                         this.linkedin = response.data.juridica[0].contato.linkedin;
-                        this.pais = response.data.juridica[0].endereco.pais; 
-                        this.estado = response.data.juridica[0].endereco.estado; 
-    
+                        this.pais = response.data.juridica[0].endereco.pais;
+                        this.estado = response.data.juridica[0].endereco.estado;
+
                     })
                     .catch(
                         error => console.log(error)
@@ -482,6 +523,6 @@
             this.verifyEdit();
             console.log(this.$session.get('user_id'));
         }
-       
+
     }
 </script>

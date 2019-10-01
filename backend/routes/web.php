@@ -19,4 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/teste','CandidaturaController@teste')->name('teste');
+
+
 

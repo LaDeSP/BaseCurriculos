@@ -35,11 +35,9 @@ import DashJUR from './components/Dashboards/DashJuridica.vue';
 
 import DeuRuim from './components/DeuRuim.vue';
 
-import Home from './components/Home.vue';
+import Home from './components/Home/Home.vue';
 
-import Sobre from './components/Sobre.vue';
-
-
+import Sobre from './components/Home/Sobre.vue';
 
 const routes = [
     {path: '', name:'home', component: Home, meta:{isHome: true}},

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Validator;
 
 use Response;
 use App\Agenda;
@@ -9,9 +10,16 @@ use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
-  
     public function store(Request $request)
-    {
+    {   
+        $validator = Validator::make($request->all(), AgendaController::rules(), AgendaController::messages());
+         
+        if ($validator->fails()) {
+             return Response::json([
+                'error' => $validator->messages()
+            ], 201);
+        }   
+                 
         Agenda::create([
            'data'=>$request->data,
            'hora'=>$request->hora,
@@ -43,5 +51,20 @@ class AgendaController extends Controller
     public function destroy(Agenda $agenda)
     {
         //
+    }
+    public function messages(){
+        return $messages = [
+            'data.required' => 'Insira uma data!',
+            'hora.required' => 'Insira uma hora!',
+            'observacao.max' => 'Insira observação com no máximo 500 caracteres!',
+        ];
+    }
+
+    public function rules(){
+        return [
+            'data' => 'required',
+            'hora' => 'required',
+            'obervacao' => 'max:500',
+        ];
     }
 }

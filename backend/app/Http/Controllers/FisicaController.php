@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use Response;
 
@@ -18,42 +19,14 @@ class FisicaController extends Controller
 
     public function store(Request $request)
     {  
-        if(!$request->name){
-            $error[] = 'Insira o nome!';
-        }
-      /*  $validaCPF = FisicaController::validaCPF($request->cpf);
-        if($validaCPF!="true"){
-            $error[] = $validaCPF;
-        } */
-        if(!$request->email){
-            $error[] = 'Insira o email!';
-        }
-        else{
-            $buscaEmail = User::where('email', $request->email)->first();
-            if($buscaEmail){
-                $error[] = 'Email inserido já foi cadastrado.';
-            }
-            else {
-                if(!filter_var($request->email, FILTER_VALIDATE_EMAIL)){
-                    $error[] = 'Insira email válido!';
-                }
-            }
-        }
-        if(!$request->password){
-            $error[] = 'Insira uma senha!';
-        }
         
-        if(isset($error)){
-            return Response::json([
-            'error' => $error
-        ], 201);
+        $validator = Validator::make($request->all(), FisicaController::rules(), FisicaController::messages());
+         
+        if ($validator->fails()) {
+             return Response::json([
+                'error' => $validator->messages()
+            ], 201);
         }
-
-        $this->validate($request, [
-            'name' => 'required',
-            'cpf' => 'required',
-            'email' => 'required|email|unique:users',
-            ]); 
 
         $this->register($request);
             
@@ -106,56 +79,30 @@ class FisicaController extends Controller
          ], 201);
     }
 
-    function validaCPF($cpf) {
+    public function messages(){
+        return $messages = [
+            'name.required' => 'Insira um nome!',
+            'name.max' => 'Insira nome com no máximo 50 caracteres',
+            'email.required' => 'Insira um email!',
+            'email.email' => 'Insira um email válido!',
+            'email.unique' => 'Email inserido já existe!',
+            'password.required' => 'Insira uma senha!',
+            'password.min' => 'Senha tem que ter no mínimo 8 caracteres!',
+            'password.max' => 'Senha tem que ter no máximo 30 caracteres!',
+            'cpf.required' => 'Insira um CPF!',
+            'cpf.cpf' => 'Insira um CPF válido!',
+            'cpf.unique' => 'CPF inserido já foi cadastrado.'
+        ];
+    }
 
-        // Verifica se um número foi informado
-        if(empty($cpf)) {
-            return "Insira um CPF";
-        }
-    
-        // Elimina possivel mascara
-        $cpf = preg_replace("/[^0-9]/", "", $cpf);
-        $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
-
-        $buscaCPF = Fisica::where('cpf', $cpf)->first();
-        if($buscaCPF){
-            return "CPF inserido já foi cadastrado.";
-        }
-        
-        // Verifica se o numero de digitos informados é igual a 11 
-        if (strlen($cpf) != 11) {
-            return "CPF Inválido";
-        }
-        // Verifica se nenhuma das sequências invalidas abaixo 
-        // foi digitada. Caso afirmativo, retorna falso
-        else if ($cpf == '00000000000' || 
-            $cpf == '11111111111' || 
-            $cpf == '22222222222' || 
-            $cpf == '33333333333' || 
-            $cpf == '44444444444' || 
-            $cpf == '55555555555' || 
-            $cpf == '66666666666' || 
-            $cpf == '77777777777' || 
-            $cpf == '88888888888' || 
-            $cpf == '99999999999') {
-            return "CPF Inválido";
-         // Calcula os digitos verificadores para verificar se o
-         // CPF é válido
-         } else {   
-            
-            for ($t = 9; $t < 11; $t++) {
-                
-                for ($d = 0, $c = 0; $c < $t; $c++) {
-                    $d += $cpf{$c} * (($t + 1) - $c);
-                }
-                $d = ((10 * $d) % 11) % 10;
-                if ($cpf{$c} != $d) {
-                    return "CPF Inválido";
-                }
-            }
-    
-            return "true";
-        }
+    public function rules(){
+        return [
+           
+            'name' => 'required|max:50',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8|max:30',
+            'cpf' => 'required|cpf|unique:fisicas,cpf'
+        ];
     }
     
 }

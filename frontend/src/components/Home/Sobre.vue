@@ -18,7 +18,7 @@
 </template>
 <script>
 
-  import NavBarSobre from './NavBarSobre';
+  import NavBarSobre from './NavBarSobre.vue';
 
   export default {
     data(){

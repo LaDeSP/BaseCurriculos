@@ -3,11 +3,6 @@
     <div class="col-sm-6">
         <ValidationObserver v-slot="{ invalid }">
             <form>
-                <div v-if="notificacoes">
-                    <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
-                        {{notificacao[0]}}
-                    </span>
-                </div>
                 <div class="form-group">
                     <label for="cnpj">* CNPJ</label>
                     <ValidationProvider name="cnpj" rules="required|numeric|digits:14">
@@ -84,9 +79,7 @@
                 password: '',
                 ramo: '',
                 cnpj: '',
-                role: 'JURIDICA',
-                notificacoes: []
-
+                role: 'JURIDICA'
 
             }
         },
@@ -109,10 +102,6 @@
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
                         (response) => {
-                            if(response.data.error  != undefined){
-                                this.notificacoes = response.data.error;
-                                return;
-                            }
                             this.$session.start(),
                             this.$session.set('jwt', response.data.token),
                             this.$session.set('name', response.data.name),
