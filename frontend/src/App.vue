@@ -28,7 +28,7 @@ export default {
       }
     },
     components:{
-        NavBar, Footer, Home
+        NavBar, Footer
 
     },
     created(){
