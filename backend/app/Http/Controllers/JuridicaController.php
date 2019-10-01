@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use Response;
 
@@ -18,220 +19,44 @@ class JuridicaController extends Controller
    
     public function store(Request $request)
     {   
-        /*$validaCNPJ = JuridicaController::isCnpjValid($request->cnpj);
-        if($validaCNPJ!="true"){
-            $error[] = $validaCNPJ;
-        } */
-
-        if(!$request->name){
-            $error[] = 'Insira o nome!';
+        $validator = Validator::make($request->all(), JuridicaController::rules_basic(), JuridicaController::messages_basic());
+        if ($validator->fails()) {
+            return Response::json([
+               'error' => $validator->messages()
+           ], 201);
         }
-        else{
-            if(strlen($request->name)>50){
-                $error[] = 'Insira nome com no máximo 50 aracteres!';
-            }
-        }
-          
-        if(!$request->ramo){
-            $error[] = 'Insira o ramo!';
-        }
-        else{
-            if(strlen($request->ramo)>50){
-                $error[] = 'Insira ramo com no máximo 50 aracteres!';
-            }
-        }
-
-        if(!$request->email){
-            $error[] = 'Insira o email!';
-        }
-        else{
-            $buscaEmail = User::where('email', $request->email)->first();
-            if($buscaEmail){
-                $error[] = 'Email inserido já foi cadastrado.';
-            }
-            else {
-                if(!filter_var($request->email, FILTER_VALIDATE_EMAIL)){
-                    $error[] = 'Insira email válido!';
-                }
-            }
-        }
+        $this->register($request);
         
-        if(!$request->password){
-            $error[] = 'Insira uma senha!';
-        }
-        else{
-            if(strlen($request->password)<8){
-                $error[] = 'Insira uma senha com no mínimo 8 caracteres!';
-            }
-            else if(strlen($request->password)>30){
-                $error[] = 'Insira uma senha com no máximo 30 caracteres!';
-            }
-        }
+        $pjuridica = new Juridica();
+        $cnpj = $pjuridica->cnpj = $request->input('cnpj');
+        $ramo = $pjuridica->ramo = $request->input('ramo');
+        $email = $request->input('email');
+        $id = User::where('email', $email)->first()->id;
+        $pjuridica->user_id = $id;
 
+        $pjuridica->save();
 
-        if(isset($error)){
-            return Response::json([
-            'error' => $error
-        ], 201);
-        }
-
-        $this->validate($request, [
-            'name' => 'required',
-            'cnpj' => 'required',
-            'email' => 'required|email|unique:users',
-            ]); 
-
-            $this->register($request);
-            
-            $pjuridica = new Juridica();
-            $cnpj = $pjuridica->cnpj = $request->input('cnpj');
-            $ramo = $pjuridica->ramo = $request->input('ramo');
-            $email = $request->input('email');
-            $id = User::where('email', $email)->first()->id;
-            $pjuridica->user_id = $id;
-
-            $pjuridica->save();
-
-            $credentials = $request->only('email', 'password');
-            $token = JWTAuth::attempt($credentials);
-           // $user = User::find($id);
-            //$token = auth()->login($user);
-            return Response::json([
-                'token'=> $token,
-                'name' => $request->input('name'),
-                'role' => $request->input('role'),
-                'user_id'=> auth()->user()->id,
-                'message' => 'Pessoa Jurídica cadastrada com sucesso!'
-             ], 201); 
+        $credentials = $request->only('email', 'password');
+        $token = JWTAuth::attempt($credentials);
+        // $user = User::find($id);
+        //$token = auth()->login($user);
+        return Response::json([
+            'token'=> $token,
+            'name' => $request->input('name'),
+            'role' => $request->input('role'),
+            'user_id'=> auth()->user()->id,
+            'message' => 'Pessoa Jurídica cadastrada com sucesso!'
+            ], 201); 
     }
 
     public function addData(Request $request){
-        if(!$request->razao){
-            $error[] = 'Insira sua razão social!';
-        }
-        else {
-            if(strlen($request->razao)>50){
-                $error[] = 'Insira sua razão social com no máximo 50 caracteres!';
-            }
-        }
-        
-        if(!$request->missao){
-            $error[] = 'Insira sua missão!';
-        }
-        else {
-            if(strlen($request->missao)>500){
-                $error[] = 'Insira sua missão com no máximo 500 caracteres!';
-            }
-        }
-        
-        if($request->linkedin){
-            if(strlen($request->linkedin)>50){
-                $error[] = 'Insira um linkedin com no máximo 50 caracteres!';
-            }
-        }
-
-        if($request->facebook){
-            if(strlen($request->facebook)>50){
-                $error[] = 'Insira um facebook com no máximo 50 caracteres!';
-            }
-        }
-
-        if($request->twitter){
-            if(strlen($request->twitter)>50){
-                $error[] = 'Insira um twitter com no máximo 50 caracteres!';
-            }
-        }
-
-        if($request->site){
-            if(strlen($request->site)>50){
-                $error[] = 'Insira o site com no máximo 50 caracteres!';
-            }
-        }
-
-        if($request->outraRede){
-            if(strlen($request->outraRede)>50){
-                $error[] = 'Insira sua outra rede com no máximo 50 caracteres!';
-            }
-        }
-
-        /*if($request->emailAlt){
-            if(!filter_var($request->emailAlt, FILTER_VALIDATE_EMAIL)){
-                $error[] = 'Insira email válido no campo email alternativo!';
-            }
-            else if(strlen($request->emailAlt)>50){
-                $error[] = 'Insira seu email alternativo com no máximo 50 caracteres!';
-            }
-        }*/
-
-        if(!$request->pais){
-            $error[] = 'Insira o país!';
-        }
-
-        if(!$request->estado){
-            $error[] = 'Insira o estado!';
-        }
-
-        if(!$request->fixo){
-            $error[] = 'Insira número fixo!';
-        }
-        else{
-            /*if(CurriculoController::celular($request->fixo)==false){
-                $error[] = 'Digite número fixo válido!';
-            }*/
-        }
-        
-        if(!$request->celular){
-            $error[] = 'Insira número de celular!';
-        }
-        else{ 
-            /*if(CurriculoController::celular($request->celular)==false){
-                $error[] = 'Digite celular válido!';
-            } */
-        }
-        
-        if(!$request->rua){
-            $error[] = 'Insira a rua!';
-        }
-        else {
-            if(strlen($request->rua)>50){
-                $error[] = 'Insira sua rua com no máximo 50 caracteres!';
-            }
-        }
-
-        if(!$request->bairro){
-            $error[] = 'Insira o bairro!';
-        }
-        else {
-            if(strlen($request->bairro)>50){
-                $error[] = 'Insira seu bairro com no máximo 50 caracteres!';
-            }
-        }
-
-        if(!$request->cidade){
-            $error[] = 'Insira a cidade!';
-        }
-        else {
-            if(strlen($request->cidade)>50){
-                $error[] = 'Insira sua cidade com no máximo 50 caracteres!';
-            }
-        }
-        
-        if(!$request->cep){
-            $error[] = 'Insira o CEP!';
-        }
-        else{
-            /*if(CurriculoController::validarCep($request->cep)==false){
-                $error[] = 'Digite CEP válido!';
-            }*/
-        }
-        
-        
-        if(isset($error)){
+        $validator = Validator::make($request->all(), JuridicaController::rules_addData(), JuridicaController::messages_addData());
+        if ($validator->fails()) {
             return Response::json([
-            'error' => $error
-        ], 201);
+               'error' => $validator->messages()
+           ], 201);
         }
-       
+
         $con_id = Contato::insertGetId([
             'celular' => $request->input('celular'),
             'fixo' => $request->input('fixo'),
@@ -283,6 +108,13 @@ class JuridicaController extends Controller
         $con_id = Juridica::where('user_id', $id)->value('contatos_id');
 
         //User::where('id', $id)->update(['name'=>$request->nome]);
+        
+        $validator = Validator::make($request->all(), JuridicaController::rules_addData(), JuridicaController::messages_addData());
+        if ($validator->fails()) {
+            return Response::json([
+               'error' => $validator->messages()
+           ], 201);
+        }
 
         Endereco::where('id', $end_id)->update([
             'rua' => $request->rua,
@@ -339,101 +171,86 @@ class JuridicaController extends Controller
          ], 201);
     }
 
-    function isCnpjValid($cnpj){
-        if(empty($cnpj)) {
-            return "Insira um CNPJ!";
-        }
-        //Etapa 1: Cria um array com apenas os digitos numéricos, isso permite receber o cnpj em diferentes formatos como "00.000.000/0000-00", "00000000000000", "00 000 000 0000 00" etc...
-        $j=0;
-        for($i=0; $i<(strlen($cnpj)); $i++){
-            if(is_numeric($cnpj[$i])){
-                $num[$j]=$cnpj[$i];
-                $j++;
-            }
-        }
-        $buscaCNPJ = Juridica::where('cnpj', $cnpj)->first();
-        if($buscaCNPJ){
-            return "CNPJ inserido já foi cadastrado.";
-        }
-        //Etapa 2: Conta os dígitos, um Cnpj válido possui 14 dígitos numéricos.
-        if(count($num)!=14){
-                $isCnpjValid=false;
-        }
-        //Etapa 3: O número 00000000000 embora não seja um cnpj real resultaria um cnpj válido após o calculo dos dígitos verificares e por isso precisa ser filtradas nesta etapa.
-        if ($num[0]==0 && $num[1]==0 && $num[2]==0 && $num[3]==0 && $num[4]==0 && $num[5]==0 && $num[6]==0 && $num[7]==0 && $num[8]==0 && $num[9]==0 && $num[10]==0 && $num[11]==0){
-            $isCnpjValid=false;
-        }
-        //Etapa 4: Calcula e compara o primeiro dígito verificador.
-        else{
-            $j=5;
-            for($i=0; $i<4; $i++){
-                $multiplica[$i]=$num[$i]*$j;
-                $j--;
-            }
-            $soma = array_sum($multiplica);
-            $j=9;
-            for($i=4; $i<12; $i++){
-                $multiplica[$i]=$num[$i]*$j;
-                $j--;
-            }
-            $soma = array_sum($multiplica);	
-            $resto = $soma%11;			
-            if($resto<2){
-                $dg=0;
-            }
-            else{
-                $dg=11-$resto;
-            }
-            if($dg!=$num[12]){
-                $isCnpjValid=false;
-            } 
-        }
-        //Etapa 5: Calcula e compara o segundo dígito verificador.
-        if(!isset($isCnpjValid)){
-            $j=6;
-            for($i=0; $i<5; $i++){
-                $multiplica[$i]=$num[$i]*$j;
-                $j--;
-            }
-            $soma = array_sum($multiplica);
-            $j=9;
-            for($i=5; $i<13; $i++){
-                $multiplica[$i]=$num[$i]*$j;
-                $j--;
-            }
-            $soma = array_sum($multiplica);	
-            $resto = $soma%11;			
-            if($resto<2){
-                $dg=0;
-            }
-            else{
-                $dg=11-$resto;
-            }
-            if($dg!=$num[13]){
-                $isCnpjValid=false;
-            }
-            else{
-                $isCnpjValid=true;
-            }
-        }
-        //Trecho usado para depurar erros.
-        /*
-        if($isCnpjValid==true)
-            {
-                echo "<p><font color="GREEN">Cnpj é Válido</font></p>";
-            }
-        if($isCnpjValid==false)
-            {
-                echo "<p><font color="RED">Cnpj Inválido</font></p>";
-            }
-        */
-        //Etapa 6: Retorna o Resultado em um valor booleano.
-        //return $isCnpjValid;	
-        if ($isCnpjValid==true){
-            return "true";
-        }
-        else {
-            return "Insira CNPJ válido";
-        }
-	}
+    
+    public function messages_basic(){
+        return $messages = [
+            'name.required' => 'Insira um nome!',
+            'name.max' => 'Insira nome com no máximo 50 caracteres',
+            'ramo.required' => 'Insira um ramo!',
+            'ramo.max' => 'Insira ramo com no máximo 50 caracteres',
+            'email.required' => 'Insira um email!',
+            'email.email' => 'Insira um email válido!',
+            'email.unique' => 'Email inserido já existe!',
+            'password.required' => 'Insira uma senha!',
+            'password.min' => 'Senha tem que ter no mínimo 8 caracteres!',
+            'password.max' => 'Senha tem que ter no máximo 30 caracteres!',
+            'cpf.required' => 'Insira um CPF!',
+            'cpf.cpf' => 'Insira um CPF válido!',
+            'cpf.unique' => 'CPF inserido já foi cadastrado.'
+        ];
+    }
+
+    public function rules_basic(){
+        return [
+           
+            'name' => 'required|max:50',
+            'ramo' => 'required|max:50',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8|max:30',
+            'cnpj' => 'required|cnpj|unique:juridicas,cnpj'
+        ];
+    }
+    public function messages_addData(){
+        return $messages = [
+            'razao.required' => 'Insira uma razão!',
+            'razao.max' => 'Insira razão com no máximo 50 caracteres.',
+            'missao.required' => 'Insira uma missão!',
+            'missao.max' => 'Insira missão com no máximo 500 caracteres.',
+            'linkedin.max' => 'Insira linkedin com no máximo 50 caracteres.',
+            'facebook.max' => 'Insira facebook com no máximo 50 caracteres.',
+            'twitter.max' => 'Insira twitter com no máximo 50 caracteres.',
+            'site.max' => 'Insira site com no máximo 50 caracteres.',
+            'outraRede.max' => 'Insira outra rede com no máximo 50 caracteres.',
+            'pais.required' => 'Selecione um país!',
+            'estado.required' => 'Selecione um estado!',
+            'fixo.required' => 'Insira um número fixo!',
+            'fixo.digits' => 'Número fixo precisa de 10 digitos! (DDD+numero)',
+            'celular.required' => 'Insira um número de celular!',
+            'celular.digits_between' => 'Número de celular precisa de 10 ou 11 digitos! (DDD+numero)',
+            'rua.required' => 'Insira uma rua!',
+            'rua.max' => 'Insira rua com no máximo 50 caracteres.',
+            'numero.max' => 'Insira número com no máximo 50 caracteres.',
+            'complemento.max' => 'Insira complemento com no máximo 500 caracteres.',
+            'bairro.required' => 'Insira um bairro!',
+            'bairro.max' => 'Insira bairro com no máximo 50 caracteres.',
+            'cidade.required' => 'Insira uma cidade!',
+            'cidade.max' => 'Insira cidade com no máximo 50 caracteres.',
+            'cep.required' => 'Insira um CEP!',
+            'cep.digits' => 'Insira CEP válido!'
+        ];
+    }
+    public function rules_addData(){
+        return [
+            'razao' => 'required|max:50',
+            'missao' => 'required|max:500',
+            'linkedin' => 'max:50',
+            'facebook' => 'max:50',
+            'twitter' => 'max:50',
+            'site' => 'max:50',
+            'outraRede' => 'max:50',
+            'pais' => 'required',
+            'estado' => 'required',
+            'fixo' => 'required|digits:10',
+            'celular' => 'required|digits_between: 10, 11',
+            'rua' => 'required|max:50',
+            'numero' => 'max:50',
+            'complemento' => 'max:500',
+            'bairro' => 'required|max:50',
+            'cidade' => 'required|max:50',
+            'cep'=> 'required|digits:8'
+        ];
+    }
+
+
+    
 }
