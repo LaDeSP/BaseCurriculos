@@ -25072,3 +25072,7 @@ header.masthead .intro-text .intro-heading {
   margin: 15px 0;
   text-transform: none;
 }
+
+.pointer{
+  cursor: pointer;
+}

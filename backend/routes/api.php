@@ -29,7 +29,7 @@ Route::resource('/curriculos', 'CurriculoController', [
 Route::resource('/vagas', 'VagaController', [
     'middleware' => 'jwt.auth'
 ]);
-Route::post('/vagas', 'VagaController@disable', [
+Route::post('/vagas/deactivate', 'VagaController@deactivate', [
     'middleware' => 'jwt.auth'
 ]);
 Route::resource('/candidaturas', 'CandidaturaController', [

@@ -1,5 +1,15 @@
 <template>
     <div class="panel panel-default">
+        <div class="col-md-12"> 
+             <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                <label class="btn btn-outline-success active pointer">
+                    <input type="radio" name="options" autocomplete="off" value="corno" @change="onChange()"> Ver Vagas Ativas
+                </label>
+                <label class="btn btn-outline-secondary pointer">
+                    <input type="radio" name="options" autocomplete="off" value="fdp" @change="onChange()"> Ver Vagas Inativas
+                </label>
+            </div>
+        </div>
         <div class="panel-heading"><h2>Vagas de Emprego</h2></div>
             <div class="panel-body" v-for="vaga in isActive" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">     
               <h3><span class="label label-info ">Título: {{vaga.titulo}}</span></h3>
@@ -18,7 +28,7 @@
                 </div>
                 <div v-else>
                     <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
-                    <button @click="teste(vaga.id)" class="btn btn-sm btn-outline-danger">Desativar</button>  
+                    <button @click="onDeactivate(vaga.id)" class="btn btn-sm btn-outline-danger">Desativar</button>  
                     <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Deletar</button>  
                 </div>
                <hr>
@@ -39,10 +49,14 @@
                 token: this.$session.get('jwt'),
                 auth_jur: 0,
                 isFIS: false,
-                onDisable: false
+                filterState: ''
             }
         },
         methods: {
+            onChange(){
+                console.log(this.filterState);
+                //this.filterState = !this.filterState;
+            },
             loadVagas(){
 
                 this.axios
@@ -80,9 +94,9 @@
                     );
                
             },
-            teste(id){
+            onDeactivate(id){
 
-                this.axios.post(this.uri + '?token=' + this.token, 
+               /* this.axios.post(this.uri + '?token=' + this.token, 
                     {vaga_id: id},
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
@@ -92,6 +106,8 @@
                         (error) => console.log(error),
                         
                     );
+                    */
+              
                
             },
             onDelete(id){
@@ -113,9 +129,16 @@
                 });
 
                 this.vagas.splice(position, 1);
+            },
+            filterStateTrue(){
+               this.filterState = true;
+               console.log('fdp', this.filterState);
+            },
+            filterStateFalse(){
+               this.filterState = false;
+               console.log('corno', this.filterState);
             }
         },
-
         computed:{
              isActive(){
                 if(this.$session.get('role') === 'FISICA'){
@@ -123,7 +146,6 @@
                 }else{
                     return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA' && vaga.juridicas_id == this.auth_jur;})
                 }
-                
             }
 
         },
