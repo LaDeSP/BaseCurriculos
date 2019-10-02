@@ -107,26 +107,6 @@
                                 </div>
                             </ValidationProvider>
                         </div>
-                        <div class="form-group">
-                            <label for="outraRede">Outra Rede Social</label>
-                            <ValidationProvider name="outraRede" rules="max:50">
-                                <div slot-scope="{ errors }">
-                                    <input type="outraRede" id="outraRede" name="outraRede"
-                                    class="form-control" v-model="outraRede" maxlength="50">
-                                    <p>{{ errors[0] }}</p>
-                                </div>
-                            </ValidationProvider>
-                        </div>
-                        <div class="form-group">
-                            <label for="emailAlt">Email</label>
-                            <ValidationProvider name="emailAlt" rules="email|max:50">
-                                <div slot-scope="{ errors }">
-                                    <input type="emailAlt" id="emailAlt" name="emailAlt"
-                                    class="form-control" v-model="emailAlt" maxlength="50">
-                                    <p>{{ errors[0] }}</p>
-                                </div>
-                            </ValidationProvider>
-                        </div>
 
                     </div>
                         <hr>
