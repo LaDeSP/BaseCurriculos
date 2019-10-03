@@ -1,20 +1,13 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import store from './store'
+import * as getters from './getters'
+import * as mutations from './mutations'
+import * as actions from './actions'
 
-Vue.use(Vuex)
+export default {
 
-export default new Vuex.Store({
-    state: {
-        //default depende se tem token no storage ou nao
-        //!! é pra fazr ele ser booleano
-        isLoggedIn: !!localStorage.getItem('token')
-    },
-    mutations: {
-        loginUser (state) {
-            state.isLoggedIn = true
-        },
-        logoutUser (state) {
-            state.isLoggedIn = false
-        },
-    }
-})
+  store,
+  getters,
+  mutations,
+  actions
+  
+}
