@@ -88,8 +88,8 @@
 
                 name:'',
                 email: '',
-                password: '',
                 cpf: '',
+                password: '',
                 role: 'FISICA',
                 notificacoes: [],
 
@@ -99,35 +99,18 @@
         methods: {
 
             register(){
+              let data = {
+                name: this.name,
+                email: this.email,
+                cpf: this.cpf,
+                email: this.email,
+                role: this.role
+              }
 
-                this.axios.post('http://localhost:8000/api/pfisicas',
-
-                    {
-
-                        email: this.email,
-                        password: this.password,
-                        name: this.name,
-                        cpf: this.cpf,
-                        role: this.role
-                    },
-                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .then(
-                        (response) => {
-                            if(response.data.error  != undefined){
-                                this.notificacoes = response.data.error;
-                                return;
-                            }
-                            this.$session.start(),
-                            this.$session.set('jwt', response.data.token),
-                            this.$session.set('name', response.data.name),
-                            this.$session.set('role', response.data.role),
-                            this.$session.set('user_id', response.data.user_id)
-                            this.$router.push({ name: 'dashboard-fisica' })
-                        }
-                    )
-                    .catch(
-                        (error) => console.log(error)
-                    );
+              this.$store.dispatch('register', data)
+              .then(() => console.log('dispatch register'))
+              .catch(error => console.log(error))
+                
             }
         },
     }

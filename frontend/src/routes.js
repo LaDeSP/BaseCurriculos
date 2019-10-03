@@ -27,6 +27,7 @@ import DeuRuim from './components/DeuRuim.vue';
 import Home from './components/Home/Home.vue';
 
 import Sobre from './components/Home/Sobre.vue';
+import { store } from './store/store';
 
 const routes = [
     {path: '', name:'home', component: Home, meta:{isHome: true}},
@@ -45,14 +46,25 @@ const routes = [
     {path: '/profile-juridica', component: JuridicaData},
     {path: '/profile-juridica', component: JuridicaData},
     {path: '/candidaturas', name: 'candidaturas', component: Candidatura},
-    {path: '/dashboard-fisica', name: 'dashboard-fisica', component: DashFIS},
-    {path: '/dashboard-juridica', name: 'dashboard-juridica', component: DashJUR},
+    {path: '/dashboard-fisica', name: 'dashboard-fisica', component: DashFIS, meta: {requiresAuth: true}},
+    {path: '/dashboard-juridica', name: 'dashboard-juridica', component: DashJUR, meta: {requiresAuth: true}},
     {path: '*', component: DeuRuim}
 
 ];
 
 const router = new VueRouter({mode: 'history', routes: routes});
 
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)){
+    if(store.getters.isLoggedIn){
+      next()
+      return
+    }
+    next('/login')
+  }else{
+    next()
+  }
+})
 
 /*router.beforeEach((to, from, next) => {
     if(to.meta.requiresAuth){

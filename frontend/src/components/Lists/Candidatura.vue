@@ -68,7 +68,8 @@
                if(this.$session.get('role') === 'FISICA'){this.isFIS = true}
         },
         created(){
-            this.loadCandidaturas();
+            
+            console.log('oi', this.$store.getters.isLoggedIn);
         }
     }
 </script>

@@ -1,12 +1,26 @@
-const PROP1_UPDATED = (state, payload) => {
-    state.someObj.prop1 = payload;
+const auth_request = (state) => {
+    state.status = 'loading'
+  };  
+const auth_success = (state, token, user) => {
+    state.status = 'success'
+    state.token = token
+    state.user = user
   };
-  
-  const PROP2_UPDATED = (state, payload) => {
-    state.someObj.prop2 = payload;
+const isLoggedIn = (state) => {
+  state.isLoggedIn = true;
+};
+const auth_error = (state) => {
+    state.status = 'error'
+  };
+const logout = (state) => {
+    state.status = ''
+    state.token = ''
   };
   
   export default {
-    PROP1_UPDATED,
-    PROP2_UPDATED,
+    auth_request,
+    auth_success,
+    isLoggedIn,
+    auth_error,
+    logout
   };
