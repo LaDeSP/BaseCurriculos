@@ -1,13 +1,20 @@
 import axios from 'axios';
 
-const login = ({commit}, user, instance) => {
-    commit('auth_request')
+const login = ({commit}, user) => {
+    
     axios({ url: 'http://localhost:8000/api/login', data: user, method: 'POST' })
       .then(response => {
-        commit('auth_success', response.data.token, response.data.user)
-        commit('isLoggedIn')
-      }).catch(err => {
-        commit('auth_error')
+        
+        const authData = {
+          'token': response.data.token,
+          'user': response.data.user
+        }
+       
+        commit('auth_success', {authData})
+
+      }).catch(error => {
+        //commit('auth_error')
+        console.log(error)
       })
   
 };

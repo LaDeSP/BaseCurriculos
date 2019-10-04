@@ -1,8 +1,8 @@
 import axios from 'axios';
 import VueRouter from 'vue-router';
 
-const token = localStorage.getItem('token');
-axios.defaults.headers.common['Authorization'] = token;
+//const token = localStorage.getItem('token');
+//axios.defaults.headers.common['Authorization'] = token;
 
 import Login from './components/Auth/Login.vue';
 import Logout from './components/Auth/Logout.vue';
@@ -65,6 +65,7 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
 
 /*router.beforeEach((to, from, next) => {
     if(to.meta.requiresAuth){

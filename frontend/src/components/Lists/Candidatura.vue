@@ -69,7 +69,7 @@
         },
         created(){
             
-            console.log('oi', this.$store.getters.isLoggedIn);
+            console.log('teste', localStorage.getItem('auth'));
         }
     }
 </script>

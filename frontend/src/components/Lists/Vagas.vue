@@ -165,6 +165,8 @@
         
         created(){
             this.loadVagas();
+            console.log('state', this.$store.state.auth);
+            console.log('getters', this.$store.getters);
         }
     }
 </script>

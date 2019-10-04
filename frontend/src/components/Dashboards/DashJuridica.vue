@@ -29,6 +29,10 @@
               name: this.$session.get('name')
             }
         },
+        created(){
+            console.log('state', this.$store.state.auth);
+            console.log('getters', this.$store.getters);
+        }
     }
 </script>
 <style>

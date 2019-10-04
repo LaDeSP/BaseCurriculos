@@ -12,6 +12,7 @@
   "dependencies": {
     "array-includes": "^3.0.3",
     "axios": "^0.18.1",
+    "js-cookie": "^2.2.1",
     "mem": "^5.1.1",
     "moment": "^2.22.2",
     "vee-validate": "^3.0.5",
@@ -20,7 +21,8 @@
     "vue-filter-date-format": "^1.1.1",
     "vue-flash-message": "^0.7.2",
     "vue-router": "^3.0.1",
-    "vue-session": "^1.0.0"
+    "vue-session": "^1.0.0",
+    "vuex-persistedstate": "^2.5.4"
   },
   "browserslist": [
     "> 1%",

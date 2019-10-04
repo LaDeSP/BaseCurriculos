@@ -36,17 +36,39 @@
             return{
                 email: '',
                 password: '',
+                loginError: false,
             }
         },
         methods: {
             login(){
-               let email = this.email;
-               let password = this.password;
-               this.$store.dispatch('login', {email, password})
-               .then(() => console.log(this.$store.getters))
-               .catch(error => console.log(error))
+                this.loginError = false;
+                this.axios.post('http://localhost:8000/api/login',
+                
+                    {email: this.email, password: this.password},
+                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+                    .then(
+                        (response) => {
+                         
+                            this.$session.start(),
+                            this.$session.set('jwt', response.data.token),
+                            this.$session.set('name', response.data.name),
+                            this.$session.set('role', response.data.role),
+                            this.$session.set('user_id', response.data.user_id),
+                            localStorage.setItem('auth_success', true);
+                            console.log(response);
+                        }
+                    )
+                    .catch(error => {
+                        this.loginError = true
+                        console.log(error)
+
+                    }
+                    );
             }
         }
     }
 
 </script>
+
+
+

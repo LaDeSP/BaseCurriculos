@@ -1,5 +1,5 @@
-const isLoggedIn = state => state.isLoggedIn;
-const authStatus = state => state.status;
+const isLoggedIn = state => !!state.auth.token;
+const authStatus = state => state.auth.status;
 
 export default {
   isLoggedIn,

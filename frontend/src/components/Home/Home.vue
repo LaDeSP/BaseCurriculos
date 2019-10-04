@@ -46,9 +46,6 @@
         this.isModalFacaParte = false;
       }
     },
-    created(){
-      console.log('created', this.isModalFacaParte)
-    }
   }
 
 </script>

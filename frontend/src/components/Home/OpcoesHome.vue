@@ -97,9 +97,6 @@
         this.isModalCadastroJuridica = false;
       }
     },
-    created(){
-      console.log('created', this.isModalLogin)
-    }
   }
 
 </script>
