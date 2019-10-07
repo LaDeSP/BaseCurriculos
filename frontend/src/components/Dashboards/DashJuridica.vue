@@ -1,32 +1,32 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h1 id="centro">Bem Vindo, {{name}}</h1>
-
-                <div class="panel panel-default" id="caixa">
-                    <div class="panel-heading" ><center>Painel - Juridica</center></div>
-                        <div class="panel-body" >
-                            
-                            <router-link class="btn btn-secondary btn-lg active btn-block" to="/profile-juridica">Meu Perfil</router-link>
-                            <router-link class="btn btn-secondary btn-lg active btn-block" to="/new-vaga">Cadastrar Nova Vaga</router-link>                
-                                
-                    </div>
+   
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default" >
+                <div class="panel-heading" ><h1>Bem Vindo, {{name}} :)</h1></div>
+                    <div class="panel-body" >
+                        <UploadPhoto></UploadPhoto>
+                        <ProfileJuridica></ProfileJuridica>    
                 </div>
-
             </div>
+
         </div>
     </div>
+    
 </template>
 
 <script>
+import ProfileJuridica from '../Lists/JuridicaData';
+import UploadPhoto from '../Utils/UploadPhoto';
 
     export default {
-        
+        components:{
+            ProfileJuridica, UploadPhoto
+        },
         data() {
 
             return {
-              name: this.$session.get('name')
+              name: this.$store.state.auth.user.name
             }
         },
         created(){
@@ -35,13 +35,3 @@
         }
     }
 </script>
-<style>
-  #caixa{
-    width: 50%;
-    height: 470px;
-    margin-left: 20%;
-  }
-  #centro{
-      margin-left: 20%;
-  }
-</style>

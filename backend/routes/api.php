@@ -17,8 +17,7 @@ Route::post('/login', [
     'uses' => 'UserController@login'
 ]);
 Route::post('/logout', [
-    'uses' => 'UserController@logout',
-    'middleware' => 'jwt.auth'
+    'uses' => 'UserController@logout'
 ]);
 
 Route::resource('/pfisicas', 'FisicaController');

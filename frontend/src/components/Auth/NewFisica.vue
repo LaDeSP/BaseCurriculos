@@ -99,7 +99,7 @@
         methods: {
 
             register(){
-              let data = {
+              let newFisicaData = {
                 name: this.name,
                 email: this.email,
                 cpf: this.cpf,
@@ -107,8 +107,8 @@
                 role: this.role
               }
 
-              this.$store.dispatch('register', data)
-              .then(() => console.log('dispatch register'))
+              this.$store.dispatch('newFisica', newFisicaData)
+              .then(() => console.log(this.$store.state.auth))
               .catch(error => console.log(error))
                 
             }

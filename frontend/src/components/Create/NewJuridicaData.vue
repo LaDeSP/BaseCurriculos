@@ -13,6 +13,7 @@
                 <div class="form-row">
                     <div class="col-6">
                         <div class="form-group">
+                            <UploadPhoto></UploadPhoto>
                             <label for="razao">* Razão Social</label>
                             <ValidationProvider name="razao" rules="required|max:50">
                                 <div slot-scope="{ errors }">
@@ -378,9 +379,12 @@
 </template>
 
 <script>
+import UploadPhoto from '../Utils/UploadPhoto';
 
     export default {
-
+        components:{
+            UploadPhoto,
+        },
         data(){
             return{
 

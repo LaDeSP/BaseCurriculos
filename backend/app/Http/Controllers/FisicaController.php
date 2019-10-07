@@ -47,6 +47,7 @@ class FisicaController extends Controller
                 'name' => $request->input('name'),
                 'role' => $request->input('role'),
                 'user_id'=> auth()->user()->id,
+                'user'=>auth()->user(),
                 'message'=>'Pessoa física cadastrada com sucesso!'
              ], 201); 
        

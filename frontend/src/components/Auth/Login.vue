@@ -19,7 +19,7 @@
                 <i class="far fa-user fa-5x login-icon"></i>
               </slot>
             </div>
-            <div class="modal-footer text-center">
+            <div class="fix-form-modal text-center">
               <button @click.prevent="login" type="submit" class="btn btn-lg btn-primary">Entrar</button>
             </div>
 
@@ -46,6 +46,10 @@
                .then(() => console.log(this.$store.getters))
                .catch(error => console.log(error))
             }
+        },
+
+        created(){
+            console.log(this.$store.getters);
         }
     }
 

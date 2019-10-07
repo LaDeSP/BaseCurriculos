@@ -12,6 +12,7 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   plugins: [
     createPersistedState({
+      paths: [' '],
       storage: {
         getItem: key => Cookies.get(key),
         setItem: (key, value) =>
@@ -26,6 +27,35 @@ export const store = new Vuex.Store({
      token: '',
      user: {}
    },
+   pessoaFisica: {
+    nome: '',
+    nascimento: '',
+    genero: '',
+    rua: '',
+    bairro: '',
+    cidade: '',
+    cep: '',
+    celular: '',
+    fixo: '',
+    facebook: '',
+    twitter: '',
+    linkedin:'',
+    site: '',
+    outraRede: '',
+    objetivos: '',
+    area: '',
+    pretensao: '',
+    qualificacoes: '',
+    historicoProfissional: '',
+    emailAlt: '',
+    estadoCivil: '',
+    pais: '',
+    estado: '',
+    escolaridade: '',
+   },
+   pessoaJuridica: {
+
+   }
   },
 
   actions,
