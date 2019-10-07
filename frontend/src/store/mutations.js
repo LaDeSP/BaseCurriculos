@@ -1,9 +1,9 @@
-const auth_success = (state, {authData}) => {
+const auth_success = (state, {payload}) => {
     state.auth.status = 'success'
-    state.auth.token = authData.token
-    state.auth.user = authData.user
+    state.auth.token = payload.token
+    state.auth.user = payload.user
     
-    console.log('auth_usccess', authData.user)
+    console.log('auth_usccess', payload.token)
   };
 const auth_error = (state) => {
     state.status = 'error'

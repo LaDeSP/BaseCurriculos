@@ -111,39 +111,20 @@
         },
         methods: {
 
-            register(){
+             register(){
+              let newJuridicaData = {
+                name: this.name,
+                email: this.email,
+                cnpj: this.cnpj,
+                password: this.password,
+                ramo: this.ramo,
+                role: this.role
+              }
 
-                this.axios.post('http://localhost:8000/api/pjuridicas',
-
-                    {
-
-                        email: this.email,
-                        password: this.password,
-                        name: this.name,
-                        cnpj: this.cnpj,
-                        ramo: this.ramo,
-                        role: this.role
-
-                    },
-                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .then(
-                        (response) => {
-                            if(response.data.error  != undefined){
-                                this.notificacoes = response.data.error;
-                                return;
-                            }
-                            this.$session.start(),
-                            this.$session.set('jwt', response.data.token),
-                            this.$session.set('name', response.data.name),
-                            this.$session.set('role', response.data.role),
-                            this.$session.set('user_id', response.data.user_id),
-                            console.log(response);
-                            //this.$router.push({ name: 'dashboard-juridica' })
-                        }
-                    )
-                    .catch(
-                        (error) => console.log(error)
-                    );
+              this.$store.dispatch('newJuridica', newJuridicaData)
+              .then(() => console.log('dispachou'))
+              .catch(error => console.log(error))
+                
             }
         },
     }

@@ -12,7 +12,7 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   plugins: [
     createPersistedState({
-      paths: [' '],
+      paths: ['auth'],
       storage: {
         getItem: key => Cookies.get(key),
         setItem: (key, value) =>

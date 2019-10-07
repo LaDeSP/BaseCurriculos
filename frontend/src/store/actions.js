@@ -6,12 +6,12 @@ import * as Cookies from 'js-cookie'
       await axios({ url: 'http://localhost:8000/api/login', data: user, method: 'POST' })
         .then(response => {
           
-          const authData = {
+          const payload = {
             'token': response.data.token,
             'user': response.data.user
           }
         
-          commit('auth_success', {authData})
+          commit('auth_success', {payload})
 
         }).catch(error => {
           //commit('auth_error')
@@ -46,17 +46,17 @@ import * as Cookies from 'js-cookie'
   };
 
 
-  const newJuridica = async ({commit}, payload) => {
+  const newJuridica = async ({commit}, newJuridicaData) => {
       
-    await axios({ url: 'http://localhost:8000/api/pjuridicas', data: payload, method: 'POST' })
+    await axios({ url: 'http://localhost:8000/api/pjuridicas', data: newJuridicaData, method: 'POST' })
       .then(response => {
         
-        const newJuridicaData = {
+        const payload = {
           'token': response.data.token,
           'user': response.data.user
         }
       
-        commit('auth_success', {newJuridicaData})
+        commit('auth_success', {payload})
 
       }).catch(error => {
         //commit('auth_error')
