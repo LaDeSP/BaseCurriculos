@@ -7,10 +7,12 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueSession from 'vue-session'
 import { store } from './store/store'
+import VueGoodWizard from 'vue-good-wizard';
+
 import './assets/validations';
 
-
 Vue.use(VueFilterDateFormat)
+Vue.use(VueGoodWizard);
 Vue.use(VueRouter);
 Vue.use(VueSession)
 Vue.use(VueAxios, axios)
