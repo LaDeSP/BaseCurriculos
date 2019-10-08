@@ -7,15 +7,16 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueSession from 'vue-session'
 import { store } from './store/store'
-import VueGoodWizard from 'vue-good-wizard';
+import VueFormWizard from 'vue-form-wizard'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 
 import './assets/validations';
 
-Vue.use(VueFilterDateFormat)
-Vue.use(VueGoodWizard);
+Vue.use(VueFilterDateFormat);
+Vue.use(VueFormWizard);
 Vue.use(VueRouter);
-Vue.use(VueSession)
-Vue.use(VueAxios, axios)
+Vue.use(VueSession);
+Vue.use(VueAxios, axios);
 
 new Vue({
   store: store, 
