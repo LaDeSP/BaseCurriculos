@@ -10,14 +10,14 @@ import { store } from './store/store'
 import './assets/validations';
 
 
-Vue.use(VueFilterDateFormat)
+Vue.use(VueFilterDateFormat);
 Vue.use(VueRouter);
-Vue.use(VueSession)
-Vue.use(VueAxios, axios)
+Vue.use(VueSession);
+Vue.use(VueAxios, axios);
 
 new Vue({
-  store: store, 
   el: '#app',
+  store: store, 
   router: router,
   render: h => h(App)
 })

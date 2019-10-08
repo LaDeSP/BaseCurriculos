@@ -34,7 +34,7 @@ Route::post('/vagas/changeStatus', 'VagaController@changeStatus', [
 Route::resource('/candidaturas', 'CandidaturaController', [
     'middleware' => 'jwt.auth'
 ]);
-Route::post('/data/pjuridicas', 'JuridicaController@addData', [
+Route::post('/pjuridicas/data', 'JuridicaController@addData', [
  'middleware' => 'jwt.auth'
 ]);
 Route::get('/areas', 'AreaController@index', [

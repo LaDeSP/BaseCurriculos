@@ -28,7 +28,7 @@ export const store = new Vuex.Store({
      user: {}
    },
    pessoaFisica: {
-    nome: '',
+
     nascimento: '',
     genero: '',
     rua: '',
@@ -54,7 +54,20 @@ export const store = new Vuex.Store({
     escolaridade: '',
    },
    pessoaJuridica: {
-
+    name: '',
+    rua: '',
+    bairro: '',
+    cidade: '',
+    cep: '',
+    celular: '',
+    fixo: '',
+    facebook: '',
+    twitter: '',
+    site: '',
+    outraRede: '',
+    pais: '',
+    estado: '',
+    linkedin: '',
    }
   },
 

@@ -14,21 +14,11 @@
                     <div class="col-6">
                         <div class="form-group">
                             <UploadPhoto></UploadPhoto>
-                            <label for="razao">* Razão Social</label>
-                            <ValidationProvider name="razao" rules="required|max:50">
+                            <label for="name">* Razão Social</label>
+                            <ValidationProvider name="name" rules="required|max:50">
                                 <div slot-scope="{ errors }">
-                                    <input type="razao" id="razao" name="razao"
-                                    class="form-control" v-model="razao" maxlength="50">
-                                    <p>{{ errors[0] }}</p>
-                                </div>
-                            </ValidationProvider>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="missao">* Missão</label>
-                            <ValidationProvider name="missao" rules="required|max:500">
-                                <div slot-scope="{ errors }">
-                                    <textarea id="missao" class="md-textarea form-control" rows="5" name="missao" v-model="missao" maxlength="500"></textarea>
+                                    <input type="name" id="name" name="name"
+                                    class="form-control" v-model="name" maxlength="50">
                                     <p>{{ errors[0] }}</p>
                                 </div>
                             </ValidationProvider>
@@ -389,8 +379,7 @@ import UploadPhoto from '../Utils/UploadPhoto';
             return{
 
 
-                razao: '',
-                missao: '',
+                name: '',
                 rua: '',
                 bairro: '',
                 cidade: '',
@@ -416,42 +405,26 @@ import UploadPhoto from '../Utils/UploadPhoto';
         methods: {
             register(){
 
-                if(!this.token){
-                    console.log('loga ai seu corno');
-                }else{
-                     this.axios.post('http://localhost:8000/api/data/pjuridicas?token=' + this.token,
-
-                    {
-                        razao: this.razao,
-                        missao: this.missao,
-                        rua: this.rua,
-                        bairro: this.bairro,
-                        cidade: this.cidade,
-                        cep: this.cep,
-                        celular: this.celular,
-                        fixo: this.fixo,
-                        facebook: this.facebook,
-                        twitter: this.twitter,
-                        site: this.site,
-                        outraRede: this.outraRede,
-                        pais: this.pais,
-                        estado: this.estado,
-                        linkedin: this.linkedin,
-                        user_id: this.$session.get('user_id')
-                    },
-                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .then(
-                        (response) => {
-                            if(response.data.error  != undefined){
-                                this.notificacoes = response.data.error;
-                                return;
-                            }   
-                        }
-                    )
-                    .catch(
-                        (error) => console.log(error)
-                    );
+                let completeJuridicaData = {
+                    name: this.name,
+                    rua: this.rua,
+                    bairro: this.bairro,
+                    cidade: this.cidade,
+                    cep: this.cep,
+                    celular: this.celular,
+                    fixo: this.fixo,
+                    facebook: this.facebook,
+                    twitter: this.twitter,
+                    site: this.site,
+                    outraRede: this.outraRede,
+                    pais: this.pais,
+                    estado: this.estado,
+                    linkedin: this.linkedin,
                 }
+
+                this.$store.dispatch('completeJuridica', completeJuridicaData)
+                .then(() => console.log('dispachou'))
+                .catch(error => console.log(error))
             },
              verifyEdit(){
 
@@ -466,8 +439,7 @@ import UploadPhoto from '../Utils/UploadPhoto';
                 this.axios.put(this.uri + '/' + this.user_id + '?token=' + this.token,
 
                     {
-                        razao: this.razao,
-                        missao: this.missao,
+                        name: this.name,
                         rua: this.rua,
                         bairro: this.bairro,
                         cidade: this.cidade,
@@ -501,8 +473,7 @@ import UploadPhoto from '../Utils/UploadPhoto';
                     .then(response=>{
 
                         console.log('TESTE', response.data);
-                        this.razao = response.data.juridica[0].user.name;
-                        this.missao = response.data.juridica[0].missao;
+                        this.name = response.data.juridica[0].user.name;
                         this.rua = response.data.juridica[0].endereco.rua;
                         this.bairro = response.data.juridica[0].endereco.bairro;
                         this.cidade = response.data.juridica[0].endereco.cidade;

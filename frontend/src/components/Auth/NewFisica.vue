@@ -103,7 +103,7 @@
                 name: this.name,
                 email: this.email,
                 cpf: this.cpf,
-                email: this.email,
+                password: this.password,
                 role: this.role
               }
 
