@@ -20,6 +20,7 @@
     "vue-axios": "^2.1.4",
     "vue-filter-date-format": "^1.1.1",
     "vue-flash-message": "^0.7.2",
+    "vue-form-wizard": "^0.8.4",
     "vue-router": "^3.0.1",
     "vue-session": "^1.0.0",
     "vuex-persistedstate": "^2.5.4"

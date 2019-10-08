@@ -23,6 +23,11 @@ class UserController extends Controller
             ], 201);
         }
         */   
+        if (!(User::where('email', '=', $request->input('email'))->exists())){
+            return Response::json([
+                'error' => 'Email informado não está cadastrado.'
+            ], 201);
+        }
        
         
         $credentials = $request->only('email', 'password');
