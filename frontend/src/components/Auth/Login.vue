@@ -2,6 +2,11 @@
 <div class="container">
 <div class="row justify-content-center" >
     <div class="col-sm-8">
+        <div v-if="notificacoes">
+              <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
+                  {{notificacao[0]}}
+              </span>
+          </div>
             <div class="form-group input-group margin-bottom-sm">
                 <span class="input-group-text"><i class="fas fa-envelope fa-fw"></i></span>
                 <input placeholder="Email" type="email"  name="email" class="form-control" required = "autofocus" v-model="email">
@@ -36,6 +41,8 @@
             return{
                 email: '',
                 password: '',
+                notificacoes: [],
+
             }
         },
         methods: {
