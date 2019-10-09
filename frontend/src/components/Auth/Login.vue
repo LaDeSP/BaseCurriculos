@@ -11,8 +11,10 @@
                     <div class="form-group input-group margin-bottom-sm">
                         <span class="input-group-text"><i class="fas fa-envelope fa-fw"></i></span>
                         <ValidationProvider name="email" rules="required|email|max:50">
-                            <input placeholder="Email" type="email"  name="email" class="form-control" v-model="email">
-                            <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
+                            <div slot-scope="{errors}">
+                              <input placeholder="Email" type="email"  name="email" class="form-control" v-model="email">
+                              {{ errors[0] }}
+                            </div>
                         </ValidationProvider>
                     </div>
                     <div class="form-group input-group">

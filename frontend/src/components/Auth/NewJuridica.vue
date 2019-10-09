@@ -68,8 +68,6 @@
                     </ValidationProvider>
                   </div>
                 </div>
-                <br>
-                <br>
                 <hr>
                 <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-success btn-lg">Cadastrar</button>
             </form>
