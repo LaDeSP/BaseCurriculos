@@ -22,8 +22,10 @@ class CurriculoController extends Controller
             ], 201);
         }   
         
-        $user_id = $request->input('user_id');
-      
+        $user_id = auth()->user()->id;
+
+        User::where('id', $user_id)->update(['name'=>$request->nome]);
+        
         $endereco = Fisica::where('user_id', $user_id)->first()->enderecos_id;
         if ($endereco){
             return Response::json([
@@ -70,7 +72,7 @@ class CurriculoController extends Controller
 
             Curriculo::create([
                 'objetivos' => $request->objetivos,
-                'areas_id' => $request->area,
+                'areas_id' => 100,
                 'pretensao' => $request->pretensao,
                 'qualificacoes' => $request->qualificacoes,
                 'historicoProfissional' => $request->historicoProfissional,
@@ -200,8 +202,6 @@ class CurriculoController extends Controller
             'twitter.max' => 'Insira twitter com no máximo 50 caracteres.',
             'site.max' => 'Insira site com no máximo 50 caracteres.',
             'outraRede.max' => 'Insira outra rede com no máximo 50 caracteres.',
-            'emailAlt.email' => 'Insira email válido!',
-            'pais.required' => 'Selecione um país!',
             'estado.required' => 'Selecione um estado!',
             'fixo.required' => 'Insira um número fixo!',
             'fixo.digits' => 'Número fixo precisa de 10 digitos! (DDD+numero)',

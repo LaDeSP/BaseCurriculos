@@ -22,7 +22,7 @@ class CreateEnderecosTable extends Migration
             $table->string('complemento')->nullable();
             $table->string('cidade');
             $table->string('estado');
-            $table->string('pais');
+            $table->string('pais')->nullable();
             $table->timestamps();
         });
     }

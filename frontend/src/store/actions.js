@@ -50,7 +50,6 @@ import * as Cookies from 'js-cookie'
 
   };
 
-
   const newJuridica = async ({commit}, newJuridicaData) => {
       
     await axios({ url: juridica_uri, data: newJuridicaData, method: 'POST' })
@@ -70,6 +69,54 @@ import * as Cookies from 'js-cookie'
 
   };
 
+  const completeFisica = async({commit, state}, newCurriculo) => {
+    
+    const token = state.auth.token;
+    
+    await axios({ url: 'http://localhost:8000/api/curriculos?token=' + token, data: newCurriculo, method: 'POST' })
+      .then(response => {
+        
+        let payloadContact = {
+          'celular': newCurriculo.celular,
+          'fixo': newCurriculo.fixo,
+          'facebook': newCurriculo.facebook,
+          'twitter': newCurriculo.twitter,
+          'site': newCurriculo.site,
+          'linkedin': newCurriculo.linkedin,
+        }
+       
+        let payloadAddress = {
+          'estado': newCurriculo.estado,
+          'rua': newCurriculo.rua,
+          'bairro': newCurriculo.bairro,
+          'cidade': newCurriculo.cidade,
+          'cep': newCurriculo.cep,
+        }
+       
+        let payloadCurriculo = {
+          'nome': newCurriculo.nome,
+          'objetivos': newCurriculo.objetivos,
+          'pretensao': newCurriculo.pretensao,
+          'qualificacoes': newCurriculo.qualificacoes,
+          'escolaridade': newCurriculo.escolaridade,
+          'area': newCurriculo.area,
+          'historicoProfissional': newCurriculo.historicoProfissional,
+        }
+                
+        commit('contact', {payloadContact})
+        commit('address', {payloadAddress});
+        commit('allFisicaData', {payloadCurriculo}); 
+
+        console.log('contact', state.contact)
+        console.log('address', state.address); 
+        console.log('pessoaFisica', state.pessoaFisica);
+
+      }).catch(error => {
+        console.log(error)
+      }) 
+
+  };
+
   const completeJuridica = async ({commit, state}, completeJuridicaData) => {
   
     const token = state.auth.token;
@@ -78,19 +125,8 @@ import * as Cookies from 'js-cookie'
         
         const payload = {
           'name': this.name,
-          'rua': this.rua,
-          'bairro': this.bairro,
-          'cidade': this.cidade,
-          'cep': this.cep,
-          'celular': this.celular,
-          'fixo': this.fixo,
-          'facebook': this.facebook,
-          'twitter': this.twitter,
-          'site': this.site,
-          'outraRede': this.outraRede,
-          'pais': this.pais,
-          'estado': this.estado,
-          'linkedin': this.linkedin
+          
+          
 
         } 
 
@@ -107,5 +143,7 @@ import * as Cookies from 'js-cookie'
     logout,
     newFisica,
     newJuridica,
+    completeFisica,
     completeJuridica,
+   
   };
