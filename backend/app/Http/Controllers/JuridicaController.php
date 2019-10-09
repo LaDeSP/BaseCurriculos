@@ -25,7 +25,7 @@ class JuridicaController extends Controller
                'error' => $validator->messages()
            ], 201);
         }
-        $this->register($request);
+        $this->register($re quest);
         
         $pjuridica = new Juridica();
         $cnpj = $pjuridica->cnpj = $request->input('cnpj');
@@ -57,10 +57,25 @@ class JuridicaController extends Controller
            ], 201);
         }
 
-       // $user_id = auth()->user();
-       // User::where('id', $user_id)->update(['name'=>$request->nome]);
+      /* $user_id = auth()->user()->id;
+       User::where('id', $user_id)->update(['name'=>$request->nome]);
         
-        $con_id = Contato::insertGetId([
+       $endereco = Juridica::where('user_id', $user_id)->first()->enderecos_id;
+       if ($endereco){
+           return Response::json([
+               'ja existe o endereço'=>$endereco
+              ], 201);
+       }
+       $contato = Juridica::where('user_id', $user_id)->first()->contatos_id;
+       if ($contato){
+           return Response::json([
+               'ja existe o contato'=>$contato
+              ], 201);
+       }
+
+       $juridica = Fisica::where('user_id', $user_id)->first()->id;
+       
+       $con_id = Contato::insertGetId([
             'celular' => $request->celular,
             'fixo' => $request->fixo,
             'linkedin' => $request->linkedin,
@@ -85,7 +100,7 @@ class JuridicaController extends Controller
             'contatos_id' => $con_id, 
             'enderecos_id' => $end_id
         ));
-
+*/
         return Response::json([
             'message' => 'Dados cadastrados com sucesso!',
             'OI' => auth()->user()
