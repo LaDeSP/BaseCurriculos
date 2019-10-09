@@ -43,8 +43,8 @@ export const store = new Vuex.Store({
       pais: '',
       estado: '',
    },
-
    pessoaFisica: {
+      cpf: '',
       nascimento: '',
       genero: '',
       estadoCivil: '',
@@ -56,7 +56,8 @@ export const store = new Vuex.Store({
       escolaridade: '',
    },
    pessoaJuridica: {
-      
+      cnpj: '',
+      ramo: '',
    }
   },
 

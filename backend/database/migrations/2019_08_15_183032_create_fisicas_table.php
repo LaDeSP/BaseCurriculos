@@ -26,8 +26,8 @@ class CreateFisicasTable extends Migration
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->foreign('contatos_id')->references('id')->on('contatos')->onDelete('cascade');
-            $table->foreign('enderecos_id')->references('id')->on('enderecos')->onDelete('cascade');
+            $table->foreign('contatos_id')->references('id')->on('contatos');
+            $table->foreign('enderecos_id')->references('id')->on('enderecos');
          
         });
     }

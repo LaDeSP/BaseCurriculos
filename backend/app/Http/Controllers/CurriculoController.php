@@ -72,7 +72,7 @@ class CurriculoController extends Controller
 
             Curriculo::create([
                 'objetivos' => $request->objetivos,
-                'areas_id' => 100,
+                'areas_id' => $request->area,
                 'pretensao' => $request->pretensao,
                 'qualificacoes' => $request->qualificacoes,
                 'historicoProfissional' => $request->historicoProfissional,
@@ -81,7 +81,7 @@ class CurriculoController extends Controller
             ]);
            
            return Response::json([
-            'PORRAAAAAA'=>$request->input('user_id')
+            'PORRAAAAAA'=>auth()->user()
            ], 201);
         }
 

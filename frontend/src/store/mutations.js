@@ -3,7 +3,13 @@ const auth_success = (state, {payload}) => {
     state.auth.token = payload.token
     state.auth.user = payload.user
     
-    console.log('auth_usccess', payload.token)
+    if(payload.user.role === 'FISICA'){
+        state.pessoaFisica.cpf = payload.cpf
+    }else{
+        state.pessoaJuridica.cnpj = payload.cnpj
+        state.pessoaJuridica.ramo = payload.ramo
+    }
+    console.log('auth_success', payload.token)
 };
 const auth_error = (state) => {
     state.status = 'error'
@@ -33,10 +39,6 @@ const address = (state, {payloadAddress}) => {
     state.address.estado = payloadAddress.estado
 }
 
-const newFisica = (state, {payloadFisica}) => {
-    state.pessoaFisica.cpf = payloadFisica.cpf
-}
-
 const allFisicaData = (state, {payloadCurriculo}) => {
     state.auth.user.name = payloadCurriculo.nome,
     state.pessoaFisica.nascimento = payloadCurriculo.nascimento, 
@@ -52,7 +54,10 @@ const allFisicaData = (state, {payloadCurriculo}) => {
 
 const allJuridicaData = (state, {payload}) => {
     state.auth.user.name = payload.name
-      
+    
+    console.log('contact', state.contact)
+    console.log('address', state.address)
+    console.log('pj', state.pessoaJuridica)
 };
   
   export default {
