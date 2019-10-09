@@ -20,7 +20,7 @@
               </ValidationProvider>
             </div>
           </div>
-          <br>
+
           <div class="col-sm-12">
             <div class="form-group">
               <label for="cpf">CPF *</label>
@@ -32,7 +32,7 @@
               </ValidationProvider>
             </div>
           </div>
-          <br>
+
           <div class="col-sm-12">
             <div class="form-group">
                   <label for="email">Email *</label>
@@ -44,7 +44,7 @@
                 </ValidationProvider>
             </div>
           </div>
-          <br>
+
           <div class="col-sm-12">
             <div class="form-group">
               <span for="password">Senha *</span>
@@ -56,8 +56,6 @@
               </ValidationProvider>
             </div>
           </div>
-          <br>
-          <br>
           <hr>
           <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-success btn-lg">Cadastrar</button>
             <!-- <router-link to="/login" class="btn btn-default">Voltar</router-link> -->

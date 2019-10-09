@@ -20,7 +20,7 @@
                   </ValidationProvider>
                   </div>
               </div>
-              <br>
+
               <div class="col-sm-12">
                 <div class="form-group">
                     <label for="cnpj">CNPJ *</label>
@@ -32,7 +32,7 @@
                     </ValidationProvider>
                 </div>
               </div>
-                <br>
+
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label  for="ramo">Ramo *</label>
@@ -44,7 +44,7 @@
                       </ValidationProvider>
                   </div>
                 </div>
-                <br>
+
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label for="email">Email *</label>
@@ -56,7 +56,7 @@
                     </ValidationProvider>
                   </div>
                 </div>
-                <br>
+
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label for="password">Senha *</label>
