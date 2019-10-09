@@ -519,11 +519,6 @@ export default {
 
       }
     },
-    register(){
-
-        
-        
-    },
     verifyEdit(){
 
         if(this.$route.params.editing === true){

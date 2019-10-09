@@ -24,16 +24,6 @@
                             </ValidationProvider>
                         </div>
 
-                        <div class="form-group">
-                            <label for="missao">* Missão</label>
-                            <ValidationProvider name="missao" rules="required|max:500">
-                                <div slot-scope="{ errors }">
-                                    <textarea id="missao" class="md-textarea form-control" rows="5" name="missao" v-model="missao" maxlength="500"></textarea>
-                                    <p>{{ errors[0] }}</p>
-                                </div>
-                            </ValidationProvider>
-                        </div>
-
                     <hr><hr>
                         <div class="form-group">
                             <label for="linkedin">Linkedin</label>

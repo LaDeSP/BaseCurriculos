@@ -394,9 +394,6 @@ import UploadPhoto from '../Utils/UploadPhoto';
                 pais: '',
                 estado: '',
                 editing: false,
-                uri: 'http://localhost:8000/api/pjuridicas',
-                token: this.$session.get('jwt'),
-                user_id: this.$session.get('user_id'),
                 notificacoes: []
 
 
@@ -496,7 +493,6 @@ import UploadPhoto from '../Utils/UploadPhoto';
         },
         created() {
             this.verifyEdit();
-            console.log(this.$session.get('user_id'));
         }
 
     }

@@ -57,36 +57,38 @@ class JuridicaController extends Controller
            ], 201);
         }
 
+       // $user_id = auth()->user();
+       // User::where('id', $user_id)->update(['name'=>$request->nome]);
+        
         $con_id = Contato::insertGetId([
-            'celular' => $request->input('celular'),
-            'fixo' => $request->input('fixo'),
-            'linkedin' => $request->input('linkedin'),
-            'facebook' => $request->input('facebook'),
-            'twitter' => $request->input('twitter'),
-            'site' => $request->input('site'),
-            'outraRede' => $request->input('outraRede')
+            'celular' => $request->celular,
+            'fixo' => $request->fixo,
+            'linkedin' => $request->linkedin,
+            'facebook' => $request->facebook,
+            'twitter' => $request->twitter,
+            'site' => $request->site,
         ]);
 
         $end_id = Endereco::insertGetId([
-            'rua' => $request->input('rua'),
-            'bairro' => $request->input('bairro'),
-            'cidade' => $request->input('cidade'),
-            'estado' => $request->input('estado'),
-            'complemento' => $request->input('complemento'),
-            'numero' => $request->input('numero'),
-            'pais' => $request->input('pais'),
-            'cep' => $request->input('cep')
+            'rua' => $request->rua,
+            'bairro' => $request->bairro,
+            'cidade' => $request->cidade,
+            'estado' => $request->estado,
+            'complemento' => $request->complemento,
+            'numero' => $request->numero,
+            'pais' => $request->pais,
+            'cep' => $request->cep,
         ]);
         
-        Juridica::where('user_id', $request->input('user_id'))
+        Juridica::where('user_id', $request->user_i)
         ->update(array(
             'contatos_id' => $con_id, 
             'enderecos_id' => $end_id
-
         ));
 
         return Response::json([
-            'message' => 'Dados cadastrados com sucesso!'
+            'message' => 'Dados cadastrados com sucesso!',
+            'OI' => auth()->user()
          ], 201);
 
     }
