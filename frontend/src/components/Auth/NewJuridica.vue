@@ -13,10 +13,10 @@
                 <div class="form-group">
                   <div class="input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text" for="cnpj">CNPJ *</span>
+                      <span class="input-group-text" for="name">Nome *</span>
                     </div>
-                    <ValidationProvider name="cnpj" rules="required|numeric|digits:14">
-                      <input type="text" class="form-control" name="cnpj" v-model="cnpj" maxlength="14" minlength="14" required='autofocus'>
+                    <ValidationProvider name="name" rules="required|max:50">
+                      <input type="text" name="name" class="form-control" v-model="name" maxlength="50" required='autofocus'>
                         <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
                     </ValidationProvider>
                   </div>
@@ -25,15 +25,17 @@
                 <br>
               <div class="col-sm-12">
                 <div class="form-group">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" for="name">Nome *</span>
-                    </div>
-                    <ValidationProvider name="name" rules="required|max:50">
-                      <input type="text" name="name" class="form-control" v-model="name" maxlength="50" required='autofocus'>
-                        <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
+
+                      <label  class="text-right" for="cnpj">CNPJ *</label>
+
+                    <ValidationProvider name="cnpj" rules="required|numeric|digits:14">
+                        <div slot-scope="{ errors }">
+
+                           <input type="text" class="form-control" name="cnpj" v-model="cnpj" maxlength="14" minlength="14" required='autofocus'>
+                             {{ errors[0] }}
+                        </div>
                     </ValidationProvider>
-                  </div>
+
                 </div>
                 </div>
                 <br>
@@ -124,7 +126,7 @@
               this.$store.dispatch('newJuridica', newJuridicaData)
               .then(() => console.log('dispachou'))
               .catch(error => console.log(error))
-                
+
             }
         },
     }
