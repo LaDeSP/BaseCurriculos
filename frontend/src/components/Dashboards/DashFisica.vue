@@ -19,7 +19,7 @@ import ProfileFisica from '../Lists/FisicaData';
         data() {
 
             return {
-                name: this.$session.get('name')
+                name: this.$store.state.auth.user.name
             }
         },
     }
