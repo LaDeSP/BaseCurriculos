@@ -32,7 +32,7 @@ import { store } from './store/store';
 const routes = [
     {path: '', name:'home', component: Home, meta:{isHome: true}},
     {path: '/sobre', component: Sobre,meta:{isHome:true}},
-    {path: '/login', name: 'login', component: Login},
+    {path: '/login', name: 'login', component: Login, meta:{isHome:true}},
     {path: '/logout', name: 'logout', component: Logout},
     {path: '/new-juridica', component: NewJuridica},
     {path: '/new-fisica', component: NewFisica},

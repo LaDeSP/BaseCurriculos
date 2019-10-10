@@ -8,7 +8,7 @@
           <Modal v-show="isModalLoginFisica" @close="closeModal">
             <template v-slot:header><h3>Pessoa Física </h3></template>
             <template v-slot:body>
-              <Login></Login>
+              <Login @login="redirecionarUsuarioParaDash"></Login>
             </template>
             <template v-slot:footer>
               <div class="modal-footer">
@@ -60,7 +60,7 @@
   import Login from '../Auth/Login.vue';
   import CadastroFisica from '../Auth/NewFisica.vue';
   import CadastroJuridica from '../Auth/NewJuridica.vue';
-
+  import { mapGetters } from 'vuex'
   export default {
      components:{
       Modal, Login, CadastroFisica, CadastroJuridica
@@ -73,6 +73,9 @@
           isModalCadastroJuridica: false
         }
     },
+    computed:{
+      ...mapGetters(['isLoggedIn'])
+    },
     methods: {
       showModal(modal){
         if(modal === 'fisica'){
@@ -80,7 +83,7 @@
         }else{
            this.isModalLoginJuridica = true;
         }
-        console.log('showModal', this.isModalLoginFisica)
+        console.log('showModal', this.isModalLoginJuridica)
       },
       showModalCadastro(modal){
         if(modal === 'cadastroFisica'){
@@ -95,6 +98,13 @@
         this.isModalLoginJuridica = false;
         this.isModalCadastroFisica = false;
         this.isModalCadastroJuridica = false;
+      },
+      redirecionarUsuarioParaDash(){
+        if(this.isLoggedIn && this.isModalLoginFisica === true){
+          window.location.href = "http://localhost:8080/dashboard-fisica"
+        } else if(this.isLoggedIn && this.isModalLoginJuridica === true){
+          window.location.href = "http://localhost:8080/dashboard-juridica"
+        } else {alert('erro')}
       }
     },
   }

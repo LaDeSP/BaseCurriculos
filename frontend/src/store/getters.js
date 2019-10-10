@@ -9,9 +9,13 @@ const pessoaJuridica = state => {
 
 }
 
+const permissaoDoUsuario = state =>{
+  return state.auth.user.role
+}
 export default {
   isLoggedIn,
   authStatus,
   pessoaFisica,
-  pessoaJuridica
+  pessoaJuridica,
+  permissaoDoUsuario
 };
