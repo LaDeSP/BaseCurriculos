@@ -3,11 +3,9 @@
       <div class="panel panel-default" >
           <div class="panel-heading" ><h1>Bem Vindo, {{name}} :)</h1></div>
             <div class="panel-body" >
-              
                    <h4>Você ainda não cadastrou nenhuma vaga.
                        Que tal fazer isso agora? </h4>
                     <NewVaga></NewVaga>
-             
             </div>
       </div>
     </div>
@@ -50,7 +48,7 @@ import NewVaga from '../Create/NewVaga';
                     <NewJuridicaData></NewJuridicaData>
                </div>
                <div v-if="dataCompleted & hasVaga">
-                   
+
                </div>
             </div>
       </div>
