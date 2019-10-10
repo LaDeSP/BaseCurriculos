@@ -1,24 +1,20 @@
 <template>
-
     <div class="row">
-            <div class="panel panel-default" >
-                <div class="panel-heading" ><h1>Bem Vindo, {{name}} :)</h1></div>
-                    <div class="panel-body" >
-                        <ProfileJuridica></ProfileJuridica>
-                </div>
+      <div class="panel panel-default" >
+          <div class="panel-heading" ><h1>Bem Vindo, {{name}} :)</h1></div>
+            <div class="panel-body" >
+                <ProfileJuridica></ProfileJuridica>
             </div>
-
+      </div>
     </div>
 
 </template>
 
 <script>
 import ProfileJuridica from '../Lists/JuridicaData';
-import UploadPhoto from '../Utils/UploadPhoto';
-
     export default {
         components:{
-            ProfileJuridica, UploadPhoto
+            ProfileJuridica,
         },
         data() {
 
