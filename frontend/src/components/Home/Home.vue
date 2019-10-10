@@ -23,9 +23,9 @@
 
 <script>
 
-  import NavBarHome from './NavBarHome';
-  import Modal from './Utils/Modal.vue';
-  import OpcoesHome from './Utils/OpcoesHome.vue';
+  import Modal from '../Utils/Modal.vue';
+  import NavBarHome from './NavBarHome.vue';
+  import OpcoesHome from './OpcoesHome.vue';
 
 
   export default {
@@ -46,9 +46,6 @@
         this.isModalFacaParte = false;
       }
     },
-    created(){
-      console.log('created', this.isModalFacaParte)
-    }
   }
 
 </script>

@@ -78,7 +78,7 @@
       <li class="nav-item dropdown no-arrow">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
-        <span class="mr-2 d-none d-lg-inline text-gray-600 small">João Gabriel</span>
+        <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{name}}</span>
         <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
       </a>
       <!-- Dropdown - User Information -->
@@ -96,10 +96,7 @@
           Atividades
         </a>
         <div class="dropdown-divider"></div>
-        <button @click.prevent="onLogout" class="dropdown-item">
-          <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-          Sair
-        </button>
+        <Logout></Logout>
       </div>
       </li>
 
@@ -110,22 +107,15 @@
 </template>
 
 <script>
+import Logout from '../Auth/Logout';
 
     export default {
-        methods:{
-            onLogout(){
-                    const token = this.$session.get('jwt');
-                    this.axios.post('http://localhost:8000/api/logout?token=' + token)
-                    .then(response => {
-                        this.$session.remove('jwt');
-                        this.$session.destroy();
-                        console.log(response);
-                        this.$router.push({ name: 'login' })
-                    }, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .catch(
-                        error => console.log(error)
-                    );
-            
+        components:{
+          Logout,
+        },
+        data(){
+            return{
+              name: this.$store.state.auth.user.name
             }
         },
     }

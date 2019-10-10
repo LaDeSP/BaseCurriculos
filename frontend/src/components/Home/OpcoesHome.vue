@@ -13,7 +13,13 @@
             <template v-slot:footer>
               <div class="modal-footer">
                 <p>Não tem uma conta ainda?</p>
-                <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Crie Sua Conta</button>
+                <button @click="showModalCadastro('cadastroFisica')" class="btn btn-outline-primary btn-lg btn-block" type="submit">Crie Sua Conta</button>
+                <Modal v-show="isModalCadastroFisica" @close="closeModal">
+                  <template v-slot:header><h3>Cadastre-se</h3></template>
+                  <template v-slot:body>
+                    <CadastroFisica></CadastroFisica>
+                  </template>
+                </Modal>
               </div>
             </template>
           </Modal>
@@ -34,7 +40,13 @@
             <template v-slot:footer>
               <div class="modal-footer">
                 <p>Não tem uma conta ainda?</p>
-                <button class="btn btn-outline-primary btn-lg  btn-block " type="submit" value=" Crie sua Conta" ></button>
+                <button @click="showModalCadastro" class="btn btn-outline-primary btn-lg btn-block" type="submit">Crie Sua Conta</button>
+                <Modal v-show="isModalCadastroJuridica" @close="closeModal">
+                  <template v-slot:header><h3>Cadastre-se</h3></template>
+                  <template v-slot:body>
+                    <CadastroJuridica></CadastroJuridica>
+                  </template>
+                </Modal>
               </div>
             </template>
           </Modal>
@@ -44,17 +56,21 @@
 </template>
 
 <script>
-  import Modal from './Modal';
-  import Login from './Login.vue';
+  import Modal from '../Utils/Modal.vue';
+  import Login from '../Auth/Login.vue';
+  import CadastroFisica from '../Auth/NewFisica.vue';
+  import CadastroJuridica from '../Auth/NewJuridica.vue';
 
   export default {
      components:{
-      Modal, Login
+      Modal, Login, CadastroFisica, CadastroJuridica
     },
     data(){
         return {
           isModalLoginFisica: false,
-          isModalLoginJuridica: false
+          isModalLoginJuridica: false,
+          isModalCadastroFisica: false,
+          isModalCadastroJuridica: false
         }
     },
     methods: {
@@ -66,14 +82,21 @@
         }
         console.log('showModal', this.isModalLoginFisica)
       },
+      showModalCadastro(modal){
+        if(modal === 'cadastroFisica'){
+           this.isModalCadastroFisica = true;
+        }else{
+           this.isModalCadastroJuridica = true;
+        }
+        console.log('showModal', this.isModalLoginFisica)
+      },
       closeModal(){
         this.isModalLoginFisica = false;
         this.isModalLoginJuridica = false;
+        this.isModalCadastroFisica = false;
+        this.isModalCadastroJuridica = false;
       }
     },
-    created(){
-      console.log('created', this.isModalLogin)
-    }
   }
 
 </script>

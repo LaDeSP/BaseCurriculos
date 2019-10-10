@@ -2028,6 +2028,11 @@ pre code {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
 
+.fix-form-modal{
+  min-width: 450px;
+}
+
+
 @media (prefers-reduced-motion: reduce) {
   .form-control {
     -webkit-transition: none;
@@ -6108,6 +6113,9 @@ a.close.disabled {
   height: 100%;
   overflow: hidden;
   outline: 0;
+  max-width: 100%;
+  max-height: 100%;
+
 }
 
 .modal-dialog {
@@ -14474,25 +14482,6 @@ pre code {
 
 .table-responsive > .table-bordered {
   border: 0;
-}
-
-.form-control {
-  display: block;
-  width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #6e707e;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #d1d3e2;
-  border-radius: 0.35rem;
-  -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
-  transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -25084,4 +25073,35 @@ header.masthead .intro-text .intro-heading {
 .service-heading {
   margin: 15px 0;
   text-transform: none;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+label#thumbnail {
+  margin-bottom: 20px;
+  border: 1px dashed #ddd;
+  background-size: cover; /*vai servir pra preview*/
+  cursor: pointer;
+  height: 160px;
+
+  /* esses ultimos 3 é pq quero q o icone da camera fique centralizado dentro da label */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+label#thumbnail input { 
+  /* como ta dentro de uma label ela automaticamente redireciona o click pro input, 
+  mesmo q ele esteja invisivel vai abrir a janela de upload */
+  display: none;
+}
+
+label#thumbnail.has-thumbnail{
+  border: 0;
+}
+
+label#thumbnail.has-thumbnail img{
+  display: none;
 }

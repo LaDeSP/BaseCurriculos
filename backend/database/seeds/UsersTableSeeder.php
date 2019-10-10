@@ -15,14 +15,14 @@ class UsersTableSeeder extends Seeder
         User::create([
             'name' => 'Admin', 
             'email' => 'admin@admin.com',
-            'password' => bcrypt('123456'),
+            'password' => bcrypt('12345678'),
             'role' => 'ADMIN'
         ]);
 
         User::create([
             'name' =>  'Lana',
             'email' => 'lana@hotmail.com',
-            'password' => bcrypt('123456'),
+            'password' => bcrypt('12345678'),
             'role' => 'FISICA'
         ]);
 
@@ -64,7 +64,7 @@ class UsersTableSeeder extends Seeder
         User::create([
             'name' =>  'Sansa',
             'email' => 'sansa@hotmail.com',
-            'password' => bcrypt('123456'),
+            'password' => bcrypt('12345678'),
             'role' => 'JURIDICA'
         ]);
         

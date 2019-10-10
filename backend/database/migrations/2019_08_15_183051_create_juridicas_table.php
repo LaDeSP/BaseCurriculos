@@ -6,19 +6,13 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateJuridicasTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+   
     public function up()
     {
         Schema::create('juridicas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('cnpj')->unique();
             $table->string('ramo');
-            $table->string('razao')->nullable();
-            $table->string('missao')->nullable();
             $table->integer('contatos_id')->unsigned()->nullable();
             $table->integer('enderecos_id')->unsigned()->nullable();
             $table->timestamps();
@@ -31,11 +25,7 @@ class CreateJuridicasTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    
     public function down()
     {
         Schema::dropIfExists('juridicas');

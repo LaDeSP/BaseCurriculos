@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use Tymon\JWTAuth\Exception\JWTException;
 use Illuminate\Support\Facades\Auth;
@@ -13,21 +14,21 @@ use Response;
 class UserController extends Controller
 {
     public function login(Request $request){
-        if(!$request->email){
-            $error[] = 'Insira um email!';
-        }
-        if(!$request->password){
-            $error[] = 'Insira uma senha!';
-        }
-        if(isset($error)){
-            return Response::json([
-            'error' => $error
+        
+       /* $validator = Validator::make($request->all(), UserController::rules(), UserController::messages());
+         
+        if ($validator->fails()) {
+             return Response::json([
+                'error' => $validator->messages()
             ], 201);
         }
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        */   
+        if (!(User::where('email', '=', $request->input('email'))->exists())){
+            return Response::json([
+                'error' => 'Email informado não está cadastrado.'
+            ], 201);
+        }
+       
         
         $credentials = $request->only('email', 'password');
         //se try falhar, falhou em criar um token
@@ -55,7 +56,7 @@ class UserController extends Controller
         'role' => $role,
         'user_id' => $user_id,
         'token'=>$token,
-        'teste' => auth()->user()->role
+        'user' => auth()->user()
      ], 201);
         
       
@@ -68,6 +69,21 @@ class UserController extends Controller
         return response()->json(['msg' => 'tchau....']);
     }
 
-  
-    
+    public function messages(){
+        return $messages = [
+            'email.required' => 'Insira um email!',
+            'email.email' => 'Insira um email válido!',
+            'password.required' => 'Insira uma senha!',
+            'password.min' => 'Insira uma senha com no mínimo 8 caracteres!',
+            'password.max' => 'Insira uma senha com no máximo 30 caracteres!'
+
+        ];
+    }
+
+    public function rules(){
+        return [
+            'email' => 'required|email',
+            'password' => 'required|min:8|max:30'
+        ];
+    }
 }

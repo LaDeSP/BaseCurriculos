@@ -1,98 +1,65 @@
 <template>
-
-<div class="row justify-content-center" >
-    <img src="/img/images.png" alt="Usuario" id="login-esp">
-    <div class="col-sm-3" id="login-esp">
-        <form>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" class="form-control" v-model="email">
-            </div>
-
-            <div class="form-group">
-                <label for="password">Senha</label>
-                <input type="password" id="password" name="password" 
-                class="form-control" v-model="password">
-            </div>
-            <button @click.prevent="login" type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
-            <router-link to="/new-fisica" class="btn btn-lg btn-primary btn-block btn-success">Cadastrar - Fisica</router-link>
-            <router-link to="/new-juridica" class="btn btn-lg btn-primary btn-block btn-success">Cadastrar - Juridica</router-link>
-        </form>
+    <div class="container">
+        <div class="row justify-content-center" >
+            <ValidationObserver v-slot="{ invalid }">
+                <div class="col-sm-8">
+                    <div v-if="notificacoes">
+                        <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
+                            {{notificacao[0]}}
+                        </span>
+                    </div>
+                    <div class="form-group input-group margin-bottom-sm">
+                        <span class="input-group-text"><i class="fas fa-envelope fa-fw"></i></span>
+                        <ValidationProvider name="email" rules="required|email|max:50">
+                            <input placeholder="Email" type="email"  name="email" class="form-control" v-model="email">
+                            <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
+                        </ValidationProvider>
+                    </div>
+                    <div class="form-group input-group">
+                        <span class="input-group-text"><i class="fa fa-key fa-fw"></i></span>
+                        <ValidationProvider name="password" rules="required|min:8|max:30">
+                            <input placeholder="Senha" type="password" name="password" class="form-control" v-model="password">
+                            <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
+                        </ValidationProvider>
+                    </div>
+                </div>
+                <div class="col-sm-3 text-right" style="padding-left: 35px;">
+                    <slot name="icone">
+                        <i class="far fa-user fa-5x login-icon"></i>
+                    </slot>
+                </div>
+                <div class="fix-form-modal text-center">
+                    <button :disabled="invalid" @click.prevent="login" type="submit" class="btn btn-lg btn-primary">Entrar</button>
+                </div>
+            </ValidationObserver>
+        </div>
     </div>
-</div>    
 </template>
 
 <script>
 
- // import store from './store';
-
     export default {
-    
+
         data(){
             return{
                 email: '',
                 password: '',
-                loginError: false,
+                notificacoes: [],
             }
         },
         methods: {
             login(){
-                this.loginError = false;
-                this.axios.post('http://localhost:8000/api/login', 
-                //pra autenticar, precisa de mais uma header
-                //essa header só vai dizer pro beck q isso é uma chamada ajax
-                    {email: this.email, password: this.password},
-                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .then(
-                        (response) => {
-                            //muda o estado com vuex, loginUser() põe isLoggedIn como true
-                         //   store.commit('loginUser')
-                         // localStorage.setItem('user_id', response.data.user_id),
-                            
-                            this.$session.start(),
-                            this.$session.set('jwt', response.data.token),
-                            this.$session.set('name', response.data.name),
-                            this.$session.set('role', response.data.role),
-                            this.$session.set('user_id', response.data.user_id)
-
-                             console.log(response);
-
-                            /*if(role === 'ADMIN'){
-                                //redireciona pra dash do admin
-                                this.$router.push({ name: 'ADMDash' })
-                            }else if(role === 'COORDENADOR'){
-                                const coor_id = response.data.coor_id;
-                                localStorage.setItem('coor_id', coor_id);
-                                this.$router.push({ name: 'COORDash' })
-                            }else if(role === 'SUPERVISOR'){
-                                const super_id = response.data.super_id;
-                                localStorage.setItem('super_id', super_id);
-                                this.$router.push({ name: 'SUPERDash' })
-                            }else if(role === 'ALUNO'){
-                                const aluno_id = response.data.aluno_id;
-                                localStorage.setItem('aluno_id', aluno_id);
-                                this.$router.push({ name: 'ALUDash' })
-                            } */
-                        }
-                    )
-                    .catch(error => {
-                        this.loginError = true
-                        console.log(error)
-
-                    }
-                    );
+               let email = this.email;
+               let password = this.password;
+               this.$store.dispatch('login', {email, password})
+               .then(() => console.log(this.$store.getters))
+               .catch(error => console.log(error))
             }
+        },
+
+        created(){
+            console.log(this.$store.getters);
         }
     }
 
 </script>
-<style>
-#login-esp{
-    margin-top: 13%;
-    margin-left: 40px;
-    
-}
-</style>
-
-
-

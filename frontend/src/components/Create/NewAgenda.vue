@@ -3,6 +3,11 @@
     <div class="col-sm-12">
         <ValidationObserver v-slot="{ invalid }">
             <form>
+                <div v-if="notificacoes">
+                    <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
+                        {{notificacao[0]}}
+                    </span>
+                </div>
                 <h1 v-if="!editing">Agendar Entrevista</h1>
                 <h1 v-else>Editar Entrevista</h1>
                 <div class="form-row">
@@ -66,6 +71,7 @@
                 editing: false,
                 uri: 'http://localhost:8000/api/agenda',
                 token: this.$session.get('jwt'),
+                notificacoes: [],
               
                 
             }
@@ -80,9 +86,13 @@
                         candidatura_id: this.$route.params.candidaturaId
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .then(
-                        (response) => console.log(response.data)
-                    )
+                    .then(response => {
+                        if(response.data.error  != undefined){
+                            this.notificacoes = response.data.error;
+                            return;
+                        }
+                        console.log(response);
+                    })
                     .catch(
                         (error) => console.log(error)
                     );

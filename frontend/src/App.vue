@@ -1,10 +1,15 @@
 <template>
 
     <div>
-      <div v-if="!$route.meta.isHome & !$route.meta.isSobre">
+      <div v-if="!$route.meta.isHome">
         <NavBar></NavBar>
+        <div class="container">
+          <router-view></router-view>
+        </div>
       </div>
-      <router-view></router-view>
+      <div v-else>
+        <router-view></router-view>
+      </div>
       <Footer></Footer>
     </div>
 
@@ -12,8 +17,8 @@
 
 
 <script>
-  import NavBar from './components/NavBar.vue';
-  import Footer from './components/Footer.vue';
+  import NavBar from './components/Utils/NavBar.vue';
+  import Footer from './components/Utils/Footer.vue';
 
 export default {
 
@@ -23,7 +28,7 @@ export default {
       }
     },
     components:{
-        NavBar,Footer
+        NavBar, Footer
 
     },
     created(){

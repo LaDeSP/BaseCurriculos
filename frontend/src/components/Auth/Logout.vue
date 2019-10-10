@@ -1,28 +1,20 @@
 <template>
-
+    <button @click.prevent="onLogout" class="dropdown-item">
+        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+        Sair
+    </button>
 </template>
 
 <script>
 
     export default {
         methods:{
-            onLogout(){
-                    const token = this.$session.get('jwt');
-                    this.axios.post('http://localhost:8000/api/logout?token=' + token)
-                    .then(response => {
-                        this.$session.remove('jwt');
-                        this.$session.destroy();
-                        console.log(response);
-                        this.$router.push({ name: 'login' })
-                    }, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .catch(
-                        error => console.log(error)
-                    );
-            
-            }
+        onLogout(){       
+            this.$store.dispatch('logout')
+            .then(() => {
+                this.$router.push('/')
+            })
+        }  
         },
-        mounted () {
-            this.onLogout();
-        }
     }
 </script>

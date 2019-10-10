@@ -17,8 +17,7 @@ Route::post('/login', [
     'uses' => 'UserController@login'
 ]);
 Route::post('/logout', [
-    'uses' => 'UserController@logout',
-    'middleware' => 'jwt.auth'
+    'uses' => 'UserController@logout'
 ]);
 
 Route::resource('/pfisicas', 'FisicaController');
@@ -29,7 +28,7 @@ Route::resource('/curriculos', 'CurriculoController', [
 Route::resource('/vagas', 'VagaController', [
     'middleware' => 'jwt.auth'
 ]);
-Route::post('/vagas', 'VagaController@disable', [
+Route::post('/vagas/changeStatus', 'VagaController@changeStatus', [
     'middleware' => 'jwt.auth'
 ]);
 Route::resource('/candidaturas', 'CandidaturaController', [
