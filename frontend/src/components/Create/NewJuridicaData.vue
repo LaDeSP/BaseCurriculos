@@ -402,7 +402,46 @@ import UploadPhoto from '../Utils/UploadPhoto';
         methods: {
             register(){
 
-                let completeJuridicaData = {
+                let JuridicaData = {
+                    name: this.name,
+                    rua: this.rua,
+                    bairro: this.bairro,
+                    cidade: this.cidade,
+                    cep: this.cep,
+                    celular: this.celular,
+                    fixo: this.fixo,
+                    facebook: this.facebook,
+                    twitter: this.twitter,
+                    site: this.site,
+                    outraRede: this.outraRede,
+                    pais: this.pais,
+                    estado: this.estado,
+                    linkedin: this.linkedin,
+                }
+
+                if(!this.editing){
+                    this.$store.dispatch('completeJuridica', JuridicaData)
+                    .then(() => console.log('dispachou'))
+                    .catch(error => console.log(error))
+                }else{
+                    this.$store.dispatch('editJuridica', JuridicaData)
+                    .then(() => console.log('dispachou'))
+                    .catch(error => console.log(error))
+                }
+   
+            },
+             verifyEdit(){
+
+                if(this.$route.params.editing === true){
+                    this.editing = true;
+                    this.loadDataEdit();
+                }
+                console.log('verifyedit:', this.editing);
+                this.name = this.$store.state.auth.user.name
+            },
+            edit(){
+
+                let editJuridicaData = {
                     name: this.name,
                     rua: this.rua,
                     bairro: this.bairro,
@@ -422,16 +461,6 @@ import UploadPhoto from '../Utils/UploadPhoto';
                 this.$store.dispatch('completeJuridica', completeJuridicaData)
                 .then(() => console.log('dispachou'))
                 .catch(error => console.log(error))
-            },
-             verifyEdit(){
-
-                if(this.$route.params.editing === true){
-                    this.editing = true;
-                    this.loadDataEdit();
-                }
-                console.log('verifyedit:', this.editing);
-            },
-            edit(){
 
                 this.axios.put(this.uri + '/' + this.user_id + '?token=' + this.token,
 

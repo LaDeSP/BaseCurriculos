@@ -14,7 +14,7 @@ use App\User;
 class CurriculoController extends Controller
 {
     public function store(Request $request){
-        $validator = Validator::make($request->all(), CurriculoController::rules(), CurriculoController::messages());
+       $validator = Validator::make($request->all(), CurriculoController::rules(), CurriculoController::messages());
          
         if ($validator->fails()) {
              return Response::json([

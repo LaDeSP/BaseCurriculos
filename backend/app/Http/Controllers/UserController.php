@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Tymon\JWTAuth\Exception\JWTException;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +12,7 @@ use App\User;
 use JWTAuth;
 use Response;
 
-class UserController extends Controller
+class UserController extends Controller implements JWTSubject
 {
     public function login(Request $request){
         
@@ -85,5 +86,15 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:8|max:30'
         ];
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

@@ -58,6 +58,7 @@ export const store = new Vuex.Store({
    pessoaJuridica: {
       cnpj: '',
       ramo: '',
+      dataCompleted: false,
    }
   },
 

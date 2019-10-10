@@ -75,10 +75,11 @@ import * as Cookies from 'js-cookie'
 
   };
 
-  const completeFisica = async({commit, state}, newCurriculo) => {
+  const completeFisica = ({commit, state}, newCurriculo) => {
     
     const token = state.auth.token;
-    return await axios({ url: curriculos_uri + '?token=' + token, data: newCurriculo, method: 'POST' })
+    return new Promise((resolve, reject) => {
+       axios({ url: curriculos_uri + '?token=' + token, data: newCurriculo, method: 'POST' })
       .then(response => {
         
         let payloadContact = {
@@ -111,15 +112,17 @@ import * as Cookies from 'js-cookie'
           'historicoProfissional': newCurriculo.historicoProfissional,
         }
           
-        return response.data
-        //commit('contact', {payloadContact})
-        //commit('address', {payloadAddress});
-        //commit('allFisicaData', {payloadCurriculo});
-
+        
+        commit('contact', {payloadContact})
+        commit('address', {payloadAddress});
+        commit('allFisicaData', {payloadCurriculo});
+        resolve(response);
       })
       .catch(error => {
+        reject(error);
         console.log(error)
       }) 
+    })
 
   };
 

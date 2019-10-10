@@ -25,7 +25,7 @@ class AreaController extends Controller
             ]);
 
             return Response::json([
-                'message'=>'Area cadastrada com sucesso!'
+                'area cadastrada'
              ], 201); 
        
     }

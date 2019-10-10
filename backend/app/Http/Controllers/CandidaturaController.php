@@ -63,7 +63,7 @@ class CandidaturaController extends Controller
         }
 
         return Response::json([
-            'message' => 'Candidatura ok'
+            'Candidatura ok'
          ], 201);
     }
  

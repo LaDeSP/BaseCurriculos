@@ -34,13 +34,16 @@ Route::post('/vagas/changeStatus', 'VagaController@changeStatus', [
 Route::resource('/candidaturas', 'CandidaturaController', [
     'middleware' => 'jwt.auth'
 ]);
-Route::post('/pjuridicas/data', 'JuridicaController@addData', [
- 'middleware' => 'jwt.auth'
-]);
-Route::get('/areas', 'AreaController@index', [
-    'middleware' => 'jwt.auth'
-]);
-Route::post('/areas', 'AreaController@store');
+
+Route::group([
+    'middleware' => 'jwt.auth',
+], function ($router) {
+
+    Route::post('/pjuridicas/data', 'JuridicaController@addData');
+    Route::post('/areas', 'AreaController@store');
+    Route::get('/areas', 'AreaController@index');  
+});
+
 Route::resource('/agenda', 'AgendaController', [
     'middleware' => 'jwt.auth'
 ]);

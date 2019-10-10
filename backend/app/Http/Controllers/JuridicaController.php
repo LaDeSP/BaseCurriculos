@@ -25,7 +25,7 @@ class JuridicaController extends Controller
                'error' => $validator->messages()
            ], 201);
         }
-        $this->register($re quest);
+        $this->register($request);
         
         $pjuridica = new Juridica();
         $cnpj = $pjuridica->cnpj = $request->input('cnpj');
@@ -57,8 +57,8 @@ class JuridicaController extends Controller
            ], 201);
         }
 
-      /* $user_id = auth()->user()->id;
-       User::where('id', $user_id)->update(['name'=>$request->nome]);
+       $user_id = auth()->user()->id;
+       User::where('id', $user_id)->update(['name'=>$request->name]);
         
        $endereco = Juridica::where('user_id', $user_id)->first()->enderecos_id;
        if ($endereco){
@@ -73,7 +73,7 @@ class JuridicaController extends Controller
               ], 201);
        }
 
-       $juridica = Fisica::where('user_id', $user_id)->first()->id;
+       $juridica = Juridica::where('user_id', $user_id)->first()->id;
        
        $con_id = Contato::insertGetId([
             'celular' => $request->celular,
@@ -95,12 +95,12 @@ class JuridicaController extends Controller
             'cep' => $request->cep,
         ]);
         
-        Juridica::where('user_id', $request->user_i)
+        Juridica::where('user_id', $user_id)
         ->update(array(
             'contatos_id' => $con_id, 
             'enderecos_id' => $end_id
         ));
-*/
+        
         return Response::json([
             'message' => 'Dados cadastrados com sucesso!',
             'OI' => auth()->user()
@@ -122,7 +122,7 @@ class JuridicaController extends Controller
         $end_id = Juridica::where('user_id', $id)->value('enderecos_id');
         $con_id = Juridica::where('user_id', $id)->value('contatos_id');
 
-        //User::where('id', $id)->update(['name'=>$request->nome]);
+        User::where('id', $id)->update(['name'=>$request->nome]);
         
         $validator = Validator::make($request->all(), JuridicaController::rules_addData(), JuridicaController::messages_addData());
         if ($validator->fails()) {
@@ -156,11 +156,10 @@ class JuridicaController extends Controller
                 'contatos_id' => $con_id, 
                 'enderecos_id' => $end_id
             ));
-
-        return Response::json([
-            'SEI LA MAN'=>$request->user_id
-           ], 201);
       
+            return Response::json([
+                'update ok'  
+            ]);
       
     }
 

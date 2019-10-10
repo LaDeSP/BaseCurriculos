@@ -1,4 +1,5 @@
 <template>
+
     <form-wizard @on-complete="onComplete"
       title="Cadastro de Currículo" subtitle=" "
       back-button-text="Voltar"
@@ -6,6 +7,11 @@
       finish-button-text="Salvar"
       color="#2E59D9"
     >
+    <div v-if="notificacoes">
+        <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
+            {{notificacao[0]}}
+        </span>
+    </div>
   <tab-content title="Informações Pessoais" icon="far fa-address-card">
    
     <div class="form-group">
@@ -512,7 +518,14 @@ export default {
       }
 
       this.$store.dispatch('completeFisica', newCurriculo)
-      .then(() => console.log('dispachou'))
+      .then(response => {
+            
+            if(response.error  != undefined){
+                this.notificacoes = response.error;
+            }
+            
+            console.log(this.notificacoes)
+      })
       .catch(error => console.log(error))
 
       }else{
@@ -571,8 +584,8 @@ export default {
     },
 
     loadArea(){
-
-        this.axios.get('http://localhost:8000/api/areas?token=' + this.token)
+        const token = this.$store.state.auth.token;
+        this.axios.get('http://localhost:8000/api/areas?token=' + token)
 
             .then(response => {
                 this.areas = response.data.areas
@@ -583,8 +596,37 @@ export default {
             );
     },
     loadDataEdit(){
+       
+        this.$store.dispatch('loadCurriculoToEdit')
+        .then(response=>{
 
-        const user_id = this.$session.get('user_id');
+                console.log('TESTE', response.data.fisica[0].user.name);
+                this.nome = response.data.fisica[0].user.name;
+                this.pretensao = response.data.curriculo[0].pretensao;
+                this.rua = response.data.fisica[0].endereco.rua;
+                this.bairro = response.data.fisica[0].endereco.bairro;
+                this.cidade = response.data.fisica[0].endereco.cidade;
+                this.cep = response.data.fisica[0].endereco.cep;
+                this.celular = response.data.fisica[0].contato.celular;
+                this.fixo = response.data.fisica[0].contato.fixo;
+                this.facebook = response.data.fisica[0].contato.facebook;
+                this.twitter = response.data.fisica[0].contato.twitter;
+                this.site = response.data.fisica[0].contato.site;
+                this.outraRede = response.data.fisica[0].contato.outraRede;
+                this.linkedin = response.data.fisica[0].contato.linkedin;
+                this.objetivos = response.data.curriculo[0].objetivos;
+                this.qualificacoes = response.data.curriculo[0].qualificacoes;
+                this.historicoProfissional = response.data.curriculo[0].historicoProfissional;
+                this.estadoCivil = response.data.fisica[0].estadoCivil;
+                this.pais = response.data.curriculo[0].pais;
+                this.estado = response.data.curriculo[0].estado;
+                this.escolaridade = response.data.curriculo[0].escolaridade;
+                this.genero = response.data.curriculo[0].fisica.genero;
+            })
+            .catch(
+                error => console.log(error)
+            );
+        /*const user_id = this.$session.get('user_id');
         const curriculo_id = this.$route.params.curriculo_id;
 
         this.axios.get(this.uri + '/' + user_id + '?token=' + this.token)
@@ -616,8 +658,9 @@ export default {
             .catch(
                 error => console.log(error)
             );
+            */
     }
-
+            
         },
 
         computed: {
@@ -626,7 +669,6 @@ export default {
         created() {
             this.verifyEdit();
             this.loadArea();
-            console.log(this.$store.state.auth.user.name);
         }
 };
 </script>

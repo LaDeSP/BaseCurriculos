@@ -3,17 +3,21 @@ const auth_success = (state, {payload}) => {
     state.auth.token = payload.token
     state.auth.user = payload.user
     
+    /*DEPOIS VEJO SE VOU PRECISAR DISSO 
     if(payload.user.role === 'FISICA'){
         state.pessoaFisica.cpf = payload.cpf
     }else{
         state.pessoaJuridica.cnpj = payload.cnpj
         state.pessoaJuridica.ramo = payload.ramo
-    }
+    }*/
+
     console.log('auth_success', payload.token)
 };
+
 const auth_error = (state) => {
     state.status = 'error'
 };
+
 const logout = (state) => {
     state.status = ''
     state.token = ''
@@ -52,12 +56,9 @@ const allFisicaData = (state, {payloadCurriculo}) => {
     
 }
 
-const allJuridicaData = (state, {payload}) => {
-    state.auth.user.name = payload.name
-    
-    console.log('contact', state.contact)
-    console.log('address', state.address)
-    console.log('pj', state.pessoaJuridica)
+const allJuridicaData = (state, {payloadJuridica}) => {
+    state.auth.user.name = payloadJuridica.name
+    state.pessoaJuridica.dataCompleted = payloadJuridica.dataCompleted
 };
   
   export default {
