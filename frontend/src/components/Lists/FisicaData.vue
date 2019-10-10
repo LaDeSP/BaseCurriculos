@@ -41,7 +41,7 @@
 </template>
 
 <script>
-
+    import {mapActions} from 'vuex';
     import moment from 'moment'
     import Curriculo from './Curriculo.vue';
     import NewCurriculo from '../Create/NewCurriculo.vue';
@@ -51,7 +51,7 @@
         data(){
             return{
                 fisica: [],
-                loadFlag: false,
+                loadFlag: this.$store.state.pessoaJuridica.dataCompleted,
                 uri: 'http://localhost:8000/api/pfisicas/',
                 token: this.$session.get('jwt')
 
@@ -60,7 +60,11 @@
         components: {'curriculo': Curriculo, 'new-curriculo': NewCurriculo},
         methods: {
 
-            loadFisica(){
+            ...mapActions([
+                'loadFisica'
+            ]),
+
+            loadFasaisica(){
                 const user_id = this.$session.get('user_id');
 
                 this.axios.get(this.uri + user_id + '?token=' + this.token)
@@ -94,6 +98,9 @@
                     );
             }
         },
+        computed: {
+            
+        },
         filters:{
 
             dateFormat: function(value){
@@ -106,6 +113,7 @@
         created(){
 
             this.loadFisica();
+            console.log('loadFlag', this.loadFlag);
         }
 
     }

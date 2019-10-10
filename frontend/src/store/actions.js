@@ -245,13 +245,82 @@ import * as Cookies from 'js-cookie'
 
   };
   
-  const loadCurriculoToEdit = async ({commit, state}) => {
+  const loadFisica = async ({commit, state}) => {
   
     const token = state.auth.token;
     const user_id = state.auth.user.id;
-    await axios({ url: curriculos_uri + '/' + user_id + '?token='+ token, data: JuridicaData, method: 'GET' })
+    await axios({ url: curriculos_uri + '/' + user_id + '?token='+ token, method: 'GET' })
       .then(response => {
         
+        let payloadContact = {
+          'celular': response.data.celular,
+          'fixo': response.data.fixo,
+          'facebook': response.data.facebook,
+          'twitter': response.data.twitter,
+          'site': response.data.site,
+          'linkedin': response.data.linkedin,
+        }
+       
+        let payloadAddress = {
+          'estado': response.data.estado,
+          'rua': response.data.rua,
+          'bairro': response.data.bairro,
+          'cidade': response.data.cidade,
+          'cep': response.data.cep,
+        }
+
+        let payloadFisica = {
+          'nome': response.data.name,
+          'cpf': response.data.cpf,
+          'nascimento': response.data.nascimento,
+          'genero': response.data.genero,
+          'estadoCivil': response.data.estadoCivil,
+          'dataCompleted': true
+        } 
+        //commit('contact', {payloadContact})
+        //commit('address', {payloadAddress});
+        //commit('allFisicaData', {payloadFisica})
+        console.log(payloadFisica)
+        
+      }).catch(error => {
+        console.log(error)
+      })
+
+  };
+
+  const loadJuridica = async ({commit, state}) => {
+  
+    const token = state.auth.token;
+    const user_id = state.auth.user.id;
+    await axios({ url: juridica_uri + '/' + user_id + '?token='+ token, method: 'GET' })
+      .then(response => {
+        
+        let payloadContact = {
+          'celular': response.data.celular,
+          'fixo': response.data.fixo,
+          'facebook': response.data.facebook,
+          'twitter': response.data.twitter,
+          'site': response.data.site,
+          'linkedin': response.data.linkedin,
+        }
+       
+        let payloadAddress = {
+          'estado': response.data.estado,
+          'rua': response.data.rua,
+          'bairro': response.data.bairro,
+          'cidade': response.data.cidade,
+          'cep': response.data.cep,
+        }
+
+        let payloadJuridica = {
+          'name': response.data.name,
+          'cnpj': response.data.cnpj,
+          'ramo': response.data.ramo,
+          'dataCompleted': true
+        } 
+        commit('contact', {payloadContact})
+        commit('address', {payloadAddress});
+        commit('allJuridicaData', {payloadJuridica})
         
       }).catch(error => {
         console.log(error)
@@ -268,6 +337,7 @@ import * as Cookies from 'js-cookie'
     completeJuridica,
     editFisica,
     editJuridica,
-    loadCurriculoToEdit,
+    loadFisica,
+    loadJuridica,
    
   };

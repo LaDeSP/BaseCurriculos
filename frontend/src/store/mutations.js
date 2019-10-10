@@ -44,21 +44,30 @@ const address = (state, {payloadAddress}) => {
 }
 
 const allFisicaData = (state, {payloadCurriculo}) => {
-    state.auth.user.name = payloadCurriculo.nome,
-    state.pessoaFisica.nascimento = payloadCurriculo.nascimento, 
-    state.pessoaFisica.genero = payloadCurriculo.genero,
-    state.pessoaFisica.estadoCivil = payloadCurriculo.estadoCivil,
+    state.auth.user.name = payloadCurriculo.nome
+    state.pessoaFisica.nascimento = payloadCurriculo.nascimento
+    state.pessoaFisica.genero = payloadCurriculo.genero
+    state.pessoaFisica.estadoCivil = payloadCurriculo.estadoCivil
     state.pessoaFisica.area = payloadCurriculo.area  
     state.pessoaFisica.pretensao = payloadCurriculo.pretensao  
     state.pessoaFisica.qualificacoes = payloadCurriculo.qualificacoes  
     state.pessoaFisica.historicoProfissional = payloadCurriculo.historicoProfissional  
     state.pessoaFisica.objetivos = payloadCurriculo.objetivos  
+    state.pessoaJuridica.dataCompleted = payloadJuridica.dataCompleted
     
 }
 
 const allJuridicaData = (state, {payloadJuridica}) => {
-    state.auth.user.name = payloadJuridica.name
+    if(payloadJuridica.name != undefined){
+        state.auth.user.name = payloadJuridica.name
+    }
+    
     state.pessoaJuridica.dataCompleted = payloadJuridica.dataCompleted
+
+    if(payloadJuridica.cnpj != undefined){
+        state.pessoaJuridica.cnpj = payloadJuridica.cnpj
+        state.pessoaJuridica.ramo = payloadJuridica.ramo
+    }
 };
   
   export default {

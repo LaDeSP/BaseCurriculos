@@ -54,6 +54,7 @@ export const store = new Vuex.Store({
       qualificacoes: '',
       historicoProfissional: '',
       escolaridade: '',
+      dataCompleted: false,
    },
    pessoaJuridica: {
       cnpj: '',
