@@ -66,7 +66,7 @@
 
   </tab-content>
 
-  <tab-content title="Detalhes da Vaga" icon="fas fa-clipboard-list" >
+  <tab-content title="Detalhes da Vaga" icon="fas fa-list-ul" >
 
     <div class="form-group">
       <label for="jornada">Jornada de Trabalho</label>
