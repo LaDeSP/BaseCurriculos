@@ -60,6 +60,7 @@ export const store = new Vuex.Store({
       cnpj: '',
       ramo: '',
       dataCompleted: false,
+      hasVaga: false,
    }
   },
 

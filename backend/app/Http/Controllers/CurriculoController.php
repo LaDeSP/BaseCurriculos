@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use Response;
+use App\Area;
 use App\Fisica;
 use App\Curriculo;
 use App\Contato;
@@ -88,14 +89,16 @@ class CurriculoController extends Controller
     public function show($id)
     {  
         $fisicas_id = Fisica::where('user_id', $id)->first()->id;
-
+        $area_id = Curriculo::where('fisicas_id', $fisicas_id)->first()->areas_id;
+        $area = Area::where('id', $area_id)->first()->tipo;
         $fisica = Fisica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->get();
 
         $curriculo = Curriculo::with(['fisica'])->where('fisicas_id', $fisicas_id)->get();
         
         return Response::json([
            'curriculo' => $curriculo,
-           'fisica' => $fisica
+           'fisica' => $fisica,
+           'area'=> $area
         ], 201);
     }
 

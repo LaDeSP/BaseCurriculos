@@ -51,7 +51,7 @@
         data(){
             return{
                 fisica: [],
-                loadFlag: this.$store.state.pessoaJuridica.dataCompleted,
+                loadFlag: this.$store.state.pessoaFisica.dataCompleted,
                 uri: 'http://localhost:8000/api/pfisicas/',
                 token: this.$session.get('jwt')
 
@@ -113,7 +113,7 @@
         created(){
 
             this.loadFisica();
-            console.log('loadFlag', this.loadFlag);
+            console.log('loadFlag', this.$store.state.pessoaFisica.area);
         }
 
     }

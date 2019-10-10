@@ -44,16 +44,20 @@ const address = (state, {payloadAddress}) => {
 }
 
 const allFisicaData = (state, {payloadCurriculo}) => {
+
     state.auth.user.name = payloadCurriculo.nome
     state.pessoaFisica.nascimento = payloadCurriculo.nascimento
     state.pessoaFisica.genero = payloadCurriculo.genero
-    state.pessoaFisica.estadoCivil = payloadCurriculo.estadoCivil
+    state.pessoaFisica.estadoCivil = payloadCurriculo.estadoCivil,
+    state.pessoaFisica.cpf = payloadCurriculo.cpf
     state.pessoaFisica.area = payloadCurriculo.area  
     state.pessoaFisica.pretensao = payloadCurriculo.pretensao  
     state.pessoaFisica.qualificacoes = payloadCurriculo.qualificacoes  
     state.pessoaFisica.historicoProfissional = payloadCurriculo.historicoProfissional  
     state.pessoaFisica.objetivos = payloadCurriculo.objetivos  
-    state.pessoaJuridica.dataCompleted = payloadJuridica.dataCompleted
+    state.pessoaFisica.dataCompleted = payloadCurriculo.dataCompleted
+
+    console.log('statefisica', state.pessoaFisica)
     
 }
 

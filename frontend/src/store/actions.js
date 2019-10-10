@@ -111,11 +111,10 @@ import * as Cookies from 'js-cookie'
           'historicoProfissional': newCurriculo.historicoProfissional,
         }
           
+        commit('contact', {payloadContact})
+        commit('address', {payloadAddress});
+        commit('allFisicaData', {payloadCurriculo});
         return response.data
-        //commit('contact', {payloadContact})
-        //commit('address', {payloadAddress});
-        //commit('allFisicaData', {payloadCurriculo});
-
       })
       .catch(error => {
         console.log(error)
@@ -253,34 +252,42 @@ import * as Cookies from 'js-cookie'
       .then(response => {
         
         let payloadContact = {
-          'celular': response.data.celular,
-          'fixo': response.data.fixo,
-          'facebook': response.data.facebook,
-          'twitter': response.data.twitter,
-          'site': response.data.site,
-          'linkedin': response.data.linkedin,
+          'celular': response.data.fisica[0].contato.celular,
+          'fixo': response.data.fisica[0].contato.fixo,
+          'facebook': response.data.fisica[0].contato.facebook,
+          'twitter': response.data.fisica[0].contato.twitter,
+          'site': response.data.fisica[0].contato.site,
+          'linkedin': response.data.fisica[0].contato.linkedin,
         }
        
         let payloadAddress = {
-          'estado': response.data.estado,
-          'rua': response.data.rua,
-          'bairro': response.data.bairro,
-          'cidade': response.data.cidade,
-          'cep': response.data.cep,
+          'estado': response.data.fisica[0].endereco.estado,
+          'rua': response.data.fisica[0].endereco.rua,
+          'bairro': response.data.fisica[0].endereco.bairro,
+          'cidade': response.data.fisica[0].endereco.cidade,
+          'cep': response.data.fisica[0].endereco.cep,
         }
 
-        let payloadFisica = {
-          'nome': response.data.name,
-          'cpf': response.data.cpf,
-          'nascimento': response.data.nascimento,
-          'genero': response.data.genero,
-          'estadoCivil': response.data.estadoCivil,
+        let payloadCurriculo = {
+          'nome': response.data.fisica[0].user.name,
+          'cpf': response.data.fisica[0].cpf,
+          'nascimento': response.data.fisica[0].data_nascimento,
+          'genero': response.data.fisica[0].genero,
+          'estadoCivil': response.data.fisica[0].estado_civil,
+          'objetivos': response.data.curriculo[0].objetivos,
+          'area': response.data.area,
+          'pretensao': response.data.curriculo[0].pretensao,
+          'qualificacoes': response.data.curriculo[0].qualificacoes,
+          'historicoProfissional': response.data.curriculo[0].historicoProfissional,
           'dataCompleted': true
         } 
-        //commit('contact', {payloadContact})
-        //commit('address', {payloadAddress});
-        //commit('allFisicaData', {payloadFisica})
-        console.log(payloadFisica)
+        commit('contact', {payloadContact})
+        commit('address', {payloadAddress});
+        commit('allFisicaData', {payloadCurriculo})
+        console.log('contact', payloadContact)
+        console.log('address', payloadAddress)
+        console.log('curriculo', payloadCurriculo)
+        console.log('response', response.data.area)
         
       }).catch(error => {
         console.log(error)
