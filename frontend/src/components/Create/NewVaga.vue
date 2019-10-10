@@ -1,108 +1,113 @@
 <template>
- <div class="row justify-content-center">
-    <div class="col-sm-6">
-        <ValidationObserver v-slot="{ invalid }">
-            <form>
-                <div v-if="notificacoes">
-                    <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
-                        {{notificacao[0]}}
-                    </span>
-                </div>
-                <h1 v-if="!editing">Cadastro de Vaga</h1>
-                <h1 v-else>Editar Vaga</h1>
 
-                <div class="form-group">
-                    <label for="titulo">Título</label>
-                    <ValidationProvider name="titulo" rules="required|max:50">
-                        <div slot-scope="{ errors }">
-                            <input type="titulo" name="titulo" 
-                            class="form-control" v-model="titulo" maxlength="50">
-                            <p>{{ errors[0] }}</p>
-                        </div>
-                    </ValidationProvider>   
-                </div>
-                <div class="form-group">
-                    <label for="local">Local</label>
-                    <ValidationProvider name="local" rules="required|max:50">
-                        <div slot-scope="{ errors }">
-                            <input type="text" class="form-control" name="local" v-model="local" maxlength="50">
-                            <p>{{ errors[0] }}</p>
-                        </div>
-                    </ValidationProvider>   
-                </div>
-                <div class="form-group">
-                    <label for="quantidade">Quantidade</label>
-                    <ValidationProvider name="quantidade" rules="required|numeric|min_value:1|integer">
-                        <div slot-scope="{ errors }">
-                            <input type="number" class="form-control" name="quantidade" v-model="quantidade">
-                            <p>{{ errors[0] }}</p>
-                        </div>
-                    </ValidationProvider>   
-                </div>
-                <div class="form-group"> 
-                    <label for="area">Área de Atuação</label>
-                        <select class="custom-select" name="area" v-model="area">
-                            <option value="" disabled selected>Selecione uma Área</option>
-                            <option v-for="area in areas" :key="area.id" :value="area.id">
-                                {{area.tipo}}
-                            </option>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="salario">Salário</label>
-                    <ValidationProvider name="salario" rules="required|numeric|min_value:1">
-                        <div slot-scope="{ errors }">
-                            <input type="number"  name="salario" 
-                            class="form-control" v-model="salario" step="any">
-                            <p>{{ errors[0] }}</p>
-                        </div>
-                    </ValidationProvider>   
-                </div>
-                <div class="form-group">
-                    <label for="jornada">Jornada de Trabalho</label>
-                    <ValidationProvider name="jornada" rules="required|max:50">
-                        <div slot-scope="{ errors }">
-                            <input type="jornada" name="jornada" 
-                            class="form-control" v-model="jornada" maxlength="50">
-                            <p>{{ errors[0] }}</p>
-                        </div>
-                    </ValidationProvider>   
-                </div>
-                <div class="form-group">
-                    <label for="beneficios">Benefícios</label>
-                    <ValidationProvider name="beneficios" rules="required|max:500">
-                        <div slot-scope="{ errors }">
-                            <textarea class="form-control" rows="3" v-model="beneficios" maxlength="500"></textarea>
-                            <p>{{ errors[0] }}</p>
-                        </div>
-                    </ValidationProvider>   
-                </div>
-                <div class="form-group">
-                    <label for="requisitos">Requisitos</label>
-                    <ValidationProvider name="requisitos" rules="required|max:500">
-                        <div slot-scope="{ errors }">
-                            <textarea class="form-control"  rows="3" v-model="requisitos" maxlength="500"></textarea>
-                            <p>{{ errors[0] }}</p>
-                        </div>
-                    </ValidationProvider>   
-                </div>
-                <div v-if="editing === false">
-                    <button @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
-                </div>
-                <div v-else>
-                    <button :disabled="invalid" @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
-                </div>
-                <router-link to="/dashboard" class="btn btn-danger">Cancelar</router-link>
-            </form>
-        </ValidationObserver>
+  <form-wizard @on-complete="onComplete"
+    title="Cadastro de Vaga" subtitle=" "
+    back-button-text="Voltar"
+    next-button-text="Próximo"
+    finish-button-text="Salvar"
+    color="#2E59D9"
+  >
+  <div v-if="notificacoes">
+      <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
+          {{notificacao[0]}}
+      </span>
+  </div>
+  <tab-content title="Informações da Vaga" icon="fas fa-file-invoice-dollar">
+    <div class="form-group">
+      <label for="titulo">Título</label>
+      <ValidationProvider name="titulo" rules="required|max:50">
+        <div slot-scope="{ errors }">
+            <input type="titulo" name="titulo"
+            class="form-control" v-model="titulo" maxlength="50">
+            <p>{{ errors[0] }}</p>
+        </div>
+      </ValidationProvider>
     </div>
-</div>
+
+    <div class="form-group">
+      <label for="local">Local</label>
+      <ValidationProvider name="local" rules="required|max:50">
+        <div slot-scope="{ errors }">
+            <input type="text" class="form-control" name="local" v-model="local" maxlength="50">
+            <p>{{ errors[0] }}</p>
+        </div>
+      </ValidationProvider>
+    </div>
+
+    <div class="form-group">
+      <label for="quantidade">Quantidade de Vagas</label>
+      <ValidationProvider name="quantidade" rules="required|numeric|min_value:1|integer">
+        <div slot-scope="{ errors }">
+            <input type="number" class="form-control" name="quantidade" v-model="quantidade">
+            <p>{{ errors[0] }}</p>
+        </div>
+      </ValidationProvider>
+    </div>
+
+    <div class="form-group">
+      <label for="area">Área de Atuação</label>
+      <select class="custom-select" name="area" v-model="area">
+          <option value="" disabled selected>Selecione uma Área</option>
+          <option v-for="area in areas" :key="area.id" :value="area.id">
+              {{area.tipo}}
+          </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="salario">Salário</label>
+      <ValidationProvider name="salario" rules="required|numeric|min_value:1">
+          <div slot-scope="{ errors }">
+              <input type="number"  name="salario" class="form-control" v-model="salario" step="any" placeholder="R$">
+              <p>{{ errors[0] }}</p>
+          </div>
+      </ValidationProvider>
+    </div>
+
+  </tab-content>
+
+  <tab-content title="Detalhes da Vaga" icon="fas fa-clipboard-list" >
+
+    <div class="form-group">
+      <label for="jornada">Jornada de Trabalho</label>
+      <ValidationProvider name="jornada" rules="required|max:50">
+          <div slot-scope="{ errors }">
+              <input type="jornada" name="jornada"
+              class="form-control" v-model="jornada" maxlength="50">
+              <p>{{ errors[0] }}</p>
+          </div>
+      </ValidationProvider>
+    </div>
+
+    <div class="form-group">
+      <label for="beneficios">Benefícios</label>
+      <ValidationProvider name="beneficios" rules="required|max:500">
+        <div slot-scope="{ errors }">
+          <textarea class="form-control" rows="3" v-model="beneficios" maxlength="500"></textarea>
+          <p>{{ errors[0] }}</p>
+        </div>
+      </ValidationProvider>
+    </div>
+
+    <div class="form-group">
+      <label for="requisitos">Requisitos</label>
+      <ValidationProvider name="requisitos" rules="required|max:500">
+        <div slot-scope="{ errors }">
+            <textarea class="form-control"  rows="3" v-model="requisitos" maxlength="500"></textarea>
+            <p>{{ errors[0] }}</p>
+        </div>
+      </ValidationProvider>
+    </div>
+
+   </tab-content>
+
+</form-wizard>
 </template>
 
 <script>
 
     export default {
-    
+
         data(){
             return{
 
@@ -119,14 +124,14 @@
                 token: this.$session.get('jwt'),
                 editing: false,
                 notificacoes: []
-                
-               
+
+
             }
         },
         methods: {
             register(){
-           
-                this.axios.post(this.uri + '?token=' + this.token, 
+
+                this.axios.post(this.uri + '?token=' + this.token,
                     {
                         titulo: this.titulo,
                         local: this.local,
@@ -137,7 +142,7 @@
                         area: this.area,
                         jornada: this.jornada,
                         status: 'ATIVA',
-                        user_id: this.$session.get('user_id')    
+                        user_id: this.$session.get('user_id')
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
@@ -151,22 +156,22 @@
                     )
                     .catch(
                         (error) => console.log(error),
-                        
+
                     );
             },
-            
+
             verifyEdit(){
-                
+
                 if(this.$route.params.editing === true) this.editing = true;
-                
+
                     console.log('verifyedit:', this.editing);
             },
 
             edit(){
-                
+
                 let vaga_id = this.$route.params.vaga_id;
 
-                this.axios.put(this.uri + '/' + vaga_id + '?token=' + this.token, 
+                this.axios.put(this.uri + '/' + vaga_id + '?token=' + this.token,
 
                     {
                         titulo: this.titulo,
@@ -176,7 +181,7 @@
                         beneficios: this.beneficios,
                         requisitos: this.requisitos,
                         area: this.area,
-                        jornada: this.jornada     
+                        jornada: this.jornada
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
@@ -194,7 +199,7 @@
             },
 
             loadArea(){
-             
+
                 this.axios.get('http://localhost:8000/api/areas?token=' + this.token)
 
                     .then(response => {
@@ -210,11 +215,11 @@
 
             loadDataEdit(){
 
-                const vaga_id = this.$route.params.vaga_id; 
+                const vaga_id = this.$route.params.vaga_id;
 
                 this.axios.get(this.uri + '/' + vaga_id + '?token=' + this.token)
                     .then(response=>{
-                         
+
                          this.titulo = response.data.vaga.titulo,
                          this.local = response.data.vaga.local,
                          this.quantidade = response.data.vaga.quantidade,
@@ -234,13 +239,13 @@
         created() {
             console.log(this.$session.get('user_id'));
             this.loadDataEdit();
-            this.loadArea();  
+            this.loadArea();
 
         },
 
         mounted(){
             this.verifyEdit();
         }
-        
+
     }
 </script>
