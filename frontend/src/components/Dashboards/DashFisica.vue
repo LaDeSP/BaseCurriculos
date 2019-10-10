@@ -1,28 +1,21 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h1 id="centro">Bem Vindo, {{name}}</h1>
-
-                <div class="panel panel-default" id="caixa">
-                    <div class="panel-heading" ><center>Painel - Pessoa Física</center></div>
-                        <div class="panel-body" >
-
-                                <router-link class="btn btn-secondary btn-lg active btn-block" to="/profile-fisica">Meu Perfil</router-link>
-                                <router-link class="btn btn-secondary btn-lg active btn-block" to="/vagas">Ver Vagas</router-link>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
+  <div class="row justify-content-center">
+    <div class="panel panel-default" >
+      <div class="panel-heading" ><h1>Bem Vindo, {{name}} :)</h1></div>
+      <div class="panel-body" >
+          <ProfileFisica></ProfileFisica>
+      </div>
     </div>
+  </div>
+
 </template>
 
 <script>
-
+import ProfileFisica from '../Lists/FisicaData';
     export default {
-        
+        components:{
+            ProfileFisica,
+        },
         data() {
 
             return {

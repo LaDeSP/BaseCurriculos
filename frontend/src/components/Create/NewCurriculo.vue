@@ -13,7 +13,7 @@
         </span>
     </div>
   <tab-content title="Informações Pessoais" icon="far fa-address-card">
-   
+    <UploadPhoto></UploadPhoto>
     <div class="form-group">
         <label for="nome">* Nome Completo</label>
         <ValidationProvider name="nome" rules="required|max:50">
@@ -43,7 +43,7 @@
                 <option value="Outro">Outro</option>
             </select>
     </div>
-    
+
     <div class="form-group">
         <label for="estadoCivil">* Estado Civil</label>
             <select class="custom-select" name="estadoCivil" v-model="estadoCivil">
@@ -302,7 +302,7 @@
    </tab-content>
 
    <tab-content title="Endereço" icon="fas fa-map-marker-alt">
-     
+
      <div class="form-group">
       <label for="estado">* Estado</label>
         <select class="custom-select" name="estado" v-model="estado">
@@ -336,42 +336,42 @@
           <option value="TO">Tocantins</option>
         </select>
       </div>
-     
+
      <div class="form-group">
-        <label for="endereco">* Endereço</label>     
+        <label for="endereco">* Endereço</label>
           <ValidationProvider name="rua" rules="required|max:50">
               <div slot-scope="{ errors }">
                   <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" maxlength="50">
                   <p>{{ errors[0] }}</p>
               </div>
           </ValidationProvider>
-    
-      
+
+
           <ValidationProvider name="bairro" rules="required|max:50">
               <div slot-scope="{ errors }">
                   <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" maxlength="50">
                   <p>{{ errors[0] }}</p>
               </div>
           </ValidationProvider>
-    
+
           <ValidationProvider name="cidade" rules="required|max:50">
               <div slot-scope="{ errors }">
                   <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade" maxlength="50">
                   <p>{{ errors[0] }}</p>
               </div>
           </ValidationProvider>
-      
-      
+
+
           <ValidationProvider name="cep" rules="required|numeric|digits:8">
               <div slot-scope="{ errors }">
                   <input type="text" class="form-control" name="cep" placeholder="CEP" v-model="cep" minlength="8" maxlength="8">
                   <p>{{ errors[0] }}</p>
               </div>
           </ValidationProvider>
-             
+
       </div>
    </tab-content>
-   
+
    <tab-content title="Informações Profissionais" icon="fas fa-file-alt">
      <div class="form-group">
           <label for="objetivos">* Objetivos Profissionais</label>
@@ -450,16 +450,20 @@
 
 <script>
 
-export default {
+import UploadPhoto from '../Utils/UploadPhoto';
 
+export default {
+  components:{
+          UploadPhoto,
+  },
   data(){
     return {
-      
+
         nome: '',
         nascimento: '',
         genero: '',
         rua: '',
-        numero: '', 
+        numero: '',
         complemento: '',
         bairro: '',
         cidade: '',
@@ -495,7 +499,7 @@ export default {
           nascimento: this.nascimento,
           genero: this.genero,
           rua: this.rua,
-          numero: this.numero, 
+          numero: this.numero,
           complemento: this.complemento,
           bairro: this.bairro,
           cidade: this.cidade,
@@ -520,11 +524,11 @@ export default {
 
       this.$store.dispatch('completeFisica', newCurriculo)
       .then(response => {
-            
+
             if(response.error  != undefined){
                 this.notificacoes = response.error;
             }
-            
+
             console.log(this.notificacoes)
       })
       .catch(error => console.log(error))
@@ -597,7 +601,7 @@ export default {
             );
     },
     loadDataEdit(){
-       
+
         this.$store.dispatch('loadCurriculoToEdit')
         .then(response=>{
 
@@ -661,11 +665,11 @@ export default {
             );
             */
     }
-            
+
         },
 
         computed: {
-          
+
         },
         created() {
             this.verifyEdit();
