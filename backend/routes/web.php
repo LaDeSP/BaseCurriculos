@@ -19,7 +19,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/teste','CandidaturaController@teste')->name('teste');
+//Route::get('/teste','CandidaturaController@teste')->name('teste');
+Route::post('/store/foto/{categoria}/{id}', 'UploadController@storeFoto')->name('fotos.store');
+Route::post('/store/arquivo/{categoria}/{id}', 'UploadController@storeArquivo')->name('arquivos.store');
+
+Route::get('/teste', function () {
+    return view('teste');
+  });
 
 
 
