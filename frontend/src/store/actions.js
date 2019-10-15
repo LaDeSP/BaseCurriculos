@@ -162,6 +162,7 @@ import * as Cookies from 'js-cookie'
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allFisicaData', {payloadCurriculo});
+        commit('dataCompleted')
 
       })
       .catch(error => {
@@ -195,11 +196,11 @@ import * as Cookies from 'js-cookie'
 
         let payloadJuridica = {
           'name': completeJuridicaData.name,
-          'dataCompleted': true
         } 
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allJuridicaData', {payloadJuridica})
+        commit('dataCompleted')
 
       }).catch(error => {
         console.log(error)
@@ -232,11 +233,13 @@ import * as Cookies from 'js-cookie'
 
         let payloadJuridica = {
           'name': completeJuridicaData.name,
-          'dataCompleted': true
         } 
+     
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allJuridicaData', {payloadJuridica})
+        commit('dataCompleted')
+       
 
       }).catch(error => {
         console.log(error)
@@ -278,16 +281,14 @@ import * as Cookies from 'js-cookie'
           'area': response.data.area,
           'pretensao': response.data.curriculo[0].pretensao,
           'qualificacoes': response.data.curriculo[0].qualificacoes,
+          'escolaridade': response.data.curriculo[0].escolaridade,
           'historicoProfissional': response.data.curriculo[0].historicoProfissional,
-          'dataCompleted': true
         } 
+        
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allFisicaData', {payloadCurriculo})
-        console.log('contact', payloadContact)
-        console.log('address', payloadAddress)
-        console.log('curriculo', payloadCurriculo)
-        console.log('response', response.data.area)
+        commit('dataCompleted')
         
       }).catch(error => {
         console.log(error)
@@ -323,17 +324,31 @@ import * as Cookies from 'js-cookie'
           'name': response.data.name,
           'cnpj': response.data.cnpj,
           'ramo': response.data.ramo,
-          'dataCompleted': true
         } 
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allJuridicaData', {payloadJuridica})
+        commit('dataCompleted')
         
       }).catch(error => {
         console.log(error)
       })
 
   };
+
+  /*const loadOnlyCurriculo = (state) => {
+
+    let curriculo = {
+      'objetivos': state.pessoaFisica.objetivos,
+      'area': state.pessoaFisica.area,
+      'pretensao': state.pessoaFisica.pretensao,
+      'escolaridade': state.pessoaFisica.escolaridade,
+      'historicoProfissional': state.pessoaFisica.historicoProfissional,
+    }
+
+    return curriculo
+
+  };  */
   
   export default {
     login,
@@ -346,5 +361,5 @@ import * as Cookies from 'js-cookie'
     editJuridica,
     loadFisica,
     loadJuridica,
-   
+   // loadOnlyCurriculo,
   };

@@ -47,6 +47,7 @@ class UsersTableSeeder extends Seeder
             'cpf'=>'98269595',
             'genero'=>'Feminino',
             'estado_civil'=>'solteiro',
+            'data_nascimento'=>'1996-06-06',
             'contatos_id'=>1,
             'enderecos_id'=>1
         ]);

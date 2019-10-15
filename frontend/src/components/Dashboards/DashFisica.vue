@@ -3,7 +3,7 @@
     <div class="panel panel-default" >
       <div class="panel-heading" ><h1>Bem Vindo, {{name}} :)</h1></div>
       <div class="panel-body" >
-          <ProfileFisica></ProfileFisica>
+         
       </div>
     </div>
   </div>

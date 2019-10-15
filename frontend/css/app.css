@@ -74,6 +74,10 @@ body {
   outline: 0 !important;
 }
 
+ul {
+  list-style-type: none;
+}
+
 hr {
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
@@ -25105,3 +25109,4 @@ label#thumbnail.has-thumbnail{
 label#thumbnail.has-thumbnail img{
   display: none;
 }
+

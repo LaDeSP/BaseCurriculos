@@ -1,26 +1,26 @@
 <template>
     <div class="panel panel-default">
-        <div class="panel-heading"><h2>Informações Pessoais</h2></div>
+        <div class="panel-heading"></div>
         <div class="panel-body">
-            <div v-if="loadFlag === true">
-              <div v-for="show in fisica" :key="show.id">
-                <h4>* Nome Completo: <strong>{{show.user.name}}</strong></h4>
-                <p>* Data de Nascimento: {{show.data_nascimento | dateFormat}}</p>
-                <p>* Gênero: {{show.genero}}</p>
-                <p>* Estado Civil: {{show.estado_civil}}</p>
-                <p>* CPF: {{show.cpf}}</p>
-                <p>* Rua: {{show.endereco.rua}}</p>
-                <p>* Bairro: {{show.endereco.bairro}}</p>
-                <p>* Cidade: {{show.endereco.cidade}}</p>
-                <p>* CEP: {{show.endereco.cep}}</p>
-                <p>* País de Nacionalidade {{show.endereco.cep}}</p>
-                <p>* Telefone Fixo: {{show.contato.fixo}}</p>
-                <p>* Telefone Celular: {{show.contato.celular}}</p>
-             </div>
-            </div>
-             <hr>
 
-            <div v-if="loadFlag === true">
+            <div v-if="dataCompleted === true">
+             <h2>Informações Pessoais</h2>
+             <ul>
+                <h4> <strong>Nome Completo</strong>: {{displayPessoaFisica.nome}}</h4>
+                <li> <strong>Data de Nascimento</strong>: {{displayPessoaFisica.nascimento | dateFormat}}</li>
+                <li> <strong>Gênero</strong>: {{displayPessoaFisica.genero}}</li>
+                <li> <strong>Estado Civil</strong>: {{displayPessoaFisica.estadoCivil}}</li>
+                <li> <strong>CPF</strong>: {{displayPessoaFisica.cpf}}</li>
+                <li> <strong>Rua</strong>: {{displayPessoaFisica.rua}}</li>
+                <li> <strong>Bairro</strong>: {{displayPessoaFisica.bairro}}</li>
+                <li> <strong>Cidade</strong>: {{displayPessoaFisica.cidade}}</li>
+                <li> <strong>CEP</strong>: {{displayPessoaFisica.cep}}</li>
+                <li> <strong>País de Nacionalidade</strong>: {{displayPessoaFisica.cep}}</li>
+                <li> <strong>Telefone Fixo</strong>: {{displayPessoaFisica.fixo}}</li>
+                <li> <strong>Telefone Celular</strong>: {{displayPessoaFisica.celular}}</li>
+             </ul>
+         
+             <hr>
 
                 <curriculo></curriculo>
 
@@ -32,7 +32,7 @@
 
             </div>
             <div v-else>
-                <h4>Quase lá! Que tal preencher seu curriculo...</h4>
+                <h4>Você ainda não completou suas informações... Que tal fazer isso agora?</h4>
                 <new-curriculo></new-curriculo>
             </div>
 
@@ -41,47 +41,21 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex';
+    import {mapActions, mapGetters} from 'vuex';
     import moment from 'moment'
     import Curriculo from './Curriculo.vue';
     import NewCurriculo from '../Create/NewCurriculo.vue';
 
     export default {
 
-        data(){
-            return{
-                fisica: [],
-                loadFlag: this.$store.state.pessoaFisica.dataCompleted,
-                uri: 'http://localhost:8000/api/pfisicas/',
-                token: this.$session.get('jwt')
-
-            }
-        },
         components: {'curriculo': Curriculo, 'new-curriculo': NewCurriculo},
         methods: {
-
             ...mapActions([
                 'loadFisica'
             ]),
 
-            loadFasaisica(){
-                const user_id = this.$session.get('user_id');
-
-                this.axios.get(this.uri + user_id + '?token=' + this.token)
-                    .then(response => {
-                        if(response.data.fisica[0].contatos_id && response.data.fisica[0].enderecos_id !== null){
-                           this.loadFlag = true;
-                           this.fisica = response.data.fisica;
-                           console.log(this.loadFlag);
-                       }
-
-                    })
-                    .catch(
-                        error => console.log(error)
-                    );
-            },
             onEdit(){
-                const user_id = this.$session.get('user_id');
+                const user_id = this.$store.state.auth.user.id
                 this.$router.push({ name: 'new-curriculo', params: { editing: true, user_id }})
             },
 
@@ -99,7 +73,9 @@
             }
         },
         computed: {
-            
+            ...mapGetters([
+                'dataCompleted', 'displayPessoaFisica'
+            ]),
         },
         filters:{
 
@@ -113,7 +89,7 @@
         created(){
 
             this.loadFisica();
-            console.log('loadFlag', this.$store.state.pessoaFisica.area);
+            
         }
 
     }
