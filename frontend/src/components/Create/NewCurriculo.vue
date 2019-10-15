@@ -13,7 +13,7 @@
         </span>
     </div>
   <tab-content title="Informações Pessoais" icon="far fa-address-card">
-    <UploadPhoto></UploadPhoto>
+    <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
     <div class="form-group">
         <label for="nome">* Nome Completo</label>
         <ValidationProvider name="nome" rules="required|max:50">
@@ -452,14 +452,18 @@
 
 import UploadPhoto from '../Utils/UploadPhoto';
 import {mapGetters} from 'vuex';
+import vue2Dropzone from 'vue2-dropzone'
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 export default {
+    
   components:{
-          UploadPhoto,
+        UploadPhoto,
+        vueDropzone: vue2Dropzone,
   },
   data(){
     return {
-
+    
         nome: '',
         nascimento: '',
         genero: '',
@@ -487,7 +491,14 @@ export default {
         escolaridade: '',
         editing: false,
         areas: [],
-        notificacoes: []
+        notificacoes: [],
+        dropzoneOptions: {
+            url: 'http://localhost:8000/api/store/foto/fisicas_id/'+this.$store.state.auth.user.id+'?token='+this.$store.state.auth.token,
+            maxFilesize: 5,
+            //acceptedFiles: image/*,
+            maxFiles: 1,
+            addRemoveLinks: true,
+        }
     };
   },
   methods: {
