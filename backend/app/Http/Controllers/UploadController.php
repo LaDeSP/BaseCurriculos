@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Response;
+
 use Illuminate\Http\Request;
 use App\Upload; 
 use Illuminate\Support\Facades\Validator;
@@ -11,7 +13,9 @@ class UploadController extends Controller
     public function storeFoto(Request $request, $categoria, $id){
         $validator = Validator::make($request->all(), UploadController::rulesFotos(), UploadController::messages());
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return Response::json([
+                'error' => $validator->messages()
+            ], 201);
         }
        
         $files[] = $request->file('foto');
@@ -19,7 +23,9 @@ class UploadController extends Controller
         UploadController::saveFileInDatabase($files, $categoria, $id);
         
         
-        return redirect()->back()->with('message', 'Sucesso ao adicionar foto!');
+        return Response::json([
+            'message'=>'Sucesso'
+           ], 200);
     }
 
     public function storeArquivo(Request $request, $categoria, $id){

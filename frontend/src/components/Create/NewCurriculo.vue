@@ -451,6 +451,7 @@
 <script>
 
 import UploadPhoto from '../Utils/UploadPhoto';
+import {mapGetters} from 'vuex';
 
 export default {
   components:{
@@ -490,7 +491,7 @@ export default {
     };
   },
   methods: {
-
+    
     onComplete(){
       if(!this.editing){
         let newCurriculo = {
@@ -541,9 +542,37 @@ export default {
 
         if(this.$route.params.editing === true){
             this.editing = true;
-            this.loadDataEdit();
+            this.displayDataEdit();
         }
         console.log('verifyedit:', this.editing);
+    },
+
+    displayDataEdit(){
+         console.log('entrou', this.editing)
+         console.log('teste: ', this.$store.getters.displayPessoaFisica)
+       /* console.log('TESTE', response.data.fisica[0].user.name);
+        this.nome = response.data.fisica[0].user.name;
+        this.pretensao = response.data.curriculo[0].pretensao;
+        this.rua = response.data.fisica[0].endereco.rua;
+        this.bairro = response.data.fisica[0].endereco.bairro;
+        this.cidade = response.data.fisica[0].endereco.cidade;
+        this.cep = response.data.fisica[0].endereco.cep;
+        this.celular = response.data.fisica[0].contato.celular;
+        this.fixo = response.data.fisica[0].contato.fixo;
+        this.facebook = response.data.fisica[0].contato.facebook;
+        this.twitter = response.data.fisica[0].contato.twitter;
+        this.site = response.data.fisica[0].contato.site;
+        this.outraRede = response.data.fisica[0].contato.outraRede;
+        this.linkedin = response.data.fisica[0].contato.linkedin;
+        this.objetivos = response.data.curriculo[0].objetivos;
+        this.qualificacoes = response.data.curriculo[0].qualificacoes;
+        this.historicoProfissional = response.data.curriculo[0].historicoProfissional;
+        this.estadoCivil = response.data.fisica[0].estadoCivil;
+        this.pais = response.data.curriculo[0].pais;
+        this.estado = response.data.curriculo[0].estado;
+        this.escolaridade = response.data.curriculo[0].escolaridade;
+        this.genero = response.data.curriculo[0].fisica.genero; */
+
     },
 
     edit(){
@@ -600,80 +629,16 @@ export default {
                 error => console.log(error)
             );
     },
-    loadDataEdit(){
-
-        this.$store.dispatch('loadCurriculoToEdit')
-        .then(response=>{
-
-                console.log('TESTE', response.data.fisica[0].user.name);
-                this.nome = response.data.fisica[0].user.name;
-                this.pretensao = response.data.curriculo[0].pretensao;
-                this.rua = response.data.fisica[0].endereco.rua;
-                this.bairro = response.data.fisica[0].endereco.bairro;
-                this.cidade = response.data.fisica[0].endereco.cidade;
-                this.cep = response.data.fisica[0].endereco.cep;
-                this.celular = response.data.fisica[0].contato.celular;
-                this.fixo = response.data.fisica[0].contato.fixo;
-                this.facebook = response.data.fisica[0].contato.facebook;
-                this.twitter = response.data.fisica[0].contato.twitter;
-                this.site = response.data.fisica[0].contato.site;
-                this.outraRede = response.data.fisica[0].contato.outraRede;
-                this.linkedin = response.data.fisica[0].contato.linkedin;
-                this.objetivos = response.data.curriculo[0].objetivos;
-                this.qualificacoes = response.data.curriculo[0].qualificacoes;
-                this.historicoProfissional = response.data.curriculo[0].historicoProfissional;
-                this.estadoCivil = response.data.fisica[0].estadoCivil;
-                this.pais = response.data.curriculo[0].pais;
-                this.estado = response.data.curriculo[0].estado;
-                this.escolaridade = response.data.curriculo[0].escolaridade;
-                this.genero = response.data.curriculo[0].fisica.genero;
-            })
-            .catch(
-                error => console.log(error)
-            );
-        /*const user_id = this.$session.get('user_id');
-        const curriculo_id = this.$route.params.curriculo_id;
-
-        this.axios.get(this.uri + '/' + user_id + '?token=' + this.token)
-            .then(response=>{
-
-                console.log('TESTE', response.data.fisica[0].user.name);
-                this.nome = response.data.fisica[0].user.name;
-                this.pretensao = response.data.curriculo[0].pretensao;
-                this.rua = response.data.fisica[0].endereco.rua;
-                this.bairro = response.data.fisica[0].endereco.bairro;
-                this.cidade = response.data.fisica[0].endereco.cidade;
-                this.cep = response.data.fisica[0].endereco.cep;
-                this.celular = response.data.fisica[0].contato.celular;
-                this.fixo = response.data.fisica[0].contato.fixo;
-                this.facebook = response.data.fisica[0].contato.facebook;
-                this.twitter = response.data.fisica[0].contato.twitter;
-                this.site = response.data.fisica[0].contato.site;
-                this.outraRede = response.data.fisica[0].contato.outraRede;
-                this.linkedin = response.data.fisica[0].contato.linkedin;
-                this.objetivos = response.data.curriculo[0].objetivos;
-                this.qualificacoes = response.data.curriculo[0].qualificacoes;
-                this.historicoProfissional = response.data.curriculo[0].historicoProfissional;
-                this.estadoCivil = response.data.fisica[0].estadoCivil;
-                this.pais = response.data.curriculo[0].pais;
-                this.estado = response.data.curriculo[0].estado;
-                this.escolaridade = response.data.curriculo[0].escolaridade;
-                this.genero = response.data.curriculo[0].fisica.genero;
-            })
-            .catch(
-                error => console.log(error)
-            );
-            */
+   
+  },
+   computed: {
+            ...mapGetters([
+              'displayPessoaFisica'
+            ]),
+    },
+    created() {
+        this.verifyEdit();
+        this.loadArea();
     }
-
-        },
-
-        computed: {
-
-        },
-        created() {
-            this.verifyEdit();
-            this.loadArea();
-        }
 };
 </script>

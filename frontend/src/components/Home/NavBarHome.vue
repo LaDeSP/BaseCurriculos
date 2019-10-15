@@ -5,7 +5,8 @@
   </nav>
     <ul class="nav navbar-nav ml-auto">
       <li class="nav-item">
-         <router-link class="navbar-brand" to="/sobre"><i class="far fa-lightbulb"></i> Sobre</router-link>
+        <router-link class="navbar-brand" to="/login"><i class="fas fa-sign-in-alt"></i> Entrar</router-link>
+        <router-link class="navbar-brand" to="/sobre"><i class="far fa-lightbulb"></i> Sobre</router-link>
       </li>
 
     </ul>

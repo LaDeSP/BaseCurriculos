@@ -99,6 +99,7 @@
               this.$store.dispatch('newFisica', newFisicaData)
               .then(() => console.log(this.$store.state.auth))
               .catch(error => console.log(error))
+              this.$router.push({ name: 'dashboard-fisica' })
 
             }
         },

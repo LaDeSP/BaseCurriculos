@@ -32,7 +32,7 @@ export const store = new Vuex.Store({
       fixo: '',
       facebook: '',
       twitter: '',
-      linkedin:'',
+      linkedin: '',
       site: '',
    },
    address: {
@@ -54,14 +54,14 @@ export const store = new Vuex.Store({
       qualificacoes: '',
       historicoProfissional: '',
       escolaridade: '',
-      dataCompleted: false,
+     
    },
    pessoaJuridica: {
       cnpj: '',
       ramo: '',
-      dataCompleted: false,
-      hasVaga: false,
-   }
+   },
+   dataCompleted: false,
+   hasVaga: false,
   },
 
   actions,
