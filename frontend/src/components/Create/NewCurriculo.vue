@@ -479,14 +479,14 @@ import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 export default {
-    
+
   components:{
         UploadPhoto,
         vueDropzone: vue2Dropzone,
   },
   data(){
     return {
-    
+
         nome: '',
         nascimento: '',
         genero: '',
@@ -528,7 +528,7 @@ export default {
         'loadFisica'
     ]),
     onComplete(){
-     
+
         let curriculo = {
 
           nome: this.nome,
@@ -567,14 +567,14 @@ export default {
             console.log(this.notificacoes)
         })
         .catch(error => console.log(error))
-     
+
      }else{
         this.$store.dispatch('updateFisica', curriculo)
         .then(response => {
                 if(response.error  != undefined){
                     this.notificacoes = response.error;
                 }
-        }).catch(error => console.log(error))  
+        }).catch(error => console.log(error))
       }
     },
     verifyEdit(){
@@ -583,13 +583,13 @@ export default {
        if(this.dataCompleted){
            this.displayDataEdit();
        }
-    
+
       //  console.log('verifyedit:', this.dataCompleted);
     },
 
     displayDataEdit(){
         console.log('desgraça', this.displayPessoaFisica)
-       
+
         /* this.nascimento = this.$store.getters.displayPessoaFisica.nascimento
         this.genero = this.$store.getters.displayPessoaFisica.genero
         this.estadoCivil = this.$store.getters.displayPessoaFisica.estadoCivil
@@ -628,14 +628,14 @@ export default {
                 error => console.log(error)
             );
     },
-   
+
   },
     computed: {
         ...mapGetters([
             'displayPessoaFisica', 'displayCurriculo', 'dataCompleted'
         ]),
         dataCompleted: {
-            get(){ 
+            get(){
                 return this.$store.getters.dataCompleted;
             }
         }
@@ -646,6 +646,6 @@ export default {
         this.verifyEdit();
         console.log('inferno', this.displayPessoaFisica)
     },
-  
+
 };
 </script>
