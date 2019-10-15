@@ -41,7 +41,8 @@ Route::group([
 
     Route::post('/pjuridicas/data', 'JuridicaController@addData');
     Route::post('/areas', 'AreaController@store');
-    Route::get('/areas', 'AreaController@index');  
+    Route::get('/areas', 'AreaController@index');
+    Route::post('/store/foto/{categoria}/{id}', 'UploadController@storeFoto')->name('fotos.store');
 });
 
 Route::resource('/agenda', 'AgendaController', [
