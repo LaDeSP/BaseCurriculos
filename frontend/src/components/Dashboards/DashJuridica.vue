@@ -1,13 +1,14 @@
 <template>
     <div class="row">
       <div class="panel panel-default" >
-          <div class="panel-heading" ><h1>Bem Vindo, {{name}} :)</h1></div>
+          <div class="panel-heading" ><h1>Bem Vindo, {{name}} :)</h1></div> -->
             <div class="panel-body" >
                    <h4>Você ainda não cadastrou nenhuma vaga.
-                       Que tal fazer isso agora? </h4>
+                       Que tal fazer isso agora? </h4> -->
                     <NewVaga></NewVaga>
-            </div>
-      </div>
+                    <!-- <Dash></Dash> -->
+             </div>
+       </div>
     </div>
 
 </template>
@@ -16,10 +17,11 @@
 
 import NewJuridicaData from '../Create/NewJuridicaData';
 import NewVaga from '../Create/NewVaga';
+import Dash from '../Utils/CardsDashJuridica';
 
     export default {
         components:{
-             NewJuridicaData, NewVaga
+             NewJuridicaData, NewVaga,Dash
         },
         data() {
 

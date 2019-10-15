@@ -27,6 +27,7 @@ import DeuRuim from './components/DeuRuim.vue';
 import Home from './components/Home/Home.vue';
 
 import Sobre from './components/Home/Sobre.vue';
+
 import { store } from './store/store';
 
 const routes = [
