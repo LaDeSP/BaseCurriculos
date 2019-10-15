@@ -7,6 +7,7 @@ use Response;
 use Illuminate\Http\Request;
 use App\Upload; 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class UploadController extends Controller
 {
@@ -17,8 +18,14 @@ class UploadController extends Controller
                 'error' => $validator->messages()
             ], 201);
         }
+        if (Upload::where('fisicas_id',  auth()->user()->id)->exists()){
+            return Response::json([
+                'error' => 'Já tem foto'
+            ], 201);
+        }
+
        
-        $files[] = $request->file('foto');
+        $files[] = $request->file('file');
         
         UploadController::saveFileInDatabase($files, $categoria, $id);
         
@@ -63,7 +70,7 @@ class UploadController extends Controller
 
     public function rulesFotos(){
         return [
-            'fotos' => 'image'
+            'file' => 'required|image'
         ];
     }
 
