@@ -51,7 +51,6 @@ const displayCurriculo = state => {
    
   Object.keys(curriculo).forEach((key) => (curriculo[key] == null) && delete curriculo[key]);
   
-  console.log('cuzinho', curriculo.pretensao)
   return curriculo
 
 }
