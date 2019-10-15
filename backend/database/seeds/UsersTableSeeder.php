@@ -46,7 +46,7 @@ class UsersTableSeeder extends Seeder
             'user_id'=>2,
             'cpf'=>'98269595',
             'genero'=>'Feminino',
-            'estado_civil'=>'solteiro',
+            'estado_civil'=>'Solteiro(a)',
             'data_nascimento'=>'1996-06-06',
             'contatos_id'=>1,
             'enderecos_id'=>1
