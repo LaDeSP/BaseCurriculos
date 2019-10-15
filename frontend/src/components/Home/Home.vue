@@ -40,7 +40,6 @@
     methods: {
       showModal(){
         this.isModalFacaParte = true;
-        console.log('showModal', this.isModalFacaParte)
       },
       closeModal(){
         this.isModalFacaParte = false;

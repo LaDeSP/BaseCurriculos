@@ -56,11 +56,15 @@ const displayCurriculo = state => {
 
 }
 
+const permissaoDoUsuario = state =>{
+  return state.auth.user.role
+}
 export default {
   isLoggedIn,
   authStatus,
   dataCompleted,
   displayPessoaFisica,
   displayPessoaJuridica, 
-  displayCurriculo
+  displayCurriculo,
+  permissaoDoUsuario
 };
