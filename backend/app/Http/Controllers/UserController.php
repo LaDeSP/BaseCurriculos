@@ -9,6 +9,7 @@ use Tymon\JWTAuth\Exception\JWTException;
 use Illuminate\Support\Facades\Auth;
 
 use App\User;
+use App\Upload;
 use JWTAuth;
 use Response;
 
@@ -51,16 +52,29 @@ class UserController extends Controller implements JWTSubject
       $role = User::where('email', $request->input('email'))->get()->first()->role;
      
       $user_id = User::where('email', $request->input('email'))->get()->first()->id;
+      $fisica =  User::where('id', $user_id)->get();
+      if (Upload::where('fisicas_id', $fisica[0]->fisica->id)->exists()){
+        $foto = Upload::where('fisicas_id', $fisica[0]->fisica->id)->get();
+        $path = "http://localhost:8000/storage/".$foto[0]->path;
+      }
+      else{
+          $path="https://source.unsplash.com/QAB-WJcbgJk/60x60";
+      }
 
       return Response::json([
         'name'=> $name,
         'role' => $role,
         'user_id' => $user_id,
         'token'=>$token,
-        'user' => auth()->user()
+        'user' => auth()->user(),
+        'foto'=>$path
      ], 201);
         
       
+    }
+    public function teste(){
+        $teste = User::where('id', '1')->get();
+        dd($teste[0]->fisica->id);
     }
 
     public function logout(){

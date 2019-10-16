@@ -12,7 +12,7 @@
                   <div class="h2 mb-0 font-weight-bold text-gray-900">2</div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-calendar fa-2x text-gray-600"></i>
+                  <i class="fas fa-calendar fa-2x text-gray-100"></i>
                 </div>
               </div>
             </template>

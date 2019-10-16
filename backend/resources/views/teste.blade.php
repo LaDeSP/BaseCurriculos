@@ -31,7 +31,7 @@
             @csrf
             <div class="form-group">
                 <label for="fotos">Fotos <a class="required">*</a></label>
-                <input type="file" aria-label="foto" id="foto" name="foto" class="form-control" accept="image/x-png, image/gif, image/jpeg, image/jpg" required/>
+                <input type="file" aria-label="file" id="file" name="file" class="form-control" accept="image/x-png, image/gif, image/jpeg, image/jpg" required/>
                 <small id="fotosHelp" class="form-text text-muted">Arquivos nos formatos: gif, png, jpg e jpeg.</small>
             </div>
             <div class="d-flex justify-content-center" id="formFooter">

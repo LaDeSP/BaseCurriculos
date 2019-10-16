@@ -63,6 +63,9 @@ export const store = new Vuex.Store({
       cnpj: '',
       ramo: '',
    },
+   upload:{
+     path: '',
+   },
    dataCompleted: false,
    hasVaga: false,
   },

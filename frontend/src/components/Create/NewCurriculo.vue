@@ -479,14 +479,14 @@ import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 export default {
-    
+
   components:{
         UploadPhoto,
         vueDropzone: vue2Dropzone,
   },
   data(){
     return {
-    
+
         nome: '',
         nascimento: '',
         genero: '',
@@ -528,7 +528,7 @@ export default {
         'loadFisica'
     ]),
     onComplete(){
-     
+
         let curriculo = {
 
           nome: this.nome,
@@ -568,7 +568,7 @@ export default {
             }
         })
         .catch(error => console.log(error))
-     
+
      }else{
         this.$store.dispatch('updateFisica', curriculo)
         .then(response => {
@@ -577,7 +577,7 @@ export default {
                 }else{
                     this.$router.push({ name: 'profile-fisica'});
                 }
-        }).catch(error => console.log(error))  
+        }).catch(error => console.log(error))
       }
     },
     verifyEdit(){
@@ -627,17 +627,13 @@ export default {
                 error => console.log(error)
             );
     },
-   
+
   },
     computed: {
         ...mapGetters([
             'displayPessoaFisica', 'displayCurriculo', 'dataCompleted'
         ]),
-        dataCompleted: {
-            get(){ 
-                return this.$store.getters.dataCompleted;
-            }
-        }
+       
     },
     async created() {
         if(this.dataCompleted){
@@ -646,6 +642,6 @@ export default {
         this.loadArea();
         this.verifyEdit();
     },
-  
+
 };
 </script>
