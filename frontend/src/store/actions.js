@@ -90,13 +90,16 @@ import * as Cookies from 'js-cookie'
           'site': newCurriculo.site,
           'linkedin': newCurriculo.linkedin,
         }
-       
+        
         let payloadAddress = {
           'estado': newCurriculo.estado,
           'rua': newCurriculo.rua,
           'bairro': newCurriculo.bairro,
           'cidade': newCurriculo.cidade,
           'cep': newCurriculo.cep,
+          'complemento': newCurriculo.complemento,
+          'numero': newCurriculo.numero,
+          'pais': newCurriculo.pais
         }
        
         let payloadCurriculo = {
@@ -140,11 +143,14 @@ import * as Cookies from 'js-cookie'
         }
        
         let payloadAddress = {
-          'estado': newCurriculo.estado,
-          'rua': newCurriculo.rua,
-          'bairro': newCurriculo.bairro,
-          'cidade': newCurriculo.cidade,
-          'cep': newCurriculo.cep,
+          'estado': editCurriculo.estado,
+          'rua': editCurriculo.rua,
+          'bairro': editCurriculo.bairro,
+          'cidade': editCurriculo.cidade,
+          'cep': editCurriculo.cep,
+          'complemento': editCurriculo.complemento,
+          'numero': editCurriculo.numero,
+          'pais': editCurriculo.pais
         }
        
         let payloadCurriculo = {
@@ -186,13 +192,16 @@ import * as Cookies from 'js-cookie'
           'site': completeJuridicaData.site,
           'linkedin': completeJuridicaData.linkedin,
         }
-       
+        
         let payloadAddress = {
           'estado': completeJuridicaData.estado,
           'rua': completeJuridicaData.rua,
           'bairro': completeJuridicaData.bairro,
           'cidade': completeJuridicaData.cidade,
           'cep': completeJuridicaData.cep,
+          'complemento': completeJuridicaData.complemento,
+          'numero': completeJuridicaData.numero,
+          'pais': completeJuridicaData.pais
         }
 
         let payloadJuridica = {
@@ -216,24 +225,27 @@ import * as Cookies from 'js-cookie'
       .then(response => {
         
         let payloadContact = {
-          'celular': completeJuridicaData.celular,
-          'fixo': completeJuridicaData.fixo,
-          'facebook': completeJuridicaData.facebook,
-          'twitter': completeJuridicaData.twitter,
-          'site': completeJuridicaData.site,
-          'linkedin': completeJuridicaData.linkedin,
+          'celular': JuridicaData.celular,
+          'fixo': JuridicaData.fixo,
+          'facebook': JuridicaData.facebook,
+          'twitter': JuridicaData.twitter,
+          'site': JuridicaData.site,
+          'linkedin': JuridicaData.linkedin,
         }
        
         let payloadAddress = {
-          'estado': completeJuridicaData.estado,
-          'rua': completeJuridicaData.rua,
-          'bairro': completeJuridicaData.bairro,
-          'cidade': completeJuridicaData.cidade,
-          'cep': completeJuridicaData.cep,
+          'estado': JuridicaData.estado,
+          'rua': JuridicaData.rua,
+          'bairro': JuridicaData.bairro,
+          'cidade': JuridicaData.cidade,
+          'cep': JuridicaData.cep,
+          'complemento': JuridicaData.complemento,
+          'numero': JuridicaData.numero,
+          'pais': JuridicaData.pais
         }
 
         let payloadJuridica = {
-          'name': completeJuridicaData.name,
+          'name': JuridicaData.name,
         } 
      
         commit('contact', {payloadContact})
@@ -270,6 +282,8 @@ import * as Cookies from 'js-cookie'
           'bairro': response.data.fisica[0].endereco.bairro,
           'cidade': response.data.fisica[0].endereco.cidade,
           'cep': response.data.fisica[0].endereco.cep,
+          'numero': response.data.fisica[0].endereco.numero,
+          'complemento': response.data.fisica[0].endereco.complemento,
         }
 
         let payloadCurriculo = {
@@ -290,7 +304,7 @@ import * as Cookies from 'js-cookie'
         commit('address', {payloadAddress});
         commit('allFisicaData', {payloadCurriculo})
         commit('dataCompleted')
-        
+        console.log('display', state.pessoaFisica)
       }).catch(error => {
         console.log(error)
       })
@@ -314,11 +328,14 @@ import * as Cookies from 'js-cookie'
         }
        
         let payloadAddress = {
-          'estado': response.data.estado,
-          'rua': response.data.rua,
-          'bairro': response.data.bairro,
-          'cidade': response.data.cidade,
-          'cep': response.data.cep,
+          'estado': newCurriculo.estado,
+          'rua': newCurriculo.rua,
+          'bairro': newCurriculo.bairro,
+          'cidade': newCurriculo.cidade,
+          'cep': newCurriculo.cep,
+          'complemento': newCurriculo.complemento,
+          'numero': newCurriculo.numero,
+          'pais': newCurriculo.pais
         }
 
         let payloadJuridica = {

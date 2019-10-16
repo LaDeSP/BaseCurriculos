@@ -1,7 +1,14 @@
 <template>
 
+    <div>
+        <div v-if="!dataCompleted">
+            <h3>Cadastrar Informações</h3>
+        </div>
+        <div v-else>
+            <h3>Editar Informações</h3>
+        </div>
     <form-wizard @on-complete="onComplete"
-      title="Cadastro de Currículo" subtitle=" "
+      title="" subtitle=" "
       back-button-text="Voltar"
       next-button-text="Próximo"
       finish-button-text="Salvar"
@@ -48,10 +55,10 @@
         <label for="estadoCivil">* Estado Civil</label>
             <select class="custom-select" name="estadoCivil" v-model="estadoCivil">
                 <option disabled value="">Selecione seu estado civil</option>
-                <option value="solteiro">Solteiro(a)</option>
-                <option value="casado">Casado(a)</option>
-                <option value="separado">Separado(a)</option>
-                <option value="viuvo">Viúvo(a)</option>
+                <option value="Solteiro(a)">Solteiro(a)</option>
+                <option value="Casado(a)">Casado(a)</option>
+                <option value="Separado(a)">Separado(a)</option>
+                <option value="Viúvo(a)">Viúvo(a)</option>
             </select>
     </div>
 
@@ -354,6 +361,20 @@
               </div>
           </ValidationProvider>
 
+          <ValidationProvider name="numero" rules="required|max:50">
+              <div slot-scope="{ errors }">
+                  <input type="text" class="form-control" name="numero" placeholder="Número" v-model="numero" maxlength="50">
+                  <p>{{ errors[0] }}</p>
+              </div>
+          </ValidationProvider>
+
+          <ValidationProvider name="complemento" rules="required|max:50">
+              <div slot-scope="{ errors }">
+                  <input type="text" class="form-control" name="complemento" placeholder="Complemento" v-model="complemento" maxlength="50">
+                  <p>{{ errors[0] }}</p>
+              </div>
+          </ValidationProvider>
+
           <ValidationProvider name="cidade" rules="required|max:50">
               <div slot-scope="{ errors }">
                   <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade" maxlength="50">
@@ -386,7 +407,7 @@
       <div class="form-group">
           <label for="area">* Área de Atuação</label>
               <select class="custom-select" name="area" v-model="area">
-                  <option value="" disabled selected>Selecione uma área</option>
+                   <option disabled value="">Selecione uma área</option>
                   <option v-for="area in areas" :key="area.id" :value="area.id">
                       {{area.tipo}}
                   </option>
@@ -406,7 +427,7 @@
       </div>
 
       <div class="form-group">
-          <label for="pais">* Nível de Escolaridade</label>
+          <label for="escolaridade">* Nível de Escolaridade</label>
               <select class="custom-select" name="escolaridade" v-model="escolaridade">
                   <option value="" disabled selected>Selecione seu nível</option>
                   <option value="Ensino Fundamental(Incompleto)">Ensino Fundamental(Incompleto)</option>
@@ -446,24 +467,26 @@
 
    </tab-content>
 </form-wizard>
+</div>
 </template>
+
 
 <script>
 
 import UploadPhoto from '../Utils/UploadPhoto';
-import {mapGetters} from 'vuex';
+import {mapActions,mapGetters} from 'vuex';
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 export default {
-    
+
   components:{
         UploadPhoto,
         vueDropzone: vue2Dropzone,
   },
   data(){
     return {
-    
+
         nome: '',
         nascimento: '',
         genero: '',
@@ -489,7 +512,6 @@ export default {
         pais: '',
         estado: '',
         escolaridade: '',
-        editing: false,
         areas: [],
         notificacoes: [],
         dropzoneOptions: {
@@ -502,10 +524,12 @@ export default {
     };
   },
   methods: {
-    
+    ...mapActions([
+        'loadFisica'
+    ]),
     onComplete(){
-      if(!this.editing){
-        let newCurriculo = {
+
+        let curriculo = {
 
           nome: this.nome,
           nascimento: this.nascimento,
@@ -533,99 +557,63 @@ export default {
           estado: this.estado,
           escolaridade: this.escolaridade,
       }
-
-      this.$store.dispatch('completeFisica', newCurriculo)
-      .then(response => {
+     if(!this.editing){
+        this.$store.dispatch('completeFisica', curriculo)
+        .then(response => {
 
             if(response.error  != undefined){
                 this.notificacoes = response.error;
             }
-
             console.log(this.notificacoes)
-      })
-      .catch(error => console.log(error))
+        })
+        .catch(error => console.log(error))
 
-      }else{
-
+     }else{
+        this.$store.dispatch('updateFisica', curriculo)
+        .then(response => {
+                if(response.error  != undefined){
+                    this.notificacoes = response.error;
+                }
+        }).catch(error => console.log(error))
       }
     },
     verifyEdit(){
 
-        if(this.$route.params.editing === true){
-            this.editing = true;
-            this.displayDataEdit();
-        }
-        console.log('verifyedit:', this.editing);
+        //if(this.$route.params.editing === true){
+       if(this.dataCompleted){
+           this.displayDataEdit();
+       }
+
+      //  console.log('verifyedit:', this.dataCompleted);
     },
 
     displayDataEdit(){
-         console.log('entrou', this.editing)
-         console.log('teste: ', this.$store.getters.displayPessoaFisica)
-       /* console.log('TESTE', response.data.fisica[0].user.name);
-        this.nome = response.data.fisica[0].user.name;
-        this.pretensao = response.data.curriculo[0].pretensao;
-        this.rua = response.data.fisica[0].endereco.rua;
-        this.bairro = response.data.fisica[0].endereco.bairro;
-        this.cidade = response.data.fisica[0].endereco.cidade;
-        this.cep = response.data.fisica[0].endereco.cep;
-        this.celular = response.data.fisica[0].contato.celular;
-        this.fixo = response.data.fisica[0].contato.fixo;
-        this.facebook = response.data.fisica[0].contato.facebook;
-        this.twitter = response.data.fisica[0].contato.twitter;
-        this.site = response.data.fisica[0].contato.site;
-        this.outraRede = response.data.fisica[0].contato.outraRede;
-        this.linkedin = response.data.fisica[0].contato.linkedin;
-        this.objetivos = response.data.curriculo[0].objetivos;
-        this.qualificacoes = response.data.curriculo[0].qualificacoes;
-        this.historicoProfissional = response.data.curriculo[0].historicoProfissional;
-        this.estadoCivil = response.data.fisica[0].estadoCivil;
-        this.pais = response.data.curriculo[0].pais;
-        this.estado = response.data.curriculo[0].estado;
-        this.escolaridade = response.data.curriculo[0].escolaridade;
-        this.genero = response.data.curriculo[0].fisica.genero; */
+        console.log('desgraça', this.displayPessoaFisica)
 
-    },
-
-    edit(){
-
-        const user_id = this.$session.get('user_id');
-        this.axios.put(this.uri + '/' + user_id + '?token=' + this.token,
-
-            {
-                nome: this.nome,
-                nascimento: this.nascimento,
-                genero: this.genero,
-                rua: this.rua,
-                bairro: this.bairro,
-                cidade: this.cidade,
-                cep: this.cep,
-                celular: this.celular,
-                fixo: this.fixo,
-                facebook: this.facebook,
-                twitter: this.twitter,
-                site: this.site,
-                outraRede: this.outraRede,
-                objetivos: this.objetivos,
-                area: this.area,
-                pretensao: this.pretensao,
-                qualificacoes: this.qualificacoes,
-                historicoProfissional: this.historicoProfissional,
-                estadoCivil: this.estadoCivil,
-                pais: this.pais,
-                estado: this.estado,
-                escolaridade: this.escolaridade,
-                linkedin: this.linkedin
-            },
-            {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-            .then(response => {
-                if(response.data.error  != undefined){
-                    this.notificacoes = response.data.error;
-                    return;
-                }
-            })
-            .catch(
-                (error) => console.log(error)
-            );
+        /* this.nascimento = this.$store.getters.displayPessoaFisica.nascimento
+        this.genero = this.$store.getters.displayPessoaFisica.genero
+        this.estadoCivil = this.$store.getters.displayPessoaFisica.estadoCivil
+        this.pais = this.$store.getters.displayPessoaFisica.pais
+        this.fixo = this.$store.getters.displayPessoaFisica.fixo
+        this.celular = this.$store.getters.displayPessoaFisica.celular
+        this.linkedin = this.$store.getters.displayCurriculo.linkedin
+        this.facebook = this.$store.getters.displayCurriculo.facebook
+        this.twitter = this.$store.getters.displayCurriculo.twitter
+        this.site = this.$store.getters.displayCurriculo.site
+        this.estado = this.$store.getters.displayPessoaFisica.estado
+        this.rua = this.$store.getters.displayPessoaFisica.rua
+        this.bairro = this.$store.getters.displayPessoaFisica.bairro
+        this.cidade = this.$store.getters.displayPessoaFisica.cidade
+        this.cep = this.$store.getters.displayPessoaFisica.cep
+        this.complemento = this.$store.getters.displayPessoaFisica.complemento
+        this.numero = this.$store.getters.displayPessoaFisica.numero
+        this.objetivos = this.$store.getters.displayCurriculo.objetivos
+        this.area = this.$store.getters.displayCurriculo.area
+        this.pretensao = parseFloat(this.$store.getters.displayCurriculo.pretensao)
+        this.escolaridade = this.$store.getters.displayCurriculo.escolaridade
+        this.qualificacoes = this.$store.getters.displayCurriculo.qualificacoes
+        this.historicoProfissional = this.$store.getters.displayCurriculo.historicoProfissional
+        console.log(this.pretensao) */
     },
 
     loadArea(){
@@ -640,16 +628,24 @@ export default {
                 error => console.log(error)
             );
     },
-   
+
   },
-   computed: {
-            ...mapGetters([
-              'displayPessoaFisica'
-            ]),
+    computed: {
+        ...mapGetters([
+            'displayPessoaFisica', 'displayCurriculo', 'dataCompleted'
+        ]),
+        dataCompleted: {
+            get(){
+                return this.$store.getters.dataCompleted;
+            }
+        }
     },
-    created() {
-        this.verifyEdit();
+    async created() {
+        await this.loadFisica();
         this.loadArea();
-    }
+        this.verifyEdit();
+        console.log('inferno', this.displayPessoaFisica)
+    },
+
 };
 </script>

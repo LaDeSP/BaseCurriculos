@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="stylus">
-  .container   
+  .container
     padding 10% !important;
     align-content center;
 

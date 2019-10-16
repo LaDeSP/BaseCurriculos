@@ -3,9 +3,9 @@
         <div class="panel-heading"></div>
         <div class="panel-body">
 
-            <div v-if="dataCompleted === true">
+            <div v-if="dataCompleted">
              <h2>Informações Pessoais</h2>
-             <ul>
+             <ul> <h1>{{displayPessoaFisica}}</h1>
                 <h4> <strong>Nome Completo</strong>: {{displayPessoaFisica.nome}}</h4>
                 <li> <strong>Data de Nascimento</strong>: {{displayPessoaFisica.nascimento | dateFormat}}</li>
                 <li> <strong>Gênero</strong>: {{displayPessoaFisica.genero}}</li>
@@ -25,7 +25,7 @@
                 <curriculo></curriculo>
 
              <div class="panel-footer">
-                <button @click="onEdit()" class="btn btn-lg btn-warning">Editar Informações</button>
+                <button @click="onEdit" class="btn btn-lg btn-warning">Editar Informações</button>
                 <router-link to="/DashFIS" tag="button" class="btn btn-lg btn-default ">Voltar</router-link>
                 <button @click="onDelete()" class="btn btn-lg btn-danger">Deletar Conta</button>
             </div>
@@ -45,20 +45,17 @@
     import moment from 'moment'
     import Curriculo from './Curriculo.vue';
     import NewCurriculo from '../Create/NewCurriculo.vue';
-
     export default {
-
         components: {'curriculo': Curriculo, 'new-curriculo': NewCurriculo},
         methods: {
             ...mapActions([
                 'loadFisica'
             ]),
-
             onEdit(){
-                const user_id = this.$store.state.auth.user.id
-                this.$router.push({ name: 'new-curriculo', params: { editing: true, user_id }})
+             
+            this.$router.push({ name: 'new-curriculo'});
+            //this.$router.push({ name: 'new-curriculo', params: { editing: true }})
             },
-
             onDelete(){
                 const user_id = this.$session.get('user_id');
                 this.axios.delete(this.uri + user_id + '?token=' + this.token)
@@ -78,20 +75,21 @@
             ]),
         },
         filters:{
-
             dateFormat: function(value){
                 if (value) {
                     return moment(String(value)).format('DD/MM/YYYY')
                 }
             }
         },
-
-        created(){
-
-            this.loadFisica();
-            
+       async created(){
+          
+            await this.loadFisica();
+            console.log('neve', this.displayPessoaFisica)
+        },
+        watch: {
+            async displayPessoaFisica() {
+            await this.loadFisica();
+            }
         }
-
     }
 </script>
-
