@@ -52,27 +52,37 @@ class UserController extends Controller implements JWTSubject
       $role = User::where('email', $request->input('email'))->get()->first()->role;
      
       $user_id = User::where('email', $request->input('email'))->get()->first()->id;
-      /*$fisica =  User::where('id', $user_id)->get();
-      if (Upload::where('fisicas_id', $fisica[0]->fisica->id)->exists()){
-        $foto = Upload::where('fisicas_id', $fisica[0]->fisica->id)->get();
-        $path = "http://localhost:8000/storage/".$foto[0]->path;
+      $teste = User::where('id', $user_id)->first();
+      $path="https://source.unsplash.com/QAB-WJcbgJk/60x60";
+   
+        
+      if ($teste->fisica){
+          if(Upload::where('fisicas_id', $teste->fisica->id)->exists()){
+            $foto = Upload::where('fisicas_id', $teste->fisica->id)->first();
+            $path = "http://localhost:8000/storage/".$foto->path;
+          }  
       }
-      else{
-          $path="https://source.unsplash.com/QAB-WJcbgJk/60x60";
+      else if($teste->juridica){
+        if(Upload::where('juridicas_id', $teste->juridica->id)->exists()){
+            $foto = Upload::where('juridicas_id', $teste->juridica->id)->first();
+            $path = "http://localhost:8000/storage/".$foto->path;
+        }
       }
-      */
+      
+      
+      
 
       return Response::json([
         'token'=>$token,
         'user' => auth()->user(),
-        //'foto'=>$path
+        'foto'=>$path
      ], 201);
         
       
     }
     public function teste(){
         $teste = User::where('id', '1')->get();
-        dd($teste[0]->fisica->id);
+        dd(gettype($teste));
     }
 
     public function logout(){
