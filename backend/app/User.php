@@ -31,4 +31,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    public function fisica(){
+    	return $this->belongsTo(Fisica::class, 'id', 'user_id');
+	}
 }

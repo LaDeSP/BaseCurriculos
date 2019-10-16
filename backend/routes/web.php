@@ -23,5 +23,6 @@ Route::get('/teste', function () {
     return view('teste');
   });
 
+  Route::get('/testetwo', 'UserController@teste');
 
 

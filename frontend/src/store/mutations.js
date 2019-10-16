@@ -2,7 +2,7 @@ const auth_success = (state, {payload}) => {
     state.auth.status = 'success'
     state.auth.token = payload.token
     state.auth.user = payload.user
-    
+    state.upload.path = payload.path
     /*DEPOIS VEJO SE VOU PRECISAR DISSO 
     if(payload.user.role === 'FISICA'){
         state.pessoaFisica.cpf = payload.cpf

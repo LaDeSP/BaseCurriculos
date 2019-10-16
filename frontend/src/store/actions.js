@@ -11,6 +11,7 @@ import * as Cookies from 'js-cookie'
         .then(response => {
           
           const payload = {
+            'path': response.data.foto,
             'token': response.data.token,
             'user': response.data.user
           } 
