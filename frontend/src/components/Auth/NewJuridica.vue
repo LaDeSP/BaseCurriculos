@@ -108,9 +108,9 @@
               }
 
               this.$store.dispatch('newJuridica', newJuridicaData)
-              .then(() => console.log('dispachou'))
+               .then(() => this.$router.push({ name: 'dashboard-juridica' }))
               .catch(error => console.log(error))
-              this.$router.push({ name: 'dashboard-juridica' })
+              
             }
         },
     }

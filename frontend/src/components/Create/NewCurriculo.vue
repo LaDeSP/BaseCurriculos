@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <div v-if="!dataCompleted">
+        <div v-if="!this.dataCompleted">
             <h3>Cadastrar Informações</h3>
         </div>
         <div v-else>
@@ -557,14 +557,15 @@ export default {
           estado: this.estado,
           escolaridade: this.escolaridade,
       }
-     if(!this.editing){
+     if(!this.dataCompleted){
         this.$store.dispatch('completeFisica', curriculo)
         .then(response => {
 
             if(response.error  != undefined){
                 this.notificacoes = response.error;
+            }else{
+                this.$router.push({ name: 'profile-fisica'});
             }
-            console.log(this.notificacoes)
         })
         .catch(error => console.log(error))
      
@@ -573,47 +574,45 @@ export default {
         .then(response => {
                 if(response.error  != undefined){
                     this.notificacoes = response.error;
+                }else{
+                    this.$router.push({ name: 'profile-fisica'});
                 }
         }).catch(error => console.log(error))  
       }
     },
     verifyEdit(){
-
-        //if(this.$route.params.editing === true){
        if(this.dataCompleted){
            this.displayDataEdit();
        }
-    
-      //  console.log('verifyedit:', this.dataCompleted);
     },
 
     displayDataEdit(){
         console.log('desgraça', this.displayPessoaFisica)
-       
-        /* this.nascimento = this.$store.getters.displayPessoaFisica.nascimento
-        this.genero = this.$store.getters.displayPessoaFisica.genero
-        this.estadoCivil = this.$store.getters.displayPessoaFisica.estadoCivil
-        this.pais = this.$store.getters.displayPessoaFisica.pais
-        this.fixo = this.$store.getters.displayPessoaFisica.fixo
-        this.celular = this.$store.getters.displayPessoaFisica.celular
-        this.linkedin = this.$store.getters.displayCurriculo.linkedin
-        this.facebook = this.$store.getters.displayCurriculo.facebook
-        this.twitter = this.$store.getters.displayCurriculo.twitter
-        this.site = this.$store.getters.displayCurriculo.site
-        this.estado = this.$store.getters.displayPessoaFisica.estado
-        this.rua = this.$store.getters.displayPessoaFisica.rua
-        this.bairro = this.$store.getters.displayPessoaFisica.bairro
-        this.cidade = this.$store.getters.displayPessoaFisica.cidade
-        this.cep = this.$store.getters.displayPessoaFisica.cep
-        this.complemento = this.$store.getters.displayPessoaFisica.complemento
-        this.numero = this.$store.getters.displayPessoaFisica.numero
-        this.objetivos = this.$store.getters.displayCurriculo.objetivos
-        this.area = this.$store.getters.displayCurriculo.area
-        this.pretensao = parseFloat(this.$store.getters.displayCurriculo.pretensao)
-        this.escolaridade = this.$store.getters.displayCurriculo.escolaridade
-        this.qualificacoes = this.$store.getters.displayCurriculo.qualificacoes
-        this.historicoProfissional = this.$store.getters.displayCurriculo.historicoProfissional
-        console.log(this.pretensao) */
+        console.log('inferno', this.displayCurriculo)
+        this.nascimento = this.displayPessoaFisica.nascimento
+        this.genero = this.displayPessoaFisica.genero
+        this.estadoCivil = this.displayPessoaFisica.estadoCivil
+        this.pais = this.displayPessoaFisica.nascimento
+        this.fixo = this.displayPessoaFisica.fixo
+        this.celular = this.displayPessoaFisica.celular
+        this.linkedin = this.displayCurriculo.linkedin
+        this.facebook = this.displayCurriculo.facebook
+        this.twitter = this.displayCurriculo.twitter
+        this.site = this.displayCurriculo.site
+        this.estado = this.displayPessoaFisica.estado
+        this.rua = this.displayPessoaFisica.rua
+        this.bairro = this.displayPessoaFisica.bairro
+        this.cidade = this.displayPessoaFisica.cidade
+        this.cep = this.displayPessoaFisica.cep
+        this.complemento = this.displayPessoaFisica.complemento
+        this.numero = this.displayPessoaFisica.numero
+        this.objetivos = this.displayCurriculo.objetivos
+        this.area = this.displayCurriculo.area_id
+        this.pretensao = parseFloat(this.displayCurriculo.pretensao)
+        this.escolaridade = this.displayCurriculo.escolaridade
+        this.qualificacoes = this.displayCurriculo.qualificacoes
+        this.historicoProfissional = this.displayCurriculo.historicoProfissional
+        console.log(this.pretensao) 
     },
 
     loadArea(){
@@ -641,10 +640,11 @@ export default {
         }
     },
     async created() {
-        await this.loadFisica();
+        if(this.dataCompleted){
+            await this.loadFisica();
+        }
         this.loadArea();
         this.verifyEdit();
-        console.log('inferno', this.displayPessoaFisica)
     },
   
 };

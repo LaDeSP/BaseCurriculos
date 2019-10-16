@@ -27,7 +27,9 @@ import * as Cookies from 'js-cookie'
     await axios({ url: 'http://localhost:8000/api/logout?token=' + token, method: 'POST' })
     .then(response => {
       
+      const dataCompleted = false;
       commit('logout');
+      commit('dataCompleted', dataCompleted)
       Cookies.remove('vuex');
 
     }, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
@@ -47,8 +49,9 @@ import * as Cookies from 'js-cookie'
         'user': response.data.user,
         'cpf': newFisicaData.cpf
       }
-
+      //const dataCompleted = false;
       commit('auth_success', {payload})
+      //commit('dataCompleted', dataCompleted)
 
     }).catch(error => {
       console.log(error)
@@ -113,10 +116,12 @@ import * as Cookies from 'js-cookie'
           'area': newCurriculo.area,
           'historicoProfissional': newCurriculo.historicoProfissional,
         }
-          
+        const dataCompleted = true;  
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allFisicaData', {payloadCurriculo});
+        commit('dataCompleted', dataCompleted);
+      
         return response.data
       })
       .catch(error => {
@@ -125,20 +130,20 @@ import * as Cookies from 'js-cookie'
 
   };
 
-  const editFisica = async({commit, state}, editCurriculo) => {
+  const updateFisica = async({commit, state}, editCurriculo) => {
     
     const token = state.auth.token;
-    
-    await axios({ url: curriculos_uri + '?token=' + token, data: editCurriculo, method: 'PUT' })
+    const user_id = state.auth.user.id;
+    return await axios({ url: curriculos_uri + '/' + user_id + '?token=' + token, data: editCurriculo, method: 'PUT' })
       .then(response => {
         
         let payloadContact = {
-          'celular': newCurriculo.celular,
-          'fixo': newCurriculo.fixo,
-          'facebook': newCurriculo.facebook,
-          'twitter': newCurriculo.twitter,
-          'site': newCurriculo.site,
-          'linkedin': newCurriculo.linkedin,
+          'celular': editCurriculo.celular,
+          'fixo': editCurriculo.fixo,
+          'facebook': editCurriculo.facebook,
+          'twitter': editCurriculo.twitter,
+          'site': editCurriculo.site,
+          'linkedin': editCurriculo.linkedin,
         }
        
         let payloadAddress = {
@@ -153,23 +158,23 @@ import * as Cookies from 'js-cookie'
         }
        
         let payloadCurriculo = {
-          'nome': newCurriculo.nome,
-          'nascimento': newCurriculo.nascimento,
-          'genero': newCurriculo.genero,
-          'estadoCivil': newCurriculo.estadoCivil,
-          'objetivos': newCurriculo.objetivos,
-          'pretensao': newCurriculo.pretensao,
-          'qualificacoes': newCurriculo.qualificacoes,
-          'escolaridade': newCurriculo.escolaridade,
-          'area': newCurriculo.area,
-          'historicoProfissional': newCurriculo.historicoProfissional,
+          'nome': editCurriculo.nome,
+          'nascimento': editCurriculo.nascimento,
+          'genero': editCurriculo.genero,
+          'estadoCivil': editCurriculo.estadoCivil,
+          'objetivos': editCurriculo.objetivos,
+          'pretensao': editCurriculo.pretensao,
+          'qualificacoes': editCurriculo.qualificacoes,
+          'escolaridade': editCurriculo.escolaridade,
+          'area': editCurriculo.area,
+          'historicoProfissional': editCurriculo.historicoProfissional,
         }
                 
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allFisicaData', {payloadCurriculo});
-        commit('dataCompleted')
-
+       
+        return response.data
       })
       .catch(error => {
         console.log(error)
@@ -209,7 +214,7 @@ import * as Cookies from 'js-cookie'
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allJuridicaData', {payloadJuridica})
-        commit('dataCompleted')
+       
 
       }).catch(error => {
         console.log(error)
@@ -217,7 +222,7 @@ import * as Cookies from 'js-cookie'
 
   };
 
-  const editJuridica = async ({commit, state}, JuridicaData) => {
+  const updateJuridica = async ({commit, state}, JuridicaData) => {
   
     const token = state.auth.token;
     await axios({ url: juridica_uri + '?token='+ token, data: JuridicaData, method: 'PUT' })
@@ -250,8 +255,6 @@ import * as Cookies from 'js-cookie'
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allJuridicaData', {payloadJuridica})
-        commit('dataCompleted')
-       
 
       }).catch(error => {
         console.log(error)
@@ -263,7 +266,7 @@ import * as Cookies from 'js-cookie'
   
     const token = state.auth.token;
     const user_id = state.auth.user.id;
-    await axios({ url: curriculos_uri + '/' + user_id + '?token='+ token, method: 'GET' })
+    return await axios({ url: curriculos_uri + '/' + user_id + '?token='+ token, method: 'GET' })
       .then(response => {
         
         let payloadContact = {
@@ -293,6 +296,7 @@ import * as Cookies from 'js-cookie'
           'estadoCivil': response.data.fisica[0].estado_civil,
           'objetivos': response.data.curriculo[0].objetivos,
           'area': response.data.area,
+          'area_id': response.data.area_id,
           'pretensao': response.data.curriculo[0].pretensao,
           'qualificacoes': response.data.curriculo[0].qualificacoes,
           'escolaridade': response.data.curriculo[0].escolaridade,
@@ -302,10 +306,11 @@ import * as Cookies from 'js-cookie'
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allFisicaData', {payloadCurriculo})
-        commit('dataCompleted')
-        console.log('display', state.pessoaFisica)
+        const dataCompleted = true;  
+        commit('dataCompleted', dataCompleted)
+
       }).catch(error => {
-        console.log(error)
+        //console.log(error)
       })
 
   };
@@ -345,7 +350,6 @@ import * as Cookies from 'js-cookie'
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allJuridicaData', {payloadJuridica})
-        commit('dataCompleted')
         
       }).catch(error => {
         console.log(error)
@@ -353,19 +357,34 @@ import * as Cookies from 'js-cookie'
 
   };
 
-  /*const loadOnlyCurriculo = (state) => {
+  const deleteFisica = async ({commit, state}) => {
 
-    let curriculo = {
-      'objetivos': state.pessoaFisica.objetivos,
-      'area': state.pessoaFisica.area,
-      'pretensao': state.pessoaFisica.pretensao,
-      'escolaridade': state.pessoaFisica.escolaridade,
-      'historicoProfissional': state.pessoaFisica.historicoProfissional,
-    }
+    const token = state.auth.token;
+    const user_id = state.auth.user.id
+    return await axios({ url: fisica_uri + '/' + user_id + '?token='+ token, method: 'DELETE' })
+    .then(response => {
+       commit('logout');
+       Cookies.remove('vuex');
+       return response;
+    })
+    .catch(
+        error => console.log(error)
+    );
+  }
 
-    return curriculo
+  const deleteJuridica = async ({commit}) => {
 
-  };  */
+    const token = state.auth.token;
+    const user_id = state.auth.user.id
+    await axios({ url: juridica_uri + '/' + user_id + '?token='+ token, method: 'DELETE' })
+    .then(response => {
+       commit('logout');
+       Cookies.remove('vuex');
+    })
+    .catch(
+        error => console.log(error)
+    );
+  }
   
   export default {
     login,
@@ -374,9 +393,11 @@ import * as Cookies from 'js-cookie'
     newJuridica,
     completeFisica,
     completeJuridica,
-    editFisica,
-    editJuridica,
+    updateFisica,
+    updateJuridica,
     loadFisica,
     loadJuridica,
-   // loadOnlyCurriculo,
+    deleteFisica,
+    deleteJuridica,
+  
   };

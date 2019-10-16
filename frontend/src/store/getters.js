@@ -37,7 +37,8 @@ const displayCurriculo = state => {
   
   let curriculo = {
     objetivos: state.pessoaFisica.objetivos,
-    area: state.pessoaFisica.area,
+    area: state.pessoaFisica.area.nome,
+    area_id: state.pessoaFisica.area.id,
     pretensao: state.pessoaFisica.pretensao,
     escolaridade: state.pessoaFisica.escolaridade,
     qualificacoes: state.pessoaFisica.qualificacoes,

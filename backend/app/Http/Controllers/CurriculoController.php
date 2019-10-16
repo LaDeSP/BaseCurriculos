@@ -98,7 +98,8 @@ class CurriculoController extends Controller
         return Response::json([
            'curriculo' => $curriculo,
            'fisica' => $fisica,
-           'area'=> $area
+           'area'=> $area,
+           'area_id' => $area_id
         ], 201);
     }
 

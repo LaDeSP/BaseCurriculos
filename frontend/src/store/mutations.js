@@ -2,14 +2,6 @@ const auth_success = (state, {payload}) => {
     state.auth.status = 'success'
     state.auth.token = payload.token
     state.auth.user = payload.user
-    
-    /*DEPOIS VEJO SE VOU PRECISAR DISSO 
-    if(payload.user.role === 'FISICA'){
-        state.pessoaFisica.cpf = payload.cpf
-    }else{
-        state.pessoaJuridica.cnpj = payload.cnpj
-        state.pessoaJuridica.ramo = payload.ramo
-    }*/
 
     console.log('auth_success', payload.token)
 };
@@ -50,7 +42,8 @@ const allFisicaData = (state, {payloadCurriculo}) => {
     state.pessoaFisica.genero = payloadCurriculo.genero
     state.pessoaFisica.estadoCivil = payloadCurriculo.estadoCivil
     state.pessoaFisica.cpf = payloadCurriculo.cpf
-    state.pessoaFisica.area = payloadCurriculo.area  
+    state.pessoaFisica.area.nome = payloadCurriculo.area  
+    state.pessoaFisica.area.id = payloadCurriculo.area_id  
     state.pessoaFisica.pretensao = payloadCurriculo.pretensao  
     state.pessoaFisica.qualificacoes = payloadCurriculo.qualificacoes  
     state.pessoaFisica.historicoProfissional = payloadCurriculo.historicoProfissional  
@@ -70,8 +63,8 @@ const allJuridicaData = (state, {payloadJuridica}) => {
     }
 };
 
-const dataCompleted = state => {
-    state.dataCompleted = true;
+const dataCompleted = (state, dataCompleted) => {
+    state.dataCompleted = dataCompleted;
 }
   
   export default {

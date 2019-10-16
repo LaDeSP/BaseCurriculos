@@ -49,7 +49,10 @@ export const store = new Vuex.Store({
       genero: '',
       estadoCivil: '',
       objetivos: '',
-      area: '',
+      area: {
+        nome: '',
+        id: 0,
+      },
       pretensao: '',
       qualificacoes: '',
       historicoProfissional: '',

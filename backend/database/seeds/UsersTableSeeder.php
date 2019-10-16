@@ -39,7 +39,7 @@ class UsersTableSeeder extends Seeder
             'bairro'=>'centro',
             'cidade'=>'ladario city',
             'estado'=>'ms',
-            'pais'=>'brasil',
+            'pais'=>'Brasil',
         ]);
 
         Fisica::create([

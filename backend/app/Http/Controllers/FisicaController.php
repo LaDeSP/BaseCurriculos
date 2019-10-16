@@ -69,12 +69,14 @@ class FisicaController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        $end = Endereco::find($end_id);
-        $end->delete();
+        if($end_id && $cont_id){
+            $end = Endereco::find($end_id);
+            $end->delete();
 
-        $cont = Contato::find($cont_id);
-        $cont->delete();
-        
+            $cont = Contato::find($cont_id);
+            $cont->delete();
+    
+        }
         return Response::json([
             'msg' => 'deletado ok'
          ], 201);
