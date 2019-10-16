@@ -1,6 +1,6 @@
 <template>
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div v-if="!this.dataCompleted">
                 <h3>Cadastrar Informações</h3>
             </div>
@@ -150,6 +150,20 @@
                             </div>
                         </ValidationProvider>
 
+                        <ValidationProvider name="numero" rules="required|max:50">
+                            <div slot-scope="{ errors }">
+                                <input type="text" class="form-control" name="numero" placeholder="Número" v-model="numero" maxlength="50">
+                                <p>{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>
+
+                        <ValidationProvider name="complemento" rules="required|max:50">
+                            <div slot-scope="{ errors }">
+                                <input type="text" class="form-control" name="complemento" placeholder="Complemento" v-model="complemento" maxlength="50">
+                                <p>{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>
+
                         <ValidationProvider name="cidade" rules="required|max:50">
                             <div slot-scope="{ errors }">
                                 <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade" maxlength="50">
@@ -187,10 +201,12 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
             return{
 
 
-                razao: '',
+                razao: this.$store.state.auth.user.name,
                 ramo: '',
                 rua: '',
                 bairro: '',
+                numero: '',
+                complemento: '',
                 cidade: '',
                 cep: '',
                 celular: '',
@@ -245,10 +261,12 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
                 let completeJuridica = {
 
-                    razao: this.razao,
+                    nome: this.razao,
                     ramo: this.ramo,
                     rua: this.rua,
                     bairro: this.bairro,
+                    numero: this.numero,
+                    complemento: this.complemento,
                     cidade: this.cidade,
                     cep: this.cep,
                     celular: this.celular,
@@ -268,7 +286,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                     .then(response => {
 
                         if(response.error  != undefined){
-                            this.notificacoes = response.error;
+                            this.notificeacoes = response.error;
                         }else{
                             this.$router.push({ name: 'profile-juridica'});
                         }
@@ -276,7 +294,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                     .catch(error => console.log(error))
 
                 }else{
-                    this.$store.dispatch('updateJuridica', curriculo)
+                    this.$store.dispatch('updateJuridica', completeJuridica)
                     .then(response => {
                             if(response.error  != undefined){
                                 this.notificacoes = response.error;

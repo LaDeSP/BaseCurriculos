@@ -14,8 +14,8 @@
                     <li> <strong>Estado Civil</strong>: {{displayPessoaFisica.estadoCivil}}</li>
                     <li> <strong>CPF</strong>: {{displayPessoaFisica.cpf}}</li>
                     <li> <strong>Rua</strong>: {{displayPessoaFisica.rua}}</li>
-                    <li v-if="typeof displayPessoaFisica.numero !== 'undefined' || null">Número: {{displayPessoaFisica.numero}}</li>
-                    <li v-if="typeof displayPessoaFisica.numero !== 'undefined' || null">Complemento: {{displayPessoaFisica.complemento}}</li>
+                    <li v-if="typeof displayPessoaFisica.numero !== 'undefined' || null"><strong>Número</strong>: {{displayPessoaFisica.numero}}</li>
+                    <li v-if="typeof displayPessoaFisica.numero !== 'undefined' || null"><strong>Complemento</strong>: {{displayPessoaFisica.complemento}}</li>
                     <li> <strong>Bairro</strong>: {{displayPessoaFisica.bairro}}</li>
                     <li> <strong>Cidade</strong>: {{displayPessoaFisica.cidade}}</li>
                     <li> <strong>CEP</strong>: {{displayPessoaFisica.cep}}</li>

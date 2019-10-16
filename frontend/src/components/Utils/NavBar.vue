@@ -83,10 +83,17 @@
       </a>
       <!-- Dropdown - User Information -->
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="#">
-          <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-          Perfil
-        </a>
+       
+          <router-link to="/profile-fisica" class="dropdown-item">
+           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+            Meu Perfil - Fisica
+          </router-link>
+
+          <router-link to="/profile-juridica" class="dropdown-item">
+           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+            Meu Perfil - Juridica
+          </router-link>
+        
         <a class="dropdown-item" href="#">
           <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
           Configurações

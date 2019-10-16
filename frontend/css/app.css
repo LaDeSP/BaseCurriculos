@@ -52,7 +52,9 @@ html {
   font-family: sans serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
+  height: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  overflow-x: hidden;
 }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
@@ -61,6 +63,8 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 body {
   margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 1rem;
   font-weight: 400;
@@ -68,6 +72,7 @@ body {
   color: #858796;
   text-align: left;
   background-color: #fff;
+  overflow-x: hidden;
 }
 
 [tabindex="-1"]:focus {
@@ -12063,7 +12068,11 @@ form.user .btn-user {
  background:#5a5c69 !important;
  color: white !important;
  text-align:center;
- padding:3px 0
+ padding:3px 0;
+ width: 100%;
+ left: 0px;
+ bottom: 0px;
+ /*position: absolute; */
 }
 .mini-footer p {
   margin:3;
@@ -12075,9 +12084,10 @@ form.user .btn-user {
   padding: 1%;
   text-align: center;
 }
-/* footer {
+ /*footer {
     background-color: #5a5c69 !important;
     color: white !important;
+    position: relative;
 }
 footer .copyright {
     text-align: center;
@@ -13035,6 +13045,8 @@ pre code {
 
 .container {
   width: 100%;
+  min-height: 100%;
+  position: relative;
   padding-right: 0.75rem;
   padding-left: 0.75rem;
   margin-right: auto;
