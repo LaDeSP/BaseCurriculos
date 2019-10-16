@@ -3,7 +3,7 @@
     <div>
       <div v-if="!$route.meta.isHome">
         <NavBar></NavBar>
-        <div class="container">
+        <div class="container-fluid">
           <router-view></router-view>
         </div>
       </div>

@@ -5,10 +5,13 @@
     <div class="row">
       <div class="col-xl-6 col-md-12 mb-8">
         <card class="border-left-primary shadow h-100 py-2">
+            <template v-slot:card-header class="py-3">
+              <h6 class="font-weight-bold text-primary text-uppercase mb-1">Vagas Disponiveis</h6>
+            </template>
             <template v-slot:card-body>
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
-                  <div class="font-weight-bold text-primary text-uppercase mb-1"><a>Vagas Disponiveis</a></div>
+                
                   <div class="h2 mb-0 font-weight-bold text-gray-900">2</div>
                 </div>
                 <div class="col-auto">
@@ -20,10 +23,13 @@
       </div>
       <div class="col-xl-6 col-md-12 mb-8">
         <card class="border-left-success shadow h-100 py-2">
+          <template v-slot:card-header class="py-3">
+              <h6 class="font-weight-bold text-success text-uppercase mb-1">Currículos Recebidos</h6>
+            </template>
             <template v-slot:card-body>
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
-                  <div class=" font-weight-bold text-success text-uppercase mb-1">Currículos Recebidos</div>
+                  
                   <center>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                       <h2>" 10 "</h2>
@@ -111,7 +117,7 @@
                   <input type="time">
                 </div>
                 <br>
-                <router-link class="btn btn-primary"> Agendar</router-link>
+                <router-link to="/agenda" class="btn btn-primary"> Agendar</router-link>
               </template>
             </card>
           </div>

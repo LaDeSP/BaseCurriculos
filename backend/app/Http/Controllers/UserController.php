@@ -52,7 +52,7 @@ class UserController extends Controller implements JWTSubject
       $role = User::where('email', $request->input('email'))->get()->first()->role;
      
       $user_id = User::where('email', $request->input('email'))->get()->first()->id;
-      $fisica =  User::where('id', $user_id)->get();
+      /*$fisica =  User::where('id', $user_id)->get();
       if (Upload::where('fisicas_id', $fisica[0]->fisica->id)->exists()){
         $foto = Upload::where('fisicas_id', $fisica[0]->fisica->id)->get();
         $path = "http://localhost:8000/storage/".$foto[0]->path;
@@ -60,14 +60,12 @@ class UserController extends Controller implements JWTSubject
       else{
           $path="https://source.unsplash.com/QAB-WJcbgJk/60x60";
       }
+      */
 
       return Response::json([
-        'name'=> $name,
-        'role' => $role,
-        'user_id' => $user_id,
         'token'=>$token,
         'user' => auth()->user(),
-        'foto'=>$path
+        //'foto'=>$path
      ], 201);
         
       

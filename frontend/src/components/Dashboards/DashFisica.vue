@@ -12,7 +12,7 @@
 
 <script>
 import ProfileFisica from '../Lists/FisicaData';
-import {mapActions, mapGetters} from 'vuex';
+import {mapGetters} from 'vuex';
     export default {
         components:{
             ProfileFisica,
@@ -23,20 +23,10 @@ import {mapActions, mapGetters} from 'vuex';
                 name: this.$store.state.auth.user.name
             }
         },
-        methods: {
-          /*...mapActions([
-                'loadFisica'
-            ]), */
-        },
         computed: {
           ...mapGetters([
             'dataCompleted'
         ]),
-        dataCompleted: {
-            get(){ 
-                return this.$store.getters.dataCompleted;
-            }
-        }
       },
         async created() {
           if(!this.dataCompleted){

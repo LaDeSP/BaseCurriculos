@@ -1,15 +1,18 @@
 <template>
-    <!-- <div class="row"> -->
+    <div class="row justify-content-center"> 
+        <div class="col-lg-8">
+             <Dash></Dash>
+        </div>
       <!-- <div class="panel panel-default" > -->
           <!-- <div class="panel-heading" ><h1>Bem Vindo, {{name}} :)</h1></div> -->
             <!-- <div class="panel-body" > -->
                    <!-- <h4>Você ainda não cadastrou nenhuma vaga. -->
                        <!-- Que tal fazer isso agora? </h4> -->
                     <!-- <NewVaga></NewVaga> -->
-                    <Dash></Dash>
+                   
              <!-- </div> -->
        <!-- </div> -->
-    <!-- </div> -->
+    </div> 
 
 </template>
 
@@ -18,21 +21,27 @@
 import NewJuridicaData from '../Create/NewJuridicaData';
 import NewVaga from '../Create/NewVaga';
 import Dash from '../Utils/CardsDashJuridica';
+import {mapGetters} from 'vuex';
 
     export default {
         components:{
              NewJuridicaData, NewVaga,Dash
         },
-        data() {
-
-            return {
-              name: this.$store.state.auth.user.name
-            }
+        computed: {
+            ...mapGetters([
+                'dataCompleted'
+            ]),
         },
-        created(){
-            console.log('state', this.$store.state.auth);
-            console.log('getters', this.$store.getters);
-        }
+        async created() {
+          if(!this.dataCompleted){
+            await this.$store.dispatch('loadJuridica')
+                  .then(response => {
+                    console.log('dataCompleted', this.dataCompleted)
+                  }).catch(error => {
+                    //console.log(error)
+                  })
+          }
+        },
     }
 
      /*

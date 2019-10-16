@@ -1,100 +1,117 @@
 <template>
-    <div class="panel panel-default">
-        <div class="panel-heading"><h2>Meu Perfil</h2></div>
-        <div class="panel-body">
-            <div v-if="loadFlag === false" class="text-center">
-                    <h4> Você não terminou de cadastrar suas informações :/ Que tal fazer isso agora? </h4>
-                    <add-juridica></add-juridica>
-            </div>
-            <div v-else>
-              <div v-for="show in juridica" :key="show.id">
-                <h4>* Razão Social: <strong>{{show.razao}}</strong></h4>
-                <p>* CNPJ: {{show.cnpj}}</p>
-                <p>* Missão: {{show.missao}}</p>
-                <p>* Ramo: {{show.ramo}}</p>
-                <p>* Rua: {{show.endereco.rua}}</p>
-                <p>* Bairro: {{show.endereco.bairro}}</p>
-                <p>* Cidade: {{show.endereco.cidade}}</p>
-                <p>* CEP: {{show.endereco.cep}}</p>
-                <p>* País {{show.endereco.pais}}</p>
-                <p>* Estado {{show.endereco.estado}}</p>
-                <p>* Telefone: {{show.contato.fixo}}</p>
-                <p>* Telefone Celular: {{show.contato.celular}}</p>
-                <hr>
-                <h3>Redes Sociais</h3>
-                <p>Facebook: {{show.contato.facebook}}</p>
-                <p>Twitter: {{show.contato.twitter}}</p>
-                <p>Linkedin: {{show.contato.linkedin}}</p>
-                <p>Site: {{show.contato.site}}</p>
-                <p>Outra: {{show.contato.outraRede}}</p>
-            </div>
-             <hr>
-            <div class="panel-footer">
-                <button @click="onEdit()" class="btn btn-lg btn-warning">Editar Informações</button>
-                <router-link to="/dashboard-juridica" class="btn btn-lg btn-default ">Voltar</router-link>
-                <button @click="onDelete()" class="btn btn-lg btn-danger">Deletar Conta</button>
-        </div>
-        </div>
-        </div>
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="panel panel-default">
+            <div class="panel-heading"></div>
+            <div class="panel-body">
+                <div v-if="this.dataCompleted">
+                    <h2>Informações da Empresa</h2>
+                    <ul> 
+                        <h4> <strong>Nome da Empresa</strong>: {{displayPessoaJuridica.razao}}</h4>
+                        <li> <strong>CNPJ</strong>: {{displayPessoaJuridica.cnpj}}</li>
+                        <li> <strong>Ramo</strong>: {{displayPessoaJuridica.ramo}}</li>
+                        <li> <strong>Rua</strong>: {{displayPessoaJuridica.rua}}</li>
+                        <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null">Número: {{displayPessoaJuridica.numero}}</li>
+                        <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null">Complemento: {{displayPessoaJuridica.complemento}}</li>
+                        <li> <strong>Bairro</strong>: {{displayPessoaJuridica.bairro}}</li>
+                        <li> <strong>Cidade</strong>: {{displayPessoaJuridica.cidade}}</li>
+                        <li> <strong>CEP</strong>: {{displayPessoaJuridica.cep}}</li>
+                    
+                        <li> <strong>Telefone Fixo</strong>: {{displayPessoaJuridica.fixo}}</li>
+                        <li> <strong>Telefone Celular</strong>: {{displayPessoaJuridica.celular}}</li>
+                        
+                        <hr> 
+                        <h4>Redes Sociais</h4>
+                        <ul>
+                            <li v-if="typeof displayPessoaJuridica.facebook !== 'undefined' || null">Facebook: {{displayPessoaJuridica.facebook}}</li>
+                            <li v-if="typeof displayPessoaJuridica.twitter !== 'undefined' || null">Twitter: {{displayPessoaJuridica.twitter}}</li>
+                            <li v-if="typeof displayPessoaJuridica.linkedin !== 'undefined' || null">Linkedin: {{displayPessoaJuridica.linkedin}}</li>
+                            <li v-if="typeof displayPessoaJuridica.site !== 'undefined' || null">Site: {{displayPessoaJuridica.site}}</li>
+                        </ul>
+                    </ul>
+                
+                    <hr>
 
+                        <div class="panel-footer">
+                            <router-link to="/add-juridica" class="btn btn-lg btn-warning">Editar Informações</router-link>
+                            <router-link to="/DashJUR" tag="button" class="btn btn-lg btn-default ">Voltar</router-link>
+                            <button @click="showModal" class="btn btn-lg btn-danger">Deletar Conta</button>
+                            <Modal v-show="isModalWarning" @close="closeModal">
+                                <template v-slot:header><h3>Deletar Conta</h3></template>
+                                <template v-slot:body>
+                                    <h2 class="text-center">Tem certeza de que deseja  
+                                        <span style="color: #ff0000"><strong>deletar</strong></span> 
+                                        sua conta?</h2>
+                                    <h4 class="text-center">Sentiremos sua falta :(</h4>
+
+                                </template>
+                                <template v-slot:footer>
+                                <div class="modal-footer">
+                                    <button @click="onDelete" class="btn btn-lg btn-danger">Sim, quero deletar minha conta</button>
+                                    <button @click="closeModal" class="btn btn-lg btn-success">Vou dar mais uma chance para vocês...</button>
+                                </div>
+                                </template>
+                            </Modal>
+                        </div>
+                    </div>
+                <div v-else>
+                    <h4>Você ainda não completou suas informações... Que tal fazer isso agora?</h4>
+                    <NewJuridicaData></NewJuridicaData>
+                </div>
+        </div>
+        </div>
+         </div>
     </div>
 </template>
 
 <script>
-
-    import NewJuridicaData from '../Create/NewJuridicaData';
+    import {mapActions, mapGetters} from 'vuex';
+    import Modal from '../Utils/Modal.vue';
+    import NewJuridicaData from '../Create/NewJuridicaData.vue';
     export default {
-
-        data(){
-            return{
-                juridica: [],
-                uri: 'http://localhost:8000/api/pjuridicas/',
-                token:  this.$session.get('jwt'),
-                loadFlag: false
-
+        data() {
+            return {
+                isModalWarning: false,
             }
         },
-        components: {'add-juridica': NewJuridicaData},
+        components: {NewJuridicaData, Modal},
         methods: {
-
-            loadJuridica(){
-                const user_id = this.$session.get('user_id');
-                this.axios.get(this.uri + user_id + '?token=' + this.token)
-                    .then(response => {
-
-                       if(response.data.juridica[0].contatos_id && response.data.juridica[0].enderecos_id !== null){
-                           this.loadFlag = true;
-                           this.juridica = response.data.juridica;
-                           console.log(this.loadFlag);
-                       }
-
-                    })
-                    .catch(
-                        error => console.log(error)
-                    );
+            ...mapActions([
+                'loadJuridica'
+            ]),
+            showModal(){
+                this.isModalWarning = true;
             },
-            onEdit(){
-                this.$router.push({ name: 'add-juridica', params: { editing: true }})
+             closeModal(){
+                this.isModalWarning = false;  
             },
             onDelete(){
-                const user_id = this.$session.get('user_id');
-                this.axios.delete(this.uri + user_id + '?token=' + this.token)
-                    .then(response => {
-                        this.$session.remove('jwt');
-                        this.$session.destroy();
-                        this.$router.push({ name: 'login' })
-                    })
-                    .catch(
-                        error => console.log(error)
-                    );
+                this.$store.dispatch('deleteJuridica')
+                .then(response => {
+                   //console.log(response)
+                    this.$router.push({ name: 'login' })
+                }).catch(error => console.log(error))  
+  
             }
         },
+        computed: {
+            ...mapGetters([
+                'dataCompleted', 'displayPessoaJuridica'
+            ]),
+        },
 
-        created(){
-
-            this.loadJuridica();
+        async created(){
+          if(this.dataCompleted){
+            await this.loadJuridica();
+          }
+            console.log('dataCompleted', this.dataCompleted)
+            console.log(this.displayPessoaJuridica)
+        },
+        watch: {
+            async displayPessoaFisica() {
+                await this.loadJuridica();
+            }
         }
-
     }
 </script>
 
