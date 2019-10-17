@@ -63,7 +63,9 @@
 
 
 <script>
-import card from '../Utils/Card';
+  import card from '../Utils/Card';
+  import { mapActions, mapGetters } from 'vuex';
+
     export default {
       components:{
       card
@@ -73,29 +75,14 @@ import card from '../Utils/Card';
 
             vagas: [],
             role: '',
-            uri: 'http://localhost:8000/api/vagas',
-            token: this.$session.get('jwt'),
             auth_jur: 0,
-            isFIS: false,
             filterState: true
         }
     },
         methods: {
-
-            loadVagas(){
-
-                this.axios
-                    .get(this.uri + '?token=' + this.token)
-                    .then(response => {
-                        this.vagas = response.data.vagas
-                        this.auth_jur = response.data.auth_jur
-                        console.log(response)
-                    })
-                    .catch(
-                        error => console.log(error)
-                    );
-            },
-
+          ...mapActions([
+              'loadVagasJuridica'
+          ]),
             onEdit(vaga_id){
 
                 this.$router.push({ name: 'new-vaga', params: { editing: true, vaga_id }})
@@ -134,9 +121,6 @@ import card from '../Utils/Card';
                         (error) => console.log(error),
 
                     );
-
-
-
             },
             onDelete(id){
 
@@ -183,17 +167,15 @@ import card from '../Utils/Card';
                         return this.vagas.filter((vaga) => {return vaga.status === 'INATIVA' && vaga.juridicas_id == this.auth_jur;})
                     }
                 }
-            }
+            },
+            ...mapGetters([
+            'displayVagasJuridica',
+            ]),
 
         },
-        beforeMount(){
-               if(this.$session.get('role') === 'FISICA'){this.isFIS = true}
-        },
 
-        created(){
-            this.loadVagas();
-            console.log('state', this.$store.state.auth);
-            console.log('getters', this.$store.getters);
+        async created(){
+            this.loadVagasJuridica();
         }
     }
 </script>
