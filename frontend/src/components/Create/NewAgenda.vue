@@ -1,6 +1,6 @@
 <template>
  <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-7">
         <ValidationObserver v-slot="{ invalid }">
             <form >
                 <div v-if="notificacoes">
@@ -9,7 +9,7 @@
                     </span>
                 </div>
                 <card class="form-row justify-content-center">
-                  <template v-slot:card-header class="justify-content-center">
+                  <template v-slot:card-header >
                     <h1 v-if="!editing">Agendar Entrevista</h1>
                     <h1 v-else>Editar Entrevista</h1>
                   </template>

@@ -7,7 +7,7 @@
         </div>
         <div class="col-md-2 float-right" >
           <div class="btn-group btn-group-sm">
-            <button  type="button" class="btn btn-primary"><h4>Criar Nova Vaga <span><i class="fa fa-plus"></i></span></h4></button>
+            <router-link to="/new-vaga"><button  type="button" class="btn btn-primary"><h4>Criar Vaga <span><i class="fa fa-plus"></i></span></h4></button></router-link>
           </div>
         </div>
       </div>
