@@ -77,7 +77,7 @@ const displayCurriculo = state => {
 
 }
 
-const vagasJuridica = state =>{
+const displayVagasJuridica = state =>{
   return state.vagasJuridica
 }
 
@@ -92,6 +92,6 @@ export default {
   displayPessoaFisica,
   displayPessoaJuridica, 
   displayCurriculo,
-  vagasJuridica,
+  displayVagasJuridica,
   permissaoDoUsuario
 };
