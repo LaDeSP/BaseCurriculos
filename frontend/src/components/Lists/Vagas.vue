@@ -22,6 +22,8 @@
       </div>
       <div  v-for="vaga in isActive" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
         <card>
+          <div class="row">
+            <div class="col-sm-4">
           <template v-slot:card-header>
             <h3><span class="label label-info ">Título: {{vaga.titulo}}</span></h3>
           </template>
@@ -51,6 +53,8 @@
               <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Deletar</button>
             </div>
           </template>
+          </div>
+          </div>
           <hr>
         </card>
       </div>
