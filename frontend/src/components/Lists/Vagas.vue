@@ -24,36 +24,36 @@
         <card>
           <div class="row">
             <div class="col-sm-4">
-          <template v-slot:card-header>
-            <h3><span class="label label-info ">Título: {{vaga.titulo}}</span></h3>
-          </template>
-          <template v-slot:card-body>
-            <p>Local:{{vaga.local}}</p>
-              <p>Status:{{vaga.status}}</p>
-            <p>Quantidade: {{vaga.quantidade}}</p>
-            <p>Área de Atuação: {{vaga.area.tipo}}</p>
-            <p>Salário: {{vaga.salario}}</p>
-            <p>Jornada de Trabalho: {{vaga.jornada}}</p>
-            <p>Benefícios: {{vaga.beneficio}}</p>
-            <p>Requisitos: {{vaga.requisito}}</p>
-          </template>
-          <template v-slot:card-footer>
-            <div v-if="isFIS === true">
-                <router-link v-bind:to="'' + vaga.id" tag="button" class="btn btn-sm btn-default">Ver mais</router-link>
-                <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+              <template v-slot:card-header>
+                <h3><span class="label label-info ">Título: {{vaga.titulo}}</span></h3>
+              </template>
+              <template v-slot:card-body>
+                <p>Local:{{vaga.local}}</p>
+                  <p>Status:{{vaga.status}}</p>
+                <p>Quantidade: {{vaga.quantidade}}</p>
+                <p>Área de Atuação: {{vaga.area.tipo}}</p>
+                <p>Salário: {{vaga.salario}}</p>
+                <p>Jornada de Trabalho: {{vaga.jornada}}</p>
+                <p>Benefícios: {{vaga.beneficio}}</p>
+                <p>Requisitos: {{vaga.requisito}}</p>
+              </template>
+              <template v-slot:card-footer>
+                <div v-if="isFIS === true">
+                    <router-link v-bind:to="'' + vaga.id" tag="button" class="btn btn-sm btn-default">Ver mais</router-link>
+                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                </div>
+                <div v-else>
+                  <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
+                  <span v-if="filterState">
+                      <button @click="changeStatus(vaga.id, 'INATIVA')" class="btn btn-sm btn-outline-danger">Desativar</button>
+                  </span>
+                  <span v-else>
+                      <button @click="changeStatus(vaga.id, 'ATIVA')" class="btn btn-sm btn-outline-primary">Ativar</button>
+                  </span>
+                  <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Deletar</button>
+                </div>
+              </template>
             </div>
-            <div v-else>
-              <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
-              <span v-if="filterState">
-                  <button @click="changeStatus(vaga.id, 'INATIVA')" class="btn btn-sm btn-outline-danger">Desativar</button>
-              </span>
-              <span v-else>
-                  <button @click="changeStatus(vaga.id, 'ATIVA')" class="btn btn-sm btn-outline-primary">Ativar</button>
-              </span>
-              <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Deletar</button>
-            </div>
-          </template>
-          </div>
           </div>
           <hr>
         </card>
