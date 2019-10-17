@@ -62,11 +62,11 @@ export const store = new Vuex.Store({
    pessoaJuridica: {
       cnpj: '',
       ramo: '',
-      
    },
    upload:{
      path: '',
    },
+   vagasJuridica: {},
    dataCompleted: false,
    hasVaga: false,
   },

@@ -39,7 +39,9 @@
 
 
 <script>
-   
+
+    import { mapActions, mapGetters } from 'vuex';
+
     export default {
         data(){
             return{
@@ -54,6 +56,10 @@
             }
         },
         methods: {
+
+            ...mapActions([
+                'loadVagasJuridica'
+            ]),
 
             loadVagas(){
 
@@ -106,9 +112,7 @@
                     .catch(
                         (error) => console.log(error),
                         
-                    );
-                   
-              
+                    );  
                
             },
             onDelete(id){
@@ -146,27 +150,31 @@
             }
         },
         computed:{
-             isActive(){
-                if(this.$session.get('role') === 'FISICA'){
-                    return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA';})
-                }else{
+            isActive(){
+              //  if(this.$session.get('role') === 'FISICA'){
+                //    return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA';})
+                //}else{
                     if(this.filterState === true){
-                        return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA' && vaga.juridicas_id == this.auth_jur;})
+                        return this.vagasJuridica.filter((vaga) => {return vaga.status === 'ATIVA' && vaga.juridicas_id == this.auth_jur;})
                     }else{
-                        return this.vagas.filter((vaga) => {return vaga.status === 'INATIVA' && vaga.juridicas_id == this.auth_jur;})
+                        return this.vagasJuridica.filter((vaga) => {return vaga.status === 'INATIVA' && vaga.juridicas_id == this.auth_jur;})
                     }
-                }
-            }
+                //}
+            },
+                    
+            ...mapGetters([
+                'vagasJuridica'
+            ]),
 
         },
-        beforeMount(){
-               if(this.$session.get('role') === 'FISICA'){this.isFIS = true}
-        },
-        
-        created(){
-            this.loadVagas();
-            console.log('state', this.$store.state.auth);
-            console.log('getters', this.$store.getters);
+        async created(){
+                await this.loadVagasJuridica();
+
+            },
+        watch: {
+            async displayPessoaFisica() {
+                await this.loadVagasJuridica();
+            }
         }
     }
 </script>

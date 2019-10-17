@@ -45,8 +45,8 @@ class VagaController extends Controller
                 'error' => $validator->messages()
             ], 201);
         }
-        $juridicas_id = Juridica::where('user_id', $request->user_id)->first()->id;
-        $areas_id = $request->area;
+        $juridicas_id = Juridica::where('user_id', auth()->user()->id)->first()->id;
+     
 
         Vaga::create([
             'titulo' => $request->titulo,
@@ -58,7 +58,7 @@ class VagaController extends Controller
             'jornada' => $request->jornada,
             'requisito' => $request->requisitos,
             'juridicas_id' => $juridicas_id,
-            'areas_id' => $areas_id
+            'areas_id' => $request->area,
         ]);
 
         return Response::json([

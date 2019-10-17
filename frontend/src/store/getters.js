@@ -77,9 +77,14 @@ const displayCurriculo = state => {
 
 }
 
+const vagasJuridica = state =>{
+  return state.vagasJuridica
+}
+
 const permissaoDoUsuario = state =>{
   return state.auth.user.role
 }
+
 export default {
   isLoggedIn,
   authStatus,
@@ -87,5 +92,6 @@ export default {
   displayPessoaFisica,
   displayPessoaJuridica, 
   displayCurriculo,
+  vagasJuridica,
   permissaoDoUsuario
 };
