@@ -3,7 +3,7 @@
     <div class="col-lg-12">
       <div class="row">
         <div class="col-md-10 float-left" >
-          <div class="panel-heading"><h2>Minhas Vagas</h2></div>
+          <div class="panel-heading"><h2> {{displayVagasJuridica}} | Minhas Vagas</h2></div>
         </div>
         <div class="col-md-2 float-right" >
           <div class="btn-group btn-group-sm">
@@ -38,7 +38,7 @@
                 <p>Requisitos: {{vaga.requisito}}</p>
               </template>
               <template v-slot:card-footer>
-                <div v-if="isFIS === true">
+                <div v-if="permissaoDoUsuario === 'FISICA'">
                     <router-link v-bind:to="'' + vaga.id" tag="button" class="btn btn-sm btn-default">Ver mais</router-link>
                     <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
                 </div>
@@ -87,7 +87,7 @@
 
                 this.$router.push({ name: 'new-vaga', params: { editing: true, vaga_id }})
             },
-
+  
             onRequest(vagaId){
 
                 const vaga_id = vagaId;
@@ -158,24 +158,29 @@
         },
         computed:{
              isActive(){
-                if(this.$session.get('role') === 'FISICA'){
+
+               /* if(this.$session.get('role') === 'FISICA'){
                     return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA';})
                 }else{
                     if(this.filterState === true){
-                        return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA' && vaga.juridicas_id == this.auth_jur;})
+                        return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA'})
                     }else{
-                        return this.vagas.filter((vaga) => {return vaga.status === 'INATIVA' && vaga.juridicas_id == this.auth_jur;})
+                        return this.vagas.filter((vaga) => {return vaga.status === 'INATIVA'})
                     }
-                }
-            },
+                } */
+                let oi = this.displayVagasJuridica.filter((vaga) => {return vaga.status === 'ATIVA'})
+                console.log('oi', oi)
+            },  
+
             ...mapGetters([
-            'displayVagasJuridica',
+              'displayVagasJuridica', 'permissaoDoUsuario'
             ]),
 
         },
 
-        async created(){
+        created(){
             this.loadVagasJuridica();
-        }
+            console.log('cpmspç', this.displayVagasJuridica)
+        },
     }
 </script>

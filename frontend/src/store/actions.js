@@ -426,18 +426,16 @@ import * as Cookies from 'js-cookie'
   const loadVagasJuridica = async ({commit, state}) => {
   
     const token = state.auth.token;
-   console.log('stsc',state.auth)
     return await axios({ url: vagas_uri + '?token='+ token, method: 'GET' })
       .then(response => {
         
-        let payloadVagasJuridica = {
-          'vaga': response.data.vagas
-        }
+        let payloadVagasJuridica = [];
+        payloadVagasJuridica = response.data.vagas;
   
-        console.log('response', response) 
-        console.log('payload', payloadVagasJuridica)  
+        console.log('response', response.data) 
+        console.log('payload',  payloadVagasJuridica)  
         //console.log('payload', payloadVagasJuridica)
-        commit('vagasJuridica', {payloadVagasJuridica})
+        commit('vagasJuridica', payloadVagasJuridica)
         
        // return response.data
       }).catch(error => {

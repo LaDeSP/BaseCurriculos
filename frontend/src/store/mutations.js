@@ -68,10 +68,9 @@ const dataCompleted = (state, dataCompleted) => {
     state.dataCompleted = dataCompleted;
 }
 
-const vagasJuridica = (state, {payloadVagasJuridica}) => { 
+const vagasJuridica = (state, payloadVagasJuridica) => { 
     state.vagasJuridica = payloadVagasJuridica
     console.log('mutation', payloadVagasJuridica)
-    console.log('state', state.vagasJuridica)
 }
   
   export default {

@@ -66,7 +66,7 @@ export const store = new Vuex.Store({
    upload:{
      path: '',
    },
-   vagasJuridica: {},
+   vagasJuridica: [],
    dataCompleted: false,
    hasVaga: false,
   },
