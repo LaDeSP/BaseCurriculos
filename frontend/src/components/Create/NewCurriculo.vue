@@ -517,7 +517,7 @@ export default {
         areas: [],
         notificacoes: [],
         dropzoneOptions: {
-            url: 'http://localhost:8000/api/store/foto/fisicas_id/'+this.$store.state.auth.user.id+'?token='+this.$store.state.auth.token,
+            url: 'http://localhost:8000/api/store/foto/user_id/'+this.$store.state.auth.user.id+'?token='+this.$store.state.auth.token,
             maxFilesize: 5,
             //acceptedFiles: image/*,
             maxFiles: 1,
