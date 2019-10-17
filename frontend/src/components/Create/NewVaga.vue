@@ -1,111 +1,114 @@
 <template>
-
-  <form-wizard @on-complete="onComplete"
-    title="Cadastro de Vaga" subtitle=" "
-    back-button-text="Voltar"
-    next-button-text="Próximo"
-    finish-button-text="Salvar"
-    color="#2E59D9"
-  >
-  <div v-if="notificacoes">
-      <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
-          {{notificacao[0]}}
-      </span>
-  </div>
-  <tab-content title="Informações da Vaga" icon="fas fa-file-invoice-dollar">
-    <div class="form-group">
-      <label for="titulo">Título</label>
-      <ValidationProvider name="titulo" rules="required|max:50">
-        <div slot-scope="{ errors }">
-            <input type="titulo" name="titulo"
-            class="form-control" v-model="titulo" maxlength="50">
-            <p>{{ errors[0] }}</p>
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <form-wizard @on-complete="onComplete"
+            title="Cadastro de Vaga" subtitle=" "
+            back-button-text="Voltar"
+            next-button-text="Próximo"
+            finish-button-text="Salvar"
+            color="#2E59D9"
+        >
+        <div v-if="notificacoes">
+            <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
+                {{notificacao[0]}}
+            </span>
         </div>
-      </ValidationProvider>
+        <tab-content title="Informações da Vaga" icon="fas fa-file-invoice-dollar">
+            <div class="form-group">
+            <label for="titulo">Título</label>
+            <ValidationProvider name="titulo" rules="required|max:50">
+                <div slot-scope="{ errors }">
+                    <input type="titulo" name="titulo"
+                    class="form-control" v-model="titulo" maxlength="50">
+                    <p>{{ errors[0] }}</p>
+                </div>
+            </ValidationProvider>
+            </div>
+
+            <div class="form-group">
+            <label for="local">Local</label>
+            <ValidationProvider name="local" rules="required|max:50">
+                <div slot-scope="{ errors }">
+                    <input type="text" class="form-control" name="local" v-model="local" maxlength="50">
+                    <p>{{ errors[0] }}</p>
+                </div>
+            </ValidationProvider>
+            </div>
+
+            <div class="form-group">
+            <label for="quantidade">Quantidade de Vagas</label>
+            <ValidationProvider name="quantidade" rules="required|numeric|min_value:1|integer">
+                <div slot-scope="{ errors }">
+                    <input type="number" class="form-control" name="quantidade" v-model="quantidade">
+                    <p>{{ errors[0] }}</p>
+                </div>
+            </ValidationProvider>
+            </div>
+
+            <div class="form-group">
+            <label for="area">Área de Atuação</label>
+            <select class="custom-select" name="area" v-model="area">
+                <option value="" disabled selected>Selecione uma Área</option>
+                <option v-for="area in areas" :key="area.id" :value="area.id">
+                    {{area.tipo}}
+                </option>
+            </select>
+            </div>
+
+            <div class="form-group">
+            <label for="salario">Salário</label>
+            <ValidationProvider name="salario" rules="required|numeric|min_value:1">
+                <div slot-scope="{ errors }">
+                    <input type="number"  name="salario" class="form-control" v-model="salario" step="any" placeholder="R$">
+                    <p>{{ errors[0] }}</p>
+                </div>
+            </ValidationProvider>
+            </div>
+
+        </tab-content>
+
+        <tab-content title="Detalhes da Vaga" icon="fas fa-list-ul" >
+
+            <div class="form-group">
+            <label for="jornada">Jornada de Trabalho</label>
+            <ValidationProvider name="jornada" rules="required|max:50">
+                <div slot-scope="{ errors }">
+                    <input type="jornada" name="jornada"
+                    class="form-control" v-model="jornada" maxlength="50">
+                    <p>{{ errors[0] }}</p>
+                </div>
+            </ValidationProvider>
+            </div>
+
+            <div class="form-group">
+            <label for="beneficios">Benefícios</label>
+            <ValidationProvider name="beneficios" rules="required|max:500">
+                <div slot-scope="{ errors }">
+                <textarea class="form-control" rows="3" v-model="beneficios" maxlength="500"></textarea>
+                <p>{{ errors[0] }}</p>
+                </div>
+            </ValidationProvider>
+            </div>
+
+            <div class="form-group">
+            <label for="requisitos">Requisitos</label>
+            <ValidationProvider name="requisitos" rules="required|max:500">
+                <div slot-scope="{ errors }">
+                    <textarea class="form-control"  rows="3" v-model="requisitos" maxlength="500"></textarea>
+                    <p>{{ errors[0] }}</p>
+                </div>
+            </ValidationProvider>
+            </div>
+
+        </tab-content>
+
+        </form-wizard>
     </div>
-
-    <div class="form-group">
-      <label for="local">Local</label>
-      <ValidationProvider name="local" rules="required|max:50">
-        <div slot-scope="{ errors }">
-            <input type="text" class="form-control" name="local" v-model="local" maxlength="50">
-            <p>{{ errors[0] }}</p>
-        </div>
-      </ValidationProvider>
-    </div>
-
-    <div class="form-group">
-      <label for="quantidade">Quantidade de Vagas</label>
-      <ValidationProvider name="quantidade" rules="required|numeric|min_value:1|integer">
-        <div slot-scope="{ errors }">
-            <input type="number" class="form-control" name="quantidade" v-model="quantidade">
-            <p>{{ errors[0] }}</p>
-        </div>
-      </ValidationProvider>
-    </div>
-
-    <div class="form-group">
-      <label for="area">Área de Atuação</label>
-      <select class="custom-select" name="area" v-model="area">
-          <option value="" disabled selected>Selecione uma Área</option>
-          <option v-for="area in areas" :key="area.id" :value="area.id">
-              {{area.tipo}}
-          </option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="salario">Salário</label>
-      <ValidationProvider name="salario" rules="required|numeric|min_value:1">
-          <div slot-scope="{ errors }">
-              <input type="number"  name="salario" class="form-control" v-model="salario" step="any" placeholder="R$">
-              <p>{{ errors[0] }}</p>
-          </div>
-      </ValidationProvider>
-    </div>
-
-  </tab-content>
-
-  <tab-content title="Detalhes da Vaga" icon="fas fa-list-ul" >
-
-    <div class="form-group">
-      <label for="jornada">Jornada de Trabalho</label>
-      <ValidationProvider name="jornada" rules="required|max:50">
-          <div slot-scope="{ errors }">
-              <input type="jornada" name="jornada"
-              class="form-control" v-model="jornada" maxlength="50">
-              <p>{{ errors[0] }}</p>
-          </div>
-      </ValidationProvider>
-    </div>
-
-    <div class="form-group">
-      <label for="beneficios">Benefícios</label>
-      <ValidationProvider name="beneficios" rules="required|max:500">
-        <div slot-scope="{ errors }">
-          <textarea class="form-control" rows="3" v-model="beneficios" maxlength="500"></textarea>
-          <p>{{ errors[0] }}</p>
-        </div>
-      </ValidationProvider>
-    </div>
-
-    <div class="form-group">
-      <label for="requisitos">Requisitos</label>
-      <ValidationProvider name="requisitos" rules="required|max:500">
-        <div slot-scope="{ errors }">
-            <textarea class="form-control"  rows="3" v-model="requisitos" maxlength="500"></textarea>
-            <p>{{ errors[0] }}</p>
-        </div>
-      </ValidationProvider>
-    </div>
-
-   </tab-content>
-
-</form-wizard>
+</div>
 </template>
 
 <script>
-
+    import { mapActions, mapGetters } from 'vuex'; 
     export default {
 
         data(){
@@ -120,44 +123,54 @@
                 jornada: '',
                 quantidade: 0,
                 areas: [],
-                uri: 'http://localhost:8000/api/vagas',
-                token: this.$session.get('jwt'),
-                editing: false,
                 notificacoes: []
 
 
             }
         },
         methods: {
-            register(){
+            ...mapActions([
+                'loadVagasJuridica'
+            ]),
+            onComplete(){
 
-                this.axios.post(this.uri + '?token=' + this.token,
-                    {
-                        titulo: this.titulo,
-                        local: this.local,
-                        quantidade: this.quantidade,
-                        salario: this.salario,
-                        beneficios: this.beneficios,
-                        requisitos: this.requisitos,
-                        area: this.area,
-                        jornada: this.jornada,
-                        status: 'ATIVA',
-                        user_id: this.$session.get('user_id')
-                    },
-                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .then(
-                        (response) => {
-                            if(response.data.error  != undefined){
-                                this.notificacoes = response.data.error;
-                                return;
-                            }
-                            console.log(response);
+                let vaga = {
+
+                    titulo: this.titulo,
+                    local: this.local,
+                    quantidade: this.quantidade,
+                    salario: this.salario,
+                    beneficios: this.beneficios,
+                    requisitos: this.requisitos,
+                    area: this.area,
+                    jornada: this.jornada,
+                    status: 'ATIVA',
+                    user_id: this.$session.get('user_id')
+                }
+
+                let editing = this.$session.get('editing'); 
+
+                if(!editing){
+                    this.$store.dispatch('createVaga', vaga)
+                    .then(response => {
+
+                        if(response.error  != undefined){
+                            this.notificacoes = response.error;
+                        }else{
+                            this.$router.push({ name: 'vagas'});
                         }
-                    )
-                    .catch(
-                        (error) => console.log(error),
+                    }).catch(error => console.log(error))
 
-                    );
+                }else{
+                    this.$store.dispatch('updateVaga', vaga)
+                    .then(response => {
+                            if(response.error  != undefined){
+                                this.notificacoes = response.error;
+                            }else{
+                                this.$router.push({ name: 'vagas'});
+                            }
+                    }).catch(error => console.log(error))
+                }
             },
 
             verifyEdit(){
@@ -199,18 +212,16 @@
             },
 
             loadArea(){
-
-                this.axios.get('http://localhost:8000/api/areas?token=' + this.token)
+                const token = this.$store.state.auth.token;
+                this.axios.get('http://localhost:8000/api/areas?token=' + token)
 
                     .then(response => {
                         this.areas = response.data.areas
-                        console.log(response);
+                        this.nome = this.$store.state.auth.user.name
                     })
                     .catch(
                         error => console.log(error)
                     );
-
-                    console.log(this.token);
             },
 
             loadDataEdit(){
@@ -236,16 +247,11 @@
             }
         },
 
-        created() {
-            console.log(this.$session.get('user_id'));
-            this.loadDataEdit();
+        async created() {
+    
             this.loadArea();
 
         },
-
-        mounted(){
-            this.verifyEdit();
-        }
 
     }
 </script>

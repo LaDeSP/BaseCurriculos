@@ -4,6 +4,7 @@ import * as Cookies from 'js-cookie'
   const juridica_uri = 'http://localhost:8000/api/pjuridicas'; 
   const fisica_uri = 'http://localhost:8000/api/pfisicas';
   const curriculos_uri = 'http://localhost:8000/api/curriculos';
+  const vagas_uri = 'http://localhost:8000/api/vagas';
 
   const login = async ({commit}, user) => {
       
@@ -390,7 +391,96 @@ import * as Cookies from 'js-cookie'
         error => console.log(error)
     );
   }
+
+  /* */
+  const createVaga = async ({commit, state}, NewVaga) => {
+    const token = state.auth.token;
+    return await axios({ url: vagas_uri + '?token=' + token, data: NewVaga, method: 'POST'})
+    .then(response => {
+
+      console.log('createVaga', response.data);
+      return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  }
+
+  const updateVaga = async ({commit, state}, NewVaga) => {
+    const token = state.auth.token;
+    const user_id = state.auth.user.id;
+    return await axios({ url: vagas_uri + '/' + user_id + '?token=' + token, data: NewVaga, method: 'POST'})
+    .then(response => {
+
+      let createVaga = { 
+        vagasJuridica: response.data.vagas
+      }
+
+      console.log('createVaga', createVaga);
+      console.log('response', response)
+      //return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  }
+
+  const loadVagasJuridica = async ({commit, state}) => {
   
+    const token = state.auth.token;
+    const user_id = state.auth.user.id;
+    return await axios({ url: vagas_uri + '/' + user_id + '?token='+ token, method: 'GET' })
+      .then(response => {
+        
+        let payloadVagasJuridica = {
+          'vaga': response.data.vaga
+        }
+  
+        console.log('response', response)   
+        console.log('payload', payloadVagasJuridica)
+        commit('vagasJuridica', {payloadVagasJuridica})
+        
+        return response.data
+      }).catch(error => {
+        console.log(error)
+      })
+
+  };
+
+  const disableVaga = async ({commit, state}, NewVaga) => {
+    const token = state.auth.token;
+    const user_id = state.auth.user.id;
+    return await axios({ url: vagas_uri + '/' + user_id + '?token=' + token, data: NewVaga, method: 'POST'})
+    .then(response => {
+
+      let createVaga = { 
+        vagasJuridica: response.data.vagas
+      }
+
+      console.log('createVaga', createVaga);
+      console.log('response', response)
+      //return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  }
+
+  const deleteVaga = async ({commit, state}, NewVaga) => {
+    const token = state.auth.token;
+    const user_id = state.auth.user.id;
+    return await axios({ url: vagas_uri + '/' + user_id + '?token=' + token, data: NewVaga, method: 'POST'})
+    .then(response => {
+
+      let createVaga = { 
+        vagasJuridica: response.data.vagas
+      }
+
+      console.log('createVaga', createVaga);
+      console.log('response', response)
+      //return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  }
+
   export default {
     login,
     logout,
@@ -404,5 +494,11 @@ import * as Cookies from 'js-cookie'
     loadJuridica,
     deleteFisica,
     deleteJuridica,
+    createVaga,
+    updateVaga,
+    loadVagasJuridica,
+    disableVaga,
+    deleteVaga,
+
   
   };

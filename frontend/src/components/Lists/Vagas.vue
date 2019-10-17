@@ -1,58 +1,85 @@
 <template>
-    <div class="panel panel-default">
-        <div class="col-md-12"> 
-            <div class="btn-group btn-group-sm" role="group">
-                <button @click="changeActiveButton('ativa')" type="button" class="active btn btn-outline-success">Ver Vagas Ativas</button>
-                <button @click="changeActiveButton" type="button" class="btn btn-outline-secondary">Ver Vagas Inativas</button>
-            </div>
+  <div class="row justify-center">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-md-10 float-left" >
+          <div class="panel-heading"><h2>Minhas Vagas</h2></div>
         </div>
-        <div class="panel-heading"><h2>Vagas de Emprego</h2></div>
-            <div class="panel-body" v-for="vaga in isActive" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">     
-              <h3><span class="label label-info ">Título: {{vaga.titulo}}</span></h3>
+        <div class="col-md-2 float-right" >
+          <div class="btn-group btn-group-sm">
+            <button  type="button" class="btn btn-primary"><h4>Criar Nova Vaga <span><i class="fa fa-plus"></i></span></h4></button>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="d-flex flex-row bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+          <div class="btn-group btn-group-sm" role="group">
+              <button @click="changeActiveButton('ativa')" type="button" class="active btn btn-outline-success">Vagas Ativas</button>
+              <button @click="changeActiveButton" type="button" class="btn btn-outline-secondary">Vagas Inativas</button>
+          </div>
+        </div>
+      </div>
+      <div  v-for="vaga in isActive" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
+        <div class="row">
+          <div class="col-sm-4">
+            <card>
+              <template v-slot:card-header>
+                <h3><span class="label label-info ">Título: {{vaga.titulo}}</span></h3>
+              </template>
+              <template v-slot:card-body>
                 <p>Local:{{vaga.local}}</p>
-                 <p>Status:{{vaga.status}}</p>
+                  <p>Status:{{vaga.status}}</p>
                 <p>Quantidade: {{vaga.quantidade}}</p>
                 <p>Área de Atuação: {{vaga.area.tipo}}</p>
                 <p>Salário: {{vaga.salario}}</p>
                 <p>Jornada de Trabalho: {{vaga.jornada}}</p>
                 <p>Benefícios: {{vaga.beneficio}}</p>
                 <p>Requisitos: {{vaga.requisito}}</p>
-
+              </template>
+              <template v-slot:card-footer>
                 <div v-if="isFIS === true">
-                   <router-link v-bind:to="'' + vaga.id" tag="button" class="btn btn-sm btn-default">Ver mais</router-link>
-                   <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button> 
+                    <router-link v-bind:to="'' + vaga.id" tag="button" class="btn btn-sm btn-default">Ver mais</router-link>
+                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
                 </div>
                 <div v-else>
-                    <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
-                    <span v-if="filterState">
-                        <button @click="changeStatus(vaga.id, 'INATIVA')" class="btn btn-sm btn-outline-danger">Desativar</button>  
-                    </span>
-                    <span v-else>
-                        <button @click="changeStatus(vaga.id, 'ATIVA')" class="btn btn-sm btn-outline-primary">Ativar</button>  
-                    </span>
-                    <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Deletar</button>  
+                  <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
+                  <span v-if="filterState">
+                      <button @click="changeStatus(vaga.id, 'INATIVA')" class="btn btn-sm btn-outline-danger">Desativar</button>
+                  </span>
+                  <span v-else>
+                      <button @click="changeStatus(vaga.id, 'ATIVA')" class="btn btn-sm btn-outline-primary">Ativar</button>
+                  </span>
+                  <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Deletar</button>
                 </div>
-               <hr>
+              </template>
+            </card>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 
 <script>
-   
+import card from '../Utils/Card';
     export default {
-        data(){
-            return{
-              
-                vagas: [],
-                role: '',
-                uri: 'http://localhost:8000/api/vagas',
-                token: this.$session.get('jwt'),
-                auth_jur: 0,
-                isFIS: false,
-                filterState: true
-            }
-        },
+      components:{
+      card
+    },
+    data(){
+        return{
+
+            vagas: [],
+            role: '',
+            uri: 'http://localhost:8000/api/vagas',
+            token: this.$session.get('jwt'),
+            auth_jur: 0,
+            isFIS: false,
+            filterState: true
+        }
+    },
         methods: {
 
             loadVagas(){
@@ -75,9 +102,9 @@
             },
 
             onRequest(vagaId){
-                
+
                 const vaga_id = vagaId;
-                this.axios.post('http://localhost:8000/api/candidaturas?token=' + this.token, 
+                this.axios.post('http://localhost:8000/api/candidaturas?token=' + this.token,
                     {
                         vaga_id: vaga_id,
                         user_id: this.$session.get('user_id')
@@ -88,13 +115,13 @@
                     )
                     .catch(
                         (error) => console.log(error),
-                        
+
                     );
-               
+
             },
             changeStatus(id, status){
 
-               this.axios.post(this.uri + '/' + 'changeStatus' + '?token=' + this.token, 
+               this.axios.post(this.uri + '/' + 'changeStatus' + '?token=' + this.token,
                     {
                         vaga_id: id,
                         status: status
@@ -105,11 +132,11 @@
                     )
                     .catch(
                         (error) => console.log(error),
-                        
+
                     );
-                   
-              
-               
+
+
+
             },
             onDelete(id){
 
@@ -122,7 +149,7 @@
                     .catch(
                         error => console.log(error)
                     );
-               
+
             },
             onVagaDeleted(id){
                 const position = this.vagas.findIndex((element) => {
@@ -133,7 +160,7 @@
             },
 
             changeActiveButton(tipo){
-                
+
                 $('.btn-group').on('click', '.btn', function() {
                     $(this).addClass('active').siblings().removeClass('active');
                 });
@@ -162,7 +189,7 @@
         beforeMount(){
                if(this.$session.get('role') === 'FISICA'){this.isFIS = true}
         },
-        
+
         created(){
             this.loadVagas();
             console.log('state', this.$store.state.auth);
