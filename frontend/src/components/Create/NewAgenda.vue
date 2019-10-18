@@ -1,6 +1,6 @@
 <template>
- <div class="row justify-content-center">
-    <div class="col-7">
+  <div class="row justify-content-center">
+    <div class="col-6">
         <ValidationObserver v-slot="{ invalid }">
             <form >
                 <div v-if="notificacoes">
@@ -10,11 +10,13 @@
                 </div>
                 <card class="form-row justify-content-center">
                   <template v-slot:card-header >
-                    <h1 v-if="!editing">Agendar Entrevista</h1>
-                    <h1 v-else>Editar Entrevista</h1>
+                    <div cclass="d-flex justify-content-center">
+                      <center><h1 v-if="!editing">Agendar Entrevista</h1>
+                      <h1 v-else>Editar Entrevista</h1></center>
+                    </div>
                   </template>
-                  <template v-slot:card-body class="justify-content-center">
-                    <div class="col-8">
+                  <template v-slot:card-body>
+                    <div class="col-12">
                       <div class="form-group">
                           <label for="data">* Dia</label>
                           <ValidationProvider name="data" rules="required">
@@ -35,6 +37,13 @@
                           </ValidationProvider>
                       </div>
                       <div class="form-group">
+                          <label>Candidato:</label>
+                          <select class="form-control">
+                            <option>Selecione</option>
+                            <option>João Marcos</option>
+                          </select>
+                        </div>
+                      <div class="form-group">
                           <label for="observacao">Observação:</label>
                           <ValidationProvider name="observacao" rules="max:500">
                               <div slot-scope="{ errors }">
@@ -46,20 +55,32 @@
                     </div>
                    </template>
                    <template v-slot:card-footer class="justify-content-center">
-                    <div v-if="editing === false">
-                        <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-primary">Cadastrar</button>
-                        <router-link class="btn btn-default" to="/dashboard-fisica">Voltar</router-link>
-                    </div>
-                    <div v-else>
-                        <button :disabled="invalid" @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
-                        <router-link class="btn btn-default" to="/dashboard-fisica">Voltar</router-link>
-                    </div>
+                      <div v-if="editing === false">
+                        <div class="row">
+                          <div class="col-md-10 float-left" >
+                            <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+                          </div>
+                          <div class="col-md-2 float-right" >
+                            <router-link class="btn btn-danger btn-lg" to="/dashboard-fisica">Voltar</router-link>
+                          </div>
+                        </div>
+                      </div>
+                      <div v-else>
+                        <div class="row">
+                          <div class="col-md-10 float-left" >
+                            <button :disabled="invalid" @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
+                          </div>
+                          <div class="col-md-2 float-right" >
+                            <router-link class="btn btn-default" to="/dashboard-fisica">Voltar</router-link>
+                          </div>
+                        </div>
+                      </div>
                   </template>
                 </card>
             </form>
         </ValidationObserver>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
