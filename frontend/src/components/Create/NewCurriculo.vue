@@ -21,7 +21,7 @@
                     </span>
                 </div>
                 <tab-content title="Informações Pessoais" icon="far fa-address-card">
-                    <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" 
+                    <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"
                         @vdropzone-success="getActualPhoto"
                         @vdropzone-removed-file="deleteUserPhoto"
                     ></vue-dropzone>
@@ -618,7 +618,7 @@ export default {
         this.escolaridade = this.displayCurriculo.escolaridade
         this.qualificacoes = this.displayCurriculo.qualificacoes
         this.historicoProfissional = this.displayCurriculo.historicoProfissional
-        console.log(this.pretensao) 
+        console.log(this.pretensao)
     },
 
     loadArea(){
@@ -646,7 +646,7 @@ export default {
         ...mapGetters([
             'displayPessoaFisica', 'displayCurriculo', 'dataCompleted'
         ]),
-       
+
     },
     async created() {
         if(this.dataCompleted){
@@ -663,7 +663,7 @@ export default {
             this.$refs.myVueDropzone.dropzone.emit('thumbnail', file, file.dataURL)
             this.$refs.myVueDropzone.dropzone.emit('complete', file)
         }
-        
+
     },
 
     };

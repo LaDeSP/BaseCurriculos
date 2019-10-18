@@ -12065,14 +12065,14 @@ form.user .btn-user {
 }
 
 .mini-footer {
- background:#5a5c69 !important;
- color: white !important;
- text-align:center;
- padding:3px 0;
- width: 100%;
- left: 0px;
- bottom: 0px;
- /*position: absolute; */
+  background:#5a5c69 !important;
+  color: white !important;
+  text-align:center;
+  height: 50px;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  left: 0;
 }
 .mini-footer p {
   margin:3;
