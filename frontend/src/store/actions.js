@@ -467,6 +467,21 @@ import * as Cookies from 'js-cookie'
     );
   }
 
+  const updateFoto = async ({commit, state}) => {
+  
+    const token = state.auth.token;
+    return await axios({ url: 'http://localhost:8000/api/getActualPhoto' + '?token='+ token, method: 'GET' })
+      .then(response => {
+
+        let payloadPath = response.data.path;
+        commit('newFoto', payloadPath)
+
+      }).catch(error => {
+        console.log(error)
+      })
+
+  };
+
   export default {
     login,
     logout,
@@ -485,6 +500,7 @@ import * as Cookies from 'js-cookie'
     loadVagasJuridica,
     changeStatusVaga,
     deleteVaga,
+    updateFoto
 
   
   };

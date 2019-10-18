@@ -72,6 +72,10 @@ const vagasJuridica = (state, payloadVagasJuridica) => {
     state.vagasJuridica = payloadVagasJuridica
     console.log('na mut', payloadVagasJuridica)
 }
+
+const newFoto = (state, payloadPath) => {
+    state.upload.path = payloadPath
+}
   
   export default {
     auth_success,
@@ -83,4 +87,5 @@ const vagasJuridica = (state, payloadVagasJuridica) => {
     allJuridicaData,
     dataCompleted,
     vagasJuridica,
+    newFoto
   };

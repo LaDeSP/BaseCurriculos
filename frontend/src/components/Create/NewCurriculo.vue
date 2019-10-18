@@ -21,7 +21,9 @@
                     </span>
                 </div>
                 <tab-content title="Informações Pessoais" icon="far fa-address-card">
-                    <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
+                    <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" 
+                        @vdropzone-success="getActualPhoto"
+                    ></vue-dropzone>
                     <div class="form-group">
                         <label for="nome">* Nome Completo</label>
                         <ValidationProvider name="nome" rules="required|max:50">
@@ -522,6 +524,7 @@ export default {
             //acceptedFiles: image/*,
             maxFiles: 1,
             addRemoveLinks: true,
+
         }
     };
   },
@@ -628,6 +631,9 @@ export default {
             .catch(
                 error => console.log(error)
             );
+    },
+    getActualPhoto(){
+        this.$store.dispatch('updateFoto')
     },
 
   },

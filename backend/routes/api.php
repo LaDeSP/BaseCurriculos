@@ -43,6 +43,7 @@ Route::group([
     Route::post('/areas', 'AreaController@store');
     Route::get('/areas', 'AreaController@index');
     Route::post('/store/foto/{categoria}/{id}', 'UploadController@storeFoto')->name('fotos.store');
+    Route::get('/getActualPhoto', 'UploadController@getActualPhoto');
 });
 
 Route::resource('/agenda', 'AgendaController', [

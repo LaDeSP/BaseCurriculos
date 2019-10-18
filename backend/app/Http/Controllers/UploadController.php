@@ -6,6 +6,7 @@ use Response;
 
 use Illuminate\Http\Request;
 use App\Upload; 
+use App\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
@@ -66,6 +67,23 @@ class UploadController extends Controller
                 
         }
         return;
+    }
+
+    public function getActualPhoto(){
+        $teste = User::where('id', auth()->user()->id)->first();
+        $path="https://source.unsplash.com/QAB-WJcbgJk/60x60";
+   
+        
+        if ($teste->foto){
+            if(Upload::where('user_id', auth()->user()->id)->exists()){
+                $foto = Upload::where('user_id', $teste->id)->first();
+                $path = "http://localhost:8000/storage/".$foto->path;
+            }
+        }
+
+        return Response::json([
+            'path'=>$path
+           ], 200);
     }
 
     public function rulesFotos(){
