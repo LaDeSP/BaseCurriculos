@@ -38,10 +38,16 @@
                       </div>
                       <div class="form-group">
                           <label>Candidato:</label>
-                          <select class="form-control">
-                            <option>Selecione</option>
-                            <option>João Marcos</option>
-                          </select>
+                          <ValidationProvider name="candidato">
+                            <div slot-scope="{ errors }">
+                              <select class="form-control">
+                                <option>Selecione</option>
+                                <option>João Marcos</option>
+                              </select>
+                              <p>{{ errors[0] }}</p>
+                            </div>
+                          </ValidationProvider>
+
                         </div>
                       <div class="form-group">
                           <label for="observacao">Observação:</label>
