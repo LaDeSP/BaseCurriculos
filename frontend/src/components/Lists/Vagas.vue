@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-md-7">
+    <div class="col-md-9">
       <div class="row">
         <div class="col-md-10 float-left" >
           <div class="panel-heading"><h2> {{this.displayVagasJuridica}}Minhas Vagas</h2></div>
@@ -20,12 +20,11 @@
           </div>
         </div>
       </div>
-      <div  v-for="vaga in isActive" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
-        <div class="row">
-          <div class="col-sm-4">
-            <Card>
+      <div class="row">
+          <div  v-for="vaga in isActive" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
+            <Card style="width: 30rem;">
               <template v-slot:card-header>
-                <h3><span class="label label-info ">Título: {{vaga.titulo}}</span></h3>
+                <h3><span class="label label-info ">{{vaga.titulo}}</span></h3>
               </template>
               <template v-slot:card-body>
                 <p>Local:{{vaga.local}}</p>
@@ -54,8 +53,8 @@
                   <Modal v-show="isModalWarning" @close="closeModal">
                       <template v-slot:header><h3>Deletar Vaga</h3></template>
                       <template v-slot:body>
-                          <h2 class="text-center">Tem certeza de que deseja  
-                              <span style="color: #ff0000"><strong>deletar</strong></span> 
+                          <h2 class="text-center">Tem certeza de que deseja
+                              <span style="color: #ff0000"><strong>deletar</strong></span>
                               essa vaga?</h2>
 
                       </template>
@@ -71,14 +70,13 @@
             </Card>
           </div>
         </div>
-      </div>
     </div>
   </div>
 </template>
 
 
 <script>
-  import Card from '../Utils/Card';
+  import Card from '../Utils/CardsVagas';
   import Modal from '../Utils/Modal';
   import { mapActions, mapGetters } from 'vuex';
 
@@ -102,7 +100,7 @@
           },
 
           closeModal(){
-              this.isModalWarning = false;  
+              this.isModalWarning = false;
           },
 
           onCreate(){
@@ -115,7 +113,7 @@
               this.$session.set('vaga_id', vaga_id);
               this.$router.push({ name: 'new-vaga'})
           },
-  
+
           onRequest(vagaId){
 
               const vaga_id = vagaId;
@@ -140,11 +138,11 @@
                 vaga_id: id,
                 status: status
               }
-              
+
               this.$store.dispatch('changeStatusVaga', newStatus)
               .then(response => {
                   console.log(response)
-              }).catch(error => console.log(error))  
+              }).catch(error => console.log(error))
 
           },
 
@@ -164,7 +162,7 @@
               .then(response => {
                   //console.log(response)
                   this.$router.push({ name: 'login' })
-              }).catch(error => console.log(error))  
+              }).catch(error => console.log(error))
 
           },
 
@@ -201,8 +199,8 @@
                     }else{
                         return this.displayVagasJuridica.filter((vaga) => {return vaga.status === 'INATIVA'})
                     }
-                } 
-            },  
+                }
+            },
 
             ...mapGetters([
               'displayVagasJuridica', 'permissaoDoUsuario'
@@ -212,7 +210,7 @@
 
         created(){
             this.loadVagasJuridica();
-                
+
         },
     }
 </script>
