@@ -21,7 +21,10 @@
                     </div>
 
                 <tab-content title="Informações da Empresa" icon="fas fa-clipboard-list">
-                    <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
+                    <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"
+                        @vdropzone-success="getActualPhoto"
+                        @vdropzone-removed-file="deleteUserPhoto"
+                    ></vue-dropzone>
                     <div class="form-group">
                         <label for="razao">* Nome da Empresa</label>
                         <ValidationProvider name="razao" rules="required|max:50">
@@ -339,6 +342,13 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                     .catch(
                         error => console.log(error)
                     );
+            },
+             getActualPhoto(){
+                this.$store.dispatch('updateFoto')
+            },
+
+            deleteUserPhoto(){
+                this.$store.dispatch('deleteUserPhoto')
             },
 
         },
