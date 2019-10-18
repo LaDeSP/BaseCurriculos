@@ -86,6 +86,27 @@ class UploadController extends Controller
            ], 200);
     }
 
+    public function deletePhoto($id = null){
+        if (!$id){
+            $foto = Upload::where('user_id', auth()->user()->id)->first();
+            $foto->delete();
+            return Response::json([
+                'path'=>"https://source.unsplash.com/QAB-WJcbgJk/60x60"
+               ], 200);
+        }
+        else{
+            $foto = Upload::findOrFail($id);
+            $foto->delete();
+            return Response::json([
+                'message'=>'Certo'
+               ], 200);
+        }
+
+        return Response::json([
+            'path'=>'deu ruim'
+           ], 201);
+    }
+
     public function rulesFotos(){
         return [
             'file' => 'required|image'

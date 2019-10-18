@@ -23,6 +23,7 @@
                 <tab-content title="Informações Pessoais" icon="far fa-address-card">
                     <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" 
                         @vdropzone-success="getActualPhoto"
+                        @vdropzone-removed-file="deleteUserPhoto"
                     ></vue-dropzone>
                     <div class="form-group">
                         <label for="nome">* Nome Completo</label>
@@ -634,6 +635,10 @@ export default {
     },
     getActualPhoto(){
         this.$store.dispatch('updateFoto')
+    },
+
+    deleteUserPhoto(){
+        this.$store.dispatch('deleteUserPhoto')
     },
 
   },

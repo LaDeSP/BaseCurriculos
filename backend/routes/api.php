@@ -44,6 +44,7 @@ Route::group([
     Route::get('/areas', 'AreaController@index');
     Route::post('/store/foto/{categoria}/{id}', 'UploadController@storeFoto')->name('fotos.store');
     Route::get('/getActualPhoto', 'UploadController@getActualPhoto');
+    Route::post('/deletePhoto/{id?}', 'UploadController@deletePhoto');//delete
 });
 
 Route::resource('/agenda', 'AgendaController', [
