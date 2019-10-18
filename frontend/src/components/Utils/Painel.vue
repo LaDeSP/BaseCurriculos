@@ -1,6 +1,7 @@
 <template>
       <div class="panel panel-default">
-        <slot nmae="panel"></slot>
+        <div class="panel-head"></div>
+        <slot name="panel-head"></slot>
         <div class="panel-body">
           <slot name="panel-body">
           </slot>
