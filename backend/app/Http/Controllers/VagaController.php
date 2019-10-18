@@ -106,8 +106,13 @@ class VagaController extends Controller
         Vaga::where('id', $request->vaga_id)->update([
             'status'=>$request->status
         ]);
+
+        $vagaChanged = Vaga::where('id', $request->vaga_id)->first()->get();
     
-        return Response::json(['mudou status', $request->vaga_id]);
+        return Response::json([
+            'mudou status',
+            'vagaChanged' => $vagaChanged
+        ]);
     }
 
     public function destroy($id)

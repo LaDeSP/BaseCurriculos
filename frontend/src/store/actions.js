@@ -392,7 +392,6 @@ import * as Cookies from 'js-cookie'
     );
   }
 
-  /* */
   const createVaga = async ({commit, state}, NewVaga) => {
     const token = state.auth.token;
     return await axios({ url: vagas_uri + '?token=' + token, data: NewVaga, method: 'POST'})
@@ -405,17 +404,11 @@ import * as Cookies from 'js-cookie'
     );
   }
 
-  const updateVaga = async ({commit, state}, NewVaga) => {
+  const updateVaga = async ({commit, state}, editVaga) => {
     const token = state.auth.token;
-    const user_id = state.auth.user.id;
-    return await axios({ url: vagas_uri + '/' + user_id + '?token=' + token, data: NewVaga, method: 'POST'})
+    return await axios({ url: vagas_uri + '/' + editVaga.vaga_id + '?token=' + token, data: NewVaga, method: 'POST'})
     .then(response => {
 
-      let createVaga = { 
-        vagasJuridica: response.data.vagas
-      }
-
-      console.log('createVaga', createVaga);
       console.log('response', response)
       //return response.data
     }).catch(
@@ -432,34 +425,28 @@ import * as Cookies from 'js-cookie'
         let payloadVagasJuridica = [];
         payloadVagasJuridica = response.data.vagas;
   
-        console.log('response', response.data) 
-        console.log('payload',  payloadVagasJuridica)  
-        //console.log('payload', payloadVagasJuridica)
         commit('vagasJuridica', payloadVagasJuridica)
         
-       // return response.data
+        return response.data
       }).catch(error => {
         console.log(error)
       })
 
   };
 
-  const disableVaga = async ({commit, state}, NewVaga) => {
+  const changeStatusVaga = async ({commit, state}, newStatus) => {
     const token = state.auth.token;
-    const user_id = state.auth.user.id;
-    return await axios({ url: vagas_uri + '/' + user_id + '?token=' + token, data: NewVaga, method: 'POST'})
+    return await axios({ url: vagas_uri + '/changeStatus' + '?token=' + token, data: newStatus, method: 'POST'})
     .then(response => {
+      
+      let payloadVagasJuridica = [];
+      payloadVagasJuridica = response.data.vagaChanged;
 
-      let createVaga = { 
-        vagasJuridica: response.data.vagas
-      }
-
-      console.log('createVaga', createVaga);
-      console.log('response', response)
-      //return response.data
+      return response.data
     }).catch(
       error => console.log(error)
     );
+
   }
 
   const deleteVaga = async ({commit, state}, NewVaga) => {
@@ -496,7 +483,7 @@ import * as Cookies from 'js-cookie'
     createVaga,
     updateVaga,
     loadVagasJuridica,
-    disableVaga,
+    changeStatusVaga,
     deleteVaga,
 
   

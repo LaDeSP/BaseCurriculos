@@ -81,6 +81,18 @@ const displayVagasJuridica = state =>{
   return state.vagasJuridica
 }
 
+const displayVagaById = state => {
+  return (vaga_id) => {
+    let vagas = state.vagasJuridica
+  
+    let teste = vagas.filter((vagaById) => {return vagaById.id === vaga_id})
+  
+    console.log('coskdos', teste)
+    return teste
+  }
+  
+}
+
 const permissaoDoUsuario = state =>{
   return state.auth.user.role
 }
@@ -93,5 +105,6 @@ export default {
   displayPessoaJuridica, 
   displayCurriculo,
   displayVagasJuridica,
+  displayVagaById,
   permissaoDoUsuario
 };

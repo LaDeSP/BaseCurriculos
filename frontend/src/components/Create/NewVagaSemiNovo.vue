@@ -2,10 +2,10 @@
 <div class="row justify-content-center">
     <div class="col-md-7">
         <div v-if="!this.editing">
-            <h3>{{this.displayVagasJuridica}}Cadastrar Informações</h3>
+            <h3>Cadastrar Informações</h3>
         </div>
         <div v-else>
-            <h3>{{this.displayVagasJuridica}}Editar Informações{{this.displayVagaById}}</h3>
+            <h3>{{displayVagasJuridica}}Editar Informações</h3>
         </div>
         <form-wizard @on-complete="onComplete"
             title="" subtitle=" "
@@ -114,11 +114,9 @@
 </template>
 
 <script>
-
-  import { mapActions, mapGetters } from 'vuex';
-
+    import { mapActions, mapGetters } from 'vuex'; 
     export default {
-      
+    
         data(){
             return{
 
@@ -138,12 +136,10 @@
 
             }
         },
-
         methods: {
-          ...mapActions([
-              'loadVagasJuridica'
-          ]),
-
+            ...mapActions([
+                'loadVagasJuridica'
+            ]),
             onComplete(){
 
                 let vaga = {
@@ -182,20 +178,16 @@
                     }).catch(error => console.log(error))
                 }
             },
-    
+
             verifyEdit(){
+                if(this.editing) this.displayDataEdit();
                
-                
             },
 
             displayDataEdit(){
-
-                 if(this.editing){
-                    console.log('displayDataEdit', this.vagaById)
-                    console.log('desgraça ID', this.$session.get('vaga_id'))
-                 }
-                
-                /* this.titulo = response.data.vaga.titulo,
+                console.log(this.displayVagaById)
+                console.log('desgraça ID', this.$session.get('vaga_id'))
+               /* this.titulo = response.data.vaga.titulo,
                 this.local = response.data.vaga.local,
                 this.quantidade = response.data.vaga.quantidade,
                 this.salario = response.data.vaga.salario,
@@ -207,7 +199,6 @@
                 //this.pretensao = parseFloat(this.displayCurriculo.pretensao)
                 
             },
-
             loadArea(){
                 const token = this.$store.state.auth.token;
                 this.axios.get('http://localhost:8000/api/areas?token=' + token)
@@ -221,26 +212,22 @@
                     );
             },
         },
-        
+
         computed:{
-             
+
             ...mapGetters([
-              'displayVagasJuridica', 'displayVagaById'
+                'displayVagasJuridica', //  'displayVagaById'
             ]),
 
-             vagaById(){
-                return this.displayVagaById(this.vaga_id)
+            vagaById(){
+             //   return this.displayVagaById(this.vaga_id)
             }
 
         },
 
-        created(){
+       created(){
+           this.loadVagasJuridica;
+       }
 
-            this.loadVagasJuridica();
-            this.loadArea();
-            this.displayDataEdit();
-                
-        },
     }
 </script>
-

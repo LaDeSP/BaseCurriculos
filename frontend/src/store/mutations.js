@@ -70,7 +70,7 @@ const dataCompleted = (state, dataCompleted) => {
 
 const vagasJuridica = (state, payloadVagasJuridica) => { 
     state.vagasJuridica = payloadVagasJuridica
-    console.log('mutation', payloadVagasJuridica)
+    console.log('na mut', payloadVagasJuridica)
 }
   
   export default {
