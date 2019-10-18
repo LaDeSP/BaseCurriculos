@@ -366,6 +366,16 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 this.loadArea();
                 this.verifyEdit();
             },
+             mounted() {
+                if (this.$store.state.upload.path != "https://source.unsplash.com/QAB-WJcbgJk/60x60"){
+                    var url = this.$store.state.upload.path;
+                    var file = {  name: "Photo", type: "image", dataURL: url };
+                    this.$refs.myVueDropzone.manuallyAddFile(file, url);
+                    this.$refs.myVueDropzone.dropzone.emit('thumbnail', file, file.dataURL)
+                    this.$refs.myVueDropzone.dropzone.emit('complete', file)
+                }
+                
+            },
     }
                 
 </script>
