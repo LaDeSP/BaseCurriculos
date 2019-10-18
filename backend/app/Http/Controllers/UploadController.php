@@ -76,7 +76,7 @@ class UploadController extends Controller
         
         if ($teste->foto){
             if(Upload::where('user_id', auth()->user()->id)->exists()){
-                $foto = Upload::where('user_id', $teste->id)->first();
+                $foto = Upload::where('user_id', $teste->id)->first();//talvez n precise desse segundo if. testar dps
                 $path = "http://localhost:8000/storage/".$foto->path;
             }
         }
