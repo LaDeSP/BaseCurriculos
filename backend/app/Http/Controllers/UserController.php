@@ -56,18 +56,12 @@ class UserController extends Controller implements JWTSubject
       $path="https://source.unsplash.com/QAB-WJcbgJk/60x60";
    
         
-      if ($teste->fisica){
-          if(Upload::where('fisicas_id', $teste->fisica->id)->exists()){
-            $foto = Upload::where('fisicas_id', $teste->fisica->id)->first();
-            $path = "http://localhost:8000/storage/".$foto->path;
-          }  
-      }
-      else if($teste->juridica){
-        if(Upload::where('juridicas_id', $teste->juridica->id)->exists()){
-            $foto = Upload::where('juridicas_id', $teste->juridica->id)->first();
-            $path = "http://localhost:8000/storage/".$foto->path;
-        }
-      }
+    if ($teste->foto){
+        if(Upload::where('user_id', $teste->id)->exists()){
+          $foto = Upload::where('user_id', $teste->id)->first();
+          $path = "http://localhost:8000/storage/".$foto->path;
+        }  
+    }
       
       
       

@@ -21,10 +21,9 @@ class VagaController extends Controller
        
         if(auth()->user()->role === 'JURIDICA'){
             $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
+            $vagas_juridica = Vaga::with('area')->where('juridicas_id', $juridica_id)->get();
             return Response::json([
-                'areas' => $areas,
-                'vagas' => $vagas,
-                'auth_jur'=> $juridica_id
+                'vagas' => $vagas_juridica,
             ], 201);   
         }else{
             return Response::json([

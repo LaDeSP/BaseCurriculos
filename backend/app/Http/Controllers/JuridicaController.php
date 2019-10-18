@@ -58,7 +58,7 @@ class JuridicaController extends Controller
         }
 
        $user_id = auth()->user()->id;
-       User::where('id', $user_id)->update(['name'=>$request->name]);
+       User::where('id', $user_id)->update(['name'=>$request->nome]);
         
        $endereco = Juridica::where('user_id', $user_id)->first()->enderecos_id;
        if ($endereco){
@@ -91,7 +91,7 @@ class JuridicaController extends Controller
             'estado' => $request->estado,
             'complemento' => $request->complemento,
             'numero' => $request->numero,
-            'pais' => $request->pais,
+          //  'pais' => $request->pais,
             'cep' => $request->cep,
         ]);
         
@@ -138,7 +138,7 @@ class JuridicaController extends Controller
             'estado' => $request->estado,
             'complemento' => $request->complemento,
             'numero' => $request->numero,
-            'pais' => $request->pais,
+          //  'pais' => $request->pais,
             'cep' => $request->cep
         ]);
 
@@ -158,7 +158,7 @@ class JuridicaController extends Controller
             ));
       
             return Response::json([
-                'update ok'  
+                'update ok',
             ]);
       
     }
@@ -172,12 +172,15 @@ class JuridicaController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        $end = Endereco::find($end_id);
-        $end->delete();
+        if($end_id && $cont_id){
+            $end = Endereco::find($end_id);
+            $end->delete();
 
-        $cont = Contato::find($cont_id);
-        $cont->delete();
-        
+            $cont = Contato::find($cont_id);
+            $cont->delete();
+    
+        }
+
         return Response::json([
             'msg' => 'deletado ok'
          ], 201);
@@ -219,7 +222,7 @@ class JuridicaController extends Controller
             'twitter.max' => 'Insira twitter com no máximo 50 caracteres.',
             'site.max' => 'Insira site com no máximo 50 caracteres.',
             'outraRede.max' => 'Insira outra rede com no máximo 50 caracteres.',
-            'pais.required' => 'Selecione um país!',
+            //'pais.required' => 'Selecione um país!',
             'estado.required' => 'Selecione um estado!',
             'fixo.required' => 'Insira um número fixo!',
             'fixo.digits' => 'Número fixo precisa de 10 digitos! (DDD+numero)',
@@ -244,7 +247,7 @@ class JuridicaController extends Controller
             'twitter' => 'max:50',
             'site' => 'max:50',
             'outraRede' => 'max:50',
-            'pais' => 'required',
+           // 'pais' => 'required',
             'estado' => 'required',
             'fixo' => 'required|digits:10',
             'celular' => 'required|digits_between: 10, 11',

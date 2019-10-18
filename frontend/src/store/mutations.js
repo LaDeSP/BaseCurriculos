@@ -67,6 +67,12 @@ const allJuridicaData = (state, {payloadJuridica}) => {
 const dataCompleted = (state, dataCompleted) => {
     state.dataCompleted = dataCompleted;
 }
+
+const vagasJuridica = (state, {payloadVagasJuridica}) => { 
+    state.vagasJuridica = payloadVagasJuridica
+    console.log('mutation', payloadVagasJuridica)
+    console.log('state', state.vagasJuridica)
+}
   
   export default {
     auth_success,
@@ -77,4 +83,5 @@ const dataCompleted = (state, dataCompleted) => {
     allFisicaData,
     allJuridicaData,
     dataCompleted,
+    vagasJuridica,
   };

@@ -224,7 +224,8 @@ import * as Cookies from 'js-cookie'
   const updateJuridica = async ({commit, state}, JuridicaData) => {
   
     const token = state.auth.token;
-    await axios({ url: juridica_uri + '?token='+ token, data: JuridicaData, method: 'PUT' })
+    const user_id = state.auth.user.id;
+    return await axios({ url: juridica_uri + '/' + user_id + '?token='+ token, data: JuridicaData, method: 'PUT' })
       .then(response => {
         
         let payloadContact = {
@@ -248,13 +249,15 @@ import * as Cookies from 'js-cookie'
         }
 
         let payloadJuridica = {
-          'name': JuridicaData.name,
+          'name': JuridicaData.nome,
         } 
-     
+        console.log('payloadAddress', payloadAddress)
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allJuridicaData', {payloadJuridica})
+        console.log('response', response.data)
 
+        return response.data
       }).catch(error => {
         console.log(error)
       })
@@ -374,14 +377,15 @@ import * as Cookies from 'js-cookie'
     );
   }
 
-  const deleteJuridica = async ({commit}) => {
+   const deleteJuridica = async ({commit, state}) => {
 
     const token = state.auth.token;
     const user_id = state.auth.user.id
-    await axios({ url: juridica_uri + '/' + user_id + '?token='+ token, method: 'DELETE' })
+    return await axios({ url: juridica_uri + '/' + user_id + '?token='+ token, method: 'DELETE' })
     .then(response => {
        commit('logout');
        Cookies.remove('vuex');
+       return response;
     })
     .catch(
         error => console.log(error)
@@ -422,19 +426,20 @@ import * as Cookies from 'js-cookie'
   const loadVagasJuridica = async ({commit, state}) => {
   
     const token = state.auth.token;
-    const user_id = state.auth.user.id;
-    return await axios({ url: vagas_uri + '/' + user_id + '?token='+ token, method: 'GET' })
+   console.log('stsc',state.auth)
+    return await axios({ url: vagas_uri + '?token='+ token, method: 'GET' })
       .then(response => {
         
         let payloadVagasJuridica = {
-          'vaga': response.data.vaga
+          'vaga': response.data.vagas
         }
   
-        console.log('response', response)   
-        console.log('payload', payloadVagasJuridica)
+        console.log('response', response) 
+        console.log('payload', payloadVagasJuridica)  
+        //console.log('payload', payloadVagasJuridica)
         commit('vagasJuridica', {payloadVagasJuridica})
         
-        return response.data
+       // return response.data
       }).catch(error => {
         console.log(error)
       })

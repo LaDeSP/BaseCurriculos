@@ -11,8 +11,8 @@
                         <li> <strong>CNPJ</strong>: {{displayPessoaJuridica.cnpj}}</li>
                         <li> <strong>Ramo</strong>: {{displayPessoaJuridica.ramo}}</li>
                         <li> <strong>Rua</strong>: {{displayPessoaJuridica.rua}}</li>
-                        <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null">Número: {{displayPessoaJuridica.numero}}</li>
-                        <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null">Complemento: {{displayPessoaJuridica.complemento}}</li>
+                        <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null"><strong>Número</strong>:{{displayPessoaJuridica.numero}}</li>
+                        <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null"><strong>Complemento</strong>:{{displayPessoaJuridica.complemento}}</li>
                         <li> <strong>Bairro</strong>: {{displayPessoaJuridica.bairro}}</li>
                         <li> <strong>Cidade</strong>: {{displayPessoaJuridica.cidade}}</li>
                         <li> <strong>CEP</strong>: {{displayPessoaJuridica.cep}}</li>

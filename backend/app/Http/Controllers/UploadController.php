@@ -18,7 +18,7 @@ class UploadController extends Controller
                 'error' => $validator->messages()
             ], 201);
         }
-        if (Upload::where('fisicas_id',  auth()->user()->id)->exists()){
+        if (Upload::where('user_id',  auth()->user()->id)->exists()){
             return Response::json([
                 'error' => 'Já tem foto'
             ], 201);
