@@ -1,35 +1,41 @@
 <template>
-    <div class="panel panel-default">
-        <div class="panel-heading"><h2>Candidaturas</h2></div>
-            <div class="panel-body" v-for="show in candidaturas" :key="show.id" :id="show.id">     
+    <div class="row justify-content-center">
+      <div class="panel-heading"><h2>Candidaturas</h2></div>
+      <div class="row">
+        <div v-for="show in candidaturas" :key="show.id" :id="show.id">
+          <card style="width: 30rem;">
+            <template v-slot:card-header>
               <h3><span class="label label-info ">Título da Vaga:{{show.vaga.titulo}}</span></h3>
-                <p>DADOS DA VAGA: {{show.vaga}}</p>
-                <p>Candidato: {{show.curriculo}}</p>
-                 <h4>STATUS: {{show.status}}</h4>
-            <div v-if="!isFIS">
-                <button @click="onSchedule(show.id)" class="btn btn-sm btn-success">Marcar Entrevista</button>
-                <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Deletar</button>
-            </div>
-            <div v-else>
-                <div v-if="agendamento">
-                  
-                </div>
-                <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Desistir</button>
-            </div>
-            <hr>
+            </template>
+            <template v-slot:card-body>
+              <p>DADOS DA VAGA: {{show.vaga}}</p>
+            </template>
+            <template v-slot:card-footer>
+              <div v-if="!isFIS">
+                  <button @click="onSchedule(show.id)" class="btn btn-sm btn-success">Ver Candidatos</button>
+                  <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Deletar</button>
+              </div>
+              <div v-else>
+                  <div v-if="agendamento">
+                  </div>
+                  <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Desistir</button>
+              </div>
+            </template>
+          </card>
         </div>
+      </div>
     </div>
 </template>
 
 
 <script>
-   
+    import card from '../Utils/CardsVagas';
     import NewAgenda from '../Create/NewAgenda';
 
     export default {
         data(){
             return{
-              
+
                 candidaturas: [],
                 uri: 'http://localhost:8000/api/candidaturas',
                 token: this.$session.get('jwt'),
@@ -39,7 +45,7 @@
         },
         components: {NewAgenda},
         methods: {
-            
+
             loadCandidaturas(){
                 const user_id = this.$session.get('user_id');
                 this.axios
@@ -53,7 +59,7 @@
                                 this.agendamento = true;
                             }
                         }
-                       
+
                         console.log(response.data);
                     })
                     .catch(
@@ -68,7 +74,7 @@
                if(this.$session.get('role') === 'FISICA'){this.isFIS = true}
         },
         created(){
-            
+
             console.log('teste', localStorage.getItem('auth'));
         }
     }

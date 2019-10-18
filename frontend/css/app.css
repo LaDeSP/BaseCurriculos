@@ -12084,16 +12084,6 @@ form.user .btn-user {
   padding: 1%;
   text-align: center;
 }
- /*footer {
-    background-color: #5a5c69 !important;
-    color: white !important;
-    position: relative;
-}
-footer .copyright {
-    text-align: center;
-    text-decoration: none;
-    font: 18px arial, sans-serif;
-} */
 
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
@@ -25109,8 +25099,8 @@ label#thumbnail {
   align-items: center;
 }
 
-label#thumbnail input { 
-  /* como ta dentro de uma label ela automaticamente redireciona o click pro input, 
+label#thumbnail input {
+  /* como ta dentro de uma label ela automaticamente redireciona o click pro input,
   mesmo q ele esteja invisivel vai abrir a janela de upload */
   display: none;
 }
