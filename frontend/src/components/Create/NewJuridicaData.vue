@@ -24,6 +24,7 @@
                     <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"
                         @vdropzone-success="getActualPhoto"
                         @vdropzone-removed-file="deleteUserPhoto"
+                        :destroyDropzone="false"
                     ></vue-dropzone>
                     <div class="form-group">
                         <label for="razao">* Nome da Empresa</label>
