@@ -7,6 +7,10 @@
 
                 <div v-if="dataCompleted">
                 <h2>Informações Pessoais</h2>
+                <div class="container d-flex justify-content-center">
+                    <img class="rounded-circle icon-profile" :src=this.$store.state.upload.path>
+                </div>
+
                 <ul> 
                     <h4> <strong>Nome Completo</strong>: {{displayPessoaFisica.nome}}</h4>
                     <li> <strong>Data de Nascimento</strong>: {{displayPessoaFisica.nascimento | dateFormat}}</li>

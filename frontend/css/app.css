@@ -25119,3 +25119,10 @@ label#thumbnail.has-thumbnail img{
     max-height: 200px;
     height: 200px;
 }
+
+.icon-profile{
+  width: 50%;
+  height: 50%;
+  min-width: 50%;
+  min-height: 50%;
+}
