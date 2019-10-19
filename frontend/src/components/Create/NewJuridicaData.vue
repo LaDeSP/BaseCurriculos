@@ -21,11 +21,14 @@
                     </div>
 
                 <tab-content title="Informações da Empresa" icon="fas fa-clipboard-list">
-                    <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"
-                        @vdropzone-success="getActualPhoto"
-                        @vdropzone-removed-file="deleteUserPhoto"
-                        :destroyDropzone="false"
-                    ></vue-dropzone>
+                    <div class="form-group">
+                        <label for="dropzone">Foto de Perfil</label>
+                        <vue-dropzone ref="myVueDropzone" id="dropzone" name="dropzone" :options="dropzoneOptions"
+                            @vdropzone-success="getActualPhoto"
+                            @vdropzone-removed-file="deleteUserPhoto"
+                            :destroyDropzone="false"
+                        ></vue-dropzone>
+                    </div>
                     <div class="form-group">
                         <label for="razao">* Nome da Empresa</label>
                         <ValidationProvider name="razao" rules="required|max:50">
@@ -226,9 +229,17 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 dropzoneOptions: {
                     url: 'http://localhost:8000/api/store/foto/user_id/'+this.$store.state.auth.user.id+'?token='+this.$store.state.auth.token,
                     maxFilesize: 5,
-                    //acceptedFiles: image/*,
+                    dictDefaultMessage: "Insira sua foto!",
+                    dictRemoveFile: "Remover",
+                    dictFileTooBig: "Imagens devem ter até 5mb.",
+                    dictInvalidFileType: "Formato inválido.",
+                    dictCancelUpload: "Cancelar",
+                    dictMaxFilesExceeded: "Você só pode inserir uma imagem.",
                     maxFiles: 1,
                     addRemoveLinks: true,
+                    thumbnailWidth: 200, // px
+                    thumbnailHeight: 200,
+                    acceptedMimeTypes: ".png, .jpg, .jpeg, .gif"
                 }
             }
         },
@@ -370,9 +381,9 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
             },
             
              mounted() {
-                if (this.$store.state.upload.path != "https://source.unsplash.com/QAB-WJcbgJk/60x60"){
+                if (this.$store.state.upload.path != "http://localhost:8000/anon.jpg"){
                     var url = this.$store.state.upload.path;
-                    var file = {  name: "Photo", type: "image", dataURL: url };
+                    var file = { dataURL: url };
                     this.$refs.myVueDropzone.manuallyAddFile(file, url);
                     this.$refs.myVueDropzone.dropzone.emit('thumbnail', file, file.dataURL)
                     this.$refs.myVueDropzone.dropzone.emit('complete', file)

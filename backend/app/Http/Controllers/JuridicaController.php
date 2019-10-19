@@ -45,7 +45,7 @@ class JuridicaController extends Controller
             'name' => $request->input('name'),
             'role' => $request->input('role'),
             'user'=> auth()->user(),
-            'foto'=> "https://source.unsplash.com/QAB-WJcbgJk/60x60",
+            'foto'=> "http://localhost:8000/anon.jpg",
             'message' => 'Pessoa Jurídica cadastrada com sucesso!'
             ], 201); 
     }

@@ -71,7 +71,7 @@ class UploadController extends Controller
 
     public function getActualPhoto(){
         $teste = User::where('id', auth()->user()->id)->first();
-        $path="https://source.unsplash.com/QAB-WJcbgJk/60x60";
+        $path="http://localhost:8000/anon.jpg";
    
         
         if ($teste->foto){
@@ -91,7 +91,7 @@ class UploadController extends Controller
             $foto = Upload::where('user_id', auth()->user()->id)->first();
             $foto->delete();
             return Response::json([
-                'path'=>"https://source.unsplash.com/QAB-WJcbgJk/60x60"
+                'path'=>"http://localhost:8000/anon.jpg"
                ], 200);
         }
         else{
