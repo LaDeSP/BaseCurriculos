@@ -49,6 +49,7 @@ import * as Cookies from 'js-cookie'
       const payload = {
         'token': response.data.token,
         'user': response.data.user,
+        'path': response.data.foto,
       }
       commit('auth_success', {payload})
 
@@ -66,6 +67,7 @@ import * as Cookies from 'js-cookie'
         const payload = {
           'token': response.data.token,
           'user': response.data.user,
+          'path': response.data.foto,
         }
         commit('auth_success', {payload})
 
