@@ -47,7 +47,7 @@
                       <button @click="changeStatus(vaga.id, 'INATIVA')" class="btn btn-sm btn-outline-secondary">Desativar</button>
                   </span>
                   <span v-else>
-                      <button @click="changeStatus(vaga.id, 'ATIVA')" class="btn btn-sm btn-outline-primary">Ativar</button>
+                      <button @click="changeStatus(vaga.id, 'ATIVA')" class="btn btn-sm btn-outline-success">Ativar</button>
                   </span>
                   <button @click="showModal" class="btn btn-sm btn-danger">Deletar</button>
                   <Modal v-show="isModalWarning" @close="closeModal">
@@ -208,6 +208,16 @@
 
         },
 
+         watch: {
+          '$store.state.vagasJuridica':{
+            handler() { 
+             
+            },
+            
+            deep: true
+          }
+        },
+        
         created(){
             this.loadVagasJuridica();
 

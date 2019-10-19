@@ -442,6 +442,7 @@ import * as Cookies from 'js-cookie'
       let payloadVagasJuridica = [];
       payloadVagasJuridica = response.data.vagaChanged;
 
+      commit('vagasJuridica', payloadVagasJuridica)
       return response.data
     }).catch(
       error => console.log(error)
