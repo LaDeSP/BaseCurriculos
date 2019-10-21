@@ -25126,3 +25126,7 @@ label#thumbnail.has-thumbnail img{
   min-width: 50%;
   min-height: 50%;
 }
+
+.color-red{
+  color: red !important;
+}
