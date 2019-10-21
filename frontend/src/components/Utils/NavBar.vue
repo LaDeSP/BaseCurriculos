@@ -1,7 +1,12 @@
 <template>
 
    	<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-      <busca></busca>
+      <nav class="navbar ">
+        <span class="navbar-brand">Banco de Currículos</span>
+      </nav>
+      <div class="container-fluid">
+          <busca></busca>
+      </div>
 				<!-- Sidebar Toggle (Topbar) -->
       <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
         <i class="fa fa-bars"></i>

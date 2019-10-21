@@ -1,5 +1,5 @@
 <template>
-  <div class="input-group col-md-4">
+  <div class="input-group col-md-11">
     <input class="form-control py-2" type="search" placeholder="Digite aqui..">
     <span class="input-group-append">
       <button class="btn btn-outline-secondary" type="button">
