@@ -3,32 +3,23 @@
     <div class="col-md-9">
       <div class="row">
         <div class="col-md-10 float-left" >
-          <template v-if="permissaoDoUsuario === 'JURIDICA'">
-            <div class="panel-heading"><h2>Minhas Vagas</h2></div>
-          </template>
-          <template v-else>
-            <div class="panel-heading"><h2>Vagas</h2></div>
-          </template>
+          <div class="panel-heading"><h2> {{this.displayVagasJuridica}}Minhas Vagas</h2></div>
         </div>
-        <template v-if="permissaoDoUsuario === 'JURIDICA'">
-          <div class="col-md-2 float-right" >
-            <div class="btn-group btn-group-sm">
-              <button @click="onCreate" type="button" class="btn btn-primary"><h4>Criar Vaga <span><i class="fa fa-plus"></i></span></h4></button>
-            </div>
+        <div class="col-md-2 float-right" >
+          <div class="btn-group btn-group-sm">
+            <button @click="onCreate" type="button" class="btn btn-primary"><h4>Criar Vaga <span><i class="fa fa-plus"></i></span></h4></button>
           </div>
-        </template>
+        </div>
       </div>
       <br>
-      <template v-if="permissaoDoUsuario === 'JURIDICA'">
-        <div class="d-flex flex-row bd-highlight mb-3">
-          <div class="p-2 bd-highlight">
-            <div class="btn-group btn-group-sm" role="group">
-                <button @click="changeActiveButton('ativa')" type="button" class="active btn btn-outline-success">Vagas Ativas</button>
-                <button @click="changeActiveButton" type="button" class="btn btn-outline-secondary">Vagas Inativas</button>
-            </div>
+      <div class="d-flex flex-row bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+          <div class="btn-group btn-group-sm" role="group">
+              <button @click="changeActiveButton('ativa')" type="button" class="active btn btn-outline-success">Vagas Ativas</button>
+              <button @click="changeActiveButton" type="button" class="btn btn-outline-secondary">Vagas Inativas</button>
           </div>
         </div>
-      </template>
+      </div>
       <div class="row">
           <div  v-for="vaga in isActive" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
             <template v-if="permissaoDoUsuario === 'JURIDICA'">
@@ -111,14 +102,34 @@
                   </Modal>
                   <div v-if="dataCompleted">
                     <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
-                  </div>
-                  <div v-else>
-                    <button @click="a" class="btn btn-sm btn-warning disabled">Complete seu currículo para se candidatar!</button>
-                  </div>
-                  
-                </template>
-              </List>
-            </template>
+                </div>
+                <div v-else>
+                  <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
+                  <span v-if="filterState">
+                      <button @click="changeStatus(vaga.id, 'INATIVA')" class="btn btn-sm btn-outline-secondary">Desativar</button>
+                  </span>
+                  <span v-else>
+                      <button @click="changeStatus(vaga.id, 'ATIVA')" class="btn btn-sm btn-outline-success">Ativar</button>
+                  </span>
+                  <button @click="showModal" class="btn btn-sm btn-danger">Deletar</button>
+                  <Modal v-show="isModalWarning" @close="closeModal">
+                      <template v-slot:header><h3>Deletar Vaga</h3></template>
+                      <template v-slot:body>
+                          <h2 class="text-center">Tem certeza de que deseja
+                              <span style="color: #ff0000"><strong>deletar</strong></span>
+                              essa vaga?</h2>
+
+                      </template>
+                      <template v-slot:footer>
+                      <div class="modal-footer">
+                          <button @click="onDelete(vaga.id)" class="btn btn-lg btn-danger">Sim</button>
+                          <button @click="closeModal" class="btn btn-lg btn-success">Não</button>
+                      </div>
+                      </template>
+                  </Modal>
+                </div>
+              </template>
+            </Card>
           </div>
         </div>
     </div>
@@ -128,7 +139,6 @@
 
 <script>
   import Card from '../Utils/CardsVagas';
-  import List from '../Utils/List';
   import Modal from '../Utils/Modal';
   import { mapActions, mapGetters } from 'vuex';
 
@@ -140,10 +150,9 @@
             vaga_id: 0,
             filterState: true,
             isModalWarning: false,
-            isModalShowMore: false,
         }
     },
-    components: {Card, Modal, List},
+    components: {Card, Modal},
         methods: {
           ...mapActions([
               'loadVagasJuridica'
@@ -163,8 +172,6 @@
 
           closeModal(){
               this.isModalWarning = false;
-              this.isModalShowMore = false;
-              console.log('entro')
           },
 
           onCreate(){
@@ -274,6 +281,16 @@
               return this.displayVagaById(this.vaga_id)
             }
 
+        },
+
+         watch: {
+          '$store.state.vagasJuridica':{
+            handler() {
+
+            },
+
+            deep: true
+          }
         },
 
         created(){
