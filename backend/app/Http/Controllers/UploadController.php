@@ -89,6 +89,11 @@ class UploadController extends Controller
     public function deletePhoto($id = null){
         if (!$id){
             $foto = Upload::where('user_id', auth()->user()->id)->first();
+            if (!$foto){
+                return Response::json([
+                    'message'=>'Deletando vazio'
+                ], 201);
+            }
             $foto->delete();
             return Response::json([
                 'path'=>"http://localhost:8000/anon.jpg"

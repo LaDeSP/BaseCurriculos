@@ -360,8 +360,10 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 this.$store.dispatch('updateFoto')
             },
 
-            deleteUserPhoto(){
-                this.$store.dispatch('deleteUserPhoto')
+            deleteUserPhoto(file){
+                if(file.status!='error'){
+                    this.$store.dispatch('deleteUserPhoto')
+                }
             },
 
         },

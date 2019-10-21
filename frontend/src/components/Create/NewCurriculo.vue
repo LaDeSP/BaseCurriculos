@@ -649,8 +649,10 @@ export default {
         this.$store.dispatch('updateFoto')
     },
 
-    deleteUserPhoto(){
-        this.$store.dispatch('deleteUserPhoto')
+    deleteUserPhoto(file){
+        if(file.status!='error'){
+            this.$store.dispatch('deleteUserPhoto')
+        }
     },
 
   },
