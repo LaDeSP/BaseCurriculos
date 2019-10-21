@@ -1,16 +1,16 @@
 <template>
 
     <div>
-      <div v-if="!$route.meta.isHome">
+      <div v-if="!$route.meta.isHome" >
         <NavBar></NavBar>
-        <div class="container-fluid">
+        <div class="container-fluid" >
           <router-view></router-view>
         </div>
       </div>
       <div v-else>
         <router-view></router-view>
       </div>
-      <Footer></Footer>
+      <Footer ></Footer>
     </div>
 
 </template>

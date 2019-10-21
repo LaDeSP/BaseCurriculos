@@ -1,11 +1,9 @@
 <template>
-  <footer>
-    <div class="mini-footer">
-      <div class="copyright-text">
-        <p> &copy; Banco de Currículos 2019</p>
-      </div>
-    </div>
-  </footer>
+<footer class="align-items-end">
+  <div class="copyright text-center">
+    Copyright &copy; 2019 <span>Banco de Currículos</span>
+  </div>
+</footer>
 </template>
 
 <script>
