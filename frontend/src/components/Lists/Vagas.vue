@@ -129,7 +129,6 @@
                   </Modal>
                 </div>
               </template>
-            </Card>
           </div>
         </div>
     </div>
