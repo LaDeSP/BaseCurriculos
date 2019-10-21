@@ -1,5 +1,5 @@
 <template>
-    <header class="masthead1">
+    <header class="masthead2">
         <NavBarLogin></NavBarLogin>
         <div class="container login">
             <div class="card login" style="width: 30rem;">
