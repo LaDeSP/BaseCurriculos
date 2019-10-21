@@ -6,6 +6,9 @@
             <div class="panel-body">
                 <div v-if="this.dataCompleted">
                     <h2>Informações da Empresa</h2>
+                    <div class="container d-flex justify-content-center">
+                        <img class="rounded-circle icon-profile" :src=this.$store.state.upload.path>
+                    </div>
                     <ul> 
                         <h4> <strong>Nome da Empresa</strong>: {{displayPessoaJuridica.razao}}</h4>
                         <li> <strong>CNPJ</strong>: {{displayPessoaJuridica.cnpj}}</li>

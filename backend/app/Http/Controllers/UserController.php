@@ -53,7 +53,7 @@ class UserController extends Controller implements JWTSubject
      
       $user_id = User::where('email', $request->input('email'))->get()->first()->id;
       $teste = User::where('id', $user_id)->first();
-      $path="https://source.unsplash.com/QAB-WJcbgJk/60x60";
+      $path="http://localhost:8000/anon.jpg";
    
         
     if ($teste->foto){
