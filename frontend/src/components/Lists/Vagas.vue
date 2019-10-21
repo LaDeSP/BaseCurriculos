@@ -89,10 +89,11 @@
                     <p class="mb-1">Requisitos: {{vaga.requisito}}</p>
                 </template>
                 <template v-slot:list-footer>
-                  <button @click="showModal" class="btn btn-sm btn-default">Ver mais</button>
-                  <Modal v-show="isModalShowMore" @close="closeModal">
+                  <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
+                  <Modal v-if="isModalShowMore" @close="closeModal">
                         <template v-slot:header><h3>Detalhes da Vaga</h3></template>
-                        <template v-slot:body>
+                        <template v-slot:body> 
+                          {{this.vagaById}}
                           <h3 class="mb-1">{{vaga.titulo}}</h3>
                           <p class="mb-1">Cargo:{{vaga.local}}</p>
                           <p class="mb-1">Área de Atuação: {{vaga.area.tipo}}</p>
@@ -103,12 +104,12 @@
                         </template>
                         <template v-slot:footer>
                         <div class="modal-footer">
-                            <button @click="onDelete(vaga.id)" class="btn btn-lg btn-danger">Sim</button>
-                            <button @click="closeModal" class="btn btn-lg btn-success">Não</button>
+                            <button @click="closeModal" class="btn btn-sm btn-outline-danger">Voltar</button>
+                            <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
                         </div>
                         </template>
                   </Modal>
-                  <div v-if="a">
+                  <div v-if="dataCompleted">
                     <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
                   </div>
                   <div v-else>
@@ -136,6 +137,7 @@
         return{
 
             vagas: [],
+            vaga_id: 0,
             filterState: true,
             isModalWarning: false,
             isModalShowMore: false,
@@ -147,11 +149,15 @@
               'loadVagasJuridica'
           ]),
 
-          showModal(modal){
+          showModal(modal, vaga_id){
             if(modal === 'warning'){
               this.isModalWarning = true;
             }else{
+              console.log('no show', vaga_id);
               this.isModalShowMore = true;
+              this.vaga_id = vaga_id;
+              console.log('kkkk', this.vagaById)
+              
             }
           },
 
@@ -261,8 +267,12 @@
             },
 
             ...mapGetters([
-              'displayVagasJuridica', 'permissaoDoUsuario', 'dataCompleted'
+              'displayVagasJuridica', 'displayVagaById', 'permissaoDoUsuario', 'dataCompleted'
             ]),
+
+            vagaById(){
+              return this.displayVagaById(this.vaga_id)
+            }
 
         },
 
