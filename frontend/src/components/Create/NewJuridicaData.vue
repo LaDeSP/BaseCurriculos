@@ -31,11 +31,11 @@
                         ></vue-dropzone>
                     </div>
                     <div class="form-group">
-                        <label for="razao">* Nome da Empresa</label>
+                        <label for="razao">Nome da Empresa <a class="color-red">*</a></label>
                         <ValidationProvider name="razao" rules="required|max:50">
                             <div slot-scope="{ errors }">
                                 <input type="text" name="razao" class="form-control" v-model="razao"  maxlength="50">
-                                <p>{{ errors[0] }}</p>
+                                <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
                     </div>
@@ -43,13 +43,13 @@
 
                 <tab-content title="Contato" icon="fas fa-phone">
                     <div class="form-group">
-                        <label for="telefone">* Telefone</label>
+                        <label for="telefone">Telefone e Celular <a class="color-red">*</a></label>
                         <div class="form-row">
                             <div class="col-6">
                                 <ValidationProvider name="fixo" rules="required|numeric|digits:10">
                                     <div slot-scope="{ errors }">
                                         <input type="text" class="form-control" name="fixo" placeholder="Fixo" v-model="fixo" minlength="10" maxlength="10">
-                                        <p>{{ errors[0] }}</p>
+                                        <p class="color-red">{{ errors[0] }}</p>
                                     </div>
                                 </ValidationProvider>
                             </div>
@@ -57,7 +57,7 @@
                                 <ValidationProvider name="celular" rules="required|numeric|digits:11">
                                     <div slot-scope="{ errors }">
                                         <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular" minlength="11" maxlength="11">
-                                        <p>{{ errors[0] }}</p>
+                                        <p class="color-red">{{ errors[0] }}</p>
                                     </div>
                                 </ValidationProvider>
                             </div>
@@ -69,7 +69,7 @@
                             <div slot-scope="{ errors }">
                                 <input type="linkedin" id="linkedin" name="linkedin"
                                 class="form-control" v-model="linkedin" maxlength="50">
-                                <p>{{ errors[0] }}</p>
+                                <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
                     </div>
@@ -79,7 +79,7 @@
                             <div slot-scope="{ errors }">
                                 <input type="facebook" id="facebook" name="facebook"
                                 class="form-control" v-model="facebook" maxlength="50">
-                                <p>{{ errors[0] }}</p>
+                                <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
                     </div>
@@ -89,7 +89,7 @@
                             <div slot-scope="{ errors }">
                                 <input type="twitter" id="twitter" name="twitter"
                                 class="form-control" v-model="twitter" maxlength="50">
-                                <p>{{ errors[0] }}</p>
+                                <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
                     </div>
@@ -99,7 +99,7 @@
                             <div slot-scope="{ errors }">
                                 <input type="site" id="facebook" name="site"
                                 class="form-control" v-model="site" maxlength="50">
-                                <p>{{ errors[0] }}</p>
+                                <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
                     </div>
@@ -108,45 +108,50 @@
                 <tab-content title="Endereço" icon="fas fa-map-marker-alt">
 
                     <div class="form-group">
-                    <label for="estado">* Estado</label>
-                        <select class="custom-select" name="estado" v-model="estado">
-                        <option disabled value="">Selecione seu estado</option>
-                        <option value="AC">Acre</option>
-                        <option value="AL">Alagoas</option>
-                        <option value="AP">Amapá</option>
-                        <option value="AM">Amazonas</option>
-                        <option value="BA">Bahia</option>
-                        <option value="CE">Ceará</option>
-                        <option value="DF">Distrito Federal</option>
-                        <option value="ES">Espírito Santo</option>
-                        <option value="GO">Goiás</option>
-                        <option value="MA">Maranhão</option>
-                        <option value="MT">Mato Grosso</option>
-                        <option value="MS">Mato Grosso do Sul</option>
-                        <option value="MG">Minas Gerais</option>
-                        <option value="PA">Pará</option>
-                        <option value="PB">Paraíba</option>
-                        <option value="PR">Paraná</option>
-                        <option value="PE">Pernambuco</option>
-                        <option value="PI">Piauí</option>
-                        <option value="RJ">Rio de Janeiro</option>
-                        <option value="RN">Rio Grande do Norte</option>
-                        <option value="RS">Rio Grande do Sul</option>
-                        <option value="RO">Rondônia</option>
-                        <option value="RR">Roraima</option>
-                        <option value="SC">Santa Catarina</option>
-                        <option value="SP">São Paulo</option>
-                        <option value="SE">Sergipe</option>
-                        <option value="TO">Tocantins</option>
-                        </select>
+                        <label for="estado">Estado <a class="color-red">*</a></label>
+                        <ValidationProvider name="estadio" rules="required">
+                            <div slot-scope="{ errors }">
+                                <select class="custom-select" name="estado" v-model="estado">
+                                    <option disabled value="">Selecione seu estado</option>
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                                <p class="color-red">{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>
                     </div>
 
                     <div class="form-group">
-                        <label for="endereco">* Endereço</label>
+                        <label for="endereco">Endereço <a class="color-red">*</a></label>
                         <ValidationProvider name="rua" rules="required|max:50">
                             <div slot-scope="{ errors }">
                                 <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" maxlength="50">
-                                <p>{{ errors[0] }}</p>
+                                <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
 
@@ -154,28 +159,28 @@
                         <ValidationProvider name="bairro" rules="required|max:50">
                             <div slot-scope="{ errors }">
                                 <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" maxlength="50">
-                                <p>{{ errors[0] }}</p>
+                                <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
 
-                        <ValidationProvider name="numero" rules="required|max:50">
+                        <ValidationProvider name="numero" rules="required|numeric|max:50">
                             <div slot-scope="{ errors }">
                                 <input type="text" class="form-control" name="numero" placeholder="Número" v-model="numero" maxlength="50">
-                                <p>{{ errors[0] }}</p>
+                                <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
 
                         <ValidationProvider name="complemento" rules="required|max:50">
                             <div slot-scope="{ errors }">
                                 <input type="text" class="form-control" name="complemento" placeholder="Complemento" v-model="complemento" maxlength="50">
-                                <p>{{ errors[0] }}</p>
+                                <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
 
                         <ValidationProvider name="cidade" rules="required|max:50">
                             <div slot-scope="{ errors }">
                                 <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade" maxlength="50">
-                                <p>{{ errors[0] }}</p>
+                                <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
 
@@ -183,7 +188,7 @@
                         <ValidationProvider name="cep" rules="required|numeric|digits:8">
                             <div slot-scope="{ errors }">
                                 <input type="text" class="form-control" name="cep" placeholder="CEP" v-model="cep" minlength="8" maxlength="8">
-                                <p>{{ errors[0] }}</p>
+                                <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
 
