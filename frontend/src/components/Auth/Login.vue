@@ -1,6 +1,6 @@
 <template>
     <header class="masthead1">
-        <NavBarHome></NavBarHome>
+        <NavBarLogin></NavBarLogin>
         <div class="container login">
             <div class="card login" style="width: 30rem;">
                 <br>
@@ -27,11 +27,11 @@
                                     <span class="input-group-text"><i class="fa fa-key fa-fw"></i></span>
                                     <ValidationProvider name="password" rules="required|min:8|max:30">
                                         <input placeholder="Senha" type="password" size="25" name="password" class="form-control" v-model="password">
-                                       <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> --> 
+                                       <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
                                     </ValidationProvider>
                                 </div>
                                 <div class="row align-items-center" style="display: inline-block; margin-left:-150px;">
-                                    <a  href="#">Recuperar senha</a> 
+                                    <a  href="#">Recuperar senha</a>
                                 </div>
                             </div>
                             <div class="fix-form-modal text-center" >
@@ -48,12 +48,12 @@
 </template>
 
 <script>
-    import NavBarHome from '../Home/NavBarHome.vue'
+    import NavBarLogin from '../Home/NavBarLogin.vue'
     import {mapGetters} from 'vuex'
 
     export default {
         components: {
-            NavBarHome
+            NavBarLogin
         },
         data(){
             return{
