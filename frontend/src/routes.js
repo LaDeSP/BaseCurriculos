@@ -42,7 +42,7 @@ const routes = [
     {path: '/add-juridica', name: 'add-juridica', component: NewJuridicaData},
     {path: '/new-area', component: NewArea},
     {path: '/new-vaga', name: 'new-vaga', component: NewVaga},
-    {path: '/vagas', name: 'Vagas', component: Vagas},
+    {path: '/vagas', name: 'vagas', component: Vagas},
     {path: '/profile-fisica', name: 'profile-fisica', component: FisicaData},
     {path: '/profile-juridica', name: 'profile-juridica', component: JuridicaData},
     {path: '/profile-juridica', component: JuridicaData},

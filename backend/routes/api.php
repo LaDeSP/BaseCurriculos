@@ -28,9 +28,7 @@ Route::resource('/curriculos', 'CurriculoController', [
 Route::resource('/vagas', 'VagaController', [
     'middleware' => 'jwt.auth'
 ]);
-Route::post('/vagas/changeStatus', 'VagaController@changeStatus', [
-    'middleware' => 'jwt.auth'
-]);
+
 Route::resource('/candidaturas', 'CandidaturaController', [
     'middleware' => 'jwt.auth'
 ]);
@@ -45,6 +43,7 @@ Route::group([
     Route::post('/store/foto/{categoria}/{id}', 'UploadController@storeFoto')->name('fotos.store');
     Route::get('/getActualPhoto', 'UploadController@getActualPhoto');
     Route::post('/deletePhoto/{id?}', 'UploadController@deletePhoto');//delete
+    Route::post('/vagas/changeStatus', 'VagaController@changeStatus');
 });
 
 Route::resource('/agenda', 'AgendaController', [

@@ -174,12 +174,12 @@
             this.vagas.splice(position, 1);
         },
 
-        changeActiveButton(tipo){
+        changeActiveButton(status){
 
             $('.btn-group').on('click', '.btn', function() {
                 $(this).addClass('active').siblings().removeClass('active');
             });
-            if(tipo === 'ativa'){
+            if(status === 'ativa'){
                 this.filterState = true;
             }else{
                 this.filterState = false;

@@ -107,7 +107,12 @@ class VagaController extends Controller
             'status'=>$request->status
         ]);
 
-        $vagaChanged = Vaga::where('id', $request->vaga_id)->first()->get();
+      //  $vagaChanged = Vaga::with('juridica', 'area')
+            //->where('id', $request->vaga_id)
+       //     ->get();
+
+       $juridica_id = Juridica::where('user_id', auth()->user()->id)->first()->id;
+       $vagaChanged = Vaga::with('area')->where('juridicas_id', $juridica_id)->get();
     
         return Response::json([
             'mudou status',

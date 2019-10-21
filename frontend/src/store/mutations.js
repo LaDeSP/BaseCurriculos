@@ -70,7 +70,6 @@ const dataCompleted = (state, dataCompleted) => {
 
 const vagasJuridica = (state, payloadVagasJuridica) => { 
     state.vagasJuridica = payloadVagasJuridica
-    console.log('na mut', payloadVagasJuridica)
 }
 
 const newFoto = (state, payloadPath) => {

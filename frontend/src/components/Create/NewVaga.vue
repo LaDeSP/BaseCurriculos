@@ -5,8 +5,10 @@
             <h3>{{this.displayVagasJuridica}}Cadastrar Informações</h3>
         </div>
         <div v-else>
-            <h3>{{this.displayVagasJuridica}}Editar Informações{{this.displayVagaById}}</h3>
+            <h3>{{this.displayVagasJuridica}}Editar Informações</h3>
         </div>
+        <hr>
+        {{this.vagaById}}
         <form-wizard @on-complete="onComplete"
             title="" subtitle=" "
             back-button-text="Voltar"
@@ -127,7 +129,7 @@
                 salario: '',
                 beneficios: '',
                 requisitos: '',
-                area: '',
+                area: 0,
                 jornada: '',
                 quantidade: 0,
                 areas: [],
@@ -185,26 +187,27 @@
     
             verifyEdit(){
                
-                
+                this.vaga_id = this.$session.get('vaga_id');
+                this.displayDataEdit();
             },
 
             displayDataEdit(){
 
                  if(this.editing){
-                    console.log('displayDataEdit', this.vagaById)
-                    console.log('desgraça ID', this.$session.get('vaga_id'))
+                    console.log('displayDataEdit', this.vagaById[0].beneficio)
+                    //console.log('desgraça ID', this.$session.get('vaga_id'))
+                    this.titulo = this.vagaById[0].titulo;
+                    this.local = this.vagaById[0].local;
+                    this.quantidade = this.vagaById[0].quantidade;
+                    this.salario = this.vagaById[0].salario;
+                    this.requisitos = this.vagaById[0].requisito;
+                    this.beneficios = this.vagaById[0].beneficio;
+                    this.area = this.vagaById[0].area;
+                    this.jornada = this.vagaById[0].jornada;
+                    this.area = this.vagaById[0].area.id;
+                    this.salario = parseFloat(this.vagaById[0].salario);
+                  
                  }
-                
-                /* this.titulo = response.data.vaga.titulo,
-                this.local = response.data.vaga.local,
-                this.quantidade = response.data.vaga.quantidade,
-                this.salario = response.data.vaga.salario,
-                this.requisitos = response.data.vaga.requisito,
-                this.beneficios = response.data.vaga.beneficio,
-                this.area = response.data.vaga.area,
-                this.jornada = response.data.vaga.jornada
-                //this.area = this.displayCurriculo.area_id */
-                //this.pretensao = parseFloat(this.displayCurriculo.pretensao)
                 
             },
 
@@ -234,11 +237,11 @@
 
         },
 
-        created(){
+        async created(){
 
-            this.loadVagasJuridica();
+            await this.loadVagasJuridica();
             this.loadArea();
-            this.displayDataEdit();
+            this.verifyEdit();
                 
         },
     }
