@@ -1,112 +1,90 @@
 <template>
 
    	<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
+      <busca></busca>
 				<!-- Sidebar Toggle (Topbar) -->
-				<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-					<i class="fa fa-bars"></i>
-				</button>
-
-
+      <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+      </button>
       <!-- Topbar Navbar -->
       <ul class="navbar-nav ml-auto">
 
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
         <li class="nav-item dropdown no-arrow d-sm-none">
-          <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-search fa-fw"></i>
-        </a>
-
-      </li>
-
-      <!-- Nav Item - Alerts -->
-      <li class="nav-item dropdown no-arrow mx-1">
-        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-bell fa-fw"></i>
-        <!-- Counter - Alerts -->
-        <span class="badge badge-counter">0</span>
-      </a>
-      <!-- Dropdown - Alerts -->
-      <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-      aria-labelledby="alertsDropdown">
-      <h6 class="dropdown-header">
-        Alertas
-      </h6>
-      <a class="dropdown-item d-flex align-items-center" href="#">
-        <div class="mr-3">
-          <div class="icon-circle bg-primary">
-            <i class="fas fa-file-alt text-white"></i>
+          <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-search fa-fw"></i>
+          </a>
+        </li>
+        <!-- Nav Item - Alerts -->
+        <li class="nav-item dropdown no-arrow mx-1">
+          <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-bell fa-fw"></i>
+          <!-- Counter - Alerts -->
+            <span class="badge badge-counter">0</span>
+          </a>
+          <!-- Dropdown - Alerts -->
+          <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+            <h6 class="dropdown-header">Alertas</h6>
+            <a class="dropdown-item d-flex align-items-center" href="#">
+              <div class="mr-3">
+                <div class="icon-circle bg-primary">
+                  <i class="fas fa-file-alt text-white"></i>
+                </div>
+              </div>
+              <div>
+                <div class="small text-gray-500">December 12, 2019</div>
+                <span class="font-weight-bold">Você recebeu um novo currículo para a vaga!</span>
+              </div>
+            </a>
+            <a class="dropdown-item d-flex align-items-center" href="#">
+              <div class="mr-3">
+                <div class="icon-circle bg-success">
+                  <i class="fas fa-donate text-white"></i>
+                </div>
+              </div>
+              <div>
+                <div class="small text-gray-500">December 7, 2019</div>
+                Um profissional da área que você procura se cadastrou no site.
+              </div>
+            </a>
+            <a class="dropdown-item d-flex align-items-center" href="#">
+              <div class="mr-3">
+                <div class="icon-circle bg-warning">
+                  <i class="fas fa-exclamation-triangle text-white"></i>
+                </div>
+              </div>
+              <div>
+                <div class="small text-gray-500">December 2, 2019</div>
+                Nós notamos uma atividade suspeita na sua conta.
+              </div>
+            </a>
+            <a class="dropdown-item text-center small text-gray-500" href="#">Mostre todos os alertas.</a>
           </div>
-        </div>
-        <div>
-          <div class="small text-gray-500">December 12, 2019</div>
-          <span class="font-weight-bold">Você recebeu um novo currículo para a vaga!
-          </span>
-        </div>
-      </a>
-      <a class="dropdown-item d-flex align-items-center" href="#">
-        <div class="mr-3">
-          <div class="icon-circle bg-success">
-            <i class="fas fa-donate text-white"></i>
+        </li>
+        <div class="topbar-divider d-none d-sm-block"></div>
+        <!-- Nav Item - User Information -->
+        <li class="nav-item dropdown no-arrow">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{name}}</span>
+            <img class="img-profile rounded-circle" :src=this.$store.state.upload.path>
+          </a>
+          <!-- Dropdown - User Information -->
+          <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+              <router-link to="/profile-fisica" class="dropdown-item"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Meu Perfil - Fisica</router-link>
+              <router-link to="/profile-juridica" class="dropdown-item"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Meu Perfil - Juridica</router-link>
+
+              <a class="dropdown-item" href="#">
+                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                Configurações
+              </a>
+              <a class="dropdown-item" href="#">
+                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                Atividades
+              </a>
+              <div class="dropdown-divider"></div>
+              <Logout></Logout>
           </div>
-        </div>
-        <div>
-          <div class="small text-gray-500">December 7, 2019</div>
-          Um profissional da área que você procura se cadastrou no site.
-        </div>
-      </a>
-      <a class="dropdown-item d-flex align-items-center" href="#">
-        <div class="mr-3">
-          <div class="icon-circle bg-warning">
-            <i class="fas fa-exclamation-triangle text-white"></i>
-          </div>
-        </div>
-        <div>
-          <div class="small text-gray-500">December 2, 2019</div>
-          Nós notamos uma atividade suspeita na sua conta.
-        </div>
-      </a>
-      <a class="dropdown-item text-center small text-gray-500" href="#">Mostre todos os alertas.</a>
-      </div>
-      </li>
-
-      <div class="topbar-divider d-none d-sm-block"></div>
-
-      <!-- Nav Item - User Information -->
-      <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-        <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{name}}</span>
-        <img class="img-profile rounded-circle" :src=this.$store.state.upload.path>
-      </a>
-      <!-- Dropdown - User Information -->
-      <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-
-          <router-link to="/profile-fisica" class="dropdown-item">
-           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-            Meu Perfil - Fisica
-          </router-link>
-
-          <router-link to="/profile-juridica" class="dropdown-item">
-           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-            Meu Perfil - Juridica
-          </router-link>
-
-        <a class="dropdown-item" href="#">
-          <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-          Configurações
-        </a>
-        <a class="dropdown-item" href="#">
-          <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-          Atividades
-        </a>
-        <div class="dropdown-divider"></div>
-        <Logout></Logout>
-      </div>
-      </li>
-
+        </li>
       </ul>
 
     </nav>

@@ -1,7 +1,11 @@
 <template>
-  <div class="form-group input-group">
-    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-    <input name="consulta" id="txt_consulta" placeholder="Consultar" type="text" class="form-control">
+  <div class="input-group col-md-4">
+    <input class="form-control py-2" type="search" placeholder="Digite aqui..">
+    <span class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button">
+          <i class="fa fa-search"></i>
+      </button>
+    </span>
   </div>
 </template>
 
