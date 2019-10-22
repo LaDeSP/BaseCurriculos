@@ -8,7 +8,7 @@ class Vaga extends Model
 {
 
 	protected $fillable = [
-		'titulo', 'local', 'salario', 'beneficio', 'jornada',
+		'titulo', 'cargo', 'salario', 'beneficio', 'jornada',
 		'requisito', 'juridicas_id', 'areas_id', 'quantidade', 'status'
 	];
 

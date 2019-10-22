@@ -6,7 +6,7 @@
       <div class="col-xl-6 col-md-12 mb-8">
         <card class="border-left-primary shadow h-100 py-2">
             <template v-slot:card-header class="py-3">
-              <h6 class="font-weight-bold text-primary text-uppercase mb-1">Minhas Vagas</h6>
+              <router-link to="/vagas" class="font-weight-bold text-primary text-uppercase mb-1">Minhas Vagas</router-link>
             </template>
             <template v-slot:card-body>
               <div class="row no-gutters align-items-center">

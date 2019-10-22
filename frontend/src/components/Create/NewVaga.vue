@@ -2,13 +2,13 @@
 <div class="row justify-content-center">
     <div class="col-md-7">
         <div v-if="!this.editing">
-            <h3>{{this.displayVagasJuridica}}Cadastrar Informações</h3>
+            <h3>Cadastrar Informações</h3>
         </div>
         <div v-else>
-            <h3>{{this.displayVagasJuridica}}Editar Informações</h3>
+            <h3>Editar Informações</h3>
         </div>
         <hr>
-        {{this.vagaById}}
+      
         <form-wizard @on-complete="onComplete"
             title="" subtitle=" "
             back-button-text="Voltar"
@@ -34,10 +34,10 @@
             </div>
 
             <div class="form-group">
-            <label for="local">Local</label>
-            <ValidationProvider name="local" rules="required|max:50">
+            <label for="cargo">Cargo</label>
+            <ValidationProvider name="cargo" rules="required|max:50">
                 <div slot-scope="{ errors }">
-                    <input type="text" class="form-control" name="local" v-model="local" maxlength="50">
+                    <input type="text" class="form-control" name="cargo" v-model="cargo" maxlength="50">
                     <p>{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
@@ -125,7 +125,7 @@
             return{
 
                 titulo: '',
-                local: '',
+                cargo: '',
                 salario: '',
                 beneficios: '',
                 requisitos: '',
@@ -151,7 +151,7 @@
                 let vaga = {
 
                     titulo: this.titulo,
-                    local: this.local,
+                    cargo: this.cargo,
                     quantidade: this.quantidade,
                     salario: this.salario,
                     beneficios: this.beneficios,
@@ -197,7 +197,7 @@
                     console.log('displayDataEdit', this.vagaById[0].beneficio)
                     //console.log('desgraça ID', this.$session.get('vaga_id'))
                     this.titulo = this.vagaById[0].titulo;
-                    this.local = this.vagaById[0].local;
+                    this.cargo = this.vagaById[0].cargo;
                     this.quantidade = this.vagaById[0].quantidade;
                     this.salario = this.vagaById[0].salario;
                     this.requisitos = this.vagaById[0].requisito;

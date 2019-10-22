@@ -49,7 +49,7 @@ class VagaController extends Controller
 
         Vaga::create([
             'titulo' => $request->titulo,
-            'local' => $request->local,
+            'cargo' => $request->cargo,
             'status'=>$request->status,
             'quantidade'=>$request->quantidade,
             'salario' => $request->salario,
@@ -90,7 +90,7 @@ class VagaController extends Controller
         Vaga::where('id', $id)->update([
             'titulo' => $request->titulo,
             'quantidade'=>$request->quantidade,
-            'local' => $request->local,
+            'cargo' => $request->cargo,
             'salario' => $request->salario,
             'beneficio' => $request->beneficios,
             'jornada' => $request->jornada,
@@ -122,7 +122,6 @@ class VagaController extends Controller
 
     public function destroy($id)
     {
-    
         $vaga = Vaga::find($id);
         $vaga->delete();
 
@@ -134,8 +133,8 @@ class VagaController extends Controller
         return $messages = [
             'titulo.required' => 'Insira um título!',
             'titulo.max' => 'Insira um título com no máximo 50 caracteres!',
-            'local.required' => 'Insira um local!',
-            'local.max' => 'Insira local com no máximo 50 caracteres',
+            'cargo.required' => 'Insira um cargo!',
+            'cargo.max' => 'Insira cargo com no máximo 50 caracteres',
             'quantidade.required' => 'Insira uma quantidade!',
             'quantidade.numeric' => 'Insira quantidade apenas com números!',
             'quantidade.gt' => 'Insira quantidade com valor maior que 0!',
@@ -155,7 +154,7 @@ class VagaController extends Controller
     public function rules(){
         return [
             'titulo' => 'required|max:50',
-            'local' => 'required|max:50',
+            'cargo' => 'required|max:50',
             'quantidade' => 'required|numeric|gt:0',
             'area' => 'required',
             'salario' => 'required|numeric|gt:0',

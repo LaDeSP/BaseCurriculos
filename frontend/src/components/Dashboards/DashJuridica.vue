@@ -1,7 +1,18 @@
 <template>
     <div class="row justify-content-center"> 
         <div class="col-lg-8">
-             <Dash></Dash>
+          <div v-if="!dataCompleted">
+            <h1>Complete seus dados para podermos continuar!</h1>
+             <NewJuridicaData></NewJuridicaData>
+          </div>
+          <div v-else-if="!hasVaga">
+            <h1>Você ainda não cadastrou nenhuma vaga.
+                Que tal fazer isso agora? </h1>
+            <NewVaga></NewVaga>
+          </div>
+          <div v-if="dataCompleted & hasVaga">
+            <Dash></Dash>
+          </div>
         </div>
       <!-- <div class="panel panel-default" > -->
           <!-- <div class="panel-heading" ><h1>Bem Vindo, {{name}} :)</h1></div> -->
@@ -24,8 +35,13 @@ import Dash from '../Utils/CardsDashJuridica';
 import {mapGetters} from 'vuex';
 
     export default {
+         data(){
+            return{
+              hasVaga: true,
+            }
+        },
         components:{
-             NewJuridicaData, NewVaga,Dash
+             NewJuridicaData, NewVaga, Dash
         },
         computed: {
             ...mapGetters([
@@ -40,7 +56,19 @@ import {mapGetters} from 'vuex';
                   }).catch(error => {
                     //console.log(error)
                   })
+          }else{
+            await this.$store.dispatch('loadVagasJuridica')
+                  .then(response => {
+                    let vagas = response.vagas; 
+                    if(vagas.length === 0){
+                      this.hasVaga = false;
+                    }
+                    console.log('hasvaga', this.hasVaga)
+                  }).catch(error => {
+                    //console.log(error)
+                  })
           }
+          console.log('oi', this.hasVaga)
         },
     }
 

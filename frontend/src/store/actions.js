@@ -394,9 +394,9 @@ import * as Cookies from 'js-cookie'
     );
   }
 
-  const createVaga = async ({commit, state}, NewVaga) => {
+  const createVaga = async ({commit, state}, newVaga) => {
     const token = state.auth.token;
-    return await axios({ url: vagas_uri + '?token=' + token, data: NewVaga, method: 'POST'})
+    return await axios({ url: vagas_uri + '?token=' + token, data: newVaga, method: 'POST'})
     .then(response => {
 
       console.log('createVaga', response.data);
@@ -408,7 +408,7 @@ import * as Cookies from 'js-cookie'
 
   const updateVaga = async ({commit, state}, editVaga) => {
     const token = state.auth.token;
-    return await axios({ url: vagas_uri + '/' + editVaga.vaga_id + '?token=' + token, data: NewVaga, method: 'POST'})
+    return await axios({ url: vagas_uri + '/' + editVaga.vaga_id + '?token=' + token, data: editVaga, method: 'PUT'})
     .then(response => {
 
       console.log('response', response)
@@ -452,18 +452,12 @@ import * as Cookies from 'js-cookie'
 
   }
 
-  const deleteVaga = async ({commit, state}, NewVaga) => {
+  const deleteVaga = async ({commit, state}, vaga_id) => {
     const token = state.auth.token;
-    const user_id = state.auth.user.id;
-    return await axios({ url: vagas_uri + '/' + user_id + '?token=' + token, data: NewVaga, method: 'POST'})
+    return await axios({ url: vagas_uri + '/' + vaga_id + '?token=' + token, method: 'DELETE'})
     .then(response => {
 
-      let createVaga = { 
-        vagasJuridica: response.data.vagas
-      }
-
-      console.log('createVaga', createVaga);
-      console.log('response', response)
+      console.log('response delete', response)
       //return response.data
     }).catch(
       error => console.log(error)

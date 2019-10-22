@@ -6151,6 +6151,7 @@ a.close.disabled {
   width: auto;
   margin: 0.5rem;
   pointer-events: none;
+
 }
 
 .modal.fade .modal-dialog {
@@ -6299,6 +6300,8 @@ a.close.disabled {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   padding: 1rem;
+  max-height: calc(100vh - 210px);
+  overflow-y: auto;
 }
 
 .modal-footer {
