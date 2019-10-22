@@ -11,11 +11,11 @@
           </div>
           <div class="col-sm-12">
             <div class="form-group">
-              <label for="name" >Nome Completo *</label>
+              <label for="name" >Nome Completo <a class="color-red">*</a></label>
               <ValidationProvider name="name" rules="required|max:50">
                   <div slot-scope="{ errors }">
                     <input type="text" name="name" class="form-control" v-model="name" maxlength="50" required='autofocus'>
-                    {{ errors[0] }}
+                    <p class="color-red">{{ errors[0] }}</p>
                   </div>
               </ValidationProvider>
             </div>
@@ -23,11 +23,11 @@
 
           <div class="col-sm-12">
             <div class="form-group">
-              <label for="cpf">CPF *</label>
+              <label for="cpf">CPF <a class="color-red">*</a></label>
               <ValidationProvider name="cpf" rules="required|numeric|digits:11">
                   <div slot-scope="{ errors }">
                     <input type="text" class="form-control" name="cpf" v-model="cpf" maxlength="11" minlength="11" required='autofocus'>
-                    {{ errors[0] }}
+                    <p class="color-red">{{ errors[0] }}</p>
                   </div>
               </ValidationProvider>
             </div>
@@ -35,11 +35,11 @@
 
           <div class="col-sm-12">
             <div class="form-group">
-                  <label for="email">Email *</label>
+                  <label for="email">Email <a class="color-red">*</a></label>
                 <ValidationProvider name="email" rules="required|email|max:50">
                     <div slot-scope="{ errors }">
                       <input type="email" name="email" class="form-control" v-model="email" maxlength="50" required='autofocus'>
-                      {{ errors[0] }}
+                      <p class="color-red">{{ errors[0] }}</p>
                     </div>
                 </ValidationProvider>
             </div>
@@ -47,11 +47,11 @@
 
           <div class="col-sm-12">
             <div class="form-group">
-              <span for="password">Senha *</span>
+              <span for="password">Senha <a class="color-red">*</a></span>
               <ValidationProvider name="password" rules="required|min:8|max:30">
                 <div slot-scope="{ errors }">
                   <input type="password" id="password" name="password" class="form-control" v-model="password" maxlength="30" minlength="8">
-                  {{ errors[0] }}
+                  <p class="color-red">{{ errors[0] }}</p>
                 </div>
               </ValidationProvider>
             </div>
