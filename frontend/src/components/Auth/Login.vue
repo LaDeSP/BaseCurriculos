@@ -7,38 +7,40 @@
                 <i class="fas fa-user fa-6x" style="color: Dodgerblue;"></i>
                 <div class="card-body">
                     <div class="row justify-content-center" >
-                        <ValidationObserver v-slot="{ invalid }">
-                            <div class="col-sm-8">
-                                <div v-if="notificacoes">
-                                    <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
-                                        {{notificacao[0]}}
-                                    </span>
+                        <form>
+                            <ValidationObserver v-slot="{ invalid }">
+                                <div class="col-sm-8">
+                                    <div v-if="notificacoes">
+                                        <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
+                                            {{notificacao[0]}}
+                                        </span>
+                                    </div>
+                                    <div class="form-group input-group margin-bottom-sm">
+                                        <span class="input-group-text"><i class="fas fa-envelope fa-fw"></i></span>
+                                        <ValidationProvider name="email" rules="required|email|max:50">
+                                            <div slot-scope="{errors}">
+                                            <input placeholder="Email" type="email" size="25" name="email" class="form-control" v-model="email" autocomplete="email">
+                                            {{ errors[0] }}
+                                            </div>
+                                        </ValidationProvider>
+                                    </div>
+                                    <div class="form-group input-group">
+                                        <span class="input-group-text"><i class="fa fa-key fa-fw"></i></span>
+                                        <ValidationProvider name="password" rules="required|min:8|max:30">
+                                            <input placeholder="Senha" type="password" size="25" name="password" class="form-control" v-model="password" autocomplete="password">
+                                        <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
+                                        </ValidationProvider>
+                                    </div>
+                                    <div class="row align-items-center" style="display: inline-block; margin-left:-150px;">
+                                        <a  href="#">Recuperar senha</a>
+                                    </div>
                                 </div>
-                                <div class="form-group input-group margin-bottom-sm">
-                                    <span class="input-group-text"><i class="fas fa-envelope fa-fw"></i></span>
-                                    <ValidationProvider name="email" rules="required|email|max:50">
-                                        <div slot-scope="{errors}">
-                                        <input placeholder="Email" type="email" size="25" name="email" class="form-control" v-model="email">
-                                        {{ errors[0] }}
-                                        </div>
-                                    </ValidationProvider>
+                                <div class="fix-form-modal text-center" >
+                                    <br>
+                                    <button :disabled="invalid" @click.prevent="login" type="submit" class="btn btn-lg btn-primary">Entrar</button>
                                 </div>
-                                <div class="form-group input-group">
-                                    <span class="input-group-text"><i class="fa fa-key fa-fw"></i></span>
-                                    <ValidationProvider name="password" rules="required|min:8|max:30">
-                                        <input placeholder="Senha" type="password" size="25" name="password" class="form-control" v-model="password">
-                                       <!-- <div slot-scope="{ errors }"><p>{{ errors[0] }}</p></div> -->
-                                    </ValidationProvider>
-                                </div>
-                                <div class="row align-items-center" style="display: inline-block; margin-left:-150px;">
-                                    <a  href="#">Recuperar senha</a>
-                                </div>
-                            </div>
-                            <div class="fix-form-modal text-center" >
-                                <br>
-                                <button :disabled="invalid" @click.prevent="login" type="submit" class="btn btn-lg btn-primary">Entrar</button>
-                            </div>
-                        </ValidationObserver>
+                            </ValidationObserver>
+                        </form>
                     </div>
 
                 </div>

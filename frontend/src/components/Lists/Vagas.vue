@@ -118,7 +118,6 @@
                           <h2 class="text-center">Tem certeza de que deseja
                               <span style="color: #ff0000"><strong>deletar</strong></span>
                               essa vaga?</h2>
-
                       </template>
                       <template v-slot:footer>
                       <div class="modal-footer">
@@ -129,6 +128,8 @@
                   </Modal>
                 </div>
               </template>
+              </List>
+            </template>
           </div>
         </div>
     </div>
@@ -280,16 +281,6 @@
               return this.displayVagaById(this.vaga_id)
             }
 
-        },
-
-         watch: {
-          '$store.state.vagasJuridica':{
-            handler() {
-
-            },
-
-            deep: true
-          }
         },
 
         created(){
