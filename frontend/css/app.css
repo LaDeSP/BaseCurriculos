@@ -6151,7 +6151,6 @@ a.close.disabled {
   width: auto;
   margin: 0.5rem;
   pointer-events: none;
-
 }
 
 .modal.fade .modal-dialog {
@@ -6300,8 +6299,6 @@ a.close.disabled {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   padding: 1rem;
-  max-height: calc(100vh - 210px);
-  overflow-y: auto;
 }
 
 .modal-footer {
@@ -25182,3 +25179,70 @@ label#thumbnail.has-thumbnail img{
 .color-red{
   color: red !important;
 }
+
+/* css do login apartir daqui */
+.login-form {
+  width: 350px;
+  margin: 0 auto;
+  padding: 10px 0 20px;
+}
+.login-form form {
+  color: #7a7a7a;
+  border-radius: 2px;
+    margin-bottom: 15px;
+      font-size: 13px;
+      background: #ececec;
+      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      position: relative;
+  }
+.login-form h2 {
+  font-size: 22px;
+      margin: 35px 0 25px;
+  }
+.login-form .avatar {
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: -50px;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  z-index: 9;
+  background: #F0FFFF;
+  padding: 15px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+	}
+.login-form .avatar img {
+  width: 100%;
+}
+  .login-form input[type="checkbox"] {
+      margin-top: 2px;
+  }
+  .login-form .btn {
+      font-size: 16px;
+      font-weight: bold;
+  background: #4e73df;
+  border: none;
+  margin-bottom: 20px;
+  }
+.login-form .btn:hover, .login-form .btn:focus {
+  background: #50b8b3;
+      outline: none !important;
+}
+.login-form a {
+  color: #fff;
+  text-decoration: underline;
+}
+.login-form a:hover {
+  text-decoration: none;
+}
+.login-form form a {
+  color: #7a7a7a;
+  text-decoration: none;
+}
+.login-form form a:hover {
+  text-decoration: underline;
+}
+/* css do login termina daqui */
