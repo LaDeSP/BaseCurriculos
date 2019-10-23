@@ -212,16 +212,11 @@
             },
 
             loadArea(){
-                const token = this.$store.state.auth.token;
-                this.axios.get('http://localhost:8000/api/areas?token=' + token)
-
-                    .then(response => {
-                        this.areas = response.data.areas
-                        this.nome = this.$store.state.auth.user.name
-                    })
-                    .catch(
-                        error => console.log(error)
-                    );
+                this.$store.dispatch('loadArea')
+                .then(response => {
+                    this.areas = response.areas;
+                    this.nome = this.$store.state.auth.user.name;
+                }).catch(error => console.log(error))
             },
         },
         

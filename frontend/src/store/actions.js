@@ -8,7 +8,7 @@ import * as Cookies from 'js-cookie'
 
   const login = async ({commit}, user) => {
       
-      await axios({ url: 'http://localhost:8000/api/login', data: user, method: 'POST' })
+      return await axios({ url: 'http://localhost:8000/api/login', data: user, method: 'POST' })
         .then(response => {
           
           const payload = {
@@ -18,6 +18,8 @@ import * as Cookies from 'js-cookie'
           } 
           commit('auth_success', {payload})
 
+          console.log('na action', response.data)
+          return response.data
         }).catch(error => {
           console.log(error)
         })    
@@ -121,7 +123,7 @@ import * as Cookies from 'js-cookie'
         commit('allFisicaData', {payloadCurriculo});
         const dataCompleted = true;  
         commit('dataCompleted', dataCompleted);
-      
+        //console.log(response)
         return response.data
       })
       .catch(error => {
@@ -377,7 +379,7 @@ import * as Cookies from 'js-cookie'
     .catch(
         error => console.log(error)
     );
-  }
+  };
 
    const deleteJuridica = async ({commit, state}) => {
 
@@ -392,7 +394,7 @@ import * as Cookies from 'js-cookie'
     .catch(
         error => console.log(error)
     );
-  }
+  };
 
   const createVaga = async ({commit, state}, newVaga) => {
     const token = state.auth.token;
@@ -404,7 +406,7 @@ import * as Cookies from 'js-cookie'
     }).catch(
       error => console.log(error)
     );
-  }
+  };
 
   const updateVaga = async ({commit, state}, editVaga) => {
     const token = state.auth.token;
@@ -412,11 +414,24 @@ import * as Cookies from 'js-cookie'
     .then(response => {
 
       console.log('response', response)
-      //return response.data
+      return response.data
     }).catch(
       error => console.log(error)
     );
-  }
+  };
+
+  const requestVaga = async ({commit, state}) => {
+    
+    return await axios({ url: 'http://localhost:8000/api/candidaturas?token=' + token, data: editVaga, method: 'PUT'})
+    .then(response => {
+
+      console.log('response', response)
+      return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  
+  };
 
   const loadVagasJuridica = async ({commit, state}) => {
   
@@ -450,24 +465,24 @@ import * as Cookies from 'js-cookie'
       error => console.log(error)
     );
 
-  }
+  };
 
   const deleteVaga = async ({commit, state}, vaga_id) => {
     const token = state.auth.token;
     return await axios({ url: vagas_uri + '/' + vaga_id + '?token=' + token, method: 'DELETE'})
     .then(response => {
-
+      commit('deleteVaga', vaga_id);
       console.log('response delete', response)
       //return response.data
     }).catch(
       error => console.log(error)
     );
-  }
+  };
 
   const updateFoto = async ({commit, state}) => {
   
     const token = state.auth.token;
-    return await axios({ url: 'http://localhost:8000/api/getActualPhoto' + '?token='+ token, method: 'GET' })
+    return await axios({ url: 'http://localhost:8000/api/getActualPhoto?token='+ token, method: 'GET' })
       .then(response => {
 
         let payloadPath = response.data.path;
@@ -482,7 +497,7 @@ import * as Cookies from 'js-cookie'
   const deleteUserPhoto = async ({commit, state}) => {
   
     const token = state.auth.token;
-    return await axios({ url: 'http://localhost:8000/api/deletePhoto' + '?token='+ token, method: 'POST' })
+    return await axios({ url: 'http://localhost:8000/api/deletePhoto?token='+ token, method: 'POST' })
       .then(response => {
 
         let payloadPath = response.data.path;
@@ -493,6 +508,20 @@ import * as Cookies from 'js-cookie'
       })
 
   };
+
+  const loadArea = async ({commit, state}) => {
+    const token = state.auth.token;
+    return await axios({ url: 'http://localhost:8000/api/areas?token=' + token, method: 'GET' })
+      .then(response => {
+
+        let payloadPath = response.data.path;
+        commit('newFoto', payloadPath)
+        
+        return response.data
+      }).catch(error => {
+        console.log(error)
+      })
+  }
 
   export default {
     login,
@@ -509,11 +538,13 @@ import * as Cookies from 'js-cookie'
     deleteJuridica,
     createVaga,
     updateVaga,
+    requestVaga,
     loadVagasJuridica,
     changeStatusVaga,
     deleteVaga,
     updateFoto,
-    deleteUserPhoto
+    deleteUserPhoto,
+    loadArea,
 
   
   };

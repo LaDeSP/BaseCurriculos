@@ -1,21 +1,26 @@
 <template>
-  <div class="row justify-content-center">
-    <div class="panel panel-default" >
-      <div class="panel-heading" ><h1>Bem Vindo, {{name}} :)</h1></div>
-      <div class="panel-body" >
-         
-      </div>
-    </div>
-  </div>
+    <div class="row justify-content-center"> 
+        <div class="col-lg-8">
+          <div v-if="!dataCompleted">
+            <h1>Complete seus dados para podermos continuar!</h1>
+             <NewCurriculo></NewCurriculo>
+          </div>
+          <div v-else>
+            <h1>Curriculo completo........Dash Física</h1>
+          </div>
+        </div>
+    </div> 
 
 </template>
 
 <script>
-import ProfileFisica from '../Lists/FisicaData';
-import {mapGetters} from 'vuex';
+  import ProfileFisica from '../Lists/FisicaData';
+  import NewCurriculo from  '../Create/NewCurriculo';
+  import {mapGetters} from 'vuex';
+  
     export default {
         components:{
-            ProfileFisica,
+            ProfileFisica, NewCurriculo
         },
         data() {
 

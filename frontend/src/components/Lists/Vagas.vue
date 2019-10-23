@@ -31,7 +31,7 @@
         </div>
       </template>
       <div class="row">
-          <div  v-for="vaga in isActive" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
+          <div  v-for="vaga in isActive" :key="vaga.id" :id="vaga.id">
             <template v-if="permissaoDoUsuario === 'JURIDICA'">
               <Card style="width: 30rem;">
                 <template v-slot:card-header>
@@ -176,21 +176,16 @@
               this.$router.push({ name: 'new-vaga'})
           },
 
-          onRequest(vagaId){
-              const vaga_id = vagaId;
-              this.axios.post('http://localhost:8000/api/candidaturas?token=' + this.token,
-                  {
-                      vaga_id: vaga_id,
-                      user_id: this.$session.get('user_id')
-                  },
-                  {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                  .then(
-                      (response) => console.log(response),
-                  )
-                  .catch(
-                      (error) => console.log(error),
+          onRequest(){
+              let requestVaga = {
+                vaga_id: this.vaga_id,
+                user_id: this.$store.state.auth.user.id
+              }
 
-                  );
+              this.$store.dispatch('requestVaga', requestVaga)
+              .then(response => {
+                  console.log(response)
+              }).catch(error => console.log(error))
 
           },
 
@@ -208,25 +203,15 @@
           },
 
           async onDelete(){
-             // console.log('onDelete', this.vaga_id)
-              this.$emit('vagaDeleted', this.vaga_id);
+
               await this.$store.dispatch('deleteVaga', this.vaga_id)
               .then(response => {
                   this.isModalWarning = false;
                   console.log('no metodo', response)
               }).catch(error => console.log(error))
-           // this.vagas.splice(position, 1);
           },
 
-        onVagaDeleted(id){
-            const position = this.vagas.findIndex((element) => {
-                return element.id == id;
-            });
-
-            this.vagas.splice(position, 1);
-        },
-
-        changeActiveButton(status){
+          changeActiveButton(status){
 
             $('.btn-group').on('click', '.btn', function() {
                 $(this).addClass('active').siblings().removeClass('active');
@@ -237,12 +222,11 @@
                 this.filterState = false;
             }
             console.log('filtersTATE', this.filterState);
-        }
-      },
+          }
+        },
 
-        computed:{
+          computed:{
              isActive(){
-
                 if(this.permissaoDoUsuario === 'FISICA'){
                     return this.displayVagasJuridica.filter((vaga) => {return vaga.status === 'ATIVA';})
                 }else{
@@ -262,10 +246,10 @@
               return this.displayVagaById(this.vaga_id)
             }
 
-        },
+          },
 
-        created(){
+          created(){
             this.loadVagasJuridica();
-        },
+          },
     }
 </script>

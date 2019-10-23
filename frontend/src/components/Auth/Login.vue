@@ -69,8 +69,12 @@
                let email = this.email;
                let password = this.password;
                this.$store.dispatch('login', {email, password})
-               .then(() => {
-                   this.redirecionarUsuarioPorPermissao(this.permissaoDoUsuario)
+               .then(response => {
+                 if(response.error  != undefined){
+                    this.notificacoes = response.error;
+                  }else{
+                    this.redirecionarUsuarioPorPermissao(this.permissaoDoUsuario)
+                  }
                 })
                .catch(error => console.log(error))
             },

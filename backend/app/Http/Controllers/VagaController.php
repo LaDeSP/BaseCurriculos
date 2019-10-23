@@ -98,7 +98,7 @@ class VagaController extends Controller
             'areas_id' => $request->area
         ]);
 
-        return Response::json(['area_id', $request->area]);
+        return Response::json(['Update ok']);
       
     }
 

@@ -72,10 +72,16 @@ const vagasJuridica = (state, payloadVagasJuridica) => {
     state.vagasJuridica = payloadVagasJuridica
 }
 
+const deleteVaga = (state, payloadVagaId) => {
+    let index = state.vagasJuridica.findIndex(vaga => vaga.id === payloadVagaId);
+    state.vagasJuridica.splice(index, 1);
+}  
+
 const newFoto = (state, payloadPath) => {
     state.upload.path = payloadPath
 }
-  
+
+
   export default {
     auth_success,
     auth_error,
@@ -86,5 +92,6 @@ const newFoto = (state, payloadPath) => {
     allJuridicaData,
     dataCompleted,
     vagasJuridica,
+    deleteVaga,
     newFoto
   };

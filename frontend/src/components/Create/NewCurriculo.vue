@@ -588,7 +588,7 @@ export default {
     ...mapActions([
         'loadFisica'
     ]),
-    onComplete(){
+    async onComplete(){
 
         let curriculo = {
 
@@ -619,9 +619,8 @@ export default {
           escolaridade: this.escolaridade,
       }
      if(!this.dataCompleted){
-        this.$store.dispatch('completeFisica', curriculo)
+        await this.$store.dispatch('completeFisica', curriculo)
         .then(response => {
-
             if(response.error  != undefined){
                 this.notificacoes = response.error;
             }else{
@@ -631,7 +630,7 @@ export default {
         .catch(error => console.log(error))
 
      }else{
-        this.$store.dispatch('updateFisica', curriculo)
+        await this.$store.dispatch('updateFisica', curriculo)
         .then(response => {
                 if(response.error  != undefined){
                     this.notificacoes = response.error;
@@ -677,17 +676,13 @@ export default {
     },
 
     loadArea(){
-        const token = this.$store.state.auth.token;
-        this.axios.get('http://localhost:8000/api/areas?token=' + token)
-
-            .then(response => {
-                this.areas = response.data.areas
-                this.nome = this.$store.state.auth.user.name
-            })
-            .catch(
-                error => console.log(error)
-            );
+        this.$store.dispatch('loadArea')
+        .then(response => {
+            this.areas = response.areas;
+            this.nome = this.$store.state.auth.user.name;
+        }).catch(error => console.log(error))
     },
+
     getActualPhoto(){
         this.$store.dispatch('updateFoto')
     },
