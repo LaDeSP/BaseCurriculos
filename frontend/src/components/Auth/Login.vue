@@ -37,7 +37,7 @@
                     <a  href="#">Recuperar senha</a>
                 </div>
                 <div class="clearfix">
-                    <p class="text-center small">Não tem uma conta ainda <a href="#">Clique aqui</a></p>
+                    <p class="text-center small">Não tem uma conta ainda? <a href="#">Clique aqui</a></p>
                 </div>
               </ValidationObserver>
             </form>
