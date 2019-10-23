@@ -153,17 +153,17 @@ class CurriculoController extends Controller
     public function rules(){
         return [
             'nome' => 'required|max:50',
-            'nascimento' => 'required',
-            'estadoCivil' => 'required',
-            'genero' => 'required',
+            'nascimento' => 'required', /*validar date*/
+            'estadoCivil' => 'required', /*validar lista*/
+            'genero' => 'required', /*validar lista*/
             'linkedin' => 'max:50',
             'facebook' => 'max:50',
             'twitter' => 'max:50',
             'site' => 'max:50',
             'outraRede' => 'max:50',
-            'emailAlt' => 'email',
-            'pais' => 'required',
-            'estado' => 'required',
+            'emailAlt' => 'email', /*validar max*/
+            'pais' => 'required', /*validar lista*/
+            'estado' => 'required', /*validar lista*/
             'fixo' => 'required|digits:10',
             'celular' => 'required|digits_between: 10, 11',
             'rua' => 'required|max:50',
@@ -174,8 +174,8 @@ class CurriculoController extends Controller
             'cep'=> 'required|digits:8',
             'objetivos'=> 'required|max:500',
             'area' => 'required|exists:areas,id',
-            'pretensao' => 'required|numeric|gt:0',
-            'escolaridade' => 'required',
+            'pretensao' => 'required|numeric|gt:0', /*validar por valor ou por tamanho max*/
+            'escolaridade' => 'required', /*validar lista*/
             'qualificacoes' => 'required|max:500',
             'historicoProfissional' => 'required|max:500'
         ];
