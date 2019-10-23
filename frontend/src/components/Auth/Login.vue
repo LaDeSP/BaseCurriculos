@@ -67,7 +67,7 @@
                 email: '',
                 password: '',
                 notificacoes: [],
-                Modalrain:false,
+                ModalCadastro:false,
             }
         },
         computed:{

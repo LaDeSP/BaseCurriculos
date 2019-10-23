@@ -1,6 +1,6 @@
 <template>
   <div class="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <slot name="header">
@@ -13,7 +13,6 @@
             <p>Sou o body.</p>
           </slot>
         </div>
-        <br>
         <div class="modal-footer">
           <slot name="footer">
           </slot>

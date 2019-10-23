@@ -26,10 +26,10 @@
                 <CadastroJuridica></CadastroJuridica>
               </template>
               <template v-slot:footer v-if="$route.meta.isHome">
-              <div class="modal-footer">
-                <p>Já possui uma conta?</p>
-                <router-link to="/login" class="btn btn-outline-primary btn-lg btn-block">Faça Login</router-link>
-              </div>
+                <div class="modal-footer">
+                  <p>Já possui uma conta?</p>
+                  <router-link to="/login" class="btn btn-outline-primary btn-lg btn-block">Faça Login</router-link>
+                </div>
             </template>
             </Modal>
         </div>
