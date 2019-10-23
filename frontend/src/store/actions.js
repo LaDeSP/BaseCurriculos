@@ -420,9 +420,9 @@ import * as Cookies from 'js-cookie'
     );
   };
 
-  const requestVaga = async ({commit, state}) => {
-    
-    return await axios({ url: 'http://localhost:8000/api/candidaturas?token=' + token, data: editVaga, method: 'PUT'})
+  const requestVaga = async ({commit, state}, requestVaga) => {
+    const token = state.auth.token;
+    return await axios({ url: 'http://localhost:8000/api/candidaturas?token=' + token, data: requestVaga, method: 'POST'})
     .then(response => {
 
       console.log('response', response)

@@ -91,6 +91,9 @@
                 </template>
                 <template v-slot:list-footer>
                   <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
+                  <div v-if="dataCompleted">
+                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                  </div>
                   <Modal v-if="isModalShowMore" @close="closeModal">
                         <template v-slot:header><h3>Detalhes da Vaga</h3></template>
                         <template v-slot:body> 
@@ -111,9 +114,6 @@
                         </div>
                         </template>
                   </Modal>
-                  <div v-if="dataCompleted">
-                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
-                  </div>
                   </template>
                 </List>
               </div>  
@@ -138,6 +138,7 @@
             filterState: true,
             isModalWarning: false,
             isModalShowMore: false,
+           
         }
     },
     components: {Card, Modal, List},
@@ -176,17 +177,23 @@
               this.$router.push({ name: 'new-vaga'})
           },
 
-          onRequest(){
-              let requestVaga = {
-                vaga_id: this.vaga_id,
-                user_id: this.$store.state.auth.user.id
+          onRequest(id){
+              let vaga_id = 0; 
+              if(this.vaga_id != 0){
+                vaga_id = this.vaga_id;
+              }else{
+                vaga_id = id;
               }
 
+              let requestVaga = {
+                vaga_id: vaga_id,
+                user_id: this.$store.state.auth.user.id
+              }
               this.$store.dispatch('requestVaga', requestVaga)
               .then(response => {
                   console.log(response)
+                  this.isModalShowMore = false;
               }).catch(error => console.log(error))
-
           },
 
           changeStatus(id, status){
