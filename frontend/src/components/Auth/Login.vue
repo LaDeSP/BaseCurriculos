@@ -5,9 +5,9 @@
           <div class="login-form">
             <form>
               <ValidationObserver v-slot="{ invalid }">
-                <div v-if="notificacoes">
-                  <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
-                    {{notificacao[0]}}
+                <div class="container" v-if="notificacoes">
+                  <span v-for="notificacao in notificacoes" :key="notificacao" class="badge badge-danger badge-pill">
+                    {{notificacao}}
                   </span>
                 </div>
                 <div class="avatar">
@@ -16,7 +16,7 @@
                 <h2 class="text-center">Login</h2>
                 <ValidationProvider name="email" rules="required|email|max:50">
                   <div slot-scope="{errors}">
-                    {{ errors[0] }}
+                    <p class="color-red">{{ errors[0] }}</p>
                     <div class="form-group">
                       <input placeholder="Email" type="email" size="25" name="email" class="form-control" v-model="email" autocomplete="email">
                     </div>
@@ -27,7 +27,7 @@
                     <div class="form-group">
                       <input placeholder="Senha" type="password" size="25" name="password" class="form-control" v-model="password" autocomplete="password">
                     </div>
-                    {{ errors[0] }}
+                    <p class="color-red">{{ errors[0] }}</p>
                   </div>
                 </ValidationProvider>
                 <div class="form-group">
@@ -72,6 +72,7 @@
                .then(response => {
                  if(response.error  != undefined){
                     this.notificacoes = response.error;
+                    console.log(this.notificacoes);
                   }else{
                     this.redirecionarUsuarioPorPermissao(this.permissaoDoUsuario)
                   }

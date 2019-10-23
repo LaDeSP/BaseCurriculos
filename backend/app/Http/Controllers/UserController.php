@@ -26,8 +26,9 @@ class UserController extends Controller implements JWTSubject
         }
         */   
         if (!(User::where('email', '=', $request->input('email'))->exists())){
+            $error[] = 'Email informado não está cadastrado.';
             return Response::json([
-                'error' => 'Email informado não está cadastrado.'
+                'error' => $error
             ], 201);
         }
        
@@ -37,10 +38,10 @@ class UserController extends Controller implements JWTSubject
         try{
             //tento usando as credenciais dadas, se não deu certo, quer dizer q token n foi criado
             if(!$token = JWTAuth::attempt($credentials)){
-                //se n foi criado
+                $error[] = 'Senha Inválida.';
                 return response()->json([
-                    'error' => 'invalid credentials'
-                ], 401);
+                    'error' => $error
+                ], 201);
             }
         }catch(JWTException $e){
             return response()->json([
