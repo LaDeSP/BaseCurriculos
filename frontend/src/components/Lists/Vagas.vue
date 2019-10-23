@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-md-9">
       <div class="row">
-        <div class="col-md-10 float-left" >
+        <div class="col-md-9 float-left" >
            <template v-if="permissaoDoUsuario === 'JURIDICA'">
              <div class="panel-heading"><h2>Minhas Vagas</h2></div>
            </template>
@@ -10,9 +10,9 @@
              <div class="panel-heading"><h2>Vagas</h2></div>
            </template>
         </div>
-      
+
         <template v-if="permissaoDoUsuario === 'JURIDICA'">
-          <div class="col-md-2 float-right" >
+          <div class="col-md-3 float-right" >
             <div class="btn-group btn-group-sm">
               <button @click="onCreate" type="button" class="btn btn-primary"><h4>Criar Vaga <span><i class="fa fa-plus"></i></span></h4></button>
             </div>
@@ -91,10 +91,13 @@
                 </template>
                 <template v-slot:list-footer>
                   <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
+                  <div v-if="dataCompleted">
+                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                  </div>
                   <Modal v-if="isModalShowMore" @close="closeModal">
                         <template v-slot:header><h3>Detalhes da Vaga</h3></template>
-                        <template v-slot:body> 
-                    
+                        <template v-slot:body>
+
                           <h3 class="mb-1">{{vagaById[0].titulo}}</h3>
                           <p class="mb-1"><strong>Cargo: </strong>{{vagaById[0].cargo}}</p>
                           <p class="mb-1"><strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}</p>
@@ -106,18 +109,15 @@
                         <template v-slot:footer>
                         <div class="modal-footer">
                             <button @click="closeModal" class="btn btn-sm btn-outline-danger">Voltar</button>
-                            
+
                             <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
                         </div>
                         </template>
                   </Modal>
-                  <div v-if="dataCompleted">
-                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
-                  </div>
                   </template>
                 </List>
-              </div>  
-            </template>      
+              </div>
+            </template>
     </div>
   </div>
 </template>
@@ -138,6 +138,7 @@
             filterState: true,
             isModalWarning: false,
             isModalShowMore: false,
+
         }
     },
     components: {Card, Modal, List},
@@ -156,7 +157,7 @@
               this.isModalShowMore = true;
               this.vaga_id = vaga_id;
               console.log('kkkk', this.vagaById)
-              
+
             }
           },
 
@@ -176,17 +177,23 @@
               this.$router.push({ name: 'new-vaga'})
           },
 
-          onRequest(){
-              let requestVaga = {
-                vaga_id: this.vaga_id,
-                user_id: this.$store.state.auth.user.id
+          onRequest(id){
+              let vaga_id = 0;
+              if(this.vaga_id != 0){
+                vaga_id = this.vaga_id;
+              }else{
+                vaga_id = id;
               }
 
+              let requestVaga = {
+                vaga_id: vaga_id,
+                user_id: this.$store.state.auth.user.id
+              }
               this.$store.dispatch('requestVaga', requestVaga)
               .then(response => {
                   console.log(response)
+                  this.isModalShowMore = false;
               }).catch(error => console.log(error))
-
           },
 
           changeStatus(id, status){

@@ -9,7 +9,7 @@
               <template v-slot:body>
                 <CadastroFisica></CadastroFisica>
               </template>
-              <template v-slot:footer>
+              <template v-slot:footer v-if="$route.meta.isHome">
               <div class="modal-footer">
                 <p>Já possui uma conta?</p>
                 <router-link to="/login" class="btn btn-outline-primary btn-lg btn-block">Faça Login</router-link>
@@ -25,11 +25,11 @@
               <template v-slot:body>
                 <CadastroJuridica></CadastroJuridica>
               </template>
-              <template v-slot:footer>
-              <div class="modal-footer">
-                <p>Já possui uma conta?</p>
-                <router-link to="/login" class="btn btn-outline-primary btn-lg btn-block">Faça Login</router-link>
-              </div>
+              <template v-slot:footer v-if="$route.meta.isHome">
+                <div class="modal-footer">
+                  <p>Já possui uma conta?</p>
+                  <router-link to="/login" class="btn btn-outline-primary btn-lg btn-block">Faça Login</router-link>
+                </div>
             </template>
             </Modal>
         </div>
