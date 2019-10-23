@@ -97,7 +97,15 @@
               }
 
               this.$store.dispatch('newFisica', newFisicaData)
-              .then(() => this.$router.push({ name: 'dashboard-fisica' }))
+              .then( response => { 
+                if(response.error  != undefined){
+                  this.notificacoes = response.error;
+                }
+                else{
+                  this.$router.push({ name: 'dashboard-fisica' })
+                }
+              
+              })
               .catch(error => console.log(error))
 
             }
