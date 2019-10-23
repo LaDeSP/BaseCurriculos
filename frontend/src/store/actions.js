@@ -45,7 +45,7 @@ import * as Cookies from 'js-cookie'
 
   const newFisica = async ({commit}, newFisicaData) => {
       
-    await axios({ url: fisica_uri, data: newFisicaData, method: 'POST' })
+    return await axios({ url: fisica_uri, data: newFisicaData, method: 'POST' })
     .then(response => {
       
       const payload = {
@@ -54,6 +54,7 @@ import * as Cookies from 'js-cookie'
         'path': response.data.foto,
       }
       commit('auth_success', {payload})
+      return response.data
 
     }).catch(error => {
       console.log(error)
@@ -63,7 +64,7 @@ import * as Cookies from 'js-cookie'
 
   const newJuridica = async ({commit}, newJuridicaData) => {
       
-    await axios({ url: juridica_uri, data: newJuridicaData, method: 'POST' })
+    return await axios({ url: juridica_uri, data: newJuridicaData, method: 'POST' })
       .then(response => {
         
         const payload = {
@@ -72,7 +73,7 @@ import * as Cookies from 'js-cookie'
           'path': response.data.foto,
         }
         commit('auth_success', {payload})
-
+        return response.data
       }).catch(error => {
         console.log(error)
       })

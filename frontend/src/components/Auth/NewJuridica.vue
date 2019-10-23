@@ -108,7 +108,15 @@
               }
 
               this.$store.dispatch('newJuridica', newJuridicaData)
-               .then(() => this.$router.push({ name: 'dashboard-juridica' }))
+               .then( response => { 
+                if(response.error  != undefined){
+                  this.notificacoes = response.error;
+                }
+                else{
+                  this.$router.push({ name: 'dashboard-juridica' })
+                }juridica
+              
+              })
               .catch(error => console.log(error))
               
             }
