@@ -392,9 +392,9 @@
                             </div>
                         </ValidationProvider>
 
-                        <ValidationProvider name="numero" rules="required|numeric|max:50">
+                        <ValidationProvider name="numero" rules="required|numeric|max:7|max_value:1000000">
                             <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="numero" placeholder="Número" v-model="numero" maxlength="50">
+                                <input type="number" class="form-control" name="numero" placeholder="Número" v-model="numero" maxlength="7" max="1000000">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
