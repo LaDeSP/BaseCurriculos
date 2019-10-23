@@ -3,13 +3,13 @@
     <div class="row">
         <div class="col-lg-6 text-center">
           <i class="far fa-user fa-5x login-icon"></i>
-          <button class="btn btn-primary btn-md text-uppercase inferno" @click="showModal('fisica')">Cadastrar como Pessoa Física</button>
+          <button class="btn btn-primary btn-md text-uppercase inferno" @click.prevent="showModal('fisica')">Cadastrar como Pessoa Física</button>
           <Modal v-show="isModalCadastroFisica" @close="closeModal">
               <template v-slot:header><h3>Cadastre-se</h3></template>
               <template v-slot:body>
                 <CadastroFisica></CadastroFisica>
               </template>
-              <template v-slot:footer>
+              <template v-slot:footer v-if="$route.meta.isHome">
               <div class="modal-footer">
                 <p>Já possui uma conta?</p>
                 <router-link to="/login" class="btn btn-outline-primary btn-lg btn-block">Faça Login</router-link>
@@ -19,13 +19,13 @@
         </div>
         <div class="col-lg-6 text-center" >
           <i class="fas fa-building fa-5x login-icon"></i>
-          <button class="btn btn-primary btn-md text-uppercase inferno" @click="showModal" >Cadastrar como Pessoa Jurídica</button>
+          <button class="btn btn-primary btn-md text-uppercase inferno" @click.prevent="showModal" >Cadastrar como Pessoa Jurídica</button>
            <Modal v-show="isModalCadastroJuridica" @close="closeModal">
               <template v-slot:header><h3>Cadastre-se</h3></template>
               <template v-slot:body>
                 <CadastroJuridica></CadastroJuridica>
               </template>
-              <template v-slot:footer>
+              <template v-slot:footer v-if="$route.meta.isHome">
               <div class="modal-footer">
                 <p>Já possui uma conta?</p>
                 <router-link to="/login" class="btn btn-outline-primary btn-lg btn-block">Faça Login</router-link>

@@ -5,9 +5,9 @@
           <div class="login-form">
             <form>
               <ValidationObserver v-slot="{ invalid }">
-                <div class="container" v-if="notificacoes">
-                  <span v-for="notificacao in notificacoes" :key="notificacao" class="badge badge-danger badge-pill">
-                    {{notificacao}}
+                <div v-if="notificacoes">
+                  <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
+                    {{notificacao[0]}}
                   </span>
                 </div>
                 <div class="avatar">
@@ -16,7 +16,7 @@
                 <h2 class="text-center">Login</h2>
                 <ValidationProvider name="email" rules="required|email|max:50">
                   <div slot-scope="{errors}">
-                    <p class="color-red">{{ errors[0] }}</p>
+                    {{ errors[0] }}
                     <div class="form-group">
                       <input placeholder="Email" type="email" size="25" name="email" class="form-control" v-model="email" autocomplete="email">
                     </div>
@@ -27,17 +27,23 @@
                     <div class="form-group">
                       <input placeholder="Senha" type="password" size="25" name="password" class="form-control" v-model="password" autocomplete="password">
                     </div>
-                    <p class="color-red">{{ errors[0] }}</p>
+                    {{ errors[0] }}
                   </div>
                 </ValidationProvider>
                 <div class="form-group">
-                    <button :disabled="invalid" @click.prevent="login" type="submit" class="btn btn-primary btn-lg btn-block">Entrar</button>
-                </div>
-                <div>
+                  <button :disabled="invalid" @click.prevent="login" type="submit" class="btn btn-primary btn-lg btn-block">Entrar</button>
+                  <br>
+                  <div>
                     <a  href="#">Recuperar senha</a>
-                </div>
-                <div class="clearfix">
-                    <p class="text-center small">Não tem uma conta ainda? <a href="#">Clique aqui</a></p>
+                  </div>
+                  <br>
+                  <strong>Já possui uma conta?  <button @click.prevent="showModal" class="btn btn-warning" > Cadastre-se</button></strong>
+                  <Modal v-show="Modalrain" @click.prevent="closeModal">
+                    <template v-slot:header><h3>Quem é você?</h3></template>
+                    <template v-slot:body>
+                      <OpcoesHome></OpcoesHome>
+                    </template>
+                  </Modal>
                 </div>
               </ValidationObserver>
             </form>
@@ -48,33 +54,38 @@
 
 <script>
     import NavBarLogin from '../Home/NavBarLogin.vue'
+    import Modal from '../Utils/Modal.vue';
+    import OpcoesHome from '../Home/OpcoesHome.vue';
     import {mapGetters} from 'vuex'
-
+    import card from '../Utils/Card.vue';
     export default {
         components: {
-            NavBarLogin
+            NavBarLogin, Modal, OpcoesHome,card
         },
         data(){
             return{
                 email: '',
                 password: '',
                 notificacoes: [],
+                Modalrain:false,
             }
         },
         computed:{
             ...mapGetters(['permissaoDoUsuario'])
         },
         methods: {
+          showModal(){
+            this.Modalrain = true;
+          },
+          closeModal(){
+            this.Modalrain = false;
+          },
             login(){
                let email = this.email;
                let password = this.password;
                this.$store.dispatch('login', {email, password})
-               .then(response => {
-                 if(response.error  != undefined){
-                    this.notificacoes = response.error;
-                  }else{
-                    this.redirecionarUsuarioPorPermissao(this.permissaoDoUsuario)
-                  }
+               .then(() => {
+                   this.redirecionarUsuarioPorPermissao(this.permissaoDoUsuario)
                 })
                .catch(error => console.log(error))
             },
@@ -91,11 +102,4 @@
     }
 
 </script>
-<style lang="stylus">
-    .login
-        margin-top -30px;
-        display flex
-        transform-origin center top
-        justify-content center
-</style>
 
