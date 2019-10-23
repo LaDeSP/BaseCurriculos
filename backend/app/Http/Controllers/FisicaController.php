@@ -19,7 +19,6 @@ class FisicaController extends Controller
 
     public function store(Request $request)
     {  
-        
         $validator = Validator::make($request->all(), FisicaController::rules(), FisicaController::messages());
          
         if ($validator->fails()) {
@@ -30,27 +29,27 @@ class FisicaController extends Controller
 
         $this->register($request);
             
-            $pfisica = new Fisica();
-            $cpf = $pfisica->cpf = $request->input('cpf');
-            $email = $request->input('email');
-            $id = User::where('email', $email)->first()->id;
-            $pfisica->user_id = $id;
+        $pfisica = new Fisica();
+        $cpf = $pfisica->cpf = $request->input('cpf');
+        $email = $request->input('email');
+        $id = User::where('email', $email)->first()->id;
+        $pfisica->user_id = $id;
 
-            $pfisica->save();
+        $pfisica->save();
 
-            $credentials = $request->only('email', 'password');
-            $token = JWTAuth::attempt($credentials);
-            //$user = User::first();
-            //$token = JWTAuth::fromUser($user);
-            return Response::json([
-                'token'=> $token,
-                'name' => $request->input('name'),
-                'role' => $request->input('role'),
-                'user_id'=> auth()->user()->id,
-                'user'=>auth()->user(),
-                'foto'=> "http://localhost:8000/anon.jpg",
-                'message'=>'Pessoa física cadastrada com sucesso!'
-             ], 201); 
+        $credentials = $request->only('email', 'password');
+        $token = JWTAuth::attempt($credentials);
+        //$user = User::first();
+        //$token = JWTAuth::fromUser($user);
+        return Response::json([
+            'token'=> $token,
+            'name' => $request->input('name'),
+            'role' => $request->input('role'),
+            'user_id'=> auth()->user()->id,
+            'user'=>auth()->user(),
+            'foto'=> "http://localhost:8000/anon.jpg",
+            'message'=>'Pessoa física cadastrada com sucesso!'
+            ], 201); 
        
     }
 

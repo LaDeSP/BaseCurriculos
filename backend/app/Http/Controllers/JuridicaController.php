@@ -60,19 +60,6 @@ class JuridicaController extends Controller
 
        $user_id = auth()->user()->id;
        User::where('id', $user_id)->update(['name'=>$request->nome]);
-        
-       $endereco = Juridica::where('user_id', $user_id)->first()->enderecos_id;
-       if ($endereco){
-           return Response::json([
-               'ja existe o endereço'=>$endereco
-              ], 201);
-       }
-       $contato = Juridica::where('user_id', $user_id)->first()->contatos_id;
-       if ($contato){
-           return Response::json([
-               'ja existe o contato'=>$contato
-              ], 201);
-       }
 
        $juridica = Juridica::where('user_id', $user_id)->first()->id;
        
@@ -154,13 +141,13 @@ class JuridicaController extends Controller
         ]);
 
         Juridica::where('user_id', $id)->update(array(
-                'contatos_id' => $con_id, 
-                'enderecos_id' => $end_id
-            ));
-      
-            return Response::json([
-                'update ok',
-            ]);
+            'contatos_id' => $con_id, 
+            'enderecos_id' => $end_id
+        ));
+    
+        return Response::json([
+            'update ok',
+        ]);
       
     }
 

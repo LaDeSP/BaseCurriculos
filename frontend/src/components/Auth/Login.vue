@@ -72,7 +72,6 @@
                .then(response => {
                  if(response.error  != undefined){
                     this.notificacoes = response.error;
-                    console.log(this.notificacoes);
                   }else{
                     this.redirecionarUsuarioPorPermissao(this.permissaoDoUsuario)
                   }

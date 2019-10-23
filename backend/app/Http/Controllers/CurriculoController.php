@@ -24,67 +24,54 @@ class CurriculoController extends Controller
         }   
         
         $user_id = auth()->user()->id;
-
         User::where('id', $user_id)->update(['name'=>$request->nome]);
         
-        $endereco = Fisica::where('user_id', $user_id)->first()->enderecos_id;
-        if ($endereco){
-            return Response::json([
-                'ja existe o endereço'=>$endereco
-               ], 201);
-        }
-        $contato = Fisica::where('user_id', $user_id)->first()->contatos_id;
-        if ($contato){
-            return Response::json([
-                'ja existe o contato'=>$contato
-               ], 201);
-        }
         $fisica = Fisica::where('user_id', $user_id)->first()->id;
-           
-            $end_id = Endereco::insertGetId([
-                'rua' => $request->rua,
-                'bairro' => $request->bairro,
-                'cidade' => $request->cidade,
-                'estado' => $request->estado,
-                'complemento' => $request->complemento,
-                'numero' => $request->numero,
-                'pais' => $request->pais,
-                'cep' => $request->cep
-            ]);
-            
-            $con_id = Contato::insertGetId([
-                'celular' => $request->celular,
-                'fixo' => $request->fixo,
-                'linkedin' => $request->linkedin,
-                'facebook' => $request->facebook,
-                'twitter' => $request->twitter,
-                'site' => $request->site,
-                'outraRede' => $request->outraRede
-            ]);
+        
+        $end_id = Endereco::insertGetId([
+            'rua' => $request->rua,
+            'bairro' => $request->bairro,
+            'cidade' => $request->cidade,
+            'estado' => $request->estado,
+            'complemento' => $request->complemento,
+            'numero' => $request->numero,
+            'pais' => $request->pais,
+            'cep' => $request->cep
+        ]);
+        
+        $con_id = Contato::insertGetId([
+            'celular' => $request->celular,
+            'fixo' => $request->fixo,
+            'linkedin' => $request->linkedin,
+            'facebook' => $request->facebook,
+            'twitter' => $request->twitter,
+            'site' => $request->site,
+            'outraRede' => $request->outraRede
+        ]);
 
-            Fisica::where('user_id', $user_id)
-            ->update(array(
-                'data_nascimento' => $request->nascimento,
-                'genero'  => $request->genero,
-                'estado_civil' => $request->estadoCivil,
-                'contatos_id' => $con_id, 
-                'enderecos_id' => $end_id
-            ));
+        Fisica::where('user_id', $user_id)
+        ->update(array(
+            'data_nascimento' => $request->nascimento,
+            'genero'  => $request->genero,
+            'estado_civil' => $request->estadoCivil,
+            'contatos_id' => $con_id, 
+            'enderecos_id' => $end_id
+        ));
 
-            Curriculo::create([
-                'objetivos' => $request->objetivos,
-                'areas_id' => $request->area,
-                'pretensao' => $request->pretensao,
-                'qualificacoes' => $request->qualificacoes,
-                'historicoProfissional' => $request->historicoProfissional,
-                'escolaridade' => $request->escolaridade,
-                'fisicas_id' => Fisica::where('user_id', $user_id)->first()->id
-            ]);
-           
-           return Response::json([
-            'PORRAAAAAA'=>auth()->user()
-           ], 201);
-        }
+        Curriculo::create([
+            'objetivos' => $request->objetivos,
+            'areas_id' => $request->area,
+            'pretensao' => $request->pretensao,
+            'qualificacoes' => $request->qualificacoes,
+            'historicoProfissional' => $request->historicoProfissional,
+            'escolaridade' => $request->escolaridade,
+            'fisicas_id' => Fisica::where('user_id', $user_id)->first()->id
+        ]);
+        
+        return Response::json([
+        'PORRAAAAAA'=>auth()->user()
+        ], 201);
+    }
 
     public function show($id)
     {  
