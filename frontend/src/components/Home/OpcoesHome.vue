@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-lg-6 text-center">
           <i class="far fa-user fa-5x login-icon"></i>
-          <button class="btn btn-primary btn-md text-uppercase inferno" @click.prevent="showModal('fisica')">Cadastrar como Pessoa Física</button>
+          <button class="btn btn-primary btn-md text-uppercase inferno" @click="showModal('fisica')">Cadastrar como Pessoa Física</button>
           <Modal v-show="isModalCadastroFisica" @close="closeModal">
               <template v-slot:header><h3>Cadastre-se</h3></template>
               <template v-slot:body>
@@ -19,7 +19,7 @@
         </div>
         <div class="col-lg-6 text-center" >
           <i class="fas fa-building fa-5x login-icon"></i>
-          <button class="btn btn-primary btn-md text-uppercase inferno" @click.prevent="showModal" >Cadastrar como Pessoa Jurídica</button>
+          <button class="btn btn-primary btn-md text-uppercase inferno" @click="showModal" >Cadastrar como Pessoa Jurídica</button>
            <Modal v-show="isModalCadastroJuridica" @close="closeModal">
               <template v-slot:header><h3>Cadastre-se</h3></template>
               <template v-slot:body>

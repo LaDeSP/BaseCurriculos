@@ -3,8 +3,8 @@
         <NavBarLogin></NavBarLogin>
         <div class="container">
           <div class="login-form">
-            <form>
-              <ValidationObserver v-slot="{ invalid }">
+            <ValidationObserver v-slot="{ invalid }">
+              <form>
                 <div v-if="notificacoes">
                   <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
                     {{notificacao[0]}}
@@ -37,16 +37,16 @@
                     <a  href="#">Recuperar senha</a>
                   </div>
                   <br>
-                  <strong>Já possui uma conta?  <button @click.prevent="showModal" class="btn btn-warning" > Cadastre-se</button></strong>
-                  <Modal v-show="Modalrain" @click.prevent="closeModal">
-                    <template v-slot:header><h3>Quem é você?</h3></template>
-                    <template v-slot:body>
-                      <OpcoesHome></OpcoesHome>
-                    </template>
-                  </Modal>
+                  <strong>Já possui uma conta?  <button @click.prevent="showModal" class="btn btn-outline-info" > Cadastre-se</button></strong>
                 </div>
-              </ValidationObserver>
             </form>
+          </ValidationObserver>
+          <Modal v-show="ModalCadastro" @close="closeModal">
+            <template v-slot:header><h3>Quem é você?</h3></template>
+            <template v-slot:body>
+              <OpcoesHome></OpcoesHome>
+            </template>
+          </Modal>
           </div>
         </div>
     </header>
@@ -75,10 +75,10 @@
         },
         methods: {
           showModal(){
-            this.Modalrain = true;
+            this.ModalCadastro = true;
           },
           closeModal(){
-            this.Modalrain = false;
+            this.ModalCadastro = false;
           },
             login(){
                let email = this.email;
