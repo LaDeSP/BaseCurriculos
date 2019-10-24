@@ -167,7 +167,7 @@ class CurriculoController extends Controller
             'fixo' => 'required|digits:10',
             'celular' => 'required|digits_between: 10, 11',
             'rua' => 'required|max:50',
-            'numero' => 'max:1000000|numeric',
+            'numero' => 'numeric|max:1000000',
             'complemento' => 'max:500',
             'bairro' => 'required|max:50',
             'cidade' => 'required|max:50',
