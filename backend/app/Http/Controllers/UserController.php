@@ -100,7 +100,7 @@ class UserController extends Controller implements JWTSubject
 
     public function rules(){
         return [
-            'email' => 'required|email',
+            'email' => 'required|max:50|email',
             'password' => 'required|min:8|max:30'
         ];
     }

@@ -62,8 +62,8 @@ class AgendaController extends Controller
 
     public function rules(){
         return [
-            'data' => 'required',
-            'hora' => 'required',
+            'data' => 'required|date',
+            'hora' => 'required|date_format:H:i',
             'obervacao' => 'max:500',
         ];
     }

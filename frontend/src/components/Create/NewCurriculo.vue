@@ -441,6 +441,7 @@
                             <div slot-scope="{ errors }">
                                 <select class="custom-select" name="area" v-model="area">
                                     <option disabled value="">Selecione uma área</option>
+                                    <option value="a">Vai dar ruim</option>
                                     <option v-for="area in areas" :key="area.id" :value="area.id">
                                         {{area.tipo}}
                                     </option>
@@ -452,7 +453,7 @@
 
                     <div class="form-group">
                         <label for="pretensao">Pretensão Salarial <a class="color-red">*</a></label>
-                        <ValidationProvider name="pretensao" rules="required|numeric|min_value:1">
+                        <ValidationProvider name="pretensao" rules="required|numeric|min_value:1|max_value:1000000|max:7">
                             <div slot-scope="{ errors }">
                                 <input type="number" id="pretensao" name="pretensao"
                                 class="form-control" v-model="pretensao" step="any">

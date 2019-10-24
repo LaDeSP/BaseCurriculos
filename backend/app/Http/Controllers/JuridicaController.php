@@ -198,7 +198,7 @@ class JuridicaController extends Controller
            
             'name' => 'required|max:50',
             'ramo' => 'required|max:50',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|max:50|email|unique:users,email',
             'password' => 'required|min:8|max:30',
             'cnpj' => 'required|cnpj|unique:juridicas,cnpj'
         ];
@@ -235,12 +235,12 @@ class JuridicaController extends Controller
             'twitter' => 'max:50',
             'site' => 'max:50',
             'outraRede' => 'max:50',
-           // 'pais' => 'required',
-            'estado' => 'required',
+           // 'pais' => 'required',/* validar lista */
+            'estado' => 'required',/* validar lista */
             'fixo' => 'required|digits:10',
             'celular' => 'required|digits_between: 10, 11',
             'rua' => 'required|max:50',
-            'numero' => 'max:50',
+            'numero' => 'numeric|max:1000000',
             'complemento' => 'max:500',
             'bairro' => 'required|max:50',
             'cidade' => 'required|max:50',
