@@ -57,7 +57,7 @@
             </div>
           </div>
           <hr>
-          <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-success btn-lg">Cadastrar</button>
+          <button :disabled="invalid" v-on:keyup.enter="register" @click.prevent="register" type="submit" class="btn btn-success btn-lg">Cadastrar</button>
             <!-- <router-link to="/login" class="btn btn-default">Voltar</router-link> -->
         </form>
       </ValidationObserver>

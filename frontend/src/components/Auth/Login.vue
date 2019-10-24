@@ -5,9 +5,9 @@
           <div class="login-form">
             <ValidationObserver v-slot="{ invalid }">
               <form>
-                <div v-if="notificacoes">
-                  <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
-                    {{notificacao[0]}}
+                <div class="container" v-if="notificacoes">
+                  <span v-for="notificacao in notificacoes" :key="notificacao" class="badge badge-danger badge-pill">
+                    {{notificacao}}
                   </span>
                 </div>
                 <div class="avatar">
@@ -31,7 +31,7 @@
                   </div>
                 </ValidationProvider>
                 <div class="form-group">
-                  <button :disabled="invalid" @click.prevent="login" type="submit" class="btn btn-primary btn-lg btn-block">Entrar</button>
+                  <button :disabled="invalid" v-on:keyup.enter="login" @click.prevent="login" type="submit" class="btn btn-primary btn-lg btn-block">Entrar</button>
                   <br>
                   <div>
                     <a  href="#">Recuperar senha</a>
@@ -84,8 +84,13 @@
                let email = this.email;
                let password = this.password;
                this.$store.dispatch('login', {email, password})
-               .then(() => {
-                   this.redirecionarUsuarioPorPermissao(this.permissaoDoUsuario)
+                .then(response => {
+                 if(response.error  != undefined){
+                    this.notificacoes = response.error;
+                    console.log(this.notificacoes);
+                  }else{
+                    this.redirecionarUsuarioPorPermissao(this.permissaoDoUsuario)
+                  }
                 })
                .catch(error => console.log(error))
             },
