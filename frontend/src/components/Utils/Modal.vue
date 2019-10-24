@@ -1,7 +1,7 @@
 <template>
-  <div class="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" @click="close">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
-      <div class="modal-content">
+      <div class="modal-content" @click.stop>
         <div class="modal-header">
           <slot name="header">
             <h5 class="modal-title" id="exampleModalLabel" >Eu sou a header.</h5>
