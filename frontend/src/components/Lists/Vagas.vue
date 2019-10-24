@@ -130,7 +130,7 @@
 
 <script>
   import Card from '../Utils/CardsVagas';
-  import Modal from '../Utils/Modal';
+  import Modal from '../Utils/ModalOld';
   import List from '../Utils/List';
   import { mapActions, mapGetters } from 'vuex';
 

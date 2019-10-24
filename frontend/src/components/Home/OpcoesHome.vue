@@ -9,11 +9,9 @@
               <template v-slot:body>
                 <CadastroFisica></CadastroFisica>
               </template>
-              <template v-slot:footer v-if="$route.meta.isHome">
-              <div class="modal-footer">
-                <p>Já possui uma conta?</p>
-                <router-link to="/login" class="btn btn-outline-primary btn-lg btn-block">Faça Login</router-link>
-              </div>
+              <template v-slot:footer v-if="$route.meta.isHome" class="d-flex justify-content-center">
+                <h6 >Já possui uma conta?</h6>
+                <router-link to="/login" class="btn btn-outline-primary btn-lg ">Faça Login</router-link>
             </template>
             </Modal>
         </div>
@@ -25,11 +23,9 @@
               <template v-slot:body>
                 <CadastroJuridica></CadastroJuridica>
               </template>
-              <template v-slot:footer v-if="$route.meta.isHome">
-                <div class="modal-footer">
-                  <p>Já possui uma conta?</p>
-                  <router-link to="/login" class="btn btn-outline-primary btn-lg btn-block">Faça Login</router-link>
-                </div>
+              <template v-slot:footer v-if="$route.meta.isHome" class="d-flex justify-content-center">
+                <h6>Já possui uma conta?</h6>
+                <router-link to="/login" class="btn btn-outline-primary btn-lg">Faça Login</router-link>
             </template>
             </Modal>
         </div>
@@ -40,7 +36,7 @@
 <script>
   import Login from '../Auth/Login.vue';
   import { mapGetters } from 'vuex'
-  import Modal from '../Utils/Modal.vue';
+  import Modal from '../Utils/ModalOld.vue';
   import CadastroFisica from '../Auth/NewFisica.vue';
   import CadastroJuridica from '../Auth/NewJuridica.vue';
   export default {
