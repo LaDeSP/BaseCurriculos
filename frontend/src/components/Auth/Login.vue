@@ -16,7 +16,7 @@
                 <h2 class="text-center">Login</h2>
                 <ValidationProvider name="email" rules="required|email|max:50">
                   <div slot-scope="{errors}">
-                    {{ errors[0] }}
+                    <p class="color-red">{{ errors[0] }}</p>
                     <div class="form-group">
                       <input placeholder="Email" type="email" size="25" name="email" class="form-control" v-model="email" autocomplete="email">
                     </div>
@@ -27,7 +27,7 @@
                     <div class="form-group">
                       <input placeholder="Senha" type="password" size="25" name="password" class="form-control" v-model="password" autocomplete="password">
                     </div>
-                    {{ errors[0] }}
+                    <p class="color-red">{{ errors[0] }}</p>
                   </div>
                 </ValidationProvider>
                 <div class="form-group">
