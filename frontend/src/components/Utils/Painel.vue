@@ -1,15 +1,17 @@
 <template>
-      <div class="panel panel-default">
-        <div class="panel-head"></div>
-        <slot name="panel-head"></slot>
-        <div class="panel-body">
-          <slot name="panel-body">
-          </slot>
-        </div>
-        <div class="panel-footer">
-          <slot name="panel-footer"></slot>
-        </div>
-      </div>
+  <div class="panel">
+    <div class="panel-head">
+      <slot name="panel-head"></slot>
+    </div>
+    <div class="panel-body">
+      <slot name="panel-body">
+      </slot>
+    </div>
+    <div class="panel-footer">
+      <slot name="panel-footer">
+      </slot>
+    </div>
+  </div>
 </template>
 <script>
   export default {

@@ -1,7 +1,11 @@
 <template>
     <div class="row justify-content-center">
      <div class="col-md-9">
-      <div class="panel-heading"><h2>Candidaturas</h2></div>
+      <painel>
+        <template v-slot:panel-head>
+          <h2>Candidaturas</h2>
+        </template>
+      </painel>
       <div class="row">
         <div v-if="!toggle">
             <div v-for="show in displayCandidaturas" :key="show.id" :id="show.id">
@@ -59,7 +63,7 @@
                         </template>
                         <template v-slot:footer>
                           <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
-                          
+
                           <div>
                             <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
                           </div>
@@ -82,6 +86,7 @@
     import Curriculo from '../Lists/Curriculo';
     import NewAgenda from '../Create/NewAgenda';
     import {mapGetters, mapActions} from 'vuex';
+    import painel from '../Utils/Painel';
 
     export default {
         data(){
@@ -93,7 +98,7 @@
                 isModalShowMore: false,
             }
         },
-        components: {NewAgenda, Card, List, Modal},
+        components: {NewAgenda, Card, List, Modal,painel},
         methods: {
             ...mapActions([
                 'loadCandidaturas'
@@ -107,7 +112,7 @@
               this.isModalWarning = false;
               this.isModalShowMore = false;
             },
-            
+
             loadAAAAACandidaturas(){
                 const user_id = this.$session.get('user_id');
                 this.axios
@@ -132,7 +137,7 @@
                this.$router.push({ name: 'new-agenda', params: { candidaturaId }})
             }
         },
-        
+
         computed: {
             ...mapGetters([
                 'displayCandidaturas', 'permissaoDoUsuario'
@@ -142,8 +147,8 @@
         async created(){
             await this.loadCandidaturas();
             console.log(this.displayCandidaturas)
-          
-        },  
-        
+
+        },
+
     }
 </script>
