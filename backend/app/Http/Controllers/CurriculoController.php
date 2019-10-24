@@ -161,7 +161,7 @@ class CurriculoController extends Controller
             'twitter' => 'max:50',
             'site' => 'max:50',
             'outraRede' => 'max:50',
-            'emailAlt' => 'email', /*validar max*/
+            'emailAlt' => 'email|max:50',
             'pais' => 'required', /*validar lista*/
             'estado' => 'required', /*validar lista*/
             'fixo' => 'required|digits:10',

@@ -198,7 +198,7 @@ class JuridicaController extends Controller
            
             'name' => 'required|max:50',
             'ramo' => 'required|max:50',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|max:50|email|unique:users,email',
             'password' => 'required|min:8|max:30',
             'cnpj' => 'required|cnpj|unique:juridicas,cnpj'
         ];
