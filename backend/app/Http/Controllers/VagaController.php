@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Validator;
 
 use Response;
 
+use App\Fisica;
+use App\Curriculo;
 use App\Vaga;
 use App\Juridica;
 use App\Area;
@@ -27,14 +29,18 @@ class VagaController extends Controller
                 'vagas' => $vagas_juridica,
             ], 201);   
         }else{
-
-            $vagas = Vaga::whereNotIn('id', function($q) use ($user){
-                $q->from('candidaturas')
-                    ->select('vagas_id')
-                    ->where('curriculos_id', '=', $user->fisica->curriculo->id);
-                })
-                ->with('area')->get();
-          
+            $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
+            if(Curriculo::where('fisicas_id', $fisica_id)->exists()){
+                $vagas = Vaga::whereNotIn('id', function($q) use ($user){
+                    $q->from('candidaturas')
+                        ->select('vagas_id')
+                        ->where('curriculos_id', '=', $user->fisica->curriculo->id);
+                    })
+                    ->with('area')->get();              
+            }else{
+                $vagas = Vaga::with('area')->get();
+            }
+           
             return Response::json([
                 'areas' => $areas,
                 'vagas' => $vagas,

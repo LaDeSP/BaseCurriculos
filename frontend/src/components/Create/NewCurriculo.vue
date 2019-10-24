@@ -708,6 +708,7 @@ export default {
         this.verifyEdit();
     },
     mounted() {
+        //tem erro de index aqui quando a img nao ta disponivel !! 
         if (this.$store.state.upload.path != "http://localhost:8000/anon.jpg"){
             var url = this.$store.state.upload.path;
             var file = { dataURL: url };

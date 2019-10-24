@@ -93,6 +93,11 @@ const permissaoDoUsuario = state =>{
   return state.auth.user.role
 }
 
+const displayCandidaturas = state =>{
+  return state.candidaturas
+}
+
+
 export default {
   isLoggedIn,
   authStatus,
@@ -102,5 +107,6 @@ export default {
   displayCurriculo,
   displayVagasJuridica,
   displayVagaById,
-  permissaoDoUsuario
+  permissaoDoUsuario,
+  displayCandidaturas,
 };

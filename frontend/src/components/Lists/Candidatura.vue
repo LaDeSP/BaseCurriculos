@@ -1,17 +1,18 @@
 <template>
     <div class="row justify-content-center">
-      <div class="panel-heading"><h2>Candidaturas</h2></div>
+      <div class="panel-heading"><h2>candidaturas</h2></div>
       <div class="row">
-        <div v-for="show in candidaturas" :key="show.id" :id="show.id">
-          <card style="width: 30rem;">
+        <div v-for="show in displayCandidaturas" :key="show.id" :id="show.id">
+          <Card style="width: 30rem;">
             <template v-slot:card-header>
-              <h3><span class="label label-info ">Título da Vaga:{{show.vaga.titulo}}</span></h3>
+              <h3><span class="label label-info ">Vaga:{{show.vaga.titulo}}</span></h3>
             </template>
             <template v-slot:card-body>
-              <p>DADOS DA VAGA: {{show.vaga}}</p>
+              <p>Cargo: {{show.vaga.cargo}}</p>
+              <p>Detalhes: {{show.vaga}}</p>
             </template>
             <template v-slot:card-footer>
-              <div v-if="!isFIS">
+              <div v-if="permissaoDoUsuario === 'JURIDICA'">
                   <button @click="onSchedule(show.id)" class="btn btn-sm btn-success">Ver Candidatos</button>
                   <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Deletar</button>
               </div>
@@ -21,7 +22,7 @@
                   <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Desistir</button>
               </div>
             </template>
-          </card>
+          </Card>
         </div>
       </div>
     </div>
@@ -29,24 +30,24 @@
 
 
 <script>
-    import card from '../Utils/CardsVagas';
+    import Card from '../Utils/CardsVagas';
     import NewAgenda from '../Create/NewAgenda';
+    import {mapGetters, mapActions} from 'vuex';
 
     export default {
         data(){
             return{
 
                 candidaturas: [],
-                uri: 'http://localhost:8000/api/candidaturas',
-                token: this.$session.get('jwt'),
-                isFIS: false,
                 agendamento: false
             }
         },
-        components: {NewAgenda},
+        components: {NewAgenda, Card},
         methods: {
-
-            loadCandidaturas(){
+            ...mapActions([
+                'loadCandidaturas'
+            ]),
+            loadAAAAACandidaturas(){
                 const user_id = this.$session.get('user_id');
                 this.axios
                     .get(this.uri + '?token=' + this.token)
@@ -70,12 +71,18 @@
                this.$router.push({ name: 'new-agenda', params: { candidaturaId }})
             }
         },
-        beforeMount(){
-               if(this.$session.get('role') === 'FISICA'){this.isFIS = true}
+        
+        computed: {
+            ...mapGetters([
+                'displayCandidaturas', 'permissaoDoUsuario'
+            ]),
         },
-        created(){
 
-            console.log('teste', localStorage.getItem('auth'));
-        }
+        async created(){
+            await this.loadCandidaturas();
+            console.log(this.displayCandidaturas)
+          
+        },  
+        
     }
 </script>

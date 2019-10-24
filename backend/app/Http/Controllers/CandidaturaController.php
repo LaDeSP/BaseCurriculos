@@ -10,6 +10,7 @@ use App\Fisica;
 use App\Juridica;
 use App\Curriculo;
 use App\Area;
+use App\User;
 use App\Agenda;
 use App\Candidatura;
 
@@ -18,10 +19,20 @@ class CandidaturaController extends Controller
     public function index(){
 
         $user_id = auth()->user()->id;
+        $user = User::find($user_id);
 
         if(auth()->user()->role === 'JURIDICA'){
             $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
             $vaga_id = Vaga::where('juridicas_id', $juridica_id)->first()->id;
+            
+            $vagas_juridica = Vaga::where('juridicas_id', $juridica_id)->get();
+            $vagasComCandidaturas = Candidatura::whereIn('id', function($q) use ($user){
+                $q->from('vagas')
+                    ->select('id')
+                    ->where('curriculos_id', '=', $user->fisica->curriculo->id);
+                })
+                ->with('area')->get();
+            
             $candidaturasJuridica = Candidatura::with(['vaga', 'curriculo'])->where('vagas_id', $vaga_id)->get();
             return Response::json([
                 'candidaturas' => $candidaturasJuridica
@@ -30,11 +41,11 @@ class CandidaturaController extends Controller
             $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
             $curriculo_id = Curriculo::where('fisicas_id', $fisica_id)->first()->id;
             $candidatura_id = Candidatura::where('curriculos_id', $curriculo_id)->first()->id;
-            $candidaturasFisica = Candidatura::with(['vaga', 'curriculo'])
+            $candidaturas_fisica = Candidatura::with(['vaga', 'curriculo'])
                 ->where('curriculos_id', $curriculo_id)->get();
             
             return Response::json([
-                'candidaturasFisica'=>$candidaturasFisica
+                'candidaturas'=>$candidaturas_fisica
             ]);
         } 
 
@@ -60,9 +71,18 @@ class CandidaturaController extends Controller
         //        'status' => 'INATIVA'
          //   ]);
       //}
+      $user_id = auth()->user()->id; 
+      $user = User::find($user_id);
+      $vagas = Vaga::whereNotIn('id', function($q) use ($user){
+        $q->from('candidaturas')
+            ->select('vagas_id')
+            ->where('curriculos_id', '=', $user->fisica->curriculo->id);
+        })
+        ->with('area')->get();
     
         return Response::json([
-            'Candidatura ok'
+            'Candidatura ok',
+            'vagas'=>$vagas
          ], 201);
     }
 

@@ -427,6 +427,10 @@ import * as Cookies from 'js-cookie'
     return await axios({ url: candidaturas_uri + '?token=' + token, data: requestVaga, method: 'POST'})
     .then(response => {
 
+      let payloadVagasJuridica = [];
+      payloadVagasJuridica = response.data.vagas;
+      commit('vagasJuridica', payloadVagasJuridica)
+
       console.log('response', response)
       return response.data
     }).catch(
@@ -535,8 +539,8 @@ import * as Cookies from 'js-cookie'
         let payloadCandidaturas = [];
         payloadCandidaturas = response.data.candidaturas;
   
-        //commit('candidaturas', payloadCandidaturas)
-        
+        commit('candidaturas', payloadCandidaturas)
+        //console.log('na action', payloadCandidaturas)
         return response.data
       }).catch(error => {
         console.log(error)
@@ -565,6 +569,7 @@ import * as Cookies from 'js-cookie'
     updateFoto,
     deleteUserPhoto,
     loadArea,
+    loadCandidaturas,
 
   
   };

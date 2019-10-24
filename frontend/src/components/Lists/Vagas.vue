@@ -35,7 +35,7 @@
             <template v-if="permissaoDoUsuario === 'JURIDICA'">
               <Card style="width: 30rem;">
                 <template v-slot:card-header>
-                  <h3><span class="label label-info ">{{vaga.titulo}}</span></h3>
+                  <h3><span class="label label-info " style="color: #4E73DF;">{{vaga.titulo}}</span></h3>
                 </template>
                 <template v-slot:card-body>
                   <p><strong>Cargo:</strong> {{vaga.cargo}}</p>
@@ -82,7 +82,7 @@
               <div  v-for="vaga in isActive" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
               <List>
                 <template v-slot:list-header>
-                    <h3 class="mb-1">{{vaga.titulo}}</h3>
+                    <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
                 </template>
                 <template v-slot:list-body>
                     <p class="mb-1"><strong>Cargo:</strong> {{vaga.cargo}}</p>
@@ -91,14 +91,17 @@
                 </template>
                 <template v-slot:list-footer>
                   <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
-                  <div v-if="dataCompleted">
-                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
-                  </div>
+                  <template v-if="dataCompleted">
+                      <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                  </template>
+                  <template v-else>
+                    <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+                  </template>
                   <Modal v-if="isModalShowMore" @close="closeModal">
                         <template v-slot:header><h3>Detalhes da Vaga</h3></template>
                         <template v-slot:body>
 
-                          <h3 class="mb-1">{{vagaById[0].titulo}}</h3>
+                          <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
                           <p class="mb-1"><strong>Cargo: </strong>{{vagaById[0].cargo}}</p>
                           <p class="mb-1"><strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}</p>
                           <p class="mb-1"><strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}</p>
@@ -107,11 +110,13 @@
                           <p class="mb-1"><strong>Requisitos:</strong> {{vagaById[0].requisito}}</p>
                         </template>
                         <template v-slot:footer>
-                        <div class="modal-footer">
-                            <button @click="closeModal" class="btn btn-sm btn-outline-danger">Voltar</button>
-
-                            <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
-                        </div>
+                          <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
+                          <div v-if="dataCompleted">
+                              <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                          </div>
+                          <div v-else>
+                            <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+                          </div>
                         </template>
                   </Modal>
                   </template>

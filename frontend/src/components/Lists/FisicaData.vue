@@ -46,10 +46,8 @@
 
                             </template>
                             <template v-slot:footer>
-                            <div class="modal-footer">
-                                <button @click="onDelete" class="btn btn-lg btn-danger">Sim, quero deletar minha conta</button>
-                                <button @click="closeModal" class="btn btn-lg btn-success">Vou dar mais uma chance para vocês...</button>
-                            </div>
+                                <button @click="onDelete" class="btn btn-md btn-danger">Sim, quero deletar minha conta</button>
+                                <button @click="closeModal" class="btn btn-md btn-success">Vou dar mais uma chance para vocês...</button>
                             </template>
                         </Modal>
                     </div>
