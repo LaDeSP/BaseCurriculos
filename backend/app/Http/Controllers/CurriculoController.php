@@ -174,7 +174,7 @@ class CurriculoController extends Controller
             'cep'=> 'required|digits:8',
             'objetivos'=> 'required|max:500',
             'area' => 'required|exists:areas,id',
-            'pretensao' => 'required|numeric|gt:0', /*validar por valor ou por tamanho max*/
+            'pretensao' => 'required|numeric|min:1|max:1000000',
             'escolaridade' => 'required', /*validar lista*/
             'qualificacoes' => 'required|max:500',
             'historicoProfissional' => 'required|max:500'
@@ -214,7 +214,8 @@ class CurriculoController extends Controller
             'area.exists' => 'Insira área válida!',
             'pretensao.required' => 'Insira sua pretensão salarial!',
             'pretensao.numeric' => 'Insira sua pretensão salarial apenas com números!',
-            'pretensao.gt' => 'Insira pretensão salarial com valor maior que 0!',
+            'pretensao.min' => 'Insira pretensão salarial com valor maior que 0!',
+            'pretensao.max' => 'Insira pretensão salarial com valor máximo de 1000000!',
             'escolaridade.required' => 'Insira sua escolaridade!',
             'qualificacoes.required' => 'Insira suas qualificações!',
             'qualificacoes.max' => 'Insira suas qualificações com no máximo 500 caracteres!',
