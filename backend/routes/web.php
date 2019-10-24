@@ -24,5 +24,7 @@ Route::get('/teste', function () {
   });
 
   Route::get('/testetwo', 'UserController@teste');
+  Route::get('/testethree', 'VagaController@index');
+
 
 

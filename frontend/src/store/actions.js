@@ -5,6 +5,7 @@ import * as Cookies from 'js-cookie'
   const fisica_uri = 'http://localhost:8000/api/pfisicas';
   const curriculos_uri = 'http://localhost:8000/api/curriculos';
   const vagas_uri = 'http://localhost:8000/api/vagas';
+  const candidaturas_uri = 'http://localhost:8000/api/candidaturas';
 
   const login = async ({commit}, user) => {
       
@@ -423,7 +424,7 @@ import * as Cookies from 'js-cookie'
 
   const requestVaga = async ({commit, state}, requestVaga) => {
     const token = state.auth.token;
-    return await axios({ url: 'http://localhost:8000/api/candidaturas?token=' + token, data: requestVaga, method: 'POST'})
+    return await axios({ url: candidaturas_uri + '?token=' + token, data: requestVaga, method: 'POST'})
     .then(response => {
 
       console.log('response', response)
@@ -446,6 +447,7 @@ import * as Cookies from 'js-cookie'
         commit('vagasJuridica', payloadVagasJuridica)
         
         return response.data
+        console.log(response.data);
       }).catch(error => {
         console.log(error)
       })
@@ -522,7 +524,24 @@ import * as Cookies from 'js-cookie'
       }).catch(error => {
         console.log(error)
       })
-  }
+  };
+
+  const loadCandidaturas = async ({commit, state}) => {
+  
+    const token = state.auth.token;
+    return await axios({ url: candidaturas_uri + '?token='+ token, method: 'GET' })
+      .then(response => {
+        
+        let payloadCandidaturas = [];
+        payloadCandidaturas = response.data.candidaturas;
+  
+        //commit('candidaturas', payloadCandidaturas)
+        
+        return response.data
+      }).catch(error => {
+        console.log(error)
+      })
+    };
 
   export default {
     login,

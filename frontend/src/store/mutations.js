@@ -81,6 +81,10 @@ const newFoto = (state, payloadPath) => {
     state.upload.path = payloadPath
 }
 
+const candidaturas = (state, payloadCandidaturas) => { 
+    state.candidaturas = payloadCandidaturas
+}
+
 
   export default {
     auth_success,
@@ -93,5 +97,6 @@ const newFoto = (state, payloadPath) => {
     dataCompleted,
     vagasJuridica,
     deleteVaga,
-    newFoto
+    newFoto,
+    candidaturas,
   };

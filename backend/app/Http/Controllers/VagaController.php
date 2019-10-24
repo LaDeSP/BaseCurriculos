@@ -9,6 +9,7 @@ use Response;
 use App\Vaga;
 use App\Juridica;
 use App\Area;
+use App\User;
 
 class VagaController extends Controller
 {
@@ -16,8 +17,8 @@ class VagaController extends Controller
     public function index(){
 
         $areas = Area::all();
-        $vagas = Vaga::with('juridica', 'area')->get();
         $user_id = auth()->user()->id; 
+        $user = User::find($user_id);
        
         if(auth()->user()->role === 'JURIDICA'){
             $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
@@ -26,6 +27,14 @@ class VagaController extends Controller
                 'vagas' => $vagas_juridica,
             ], 201);   
         }else{
+
+            $vagas = Vaga::whereNotIn('id', function($q) use ($user){
+                $q->from('candidaturas')
+                    ->select('vagas_id')
+                    ->where('curriculos_id', '=', $user->fisica->curriculo->id);
+                })
+                ->with('area')->get();
+          
             return Response::json([
                 'areas' => $areas,
                 'vagas' => $vagas,
