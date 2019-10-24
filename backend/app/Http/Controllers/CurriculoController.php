@@ -153,7 +153,7 @@ class CurriculoController extends Controller
     public function rules(){
         return [
             'nome' => 'required|max:50',
-            'nascimento' => 'required', /*validar date*/
+            'nascimento' => 'required|date', 
             'estadoCivil' => 'required', /*validar lista*/
             'genero' => 'required', /*validar lista*/
             'linkedin' => 'max:50',
