@@ -8,10 +8,10 @@
   <div class="card-body">
     <slot name="card-body">
     </slot>
-    <div class="card-footer">
-      <slot name="card-footer">
-      </slot>
-    </div>
+  </div>
+  <div class="card-footer">
+    <slot name="card-footer">
+    </slot>
   </div>
 </div>
 

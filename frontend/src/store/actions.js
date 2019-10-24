@@ -540,7 +540,7 @@ import * as Cookies from 'js-cookie'
         payloadCandidaturas = response.data.candidaturas;
   
         commit('candidaturas', payloadCandidaturas)
-        //console.log('na action', payloadCandidaturas)
+        console.log('na action', response)
         return response.data
       }).catch(error => {
         console.log(error)

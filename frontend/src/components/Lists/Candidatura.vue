@@ -1,36 +1,85 @@
 <template>
     <div class="row justify-content-center">
-      <div class="panel-heading"><h2>candidaturas</h2></div>
+     <div class="col-md-9">
+      <div class="panel-heading"><h2>Candidaturas</h2></div>
       <div class="row">
-        <div v-for="show in displayCandidaturas" :key="show.id" :id="show.id">
-          <Card style="width: 30rem;">
-            <template v-slot:card-header>
-              <h3><span class="label label-info ">Vaga:{{show.vaga.titulo}}</span></h3>
-            </template>
-            <template v-slot:card-body>
-              <p>Cargo: {{show.vaga.cargo}}</p>
-              <p>Detalhes: {{show.vaga}}</p>
-            </template>
-            <template v-slot:card-footer>
-              <div v-if="permissaoDoUsuario === 'JURIDICA'">
-                  <button @click="onSchedule(show.id)" class="btn btn-sm btn-success">Ver Candidatos</button>
-                  <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Deletar</button>
+        <div v-if="!toggle">
+            <div v-for="show in displayCandidaturas" :key="show.id" :id="show.id">
+                <Card style="width: 30rem;">
+                    <template v-slot:card-header>
+                    <h3><span class="label label-info ">Vaga:{{show.vaga.titulo}}</span></h3>
+                    </template>
+                    <template v-slot:card-body>
+                    <p>Cargo: {{show.vaga.cargo}}</p>
+                    <p>Detalhes: {{show.vaga}}</p>
+                    </template>
+                    <template v-slot:card-footer>
+                    <div v-if="permissaoDoUsuario === 'JURIDICA'">
+                        <button @click="toggle = true" class="btn btn-sm btn-success">Ver Candidatos</button>
+                    </div>
+                    <div v-else>
+                        <div v-if="agendamento">
+                            <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Desistir</button>
+                        </div>
+                    </div>
+                    </template>
+                </Card>
+            </div>
+        </div>
+        <div v-else>
+            <div v-for="show in displayCandidaturas" :key="show.id" :id="show.id">
+              <List>
+                <template v-slot:list-header>
+                    <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user}}</h3>
+                </template>
+                <template v-slot:list-body>
+                    <p class="mb-1"><strong>Cargo:</strong> {{show.curriculo.contato}}</p>
+                    <p class="mb-1"><strong>Área de Atuação:</strong></p>
+                    <p class="mb-1"><strong>Jornada de Trabalho:</strong></p>
+                </template>
+                <template v-slot:list-footer>
+                  <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
+                  <template>
+                      <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                  </template>
+                  <template>
+                    <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+                  </template>
+                  <Modal v-if="isModalShowMore" @close="closeModal">
+                        <template v-slot:header><h3>Detalhes da Vaga</h3></template>
+                        <template v-slot:body>
+
+                          <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
+                          <p class="mb-1"><strong>Cargo: </strong>{{vagaById[0].cargo}}</p>
+                          <p class="mb-1"><strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}</p>
+                          <p class="mb-1"><strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}</p>
+                          <p class="mb-1"><strong>Salário:</strong> {{vagaById[0].salario}}</p>
+                          <p class="mb-1"><strong>Benefícios: </strong>{{vagaById[0].beneficio}}</p>
+                          <p class="mb-1"><strong>Requisitos:</strong> {{vagaById[0].requisito}}</p>
+                        </template>
+                        <template v-slot:footer>
+                          <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
+                          
+                          <div>
+                            <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+                          </div>
+                        </template>
+                  </Modal>
+                  </template>
+                </List>
               </div>
-              <div v-else>
-                  <div v-if="agendamento">
-                  </div>
-                  <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Desistir</button>
-              </div>
-            </template>
-          </Card>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 
 <script>
     import Card from '../Utils/CardsVagas';
+    import List from '../Utils/List';
+    import Modal from '../Utils/Modal';
+    import Curriculo from '../Lists/Curriculo';
     import NewAgenda from '../Create/NewAgenda';
     import {mapGetters, mapActions} from 'vuex';
 
@@ -39,14 +88,26 @@
             return{
 
                 candidaturas: [],
-                agendamento: false
+                toggle: false,
+                agendamento: false,
+                isModalShowMore: false,
             }
         },
-        components: {NewAgenda, Card},
+        components: {NewAgenda, Card, List, Modal},
         methods: {
             ...mapActions([
                 'loadCandidaturas'
             ]),
+
+             showModal(modal, candidato_id){
+                 this.isModalShowMore = true;
+            },
+
+            closeModal(){
+              this.isModalWarning = false;
+              this.isModalShowMore = false;
+            },
+            
             loadAAAAACandidaturas(){
                 const user_id = this.$session.get('user_id');
                 this.axios

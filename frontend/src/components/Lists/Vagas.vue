@@ -66,7 +66,7 @@
 
                         </template>
                         <template v-slot:footer>
-                        <div class="modal-footer">
+                        <div>
                             <button @click="onDelete" class="btn btn-lg btn-danger">Sim</button>
                             <button @click="closeModal" class="btn btn-lg btn-success">Não</button>
                         </div>

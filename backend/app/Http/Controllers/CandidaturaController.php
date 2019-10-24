@@ -16,6 +16,17 @@ use App\Candidatura;
 
 class CandidaturaController extends Controller
 {
+    public function teste(){
+    
+        $vagasCandidaturas =  Candidatura::with(['vaga', 'curriculo'])
+            ->join('vagas', function($join){
+            $join->on('vagas.id', '=', 'candidaturas.vagas_id')
+            ->where('vagas.juridicas_id', '=', 2);
+            })->get();
+
+           
+     //   dd($vagasCandidaturas[0]->vaga->titulo);
+    }
     public function index(){
 
         $user_id = auth()->user()->id;
@@ -23,19 +34,16 @@ class CandidaturaController extends Controller
 
         if(auth()->user()->role === 'JURIDICA'){
             $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
-            $vaga_id = Vaga::where('juridicas_id', $juridica_id)->first()->id;
             
-            $vagas_juridica = Vaga::where('juridicas_id', $juridica_id)->get();
-            $vagasComCandidaturas = Candidatura::whereIn('id', function($q) use ($user){
-                $q->from('vagas')
-                    ->select('id')
-                    ->where('curriculos_id', '=', $user->fisica->curriculo->id);
-                })
-                ->with('area')->get();
-            
-            $candidaturasJuridica = Candidatura::with(['vaga', 'curriculo'])->where('vagas_id', $vaga_id)->get();
+            $candidaturasJuridica =  Candidatura::with(['vaga', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
+                ->join('vagas', function($join) use ($juridica_id){
+                $join->on('vagas.id', '=', 'candidaturas.vagas_id')
+                ->where('vagas.juridicas_id', '=', $juridica_id);
+                })->get();
+
             return Response::json([
-                'candidaturas' => $candidaturasJuridica
+                'candidaturas' => $candidaturasJuridica,
+                'id'=> $juridica_id
             ]);
         }else{
             $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
