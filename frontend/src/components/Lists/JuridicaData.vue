@@ -18,28 +18,32 @@
             </div>
           </template>
           <template v-slot:panel-body>
-            <h4> <strong>Informações da Empresa</strong></h4>
-            <ul>
-              <li> <strong>Nome da Empresa</strong>: {{displayPessoaJuridica.razao}}</li>
-              <li> <strong>CNPJ</strong>: {{displayPessoaJuridica.cnpj}}</li>
-              <li> <strong>Ramo</strong>: {{displayPessoaJuridica.ramo}}</li>
-              <li> <strong>Rua</strong>: {{displayPessoaJuridica.rua}}</li>
-              <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null"><strong>Número</strong>:{{displayPessoaJuridica.numero}}</li>
-              <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null"><strong>Complemento</strong>:{{displayPessoaJuridica.complemento}}</li>
-              <li> <strong>Bairro</strong>: {{displayPessoaJuridica.bairro}}</li>
-              <li> <strong>Cidade</strong>: {{displayPessoaJuridica.cidade}}</li>
-              <li> <strong>CEP</strong>: {{displayPessoaJuridica.cep}}</li>
+            <div class="row justify-content-center">
+            <div class="col-6">
+              <h4> <strong>Informações da Empresa</strong></h4>
+              <ul>
+                <li> <strong>Nome da Empresa</strong>: {{displayPessoaJuridica.razao}}</li>
+                <li> <strong>CNPJ</strong>: {{displayPessoaJuridica.cnpj}}</li>
+                <li> <strong>Ramo</strong>: {{displayPessoaJuridica.ramo}}</li>
+                <li> <strong>Rua</strong>: {{displayPessoaJuridica.rua}}</li>
+                <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null"><strong>Número</strong>:{{displayPessoaJuridica.numero}}</li>
+                <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null"><strong>Complemento</strong>:{{displayPessoaJuridica.complemento}}</li>
+                <li> <strong>Bairro</strong>: {{displayPessoaJuridica.bairro}}</li>
+                <li> <strong>Cidade</strong>: {{displayPessoaJuridica.cidade}}</li>
+                <li> <strong>CEP</strong>: {{displayPessoaJuridica.cep}}</li>
 
-              <li> <strong>Telefone Fixo</strong>: {{displayPessoaJuridica.fixo}}</li>
-              <li> <strong>Telefone Celular</strong>: {{displayPessoaJuridica.celular}}</li>
-            </ul>
-            <h4><strong>Redes Sociais</strong></h4>
-            <ul>
-              <li v-if="typeof displayPessoaJuridica.facebook !== 'undefined' || null">Facebook: {{displayPessoaJuridica.facebook}}</li>
-              <li v-if="typeof displayPessoaJuridica.twitter !== 'undefined' || null">Twitter: {{displayPessoaJuridica.twitter}}</li>
-              <li v-if="typeof displayPessoaJuridica.linkedin !== 'undefined' || null">Linkedin: {{displayPessoaJuridica.linkedin}}</li>
-              <li v-if="typeof displayPessoaJuridica.site !== 'undefined' || null">Site: {{displayPessoaJuridica.site}}</li>
-            </ul>
+                <li> <strong>Telefone Fixo</strong>: {{displayPessoaJuridica.fixo}}</li>
+                <li> <strong>Telefone Celular</strong>: {{displayPessoaJuridica.celular}}</li>
+              </ul>
+              <h4><strong>Redes Sociais</strong></h4>
+              <ul>
+                <li v-if="typeof displayPessoaJuridica.facebook !== 'undefined' || null">Facebook: {{displayPessoaJuridica.facebook}}</li>
+                <li v-if="typeof displayPessoaJuridica.twitter !== 'undefined' || null">Twitter: {{displayPessoaJuridica.twitter}}</li>
+                <li v-if="typeof displayPessoaJuridica.linkedin !== 'undefined' || null">Linkedin: {{displayPessoaJuridica.linkedin}}</li>
+                <li v-if="typeof displayPessoaJuridica.site !== 'undefined' || null">Site: {{displayPessoaJuridica.site}}</li>
+              </ul>
+            </div>
+            </div>
           </template>
           <template v-slot:panel-footer>
             <div class="row">
