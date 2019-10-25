@@ -2,14 +2,14 @@
 <div>
 
   <div class="row justify-content-center">
-    <div div class="col-7">
+    <div div class="col-8">
       <div class="btn-group">
         <router-link to="/dashboard-juridica" class="btn btn-primary btn-lg btn-block"><i class="fas fa-arrow-left"></i>Voltar</router-link>
       </div>
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col-7">
+    <div class="col-8">
       <div v-if="this.dataCompleted">
         <painel>
           <template v-slot:panel-heading>
