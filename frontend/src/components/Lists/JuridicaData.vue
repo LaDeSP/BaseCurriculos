@@ -1,23 +1,24 @@
 <template>
 <div>
 
-  <div class="row justify-content-center">
-    <div div class="col-8">
-      <div class="btn-group">
-        <router-link to="/dashboard-juridica" class="btn btn-primary btn-lg btn-block"><i class="fas fa-arrow-left"></i>Voltar</router-link>
-      </div>
-    </div>
-  </div>
+
   <div class="row justify-content-center">
     <div class="col-8">
       <div v-if="this.dataCompleted">
-        <painel>
-          <template v-slot:panel-heading>
+        <card>
+          <template v-slot:card-header>
+            <div class="row justify-content-center">
+              <div div class="col-12">
+                <div class="btn-group">
+                  <router-link to="/dashboard-juridica" class="btn btn-primary btn-lg btn-block"><i class="fas fa-arrow-left"></i>Voltar</router-link>
+                </div>
+              </div>
+            </div>
             <div class="container d-flex justify-content-center">
               <img class="rounded-circle icon-profile" :src=path>
             </div>
           </template>
-          <template v-slot:panel-body>
+          <template v-slot:card-body>
             <div class="row justify-content-center">
             <div class="col-6">
               <h4> <strong>Informações da Empresa</strong></h4>
@@ -45,7 +46,7 @@
             </div>
             </div>
           </template>
-          <template v-slot:panel-footer>
+          <template v-slot:card-footer>
             <div class="row">
               <div class="col-md-8 float-left" >
                 <router-link to="/add-juridica" class="btn btn-lg btn-warning">Editar Informações</router-link>
@@ -55,7 +56,7 @@
               </div>
             </div>
           </template>
-        </painel>
+        </card>
       </div>
       <div v-else>
           <h4>Você ainda não completou suas informações... Que tal fazer isso agora?</h4>
