@@ -1,7 +1,5 @@
 <template>
 <div>
-
-
   <div class="row justify-content-center">
     <div class="col-8">
       <div v-if="this.dataCompleted">
@@ -47,14 +45,19 @@
             </div>
           </template>
           <template v-slot:card-footer>
-            <div class="row">
-              <div class="col-md-8 float-left" >
-                <router-link to="/add-juridica" class="btn btn-lg btn-warning">Editar Informações</router-link>
+            <div class="row justify-content-center">
+              <div class="col-9">
+                <div class="row">
+                  <div class="col-md-7" >
+                    <router-link to="/add-juridica" class="btn btn-lg btn-warning">Editar Informações</router-link>
+                  </div>
+                  <div class="col-md-5 " >
+                    <button @click="showModal" class="btn btn-lg btn-danger">Deletar Conta</button>
+                  </div>
               </div>
-              <div class="col-md-4 float-right" >
-                <button @click="showModal" class="btn btn-lg btn-danger">Deletar Conta</button>
               </div>
             </div>
+
           </template>
         </card>
       </div>
