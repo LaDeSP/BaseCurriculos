@@ -11,7 +11,6 @@
       <center><h2>Currículo</h2></center>
     </template>
     <template v-slot:card-body>
-        <hr>
         <h4>Objetivos</h4>
         <p>{{displayCurriculo.objetivos}}</p>
         <hr>
@@ -29,7 +28,6 @@
         <hr>
         <h4>Qualificações</h4>
         <p>{{displayCurriculo.qualificacoes}}</p>
-        <hr>
       </template>
   </card>
 </template>
