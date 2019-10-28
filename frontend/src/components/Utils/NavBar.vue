@@ -4,7 +4,7 @@
       <nav class="navbar ">
         <span class="navbar-brand">Banco de Currículos</span>
       </nav>
-      <div class="container-fluid">
+      <div class="container">
           <busca></busca>
       </div>
 			

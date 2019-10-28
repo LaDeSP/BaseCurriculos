@@ -23,7 +23,7 @@ Route::get('/teste', function () {
     return view('teste');
   });
 
-  Route::get('/testetwo', 'UserController@teste');
+  Route::get('/testetwo', 'CandidaturaController@teste');
   Route::get('/testethree', 'VagaController@index');
 
 
