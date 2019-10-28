@@ -4,7 +4,7 @@
       <nav class="navbar ">
         <span class="navbar-brand">Banco de Currículos</span>
       </nav>
-      <div class="container-fluid">
+      <div class="container">
           <busca></busca>
       </div>
 			
@@ -102,9 +102,12 @@ import busca from './BarraBusca';
           Logout,busca
         },
         data(){
+              console.log(this.$store.state.upload.path);
+
             return{
               name: this.$store.state.auth.user.name,
             }
+            
         },
     }
 </script>

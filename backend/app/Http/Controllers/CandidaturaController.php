@@ -21,7 +21,7 @@ class CandidaturaController extends Controller
       /*  $vagasCandidaturas =  Candidatura::with(['vaga', 'curriculo'])
             ->join('vagas', function($join){
             $join->on('vagas.id', '=', 'candidaturas.vagas_id')
-            ->where('vagas.juridicas_id', '=', 2);
+            ->where('vagas.juridicas_id', '=', 1);
             })->get();
      */
             $candidaturasJuridica =  Candidatura::with(['vaga', 'curriculo.fisica.contato', 'curriculo.fisica.user'])

@@ -492,7 +492,7 @@ import * as Cookies from 'js-cookie'
     return await axios({ url: 'http://localhost:8000/api/getActualPhoto?token='+ token, method: 'GET' })
       .then(response => {
 
-        let payloadPath = response.data.path;
+        let payloadPath = response.data.foto;
         commit('newFoto', payloadPath)
 
       }).catch(error => {
@@ -507,7 +507,7 @@ import * as Cookies from 'js-cookie'
     return await axios({ url: 'http://localhost:8000/api/deletePhoto?token='+ token, method: 'POST' })
       .then(response => {
 
-        let payloadPath = response.data.path;
+        let payloadPath = response.data.foto;
         commit('newFoto', payloadPath)
 
       }).catch(error => {
@@ -521,8 +521,8 @@ import * as Cookies from 'js-cookie'
     return await axios({ url: 'http://localhost:8000/api/areas?token=' + token, method: 'GET' })
       .then(response => {
 
-        let payloadPath = response.data.path;
-        commit('newFoto', payloadPath)
+        //let payloadPath = response.data.path;
+        //commit('newFoto', payloadPath)
         
         return response.data
       }).catch(error => {
@@ -547,6 +547,18 @@ import * as Cookies from 'js-cookie'
       })
     };
 
+    const searchVagas = async ({commit, state}, keywords) => {
+  
+      const token = state.auth.token;
+      return await axios({ url: 'http://localhost:8000/api/buscaVagas/' + keywords + '?token='+ token, method: 'GET' })
+        .then(response => {
+          //console.log(response.data);
+          return response.data
+        }).catch(error => {
+          console.log(error)
+        })
+      };
+
   export default {
     login,
     logout,
@@ -570,6 +582,7 @@ import * as Cookies from 'js-cookie'
     deleteUserPhoto,
     loadArea,
     loadCandidaturas,
+    searchVagas,
 
   
   };
