@@ -82,7 +82,7 @@ class UploadController extends Controller
         }
 
         return Response::json([
-            'path'=>$path
+            'foto'=>$path
            ], 200);
     }
 
@@ -96,7 +96,7 @@ class UploadController extends Controller
             }
             $foto->delete();
             return Response::json([
-                'path'=>"http://localhost:8000/anon.jpg"
+                'foto'=>"http://localhost:8000/anon.jpg"
                ], 200);
         }
         else{
@@ -108,7 +108,7 @@ class UploadController extends Controller
         }
 
         return Response::json([
-            'path'=>'deu ruim'
+            'foto'=>'deu ruim'
            ], 201);
     }
 

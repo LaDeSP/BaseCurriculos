@@ -30,6 +30,8 @@ import Sobre from './components/Home/Sobre.vue';
 
 import { store } from './store/store';
 
+import Buscas from './components/Lists/Buscas'
+
 const routes = [
     {path: '', name:'home', component: Home, meta:{isHome: true}},
     {path: '/sobre', component: Sobre,meta:{isHome:true}},
@@ -49,6 +51,7 @@ const routes = [
     {path: '/candidaturas', name: 'candidaturas', component: Candidatura},
     {path: '/dashboard-fisica', name: 'dashboard-fisica', component: DashFIS, meta: {requiresAuth: true}},
     {path: '/dashboard-juridica', name: 'dashboard-juridica', component: DashJUR, meta: {requiresAuth: true}},
+    {path: '/buscas', name: 'buscas', component: Buscas},
     {path: '*', component: DeuRuim}
 
 ];

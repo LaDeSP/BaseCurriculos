@@ -44,6 +44,7 @@ Route::group([
     Route::get('/getActualPhoto', 'UploadController@getActualPhoto');
     Route::post('/deletePhoto/{id?}', 'UploadController@deletePhoto');//delete
     Route::post('/vagas/changeStatus', 'VagaController@changeStatus');
+    Route::get('/buscaVagas/{keywords}', 'BuscaController@buscaVagas');
 });
 
 Route::resource('/agenda', 'AgendaController', [

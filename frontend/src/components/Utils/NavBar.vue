@@ -102,9 +102,12 @@ import busca from './BarraBusca';
           Logout,busca
         },
         data(){
+              console.log(this.$store.state.upload.path);
+
             return{
               name: this.$store.state.auth.user.name,
             }
+            
         },
     }
 </script>
