@@ -1,7 +1,7 @@
 <template>
   <div class="panel">
-    <div class="panel-head">
-      <slot name="panel-head"></slot>
+    <div class="panel-heading">
+      <slot name="panel-heading"></slot>
     </div>
     <div class="panel-body">
       <slot name="panel-body">
