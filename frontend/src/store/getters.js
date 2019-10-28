@@ -84,8 +84,8 @@ const displayVagasJuridica = state =>{
 const displayVagaById = (state) => (vaga_id) => {
   
     let vagas = state.vagasJuridica;
-    let teste = vagas.filter((vagaById) => {return vagaById.id === vaga_id})
-    return teste
+    let vagasById = vagas.filter((vagaById) => {return vagaById.id === vaga_id})
+    return vagasById
   
 }
 
@@ -98,6 +98,19 @@ const displayCandidaturas = state =>{
 }
 
 
+const displayCandidaturasByVaga = (state) => (vaga_id) => {
+  
+  let candidaturas = state.candidaturas;
+  let teste = candidaturas.filter((candidaturasByVaga) => 
+  {
+    return candidaturasByVaga.vaga_id === vaga_id
+  })
+  console.log(candidaturas);
+  console.log('teste', teste);
+ // return teste
+
+}
+
 export default {
   isLoggedIn,
   authStatus,
@@ -109,4 +122,5 @@ export default {
   displayVagaById,
   permissaoDoUsuario,
   displayCandidaturas,
+  displayCandidaturasByVaga,
 };

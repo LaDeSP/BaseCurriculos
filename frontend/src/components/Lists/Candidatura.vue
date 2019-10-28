@@ -11,7 +11,7 @@
             <div v-for="show in displayCandidaturas" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
-                    <h3><span class="label label-info ">Vaga:{{show.vaga.titulo}}</span></h3>
+                    <h3><span class="label label-info ">Vaga:{{show.id}}</span></h3>
                     </template>
                     <template v-slot:card-body>
                     <p>Cargo: {{show.vaga.cargo}}</p>
@@ -19,7 +19,7 @@
                     </template>
                     <template v-slot:card-footer>
                     <div v-if="permissaoDoUsuario === 'JURIDICA'">
-                        <button @click="toggle = true" class="btn btn-sm btn-success">Ver Candidatos</button>
+                        <button @click="vagaDaCandidatura(show.id)" class="btn btn-sm btn-success">Ver Candidatos</button>
                     </div>
                     <div v-else>
                         <div v-if="agendamento">
@@ -31,7 +31,10 @@
             </div>
         </div>
         <div v-else>
-            <div v-for="show in displayCandidaturas" :key="show.id" :id="show.id">
+            <div>
+                <button @click="toggle = false" class="btn btn-sm btn-outline-secondary">Voltar</button>
+            </div>
+            <div v-for="show in candidaturasByVaga" :key="show.id" :id="show.id">
               <List>
                 <template v-slot:list-header>
                     <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user}}</h3>
@@ -96,6 +99,7 @@
                 toggle: false,
                 agendamento: false,
                 isModalShowMore: false,
+                vaga_id: 0,
             }
         },
         components: {NewAgenda, Card, List, Modal,painel},
@@ -111,6 +115,12 @@
             closeModal(){
               this.isModalWarning = false;
               this.isModalShowMore = false;
+            },
+
+            vagaDaCandidatura(vaga_id){
+                this.toggle = true;
+                this.vaga_id = vaga_id;
+                console.log('vaga_id', vaga_id);
             },
 
             loadAAAAACandidaturas(){
@@ -140,13 +150,16 @@
 
         computed: {
             ...mapGetters([
-                'displayCandidaturas', 'permissaoDoUsuario'
+                'displayCandidaturas', 'permissaoDoUsuario', 'displayCandidaturasByVaga'
             ]),
+            candidaturasByVaga() {
+                return this.displayCandidaturasByVaga(this.vaga_id)
+            },
         },
 
         async created(){
             await this.loadCandidaturas();
-            console.log(this.displayCandidaturas)
+            console.log('display', this.displayCandidaturas)
 
         },
 

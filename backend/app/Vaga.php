@@ -13,7 +13,7 @@ class Vaga extends Model
 	];
 
 	public function candidatura(){
-    	return $this->hasMany(Vaga::class);
+		return $this->hasMany(Candidatura::class, 'vagas_id');
 	}
     public function area(){
     	return $this->belongsTo(Area::class, 'areas_id');
