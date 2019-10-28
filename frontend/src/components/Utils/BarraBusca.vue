@@ -20,7 +20,18 @@
     },
     methods: {
       redirect(){
+        if (this.$router.currentRoute.name == "buscas"){
+          this.$parent.$parent.$children[1].resultado = [];
+          this.$store.dispatch('searchVagas', this.keywords)
+            .then(response => {
+                console.log(response);
+                this.$parent.$parent.$children[1].resultado = response;
+            })
+            .catch(error => console.log(error))
+        }
+        else {
           this.$router.push({ name: 'buscas',  params: {keywords : this.keywords} })
+        }
       }
     },
   }
