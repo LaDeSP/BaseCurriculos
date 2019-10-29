@@ -111,6 +111,10 @@ const displayCandidaturasByVaga = (state) => (vaga_id) => {
 
 }
 
+const displayResultados = state =>{
+  return state.resultado
+}
+
 export default {
   isLoggedIn,
   authStatus,
@@ -123,4 +127,5 @@ export default {
   permissaoDoUsuario,
   displayCandidaturas,
   displayCandidaturasByVaga,
+  displayResultados,
 };

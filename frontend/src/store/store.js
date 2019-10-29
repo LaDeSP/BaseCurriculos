@@ -70,6 +70,7 @@ export const store = new Vuex.Store({
    candidaturas: [],
    dataCompleted: false,
    hasVaga: false,
+   resultado: [],
   },
 
   actions,

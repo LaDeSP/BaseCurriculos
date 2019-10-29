@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="vaga in resultado" :key="vaga.id" :id="vaga.id">
+        <div v-for="vaga in displayResultados" :key="vaga.id" :id="vaga.id">
             <Card style="width: 30rem;">
                 <template v-slot:card-header>
                   <h3><span class="label label-info " style="color: #4E73DF;">{{vaga.titulo}}</span></h3>
@@ -19,7 +19,7 @@
                 </template>
               </Card>
         </div>
-        <div v-if="resultado.length==0">
+        <div v-if="displayResultados.length==0">
             <h1>Nenhum resultado encontrado</h1> 
         </div>
     </div>
@@ -27,12 +27,12 @@
 
 <script>
 import Card from '../Utils/CardsVagas';
+import {mapGetters} from 'vuex';
 
 export default {
     data(){
         return{
             keywords: '',
-            resultado: [],
         }
     },
     components: {Card},
@@ -40,10 +40,15 @@ export default {
     created(){
         this.$store.dispatch('searchVagas', this.$route.params.keywords)
             .then(response => {
-                console.log(response);
-                this.resultado = response;
+                console.log('state', this.$store.state.resultado);
             })
             .catch(error => console.log(error))
+    },
+
+    computed:{
+        ...mapGetters([
+            'displayResultados'
+        ]),
     },
  }
 </script>

@@ -85,6 +85,10 @@ const candidaturas = (state, payloadCandidaturas) => {
     state.candidaturas = payloadCandidaturas
 }
 
+const buscaVagas = (state, payloadBuscaVagas) => { 
+    state.resultado = payloadBuscaVagas
+}
+
 
   export default {
     auth_success,
@@ -99,4 +103,5 @@ const candidaturas = (state, payloadCandidaturas) => {
     deleteVaga,
     newFoto,
     candidaturas,
+    buscaVagas
   };

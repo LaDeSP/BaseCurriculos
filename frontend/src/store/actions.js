@@ -552,7 +552,11 @@ import * as Cookies from 'js-cookie'
       const token = state.auth.token;
       return await axios({ url: 'http://localhost:8000/api/buscaVagas/' + keywords + '?token='+ token, method: 'GET' })
         .then(response => {
-          //console.log(response.data);
+          //console.log('na action', response.data);
+          let payloadResultados = [];
+
+          payloadResultados = response.data;
+          commit('buscaVagas', payloadResultados)
           return response.data
         }).catch(error => {
           console.log(error)
