@@ -38,7 +38,7 @@ export default {
     components: {Card},
 
     created(){
-        this.$store.dispatch('searchVagas', this.$route.params.keywords)
+        this.$store.dispatch('searchVagas', this.$route.query.keywords)
             .then(response => {
                 console.log('state', this.$store.state.resultado);
             })

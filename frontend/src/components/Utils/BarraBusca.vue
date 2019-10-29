@@ -30,7 +30,7 @@
             .catch(error => console.log(error))
         }
         else {
-          this.$router.push({ name: 'buscas',  params: {keywords : this.keywords} })
+          this.$router.push({ path: 'buscas', query: { keywords: this.keywords } })
         }
       }
     },
