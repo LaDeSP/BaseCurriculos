@@ -11,7 +11,7 @@
             <div v-for="show in displayCandidaturas" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
-                    <h3><span class="label label-info ">Vaga:{{show.id}}</span></h3>
+                    <h3><span class="label label-info ">Vaga: {{show.vaga.titulo}}</span></h3>
                     </template>
                     <template v-slot:card-body>
                     <p>Cargo: {{show.vaga.cargo}}</p>

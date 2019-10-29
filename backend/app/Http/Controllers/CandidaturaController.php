@@ -24,15 +24,20 @@ class CandidaturaController extends Controller
             ->where('vagas.juridicas_id', '=', 1);
             })->get();
      */
-            $candidaturasJuridica =  Candidatura::with(['vaga', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
+        /*    $candidaturasJuridica =  Candidatura::with(['vaga', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
             ->join('vagas', function($join) {
             $join->on('vagas.id', '=', 'candidaturas.vagas_id')
             ->where('vagas.juridicas_id', '=', 1);
             })->get();
 
-            $vagasJuridica = Vaga::where('juridicas_id', 1)->get();
-           
-            dd($vagasJuridica[0]->candidatura);
+          */
+
+          $candidaturasJuridica =  Candidatura::with(['vaga', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
+            ->whereHas('vaga', function($query) { 
+                $query->where('id', '=', 1);
+            })->get();
+            
+            dd($candidaturasJuridica);
       //  dd($vagasCandidaturas[0]->vaga->titulo);
     }
 
@@ -43,18 +48,13 @@ class CandidaturaController extends Controller
 
         if(auth()->user()->role === 'JURIDICA'){
             $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
-            
-            //$candidaturasJuridica =  Candidatura::with(['vaga', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
-              //  ->join('vagas', function($join) use ($juridica_id){
-               // $join->on('vagas.id', '=', 'candidaturas.vagas_id')
-               // ->where('vagas.juridicas_id', '=', $juridica_id);
-                //})->get();
-                $candidaturasJuridica = Vaga::where('juridicas_id', juridica_id)
-                    ->with(['vaga', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
-                    ->get();
-
+            $candidaturasJuridica =  Candidatura::with(['vaga', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
+            ->whereHas('vaga', function($query) use ($juridica_id){ 
+                $query->where('juridicas_id', '=', $juridica_id);
+            })->get();
+        
             return Response::json([
-                'candidaturas' => 1,
+                'candidaturas' => $candidaturasJuridica,
                 'id'=> $juridica_id
             ]);
         }else{
