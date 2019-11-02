@@ -8,14 +8,14 @@
       </painel>
       <div class="row">
         <div v-if="!toggle">
-            <div v-for="show in displayCandidaturas" :key="show.id" :id="show.id">
+            <div v-for="show in vagasCandidaturas" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
                     <h3><span class="label label-info ">Vaga: {{show.vaga.titulo}}</span></h3>
                     </template>
                     <template v-slot:card-body>
                     <p>Cargo: {{show.vaga.cargo}}</p>
-                    <p>Detalhes: {{show.vaga}}</p>
+                    <p>Detalhes: {{show}}</p>
                     </template>
                     <template v-slot:card-footer>
                     <div v-if="permissaoDoUsuario === 'JURIDICA'">
@@ -88,7 +88,7 @@
     import Modal from '../Utils/Modal';
     import Curriculo from '../Lists/Curriculo';
     import NewAgenda from '../Create/NewAgenda';
-    import {mapGetters, mapActions} from 'vuex';
+    import {mapGetters, mapActions, mapState} from 'vuex';
     import painel from '../Utils/Painel';
 
     export default {
@@ -151,6 +151,9 @@
         computed: {
             ...mapGetters([
                 'displayCandidaturas', 'permissaoDoUsuario', 'displayCandidaturasByVaga'
+            ]),
+            ...mapState([
+                'vagasCandidaturas'
             ]),
             candidaturasByVaga() {
                 return this.displayCandidaturasByVaga(this.vaga_id)

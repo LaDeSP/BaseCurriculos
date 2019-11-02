@@ -85,6 +85,11 @@ const candidaturas = (state, payloadCandidaturas) => {
     state.candidaturas = payloadCandidaturas
 }
 
+
+const vagasCandidaturas = (state, payloadVagasCandidaturas) => { 
+    state.vagasCandidaturas = payloadVagasCandidaturas
+}
+
 const buscaVagas = (state, payloadBuscaVagas) => { 
     state.resultado = payloadBuscaVagas
 }
@@ -103,5 +108,6 @@ const buscaVagas = (state, payloadBuscaVagas) => {
     deleteVaga,
     newFoto,
     candidaturas,
-    buscaVagas
+    vagasCandidaturas,
+    buscaVagas,
   };

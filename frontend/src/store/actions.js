@@ -536,10 +536,10 @@ import * as Cookies from 'js-cookie'
     return await axios({ url: candidaturas_uri + '?token='+ token, method: 'GET' })
       .then(response => {
         
-        let payloadCandidaturas = [];
-        payloadCandidaturas = response.data.candidaturas;
+        let payloadVagasCandidaturas = [];
+        payloadVagasCandidaturas = response.data.candidaturas;
   
-        commit('candidaturas', payloadCandidaturas)
+        commit('vagasCandidaturas', payloadVagasCandidaturas)
         console.log('na action', response)
         return response.data
       }).catch(error => {

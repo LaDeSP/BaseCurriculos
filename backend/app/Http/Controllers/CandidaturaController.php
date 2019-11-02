@@ -33,10 +33,10 @@ class CandidaturaController extends Controller
           */
 
           $candidaturasJuridica =  Candidatura::with(['vaga', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
-            ->whereHas('vaga', function($query) { 
-                $query->where('id', '=', 1);
-            })->get();
-            
+            ->whereHas('vaga', function($query){ 
+                $query->where('juridicas_id', '=', 1);
+            })->groupBy('vagas_id');
+      
             dd($candidaturasJuridica);
       //  dd($vagasCandidaturas[0]->vaga->titulo);
     }
@@ -50,11 +50,16 @@ class CandidaturaController extends Controller
             $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
             $candidaturasJuridica =  Candidatura::with(['vaga', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
             ->whereHas('vaga', function($query) use ($juridica_id){ 
-                $query->where('juridicas_id', '=', $juridica_id);
+                $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
             })->get();
-        
+
+          
+            $collection = collect($candidaturasJuridica);
+            $unique = $collection->unique('vagas_id');
+            $unique_data = $unique->values()->all();
+            
             return Response::json([
-                'candidaturas' => $candidaturasJuridica,
+                'candidaturas' => $unique_data,
                 'id'=> $juridica_id
             ]);
         }else{
