@@ -12,6 +12,7 @@
                     <p><strong>Objetivos:</strong> {{curriculo.objetivos}}</p>
                     <p><strong>Pretensão Salarial:</strong> {{curriculo.pretensao}}</p>
                     <p><strong>Histórico Profissional:</strong> {{curriculo.historicoProfissional}}</p>
+                    <p><strong>Cidade:</strong> {{curriculo.fisica.endereco.cidade}}</p>
                     </template>
                     <template v-slot:card-footer>
                     </template>
