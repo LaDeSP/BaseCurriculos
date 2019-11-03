@@ -561,7 +561,54 @@ import * as Cookies from 'js-cookie'
         }).catch(error => {
           console.log(error)
         })
-      };
+    };
+
+    const searchVagasAvancadas = async ({commit, state}, pesquisa) => {
+  
+      const token = state.auth.token;
+      if (pesquisa.keywords==''){
+        pesquisa.keywords='undefined';
+      }
+      if (pesquisa.cargo==''){
+        pesquisa.cargo='undefined';
+      }
+      if (pesquisa.beneficio==''){
+        pesquisa.beneficio='undefined';
+      }
+      if (pesquisa.jornada==''){
+        pesquisa.jornada='undefined';
+      }
+      if (pesquisa.requisitos==''){
+        pesquisa.requisitos='undefined';
+      }
+      return await axios({ url: 'http://localhost:8000/api/buscaVagasAvancadas/' + pesquisa.keywords + '/' + pesquisa.cargo + '/' + pesquisa.beneficio + '/' + pesquisa.jornada + '/' + pesquisa.requisitos + '?token='+ token, method: 'GET' })
+        .then(response => {
+          //console.log('na action', response.data);
+          let payloadResultados = [];
+
+          payloadResultados = response.data;
+          commit('buscaVagas', payloadResultados)
+          return response.data
+        }).catch(error => {
+          console.log(error)
+        })
+    };
+
+    const searchCurriculos = async ({commit, state}, keywords) => {
+  
+      const token = state.auth.token;
+      return await axios({ url: 'http://localhost:8000/api/buscaCurriculos/' + keywords + '?token='+ token, method: 'GET' })
+        .then(response => {
+          //console.log('na action', response.data);
+          let payloadResultados = [];
+
+          payloadResultados = response.data;
+          commit('buscaVagas', payloadResultados)
+          return response.data
+        }).catch(error => {
+          console.log(error)
+        })
+    };
 
   export default {
     login,
@@ -587,6 +634,8 @@ import * as Cookies from 'js-cookie'
     loadArea,
     loadCandidaturas,
     searchVagas,
+    searchVagasAvancadas,
+    searchCurriculos,
 
   
   };

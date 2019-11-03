@@ -1,5 +1,28 @@
 <template>
-    <div class="container">
+    <div class="container" v-if="permissaoDoUsuario === 'JURIDICA'">
+         <div class="row">
+            <div class="col-md-6" v-for="curriculo in displayResultados" :key="curriculo.id" :id="curriculo.id">
+                <Card style="width: 30rem;">
+                    <template v-slot:card-header>
+                    <h3><span class="label label-info " style="color: #4E73DF;">Nome</span></h3>
+                    </template>
+                    <template v-slot:card-body>
+                    <p><strong>Qualificações:</strong> {{curriculo.qualificacoes}}</p>
+                    <p><strong>Escolaridade:</strong> {{curriculo.escolaridade}}</p>
+                    <p><strong>Objetivos:</strong> {{curriculo.objetivos}}</p>
+                    <p><strong>Salário:</strong> {{curriculo.salario}}</p>
+                    <p><strong>Histórico Profissional:</strong> {{curriculo.historicoProfissional}}</p>
+                    </template>
+                    <template v-slot:card-footer>
+                    </template>
+                </Card>
+            </div>
+        </div>
+        <div v-if="displayResultados.length==0">
+            <h1>Nenhum resultado encontrado</h1> 
+        </div>
+    </div>
+    <div class="container" v-else>
         <div class="row">
             <div class="col-md-6" v-for="vaga in displayResultados" :key="vaga.id" :id="vaga.id">
                 <Card style="width: 30rem;">
@@ -40,16 +63,44 @@ export default {
     components: {Card},
 
     created(){
-        this.$store.dispatch('searchVagas', this.$route.query.keywords)
+        if(this.$store.state.auth.user.role == 'JURIDICA'){
+            this.$store.dispatch('searchCurriculos', this.$route.query.keywords)
             .then(response => {
                 console.log('state', this.$store.state.resultado);
             })
             .catch(error => console.log(error))
+        }
+        else {
+            if((this.$route.query.cargo!='' || this.$route.query.beneficio!='' || this.$route.query.jornada!='' || this.$route.query.requisitos!='') == true && (this.$route.query.cargo!=undefined || this.$route.query.beneficio!=undefined || this.$route.query.jornada!=undefined || this.$route.query.requisitos!=undefined) == true){
+                console.log('created if'); 
+                let pesquisa = {
+                    keywords : this.$route.query.keywords,
+                    cargo : this.$route.query.cargo, 
+                    beneficio : this.$route.query.beneficio, 
+                    jornada : this.$route.query.jornada,
+                    requisitos : this.$route.query.requisitos
+                }
+                this.$store.dispatch('searchVagasAvancadas', pesquisa)
+                .then(response => {
+                    console.log('state', this.$store.state.resultado);
+                })
+                .catch(error => console.log(error))
+            }
+            else{
+                console.log('created else');
+                this.$store.dispatch('searchVagas', this.$route.query.keywords)
+                .then(response => {
+                    console.log('state', this.$store.state.resultado);
+                })
+                .catch(error => console.log(error))
+            }
+        }
+        
     },
 
     computed:{
         ...mapGetters([
-            'displayResultados'
+            'displayResultados', 'permissaoDoUsuario'
         ]),
     },
  }
