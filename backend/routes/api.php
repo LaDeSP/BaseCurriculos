@@ -47,6 +47,7 @@ Route::group([
     Route::get('/buscaVagas/{keywords}', 'BuscaController@buscaVagas');
     Route::get('/buscaVagasAvancadas/{keywords?}/{cargo?}/{beneficio?}/{jornada?}/{requisitos?}', 'BuscaController@buscaVagasAvancadas');
     Route::get('/buscaCurriculos/{keywords}', 'BuscaController@buscaCurriculos');
+    Route::get('/buscaCurriculosAvancadas/{keywords?}/{escolaridade?}/{objetivos?}/{historicoProfissional?}/{cidade?}/{nome?}', 'BuscaController@buscaCurriculosAvancadas');
 });
 
 Route::resource('/agenda', 'AgendaController', [

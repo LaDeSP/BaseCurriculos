@@ -82,7 +82,12 @@ class BuscaController extends Controller
             $nome=null;
         }
 
-        $curriculos = Curriculo::when($keywords,function($query, $keywords){//fazer joins com fisica e endereço. mas n lembro como faz kkk 
+        $curriculos = Curriculo::select('curriculos.*', 'enderecos.cidade')
+                ->with(['fisica.user'])
+                ->join('fisicas', 'fisicas.id', '=', 'curriculos.fisicas_id')
+                ->join('enderecos', 'enderecos.id', '=', 'fisicas.enderecos_id')
+                ->join('users', 'users.id', '=', 'fisicas.user_id')
+                ->when($keywords,function($query, $keywords){//fazer joins com fisica e endereço. mas n lembro como faz kkk 
                     $query->where('qualificacoes', 'like', '%' . $keywords . '%');
                 })
                 ->when($escolaridade,function($query, $escolaridade){
@@ -93,6 +98,12 @@ class BuscaController extends Controller
                 })
                 ->when($historicoProfissional, function($query, $historicoProfissional){
                     $query->where('historicoProfissional', 'like', '%' . $historicoProfissional . '%');
+                })
+                ->when($cidade, function($query, $cidade){
+                    $query->where('enderecos.cidade', 'like', '%' . $cidade . '%');
+                })
+                ->when($nome, function($query, $nome){
+                    $query->where('users.name', 'like', '%' . $nome . '%');
                 })
                 ->get();
 
