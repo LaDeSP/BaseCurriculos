@@ -56,7 +56,7 @@ class BuscaController extends Controller
     }
 
     public function buscaCurriculos($keywords){
-        $curriculos = Curriculo::where('qualificacoes', 'like', '%' . $keywords . '%')->get();
+        $curriculos = Curriculo::with(['fisica.user'])->where('qualificacoes', 'like', '%' . $keywords . '%')->get();
 
 
         return response()->json($curriculos);

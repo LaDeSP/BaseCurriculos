@@ -4,13 +4,13 @@
             <div class="col-md-6" v-for="curriculo in displayResultados" :key="curriculo.id" :id="curriculo.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
-                    <h3><span class="label label-info " style="color: #4E73DF;">Nome</span></h3>
+                    <h3><span class="label label-info " style="color: #4E73DF;">{{curriculo.fisica.user.name}}</span></h3>
                     </template>
                     <template v-slot:card-body>
                     <p><strong>Qualificações:</strong> {{curriculo.qualificacoes}}</p>
                     <p><strong>Escolaridade:</strong> {{curriculo.escolaridade}}</p>
                     <p><strong>Objetivos:</strong> {{curriculo.objetivos}}</p>
-                    <p><strong>Salário:</strong> {{curriculo.salario}}</p>
+                    <p><strong>Pretensão Salarial:</strong> {{curriculo.pretensao}}</p>
                     <p><strong>Histórico Profissional:</strong> {{curriculo.historicoProfissional}}</p>
                     </template>
                     <template v-slot:card-footer>
