@@ -64,11 +64,28 @@ export default {
 
     created(){
         if(this.$store.state.auth.user.role == 'JURIDICA'){
-            this.$store.dispatch('searchCurriculos', this.$route.query.keywords)
-            .then(response => {
-                console.log('state', this.$store.state.resultado);
-            })
-            .catch(error => console.log(error))
+            if((this.$route.query.escolaridade!='' || this.$route.query.objetivos!='' || this.$route.query.historicoProfissional!='' || this.$route.query.cidade!='' || this.$route.query.nome!='') == true && (this.$route.query.escolaridade!=undefined || this.$route.query.objetivos!=undefined || this.$route.query.historicoProfissional!=undefined || this.$route.query.cidade!=undefined || this.$route.query.nome!=undefined) == true){
+                let pesquisa = {
+                    keywords : this.$route.query.keywords,
+                    escolaridade : this.$route.query.escolaridade, 
+                    objetivos : this.$route.query.objetivos, 
+                    historicoProfissional : this.$route.query.historicoProfissional,
+                    cidade : this.$route.query.cidade,
+                    nome: this.$route.query.nome,
+                }
+                this.$store.dispatch('searchCurriculosAvancadas', pesquisa)
+                .then(response => {
+                    console.log('state', this.$store.state.resultado);
+                })
+                .catch(error => console.log(error))
+            }
+            else{
+                this.$store.dispatch('searchCurriculos', this.$route.query.keywords)
+                .then(response => {
+                    console.log('state', this.$store.state.resultado);
+                })
+                .catch(error => console.log(error))
+            }
         }
         else {
             if((this.$route.query.cargo!='' || this.$route.query.beneficio!='' || this.$route.query.jornada!='' || this.$route.query.requisitos!='') == true && (this.$route.query.cargo!=undefined || this.$route.query.beneficio!=undefined || this.$route.query.jornada!=undefined || this.$route.query.requisitos!=undefined) == true){

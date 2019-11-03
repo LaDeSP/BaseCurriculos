@@ -610,6 +610,40 @@ import * as Cookies from 'js-cookie'
         })
     };
 
+    const searchCurriculosAvancadas = async ({commit, state}, pesquisa) => {
+  
+      const token = state.auth.token;
+      if (pesquisa.keywords==''){
+        pesquisa.keywords='undefined';
+      }
+      if (pesquisa.escolaridade==''){
+        pesquisa.escolaridade='undefined';
+      }
+      if (pesquisa.objetivos==''){
+        pesquisa.objetivos='undefined';
+      }
+      if (pesquisa.historicoProfissional==''){
+        pesquisa.historicoProfissional='undefined';
+      }
+      if (pesquisa.cidade==''){
+        pesquisa.cidade='undefined';
+      }
+      if (pesquisa.nome==''){
+        pesquisa.nome='undefined';
+      }
+      return await axios({ url: 'http://localhost:8000/api/buscaCurriculosAvancadas/' + pesquisa.keywords + '/' + pesquisa.escolaridade + '/' + pesquisa.objetivos + '/' + pesquisa.historicoProfissional + '/' + pesquisa.cidade + '/' + pesquisa.nome + '?token='+ token, method: 'GET' })
+        .then(response => {
+          //console.log('na action', response.data);
+          let payloadResultados = [];
+
+          payloadResultados = response.data;
+          commit('buscaVagas', payloadResultados)
+          return response.data
+        }).catch(error => {
+          console.log(error)
+        })
+    };
+
   export default {
     login,
     logout,
@@ -636,6 +670,7 @@ import * as Cookies from 'js-cookie'
     searchVagas,
     searchVagasAvancadas,
     searchCurriculos,
+    searchCurriculosAvancadas,
 
   
   };
