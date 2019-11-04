@@ -12,7 +12,7 @@ class BuscaController extends Controller
 {
     public function buscaVagas($keywords){
 
-        $vagas = Vaga::where('titulo', 'like', '%' . $keywords . '%')->get();
+        $vagas = Vaga::with(['area'])->where('titulo', 'like', '%' . $keywords . '%')->get();
 
 
         return response()->json($vagas);
@@ -35,7 +35,7 @@ class BuscaController extends Controller
             $requisitos=null;
         }
 
-        $vagas = Vaga::when($keywords,function($query, $keywords){
+        $vagas = Vaga::with(['area'])->when($keywords,function($query, $keywords){
                     $query->where('titulo', 'like', '%' . $keywords . '%');
                 })
                 ->when($cargo,function($query, $cargo){

@@ -34,7 +34,7 @@
                     <p><strong>Cargo:</strong> {{vaga.cargo}}</p>
                     <p><strong>Status:</strong> {{vaga.status}}</p>
                     <p><strong>Quantidade:</strong> {{vaga.quantidade}}</p>
-                    <!--<p><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>-->
+                    <p><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
                     <p><strong>Salário:</strong> {{vaga.salario}}</p>
                     <p><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
                     <p><strong>Benefícios:</strong> {{vaga.beneficio}}</p>
