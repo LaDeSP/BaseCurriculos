@@ -64,6 +64,7 @@ class VagaController extends Controller
 
         Vaga::create([
             'titulo' => $request->titulo,
+            'descricao' => $request->descricao,
             'cargo' => $request->cargo,
             'status'=>$request->status,
             'quantidade'=>$request->quantidade,
@@ -104,6 +105,7 @@ class VagaController extends Controller
 
         Vaga::where('id', $id)->update([
             'titulo' => $request->titulo,
+            'descricao' => $request->descricao,
             'quantidade'=>$request->quantidade,
             'cargo' => $request->cargo,
             'salario' => $request->salario,
@@ -169,6 +171,7 @@ class VagaController extends Controller
     public function rules(){
         return [
             'titulo' => 'required|max:50',
+            'descricao' => 'required|max:500',
             'cargo' => 'required|max:50',
             'quantidade' => 'required|numeric|min:1|max:1000000',
             'area' => 'required|exists:areas,id',

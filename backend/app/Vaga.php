@@ -9,7 +9,7 @@ class Vaga extends Model
 
 	protected $fillable = [
 		'titulo', 'cargo', 'salario', 'beneficio', 'jornada',
-		'requisito', 'juridicas_id', 'areas_id', 'quantidade', 'status'
+		'requisito', 'juridicas_id', 'areas_id', 'quantidade', 'status', 'descricao'
 	];
 
 	public function candidatura(){

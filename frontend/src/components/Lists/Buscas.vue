@@ -32,6 +32,7 @@
                     <h3><span class="label label-info " style="color: #4E73DF;">{{vaga.titulo}}</span></h3>
                     </template>
                     <template v-slot:card-body>
+                    <p><strong>Descrição:</strong> {{vaga.descricao}}</p>
                     <p><strong>Cargo:</strong> {{vaga.cargo}}</p>
                     <p><strong>Status:</strong> {{vaga.status}}</p>
                     <p><strong>Quantidade:</strong> {{vaga.quantidade}}</p>

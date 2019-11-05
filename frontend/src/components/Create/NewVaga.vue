@@ -34,6 +34,17 @@
             </div>
 
             <div class="form-group">
+            <label for="descricao">Descrição</label>
+            <ValidationProvider name="descricao" rules="required|max:500">
+                <div slot-scope="{ errors }">
+                    <textarea type="descricao" name="descricao"
+                    class="form-control" v-model="descricao" rows="3" maxlength="500"></textarea>
+                    <p>{{ errors[0] }}</p>
+                </div>
+            </ValidationProvider>
+            </div>
+
+            <div class="form-group">
             <label for="cargo">Cargo</label>
             <ValidationProvider name="cargo" rules="required|max:50">
                 <div slot-scope="{ errors }">
@@ -125,6 +136,7 @@
             return{
 
                 titulo: '',
+                descricao: '',
                 cargo: '',
                 salario: '',
                 beneficios: '',
@@ -151,6 +163,7 @@
                 let vaga = {
 
                     titulo: this.titulo,
+                    descricao: this.descricao,
                     cargo: this.cargo,
                     quantidade: this.quantidade,
                     salario: this.salario,
@@ -197,6 +210,7 @@
                     console.log('displayDataEdit', this.vagaById[0].beneficio)
                     //console.log('desgraça ID', this.$session.get('vaga_id'))
                     this.titulo = this.vagaById[0].titulo;
+                    this.descricao = this.vagaById[0].descricao;
                     this.cargo = this.vagaById[0].cargo;
                     this.quantidade = this.vagaById[0].quantidade;
                     this.salario = this.vagaById[0].salario;

@@ -46,6 +46,7 @@
                   <h3><span class="label label-info " style="color: #4E73DF;">{{vaga.titulo}}</span></h3>
                 </template>
                 <template v-slot:card-body>
+                  <p><strong>Descrição:</strong> {{vaga.descricao}}</p>
                   <p><strong>Cargo:</strong> {{vaga.cargo}}</p>
                   <p><strong>Status:</strong> {{vaga.status}}</p>
                   <p><strong>Quantidade:</strong> {{vaga.quantidade}}</p>
@@ -110,6 +111,7 @@
                   <template v-slot:body>
 
                     <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
+                    <p class="mb-1"><strong>Descrição:</strong> {{vagaById[0].descricao}}</p>
                     <p class="mb-1"><strong>Cargo: </strong>{{vagaById[0].cargo}}</p>
                     <p class="mb-1"><strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}</p>
                     <p class="mb-1"><strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}</p>
