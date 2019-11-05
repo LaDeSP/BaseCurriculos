@@ -18,7 +18,7 @@ class BuscaController extends Controller
         return response()->json($vagas);
     }
 
-    public function buscaVagasAvancadas($keywords=null, $cargo=null, $beneficio=null, $jornada=null, $requisitos=null){
+    public function buscaVagasAvancadas($keywords=null, $cargo=null, $beneficio=null, $jornada=null, $requisitos=null, $area=null){
         if ($keywords=="undefined"){
             $keywords=null;
         }
@@ -34,8 +34,12 @@ class BuscaController extends Controller
         if ($requisitos=="undefined"){
             $requisitos=null;
         }
+        if ($area=="undefined"){
+            $area=null;
+        }
 
-        $vagas = Vaga::with(['area'])->when($keywords,function($query, $keywords){
+        $vagas = Vaga::with(['area'])
+                ->when($keywords,function($query, $keywords){
                     $query->where('titulo', 'like', '%' . $keywords . '%');
                 })
                 ->when($cargo,function($query, $cargo){
@@ -50,6 +54,9 @@ class BuscaController extends Controller
                 ->when($requisitos, function($query, $requisitos){
                     $query->where('requisito', 'like', '%' . $requisitos . '%');
                 })
+                ->when($area, function($query, $area){
+                    $query->where('areas_id', $area);
+                })
                 ->get();
 
         return response()->json($vagas);
@@ -62,7 +69,7 @@ class BuscaController extends Controller
         return response()->json($curriculos);
     }
 
-    public function buscaCurriculosAvancadas($keywords=null, $escolaridade=null, $objetivos=null, $historicoProfissional=null, $cidade=null, $nome=null){
+    public function buscaCurriculosAvancadas($keywords=null, $escolaridade=null, $objetivos=null, $historicoProfissional=null, $cidade=null, $nome=null, $area=null){
         if ($keywords=="undefined"){
             $keywords=null;
         }
@@ -81,9 +88,12 @@ class BuscaController extends Controller
         if($nome=="undefined"){
             $nome=null;
         }
+        if($area=="undefined"){
+            $area=null;
+        }
 
         $curriculos = Curriculo::select('curriculos.*')
-                ->with(['fisica.user', 'fisica.endereco'])
+                ->with(['fisica.user', 'fisica.endereco', 'area'])
                 ->join('fisicas', 'fisicas.id', '=', 'curriculos.fisicas_id')
                 ->join('enderecos', 'enderecos.id', '=', 'fisicas.enderecos_id')
                 ->join('users', 'users.id', '=', 'fisicas.user_id')
@@ -104,6 +114,9 @@ class BuscaController extends Controller
                 })
                 ->when($nome, function($query, $nome){
                     $query->where('users.name', 'like', '%' . $nome . '%');
+                })
+                ->when($area, function($query, $area){
+                    $query->where('areas_id', $area);
                 })
                 ->get();
 

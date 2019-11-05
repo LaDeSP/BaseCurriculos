@@ -20,5 +20,8 @@ class Curriculo extends Model
 	public function contato(){
     	return $this->hasOne(Contato::class, 'id','contatos_id');
 	}
+	public function area(){
+    	return $this->belongsTo(Area::class, 'areas_id');
+	}
 }
 

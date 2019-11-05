@@ -11,10 +11,10 @@ class Area extends Model
     ];
 
    public function vagas(){
-       return $this->hasMany(Juridica::class);
+       return $this->hasMany(Vaga::class);
    }
 
    public function curriculo(){
-       return  $this->hasOne(Curriculo::class);
+       return $this->hasMany(Curriculo::class);
    }
 }

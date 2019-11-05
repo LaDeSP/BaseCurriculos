@@ -13,6 +13,7 @@
                     <p><strong>Pretensão Salarial:</strong> {{curriculo.pretensao}}</p>
                     <p><strong>Histórico Profissional:</strong> {{curriculo.historicoProfissional}}</p>
                     <p><strong>Cidade:</strong> {{curriculo.fisica.endereco.cidade}}</p>
+                    <p><strong>Área de Atuação:</strong> {{curriculo.area.tipo}}</p>
                     </template>
                     <template v-slot:card-footer>
                     </template>
@@ -65,7 +66,7 @@ export default {
 
     created(){
         if(this.$store.state.auth.user.role == 'JURIDICA'){
-            if((this.$route.query.escolaridade!='' || this.$route.query.objetivos!='' || this.$route.query.historicoProfissional!='' || this.$route.query.cidade!='' || this.$route.query.nome!='') == true && (this.$route.query.escolaridade!=undefined || this.$route.query.objetivos!=undefined || this.$route.query.historicoProfissional!=undefined || this.$route.query.cidade!=undefined || this.$route.query.nome!=undefined) == true){
+            if((this.$route.query.escolaridade!='' || this.$route.query.objetivos!='' || this.$route.query.historicoProfissional!='' || this.$route.query.cidade!='' || this.$route.query.nome!='' || this.$route.query.area!='') == true && (this.$route.query.escolaridade!=undefined || this.$route.query.objetivos!=undefined || this.$route.query.historicoProfissional!=undefined || this.$route.query.cidade!=undefined || this.$route.query.nome!=undefined || this.$route.query.area!=undefined) == true){
                 let pesquisa = {
                     keywords : this.$route.query.keywords,
                     escolaridade : this.$route.query.escolaridade, 
@@ -73,42 +74,42 @@ export default {
                     historicoProfissional : this.$route.query.historicoProfissional,
                     cidade : this.$route.query.cidade,
                     nome: this.$route.query.nome,
+                    area: this.$route.query.area,
                 }
                 this.$store.dispatch('searchCurriculosAvancadas', pesquisa)
                 .then(response => {
-                    console.log('state', this.$store.state.resultado);
+
                 })
                 .catch(error => console.log(error))
             }
             else{
                 this.$store.dispatch('searchCurriculos', this.$route.query.keywords)
                 .then(response => {
-                    console.log('state', this.$store.state.resultado);
+
                 })
                 .catch(error => console.log(error))
             }
         }
         else {
-            if((this.$route.query.cargo!='' || this.$route.query.beneficio!='' || this.$route.query.jornada!='' || this.$route.query.requisitos!='') == true && (this.$route.query.cargo!=undefined || this.$route.query.beneficio!=undefined || this.$route.query.jornada!=undefined || this.$route.query.requisitos!=undefined) == true){
-                console.log('created if'); 
+            if((this.$route.query.cargo!='' || this.$route.query.beneficio!='' || this.$route.query.jornada!='' || this.$route.query.requisitos!='' || this.$route.query.area!='') == true && (this.$route.query.cargo!=undefined || this.$route.query.beneficio!=undefined || this.$route.query.jornada!=undefined || this.$route.query.requisitos!=undefined || this.$route.query.area!=undefined) == true){
                 let pesquisa = {
                     keywords : this.$route.query.keywords,
                     cargo : this.$route.query.cargo, 
                     beneficio : this.$route.query.beneficio, 
                     jornada : this.$route.query.jornada,
-                    requisitos : this.$route.query.requisitos
+                    requisitos : this.$route.query.requisitos,
+                    area: this.$route.query.area,
                 }
                 this.$store.dispatch('searchVagasAvancadas', pesquisa)
                 .then(response => {
-                    console.log('state', this.$store.state.resultado);
+
                 })
                 .catch(error => console.log(error))
             }
             else{
-                console.log('created else');
                 this.$store.dispatch('searchVagas', this.$route.query.keywords)
                 .then(response => {
-                    console.log('state', this.$store.state.resultado);
+                    
                 })
                 .catch(error => console.log(error))
             }

@@ -581,7 +581,10 @@ import * as Cookies from 'js-cookie'
       if (pesquisa.requisitos==''){
         pesquisa.requisitos='undefined';
       }
-      return await axios({ url: 'http://localhost:8000/api/buscaVagasAvancadas/' + pesquisa.keywords + '/' + pesquisa.cargo + '/' + pesquisa.beneficio + '/' + pesquisa.jornada + '/' + pesquisa.requisitos + '?token='+ token, method: 'GET' })
+      if (pesquisa.area==''){
+        pesquisa.area='undefined';
+      }
+      return await axios({ url: 'http://localhost:8000/api/buscaVagasAvancadas/' + pesquisa.keywords + '/' + pesquisa.cargo + '/' + pesquisa.beneficio + '/' + pesquisa.jornada + '/' + pesquisa.requisitos + '/' + pesquisa.area + '?token='+ token, method: 'GET' })
         .then(response => {
           //console.log('na action', response.data);
           let payloadResultados = [];
@@ -631,7 +634,10 @@ import * as Cookies from 'js-cookie'
       if (pesquisa.nome==''){
         pesquisa.nome='undefined';
       }
-      return await axios({ url: 'http://localhost:8000/api/buscaCurriculosAvancadas/' + pesquisa.keywords + '/' + pesquisa.escolaridade + '/' + pesquisa.objetivos + '/' + pesquisa.historicoProfissional + '/' + pesquisa.cidade + '/' + pesquisa.nome + '?token='+ token, method: 'GET' })
+      if (pesquisa.area==''){
+        pesquisa.area='undefined';
+      }
+      return await axios({ url: 'http://localhost:8000/api/buscaCurriculosAvancadas/' + pesquisa.keywords + '/' + pesquisa.escolaridade + '/' + pesquisa.objetivos + '/' + pesquisa.historicoProfissional + '/' + pesquisa.cidade + '/' + pesquisa.nome + '/' + pesquisa.area + '?token='+ token, method: 'GET' })
         .then(response => {
           //console.log('na action', response.data);
           let payloadResultados = [];

@@ -18,8 +18,31 @@
           <input type="text" name="keywords" class="form-control" v-model="keywords" maxlength="50">  
         </div>
         <div class="form-group">
-          <label for="escolaridade">Escolaridade</label>
-          <input type="text" name="escolaridade" class="form-control" v-model="escolaridade" maxlength="50">  
+          <label for="area">Área de Atuação</label>
+          <select class="custom-select" name="area" v-model="area">
+              <option value="">Selecione uma área</option>
+              <option v-for="area in areas" :key="area.id" :value="area.id">
+                  {{area.tipo}}
+              </option>
+          </select>           
+        </div>
+        <div class="form-group">
+          <label for="escolaridade">Nível de Escolaridade</label>
+          <select class="custom-select" name="escolaridade" v-model="escolaridade">
+              <option value="" selected>Selecione seu nível</option>
+              <option value="Ensino Fundamental(Incompleto)">Ensino Fundamental(Incompleto)</option>
+              <option value="Ensino Fundamental(Cursando)">Ensino Fundamental(Cursando)</option>
+              <option value="Ensino Fundamental(Completo)">Ensino Fundamental(Completo)</option>
+              <option value="Ensino Médio(Incompleto)">Ensino Médio(Incompleto)</option>
+              <option value="Ensino Médio(Cursando)">Ensino Médio(Cursando)</option>
+              <option value="Ensino Médio(Completo)">Ensino Médio(Completo)</option>
+              <option value="Ensino Superior(Incompleto)">Ensino Superior(Incompleto)</option>
+              <option value="Ensino Superior(Cursando)">Ensino Superior(Cursando)</option>
+              <option value="Ensino Superior(Completo)">Ensino Superior(Completo)</option>
+              <option value="Pós-Graduação(Especialização)">Pós-Graduação(Especialização)</option>
+              <option value="Pós-Graduação(Mestrado)">Pós-Graduação(Mestrado)</option>
+              <option value="Pós-Graduação(Doutorado)">Pós-Graduação(Doutorado)</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="beneficio">Objetivos</label>
@@ -63,6 +86,15 @@
         <div class="form-group">
           <label for="keywords">Titulo</label>
           <input type="text" name="keywords" class="form-control" v-model="keywords" maxlength="50">  
+        </div>
+        <div class="form-group">
+          <label for="area">Área de Atuação</label>
+          <select class="custom-select" name="area" v-model="area">
+              <option value="">Selecione uma área</option>
+              <option v-for="area in areas" :key="area.id" :value="area.id">
+                  {{area.tipo}}
+              </option>
+          </select>           
         </div>
         <div class="form-group">
           <label for="cargo">Cargo</label>
@@ -114,50 +146,45 @@
         historicoProfissional: '',
         cidade: '',
         nome: '',
-
+        areas: [],
+        area: '',
       }
     },
     methods: {
       redirectSimple(){
         if (this.$router.currentRoute.name == "buscas"){
-          console.log('if simple');
           //this.$parent.$parent.$children[1].resultado = [];
       
           this.$store.dispatch('searchVagas', this.keywords)
           .then(response => {
-              console.log(response);
               //this.$parent.$parent.$children[1].resultado = response;
           })
           .catch(error => console.log(error))
         }
         else {
-          console.log('else simple');
           this.$router.push({ name: 'buscas', query: { keywords: this.keywords} })
         }
       },
       redirectAdvanced(){
         if (this.$router.currentRoute.name == "buscas"){
-          console.log('if advanced');
-          
           let pesquisa = {
             keywords : this.keywords,
             cargo : this.cargo, 
             beneficio : this.beneficio, 
             jornada : this.jornada,
-            requisitos : this.requisitos
+            requisitos : this.requisitos,
+            area: this.area
           }
 
             this.$store.dispatch('searchVagasAvancadas', pesquisa)
             .then(response => {
-                console.log('state', this.$store.state.resultado);
                 this.isModalPesquisaAvancada = false;
 
             })
             .catch(error => console.log(error))
         }
         else{
-          console.log('else advanced');
-          this.$router.push({ name: 'buscas', query: { keywords: this.keywords, cargo: this.cargo, beneficio: this.beneficio, jornada: this.jornada, requisitos: this.requisitos} })
+          this.$router.push({ name: 'buscas', query: { keywords: this.keywords, cargo: this.cargo, beneficio: this.beneficio, jornada: this.jornada, requisitos: this.requisitos, area: this.area} })
           this.isModalPesquisaAvancada = false;
         }
       },
@@ -169,24 +196,20 @@
       },
       redirectSimpleCurriculo(){
         if (this.$router.currentRoute.name == "buscas"){
-          console.log('if simple curriculo');
           //this.$parent.$parent.$children[1].resultado = [];
       
           this.$store.dispatch('searchCurriculos', this.keywords)
           .then(response => {
-              console.log(response);
               //this.$parent.$parent.$children[1].resultado = response;
           })
           .catch(error => console.log(error))
         }
         else {
-          console.log('else simple');
           this.$router.push({ name: 'buscas', query: { keywords: this.keywords} })
         }
       },
       redirectAdvancedCurriculo(){
         if (this.$router.currentRoute.name == "buscas"){
-          console.log('if advanced');
           
           let pesquisa = {
             keywords : this.keywords,
@@ -194,22 +217,28 @@
             objetivos : this.objetivos, 
             historicoProfissional : this.historicoProfissional,
             cidade : this.cidade,
-            nome: this.nome
+            nome: this.nome,
+            area: this.area
           }
 
             this.$store.dispatch('searchCurriculosAvancadas', pesquisa)
             .then(response => {
-                console.log('state', this.$store.state.resultado);
                 this.isModalPesquisaAvancada = false;
 
             })
             .catch(error => console.log(error))
         }
         else{
-          console.log('else advanced');
-          this.$router.push({ name: 'buscas', query: { keywords: this.keywords, escolaridade: this.escolaridade, objetivos: this.objetivos, historicoProfissional: this.historicoProfissional, cidade: this.cidade, nome: this.nome} })
+          this.$router.push({ name: 'buscas', query: { keywords: this.keywords, escolaridade: this.escolaridade, objetivos: this.objetivos, historicoProfissional: this.historicoProfissional, cidade: this.cidade, nome: this.nome, area: this.area} })
           this.isModalPesquisaAvancada = false;
         }
+      },
+
+      loadArea(){
+        this.$store.dispatch('loadArea')
+        .then(response => {
+            this.areas = response.areas;
+        }).catch(error => console.log(error))
       },
 
     },
@@ -218,6 +247,10 @@
         'permissaoDoUsuario'
       ]),
     },
+
+    created() {
+      this.loadArea();
+    }
 
   }
 
