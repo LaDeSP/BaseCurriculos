@@ -24,49 +24,49 @@
         </div>
         <tab-content title="Informações da Vaga" icon="fas fa-file-invoice-dollar">
             <div class="form-group">
-            <label for="titulo">Título</label>
+            <label for="titulo">Título <a class="color-red">*</a></label>
             <ValidationProvider name="titulo" rules="required|max:50">
                 <div slot-scope="{ errors }">
                     <input type="titulo" name="titulo"
                     class="form-control" v-model="titulo" maxlength="50">
-                    <p>{{ errors[0] }}</p>
+                    <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
             </div>
 
             <div class="form-group">
-            <label for="descricao">Descrição</label>
+            <label for="descricao">Descrição <a class="color-red">*</a></label>
             <ValidationProvider name="descricao" rules="required|max:500">
                 <div slot-scope="{ errors }">
                     <textarea type="descricao" name="descricao"
                     class="form-control" v-model="descricao" rows="3" maxlength="500"></textarea>
-                    <p>{{ errors[0] }}</p>
+                    <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
             </div>
 
             <div class="form-group">
-            <label for="cargo">Cargo</label>
+            <label for="cargo">Cargo <a class="color-red">*</a></label>
             <ValidationProvider name="cargo" rules="required|max:50">
                 <div slot-scope="{ errors }">
                     <input type="text" class="form-control" name="cargo" v-model="cargo" maxlength="50">
-                    <p>{{ errors[0] }}</p>
+                    <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
             </div>
 
             <div class="form-group">
-            <label for="quantidade">Quantidade de Vagas</label>
+            <label for="quantidade">Quantidade de Vagas <a class="color-red">*</a></label>
             <ValidationProvider name="quantidade" rules="required|numeric|min_value:1|integer">
                 <div slot-scope="{ errors }">
                     <input type="number" class="form-control" name="quantidade" v-model="quantidade">
-                    <p>{{ errors[0] }}</p>
+                    <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
             </div>
 
             <div class="form-group">
-            <label for="area">Área de Atuação</label>
+            <label for="area">Área de Atuação <a class="color-red">*</a></label>
             <select class="custom-select" name="area" v-model="area">
                 <option value="" disabled selected>Selecione uma Área</option>
                 <option v-for="area in areas" :key="area.id" :value="area.id">
@@ -76,11 +76,11 @@
             </div>
 
             <div class="form-group">
-            <label for="salario">Salário</label>
+            <label for="salario">Salário <a class="color-red">*</a></label>
             <ValidationProvider name="salario" rules="required|numeric|min_value:1">
                 <div slot-scope="{ errors }">
                     <input type="number"  name="salario" class="form-control" v-model="salario" step="any" placeholder="R$">
-                    <p>{{ errors[0] }}</p>
+                    <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
             </div>
@@ -90,32 +90,32 @@
         <tab-content title="Detalhes da Vaga" icon="fas fa-list-ul" >
 
             <div class="form-group">
-            <label for="jornada">Jornada de Trabalho</label>
+            <label for="jornada">Jornada de Trabalho <a class="color-red">*</a></label>
             <ValidationProvider name="jornada" rules="required|max:50">
                 <div slot-scope="{ errors }">
                     <input type="jornada" name="jornada"
                     class="form-control" v-model="jornada" maxlength="50">
-                    <p>{{ errors[0] }}</p>
+                    <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
             </div>
 
             <div class="form-group">
-            <label for="beneficios">Benefícios</label>
+            <label for="beneficios">Benefícios <a class="color-red">*</a></label>
             <ValidationProvider name="beneficios" rules="required|max:500">
                 <div slot-scope="{ errors }">
                 <textarea class="form-control" rows="3" v-model="beneficios" maxlength="500"></textarea>
-                <p>{{ errors[0] }}</p>
+                <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
             </div>
 
             <div class="form-group">
-            <label for="requisitos">Requisitos</label>
+            <label for="requisitos">Requisitos <a class="color-red">*</a></label>
             <ValidationProvider name="requisitos" rules="required|max:500">
                 <div slot-scope="{ errors }">
                     <textarea class="form-control"  rows="3" v-model="requisitos" maxlength="500"></textarea>
-                    <p>{{ errors[0] }}</p>
+                    <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
             </div>
