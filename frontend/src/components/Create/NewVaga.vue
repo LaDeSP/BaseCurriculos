@@ -8,7 +8,8 @@
             <h3>Editar Informações</h3>
         </div>
         <hr>
-      
+
+        <ValidationObserver v-slot="{ invalid }">
         <form-wizard @on-complete="onComplete"
             title="" subtitle=" "
             back-button-text="Voltar"
@@ -120,8 +121,19 @@
             </div>
 
         </tab-content>
+        <div slot="footer" slot-scope="props">
+            <div class="wizard-footer-left">
+                <wizard-button  v-if="props.activeTabIndex > 0" @click.native="props.prevTab()" :style="props.fillButtonStyle">Voltar</wizard-button>
+            </div>
+            <div class="wizard-footer-right">
+                <wizard-button v-if="!props.isLastStep" @click.native="props.nextTab()" class="wizard-footer-right" :style="props.fillButtonStyle">Próximo</wizard-button>
+                <wizard-button v-else :disabled="invalid" @click.native="onComplete" class="wizard-footer-right finish-button" :style="props.fillButtonStyle">  {{props.isLastStep ? 'Salvar' : 'Próximo'}}</wizard-button>
+            </div>
+        </div>
 
         </form-wizard>
+        </ValidationObserver>
+
     </div>
 </div>
 </template>
