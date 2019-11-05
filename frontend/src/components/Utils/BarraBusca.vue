@@ -152,6 +152,10 @@
     },
     methods: {
       redirectSimple(){
+        if (this.keywords=='' || this.keywords==undefined){
+          return;
+        }
+
         if (this.$router.currentRoute.name == "buscas"){
           //this.$parent.$parent.$children[1].resultado = [];
       
@@ -195,6 +199,10 @@
         this.isModalPesquisaAvancada = false;
       },
       redirectSimpleCurriculo(){
+        if (this.keywords=='' || this.keywords==undefined){
+          return;
+        }
+        
         if (this.$router.currentRoute.name == "buscas"){
           //this.$parent.$parent.$children[1].resultado = [];
       
