@@ -170,6 +170,12 @@
         }
       },
       redirectAdvanced(){
+         if ((this.keywords=='' || this.keywords==undefined)==true && (this.cargo=='' || this.cargo==undefined)
+            && (this.beneficio=='' || this.beneficio==undefined) && (this.jornada=='' || this.jornada==undefined)
+            && (this.requisitos=='' || this.requisitos==undefined) && (this.area=='' || this.area==undefined)){
+          return;
+        }
+
         if (this.$router.currentRoute.name == "buscas"){
           let pesquisa = {
             keywords : this.keywords,
@@ -217,6 +223,12 @@
         }
       },
       redirectAdvancedCurriculo(){
+        if ((this.keywords=='' || this.keywords==undefined)==true && (this.escolaridade=='' || this.escolaridade==undefined)
+            && (this.objetivos=='' || this.objetivos==undefined) && (this.historicoProfissional=='' || this.historicoProfissional==undefined)
+            && (this.cidade=='' || this.cidade==undefined) && (this.nome=='' || this.nome==undefined) && (this.area=='' || this.area==undefined)){
+          return;
+        }
+
         if (this.$router.currentRoute.name == "buscas"){
           
           let pesquisa = {
