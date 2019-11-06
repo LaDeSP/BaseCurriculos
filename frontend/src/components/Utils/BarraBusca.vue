@@ -60,6 +60,7 @@
           <label for="nome">Nome</label>
           <input type="text" name="nome" class="form-control" v-model="nome" maxlength="50">  
         </div>
+        <p class="color-red" v-if="aviso">{{aviso}}</p>
         <button class="btn btn-primary" type="button" @click="redirectAdvancedCurriculo">
           Busca Avançada
         </button>
@@ -112,6 +113,7 @@
           <label for="requisitos">Requisitos</label>
           <input type="text" name="requisitos" class="form-control" v-model="requisitos" maxlength="50">  
         </div>
+        <p class="color-red" v-if="aviso">{{aviso}}</p>
         <button class="btn btn-primary" type="button" @click="redirectAdvanced">
           Busca Avançada
         </button>
@@ -148,6 +150,7 @@
         nome: '',
         areas: [],
         area: '',
+        aviso: '',
       }
     },
     methods: {
@@ -173,6 +176,7 @@
          if ((this.keywords=='' || this.keywords==undefined)==true && (this.cargo=='' || this.cargo==undefined)
             && (this.beneficio=='' || this.beneficio==undefined) && (this.jornada=='' || this.jornada==undefined)
             && (this.requisitos=='' || this.requisitos==undefined) && (this.area=='' || this.area==undefined)){
+              this.aviso="Preencha pelo menos um campo para realizar a busca.";
           return;
         }
 
@@ -189,6 +193,7 @@
             this.$store.dispatch('searchVagasAvancadas', pesquisa)
             .then(response => {
                 this.isModalPesquisaAvancada = false;
+                this.aviso = '';
 
             })
             .catch(error => console.log(error))
@@ -196,6 +201,7 @@
         else{
           this.$router.push({ name: 'buscas', query: { keywords: this.keywords, cargo: this.cargo, beneficio: this.beneficio, jornada: this.jornada, requisitos: this.requisitos, area: this.area} })
           this.isModalPesquisaAvancada = false;
+          this.aviso = '';
         }
       },
       showModalPesquisaAvancada(){
@@ -203,6 +209,7 @@
       },
       closeModalPesquisaAvancada(){
         this.isModalPesquisaAvancada = false;
+        this.aviso='';
       },
       redirectSimpleCurriculo(){
         if (this.keywords=='' || this.keywords==undefined){
@@ -226,6 +233,7 @@
         if ((this.keywords=='' || this.keywords==undefined)==true && (this.escolaridade=='' || this.escolaridade==undefined)
             && (this.objetivos=='' || this.objetivos==undefined) && (this.historicoProfissional=='' || this.historicoProfissional==undefined)
             && (this.cidade=='' || this.cidade==undefined) && (this.nome=='' || this.nome==undefined) && (this.area=='' || this.area==undefined)){
+              this.aviso="Preencha pelo menos um campo para realizar a busca.";
           return;
         }
 
@@ -244,6 +252,7 @@
             this.$store.dispatch('searchCurriculosAvancadas', pesquisa)
             .then(response => {
                 this.isModalPesquisaAvancada = false;
+                this.aviso = '';
 
             })
             .catch(error => console.log(error))
@@ -251,6 +260,7 @@
         else{
           this.$router.push({ name: 'buscas', query: { keywords: this.keywords, escolaridade: this.escolaridade, objetivos: this.objetivos, historicoProfissional: this.historicoProfissional, cidade: this.cidade, nome: this.nome, area: this.area} })
           this.isModalPesquisaAvancada = false;
+          this.aviso = '';
         }
       },
 
