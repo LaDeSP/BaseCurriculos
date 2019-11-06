@@ -12,6 +12,7 @@ class VagasTableSeeder extends Seeder
        Vaga::create([
             'titulo'=>'norman rockwell',
             'cargo'=>'ADM',
+            'descricao'=>'corninho',
             'salario'=>'87,319',
             'beneficio'=>'nao tem',
             'jornada'=>'100 horas',

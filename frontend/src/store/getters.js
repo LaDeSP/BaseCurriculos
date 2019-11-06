@@ -101,13 +101,9 @@ const displayCandidaturas = state =>{
 const displayCandidaturasByVaga = (state) => (vaga_id) => {
   
   let candidaturas = state.candidaturas;
-  let teste = candidaturas.filter((candidaturasByVaga) => 
-  {
-    return candidaturasByVaga.vaga_id === vaga_id
-  })
-  console.log(candidaturas);
-  console.log('teste', teste);
- // return teste
+  let candidaturasByVaga = candidaturas.filter((candidaturasByVaga) => {return candidaturasByVaga.vagas_id === vaga_id})
+  console.log('no getter, vaga_id', candidaturasByVaga)
+  return candidaturasByVaga
 
 }
 

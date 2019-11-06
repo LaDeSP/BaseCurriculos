@@ -19,7 +19,7 @@
                     </template>
                     <template v-slot:card-footer>
                     <div v-if="permissaoDoUsuario === 'JURIDICA'">
-                        <button @click="vagaDaCandidatura(show.id)" class="btn btn-sm btn-success">Ver Candidatos</button>
+                        <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
                     </div>
                     <div v-else>
                         <div v-if="agendamento">

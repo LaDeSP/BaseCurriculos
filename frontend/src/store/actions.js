@@ -537,10 +537,13 @@ import * as Cookies from 'js-cookie'
       .then(response => {
         
         let payloadVagasCandidaturas = [];
-        payloadVagasCandidaturas = response.data.candidaturas;
+        payloadVagasCandidaturas = response.data.vagasCandidaturas;
+        let payloadCandidaturas = [];
+        payloadCandidaturas = response.data.candidaturas;
   
         commit('vagasCandidaturas', payloadVagasCandidaturas)
-        console.log('na action', response)
+        commit('candidaturas', payloadCandidaturas)
+        console.log('response loadcandidaturas', response)
         return response.data
       }).catch(error => {
         console.log(error)
