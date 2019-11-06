@@ -37,38 +37,38 @@
             <div v-for="show in candidaturasByVaga" :key="show.id" :id="show.id">
               <List>
                 <template v-slot:list-header>
-                    <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user}}</h3>
+                    <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user.name}}</h3>
                 </template>
                 <template v-slot:list-body>
-                    <p class="mb-1"><strong>Cargo:</strong> {{show.curriculo.contato}}</p>
-                    <p class="mb-1"><strong>Área de Atuação:</strong></p>
-                    <p class="mb-1"><strong>Jornada de Trabalho:</strong></p>
+                    <p class="mb-1"><strong>Objetivos:</strong> {{show.curriculo.objetivos}}</p>
+                    <p class="mb-1"><strong>Pretensão Salarial:</strong> {{show.curriculo.pretensao}}</p>
                 </template>
                 <template v-slot:list-footer>
-                  <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
-                  <template>
-                      <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
-                  </template>
-                  <template>
-                    <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
-                  </template>
+                  <button @click="showModal(show.id)" class="btn btn-sm btn-default">Ver mais</button>
+                  
                   <Modal v-if="isModalShowMore" @close="closeModal">
                         <template v-slot:header><h3>Detalhes da Vaga</h3></template>
                         <template v-slot:body>
 
-                          <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
-                          <p class="mb-1"><strong>Cargo: </strong>{{vagaById[0].cargo}}</p>
-                          <p class="mb-1"><strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}</p>
-                          <p class="mb-1"><strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}</p>
-                          <p class="mb-1"><strong>Salário:</strong> {{vagaById[0].salario}}</p>
-                          <p class="mb-1"><strong>Benefícios: </strong>{{vagaById[0].beneficio}}</p>
-                          <p class="mb-1"><strong>Requisitos:</strong> {{vagaById[0].requisito}}</p>
+                         <h4>Informações Pessoais</h4>
+                        <ul>
+                            <li> <strong>Nome Completo</strong>: {{show.curriculo.fisica.user.name}}</li>
+                            <li> <strong>Data de Nascimento</strong>: {{show.curriculo.fisica.nascimento | dateFormat}}</li>
+                            <li> <strong>Gênero</strong>: {{show.curriculo.fisica.genero}}</li>
+                            <li> <strong>Estado Civil</strong>: {{show.curriculo.fisica.estadoCivil}}</li>
+                            <li> <strong>CPF</strong>: {{show.curriculo.fisica.cpf}}</li>
+                          
+                        </ul>
+                        <h4>Redes Sociais</h4>
+                        <ul>
+                         
+                        </ul>
                         </template>
                         <template v-slot:footer>
                           <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
-
+                          <button @click="reject" class="btn btn-sm btn-outline-danger">Recusar</button>
                           <div>
-                            <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+                            <router-link to="/new-curriculo" class="btn btn-sm btn-info">Agendar Entrevista</router-link>
                           </div>
                         </template>
                   </Modal>
@@ -108,7 +108,7 @@
                 'loadCandidaturas'
             ]),
 
-             showModal(modal, candidato_id){
+             showModal(candidato_id){
                  this.isModalShowMore = true;
             },
 
