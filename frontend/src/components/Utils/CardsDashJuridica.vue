@@ -4,32 +4,32 @@
     <h1 class="h3 mb-0 text-gray-800">Painel</h1></div>
     <div class="row">
       <div class="col-xl-6 col-md-12 mb-8">
-        <card class="border-left-primary shadow h-100 py-2">
+        <card class="border-left-primary shadow h-100">
             <template v-slot:card-header class="py-3">
               <router-link to="/vagas" class="font-weight-bold text-primary text-uppercase mb-1">Minhas Vagas</router-link>
             </template>
             <template v-slot:card-body>
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
-                
+
                   <div class="h2 mb-0 font-weight-bold text-gray-900">2</div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-calendar fa-2x text-gray-100"></i>
+
                 </div>
               </div>
             </template>
         </card>
       </div>
       <div class="col-xl-6 col-md-12 mb-8">
-        <card class="border-left-success shadow h-100 py-2">
+        <card class="border-left-success shadow h-100">
           <template v-slot:card-header class="py-3">
               <h6 class="font-weight-bold text-success text-uppercase mb-1">Currículos Recebidos</h6>
             </template>
             <template v-slot:card-body>
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
-                  
+
                   <center>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                       <h2>" 10 "</h2>

@@ -1,26 +1,27 @@
 <template>
-    <div class="row justify-content-center"> 
+    <div class="row justify-content-center">
         <div class="col-lg-8">
           <div v-if="!dataCompleted">
             <h1>Complete seus dados para podermos continuar!</h1>
              <NewCurriculo></NewCurriculo>
           </div>
           <div v-else>
-            <h1>Curriculo completo........Dash Física</h1>
+            <dashfisica></dashfisica>
           </div>
         </div>
-    </div> 
+    </div>
 
 </template>
 
 <script>
   import ProfileFisica from '../Lists/FisicaData';
   import NewCurriculo from  '../Create/NewCurriculo';
+  import dashfisica from '../Utils/CardsDashFisica'
   import {mapGetters} from 'vuex';
-  
+
     export default {
         components:{
-            ProfileFisica, NewCurriculo
+            ProfileFisica, NewCurriculo,dashfisica
         },
         data() {
 
