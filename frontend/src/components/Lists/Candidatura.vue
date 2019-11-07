@@ -49,24 +49,24 @@
                   <Modal v-if="isModalShowMore" @close="closeModal">
                         <template v-slot:header><h3>Detalhes da Vaga</h3></template>
                         <template v-slot:body>
-
+                            
                          <h4>Informações Pessoais</h4>
                         <ul>
-                            <li> <strong>Nome Completo</strong>: {{show.curriculo.fisica.user.name}}</li>
-                            <li> <strong>Data de Nascimento</strong>: {{show.curriculo.fisica.nascimento | dateFormat}}</li>
-                            <li> <strong>Gênero</strong>: {{show.curriculo.fisica.genero}}</li>
-                            <li> <strong>Estado Civil</strong>: {{show.curriculo.fisica.estadoCivil}}</li>
-                            <li> <strong>CPF</strong>: {{show.curriculo.fisica.cpf}}</li>
+                            <li> <strong>Nome Completo</strong>: {{candidatoById[0].curriculo.fisica.user.name}}</li>
+                            <li> <strong>Data de Nascimento</strong>: {{candidatoById[0].curriculo.fisica.data_nascimento | dateFormat}}</li>
+                            <li> <strong>Gênero</strong>: {{candidatoById[0].curriculo.fisica.genero}}</li>
+                            <li> <strong>Estado Civil</strong>: {{candidatoById[0].curriculo.fisica.estado_civil}}</li>
+                            <li> <strong>CPF</strong>: {{candidatoById[0].curriculo.fisica.cpf}}</li>
                           
                         </ul>
                         <h4>Redes Sociais</h4>
                         <ul>
-                         
+        
                         </ul>
                         </template>
                         <template v-slot:footer>
-                          <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
-                          <button @click="reject" class="btn btn-sm btn-outline-danger">Recusar</button>
+                         <!-- <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
+                          <button @click="reject" class="btn btn-sm btn-outline-danger">Recusar</button> -->
                           <div>
                             <router-link to="/new-curriculo" class="btn btn-sm btn-info">Agendar Entrevista</router-link>
                           </div>
@@ -90,6 +90,7 @@
     import NewAgenda from '../Create/NewAgenda';
     import {mapGetters, mapActions, mapState} from 'vuex';
     import painel from '../Utils/Painel';
+    import moment from 'moment'
 
     export default {
         data(){
@@ -100,6 +101,7 @@
                 agendamento: false,
                 isModalShowMore: false,
                 vaga_id: 0,
+                candidato_id: 0,
             }
         },
         components: {NewAgenda, Card, List, Modal,painel},
@@ -110,6 +112,7 @@
 
              showModal(candidato_id){
                  this.isModalShowMore = true;
+                 this.candidato_id = candidato_id;
             },
 
             closeModal(){
@@ -120,29 +123,8 @@
             vagaDaCandidatura(vaga_id){
                 this.toggle = true;
                 this.vaga_id = vaga_id;
-                console.log('vaga_id', vaga_id);
             },
 
-            loadAAAAACandidaturas(){
-                const user_id = this.$session.get('user_id');
-                this.axios
-                    .get(this.uri + '?token=' + this.token)
-                    .then(response => {
-                        if(this.$session.get('role') === 'JURIDICA'){
-                            this.candidaturas = response.data.candidaturas;
-                        }else{
-                            this.candidaturas = response.data.candidaturasFisica;
-                            if(response.data.candidaturasFisica[0].status === 'EM AGENDAMENTO'){
-                                this.agendamento = true;
-                            }
-                        }
-
-                        console.log(response.data);
-                    })
-                    .catch(
-                        error => console.log(error)
-                    );
-            },
             onSchedule(candidaturaId){
                this.$router.push({ name: 'new-agenda', params: { candidaturaId }})
             }
@@ -150,7 +132,7 @@
 
         computed: {
             ...mapGetters([
-                'displayCandidaturas', 'permissaoDoUsuario', 'displayCandidaturasByVaga'
+                'displayCandidaturas', 'permissaoDoUsuario', 'displayCandidaturasByVaga', 'displayCandidatoById'
             ]),
             ...mapState([
                 'vagasCandidaturas'
@@ -158,6 +140,17 @@
             candidaturasByVaga() {
                 return this.displayCandidaturasByVaga(this.vaga_id)
             },
+            candidatoById() {
+                return this.displayCandidatoById(this.candidato_id)
+            },
+        },
+
+        filters:{
+            dateFormat: function(value){
+                if (value) {
+                    return moment(String(value)).format('DD/MM/YYYY')
+                }
+            }
         },
 
         async created(){

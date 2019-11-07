@@ -102,8 +102,15 @@ const displayCandidaturasByVaga = (state) => (vaga_id) => {
   
   let candidaturas = state.candidaturas;
   let candidaturasByVaga = candidaturas.filter((candidaturasByVaga) => {return candidaturasByVaga.vagas_id === vaga_id})
-  console.log('no getter, vaga_id', candidaturasByVaga)
   return candidaturasByVaga
+
+}
+
+const displayCandidatoById = (state) => (candidato_id) => {
+  
+  let candidaturas = state.candidaturas;
+  let candidatoById = candidaturas.filter((candidatoById) => {return candidatoById.id === candidato_id})
+  return candidatoById
 
 }
 
@@ -124,4 +131,5 @@ export default {
   displayCandidaturas,
   displayCandidaturasByVaga,
   displayResultados,
+  displayCandidatoById,
 };
