@@ -1,6 +1,9 @@
 <template>
     <div class="container" v-if="permissaoDoUsuario === 'JURIDICA'">
-         <div class="row">
+        <div v-if="displayResultados.length==0">
+            <h1>Nenhum resultado encontrado</h1> 
+        </div>
+        <div class="row" v-else>
             <div class="col-md-6" v-for="curriculo in pageOfItems" :key="curriculo.id" :id="curriculo.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
@@ -20,13 +23,13 @@
                 </Card>
             </div>
         </div>
-        <jw-pagination v-if="displayResultados.length>3" :items="displayResultados" @changePage="onChangePage" :pageSize="3"></jw-pagination>
+        <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="3"></jw-pagination>
+    </div>
+    <div class="container" v-else>
         <div v-if="displayResultados.length==0">
             <h1>Nenhum resultado encontrado</h1> 
         </div>
-    </div>
-    <div class="container" v-else>
-        <div class="row">
+        <div class="row" v-else>
             <div class="col-md-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
@@ -48,10 +51,7 @@
                 </Card>
             </div>
         </div>
-        <jw-pagination v-if="displayResultados.length>3" :items="displayResultados" @changePage="onChangePage" :pageSize="3"></jw-pagination>
-        <div v-if="displayResultados.length==0">
-            <h1>Nenhum resultado encontrado</h1> 
-        </div>
+        <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="3"></jw-pagination>
     </div>
 </template>
 
