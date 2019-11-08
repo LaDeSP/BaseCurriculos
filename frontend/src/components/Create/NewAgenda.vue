@@ -51,10 +51,10 @@
                       <div v-if="editing === false">
                         <div class="row">
                           <div class="col-md-10 float-left" >
-                            <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+                            <router-link class="btn btn-danger btn-lg" to="/dashboard-fisica">Voltar</router-link>
                           </div>
                           <div class="col-md-2 float-right" >
-                            <router-link class="btn btn-danger btn-lg" to="/dashboard-fisica">Voltar</router-link>
+                            <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
                           </div>
                         </div>
                       </div>
@@ -90,30 +90,30 @@
         observacao: '',
         candidatura_id: 0,
         editing: false,
-        uri: 'http://localhost:8000/api/agenda',
-        token: this.$session.get('jwt'),
         notificacoes: [],
       }
     },
     methods: {
       register(){
-        this.axios.post(this.uri + '?token=' + this.token, {
-                data: this.data,
-                hora: this.hora,
-                observacao: this.observacao,
-                candidatura_id: this.$route.params.candidaturaId
-        },
-        {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-        .then(response => {
-            if(response.data.error  != undefined){
-                this.notificacoes = response.data.error;
-                return;
-            }
-            console.log(response);
+        let newAgendaData = {
+          data: this.data,
+          hora: this.hora,
+          observacao: this.observacao,
+          candidatura_id: this.candidatura_id
+        }
+
+        this.$store.dispatch('newAgenda', newAgendaData)
+        .then( response => { 
+          if(response.error  != undefined){
+            this.notificacoes = response.error;
+          }
+          else{
+            console.log('deu bonm');
+           // this.$router.push({ name: 'dashboard-fisica' })
+          }
+        
         })
-        .catch(
-            (error) => console.log(error)
-        );
+        .catch(error => console.log(error))
       },
     }
   }

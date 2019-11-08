@@ -6,6 +6,7 @@ import * as Cookies from 'js-cookie'
   const curriculos_uri = 'http://localhost:8000/api/curriculos';
   const vagas_uri = 'http://localhost:8000/api/vagas';
   const candidaturas_uri = 'http://localhost:8000/api/candidaturas';
+  const agenda_uri = 'http://localhost:8000/api/agenda';
 
   const login = async ({commit}, user) => {
       
@@ -653,6 +654,27 @@ import * as Cookies from 'js-cookie'
         })
     };
 
+    const newAgenda = async ({commit}, newAgendaData) => {
+      
+      return await axios({ url: agenda_uri, data: newAgendaData, method: 'POST' })
+      .then(response => {
+
+        const payload = {
+          'token': response.data.token,
+          'user': response.data.user,
+          'path': response.data.foto,
+        }
+      //  commit('auth_success', {payload})
+        console.log('na action new agenda', response);
+        return response.data
+  
+      }).catch(error => {
+        console.log(error)
+      })
+  
+    };
+   
+
   export default {
     login,
     logout,
@@ -680,6 +702,7 @@ import * as Cookies from 'js-cookie'
     searchVagasAvancadas,
     searchCurriculos,
     searchCurriculosAvancadas,
+    newAgenda,
 
   
   };

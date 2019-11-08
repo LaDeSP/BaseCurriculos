@@ -61,14 +61,17 @@
                         </ul>
                         <h4>Redes Sociais</h4>
                         <ul>
-        
+                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.facebook !== 'undefined' || null">Facebook: {{candidatoById[0].curriculo.fisica.contato.facebook}}</li>
+                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.twitter !== 'undefined' || null">Twitter: {{candidatoById[0].curriculo.fisica.contato.twitter}}</li>
+                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.linkedin !== 'undefined' || null">Linkedin: {{candidatoById[0].curriculo.fisica.contato.linkedin}}</li>
+                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.site !== 'undefined' || null">Site: {{candidatoById[0].curriculo.fisica.contato.site}}</li>
                         </ul>
                         </template>
                         <template v-slot:footer>
                          <!-- <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
                           <button @click="reject" class="btn btn-sm btn-outline-danger">Recusar</button> -->
                           <div>
-                            <router-link to="/new-curriculo" class="btn btn-sm btn-info">Agendar Entrevista</router-link>
+                             <button @click="newAgenda(show.id)" class="btn btn-sm btn-info">Agendar Entrevista</button>
                           </div>
                         </template>
                   </Modal>
@@ -125,8 +128,8 @@
                 this.vaga_id = vaga_id;
             },
 
-            onSchedule(candidaturaId){
-               this.$router.push({ name: 'new-agenda', params: { candidaturaId }})
+            newAgenda(candidato_id){
+                this.$router.push({ name: 'new-agenda',  params: { candidato_id }})
             }
         },
 

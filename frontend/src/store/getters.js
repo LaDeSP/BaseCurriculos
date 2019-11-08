@@ -110,6 +110,9 @@ const displayCandidatoById = (state) => (candidato_id) => {
   
   let candidaturas = state.candidaturas;
   let candidatoById = candidaturas.filter((candidatoById) => {return candidatoById.id === candidato_id})
+  let deleteNull = candidatoById[0].curriculo.fisica.contato;
+  Object.keys(deleteNull).forEach((key) => (deleteNull[key] == null) && delete deleteNull[key]);
+
   return candidatoById
 
 }
