@@ -1,7 +1,7 @@
 <template>
     <div class="container" v-if="permissaoDoUsuario === 'JURIDICA'">
          <div class="row">
-            <div class="col-md-6" v-for="curriculo in displayResultados" :key="curriculo.id" :id="curriculo.id">
+            <div class="col-md-6" v-for="curriculo in pageOfItems" :key="curriculo.id" :id="curriculo.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
                     <h3><span class="label label-info " style="color: #4E73DF;">{{curriculo.fisica.user.name}}</span></h3>
@@ -20,13 +20,14 @@
                 </Card>
             </div>
         </div>
+        <jw-pagination v-if="displayResultados.length>3" :items="displayResultados" @changePage="onChangePage" :pageSize="3"></jw-pagination>
         <div v-if="displayResultados.length==0">
             <h1>Nenhum resultado encontrado</h1> 
         </div>
     </div>
     <div class="container" v-else>
         <div class="row">
-            <div class="col-md-6" v-for="vaga in displayResultados" :key="vaga.id" :id="vaga.id">
+            <div class="col-md-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
                     <h3><span class="label label-info " style="color: #4E73DF;">{{vaga.titulo}}</span></h3>
@@ -47,6 +48,7 @@
                 </Card>
             </div>
         </div>
+        <jw-pagination v-if="displayResultados.length>3" :items="displayResultados" @changePage="onChangePage" :pageSize="3"></jw-pagination>
         <div v-if="displayResultados.length==0">
             <h1>Nenhum resultado encontrado</h1> 
         </div>
@@ -56,14 +58,16 @@
 <script>
 import Card from '../Utils/CardsVagas';
 import {mapGetters} from 'vuex';
+import JwPagination from 'jw-vue-pagination';
 
 export default {
     data(){
         return{
             keywords: '',
+            pageOfItems: []
         }
     },
-    components: {Card},
+    components: {Card, JwPagination},
 
     created(){
         if(this.$store.state.auth.user.role == 'JURIDICA'){
@@ -122,6 +126,13 @@ export default {
         ...mapGetters([
             'displayResultados', 'permissaoDoUsuario'
         ]),
+    },
+
+    methods: {
+        onChangePage(pageOfItems) {
+            // update page of items
+            this.pageOfItems = pageOfItems;
+        }
     },
  }
 </script>

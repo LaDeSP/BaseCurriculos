@@ -13,6 +13,7 @@
     "array-includes": "^3.0.3",
     "axios": "^0.18.1",
     "js-cookie": "^2.2.1",
+    "jw-vue-pagination": "^1.0.3",
     "mem": "^5.1.1",
     "moment": "^2.22.2",
     "vee-validate": "^3.0.5",
