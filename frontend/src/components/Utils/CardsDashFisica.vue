@@ -66,7 +66,8 @@
     <div class="container-fluid">
       <div class="row no-gutters align-items-center">
         <template v-if="permissaoDoUsuario === 'FISICA'">
-          <div  v-for="vaga in isActive" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
+          <h2>Vagas que podem lhe interessar</h2>
+          <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
           <Card style="width: 19rem;">
             <template v-slot:card-header>
                 <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
@@ -110,6 +111,7 @@
               </template>
             </Card>
           </div>
+           <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="6" :labels="customLabels"></jw-pagination>
         </template>
       </div>
     </div>
@@ -124,10 +126,17 @@
   import List from '../Utils/List';
   import painel from '../Utils/Painel';
  import { mapActions, mapGetters } from 'vuex';
+ import JwPagination from 'jw-vue-pagination';
+  const customLabels = {
+      first: 'Primeira',
+      last: 'Última',
+      previous: 'Anterior',
+      next: 'Próxima'
+  };
 
   export default{
     components:{
-      card,cardvagas,Card, Modal, List,painel
+      card,cardvagas,Card, Modal, List,painel, JwPagination
     },
 
     data(){
@@ -137,13 +146,19 @@
           filterState: true,
           isModalWarning: false,
           isModalShowMore: false,
-
+          pageOfItems: [],
+          customLabels
         }
     },
         methods: {
           ...mapActions([
-              'loadVagasJuridica'
+              'getVagasRecomendadas'
           ]),
+
+          onChangePage(pageOfItems) {
+            // update page of items
+            this.pageOfItems = pageOfItems;
+          },
 
           showModal(modal, vaga_id){
             if(modal === 'warning'){
@@ -254,7 +269,7 @@
           },
 
           created(){
-            this.loadVagasJuridica();
+            this.getVagasRecomendadas();
           },
     }
 </script>

@@ -673,6 +673,23 @@ import * as Cookies from 'js-cookie'
       })
   
     };
+
+    const getVagasRecomendadas = async ({commit, state}) => {
+  
+      const token = state.auth.token;
+      const userId = state.auth.user.id;
+      return await axios({ url: 'http://localhost:8000/api/buscaVagasRecomendadas/' + userId + '?token='+ token, method: 'GET' })
+        .then(response => {
+          //console.log('na action', response.data);
+          let payloadVagasJuridica = [];
+
+          payloadVagasJuridica = response.data;
+          commit('vagasJuridica', payloadVagasJuridica)
+          return response.data
+        }).catch(error => {
+          console.log(error)
+        })
+    };
    
 
   export default {
@@ -703,6 +720,7 @@ import * as Cookies from 'js-cookie'
     searchCurriculos,
     searchCurriculosAvancadas,
     newAgenda,
+    getVagasRecomendadas
 
   
   };

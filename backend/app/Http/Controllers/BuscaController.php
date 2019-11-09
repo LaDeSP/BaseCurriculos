@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Response;
 use App\Vaga; 
 use App\Curriculo; 
+use App\User; 
 
 class BuscaController extends Controller
 {
@@ -121,6 +122,22 @@ class BuscaController extends Controller
                 ->get();
 
         return response()->json($curriculos);
+    }
+
+    public function buscaVagaIndicada($userId){
+        $user = User::findOrFail($userId);
+        $curriculo = $user->fisica->curriculo;
+
+        $vagas = Vaga::with(['area'])
+                ->where('requisito', 'like', '%' . $curriculo->qualificacoes . '%')
+                ->orWhere('areas_id', $curriculo->areas_id)
+                ->orWhere('requisito', 'like', '%' . $curriculo->historicoProfissional . '%')
+                ->orWhere('requisito', 'like', '%' . $curriculo->objetivos . '%')
+                ->orWhere('descricao', 'like', '%' . $curriculo->objetivos . '%')
+                ->orWhere('descricao', 'like', '%' . $curriculo->qualificacoes . '%')
+                ->get();
+
+        return response()->json($vagas);
     }
     
 }
