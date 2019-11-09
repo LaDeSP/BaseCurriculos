@@ -23,7 +23,7 @@
                 </Card>
             </div>
         </div>
-        <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="3"></jw-pagination>
+        <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
     </div>
     <div class="container" v-else>
         <div v-if="displayResultados.length==0">
@@ -51,7 +51,7 @@
                 </Card>
             </div>
         </div>
-        <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="3"></jw-pagination>
+        <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
     </div>
 </template>
 
@@ -59,12 +59,18 @@
 import Card from '../Utils/CardsVagas';
 import {mapGetters} from 'vuex';
 import JwPagination from 'jw-vue-pagination';
-
+const customLabels = {
+    first: 'Primeira',
+    last: 'Última',
+    previous: 'Anterior',
+    next: 'Próxima'
+};
 export default {
     data(){
         return{
             keywords: '',
-            pageOfItems: []
+            pageOfItems: [],
+            customLabels
         }
     },
     components: {Card, JwPagination},
