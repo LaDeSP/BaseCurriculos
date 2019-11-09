@@ -130,11 +130,18 @@ class BuscaController extends Controller
 
         $vagas = Vaga::with(['area'])
                 ->where('requisito', 'like', '%' . $curriculo->qualificacoes . '%')
-                ->orWhere('areas_id', $curriculo->areas_id)
                 ->orWhere('requisito', 'like', '%' . $curriculo->historicoProfissional . '%')
                 ->orWhere('requisito', 'like', '%' . $curriculo->objetivos . '%')
                 ->orWhere('descricao', 'like', '%' . $curriculo->objetivos . '%')
                 ->orWhere('descricao', 'like', '%' . $curriculo->qualificacoes . '%')
+                ->orWhere('descricao', 'like', '%' . $curriculo->historicoProfissional . '%')
+                ->orWhere('titulo', 'like', '%' . $curriculo->area->tipo . '%')
+                ->orWhere('titulo', 'like', '%' . $curriculo->objetivos . '%')
+                ->orWhere('titulo', 'like', '%' . $curriculo->qualificacoes . '%')
+                ->orWhere('titulo', 'like', '%' . $curriculo->historicoProfissional . '%')
+                ->orWhere('salario', 'like', '%' . $curriculo->pretensao . '%')
+                ->orWhere('jornada', 'like', '%' . $curriculo->objetivos . '%')
+                ->orWhere('areas_id', $curriculo->areas_id)
                 ->get();
 
         return response()->json($vagas);
