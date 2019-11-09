@@ -8,7 +8,7 @@
       </painel>
       <div class="row">
         <div v-if="!toggle">
-            <div v-for="show in vagasCandidaturas" :key="show.id" :id="show.id">
+            <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
                     <h3><span class="label label-info ">Vaga: {{show.vaga.titulo}}</span></h3>
@@ -29,12 +29,13 @@
                     </template>
                 </Card>
             </div>
+            <jw-pagination :items="vagasCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
         </div>
         <div v-else>
             <div>
                 <button @click="toggle = false" class="btn btn-sm btn-outline-secondary">Voltar</button>
             </div>
-            <div v-for="show in candidaturasByVaga" :key="show.id" :id="show.id">
+            <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
               <List>
                 <template v-slot:list-header>
                     <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user.name}}</h3>
@@ -78,6 +79,7 @@
                   </template>
                 </List>
               </div>
+              <jw-pagination :items="candidaturasByVaga" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
         </div>
       </div>
     </div>
@@ -94,6 +96,13 @@
     import {mapGetters, mapActions, mapState} from 'vuex';
     import painel from '../Utils/Painel';
     import moment from 'moment'
+    import JwPagination from 'jw-vue-pagination';
+    const customLabels = {
+        first: 'Primeira',
+        last: 'Última',
+        previous: 'Anterior',
+        next: 'Próxima'
+    };
 
     export default {
         data(){
@@ -105,10 +114,16 @@
                 isModalShowMore: false,
                 vaga_id: 0,
                 candidato_id: 0,
+                pageOfItems: [],
+                customLabels
             }
         },
-        components: {NewAgenda, Card, List, Modal,painel},
+        components: {NewAgenda, Card, List, Modal,painel, JwPagination},
         methods: {
+            onChangePage(pageOfItems) {
+                // update page of items
+                this.pageOfItems = pageOfItems;
+            },
             ...mapActions([
                 'loadCandidaturas'
             ]),
