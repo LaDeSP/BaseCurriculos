@@ -39,7 +39,7 @@
         </div>
       </template>
       <div class="row">
-          <div  v-for="vaga in isActive" :key="vaga.id" :id="vaga.id">
+          <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
             <template v-if="permissaoDoUsuario === 'JURIDICA'">
               <Card style="width: 30rem;">
                 <template v-slot:card-header>
@@ -86,9 +86,10 @@
               </Card>
             </template>
           </div>
+          <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="10" :labels="customLabels" v-if="permissaoDoUsuario === 'JURIDICA'"></jw-pagination>
       </div>
       <template v-if="permissaoDoUsuario === 'FISICA'">
-        <div  v-for="vaga in isActive" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
+        <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
         <List>
           <template v-slot:list-header>
               <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
@@ -132,6 +133,7 @@
             </template>
           </List>
         </div>
+        <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
       </template>
     </div>
   </div>
@@ -144,6 +146,13 @@
   import List from '../Utils/List';
   import painel from '../Utils/Painel';
   import { mapActions, mapGetters } from 'vuex';
+  import JwPagination from 'jw-vue-pagination';
+  const customLabels = {
+      first: 'Primeira',
+      last: 'Última',
+      previous: 'Anterior',
+      next: 'Próxima'
+  };
 
     export default {
     data(){
@@ -154,14 +163,21 @@
             filterState: true,
             isModalWarning: false,
             isModalShowMore: false,
+            pageOfItems: [],
+            customLabels,
 
         }
     },
-    components: {Card, Modal, List,painel},
+    components: {Card, Modal, List,painel, JwPagination},
         methods: {
           ...mapActions([
               'loadVagasJuridica'
           ]),
+
+          onChangePage(pageOfItems) {
+            // update page of items
+            this.pageOfItems = pageOfItems;
+          },
 
           showModal(modal, vaga_id){
             if(modal === 'warning'){
