@@ -38,63 +38,64 @@
           </div>
         </div>
       </template>
-      <div class="row">
-          <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
-            <template v-if="permissaoDoUsuario === 'JURIDICA'">
-              <Card style="width: 30rem;">
-                <template v-slot:card-header>
-                  <h3><span class="label label-info " style="color: #4E73DF;">{{vaga.titulo}}</span></h3>
-                </template>
-                <template v-slot:card-body>
-                  <p><strong>Descrição:</strong> {{vaga.descricao}}</p>
-                  <p><strong>Cargo:</strong> {{vaga.cargo}}</p>
-                  <p><strong>Status:</strong> {{vaga.status}}</p>
-                  <p><strong>Quantidade:</strong> {{vaga.quantidade}}</p>
-                  <p><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
-                  <p><strong>Salário:</strong> {{vaga.salario}}</p>
-                  <p><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
-                  <p><strong>Benefícios:</strong> {{vaga.beneficio}}</p>
-                  <p><strong>Requisitos:</strong> {{vaga.requisito}}</p>
-                </template>
-                <template v-slot:card-footer>
-                  <div>
-                    <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
-                    <span v-if="filterState">
-                        <button @click="changeStatus(vaga.id, 'INATIVA')" class="btn btn-sm btn-outline-secondary">Desativar</button>
-                    </span>
-                    <span v-else>
-                        <button @click="changeStatus(vaga.id, 'ATIVA')" class="btn btn-sm btn-outline-success">Ativar</button>
-                    </span>
-                    <button @click="showModal('warning', vaga.id)" class="btn btn-sm btn-danger">Deletar</button>
-                    <Modal v-show="isModalWarning" @close="closeModal">
-                        <template v-slot:header><h3>Deletar Vaga</h3></template>
-                        <template v-slot:body>
-                            <h2 class="text-center">Tem certeza de que deseja
-                                <span style="color: #ff0000"><strong>deletar</strong></span>
-                                essa vaga?</h2>
+      <div class="row no-gutters align-items-center">
+        <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
+          <template v-if="permissaoDoUsuario === 'JURIDICA'">
+            <Card style="width: 31rem;">
+              <template v-slot:card-header>
+                <h3><span class="label label-info " style="color: #4E73DF;">{{vaga.titulo}}</span></h3>
+              </template>
+              <template v-slot:card-body>
+                <p><strong>Descrição:</strong> {{vaga.descricao}}</p>
+                <p><strong>Cargo:</strong> {{vaga.cargo}}</p>
+                <p><strong>Status:</strong> {{vaga.status}}</p>
+                <p><strong>Quantidade:</strong> {{vaga.quantidade}}</p>
+                <p><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
+                <p><strong>Salário:</strong> {{vaga.salario}}</p>
+                <p><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
+                <p><strong>Benefícios:</strong> {{vaga.beneficio}}</p>
+                <p><strong>Requisitos:</strong> {{vaga.requisito}}</p>
+              </template>
+              <template v-slot:card-footer>
+                <div>
+                  <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
+                  <span v-if="filterState">
+                      <button @click="changeStatus(vaga.id, 'INATIVA')" class="btn btn-sm btn-outline-secondary">Desativar</button>
+                  </span>
+                  <span v-else>
+                      <button @click="changeStatus(vaga.id, 'ATIVA')" class="btn btn-sm btn-outline-success">Ativar</button>
+                  </span>
+                  <button @click="showModal('warning', vaga.id)" class="btn btn-sm btn-danger">Deletar</button>
+                  <Modal v-show="isModalWarning" @close="closeModal">
+                      <template v-slot:header><h3>Deletar Vaga</h3></template>
+                      <template v-slot:body>
+                          <h2 class="text-center">Tem certeza de que deseja
+                              <span style="color: #ff0000"><strong>deletar</strong></span>
+                              essa vaga?</h2>
 
-                        </template>
-                        <template v-slot:footer>
-                        <div>
-                            <button @click="onDelete" class="btn btn-lg btn-danger">Sim</button>
-                            <button @click="closeModal" class="btn btn-lg btn-success">Não</button>
-                        </div>
-                        </template>
-                    </Modal>
-                  </div>
-                </template>
-              </Card>
-            </template>
-          </div>
-          <div class="container">
-            <div class="row">
-             <div class="col-10">
-               <center><jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="4" :labels="customLabels" v-if="permissaoDoUsuario === 'JURIDICA'"></jw-pagination></center>
-             </div>
-            </div>
-          </div>
-
+                      </template>
+                      <template v-slot:footer>
+                      <div>
+                          <button @click="onDelete" class="btn btn-lg btn-danger">Sim</button>
+                          <button @click="closeModal" class="btn btn-lg btn-success">Não</button>
+                      </div>
+                      </template>
+                  </Modal>
+                </div>
+              </template>
+            </Card>
+          </template>
+        </div>
       </div>
+      <br>
+      <br>
+      <div class="row no-gutters align-items-center">
+        <div class="col-11">
+          <center><jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="4" :labels="customLabels" v-if="permissaoDoUsuario === 'JURIDICA'"></jw-pagination></center>
+        </div>
+      </div>
+      <br>
+      <br>
       <template v-if="permissaoDoUsuario === 'FISICA'">
         <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
         <List>
@@ -140,13 +141,15 @@
             </template>
           </List>
         </div>
-        <div class="container">
+        <br>
+        <br>
           <div class="row">
-            <div class="col-10">
+            <div class="col-11">
               <center><jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="4" :labels="customLabels"></jw-pagination></center>
             </div>
           </div>
-        </div>
+          <br>
+          <br>
       </template>
     </div>
   </div>
