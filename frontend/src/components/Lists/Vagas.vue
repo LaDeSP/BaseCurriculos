@@ -86,7 +86,14 @@
               </Card>
             </template>
           </div>
-          <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="10" :labels="customLabels" v-if="permissaoDoUsuario === 'JURIDICA'"></jw-pagination>
+          <div class="container">
+            <div class="row">
+             <div class="col-10">
+               <center><jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="4" :labels="customLabels" v-if="permissaoDoUsuario === 'JURIDICA'"></jw-pagination></center>
+             </div>
+            </div>
+          </div>
+
       </div>
       <template v-if="permissaoDoUsuario === 'FISICA'">
         <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
@@ -133,7 +140,13 @@
             </template>
           </List>
         </div>
-        <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+        <div class="container">
+          <div class="row">
+            <div class="col-10">
+              <center><jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="4" :labels="customLabels"></jw-pagination></center>
+            </div>
+          </div>
+        </div>
       </template>
     </div>
   </div>
