@@ -125,10 +125,10 @@
                 this.pageOfItems = pageOfItems;
             },
             ...mapActions([
-                'loadCandidaturas'
+                'loadAgenda'
             ]),
 
-             showModal(candidato_id){
+            showModal(candidato_id){
                  this.isModalShowMore = true;
                  this.candidato_id = candidato_id;
             },
@@ -151,7 +151,7 @@
 
         computed: {
             ...mapGetters([
-                'displayCandidaturas', 'permissaoDoUsuario', 'displayCandidaturasByVaga', 'displayCandidatoById'
+                'displayAgenda', 'permissaoDoUsuario', 
             ]),
             ...mapState([
                 'vagasCandidaturas'
@@ -173,7 +173,7 @@
         },
 
         async created(){
-            await this.loadCandidaturas();
+            await this.loadAgenda();
             console.log('display', this.displayCandidaturas)
 
         },

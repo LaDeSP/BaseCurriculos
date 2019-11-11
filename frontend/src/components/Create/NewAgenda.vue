@@ -45,6 +45,7 @@
                               </div>
                           </ValidationProvider>
                       </div>
+
                     </div>
                    </template>
                    <template v-slot:card-footer class="justify-content-center">
@@ -88,6 +89,7 @@
         data: '',
         hora: '',
         observacao: '',
+        contraproposta: '',
         candidatura_id: 0,
         editing: false,
         notificacoes: [],
@@ -99,7 +101,8 @@
           data: this.data,
           hora: this.hora,
           observacao: this.observacao,
-          candidatura_id: this.candidatura_id
+          //contraproposta: this.contraproposta,
+          candidatura_id: this.$session.get('candidato_id')
         }
 
         this.$store.dispatch('newAgenda', newAgendaData)
@@ -109,12 +112,18 @@
           }
           else{
             console.log('deu bonm');
-           // this.$router.push({ name: 'dashboard-fisica' })
+            this.$router.push({ name: 'agenda' })
           }
         
         })
         .catch(error => console.log(error))
       },
+    },
+
+    
+    async created(){
+      console.log('candidato_id', this.$session.get('candidato_id'))
     }
+
   }
 </script>
