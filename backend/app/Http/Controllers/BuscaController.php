@@ -158,6 +158,7 @@ class BuscaController extends Controller
         $palavrasHistorico=BuscaController::tratarPalavras($palavrasHistoricoPrevia);
         $palavrasObjetivos=BuscaController::tratarPalavras($palavrasObjetivosPrevia);
         $i=0;
+        dd($palavrasQualificacao);
         foreach ($palavrasQualificacao as $palavra){
             $vagas = Vaga::with(['area'])
                 ->where('requisito', 'like', '%' . $palavra . '%')
@@ -216,10 +217,10 @@ class BuscaController extends Controller
     public function tratarPalavras($array){
         $resultado = [];
         foreach ($array as $palavra){
-            BuscaController::removeAcento($palavra);
-            if($palavra=="de"||$palavra=="com"||$palavra=="e"||$palavra=="em"||$palavra=="pela"||$palavra=="Com"||$palavra=="na"||$palavra==""||
-               $palavra=="ou"||$palavra=="como"||$palavra=="por"||$palavra=="pois"||$palavra=="porque"||$palavra=="uma"||$palavra=="um"||
-               $palavra=="que"||$palavra=="logo"||$palavra=="mas"){
+            $palavra = BuscaController::removeAcento($palavra);
+            if(strcasecmp($palavra, "de")==0||strcasecmp($palavra, "com")==0||strcasecmp($palavra, "e")==0||strcasecmp($palavra, "em")==0||strcasecmp($palavra, "pela")==0||strcasecmp($palavra, "na")==0||$palavra==""||$palavra==","||$palavra=="."||$palavra==";"||$palavra==":"||
+               strcasecmp($palavra, "ou")==0||strcasecmp($palavra, "como")==0||strcasecmp($palavra, "por")==0||strcasecmp($palavra, "pois")==0||strcasecmp($palavra, "porque")==0||strcasecmp($palavra, "uma")==0||strcasecmp($palavra, "um")==0||
+               strcasecmp($palavra, "que")==0||strcasecmp($palavra, "logo")==0||strcasecmp($palavra, "mas")==0||strcasecmp($palavra, "trabalhou")==0||strcasecmp($palavra, "sabe")==0||strcasecmp($palavra, "conhece")==0||strcasecmp($palavra, "tem")==0){
                 unset($palavra);
             }
             else{
