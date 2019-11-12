@@ -216,6 +216,7 @@ class BuscaController extends Controller
     public function tratarPalavras($array){
         $resultado = [];
         foreach ($array as $palavra){
+            BuscaController::removeAcento($palavra);
             if($palavra=="de"||$palavra=="com"||$palavra=="e"||$palavra=="em"||$palavra=="pela"||$palavra=="Com"||$palavra=="na"||$palavra==""||
                $palavra=="ou"||$palavra=="como"||$palavra=="por"||$palavra=="pois"||$palavra=="porque"||$palavra=="uma"||$palavra=="um"||
                $palavra=="que"||$palavra=="logo"||$palavra=="mas"){
@@ -226,6 +227,28 @@ class BuscaController extends Controller
             }
         }
         return $resultado;
+    }
+
+    public function removeAcento($palavra){
+        if(strstr($palavra, ',', true)){
+            $palavra=str_replace(",", "", $palavra);
+        }
+        if(strstr($palavra, '.', true)){
+            $palavra=str_replace(".", "", $palavra);
+        }
+        if(strstr($palavra, ';', true)){
+            $palavra=str_replace(";", "", $palavra);
+        }
+        if(strstr($palavra, ':', true)){
+            $palavra=str_replace(":", "", $palavra);
+        }
+        if(strstr($palavra, '?', true)){
+            $palavra=str_replace("?", "", $palavra);
+        }
+        if(strstr($palavra, '!', true)){
+            $palavra=str_replace("!", "", $palavra);
+        }
+        return $palavra;
     }
     
 }
