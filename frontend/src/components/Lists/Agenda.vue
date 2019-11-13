@@ -3,10 +3,30 @@
      <div class="col-md-9">
       <painel>
         <template v-slot:panel-head>
-          <h2>Candidaturas</h2>
+          <h2>Entrevistas Agendadas</h2>
         </template>
       </painel>
-
+      <h2>Entrevistas Agendadas</h2>
+      <div class="row" v-if="permissaoDoUsuario === 'JURIDICA'">
+        <div >
+            <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
+                <Card style="width: 30rem;">
+                    <template v-slot:card-header>
+                    <h3><span class="label label-info ">Candidato: {{show.candidatura.curriculo.fisica.user.name}}</span></h3>
+                    </template>
+                    <template v-slot:card-body>
+                    <p>Data: {{show.data | dateFormat}}</p>
+                    <p>Hora: {{show.hora}}</p>
+                    </template>
+                    <template v-slot:card-footer>
+                        <button @click="newAgenda(show.id)" class="btn btn-sm btn-info">Reagendar</button>
+                        <button @click="cancelAgenda(show.id)" class="btn btn-sm btn-danger">Cancelar</button>
+                    </template>
+                </Card>
+            </div>
+            <jw-pagination :items="agenda" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -68,25 +88,19 @@
                 this.vaga_id = vaga_id;
             },
 
-            newAgenda(candidato_id){
-                this.$session.set('candidato_id', candidato_id);
+            newAgenda(id){
+                this.$session.set('editarAgenda', id);
                 this.$router.push({ name: 'new-agenda'})
             }
         },
 
         computed: {
             ...mapGetters([
-                'displayCandidaturas', 'permissaoDoUsuario', 'displayCandidaturasByVaga', 'displayCandidatoById'
+                'permissaoDoUsuario', 
             ]),
             ...mapState([
-                'vagasCandidaturas', 'agenda'
+                'agenda'
             ]),
-            candidaturasByVaga() {
-                return this.displayCandidaturasByVaga(this.vaga_id)
-            },
-            candidatoById() {
-                return this.displayCandidatoById(this.candidato_id)
-            },
         },
 
         filters:{

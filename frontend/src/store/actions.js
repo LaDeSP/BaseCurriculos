@@ -697,7 +697,7 @@ import * as Cookies from 'js-cookie'
        
         commit('agenda', payloadAgenda)
        // commit('candidaturas', payloadCandidaturas)
-        console.log('response load agenda', response.data.agenda)
+        console.log('response load agenda', response)
         return response.data
       }).catch(error => {
         console.log(error)

@@ -101,28 +101,45 @@
           data: this.data,
           hora: this.hora,
           observacao: this.observacao,
-          //contraproposta: this.contraproposta,
           candidatura_id: this.$session.get('candidato_id')
         }
 
-        this.$store.dispatch('newAgenda', newAgendaData)
-        .then( response => { 
-          if(response.error  != undefined){
-            this.notificacoes = response.error;
-          }
-          else{
-            console.log('deu bonm');
-            this.$router.push({ name: 'agenda' })
-          }
-        
-        })
-        .catch(error => console.log(error))
+        if(!editing){
+          this.$store.dispatch('newAgenda', newAgendaData)
+          .then( response => { 
+            if(response.error  != undefined){
+              this.notificacoes = response.error;
+            }
+            else{
+              console.log('deu bonm');
+              this.$router.push({ name: 'agenda' })
+            }
+          
+          })
+          .catch(error => console.log(error))
+        }else{
+          this.$store.dispatch('updateAgenda', newAgendaData)
+          .then( response => { 
+            if(response.error  != undefined){
+              this.notificacoes = response.error;
+            }
+            else{
+              console.log('deu bonm');
+              this.$router.push({ name: 'agenda' })
+            }
+          
+          })
+          .catch(error => console.log(error))
+        }
       },
     },
 
     
     async created(){
-      console.log('candidato_id', this.$session.get('candidato_id'))
+      
+      if(this.$session.get('editarAgenda')){
+        this.editing = true;
+      }
     }
 
   }

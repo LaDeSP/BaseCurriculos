@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Agenda extends Model
 {
     protected $fillable = [
-		'data', 'hora', 'observacao', 'contraproposta', 'candidatura_id'
+		'data', 'hora', 'observacao', 'candidatura_id'
 	];
 
 	public function candidatura(){

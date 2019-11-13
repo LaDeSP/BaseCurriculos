@@ -14,19 +14,32 @@ use Illuminate\Http\Request;
 class AgendaController extends Controller
 {
     public function teste (){
-        $user = User::findOrFail(3);
+
+        $agenda =  Agenda::with(['candidatura.vaga', 'curriculo.fisica.user'])
+        ->whereHas('candidatura.vaga.juridica', function($query){ 
+            $query->where('id', '=', 2);
+        })->get();
     
+        dd($agenda);
        // dd($user->juridica->vaga[0]->candidatura[0]->agenda);
     }
 
     public function index(){
 
         $user_id = auth()->user()->id;
+        $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
 
-        $juridica = Juridica::where('user_id', $user_id)->first()->get();
+        $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
+        ->whereHas('candidatura.vaga.juridica', function($query) use ($juridica_id){ 
+            $query->where('id', '=', $juridica_id);
+        })->orderBy('created_at')->get();
+
+      //  $collection = collect($vagasCandidatura);
+       // $unique = $collection->unique('vagas_id');
+       // $unique_data = $unique->values()->all();
 
         return Response::json([
-            'agenda' => $juridica,
+            'agenda' => $agenda,
          ]);
     
     }
