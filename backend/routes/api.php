@@ -25,6 +25,10 @@ Route::resource('/pjuridicas', 'JuridicaController');
 Route::resource('/curriculos', 'CurriculoController', [
     'middleware' => 'jwt.auth'
 ]);
+
+Route::resource('/agenda', 'AgendaController', [
+    'middleware' => 'jwt.auth'
+]);
 Route::resource('/vagas', 'VagaController', [
     'middleware' => 'jwt.auth'
 ]);
@@ -50,9 +54,5 @@ Route::group([
     Route::get('/buscaCurriculosAvancadas/{keywords?}/{escolaridade?}/{objetivos?}/{historicoProfissional?}/{cidade?}/{nome?}/{area?}', 'BuscaController@buscaCurriculosAvancadas');
     Route::get('/buscaVagasRecomendadas/{userId}', 'BuscaController@buscaVagaIndicada');
 });
-
-Route::resource('/agenda', 'AgendaController', [
-    'middleware' => 'jwt.auth'
-]);
 
 Route::get('/teste', 'AgendaController@teste');

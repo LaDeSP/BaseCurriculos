@@ -6,82 +6,7 @@
           <h2>Candidaturas</h2>
         </template>
       </painel>
-      <div class="row">
-        <div v-if="!toggle">
-            <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
-                <Card style="width: 30rem;">
-                    <template v-slot:card-header>
-                    <h3><span class="label label-info ">Vaga: {{show.vaga.titulo}}</span></h3>
-                    </template>
-                    <template v-slot:card-body>
-                    <p>Cargo: {{show.vaga.cargo}}</p>
-                    <p>Detalhes: {{show.vaga.descricao}}</p>
-                    </template>
-                    <template v-slot:card-footer>
-                    <div v-if="permissaoDoUsuario === 'JURIDICA'">
-                        <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
-                    </div>
-                    <div v-else>
-                        <div v-if="agendamento">
-                            <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Desistir</button>
-                        </div>
-                    </div>
-                    </template>
-                </Card>
-            </div>
-            <jw-pagination :items="vagasCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
-        </div>
-        <div v-else>
-            <div>
-                <button @click="toggle = false" class="btn btn-sm btn-outline-secondary">Voltar</button>
-            </div>
-            <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
-              <List>
-                <template v-slot:list-header>
-                    <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user.name}}</h3>
-                </template>
-                <template v-slot:list-body>
-                    <p class="mb-1"><strong>Objetivos:</strong> {{show.curriculo.objetivos}}</p>
-                    <p class="mb-1"><strong>Pretensão Salarial:</strong> {{show.curriculo.pretensao}}</p>
-                </template>
-                <template v-slot:list-footer>
-                  <button @click="showModal(show.id)" class="btn btn-sm btn-default">Ver mais</button>
-                  
-                  <Modal v-if="isModalShowMore" @close="closeModal">
-                        <template v-slot:header><h3>Detalhes da Vaga</h3></template>
-                        <template v-slot:body>
-                            
-                         <h4>Informações Pessoais</h4>
-                        <ul>
-                            <li> <strong>Nome Completo</strong>: {{candidatoById[0].curriculo.fisica.user.name}}</li>
-                            <li> <strong>Data de Nascimento</strong>: {{candidatoById[0].curriculo.fisica.data_nascimento | dateFormat}}</li>
-                            <li> <strong>Gênero</strong>: {{candidatoById[0].curriculo.fisica.genero}}</li>
-                            <li> <strong>Estado Civil</strong>: {{candidatoById[0].curriculo.fisica.estado_civil}}</li>
-                            <li> <strong>CPF</strong>: {{candidatoById[0].curriculo.fisica.cpf}}</li>
-                          
-                        </ul>
-                        <h4>Redes Sociais</h4>
-                        <ul>
-                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.facebook !== 'undefined' || null">Facebook: {{candidatoById[0].curriculo.fisica.contato.facebook}}</li>
-                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.twitter !== 'undefined' || null">Twitter: {{candidatoById[0].curriculo.fisica.contato.twitter}}</li>
-                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.linkedin !== 'undefined' || null">Linkedin: {{candidatoById[0].curriculo.fisica.contato.linkedin}}</li>
-                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.site !== 'undefined' || null">Site: {{candidatoById[0].curriculo.fisica.contato.site}}</li>
-                        </ul>
-                        </template>
-                        <template v-slot:footer>
-                         <!-- <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
-                          <button @click="reject" class="btn btn-sm btn-outline-danger">Recusar</button> -->
-                          <div>
-                             <button @click="newAgenda(show.id)" class="btn btn-sm btn-info">Agendar Entrevista</button>
-                          </div>
-                        </template>
-                  </Modal>
-                  </template>
-                </List>
-              </div>
-              <jw-pagination :items="candidaturasByVaga" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
-        </div>
-      </div>
+
     </div>
   </div>
 </template>
@@ -128,7 +53,7 @@
                 'loadAgenda'
             ]),
 
-            showModal(candidato_id){
+             showModal(candidato_id){
                  this.isModalShowMore = true;
                  this.candidato_id = candidato_id;
             },
@@ -151,10 +76,10 @@
 
         computed: {
             ...mapGetters([
-                'displayAgenda', 'permissaoDoUsuario', 
+                'displayCandidaturas', 'permissaoDoUsuario', 'displayCandidaturasByVaga', 'displayCandidatoById'
             ]),
             ...mapState([
-                'vagasCandidaturas'
+                'vagasCandidaturas', 'agenda'
             ]),
             candidaturasByVaga() {
                 return this.displayCandidaturasByVaga(this.vaga_id)
@@ -174,7 +99,7 @@
 
         async created(){
             await this.loadAgenda();
-            console.log('display', this.displayCandidaturas)
+            console.log('agenda', this.$store.state.agenda)
 
         },
 

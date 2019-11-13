@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Validator;
 
 use Response;
 use App\Agenda;
+use App\Juridica;
 use App\User;
 
 use App\Candidatura;
@@ -14,13 +15,19 @@ class AgendaController extends Controller
 {
     public function teste (){
         $user = User::findOrFail(3);
-        
-        dd($user->juridica->vaga[0]->candidatura[0]->agenda);
+    
+       // dd($user->juridica->vaga[0]->candidatura[0]->agenda);
     }
 
     public function index(){
 
-      
+        $user_id = auth()->user()->id;
+
+        $juridica = Juridica::where('user_id', $user_id)->first()->get();
+
+        return Response::json([
+            'agenda' => $juridica,
+         ]);
     
     }
 

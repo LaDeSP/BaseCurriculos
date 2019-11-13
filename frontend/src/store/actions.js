@@ -544,7 +544,6 @@ import * as Cookies from 'js-cookie'
   
         commit('vagasCandidaturas', payloadVagasCandidaturas)
         commit('candidaturas', payloadCandidaturas)
-        console.log('response loadcandidaturas', response)
         return response.data
       }).catch(error => {
         console.log(error)
@@ -689,16 +688,16 @@ import * as Cookies from 'js-cookie'
   const loadAgenda = async ({commit, state}) => {
   
     const token = state.auth.token;
-    const user_id = state.auth.user.id;
-    return await axios({ url: agenda_uri + '/' + user_id + '?token='+ token, method: 'GET' })
+    //const user_id = state.auth.user.id;
+    return await axios({ url: agenda_uri + '?token='+ token, method: 'GET' })
       .then(response => {
         
         let payloadAgenda = [];
         payloadAgenda = response.data.agenda;
        
-       // commit('vagasCandidaturas', payloadVagasCandidaturas)
+        commit('agenda', payloadAgenda)
        // commit('candidaturas', payloadCandidaturas)
-        console.log('response load agenda', response.data)
+        console.log('response load agenda', response.data.agenda)
         return response.data
       }).catch(error => {
         console.log(error)

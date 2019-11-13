@@ -19,7 +19,6 @@
                     </template>
                     <template v-slot:card-footer>
                         <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
-                        <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Desistir</button>
                     </template>
                 </Card>
             </div>

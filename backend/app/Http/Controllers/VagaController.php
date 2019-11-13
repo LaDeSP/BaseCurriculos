@@ -15,7 +15,7 @@ use App\User;
 
 class VagaController extends Controller
 {
-
+    
     public function index(){
 
         $areas = Area::all();

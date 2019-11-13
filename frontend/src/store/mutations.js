@@ -112,4 +112,6 @@ const agenda = (state, payloadAgenda) => {
     candidaturas,
     vagasCandidaturas,
     buscaVagas,
+    agenda,
+    
   };
