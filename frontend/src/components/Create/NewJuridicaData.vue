@@ -111,7 +111,7 @@
                         <label for="estado">Estado <a class="color-red">*</a></label>
                         <ValidationProvider name="estadio" rules="required">
                             <div slot-scope="{ errors }">
-                                <select class="custom-select" name="estado" v-model="estado">
+                                <select class="custom-select" name="estado" v-model="estado" id="estado">
                                     <option disabled value="">Selecione seu estado</option>
                                     <option value="AC">Acre</option>
                                     <option value="AL">Alagoas</option>
@@ -150,7 +150,7 @@
                         <label for="endereco">Endereço <a class="color-red">*</a></label>
                         <ValidationProvider name="rua" rules="required|max:50">
                             <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" maxlength="50">
+                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" maxlength="50" id="rua">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
@@ -158,28 +158,28 @@
 
                         <ValidationProvider name="bairro" rules="required|max:50">
                             <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" maxlength="50">
+                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" maxlength="50" id="bairro">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
 
                         <ValidationProvider name="numero" rules="required|numeric|max:7|max_value:1000000">
                             <div slot-scope="{ errors }">
-                                <input type="number" class="form-control" name="numero" placeholder="Número" v-model="numero" maxlength="7" max="1000000">
+                                <input type="number" class="form-control" name="numero" id="numero" placeholder="Número" v-model="numero" maxlength="7" max="1000000">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
 
                         <ValidationProvider name="complemento" rules="required|max:50">
                             <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="complemento" placeholder="Complemento" v-model="complemento" maxlength="50">
+                                <input type="text" class="form-control" name="complemento" id="complemento" placeholder="Complemento" v-model="complemento" maxlength="50">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
 
                         <ValidationProvider name="cidade" rules="required|max:50">
                             <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="cidade" placeholder="Cidade" v-model="cidade" maxlength="50">
+                                <input type="text" class="form-control" name="cidade" id="cidade" placeholder="Cidade" v-model="cidade" maxlength="50">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
@@ -187,7 +187,7 @@
 
                         <ValidationProvider name="cep" rules="required|numeric|digits:8">
                             <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="cep" placeholder="CEP" v-model="cep" minlength="8" maxlength="8">
+                                <input type="text" class="form-control" name="cep" id="cep" v-on:keyup="buscar" placeholder="CEP" v-model="cep" minlength="8" maxlength="8">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
@@ -256,7 +256,8 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                     thumbnailWidth: 200, // px
                     thumbnailHeight: 200,
                     acceptedMimeTypes: ".png, .jpg, .jpeg, .gif"
-                }
+                },
+                naoLocalizado: false
             }
         },
         methods: {
@@ -380,6 +381,30 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 if(file.status!='error'){
                     this.$store.dispatch('deleteUserPhoto')
                 }
+            },
+            buscar: function(){   
+                var self = this;
+            self.naoLocalizado = false;
+            
+            if(/^[0-9]{5}[0-9]{3}$/.test(this.cep)){
+                $.getJSON("https://viacep.com.br/ws/" + this.cep + "/json/", function(endereco){
+                if(endereco.erro){
+                    $("#rua").focus();
+                    self.naoLocalizado = true;
+                    return;
+                }
+                console.log(endereco);
+                self.rua = endereco.logradouro;
+                self.bairro = endereco.bairro;
+                self.cidade = endereco.localidade;
+                self.estado = endereco.uf;
+                self.complemento = endereco.complemento;
+
+
+                $("#numero").focus();
+
+                });
+            }
             },
 
         },
