@@ -20,8 +20,8 @@ class Juridica extends Model
     public function endereco(){
     	return $this->hasOne(Endereco::class, 'id', 'enderecos_id');
 	}
-	public function vagas(){
-    	return $this->hasMany(Vaga::class);
+	public function vaga(){
+    	return $this->hasMany(Vaga::class, 'juridicas_id', 'id');
 	}
 
 }

@@ -158,7 +158,6 @@ class BuscaController extends Controller
         $palavrasHistorico=BuscaController::tratarPalavras($palavrasHistoricoPrevia);
         $palavrasObjetivos=BuscaController::tratarPalavras($palavrasObjetivosPrevia);
         $i=0;
-        dd($palavrasQualificacao);
         foreach ($palavrasQualificacao as $palavra){
             $vagas = Vaga::with(['area'])
                 ->where('requisito', 'like', '%' . $palavra . '%')

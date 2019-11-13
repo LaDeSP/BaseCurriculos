@@ -5,11 +5,24 @@ use Illuminate\Support\Facades\Validator;
 
 use Response;
 use App\Agenda;
+use App\User;
+
 use App\Candidatura;
 use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
+    public function teste (){
+        $user = User::findOrFail(3);
+        
+        dd($user->juridica->vaga[0]->candidatura[0]->agenda);
+    }
+
+    public function index(){
+
+      
+    
+    }
 
     public function store(Request $request)
     {   
@@ -36,12 +49,6 @@ class AgendaController extends Controller
         return Response::json([
            'cadastrou agenda'
         ]);
-    }
-
-    public function show($id){
-
-        $agenda = Agenda::where()
-    
     }
   
     public function messages(){

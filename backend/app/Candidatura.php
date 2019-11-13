@@ -17,6 +17,6 @@ class Candidatura extends Model
     	return $this->hasOne(Curriculo::class, 'id', 'curriculos_id');
 	}
 	public function agenda(){
-		return $this->belongsTo(Agenda::class);
+		return $this->hasMany(Agenda::class, 'candidatura_id');
 	}
 }

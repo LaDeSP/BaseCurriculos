@@ -11,6 +11,6 @@ class Agenda extends Model
 	];
 
 	public function candidatura(){
-		return $this->hasOne(Candidatura::class, 'candidatura_id');
+		return $this->belongsTo(Candidatura::class, 'candidatura_id');
 	}
 }

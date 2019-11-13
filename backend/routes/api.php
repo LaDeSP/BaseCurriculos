@@ -55,4 +55,4 @@ Route::resource('/agenda', 'AgendaController', [
     'middleware' => 'jwt.auth'
 ]);
 
-Route::get('/teste', 'CandidaturaController@teste');
+Route::get('/teste', 'AgendaController@teste');
