@@ -4,7 +4,7 @@
       <div class="row justify-content-center">
         <div div class="col-12">
           <div class="btn-group">
-            <router-link to="/DashFIS" class="btn btn-primary btn-lg btn-block"><i class="fas fa-arrow-left"></i>Voltar</router-link>
+            <router-link to="/dashboard-fisica" class="btn btn-primary btn-lg btn-block"><i class="fas fa-home"></i> Home</router-link>
           </div>
         </div>
       </div>
