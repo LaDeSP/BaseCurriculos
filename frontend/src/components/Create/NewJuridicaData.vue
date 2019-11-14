@@ -43,25 +43,24 @@
 
                 <tab-content title="Contato" icon="fas fa-phone">
                     <div class="form-group">
-                        <label for="telefone">Telefone e Celular <a class="color-red">*</a></label>
-                        <div class="form-row">
-                            <div class="col-6">
-                                <ValidationProvider name="fixo" rules="required|numeric|digits:10">
-                                    <div slot-scope="{ errors }">
-                                        <input type="text" class="form-control" name="fixo" placeholder="Fixo" v-model="fixo" minlength="10" maxlength="10">
-                                        <p class="color-red">{{ errors[0] }}</p>
-                                    </div>
-                                </ValidationProvider>
-                            </div>
-                            <div class="col">
-                                <ValidationProvider name="celular" rules="required|numeric|digits:11">
-                                    <div slot-scope="{ errors }">
-                                        <input type="text" class="form-control" name="celular" placeholder="Celular" v-model="celular" minlength="11" maxlength="11">
-                                        <p class="color-red">{{ errors[0] }}</p>
-                                    </div>
-                                </ValidationProvider>
-                            </div>
+                        <label for="telefone">Telefone-Fixo<a class="color-red">*</a></label>
+                        <div class="form-group">
+                          <ValidationProvider name="fixo" rules="required|numeric|digits:10">
+                              <div slot-scope="{ errors }">
+                                  <input type="text" class="form-control" name="fixo" placeholder="Telefone-Fixo" v-model="fixo" minlength="10" maxlength="10">
+                                  <p class="color-red">{{ errors[0] }}</p>
+                              </div>
+                          </ValidationProvider>
                         </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="celular">Telefone-Celular<a class="color-red">*</a></label>
+                      <ValidationProvider name="celular" rules="required|numeric|digits:11">
+                          <div slot-scope="{ errors }">
+                              <input type="text" class="form-control" name="celular" placeholder="Telefone-Celular" v-model="celular" minlength="11" maxlength="11">
+                              <p class="color-red">{{ errors[0] }}</p>
+                          </div>
+                      </ValidationProvider>
                     </div>
                     <div class="form-group">
                         <label for="linkedin">Linkedin</label>
@@ -150,48 +149,58 @@
                         <label for="endereco">Endereço <a class="color-red">*</a></label>
                         <ValidationProvider name="rua" rules="required|max:50">
                             <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" maxlength="50" id="rua">
+                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" id="rua" maxlength="50">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
+                    </div>
+                    <div class="form-group">
+                      <label for="cep">CEP <a class="color-red">*</a></label>
+                      <ValidationProvider name="cep" rules="required|numeric|digits:8">
+                          <div slot-scope="{ errors }">
+                              <input type="text" class="form-control" name="cep" id="cep" placeholder="CEP" v-on:keyup="buscar" v-model="cep" minlength="8" maxlength="8" />
+                              <p class="color-red">{{ errors[0] }}</p>
+                          </div>
+                      </ValidationProvider>
+                     </div>
 
-
-                        <ValidationProvider name="bairro" rules="required|max:50">
+                    <div class="form-group">
+                      <label for="bairro">Bairro <a class="color-red">*</a></label>
+                      <ValidationProvider name="bairro" rules="required|max:50">
                             <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" maxlength="50" id="bairro">
+                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" id="bairro" maxlength="50">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
-
-                        <ValidationProvider name="numero" rules="required|numeric|max:7|max_value:1000000">
+                     </div>
+                    <div class="form-group">
+                      <label for="numero">Número <a class="color-red">*</a></label>
+                      <ValidationProvider name="numero" rules="required|numeric|max:7|max_value:1000000">
                             <div slot-scope="{ errors }">
-                                <input type="number" class="form-control" name="numero" id="numero" placeholder="Número" v-model="numero" maxlength="7" max="1000000">
+                                <input type="number" class="form-control" name="numero" placeholder="Número" v-model="numero" id="numero" maxlength="7" max="1000000">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
+                     </div>
 
-                        <ValidationProvider name="complemento" rules="required|max:50">
-                            <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="complemento" id="complemento" placeholder="Complemento" v-model="complemento" maxlength="50">
-                                <p class="color-red">{{ errors[0] }}</p>
-                            </div>
-                        </ValidationProvider>
+                    <div class="form-group">
+                      <label for="complemento">Complemento <a class="color-red">*</a></label>
+                      <ValidationProvider name="complemento" rules="required|max:50">
+                          <div slot-scope="{ errors }">
+                              <input type="text" class="form-control" name="complemento" placeholder="Complemento" id="complemento" v-model="complemento" maxlength="50">
+                              <p class="color-red">{{ errors[0] }}</p>
+                          </div>
+                      </ValidationProvider>
+                    </div>
 
-                        <ValidationProvider name="cidade" rules="required|max:50">
+                    <div class="form-group">
+                      <label for="cidade">Cidade <a class="color-red">*</a></label>
+                      <ValidationProvider name="cidade" rules="required|max:50">
                             <div slot-scope="{ errors }">
                                 <input type="text" class="form-control" name="cidade" id="cidade" placeholder="Cidade" v-model="cidade" maxlength="50">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
-                        </ValidationProvider>
-
-
-                        <ValidationProvider name="cep" rules="required|numeric|digits:8">
-                            <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="cep" id="cep" v-on:keyup="buscar" placeholder="CEP" v-model="cep" minlength="8" maxlength="8">
-                                <p class="color-red">{{ errors[0] }}</p>
-                            </div>
-                        </ValidationProvider>
-
+                      </ValidationProvider>
                     </div>
                 </tab-content>
                 <div slot="footer" slot-scope="props">
@@ -269,7 +278,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                         this.axios.post('http://localhost:8000/api/data/pjuridicas?token=' + this.token,
 
                     {
-                      
+
                     },
                     {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                     .then(
@@ -285,7 +294,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                     );
                 }
             },
-            
+
             ...mapActions([
                 'loadJuridica'
             ]),
@@ -310,7 +319,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                     pais: this.pais,
                     estado: this.estado,
                     linkedin: this.linkedin,
-                
+
                 }
 
                 if(!this.dataCompleted){
@@ -342,7 +351,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                     this.displayDataEdit();
                 }
             },
-            
+
             displayDataEdit(){
                 console.log('inferno', this.displayPessoaJuridica)
                 this.razao = this.displayPessoaJuridica.razao
@@ -382,10 +391,10 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                     this.$store.dispatch('deleteUserPhoto')
                 }
             },
-            buscar: function(){   
+            buscar: function(){
                 var self = this;
             self.naoLocalizado = false;
-            
+
             if(/^[0-9]{5}[0-9]{3}$/.test(this.cep)){
                 $.getJSON("https://viacep.com.br/ws/" + this.cep + "/json/", function(endereco){
                 if(endereco.erro){
@@ -412,9 +421,9 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 ...mapGetters([
                     'displayPessoaJuridica', 'dataCompleted'
                 ]),
-            
+
             },
-            
+
             async created() {
                 if(this.dataCompleted){
                     await this.loadJuridica();
@@ -422,7 +431,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 this.loadArea();
                 this.verifyEdit();
             },
-            
+
              mounted() {
                 if (this.$store.state.upload.path != "http://localhost:8000/anon.jpg"){
                     var url = this.$store.state.upload.path;
@@ -431,9 +440,9 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                     this.$refs.myVueDropzone.dropzone.emit('thumbnail', file, file.dataURL)
                     this.$refs.myVueDropzone.dropzone.emit('complete', file)
                 }
-                
+
             },
     }
-                
+
 </script>
 
