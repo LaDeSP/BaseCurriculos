@@ -70,6 +70,30 @@ class AgendaController extends Controller
            'cadastrou agenda'
         ]);
     }
+
+    public function update(Request $request, $id)
+    {
+     //   $validator = Validator::make($request->all(), CurriculoController::rules(), CurriculoController::messages());
+         
+    /*  if ($validator->fails()) {
+             return Response::json([
+                'error' => $validator->messages()
+            ], 201);
+        }   
+    */
+       
+        Agenda::where('id', $request->update_id)->update([
+            'data' => $request->data,
+            'hora' => $request->hora,
+            'observacao' => $request->observacao,
+        ]);
+
+        return Response::json([
+            'update agenda'=>$request->update_id
+           ], 201);
+      
+      
+    }
   
     public function messages(){
         return $messages = [

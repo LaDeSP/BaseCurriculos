@@ -101,7 +101,8 @@
           data: this.data,
           hora: this.hora,
           observacao: this.observacao,
-          candidatura_id: this.$session.get('candidato_id')
+          candidatura_id: this.$session.get('candidato_id'),
+          update_id: this.$session.get('editarAgenda')
         }
 
         if(!editing){

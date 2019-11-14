@@ -670,7 +670,7 @@ import * as Cookies from 'js-cookie'
         })
     };
    
-  const newAgenda = async ({commit, state}, newAgendaData) => {
+  const newAgenda = async ({state}, newAgendaData) => {
     
     const token = state.auth.token;
     return await axios({ url: agenda_uri + '?token=' + token, data: newAgendaData, method: 'POST' })
@@ -704,6 +704,28 @@ import * as Cookies from 'js-cookie'
       })
     };
 
+    const updateAgenda = async({commit, state}, newAgendaData) => {
+    
+      const token = state.auth.token;
+      return await axios({ url: curriculos_uri + '?token=' + token, data: newAgendaData, method: 'PUT' })
+        .then(response => {
+          
+          
+          let payloadAgenda = [];
+          payloadAgenda = response.data.agenda;
+         
+          commit('agenda', payloadAgenda)
+          
+          console.log('update agenda', response.data);
+         
+          return response.data
+        })
+        .catch(error => {
+          console.log(error)
+        }) 
+  
+    };
+
 
   export default {
     login,
@@ -735,6 +757,6 @@ import * as Cookies from 'js-cookie'
     getVagasRecomendadas,
     newAgenda,
     loadAgenda,
-
+    updateAgenda,
   
   };
