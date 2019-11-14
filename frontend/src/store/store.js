@@ -72,6 +72,8 @@ export const store = new Vuex.Store({
    dataCompleted: false,
    hasVaga: false,
    resultado: [],
+   agenda: [],
+   
   },
 
   actions,

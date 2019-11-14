@@ -6,7 +6,7 @@
           <h2>Candidaturas</h2>
         </template>
       </painel>
-      <div class="row">
+      <div class="row" v-if="permissaoDoUsuario === 'JURIDICA'">
         <div v-if="!toggle">
             <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
@@ -15,17 +15,10 @@
                     </template>
                     <template v-slot:card-body>
                     <p>Cargo: {{show.vaga.cargo}}</p>
-                    <p>Detalhes: {{show}}</p>
+                    <p>Detalhes: {{show.vaga.descricao}}</p>
                     </template>
                     <template v-slot:card-footer>
-                    <div v-if="permissaoDoUsuario === 'JURIDICA'">
                         <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
-                    </div>
-                    <div v-else>
-                        <div v-if="agendamento">
-                            <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Desistir</button>
-                        </div>
-                    </div>
                     </template>
                 </Card>
             </div>
@@ -81,6 +74,24 @@
               </div>
               <jw-pagination :items="candidaturasByVaga" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
         </div>
+      </div>
+      <div v-else>
+          <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
+                <Card style="width: 30rem;">
+                    <template v-slot:card-header>
+                    <h3><span class="label label-info ">Vaga: {{show.vaga.titulo}}</span></h3>
+                    </template>
+                    <template v-slot:card-body>
+                    <p>Status: {{show.status}}</p>
+                    <p>Cargo: {{show.vaga.cargo}}</p>
+                    <p>Detalhes: {{show.vaga.descricao}}</p>
+                    </template>
+                    <template v-slot:card-footer>
+                        <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Desistir</button>
+                    </template>
+                </Card>
+            </div>
+            <jw-pagination :items="displayCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
       </div>
     </div>
   </div>
@@ -144,7 +155,8 @@
             },
 
             newAgenda(candidato_id){
-                this.$router.push({ name: 'new-agenda',  params: { candidato_id }})
+                this.$session.set('candidato_id', candidato_id);
+                this.$router.push({ name: 'new-agenda'})
             }
         },
 

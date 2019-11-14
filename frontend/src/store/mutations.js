@@ -93,10 +93,9 @@ const buscaVagas = (state, payloadBuscaVagas) => {
     state.resultado = payloadBuscaVagas
 }
 
-const curriculo = (state, payloadCurriculo) => { 
-    state.curriculo = payloadCurriculo
+const agenda = (state, payloadAgenda) => { 
+    state.agenda = payloadAgenda
 }
-
 
   export default {
     auth_success,
@@ -113,4 +112,6 @@ const curriculo = (state, payloadCurriculo) => {
     candidaturas,
     vagasCandidaturas,
     buscaVagas,
+    agenda,
+    
   };

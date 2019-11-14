@@ -42,6 +42,7 @@
                   }).catch(error => {
                     //console.log(error)
                   })
+            await this.loadCandidaturas();
           }
       },
     }

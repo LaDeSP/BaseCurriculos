@@ -124,7 +124,7 @@ class BuscaController extends Controller
         return response()->json($curriculos);
     }
 
-    public function buscaVagaIndicada($userId){
+    /*public function buscaVagaIndicada($userId){
         $user = User::findOrFail($userId);
         $curriculo = $user->fisica->curriculo;
 
@@ -145,6 +145,110 @@ class BuscaController extends Controller
                 ->get();
 
         return response()->json($vagas);
+    }*/
+
+    public function buscaVagaIndicada($userId){
+        $user = User::findOrFail($userId);
+        $curriculo = $user->fisica->curriculo;
+        $palavrasQualificacaoPrevia=explode(" ",$curriculo->qualificacoes);
+        $palavrasHistoricoPrevia=explode(" ",$curriculo->historicoProfissional);
+        $palavrasObjetivosPrevia=explode(" ",$curriculo->objetivos);
+        
+        $palavrasQualificacao=BuscaController::tratarPalavras($palavrasQualificacaoPrevia);
+        $palavrasHistorico=BuscaController::tratarPalavras($palavrasHistoricoPrevia);
+        $palavrasObjetivos=BuscaController::tratarPalavras($palavrasObjetivosPrevia);
+        $i=0;
+        foreach ($palavrasQualificacao as $palavra){
+            $vagas = Vaga::with(['area'])
+                ->where('requisito', 'like', '%' . $palavra . '%')
+                ->orWhere('descricao', 'like', '%' . $palavra . '%')
+                ->orWhere('titulo', 'like', '%' . $palavra . '%')
+                ->orWhere('areas_id', $curriculo->areas_id)
+                ->orWhere('salario', 'like', '%' . $curriculo->pretensao . '%')//pensando se faço um explode pro pretensao
+                ->orWhere('titulo', 'like', '%' . $curriculo->area->tipo . '%')
+                ->get();
+            
+            if($i==0){
+                $vagastotal=$vagas;
+            }
+            else{
+
+                $mergedCollection = $vagastotal->toBase()->merge($vagas);
+                $vagastotal = $mergedCollection;
+            }
+            $i++;
+
+        }
+
+        foreach ($palavrasHistorico as $palavra){
+            $vagas = Vaga::with(['area'])
+                ->where('requisito', 'like', '%' . $palavra . '%')
+                ->orWhere('descricao', 'like', '%' . $palavra . '%')
+                ->orWhere('titulo', 'like', '%' . $palavra . '%')
+                ->get();
+            
+            $mergedCollection = $vagastotal->toBase()->merge($vagas);
+            $vagastotal = $mergedCollection;
+        }
+
+        foreach ($palavrasObjetivos as $palavra){
+            $vagas = Vaga::with(['area'])
+                ->where('requisito', 'like', '%' . $palavra . '%')
+                ->orWhere('descricao', 'like', '%' . $palavra . '%')
+                ->orWhere('titulo', 'like', '%' . $palavra . '%')
+                ->orWhere('jornada', 'like', '%' . $palavra . '%')
+                ->get();
+            
+            $mergedCollection = $vagastotal->toBase()->merge($vagas);
+            $vagastotal = $mergedCollection;
+        }
+        
+
+        
+        $collection = collect($mergedCollection);
+        $unique = $collection->unique('id');
+        $unique_data = $unique->values()->all();
+        
+
+        return response()->json($unique_data);
+    }
+
+    public function tratarPalavras($array){
+        $resultado = [];
+        foreach ($array as $palavra){
+            $palavra = BuscaController::removeAcento($palavra);
+            if(strcasecmp($palavra, "de")==0||strcasecmp($palavra, "com")==0||strcasecmp($palavra, "e")==0||strcasecmp($palavra, "em")==0||strcasecmp($palavra, "pela")==0||strcasecmp($palavra, "na")==0||$palavra==""||$palavra==","||$palavra=="."||$palavra==";"||$palavra==":"||
+               strcasecmp($palavra, "ou")==0||strcasecmp($palavra, "como")==0||strcasecmp($palavra, "por")==0||strcasecmp($palavra, "pois")==0||strcasecmp($palavra, "porque")==0||strcasecmp($palavra, "uma")==0||strcasecmp($palavra, "um")==0||
+               strcasecmp($palavra, "que")==0||strcasecmp($palavra, "logo")==0||strcasecmp($palavra, "mas")==0||strcasecmp($palavra, "trabalhou")==0||strcasecmp($palavra, "sabe")==0||strcasecmp($palavra, "conhece")==0||strcasecmp($palavra, "tem")==0){
+                unset($palavra);
+            }
+            else{
+                $resultado[]=$palavra;
+            }
+        }
+        return $resultado;
+    }
+
+    public function removeAcento($palavra){
+        if(strstr($palavra, ',', true)){
+            $palavra=str_replace(",", "", $palavra);
+        }
+        if(strstr($palavra, '.', true)){
+            $palavra=str_replace(".", "", $palavra);
+        }
+        if(strstr($palavra, ';', true)){
+            $palavra=str_replace(";", "", $palavra);
+        }
+        if(strstr($palavra, ':', true)){
+            $palavra=str_replace(":", "", $palavra);
+        }
+        if(strstr($palavra, '?', true)){
+            $palavra=str_replace("?", "", $palavra);
+        }
+        if(strstr($palavra, '!', true)){
+            $palavra=str_replace("!", "", $palavra);
+        }
+        return $palavra;
     }
     
 }

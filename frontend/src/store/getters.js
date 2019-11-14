@@ -121,6 +121,7 @@ const displayResultados = state =>{
   return state.resultado
 }
 
+
 export default {
   isLoggedIn,
   authStatus,
@@ -135,4 +136,5 @@ export default {
   displayCandidaturasByVaga,
   displayResultados,
   displayCandidatoById,
+
 };

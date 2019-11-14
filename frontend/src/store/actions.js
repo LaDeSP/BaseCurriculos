@@ -544,7 +544,6 @@ import * as Cookies from 'js-cookie'
   
         commit('vagasCandidaturas', payloadVagasCandidaturas)
         commit('candidaturas', payloadCandidaturas)
-        console.log('response loadcandidaturas', response)
         return response.data
       }).catch(error => {
         console.log(error)
@@ -654,31 +653,11 @@ import * as Cookies from 'js-cookie'
         })
     };
 
-    const newAgenda = async ({commit}, newAgendaData) => {
-      
-      return await axios({ url: agenda_uri, data: newAgendaData, method: 'POST' })
-      .then(response => {
-
-        const payload = {
-          'token': response.data.token,
-          'user': response.data.user,
-          'path': response.data.foto,
-        }
-      //  commit('auth_success', {payload})
-        console.log('na action new agenda', response);
-        return response.data
-  
-      }).catch(error => {
-        console.log(error)
-      })
-  
-    };
-
     const getVagasRecomendadas = async ({commit, state}) => {
   
       const token = state.auth.token;
       const userId = state.auth.user.id;
-      return await axios({ url: 'http://localhost:8000/api/buscaVagasRecomendadas/' + userId + '?token='+ token, method: 'GET' })
+      return await axios({ url: 'http://localhost:8000/api/buscaVagasRecomendadas/' + userId + '?token=' + token, method: 'GET' })
         .then(response => {
           //console.log('na action', response.data);
           let payloadVagasJuridica = [];
@@ -691,6 +670,62 @@ import * as Cookies from 'js-cookie'
         })
     };
    
+  const newAgenda = async ({state}, newAgendaData) => {
+    
+    const token = state.auth.token;
+    return await axios({ url: agenda_uri + '?token=' + token, data: newAgendaData, method: 'POST' })
+    .then(response => {
+
+      console.log('na action new agenda', response);
+      return response.data
+
+    }).catch(error => {
+      console.log(error)
+    })
+
+  };
+
+  const loadAgenda = async ({commit, state}) => {
+  
+    const token = state.auth.token;
+    //const user_id = state.auth.user.id;
+    return await axios({ url: agenda_uri + '?token='+ token, method: 'GET' })
+      .then(response => {
+        
+        let payloadAgenda = [];
+        payloadAgenda = response.data.agenda;
+       
+        commit('agenda', payloadAgenda)
+       // commit('candidaturas', payloadCandidaturas)
+        console.log('response load agenda', response)
+        return response.data
+      }).catch(error => {
+        console.log(error)
+      })
+    };
+
+    const updateAgenda = async({commit, state}, newAgendaData) => {
+    
+      const token = state.auth.token;
+      return await axios({ url: curriculos_uri + '?token=' + token, data: newAgendaData, method: 'PUT' })
+        .then(response => {
+          
+          
+          let payloadAgenda = [];
+          payloadAgenda = response.data.agenda;
+         
+          commit('agenda', payloadAgenda)
+          
+          console.log('update agenda', response.data);
+         
+          return response.data
+        })
+        .catch(error => {
+          console.log(error)
+        }) 
+  
+    };
+
 
   export default {
     login,
@@ -719,8 +754,9 @@ import * as Cookies from 'js-cookie'
     searchVagasAvancadas,
     searchCurriculos,
     searchCurriculosAvancadas,
+    getVagasRecomendadas,
     newAgenda,
-    getVagasRecomendadas
-
+    loadAgenda,
+    updateAgenda,
   
   };
