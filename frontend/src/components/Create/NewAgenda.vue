@@ -62,10 +62,10 @@
                       <div v-else>
                         <div class="row">
                           <div class="col-md-10 float-left" >
-                            <button :disabled="invalid" @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
+                            <router-link class="btn btn-default" to="/dashboard-fisica">Voltar</router-link>
                           </div>
                           <div class="col-md-2 float-right" >
-                            <router-link class="btn btn-default" to="/dashboard-fisica">Voltar</router-link>
+                            <button :disabled="invalid" @click.prevent="edit" type="submit" class="btn btn-primary">Enviar</button>
                           </div>
                         </div>
                       </div>
@@ -79,6 +79,7 @@
 
 <script>
   import card from '../Utils/Card';
+  import {mapState} from 'vuex';
 
   export default{
     components:{
@@ -102,10 +103,10 @@
           hora: this.hora,
           observacao: this.observacao,
           candidatura_id: this.$session.get('candidato_id'),
-          update_id: this.$session.get('editarAgenda')
+          update_id: this.$route.params.id
         }
 
-        if(!editing){
+        if(!this.editing){
           this.$store.dispatch('newAgenda', newAgendaData)
           .then( response => { 
             if(response.error  != undefined){
@@ -133,13 +134,23 @@
           .catch(error => console.log(error))
         }
       },
+
+      displayDataEdit(){
+        console.log('displaydatdaedit', this.agenda)
+      }
     },
 
-    
+    computed:{ 
+      ...mapState([
+        'agenda'
+      ]),
+    },
+
     async created(){
       
-      if(this.$session.get('editarAgenda')){
+      if(this.$route.params.id){
         this.editing = true;
+        this.displayDataEdit();
       }
     }
 

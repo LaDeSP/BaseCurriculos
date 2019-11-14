@@ -19,7 +19,7 @@
                     <p>Hora: {{show.hora}}</p>
                     </template>
                     <template v-slot:card-footer>
-                        <button @click="newAgenda(show.id)" class="btn btn-sm btn-info">Reagendar</button>
+                        <router-link v-bind:to="'/agenda/' + show.id" tag="button" class="btn btn-sm btn-info">Reagendar</router-link>
                         <button @click="cancelAgenda(show.id)" class="btn btn-sm btn-danger">Cancelar</button>
                     </template>
                 </Card>
@@ -88,8 +88,8 @@
                 this.vaga_id = vaga_id;
             },
 
-            newAgenda(id){
-                this.$session.set('editarAgenda', id);
+            updateAgenda(id){
+                this.$session.set('updateAgenda', id);
                 this.$router.push({ name: 'new-agenda'})
             }
         },

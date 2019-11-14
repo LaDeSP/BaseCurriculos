@@ -41,7 +41,7 @@
                   <button @click="showModal(show.id)" class="btn btn-sm btn-default">Ver mais</button>
                   
                   <Modal v-if="isModalShowMore" @close="closeModal">
-                        <template v-slot:header><h3>Detalhes da Vaga</h3></template>
+                        <template v-slot:header><h3>Detalhes do Candidato</h3></template>
                         <template v-slot:body>
                             
                          <h4>Informações Pessoais</h4>
@@ -60,12 +60,24 @@
                             <li v-if="typeof candidatoById[0].curriculo.fisica.contato.linkedin !== 'undefined' || null">Linkedin: {{candidatoById[0].curriculo.fisica.contato.linkedin}}</li>
                             <li v-if="typeof candidatoById[0].curriculo.fisica.contato.site !== 'undefined' || null">Site: {{candidatoById[0].curriculo.fisica.contato.site}}</li>
                         </ul>
+                        <h4>Currículo</h4>
+                            <ul>
+                                <li>Objetivos: {{candidatoById[0].curriculo.objetivos}}</li>
+                                <li>Área de Atuação: {{candidatoById[0].curriculo.area.tipo}}</li>
+                                <li>Pretensão Salarial: {{candidatoById[0].curriculo.pretensao}}</li>
+                                <li>Formação Acadêmica: {{candidatoById[0].curriculo.escolaridade}}</li>
+                                <li>Histórico Profissional: {{candidatoById[0].curriculo.historicoProfissional}}</li>
+                                <li>Qualificações: {{candidatoById[0].curriculo.qualificacoes}}</li>
+                            </ul>
                         </template>
                         <template v-slot:footer>
                          <!-- <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
                           <button @click="reject" class="btn btn-sm btn-outline-danger">Recusar</button> -->
-                          <div>
-                             <button @click="newAgenda(show.id)" class="btn btn-sm btn-info">Agendar Entrevista</button>
+                          <div v-if="show.status === 'EM AGENDAMENTO'">
+                            <router-link v-bind:to="'/agenda/' + candidatoById[0].id" tag="button" class="btn btn-sm btn-info">Reagendar</router-link>
+                          </div>
+                          <div v-else>
+                            <button @click="newAgenda(show.id)" class="btn btn-sm btn-info">Agendar Entrevista</button>
                           </div>
                         </template>
                   </Modal>
@@ -136,7 +148,7 @@
                 this.pageOfItems = pageOfItems;
             },
             ...mapActions([
-                'loadCandidaturas'
+                'loadCandidaturas', 
             ]),
 
              showModal(candidato_id){
@@ -157,15 +169,21 @@
             newAgenda(candidato_id){
                 this.$session.set('candidato_id', candidato_id);
                 this.$router.push({ name: 'new-agenda'})
+            },
+
+            updateAgenda(candidato_id){
+                this.$session.set('updateAgenda', candidato_id);
+                this.$router.push({ name: 'new-agenda'})
             }
         },
 
         computed: {
             ...mapGetters([
-                'displayCandidaturas', 'permissaoDoUsuario', 'displayCandidaturasByVaga', 'displayCandidatoById'
+                'displayCandidaturas', 'permissaoDoUsuario', 
+                'displayCandidaturasByVaga', 'displayCandidatoById',
             ]),
             ...mapState([
-                'vagasCandidaturas'
+                'vagasCandidaturas', 
             ]),
             candidaturasByVaga() {
                 return this.displayCandidaturasByVaga(this.vaga_id)
@@ -185,8 +203,6 @@
 
         async created(){
             await this.loadCandidaturas();
-            console.log('display', this.displayCandidaturas)
-
         },
 
     }

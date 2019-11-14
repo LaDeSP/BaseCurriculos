@@ -54,6 +54,7 @@ const routes = [
     {path: '/dashboard-juridica', name: 'dashboard-juridica', component: DashJUR, meta: {requiresAuth: true}},
     {path: '/buscas', name: 'buscas', component: Buscas},
     {path: '/agenda', name: 'agenda', component: Agenda},
+    {path: '/agenda/:id', component: NewAgenda, props: true},
     {path: '*', component: DeuRuim}
 
 ];

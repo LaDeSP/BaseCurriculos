@@ -53,22 +53,30 @@ class AgendaController extends Controller
                 'error' => $validator->messages()
             ], 201);
         }   
+
+        if(Agenda::where('candidatura_id', $request->candidatura_id)->exists()){
+            
+            return Response::json([
+                'agendaExiste'=> true
+            ]);
+        }else{
+            Agenda::create([
+                'data'=>$request->data,
+                'hora'=>$request->hora,
+                'observacao'=>$request->observacao,
+                'contraproposta'=>$request->contraproposta,
+                'candidatura_id'=>$request->candidatura_id
+             ]);
+     
+             Candidatura::where('id', $request->candidatura_id)->update(array(
+                 'status' => 'EM AGENDAMENTO'
+             ));
+     
+             return Response::json([
+                'cadastrou agenda'
+             ]);
+        }
                  
-        Agenda::create([
-           'data'=>$request->data,
-           'hora'=>$request->hora,
-           'observacao'=>$request->observacao,
-           'contraproposta'=>$request->contraproposta,
-           'candidatura_id'=>$request->candidatura_id
-        ]);
-
-        Candidatura::where('id', $request->candidatura_id)->update(array(
-            'status' => 'EM AGENDAMENTO'
-        ));
-
-        return Response::json([
-           'cadastrou agenda'
-        ]);
     }
 
     public function update(Request $request, $id)

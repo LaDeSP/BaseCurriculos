@@ -707,7 +707,7 @@ import * as Cookies from 'js-cookie'
     const updateAgenda = async({commit, state}, newAgendaData) => {
     
       const token = state.auth.token;
-      return await axios({ url: curriculos_uri + '?token=' + token, data: newAgendaData, method: 'PUT' })
+      return await axios({ url: agenda_uri + '/'+ newAgendaData.update_id + '?token=' + token, data: newAgendaData, method: 'PUT' })
         .then(response => {
           
           

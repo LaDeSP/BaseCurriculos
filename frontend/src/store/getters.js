@@ -109,7 +109,9 @@ const displayCandidaturasByVaga = (state) => (vaga_id) => {
 const displayCandidatoById = (state) => (candidato_id) => {
   
   let candidaturas = state.candidaturas;
-  let candidatoById = candidaturas.filter((candidatoById) => {return candidatoById.id === candidato_id})
+  let candidatoById = candidaturas.filter((candidatoById) => {
+    return candidatoById.id === candidato_id
+  })
   let deleteNull = candidatoById[0].curriculo.fisica.contato;
   Object.keys(deleteNull).forEach((key) => (deleteNull[key] == null) && delete deleteNull[key]);
 
@@ -119,6 +121,13 @@ const displayCandidatoById = (state) => (candidato_id) => {
 
 const displayResultados = state =>{
   return state.resultado
+}
+
+const filterAgenda = (state) => (candidato_id) => {
+  let agenda = state.agenda;
+  let filterAgenda = agenda.filter((candidatura_id) => {return candidatura_id.candidatura_id})
+  console.log('teste', filterAgenda)
+
 }
 
 
@@ -136,5 +145,6 @@ export default {
   displayCandidaturasByVaga,
   displayResultados,
   displayCandidatoById,
+  filterAgenda,
 
 };
