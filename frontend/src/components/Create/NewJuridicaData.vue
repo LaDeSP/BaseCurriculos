@@ -105,6 +105,15 @@
                 </tab-content>
 
                 <tab-content title="Endereço" icon="fas fa-map-marker-alt">
+                    <div class="form-group">
+                      <label for="cep">CEP <a class="color-red">*</a></label>
+                      <ValidationProvider name="cep" rules="required|numeric|digits:8">
+                          <div slot-scope="{ errors }">
+                              <input type="text" class="form-control" name="cep" id="cep" placeholder="CEP" v-on:keyup="buscar" v-model="cep" minlength="8" maxlength="8" />
+                              <p class="color-red">{{ errors[0] }}</p>
+                          </div>
+                      </ValidationProvider>
+                     </div>
 
                     <div class="form-group">
                         <label for="estado">Estado <a class="color-red">*</a></label>
@@ -146,54 +155,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="endereco">Endereço <a class="color-red">*</a></label>
-                        <ValidationProvider name="rua" rules="required|max:50">
-                            <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" id="rua" maxlength="50">
-                                <p class="color-red">{{ errors[0] }}</p>
-                            </div>
-                        </ValidationProvider>
-                    </div>
-                    <div class="form-group">
-                      <label for="cep">CEP <a class="color-red">*</a></label>
-                      <ValidationProvider name="cep" rules="required|numeric|digits:8">
-                          <div slot-scope="{ errors }">
-                              <input type="text" class="form-control" name="cep" id="cep" placeholder="CEP" v-on:keyup="buscar" v-model="cep" minlength="8" maxlength="8" />
-                              <p class="color-red">{{ errors[0] }}</p>
-                          </div>
-                      </ValidationProvider>
-                     </div>
-
-                    <div class="form-group">
-                      <label for="bairro">Bairro <a class="color-red">*</a></label>
-                      <ValidationProvider name="bairro" rules="required|max:50">
-                            <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" id="bairro" maxlength="50">
-                                <p class="color-red">{{ errors[0] }}</p>
-                            </div>
-                        </ValidationProvider>
-                     </div>
-                    <div class="form-group">
-                      <label for="numero">Número <a class="color-red">*</a></label>
-                      <ValidationProvider name="numero" rules="required|numeric|max:7|max_value:1000000">
-                            <div slot-scope="{ errors }">
-                                <input type="number" class="form-control" name="numero" placeholder="Número" v-model="numero" id="numero" maxlength="7" max="1000000">
-                                <p class="color-red">{{ errors[0] }}</p>
-                            </div>
-                        </ValidationProvider>
-                     </div>
-
-                    <div class="form-group">
-                      <label for="complemento">Complemento <a class="color-red">*</a></label>
-                      <ValidationProvider name="complemento" rules="required|max:50">
-                          <div slot-scope="{ errors }">
-                              <input type="text" class="form-control" name="complemento" placeholder="Complemento" id="complemento" v-model="complemento" maxlength="50">
-                              <p class="color-red">{{ errors[0] }}</p>
-                          </div>
-                      </ValidationProvider>
-                    </div>
-
-                    <div class="form-group">
                       <label for="cidade">Cidade <a class="color-red">*</a></label>
                       <ValidationProvider name="cidade" rules="required|max:50">
                             <div slot-scope="{ errors }">
@@ -202,6 +163,49 @@
                             </div>
                       </ValidationProvider>
                     </div>
+
+                     <div class="form-group">
+                      <label for="bairro">Bairro <a class="color-red">*</a></label>
+                      <ValidationProvider name="bairro" rules="required|max:50">
+                            <div slot-scope="{ errors }">
+                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" id="bairro" maxlength="50">
+                                <p class="color-red">{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>
+                     </div>
+
+                    <div class="form-group">
+                        <label for="endereco">Rua <a class="color-red">*</a></label>
+                        <ValidationProvider name="rua" rules="required|max:50">
+                            <div slot-scope="{ errors }">
+                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" id="rua" maxlength="50">
+                                <p class="color-red">{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>
+                    </div>
+
+                   
+                    <div class="form-group">
+                      <label for="numero">Número</label>
+                      <ValidationProvider name="numero" rules="numeric|max:7|max_value:1000000">
+                            <div slot-scope="{ errors }">
+                                <input type="number" class="form-control" name="numero" placeholder="Número" v-model="numero" id="numero" maxlength="7" max="1000000">
+                                <p class="color-red">{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>
+                     </div>
+
+                    <div class="form-group">
+                      <label for="complemento">Complemento</label>
+                      <ValidationProvider name="complemento" rules="max:50">
+                          <div slot-scope="{ errors }">
+                              <input type="text" class="form-control" name="complemento" placeholder="Complemento" id="complemento" v-model="complemento" maxlength="50">
+                              <p class="color-red">{{ errors[0] }}</p>
+                          </div>
+                      </ValidationProvider>
+                    </div>
+
+                    
                 </tab-content>
                 <div slot="footer" slot-scope="props">
                     <div class="wizard-footer-left">

@@ -37,7 +37,7 @@
                     <a  href="#">Recuperar senha</a>
                   </div>
                   <br>
-                  <strong>Já possui uma conta?  <button @click.prevent="showModal" class="btn btn-outline-info" > Cadastre-se</button></strong>
+                  <strong>Não possui uma conta?  <button @click.prevent="showModal" class="btn btn-outline-info" > Cadastre-se</button></strong>
                 </div>
             </form>
           </ValidationObserver>
