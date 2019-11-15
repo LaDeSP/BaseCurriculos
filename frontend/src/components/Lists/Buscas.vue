@@ -31,24 +31,48 @@
         </div>
         <div class="row" v-else>
             <div class="col-md-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
-                <Card style="width: 30rem;">
-                    <template v-slot:card-header>
-                    <h3><span class="label label-info " style="color: #4E73DF;">{{vaga.titulo}}</span></h3>
-                    </template>
-                    <template v-slot:card-body>
-                    <p><strong>Descrição:</strong> {{vaga.descricao}}</p>
-                    <p><strong>Cargo:</strong> {{vaga.cargo}}</p>
-                    <p><strong>Status:</strong> {{vaga.status}}</p>
-                    <p><strong>Quantidade:</strong> {{vaga.quantidade}}</p>
-                    <p><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
-                    <p><strong>Salário:</strong> {{vaga.salario}}</p>
-                    <p><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
-                    <p><strong>Benefícios:</strong> {{vaga.beneficio}}</p>
-                    <p><strong>Requisitos:</strong> {{vaga.requisito}}</p>
-                    </template>
-                    <template v-slot:card-footer>
-                    </template>
-                </Card>
+                <List>
+          <template v-slot:list-header>
+              <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
+          </template>
+          <template v-slot:list-body>
+              <p class="mb-1"><strong>Cargo:</strong> {{vaga.cargo}}</p>
+              <p class="mb-1"><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
+              <p class="mb-1"><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
+          </template>
+          <template v-slot:list-footer>
+            <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
+            <template v-if="dataCompleted">
+                <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+            </template>
+            <template v-else>
+              <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+            </template>
+            <Modal v-if="isModalShowMore" @close="closeModal">
+                  <template v-slot:header><h3>Detalhes da Vaga</h3></template>
+                  <template v-slot:body>
+
+                    <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
+                    <p class="mb-1"><strong>Descrição:</strong> {{vagaById[0].descricao}}</p>
+                    <p class="mb-1"><strong>Cargo: </strong>{{vagaById[0].cargo}}</p>
+                    <p class="mb-1"><strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}</p>
+                    <p class="mb-1"><strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}</p>
+                    <p class="mb-1"><strong>Salário:</strong> {{vagaById[0].salario}}</p>
+                    <p class="mb-1"><strong>Benefícios: </strong>{{vagaById[0].beneficio}}</p>
+                    <p class="mb-1"><strong>Requisitos:</strong> {{vagaById[0].requisito}}</p>
+                  </template>
+                  <template v-slot:footer>
+                    <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
+                    <div v-if="dataCompleted">
+                        <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                    </div>
+                    <div v-else>
+                      <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+                    </div>
+                  </template>
+            </Modal>
+            </template>
+          </List>
             </div>
         </div>
         <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
@@ -57,7 +81,9 @@
 
 <script>
 import Card from '../Utils/CardsVagas';
-import {mapGetters} from 'vuex';
+import List from '../Utils/List';
+import Modal from '../Utils/ModalOld';
+import { mapActions, mapGetters } from 'vuex';
 import JwPagination from 'jw-vue-pagination';
 const customLabels = {
     first: 'Primeira',
@@ -70,10 +96,15 @@ export default {
         return{
             keywords: '',
             pageOfItems: [],
-            customLabels
+            customLabels,
+            filterState: true,
+            isModalWarning: false,
+            isModalShowMore: false,
+            vaga_id: 0,
+
         }
     },
-    components: {Card, JwPagination},
+    components: {Card, JwPagination, List, Modal},
 
     created(){
         if(this.$store.state.auth.user.role == 'JURIDICA'){
@@ -125,20 +156,86 @@ export default {
                 .catch(error => console.log(error))
             }
         }
+
+            this.loadVagasJuridica();
         
     },
 
     computed:{
         ...mapGetters([
-            'displayResultados', 'permissaoDoUsuario'
+            'displayResultados', 'permissaoDoUsuario', 'dataCompleted', 'displayVagaById'
         ]),
+        
+        vagaById(){
+            return this.displayVagaById(this.vaga_id)
+        }
     },
 
     methods: {
+        ...mapActions([
+            'loadVagasJuridica'
+        ]),
+
         onChangePage(pageOfItems) {
             // update page of items
             this.pageOfItems = pageOfItems;
-        }
+        },
+
+        showModal(modal, vaga_id){
+            if(modal === 'warning'){
+                this.isModalWarning = true;
+                this.vaga_id = vaga_id;
+                console.log('show', this.vaga_id)
+            }
+            else{
+                console.log('no show', vaga_id);
+                this.isModalShowMore = true;
+                this.vaga_id = vaga_id;
+                console.log('kkkk', this.vagaById)
+
+            }
+        },
+
+        onEdit(vaga_id){
+            this.$session.set('editing', true);
+            this.$session.set('vaga_id', vaga_id);
+            this.$router.push({ name: 'new-vaga'})
+        },
+
+        closeModal(){
+            this.isModalWarning = false;
+            this.isModalShowMore = false;
+        },
+
+        changeStatus(id, status){
+            let newStatus = {
+            vaga_id: id,
+            status: status
+            }
+            this.$store.dispatch('changeStatusVaga', newStatus)
+            .then(response => {
+                console.log(response)
+            }).catch(error => console.log(error))
+        },
+
+        onRequest(id){
+            let vaga_id = 0;
+            if(this.vaga_id != 0){
+            vaga_id = this.vaga_id;
+            }else{
+            vaga_id = id;
+            }
+
+            let requestVaga = {
+            vaga_id: vaga_id,
+            user_id: this.$store.state.auth.user.id
+            }
+            this.$store.dispatch('requestVaga', requestVaga)
+            .then(response => {
+                console.log(response)
+                this.isModalShowMore = false;
+            }).catch(error => console.log(error))
+        },
     },
  }
 </script>
