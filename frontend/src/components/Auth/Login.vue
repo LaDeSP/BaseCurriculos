@@ -96,9 +96,9 @@
             },
             redirecionarUsuarioPorPermissao(permissao){
                 if(permissao === "FISICA"){
-                    this.$router.push({ name: 'dashboard-fisica' })
+                    this.$router.push({ name: 'dashboard' })
                 } else if(permissao === "JURIDICA"){
-                    this.$router.push({ name: 'dashboard-juridica' })
+                    this.$router.push({ name: 'dashboard' })
                 } else {
                     alert('erro no login')
                 }

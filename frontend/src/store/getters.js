@@ -123,10 +123,20 @@ const displayResultados = state =>{
   return state.resultado
 }
 
-const filterAgenda = (state) => (candidato_id) => {
+const displayAgenda = (state) => {
+  
   let agenda = state.agenda;
-  let filterAgenda = agenda.filter((candidatura_id) => {return candidatura_id.candidatura_id})
-  console.log('teste', filterAgenda)
+  let agendaFiltered = agenda.filter((filtered) => {return filtered.candidatura.status != 'CANCELADA'})
+  console.log('displayAgenda', agendaFiltered)
+  return agendaFiltered
+
+}
+
+const displayAgendaById = (state) => (agenda_id) => {
+  
+  let agenda = state.agenda;
+  let agendaById = agenda.filter((filtered) => {return filtered.id == agenda_id})
+  return agendaById
 
 }
 
@@ -145,6 +155,7 @@ export default {
   displayCandidaturasByVaga,
   displayResultados,
   displayCandidatoById,
-  filterAgenda,
+  displayAgenda,
+  displayAgendaById,
 
 };

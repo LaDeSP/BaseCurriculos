@@ -41,8 +41,7 @@
                     console.log('dataCompleted', this.dataCompleted)
                   }).catch(error => {
                     //console.log(error)
-                  })
-            await this.loadCandidaturas();
+                  })  
           }
       },
     }

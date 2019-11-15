@@ -62,6 +62,19 @@
                           </div>
                           <div class="col-md-5 " >
                             <button @click="showModal" class="btn btn-lg btn-danger">Deletar Conta</button>
+                              <Modal v-show="isModalWarning" @close="closeModal">
+                                <template v-slot:header>
+                                  <h3>Deletar Conta</h3>
+                                </template>
+                                <template v-slot:body>
+                                  <h2 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>deletar</strong></span> sua conta?</h2>
+                                  <h4 class="text-center">Sentiremos sua falta :(</h4>
+                                </template>
+                                <template v-slot:footer>
+                                    <button @click="onDelete" class="btn btn-md btn-danger">Sim, quero deletar minha conta</button>
+                                    <button @click="closeModal" class="btn btn-md btn-success">Vou dar mais uma chance para vocês...</button>
+                                </template>
+                              </Modal>
                           </div>
                       </div>
                       </div>
@@ -78,20 +91,6 @@
               <h4>Você ainda não completou suas informações... Que tal fazer isso agora?</h4>
               <NewCurriculo></NewCurriculo>
           </div>
-
-        <Modal v-show="isModalWarning" @close="closeModal">
-          <template v-slot:header>
-            <h3>Deletar Conta</h3>
-          </template>
-          <template v-slot:body>
-            <h2 class="text-center">Tem certeza de que deseja<span style="color: #ff0000"><strong>deletar</strong></span>sua conta?</h2>
-            <h4 class="text-center">Sentiremos sua falta :(</h4>
-          </template>
-          <template v-slot:footer>
-              <button @click="onDelete" class="btn btn-md btn-danger">Sim, quero deletar minha conta</button>
-              <button @click="closeModal" class="btn btn-md btn-success">Vou dar mais uma chance para vocês...</button>
-          </template>
-        </Modal>
     </div>
   </div>
 

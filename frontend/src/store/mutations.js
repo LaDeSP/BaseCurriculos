@@ -97,6 +97,36 @@ const agenda = (state, payloadAgenda) => {
     state.agenda = payloadAgenda
 }
 
+const cancelAgenda = (state, payloadAgendaId) => {
+    let index = state.agenda.findIndex(agenda => agenda.id === payloadAgendaId);
+    state.agenda.splice(index, 1);
+}  
+
+const cancelCandidatura = (state, payloadCandidaturaId) => {
+    let index = state.candidaturas.findIndex(candidatura => candidatura.id === payloadCandidaturaId);
+    state.candidaturas.splice(index, 1);
+}
+
+const countVagasJuridica = (state, payloadCountVagas) => {
+    state.countVagas = payloadCountVagas
+}
+
+const countCandidaturas = (state, payloadCountCandidaturas) => {
+    if(payloadCountCandidaturas.countCandidaturas != null){
+        state.countCandidaturas = payloadCountCandidaturas.countCandidaturas
+    }
+    if(payloadCountCandidaturas.countCandidaturasConfirmadas != null){
+        state.countCandidaturasConfirmadas = payloadCountCandidaturas.countCandidaturasConfirmadas
+    }
+    if(payloadCountCandidaturas.countCandidaturasAguardando != null){
+        state.countCandidaturasAguardando = payloadCountCandidaturas.countCandidaturasAguardando
+    }
+    if(payloadCountCandidaturas.countCandidaturas && payloadCountCandidaturas.countCandidaturasConfirmadas == null){
+        state.countCandidaturasAguardando = payloadCountCandidaturas
+    }
+    console.log('mut', payloadCountCandidaturas)
+}
+
   export default {
     auth_success,
     auth_error,
@@ -113,5 +143,9 @@ const agenda = (state, payloadAgenda) => {
     vagasCandidaturas,
     buscaVagas,
     agenda,
+    cancelAgenda,
+    cancelCandidatura,
+    countVagasJuridica,
+    countCandidaturas,
     
   };

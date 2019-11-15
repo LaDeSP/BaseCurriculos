@@ -71,6 +71,10 @@ export const store = new Vuex.Store({
    vagasCandidaturas: [],
    dataCompleted: false,
    hasVaga: false,
+   countVagas: 0,
+   countCandidaturas: 0,
+   countCandidaturasAguardando: 0,
+   countCandidaturasConfirmadas: 0,
    resultado: [],
    agenda: [],
    

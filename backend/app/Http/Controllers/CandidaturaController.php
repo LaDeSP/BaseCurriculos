@@ -56,11 +56,24 @@ class CandidaturaController extends Controller
             $collection = collect($vagasCandidatura);
             $unique = $collection->unique('vagas_id');
             $unique_data = $unique->values()->all();
+            $countCandidaturas = count($vagasCandidatura);
+
+            
+            $countCandidaturasConfirmadas = $vagasCandidatura
+                ->where('status', 'ENTREVISTA CONFIRMADA')->count();
+
+            $countCandidaturasAguardando = $vagasCandidatura
+                ->where('status', 'EM AGENDAMENTO')->count();
+            
             
             return Response::json([
                 'vagasCandidaturas' => $unique_data,
-                'candidaturas'=> $vagasCandidatura
+                'candidaturas'=> $vagasCandidatura,
+                'countCandidaturas'=> $countCandidaturas,
+                'countCandidaturasConfirmadas' => $countCandidaturasConfirmadas,
+                'countCandidaturasAguardando'=>$countCandidaturasAguardando,
             ]);
+            
         }else{
             $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
             $curriculo_id = Curriculo::where('fisicas_id', $fisica_id)->first()->id;
@@ -110,14 +123,23 @@ class CandidaturaController extends Controller
          ], 201);
     }
 
-    public function show($id)
-    {
-        
+    public function show($id){
         $candidaturas = Vaga::find($id);
     
         return Response::json([
             'vaga'=>$vaga
         ], 201);   
+    }
+
+    public function destroy($id){
+
+        $candidatura = User::find($id);
+        $candidatura->delete();
+
+
+        return Response::json([
+            'cancelou candidatura'=> $id
+        ]);
 
     }
     

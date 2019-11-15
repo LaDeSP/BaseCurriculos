@@ -15,16 +15,31 @@
                     <h3><span class="label label-info ">Candidato: {{show.candidatura.curriculo.fisica.user.name}}</span></h3>
                     </template>
                     <template v-slot:card-body>
+                    <p>Vaga: {{show.candidatura.vaga.titulo}}</p>
                     <p>Data: {{show.data | dateFormat}}</p>
                     <p>Hora: {{show.hora}}</p>
+                    <p>Observação: {{show.observacao}}</p>
                     </template>
                     <template v-slot:card-footer>
                         <router-link v-bind:to="'/agenda/' + show.id" tag="button" class="btn btn-sm btn-info">Reagendar</router-link>
-                        <button @click="cancelAgenda(show.id)" class="btn btn-sm btn-danger">Cancelar</button>
+                        <button @click="showModal('warning', show.id)" class="btn btn-sm btn-danger">Cancelar</button>
+                              <Modal v-show="isModalWarning" @close="closeModal">
+                                <template v-slot:header>
+                                  <h3>Deletar Conta</h3>
+                                </template>
+                                <template v-slot:body>
+                                  <h2 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> essa entrevista?</h2>
+                                  <h6 class="text-center">Essa ação não poderá ser desfeita!</h6>
+                                </template>
+                                <template v-slot:footer>
+                                    <button @click="cancelAgenda" class="btn btn-md btn-danger">Sim</button>
+                                    <button @click="closeModal" class="btn btn-md btn-success">Não</button>
+                                </template>
+                              </Modal>
                     </template>
                 </Card>
             </div>
-            <jw-pagination :items="agenda" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+            <jw-pagination :items="displayAgenda" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
         </div>
       </div>
     </div>
@@ -54,17 +69,16 @@
             return{
 
                 candidaturas: [],
-                toggle: false,
-                agendamento: false,
                 isModalShowMore: false,
-                vaga_id: 0,
-                candidato_id: 0,
+                isModalWarning: false,
                 pageOfItems: [],
+                agenda_id: 0,
                 customLabels
             }
         },
         components: {NewAgenda, Card, List, Modal,painel, JwPagination},
         methods: {
+
             onChangePage(pageOfItems) {
                 // update page of items
                 this.pageOfItems = pageOfItems;
@@ -73,9 +87,15 @@
                 'loadAgenda'
             ]),
 
-             showModal(candidato_id){
-                 this.isModalShowMore = true;
-                 this.candidato_id = candidato_id;
+            showModal(modal, id){
+                if(modal === 'showMore'){
+                    this.isModalShowMore = true;
+                    this.candidato_id = id;
+                }else{
+                    this.isModalWarning = true;
+                    this.agenda_id = id;
+                    console.log('agenda_id', this.agenda_id);
+                }
             },
 
             closeModal(){
@@ -91,15 +111,19 @@
             updateAgenda(id){
                 this.$session.set('updateAgenda', id);
                 this.$router.push({ name: 'new-agenda'})
+            },
+
+            async cancelAgenda(){
+                await this.$store.dispatch('cancelAgenda', this.agenda_id)
+                .then(response => {
+                   this.isModalWarning = false;
+                }).catch(error => console.log(error))
             }
         },
 
         computed: {
             ...mapGetters([
-                'permissaoDoUsuario', 
-            ]),
-            ...mapState([
-                'agenda'
+                'permissaoDoUsuario', 'displayAgenda'
             ]),
         },
 
@@ -113,7 +137,6 @@
 
         async created(){
             await this.loadAgenda();
-            console.log('agenda', this.$store.state.agenda)
 
         },
 

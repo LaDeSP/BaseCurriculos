@@ -448,11 +448,10 @@ import * as Cookies from 'js-cookie'
         
         let payloadVagasJuridica = [];
         payloadVagasJuridica = response.data.vagas;
-  
         commit('vagasJuridica', payloadVagasJuridica)
-        
+        commit('countVagasJuridica', response.data.countVagas)
+  
         return response.data
-        console.log(response.data);
       }).catch(error => {
         console.log(error)
       })
@@ -480,7 +479,6 @@ import * as Cookies from 'js-cookie'
     return await axios({ url: vagas_uri + '/' + vaga_id + '?token=' + token, method: 'DELETE'})
     .then(response => {
       commit('deleteVaga', vaga_id);
-      console.log('response delete', response)
       //return response.data
     }).catch(
       error => console.log(error)
@@ -539,15 +537,38 @@ import * as Cookies from 'js-cookie'
         
         let payloadVagasCandidaturas = [];
         payloadVagasCandidaturas = response.data.vagasCandidaturas;
+
         let payloadCandidaturas = [];
         payloadCandidaturas = response.data.candidaturas;
+
+        let payloadCountCandidaturas = {
+          'countCandidaturas': response.data.countCandidaturas,
+          'countCandidaturasConfirmadas':  response.data.countCandidaturasConfirmadas,
+          'countCandidaturasAguardando': response.data.countCandidaturasAguardando
+        }
   
         commit('vagasCandidaturas', payloadVagasCandidaturas)
         commit('candidaturas', payloadCandidaturas)
+        commit('countCandidaturas', payloadCountCandidaturas)
+
         return response.data
       }).catch(error => {
         console.log(error)
       })
+    };
+
+    const cancelCandidatura = async ({commit, state}, candidatura_id) => {
+
+      const token = state.auth.token;
+      return await axios({ url: candidatura_id + '/' + candidatura_id + '?token='+ token, method: 'DELETE' })
+      .then(response => {
+         console.log('na action de delete cand', response)
+         commit('cancelCandidatura', candidatura_id);
+         return response;
+      })
+      .catch(
+          error => console.log(error)
+      );
     };
 
     const searchVagas = async ({commit, state}, keywords) => {
@@ -670,11 +691,14 @@ import * as Cookies from 'js-cookie'
         })
     };
    
-  const newAgenda = async ({state}, newAgendaData) => {
+  const newAgenda = async ({state, commit}, newAgendaData) => {
     
     const token = state.auth.token;
     return await axios({ url: agenda_uri + '?token=' + token, data: newAgendaData, method: 'POST' })
     .then(response => {
+
+      let countCandidaturasAguardando = response.data.countCandidaturasAguardando;
+      commit('countCandidaturas', countCandidaturasAguardando);
 
       console.log('na action new agenda', response);
       return response.data
@@ -694,10 +718,8 @@ import * as Cookies from 'js-cookie'
         
         let payloadAgenda = [];
         payloadAgenda = response.data.agenda;
-       
         commit('agenda', payloadAgenda)
-       // commit('candidaturas', payloadCandidaturas)
-        console.log('response load agenda', response)
+
         return response.data
       }).catch(error => {
         console.log(error)
@@ -726,6 +748,21 @@ import * as Cookies from 'js-cookie'
   
     };
 
+    
+  const cancelAgenda = async ({commit, state}, agenda_id) => {
+
+    const token = state.auth.token;
+    return await axios({ url: agenda_uri + '/' + agenda_id + '?token='+ token, method: 'DELETE' })
+    .then(response => {
+       console.log('na action de delete agenda', response)
+       commit('cancelAgenda', agenda_id);
+       return response;
+    })
+    .catch(
+        error => console.log(error)
+    );
+  };
+
 
   export default {
     login,
@@ -750,6 +787,7 @@ import * as Cookies from 'js-cookie'
     deleteUserPhoto,
     loadArea,
     loadCandidaturas,
+    cancelCandidatura,
     searchVagas,
     searchVagasAvancadas,
     searchCurriculos,
@@ -758,5 +796,6 @@ import * as Cookies from 'js-cookie'
     newAgenda,
     loadAgenda,
     updateAgenda,
+    cancelAgenda,
   
   };

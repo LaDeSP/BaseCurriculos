@@ -1,7 +1,8 @@
 <template>
 <div>
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Painel</h1></div>
+    <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-home fa-sm"></i> Home </h1>
+  </div>
     <div class="row">
       <div class="col-xl-6 col-md-12 mb-8">
         <card class="border-left-primary shadow h-100">
@@ -10,10 +11,14 @@
             </template>
             <template v-slot:card-body>
               <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-
-                  <div class="h2 mb-0 font-weight-bold text-gray-900">2</div>
-                </div>
+               <div class="col mr-2">
+                  <center>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      <h2>{{countVagas}}</h2>
+                      <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                  </center>
+               </div>
                 <div class="col-auto">
 
                 </div>
@@ -24,16 +29,15 @@
       <div class="col-xl-6 col-md-12 mb-8">
         <card class="border-left-success shadow h-100">
           <template v-slot:card-header class="py-3">
-              <h6 class="font-weight-bold text-success text-uppercase mb-1">Currículos Recebidos</h6>
+            <router-link to="/candidaturas" class="font-weight-bold text-success text-uppercase mb-1">Candidaturas</router-link>
             </template>
             <template v-slot:card-body>
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
-
                   <center>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                      <h2>" 10 "</h2>
-                      <i class="fas fa-users"></i>
+                      <h2>{{countCandidaturas}}</h2>
+                      <i class="fas fa-file"></i>
                     </div>
                   </center>
                 </div>
@@ -77,54 +81,76 @@
       <div class="col-lg-6 mb-6">
         <div class="row">
           <div class="col-sm-12">
-            <card>
-              <template v-slot:card-body>
-                <center> <h5 class="card-title">Agendar Entrevista</h5></center>
-                <br>
-                <div class="input-group">
-                  <div class="input-group-predend">
-                    <span class="input-group-text"> Vaga:</span>
-                  </div>
-                  <select class="form-control">
-                    <option>Supervisor</option>
-                    <option>Atendente</option>
-                    <option> Gerente</option>
-                    <option>Planfetagem</option>
+            <div v-if="countCandidaturas > 0">
+               <card>
+                <template v-slot:card-header>
+                  <h6 class="font-weight-bold text-primary text-success  text-uppercase mb-1">Agendar Entrevista</h6>
+                </template>
+                <template v-slot:card-body>
+                  <div class="input-group">
+                    <div class="input-group-predend">
+                      <span class="input-group-text">Vaga:</span>
+                    </div>
+                  <select class="custom-select" name="vaga" v-model="vaga">
+                      <option disabled value="">Selecione a vaga</option>
+                      <option v-for="show in vagasCandidaturas" :key="show.id" :value="show.id">
+                          {{show.vaga.titulo}}
+                      </option>
                   </select>
-                </div>
-                <br>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Candidato:</span>
                   </div>
-                  <select class="form-control">
-                    <option>Jorge da Silva</option>
-                    <option>João Marcos</option>
-                  </select>
-                </div>
-                <br>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Data:</span>
+                  <br>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Candidato:</span>
+                    </div>
+                    <select :disabled="vaga == null" class="custom-select" name="candidato" v-model="candidato">
+                      <option disabled value="">Selecione o candidato</option>
+                      <option v-for="show in displayCandidaturas" :key="show.id" :value="show.id">
+                          <span v-if="vaga == show.vaga.id">{{show.curriculo.fisica.user.name}}</span> 
+                      </option>
+                    </select>
                   </div>
-                  <input type="date">
-                </div>
-                <br>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Hora:</span>
+                  <br>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Data:</span>
+                    </div>
+                   <input type="date" class="form-control" name="data" v-model="data">
                   </div>
-                  <input type="time">
-                </div>
-                <br>
-                <router-link to="/agenda" class="btn btn-primary"> Agendar</router-link>
-              </template>
-            </card>
+                  <br>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Hora:</span>
+                    </div>
+                   <input type="time" name="hora" class="form-control" v-model="hora">
+                  </div>
+                   <br>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Observação:</span>
+                    </div>
+                    <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao" maxlength="500"></textarea>
+                  </div>
+                  <br>
+                  <center><button @click.prevent="agendar" class="btn btn-primary"> Agendar</button></center>
+                </template>
+              </card>
+            </div>
+            <div v-else>
+              <card>
+                <template>
+                  <h6 class="font-weight-bold text-primary text-success  text-uppercase mb-1">Não há candidatos ainda!</h6>
+                </template>
+                <template v-slot:card-body>
+                  
+                </template>
+              </card>
+            </div>
           </div>
         </div>
         <card class="shadow mb-4">
-            <template v-slot:card-headear class="py-3">
-              <center><h6 class="m-0 font-weight-bold text-primary"> Agendamentos</h6></center>
+            <template v-slot:card-header class="py-3">
+               <h6 class="font-weight-bold text-primary text-success  text-uppercase mb-1">Agendamentos</h6>
             </template>
             <template v-slot:card-body >
               <div class="container">
@@ -133,7 +159,7 @@
                     <div class=" font-weight-bold text-success text-uppercase mb-1">
                       <center>
                         <h5>Confirmados</h5>
-                        <h1 class="float-none"> " 5 " <i class="fas fa-check-circle"></i></h1>
+                        <h1 class="float-none">{{countCandidaturasConfirmadas}} <i class="fas fa-check-circle"></i></h1>
                       </center>
                     </div>
                   </div>
@@ -141,7 +167,7 @@
                     <div class=" font-weight-bold text-warning text-uppercase mb-1">
                       <center>
                         <h5>Aguardando</h5>
-                        <h1 class="float-none"> " 3 " <span class="fas fa-spinner fa-pulse"></span></h1>
+                        <h1 class="float-none">{{countCandidaturasAguardando}} <span class="fas fa-spinner fa-pulse"></span></h1>
                       </center>
                     </div>
                   </div>
@@ -156,10 +182,55 @@
 
 <script>
   import card from '../Utils/Card';
+  import {mapState, mapGetters} from 'vuex';
+
   export default{
+    data() {
+      return {
+        vaga: null,
+        candidato: null,
+        data: '',
+        hora: '',
+        observacao: '',
+      }
+    },
     components:{
       card
     },
+
+    methods: {
+
+      agendar(){
+
+        let newAgendaData = {
+          data: this.data,
+          hora: this.hora,
+          observacao: this.observacao,
+          candidatura_id: this.candidato
+        }
+
+        this.$store.dispatch('newAgenda', newAgendaData)
+        .then( response => { 
+          if(response.error  != undefined){
+            this.notificacoes = response.error;
+          }
+            console.log('response', response);
+
+        })
+        .catch(error => console.log(error))
+      }
+    }, 
+
+    computed:{
+      ...mapState([
+        'countVagas', 'countCandidaturas', 'countAgenda', 
+        'countCandidaturasConfirmadas', 'countCandidaturasAguardando',
+        'vagasCandidaturas'
+      ]),
+      ...mapGetters([
+        'displayCandidaturas'
+      ]),
+    }
   }
 
 </script>

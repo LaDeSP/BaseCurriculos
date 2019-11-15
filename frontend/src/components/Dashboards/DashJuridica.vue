@@ -23,13 +23,16 @@
 import NewJuridicaData from '../Create/NewJuridicaData';
 import NewVaga from '../Create/NewVaga';
 import Dash from '../Utils/CardsDashJuridica';
-import {mapGetters} from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
 
     export default {
          data(){
             return{
               hasVaga: true,
             }
+        },
+        methods:{
+          ...mapActions(['loadCandidaturas']),
         },
         components:{
              NewJuridicaData, NewVaga, Dash
@@ -49,17 +52,17 @@ import {mapGetters} from 'vuex';
                   })
           }else{
             await this.$store.dispatch('loadVagasJuridica')
-                  .then(response => {
-                    let vagas = response.vagas; 
-                    if(vagas.length === 0){
-                      this.hasVaga = false;
-                    }
-                    console.log('hasvaga', this.hasVaga)
-                  }).catch(error => {
-                    //console.log(error)
-                  })
+              .then(response => {
+                let vagas = response.vagas; 
+                if(vagas.length === 0){
+                  this.hasVaga = false;
+                }
+                //console.log('hasvaga', this.hasVaga)
+              }).catch(error => {
+                //console.log(error)
+              })
+            await this.loadCandidaturas();
           }
-          console.log('oi', this.hasVaga)
         },
     }
 </script>

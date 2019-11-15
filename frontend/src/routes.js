@@ -20,6 +20,7 @@ import FisicaData from  './components/Lists/FisicaData.vue';
 import JuridicaData from  './components/Lists/JuridicaData.vue';
 import Candidatura from  './components/Lists/Candidatura.vue';
 import Agenda from  './components/Lists/Agenda.vue';
+import Dashboard from './components/Dashboards/Dashboard.vue';
 import DashFIS from './components/Dashboards/DashFisica.vue';
 import DashJUR from './components/Dashboards/DashJuridica.vue';
 
@@ -50,6 +51,7 @@ const routes = [
     {path: '/profile-juridica', name: 'profile-juridica', component: JuridicaData},
     {path: '/profile-juridica', component: JuridicaData},
     {path: '/candidaturas', name: 'candidaturas', component: Candidatura},
+    {path: '/dashboard', name: 'dashboard', component: Dashboard, meta: {requiresAuth: true}},
     {path: '/dashboard-fisica', name: 'dashboard-fisica', component: DashFIS, meta: {requiresAuth: true}},
     {path: '/dashboard-juridica', name: 'dashboard-juridica', component: DashJUR, meta: {requiresAuth: true}},
     {path: '/buscas', name: 'buscas', component: Buscas},

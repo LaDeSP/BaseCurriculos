@@ -54,21 +54,46 @@ class AgendaController extends Controller
             ], 201);
         }   
 
-        if(Agenda::where('candidatura_id', $request->candidatura_id)->exists()){
+        $candidatura_id = $request->candidatura_id;
+
+        if(Agenda::where('candidatura_id', $candidatura_id)->exists()){
             
+            Agenda::where('candidatura_id', $candidatura_id)->update(array(
+                'data'=>$request->data,
+                'hora'=>$request->hora,
+                'observacao'=>$request->observacao,
+            ));
+
+            Candidatura::where('id', $candidatura_id)->update(array(
+                'status' => 'EM AGENDAMENTO'
+            ));
+
+            
+            $user_id = auth()->user()->id;
+            $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
+
+            $vagasCandidatura =  Candidatura::whereHas('vaga', function($query) use ($juridica_id){ 
+                $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
+            })->get();
+
+            $countCandidaturasAguardando = $vagasCandidatura
+                ->where('status', 'EM AGENDAMENTO')->count();
+
             return Response::json([
-                'agendaExiste'=> true
+                'agendaExiste'=> true,
+                'countCandidaturasAguardando'=>$countCandidaturasAguardando,
             ]);
+
         }else{
             Agenda::create([
                 'data'=>$request->data,
                 'hora'=>$request->hora,
                 'observacao'=>$request->observacao,
                 'contraproposta'=>$request->contraproposta,
-                'candidatura_id'=>$request->candidatura_id
+                'candidatura_id'=>$candidatura_id
              ]);
      
-             Candidatura::where('id', $request->candidatura_id)->update(array(
+             Candidatura::where('id', $candidatura_id)->update(array(
                  'status' => 'EM AGENDAMENTO'
              ));
      
@@ -101,6 +126,19 @@ class AgendaController extends Controller
            ], 201);
       
       
+    }
+
+    public function destroy($id){
+
+        $candidatura_id = Agenda::where('id', $id)->first()->candidatura_id;
+        Candidatura::where('id', $candidatura_id)->update(array(
+            'status' => 'CANCELADA'
+        ));
+
+        return Response::json([
+            'cancelou entrevista'
+        ]);
+
     }
   
     public function messages(){

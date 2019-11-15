@@ -25,8 +25,20 @@
                               </template>
                               <template v-slot:card-body>
                                 <!-- <div class=" font-weight-bold text-success text-uppercase mb-1"></div>para o texto ficar verde -->
-                                <div class=" font-weight-bold text-warning text-uppercase">
+                                <div v-if="show.status === 'EM ANDAMENTO'"  class=" font-weight-bold text-warning text-uppercase">
                                   <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-spinner fa-pulse"></span></h1></center>
+                                </div>
+                                <div v-if="show.status === 'EM AGENDAMENTO'"  class=" font-weight-bold text-warning text-uppercase">
+                                  <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-spinner fa-pulse"></span></h1></center>
+                                </div>
+                                <div v-if="show.status === 'ENTREVISTA CONFIRMADA'"  class=" font-weight-bold text-success text-uppercase">
+                                  <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-check-circle"></span></h1></center>
+                                </div>
+                                 <div v-if="show.status === 'RECUSADO'"  class=" font-weight-bold text-secondary text-uppercase">
+                                  <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-frown-open"></span></h1></center>
+                                </div>
+                                <div v-if="show.status === 'ENTREVISTA CANCELADA'"  class=" font-weight-bold text-danger text-uppercase">
+                                  <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-times-circle"></span></h1></center>
                                 </div>
                               </template>
                             </cardvagas>
@@ -42,7 +54,9 @@
               </div>
             </template>
             <template v-slot:card-footer>
+              <div v-if="displayCandidaturas.length > 0">
                 <center><router-link to="/candidaturas" class="btn btn-lg btn-primary">Ver Mais <span class="fa fa-eye"></span></router-link></center>
+              </div>
             </template>
         </card>
       </div>

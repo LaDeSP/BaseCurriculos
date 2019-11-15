@@ -2,7 +2,7 @@
 
    	<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
       <nav class="navbar ">
-        <span class="navbar-brand">Banco de Currículos</span>
+        <router-link to="/dashboard" class="navbar-brand">Banco de Currículos</router-link>
       </nav>
       <div class="container">
           <busca></busca>
@@ -10,7 +10,14 @@
 
       <!-- Topbar Navbar -->
       <ul class="navbar-nav ml-auto">
-
+        
+        <!-- Nav Item - Alerts -->
+        <li class="nav-item dropdown no-arrow mx-1">
+          <router-link to="/dashboard" class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-home fa-lg text-dark"></i>
+          </router-link>
+        </li>
+         
         <div class="topbar-divider d-none d-sm-block"></div>
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
@@ -20,9 +27,12 @@
           </a>
           <!-- Dropdown - User Information -->
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-              <router-link to="/profile-fisica" class="dropdown-item"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Meu Perfil - Fisica</router-link>
-              <router-link to="/profile-juridica" class="dropdown-item"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Meu Perfil - Juridica</router-link>
-
+            <div v-if="permissaoDoUsuario === 'FISICA'">
+              <router-link to="/profile-fisica" class="dropdown-item"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Meu Perfil</router-link>
+            </div>
+            <div v-else>
+               <router-link to="/profile-juridica" class="dropdown-item"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Meu Perfil</router-link>
+            </div>  
               <a class="dropdown-item" href="#">
                 <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                 Configurações
@@ -40,18 +50,25 @@
 <script>
 import Logout from '../Auth/Logout';
 import busca from './BarraBusca';
+import {mapGetters} from 'vuex';
 
     export default {
         components:{
           Logout,busca
         },
-        data(){
-              console.log(this.$store.state.upload.path);
 
+        data(){
+             
             return{
               name: this.$store.state.auth.user.name,
             }
 
         },
+        
+       computed:{
+         ...mapGetters([
+           'permissaoDoUsuario'
+         ]),
+       }
     }
 </script>

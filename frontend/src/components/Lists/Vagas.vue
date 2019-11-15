@@ -249,7 +249,6 @@
                 vaga_id: id,
                 status: status
               }
-
               this.$store.dispatch('changeStatusVaga', newStatus)
               .then(response => {
                   console.log(response)
@@ -258,11 +257,9 @@
           },
 
           async onDelete(){
-
               await this.$store.dispatch('deleteVaga', this.vaga_id)
               .then(response => {
                   this.isModalWarning = false;
-                  console.log('no metodo', response)
               }).catch(error => console.log(error))
           },
 
