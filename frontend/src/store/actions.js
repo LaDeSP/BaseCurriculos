@@ -697,8 +697,11 @@ import * as Cookies from 'js-cookie'
     return await axios({ url: agenda_uri + '?token=' + token, data: newAgendaData, method: 'POST' })
     .then(response => {
 
-      let countCandidaturasAguardando = response.data.countCandidaturasAguardando;
-      commit('countCandidaturas', countCandidaturasAguardando);
+      if(response.data.countCandidaturasAguardando){
+        let countCandidaturasAguardando = response.data.countCandidaturasAguardando;
+        commit('countCandidaturas', countCandidaturasAguardando);
+      }
+      
 
       console.log('na action new agenda', response);
       return response.data

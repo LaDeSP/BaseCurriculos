@@ -52,7 +52,17 @@ class AgendaController extends Controller
              return Response::json([
                 'error' => $validator->messages()
             ], 201);
-        }   
+        } 
+        $combinatedDateAndTime = AgendaController::combineDateAndTimeInUniqueVariable($request->data, $request->hora);
+        $request->data=$combinatedDateAndTime;
+        $validator = Validator::make($request->all(), AgendaController::rule_datahora(), AgendaController::messages());
+        if ($validator->fails()) {
+            return Response::json([
+               'error' => $validator->messages()
+           ], 201);
+       } 
+        
+
 
         $candidatura_id = $request->candidatura_id;
 
@@ -140,10 +150,16 @@ class AgendaController extends Controller
         ]);
 
     }
+
+    public function combineDateAndTimeInUniqueVariable($date, $hour){
+        return date('Y-m-d H:i:s', strtotime("$date $hour"));
+    }
   
     public function messages(){
         return $messages = [
             'data.required' => 'Insira uma data!',
+            'data.after_or_equal' => 'A data-hora devem ser igual ou maior que a data-hora atual.',
+            'data.before' => 'A data deve ser realista.',
             'hora.required' => 'Insira uma hora!',
             'observacao.max' => 'Insira observação com no máximo 500 caracteres!',
             'contraproposta.max' => 'Insira a contraproposta com no máximo 500 caracteres!',
@@ -158,4 +174,11 @@ class AgendaController extends Controller
             'contraproposta' => 'max:500',
         ];
     }
+
+    public function rule_datahora(){
+        return [
+            'data' => 'date|before:2030-01-01 00:00|after_or_equal:'.date('Y-m-d H:i'),
+        ];
+    }
+
 }
