@@ -126,7 +126,7 @@ const displayResultados = state =>{
 const displayAgenda = (state) => {
   
   let agenda = state.agenda;
-  let agendaFiltered = agenda.filter((filtered) => {return filtered.candidatura.status != 'CANCELADA'})
+  let agendaFiltered = agenda.filter((filtered) => {return filtered.candidatura.status != 'ENTREVISTA CANCELADA'})
   console.log('displayAgenda', agendaFiltered)
   return agendaFiltered
 

@@ -7,7 +7,7 @@
             <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
-                    <h3><span class="label label-info ">Vaga: {{show.vaga.titulo}}</span></h3>
+                    <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span></h3>
                     </template>
                     <template v-slot:card-body>
                     <p>Cargo: {{show.vaga.cargo}}</p>
@@ -85,15 +85,43 @@
       </div>
       <div v-else>
           <h2>Minhas Candidaturas</h2> 
+          <div class="row">
           <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
-                    <h3><span class="label label-info ">Vaga: {{show.vaga.titulo}}</span></h3>
+                    <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span>
+                        <span v-if="show.status == 'ENTREVISTA CANCELADA'">
+                            <span class="badge badge-danger">{{show.status}}</span>
+                        </span>
+                        <span v-if="show.status == 'ENTREVISTA CONFIRMADA'">
+                            <span class="badge badge-success">{{show.status}}</span>
+                        </span>
+                         <span v-if="show.status == 'EM AGENDAMENTO'">
+                            <span class="badge badge-warning">{{show.status}}</span>
+                        </span>
+                          <span v-if="show.status == 'AGUARDANDO'">
+                            <span class="badge badge-warning">{{show.status}}</span>
+                        </span>
+                    </h3>
                     </template>
                     <template v-slot:card-body>
-                    <p>Status: {{show.status}}</p>
-                    <p>Cargo: {{show.vaga.cargo}}</p>
-                    <p>Detalhes: {{show.vaga.descricao}}</p>
+                    <ul>
+                        <li><strong>Cargo</strong>: {{show.vaga.cargo}}</li>
+                        <li><strong>Detalhes</strong>: {{show.vaga.descricao}}</li>
+                        <span v-if="show.status == 'ENTREVISTA CANCELADA'">
+                            <br>
+                            <li>Sua entrevista foi cancelada. 
+                                <span v-if="show.agenda[0].observacao != null">
+                                    A empresa fez a seguinte observação:
+                                    <br><br>
+                                    <i>"{{show.agenda[0].observacao}}"</i>
+                                </span>
+                                <span v-else>
+                                    A empresa não fez observações.
+                                </span>
+                            </li>
+                        </span>
+                    </ul>
                     </template>
                     <template v-slot:card-footer>
                         <span v-if="show.status === 'EM AGENDAMENTO'">
@@ -102,27 +130,27 @@
                                 <template v-slot:header><h3>Detalhes do Agendamento</h3></template>
                                 <template v-slot:body>
                                   <div>
-                                    <div v-if="agendaById[0].contraproposta == 'JURIDICA'">
+                                    <span v-if="agendaById[0].contraproposta == 'JURIDICA' || agendaById[0].contraproposta == null ">
                                         <h5>Referente à vaga "<strong>{{agendaById[0].candidatura.vaga.titulo}}</strong>":</h5>
                                         <h6>A empresa agendou uma entrevista para o dia <strong>{{agendaById[0].data | dateFormat}}</strong>, às <strong>{{agendaById[0].hora}}</strong>,  
                                         com as seguintes observações: <br><center>"<i>{{agendaById[0].observacao}}</i>"</center>
                                         <br>
-                                        O que deseja fazer?</h6> 
-                                    </div>
-                                    <div v-else>
+                                        O que deseja fazer?</h6>
+                                    </span>
+                                    <span v-else-if="agendaById[0].contraproposta == 'FISICA'">
                                         <h5>Referente à vaga "<strong>{{agendaById[0].candidatura.vaga.titulo}}</strong>":</h5>
                                         <h6>Você já fez uma contraproposta e agendou uma entrevista para o dia <strong>{{agendaById[0].data | dateFormat}}</strong>, às <strong>{{agendaById[0].hora}}</strong>,  
                                         com as seguintes observações: <br><center>"<i>{{agendaById[0].observacao}}</i>"</center>
                                         <br>
                                         Aguarde a resposta da empresa!</h6>
-                                    </div>
+                                    </span>
                                   </div>
                                 </template>
                                 <template v-slot:footer>
                                     <div v-if="agendaById[0].contraproposta != 'FISICA'">
-                                        <button @click="newAgenda" class="btn btn-sm btn-danger">Cancelar agendamento</button>
-                                        <router-link v-bind:to="'/agenda/' + 1" tag="button" class="btn btn-sm btn-primary">Fazer uma contraproposta</router-link>
-                                        <button @click="newAgenda" class="btn btn-sm btn-success">Agendar Entrevista</button>
+                                        <button @click="newAgenda" class="btn btn-sm btn-danger">Cancelar</button>
+                                        <router-link v-bind:to="'/agenda/' + agendaById[0].id " tag="button" class="btn btn-sm btn-primary">Fazer uma contraproposta</router-link>
+                                        <button @click="confirmAgenda(agendaById[0].candidatura.id)" class="btn btn-sm btn-success">Agendar Entrevista</button>
                                     </div>
                                     <div v-else>
                                           <button @click="closeModal" class="btn btn-sm btn-primary">Certo!</button>
@@ -130,13 +158,19 @@
                                 </template>
                         </Modal>
                         </span>
-                        <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Desistir</button>
+                        <span v-if="show.status == 'AGUARDANDO'">
+                            <button @click="deleteCandidatura(show.id)" class="btn btn-sm btn-danger">Desistir</button>
+                        </span>
+                        <span v-if="show.status == 'ENTREVISTA CANCELADA' || show.status == 'RECUSADO'">
+                            <center><button @click="deleteCandidatura(show.id)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></center>
+                        </span>
                     </template>
                 </Card>
             </div>
             <jw-pagination :items="displayCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
-      </div>
-    </div>
+       </div>
+     </div>
+   </div>
   </div>
 </template>
 
@@ -209,6 +243,27 @@
                 this.$session.set('candidato_id', candidato_id);
                 this.$router.push({ name: 'new-agenda'})
             },
+
+            async confirmAgenda(candidatura_id){
+
+                let candidatura = {
+                    candidatura_id: candidatura_id
+                }
+
+                await this.$store.dispatch('confirmAgenda', candidatura)
+                .then(response => {
+                    console.log(response)
+                }).catch(error => console.log(error))
+            },
+
+            
+            async deleteCandidatura(candidatura_id){
+
+                await this.$store.dispatch('deleteCandidatura', candidatura_id)
+                .then(response => {
+                  console.log('delete', response);
+                }).catch(error => console.log(error))
+            }
 
         },
 

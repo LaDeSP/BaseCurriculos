@@ -17,7 +17,7 @@ class CreateAgendasTable extends Migration
             $table->timestamps();
             $table->string('contraproposta')->nullable();
             $table->integer('candidatura_id')->unsigned();
-            $table->foreign('candidatura_id')->references('id')->on('candidaturas');
+            $table->foreign('candidatura_id')->references('id')->on('candidaturas')->onDelete('cascade');
            
         });
     }

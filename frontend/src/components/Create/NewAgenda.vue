@@ -62,7 +62,12 @@
                     <div v-else>
                       <div class="row">
                         <div class="col-md-10 float-left" >
-                          <router-link class="btn btn-default" to="/dashboard-juridica">Voltar</router-link>
+                          <span v-if="permissaoDoUsuario == 'FISICA'">
+                              <router-link class="btn btn-outline-secondary" to="/candidaturas">Voltar</router-link>
+                          </span>
+                          <span v-else>
+                              <router-link class="btn btn-outline-secondary" to="/agenda">Voltar</router-link>
+                          </span>
                         </div>
                         <div class="col-md-2 float-right" >
                           <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-primary">Enviar</button>
@@ -128,12 +133,7 @@
               this.notificacoes = response.error;
             }
             else{
-              console.log('deu bonm');
-              if(this.permissaoDoUsuario === 'FISICA'){
-                this.$router.push({ name: 'candidaturas' })
-              }else{
-                this.$router.push({ name: 'agenda' })
-              }
+              this.$router.push({ name: 'agenda' });
             }
           
           })
@@ -145,8 +145,11 @@
               this.notificacoes = response.error;
             }
             else{
-              console.log('deu bonm');
-              this.$router.push({ name: 'agenda' })
+              if(this.permissaoDoUsuario == 'FISICA'){
+                this.$router.push({ name: 'candidaturas' })
+              }else{
+                this.$router.push({ name: 'agenda' })
+              }
             }
           
           })

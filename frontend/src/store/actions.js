@@ -20,7 +20,6 @@ import * as Cookies from 'js-cookie'
           } 
           commit('auth_success', {payload})
 
-          console.log('na action', response.data)
           return response.data
         }).catch(error => {
           console.log(error)
@@ -126,7 +125,7 @@ import * as Cookies from 'js-cookie'
         commit('allFisicaData', {payloadCurriculo});
         const dataCompleted = true;  
         commit('dataCompleted', dataCompleted);
-        //console.log(response)
+       
         return response.data
       })
       .catch(error => {
@@ -557,13 +556,13 @@ import * as Cookies from 'js-cookie'
       })
     };
 
-    const cancelCandidatura = async ({commit, state}, candidatura_id) => {
+    const deleteCandidatura = async ({commit, state}, candidatura_id) => {
 
       const token = state.auth.token;
-      return await axios({ url: candidatura_id + '/' + candidatura_id + '?token='+ token, method: 'DELETE' })
+      return await axios({ url: candidaturas_uri + '/' + candidatura_id + '?token='+ token, method: 'DELETE' })
       .then(response => {
          console.log('na action de delete cand', response)
-         commit('cancelCandidatura', candidatura_id);
+         commit('deleteCandidatura', candidatura_id);
          return response;
       })
       .catch(
@@ -751,14 +750,34 @@ import * as Cookies from 'js-cookie'
   
     };
 
+  const confirmAgenda = async ({state, commit}, candidatura_id) => {
     
-  const cancelAgenda = async ({commit, state}, agenda_id) => {
+      const token = state.auth.token;
+      return await axios({ url: 'http://localhost:8000/api/confirmAgenda?token=' + token, data: candidatura_id, method: 'POST' })
+      .then(response => {
+
+        let payloadAgenda = [];
+        payloadAgenda = response.data.agenda;
+        commit('agenda', payloadAgenda)
+        commit('candidaturas', response.data.candidaturas)
+        console.log('confirm Agenda response', response.data)
+        
+        return response.data
+      }).catch(error => {
+        console.log(error)
+      })
+  
+  };
+    
+
+    
+  const cancelAgenda = async ({commit, state}, cancelAgenda) => {
 
     const token = state.auth.token;
-    return await axios({ url: agenda_uri + '/' + agenda_id + '?token='+ token, method: 'DELETE' })
+    return await axios({ url: 'http://localhost:8000/api/cancelAgenda?token=' + token, data: cancelAgenda, method: 'POST' })
     .then(response => {
        console.log('na action de delete agenda', response)
-       commit('cancelAgenda', agenda_id);
+       commit('cancelAgenda', response.data.agenda_id);
        return response;
     })
     .catch(
@@ -790,7 +809,7 @@ import * as Cookies from 'js-cookie'
     deleteUserPhoto,
     loadArea,
     loadCandidaturas,
-    cancelCandidatura,
+    deleteCandidatura,
     searchVagas,
     searchVagasAvancadas,
     searchCurriculos,
@@ -799,6 +818,7 @@ import * as Cookies from 'js-cookie'
     newAgenda,
     loadAgenda,
     updateAgenda,
+    confirmAgenda,
     cancelAgenda,
   
   };

@@ -60,6 +60,7 @@
                                     <option disabled value="">Selecione seu gênero</option>
                                     <option value="Masculino">Masculino</option>
                                     <option value="Feminino">Feminino</option>
+                                    <option value="Não-Binário">Não-Binário</option>
                                     <option value="Outro">Outro</option>
                                 </select>
                                 <p class="color-red">{{ errors[0] }}</p>

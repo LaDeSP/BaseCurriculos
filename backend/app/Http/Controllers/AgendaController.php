@@ -8,6 +8,7 @@ use App\Agenda;
 use App\Juridica;
 use App\Fisica;
 use App\User;
+use App\Curriculo;
 
 use App\Candidatura;
 use Illuminate\Http\Request;
@@ -116,7 +117,6 @@ class AgendaController extends Controller
                 'data'=>$request->data,
                 'hora'=>$request->hora,
                 'observacao'=>$request->observacao,
-                'contraproposta'=>$request->contraproposta,
                 'candidatura_id'=>$candidatura_id
              ]);
      
@@ -146,6 +146,7 @@ class AgendaController extends Controller
             'data' => $request->data,
             'hora' => $request->hora,
             'observacao' => $request->observacao,
+            'contraproposta' => $request->contraproposta,
         ]);
 
         return Response::json([
@@ -155,15 +156,47 @@ class AgendaController extends Controller
       
     }
 
-    public function destroy($id){
+    public function confirmAgenda(Request $request){
 
-        $candidatura_id = Agenda::where('id', $id)->first()->candidatura_id;
+        $candidatura_id = $request->candidatura_id;
         Candidatura::where('id', $candidatura_id)->update(array(
-            'status' => 'CANCELADA'
+            'status' => 'ENTREVISTA CONFIRMADA'
+        ));
+
+        $agenda = Agenda::where('candidatura_id', $candidatura_id)->first()->get();
+
+        $user_id = auth()->user()->id;
+        $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
+        $curriculo_id = Curriculo::where('fisicas_id', $fisica_id)->first()->id;
+        $candidaturas = Candidatura::with(['vaga', 'agenda', 'curriculo'])
+            ->where('curriculos_id', $curriculo_id)->get();
+
+        return Response::json([
+            'agenda' => $agenda,
+            'candidaturas' => $candidaturas
+        ]);
+        
+    }
+
+    public function cancelAgenda(Request $request){
+
+        $candidatura_id = $request->candidatura_id;
+        $agenda_id = Agenda::where('candidatura_id', $candidatura_id)->first()->id;
+        $observacao = $request->observacao; 
+
+        if($observacao){
+            Agenda::where('candidatura_id', $candidatura_id)->update(array(
+                'observacao' => $observacao
+            ));
+        }
+        
+        Candidatura::where('id', $candidatura_id)->update(array(
+            'status' => 'ENTREVISTA CANCELADA'
         ));
 
         return Response::json([
-            'cancelou entrevista'
+            'cancelou entrevista',
+            'agenda_id' => $agenda_id
         ]);
 
     }

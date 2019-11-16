@@ -80,7 +80,7 @@ class CandidaturaController extends Controller
             $count = 0;
             if(Candidatura::where('curriculos_id', $curriculo_id)->exists()){
                 $candidatura_id = Candidatura::where('curriculos_id', $curriculo_id)->first()->id;
-                $candidaturas_fisica = Candidatura::with(['vaga', 'curriculo'])
+                $candidaturas_fisica = Candidatura::with(['vaga', 'agenda', 'curriculo'])
                 ->where('curriculos_id', $curriculo_id)->get();
             
                 return Response::json([
@@ -142,12 +142,12 @@ class CandidaturaController extends Controller
 
     public function destroy($id){
 
-        $candidatura = User::find($id);
+        $candidatura = Candidatura::find($id);
         $candidatura->delete();
 
 
         return Response::json([
-            'cancelou candidatura'=> $id
+            'deletou candidatura'=> $id
         ]);
 
     }

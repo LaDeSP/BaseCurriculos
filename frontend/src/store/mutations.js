@@ -102,7 +102,7 @@ const cancelAgenda = (state, payloadAgendaId) => {
     state.agenda.splice(index, 1);
 }  
 
-const cancelCandidatura = (state, payloadCandidaturaId) => {
+const deleteCandidatura = (state, payloadCandidaturaId) => {
     let index = state.candidaturas.findIndex(candidatura => candidatura.id === payloadCandidaturaId);
     state.candidaturas.splice(index, 1);
 }
@@ -144,7 +144,7 @@ const countCandidaturas = (state, payloadCountCandidaturas) => {
     buscaVagas,
     agenda,
     cancelAgenda,
-    cancelCandidatura,
+    deleteCandidatura,
     countVagasJuridica,
     countCandidaturas,
     
