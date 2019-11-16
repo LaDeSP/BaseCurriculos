@@ -233,6 +233,11 @@ export default {
             this.$store.dispatch('requestVaga', requestVaga)
             .then(response => {
                 console.log(response)
+                for( var i = 0; i < this.$store.state.resultado.length; i++){ 
+                    if ( this.$store.state.resultado[i].id == id) {
+                        this.$store.state.resultado.splice(i, 1); 
+                    }
+                }
                 this.isModalShowMore = false;
             }).catch(error => console.log(error))
         },
