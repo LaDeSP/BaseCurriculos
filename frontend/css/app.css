@@ -6182,6 +6182,7 @@ a.close.disabled {
   outline: 0;
   max-width: 100%;
   max-height: 100%;
+  background-color: rgba(8, 8, 8, 0.8);
 
 }
 
