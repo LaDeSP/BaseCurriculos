@@ -1,12 +1,8 @@
 <template>
     <div class="row justify-content-center">
      <div class="col-md-9">
-      <painel>
-        <template v-slot:panel-head>
-          <h2>Candidaturas</h2>
-        </template>
-      </painel>
       <div class="row" v-if="permissaoDoUsuario === 'JURIDICA'">
+        <h2>Candidaturas</h2> 
         <div v-if="!toggle">
             <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
@@ -38,7 +34,7 @@
                     <p class="mb-1"><strong>Pretensão Salarial:</strong> {{show.curriculo.pretensao}}</p>
                 </template>
                 <template v-slot:list-footer>
-                  <button @click="showModal(show.id)" class="btn btn-sm btn-default">Ver mais</button>
+                  <button @click="showModal('showMore', show.id)" class="btn btn-sm btn-default">Ver mais</button>
                   
                   <Modal v-if="isModalShowMore" @close="closeModal">
                         <template v-slot:header><h3>Detalhes do Candidato</h3></template>
@@ -88,6 +84,7 @@
         </div>
       </div>
       <div v-else>
+          <h2>Minhas Candidaturas</h2> 
           <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
@@ -99,6 +96,40 @@
                     <p>Detalhes: {{show.vaga.descricao}}</p>
                     </template>
                     <template v-slot:card-footer>
+                        <span v-if="show.status === 'EM AGENDAMENTO'">
+                            <button @click="showModal('agendamento', show.id)" class="btn btn-sm btn-info">Ver agendamento</button>
+                            <Modal v-if="isModalAgendamento" @close="closeModal">
+                                <template v-slot:header><h3>Detalhes do Agendamento</h3></template>
+                                <template v-slot:body>
+                                  <div>
+                                    <div v-if="agendaById[0].contraproposta == 'JURIDICA'">
+                                        <h5>Referente à vaga "<strong>{{agendaById[0].candidatura.vaga.titulo}}</strong>":</h5>
+                                        <h6>A empresa agendou uma entrevista para o dia <strong>{{agendaById[0].data | dateFormat}}</strong>, às <strong>{{agendaById[0].hora}}</strong>,  
+                                        com as seguintes observações: <br><center>"<i>{{agendaById[0].observacao}}</i>"</center>
+                                        <br>
+                                        O que deseja fazer?</h6> 
+                                    </div>
+                                    <div v-else>
+                                        <h5>Referente à vaga "<strong>{{agendaById[0].candidatura.vaga.titulo}}</strong>":</h5>
+                                        <h6>Você já fez uma contraproposta e agendou uma entrevista para o dia <strong>{{agendaById[0].data | dateFormat}}</strong>, às <strong>{{agendaById[0].hora}}</strong>,  
+                                        com as seguintes observações: <br><center>"<i>{{agendaById[0].observacao}}</i>"</center>
+                                        <br>
+                                        Aguarde a resposta da empresa!</h6>
+                                    </div>
+                                  </div>
+                                </template>
+                                <template v-slot:footer>
+                                    <div v-if="agendaById[0].contraproposta != 'FISICA'">
+                                        <button @click="newAgenda" class="btn btn-sm btn-danger">Cancelar agendamento</button>
+                                        <router-link v-bind:to="'/agenda/' + 1" tag="button" class="btn btn-sm btn-primary">Fazer uma contraproposta</router-link>
+                                        <button @click="newAgenda" class="btn btn-sm btn-success">Agendar Entrevista</button>
+                                    </div>
+                                    <div v-else>
+                                          <button @click="closeModal" class="btn btn-sm btn-primary">Certo!</button>
+                                    </div>
+                                </template>
+                        </Modal>
+                        </span>
                         <button @click="onDelete(show.id)" class="btn btn-sm btn-danger">Desistir</button>
                     </template>
                 </Card>
@@ -133,8 +164,8 @@
 
                 candidaturas: [],
                 toggle: false,
-                agendamento: false,
                 isModalShowMore: false,
+                isModalAgendamento: false,
                 vaga_id: 0,
                 candidato_id: 0,
                 pageOfItems: [],
@@ -143,22 +174,30 @@
         },
         components: {NewAgenda, Card, List, Modal,painel, JwPagination},
         methods: {
-            onChangePage(pageOfItems) {
+           
+            ...mapActions([
+                'loadCandidaturas', 'loadAgenda'
+            ]),
+
+             onChangePage(pageOfItems) {
                 // update page of items
                 this.pageOfItems = pageOfItems;
             },
-            ...mapActions([
-                'loadCandidaturas', 
-            ]),
 
-             showModal(candidato_id){
-                 this.isModalShowMore = true;
-                 this.candidato_id = candidato_id;
+             showModal(modal, candidato_id){
+                 if(modal === 'showMore'){
+                    this.isModalShowMore = true;
+                    this.candidato_id = candidato_id;
+                 }else{
+                    this.isModalAgendamento = true;
+                    this.candidato_id = candidato_id;
+                 }
             },
 
             closeModal(){
               this.isModalWarning = false;
               this.isModalShowMore = false;
+              this.isModalAgendamento = false;
             },
 
             vagaDaCandidatura(vaga_id){
@@ -171,16 +210,13 @@
                 this.$router.push({ name: 'new-agenda'})
             },
 
-            updateAgenda(candidato_id){
-                this.$session.set('updateAgenda', candidato_id);
-                this.$router.push({ name: 'new-agenda'})
-            }
         },
 
         computed: {
             ...mapGetters([
                 'displayCandidaturas', 'permissaoDoUsuario', 
                 'displayCandidaturasByVaga', 'displayCandidatoById',
+                'displayAgendaById'
             ]),
             ...mapState([
                 'vagasCandidaturas', 
@@ -190,6 +226,9 @@
             },
             candidatoById() {
                 return this.displayCandidatoById(this.candidato_id)
+            },
+            agendaById() {
+                return this.displayAgendaById(this.candidato_id)
             },
         },
 
@@ -203,6 +242,7 @@
 
         async created(){
             await this.loadCandidaturas();
+            await this.loadAgenda();
         },
 
     }

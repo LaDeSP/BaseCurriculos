@@ -15,7 +15,7 @@ class CreateAgendasTable extends Migration
             $table->time('hora');
             $table->string('observacao')->nullable();
             $table->timestamps();
-
+            $table->string('contraproposta')->nullable();
             $table->integer('candidatura_id')->unsigned();
             $table->foreign('candidatura_id')->references('id')->on('candidaturas');
            

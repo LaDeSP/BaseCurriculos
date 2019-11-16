@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Response;
 use App\Agenda;
 use App\Juridica;
+use App\Fisica;
 use App\User;
 
 use App\Candidatura;
@@ -27,20 +28,35 @@ class AgendaController extends Controller
     public function index(){
 
         $user_id = auth()->user()->id;
-        $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
+    
+        if(Juridica::where('user_id', $user_id)->exists()){
+            $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
+            $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
+            ->whereHas('candidatura.vaga.juridica', function($query) use ($juridica_id){ 
+                $query->where('id', '=', $juridica_id);
+            })->orderBy('created_at')->get();
+    
+          //  $collection = collect($vagasCandidatura);
+           // $unique = $collection->unique('vagas_id');
+           // $unique_data = $unique->values()->all();
+    
+            return Response::json([
+                'agenda' => $agenda,
+             ]);
 
-        $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
-        ->whereHas('candidatura.vaga.juridica', function($query) use ($juridica_id){ 
-            $query->where('id', '=', $juridica_id);
-        })->orderBy('created_at')->get();
+        }else{
 
-      //  $collection = collect($vagasCandidatura);
-       // $unique = $collection->unique('vagas_id');
-       // $unique_data = $unique->values()->all();
+            $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
+            $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
+            ->whereHas('candidatura.curriculo.fisica', function($query) use ($fisica_id){ 
+                $query->where('id', '=', $fisica_id);
+            })->orderBy('created_at')->get();
 
-        return Response::json([
-            'agenda' => $agenda,
-         ]);
+            return Response::json([
+                'agenda' => $agenda, 
+             ]);
+        } 
+     
     
     }
 
@@ -72,6 +88,7 @@ class AgendaController extends Controller
                 'data'=>$request->data,
                 'hora'=>$request->hora,
                 'observacao'=>$request->observacao,
+                'contraproposta'=>$request->contraproposta,
             ));
 
             Candidatura::where('id', $candidatura_id)->update(array(

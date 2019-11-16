@@ -108,11 +108,6 @@
                 this.vaga_id = vaga_id;
             },
 
-            updateAgenda(id){
-                this.$session.set('updateAgenda', id);
-                this.$router.push({ name: 'new-agenda'})
-            },
-
             async cancelAgenda(){
                 await this.$store.dispatch('cancelAgenda', this.agenda_id)
                 .then(response => {

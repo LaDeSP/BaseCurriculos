@@ -722,7 +722,7 @@ import * as Cookies from 'js-cookie'
         let payloadAgenda = [];
         payloadAgenda = response.data.agenda;
         commit('agenda', payloadAgenda)
-
+        console.log('agsdsd', response)
         return response.data
       }).catch(error => {
         console.log(error)

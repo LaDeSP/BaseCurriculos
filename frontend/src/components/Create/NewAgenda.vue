@@ -12,7 +12,7 @@
                 <template v-slot:card-header >
                   <div cclass="d-flex justify-content-center">
                     <center><h1 v-if="!editing">Agendar Entrevista</h1>
-                    <h1 v-else>Editar Entrevista</h1></center>
+                    <h1 v-else>Reagendar Entrevista</h1></center>
                   </div>
                 </template>
                 <template v-slot:card-body>
@@ -101,10 +101,22 @@
       ...mapActions(['loadAgenda']),
 
       register(){
+    
+        if(this.editing){
+          if(this.permissaoDoUsuario === 'FISICA'){
+            this.contraproposta = 'FISICA';
+          }else{
+            this.contraproposta = 'JURIDICA';
+          }
+
+          console.log('thiscontra', this.contraproposta)
+        }
+
         let newAgendaData = {
           data: this.data,
           hora: this.hora,
           observacao: this.observacao,
+          contraproposta: this.contraproposta,
           candidatura_id: this.$session.get('candidato_id'),
           update_id: this.$route.params.id
         }
@@ -117,7 +129,11 @@
             }
             else{
               console.log('deu bonm');
-              this.$router.push({ name: 'agenda' })
+              if(this.permissaoDoUsuario === 'FISICA'){
+                this.$router.push({ name: 'candidaturas' })
+              }else{
+                this.$router.push({ name: 'agenda' })
+              }
             }
           
           })
@@ -142,7 +158,6 @@
         console.log('displaydatdaedit', this.agendaById[0])
         this.data = this.agendaById[0].data;
         this.hora = this.agendaById[0].hora;
-        this.observacao = this.agendaById[0].observacao;
       }
     },
 
@@ -151,7 +166,7 @@
         'agenda'
       ]),
       ...mapGetters([
-        'displayAgendaById'
+        'displayAgendaById', 'permissaoDoUsuario'
       ]),
       agendaById() {
           return this.displayAgendaById(this.$route.params.id)
