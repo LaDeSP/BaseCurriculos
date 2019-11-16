@@ -77,13 +77,22 @@ class CandidaturaController extends Controller
         }else{
             $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
             $curriculo_id = Curriculo::where('fisicas_id', $fisica_id)->first()->id;
-            $candidatura_id = Candidatura::where('curriculos_id', $curriculo_id)->first()->id;
-            $candidaturas_fisica = Candidatura::with(['vaga', 'curriculo'])
+            $count = 0;
+            if(Candidatura::where('curriculos_id', $curriculo_id)->exists()){
+                $candidatura_id = Candidatura::where('curriculos_id', $curriculo_id)->first()->id;
+                $candidaturas_fisica = Candidatura::with(['vaga', 'curriculo'])
                 ->where('curriculos_id', $curriculo_id)->get();
             
-            return Response::json([
-                'candidaturas'=>$candidaturas_fisica
-            ]);
+                return Response::json([
+                'candidaturas' => $candidaturas_fisica,
+                'countCandidaturas' => 1,
+                ]);
+            }else{
+                return Response::json([
+                    'countCandidaturas'=>0
+                ]);
+            }
+
         } 
 
     }

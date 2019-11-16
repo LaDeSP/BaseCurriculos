@@ -7,25 +7,25 @@
       <div class="col-xl-12 col-lg-12">
         <card class="border-left-primary shadow h-100">
             <template v-slot:card-header class="py-3">
-              <center><router-link to="/vagas" class="font-weight-bold text-primary text-uppercase mb-1">Minhas Candidaturas</router-link></center>
+              <center><router-link to="/candidaturas" class="font-weight-bold text-primary text-uppercase mb-1">Minhas Candidaturas</router-link></center>
             </template>
             <template v-slot:card-body>
               <div class="row no-gutters align-items-center">
 
                   <div class="h2 mb-0 font-weight-bold text-gray-900">
                     <div class="row no-gutters align-items-center">
-                      <template v-if="displayCandidaturas.length <= 0">
+                      <template v-if="countCandidaturas == 0">
                         Nenhuma candidatura realizada!
                       </template>
                       <template v-else>
-                          <div v-for="show in displayCandidaturas" :key="show.id">
+                          <div v-for="show in display3Candidaturas" :key="show.id">
                             <cardvagas style="width: 18rem;">
                               <template v-slot:card-header >
                                   <center><h5>{{show.vaga.titulo}}</h5></center>
                               </template>
                               <template v-slot:card-body>
                                 <!-- <div class=" font-weight-bold text-success text-uppercase mb-1"></div>para o texto ficar verde -->
-                                <div v-if="show.status === 'EM ANDAMENTO'"  class=" font-weight-bold text-warning text-uppercase">
+                                <div v-if="show.status === 'AGUARDANDO'"  class=" font-weight-bold text-warning text-uppercase">
                                   <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-spinner fa-pulse"></span></h1></center>
                                 </div>
                                 <div v-if="show.status === 'EM AGENDAMENTO'"  class=" font-weight-bold text-warning text-uppercase">
@@ -54,7 +54,7 @@
               </div>
             </template>
             <template v-slot:card-footer>
-              <div v-if="displayCandidaturas.length > 0">
+              <div v-if="countCandidaturas != 0">
                 <center><router-link to="/candidaturas" class="btn btn-lg btn-primary">Ver Mais <span class="fa fa-eye"></span></router-link></center>
               </div>
             </template>
@@ -125,7 +125,7 @@
   import Modal from '../Utils/ModalOld';
   import List from '../Utils/List';
   import painel from '../Utils/Painel';
- import { mapActions, mapGetters } from 'vuex';
+ import { mapActions, mapGetters, mapState } from 'vuex';
  import JwPagination from 'jw-vue-pagination';
   const customLabels = {
       first: 'Primeira',
@@ -255,7 +255,17 @@
                     }else{
                         return this.displayVagasJuridica.filter((vaga) => {return vaga.status === 'INATIVA'})
                     }
-                }
+              }
+            },
+
+            ...mapState([
+              'countCandidaturas'
+            ]),
+
+            display3Candidaturas(){
+
+              return this.displayCandidaturas.slice(0,3)
+
             },
 
             ...mapGetters([
