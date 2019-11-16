@@ -8,12 +8,31 @@ use Response;
 use App\Vaga; 
 use App\Curriculo; 
 use App\User; 
+use App\Candidatura;
 
 class BuscaController extends Controller
 {
     public function buscaVagas($keywords){
+        $user_id = auth()->user()->id;
+        $user = User::findOrFail($user_id);
+        $curriculo = $user->fisica->curriculo;
+        $vagas_id = Candidatura::select('vagas_id')->where('curriculos_id', $curriculo->id)->where(function ($query) {
+            $query->where('status', "EM AGENDAMENTO")
+                  ->orWhere('status', "AGUARDANDO");
+        })->get();
 
-        $vagas = Vaga::with(['area'])->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%')->get();
+        $candidaturas = [];
+        foreach($vagas_id as $candidatura){
+            $candidaturas[]=$candidatura->vagas_id;
+        }
+
+        $vagas = Vaga::with(['area'])
+            ->where(function ($query) use ($keywords) {
+                $query->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%');
+            })
+            ->whereNotIn('id', $candidaturas)
+            ->get();
+
 
 
         return response()->json($vagas);
