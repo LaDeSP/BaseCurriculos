@@ -294,8 +294,8 @@ class BuscaController extends Controller
     }
 
     public function buscaVagasProgress(){
-        //$user_id = auth()->user()->id;
-        $user_id = 3;
+        $user_id = auth()->user()->id;
+        //$user_id = 3;
         $user = User::findOrFail($user_id);
         $juridica = $user->juridica;
         $vagas = $juridica->vaga;
