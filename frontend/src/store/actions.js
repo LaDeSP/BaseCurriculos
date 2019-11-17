@@ -439,6 +439,17 @@ import * as Cookies from 'js-cookie'
   
   };
 
+  const requestVagaDash = async ({commit, state}, requestVaga) => {
+    const token = state.auth.token;
+    return await axios({ url: candidaturas_uri + '?token=' + token, data: requestVaga, method: 'POST'})
+    .then(response => {
+      return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  
+  };
+
   const loadVagasJuridica = async ({commit, state}) => {
   
     const token = state.auth.token;
@@ -816,6 +827,7 @@ import * as Cookies from 'js-cookie'
     createVaga,
     updateVaga,
     requestVaga,
+    requestVagaDash,
     loadVagasJuridica,
     changeStatusVaga,
     deleteVaga,
