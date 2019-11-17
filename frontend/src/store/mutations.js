@@ -138,6 +138,10 @@ const countCandidaturas = (state, payloadCountCandidaturas) => {
    console.log('mut', payloadCountCandidaturas)
 }
 
+const progressBar = (state, payloadProgressBar) => {
+    state.progressBar = payloadProgressBar
+}
+
   export default {
     auth_success,
     auth_error,
@@ -158,5 +162,6 @@ const countCandidaturas = (state, payloadCountCandidaturas) => {
     deleteCandidatura,
     countVagasJuridica,
     countCandidaturas,
+    progressBar
     
   };

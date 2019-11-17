@@ -188,6 +188,9 @@ const displayAgendaById = (state) => (candidato_id) => {
 
 }
 
+const progressBar = state =>{
+  return state.progressBar
+}
 
 export default {
   isLoggedIn,
@@ -206,5 +209,6 @@ export default {
   displayCandidatoById,
   displayAgenda,
   displayAgendaById,
+  progressBar
 
 };

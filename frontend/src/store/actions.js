@@ -439,6 +439,17 @@ import * as Cookies from 'js-cookie'
   
   };
 
+  const requestVagaDash = async ({commit, state}, requestVaga) => {
+    const token = state.auth.token;
+    return await axios({ url: candidaturas_uri + '?token=' + token, data: requestVaga, method: 'POST'})
+    .then(response => {
+      return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  
+  };
+
   const loadVagasJuridica = async ({commit, state}) => {
   
     const token = state.auth.token;
@@ -790,6 +801,22 @@ import * as Cookies from 'js-cookie'
     );
   };
 
+  const getVagasPorcentagem = async ({commit, state}) => {
+
+    const token = state.auth.token;
+    return await axios({ url: 'http://localhost:8000/api/vagasPorcentagem?token=' + token, method: 'GET' })
+    .then(response => {
+      
+      let payloadProgressBar = [];
+      payloadProgressBar = response.data;
+      commit('progressBar', payloadProgressBar);
+       return response;
+    })
+    .catch(
+        error => console.log(error)
+    );
+  };
+
 
   export default {
     login,
@@ -807,6 +834,7 @@ import * as Cookies from 'js-cookie'
     createVaga,
     updateVaga,
     requestVaga,
+    requestVagaDash,
     loadVagasJuridica,
     changeStatusVaga,
     deleteVaga,
@@ -825,5 +853,6 @@ import * as Cookies from 'js-cookie'
     updateAgenda,
     confirmAgenda,
     cancelAgenda,
+    getVagasPorcentagem
   
   };

@@ -69,6 +69,7 @@ export const store = new Vuex.Store({
    vagasJuridica: [],
    candidaturas: [],
    vagasCandidaturas: [],
+   progressBar: [],
    dataCompleted: false,
    hasVaga: false,
    countVagas: 0,

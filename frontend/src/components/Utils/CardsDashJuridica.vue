@@ -53,27 +53,16 @@
               <h6 class="m-0 font-weight-bold text-primary">Processos em Andamento</h6>
             </template>
             <template v-slot:card-body>
-              <h4 class="small font-weight-bold">"Panfletagem" <span class="float-right"> De 7 vagas falta 1</span></h4>
-              <div class="progress mb-4">
-                <div class="progress-bar bg-danger" role="progressbar" style="width: 90%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <h4 class="small font-weight-bold">"Gerente" <span class="float-right"> As vagas estão completas</span></h4>
-              <div class="progress mb-4">
-                <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <h4 class="small font-weight-bold"> "Encaixotador" <span class="float-right">As vagas estão completas</span></h4>
-              <div class="progress mb-4">
-                <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <h4 class="small font-weight-bold"> "Atendentes" <span class="float-right">De 5 vagas faltam 1</span></h4>
-              <div class="progress mb-4">
-                <div class="progress-bar bg-info" role="progressbar" style="width: 90%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+              <div v-if="progressBar.length>0">
+                <div v-for="vaga in progressBar" :key="vaga.id">
+                  <h4 class="small font-weight-bold">"{{vaga.titulo}}" <span class="float-right"> De {{vaga.quantidade}} vagas faltam {{vaga.quantidade - vaga.quantidadeContratados}}</span></h4>
+                  <div class="mb-4">
+                    <b-progress :value="vaga.porcentagem" variant="success" :striped="striped"></b-progress>
+                  </div>
                 </div>
               </div>
-              <h4 class="small font-weight-bold"> "Supervisor" <span class="float-right">As vagas estão completas</span></h4>
-              <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                </div>
+              <div v-else>
+                <h3> Nenhuma Vaga Cadastrada </h3>
               </div>
             </template>
         </card>
@@ -182,7 +171,9 @@
 
 <script>
   import card from '../Utils/Card';
-  import {mapState, mapGetters} from 'vuex';
+  import {mapState, mapGetters, mapActions} from 'vuex';
+import { BProgress } from 'bootstrap-vue'
+
 
   export default{
     data() {
@@ -192,13 +183,18 @@
         data: '',
         hora: '',
         observacao: '',
+        striped: true
       }
     },
     components:{
-      card
+      card, BProgress
     },
 
     methods: {
+
+       ...mapActions([
+            'getVagasPorcentagem'
+        ]),
 
       agendar(){
 
@@ -228,8 +224,11 @@
         'vagasCandidaturas'
       ]),
       ...mapGetters([
-        'displayCandidaturas'
+        'displayCandidaturas', 'progressBar'
       ]),
+    },
+    async created(){
+      await this.getVagasPorcentagem();
     }
   }
 

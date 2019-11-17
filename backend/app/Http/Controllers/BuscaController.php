@@ -172,19 +172,36 @@ class BuscaController extends Controller
         $palavrasQualificacaoPrevia=explode(" ",$curriculo->qualificacoes);
         $palavrasHistoricoPrevia=explode(" ",$curriculo->historicoProfissional);
         $palavrasObjetivosPrevia=explode(" ",$curriculo->objetivos);
+
+        $vagas_id = Candidatura::select('vagas_id')->where('curriculos_id', $curriculo->id)->where(function ($query) {
+            $query->where('status', "EM AGENDAMENTO")
+                  ->orWhere('status', "AGUARDANDO");
+        })->get();
+
+        $candidaturas = [];
+        foreach($vagas_id as $candidatura){
+            $candidaturas[]=$candidatura->vagas_id;
+        }
         
         $palavrasQualificacao=BuscaController::tratarPalavras($palavrasQualificacaoPrevia);
         $palavrasHistorico=BuscaController::tratarPalavras($palavrasHistoricoPrevia);
         $palavrasObjetivos=BuscaController::tratarPalavras($palavrasObjetivosPrevia);
         $i=0;
+
+        $curriculo_areas_id = $curriculo->areas_id;
+        $curriculo_pretensao = $curriculo->pretensao;
+        $curriculo_area_tipo = $curriculo->area->tipo;
         foreach ($palavrasQualificacao as $palavra){
             $vagas = Vaga::with(['area'])
-                ->where('requisito', 'like', '%' . $palavra . '%')
-                ->orWhere('descricao', 'like', '%' . $palavra . '%')
-                ->orWhere('titulo', 'like', '%' . $palavra . '%')
-                ->orWhere('areas_id', $curriculo->areas_id)
-                ->orWhere('salario', 'like', '%' . $curriculo->pretensao . '%')//pensando se faço um explode pro pretensao
-                ->orWhere('titulo', 'like', '%' . $curriculo->area->tipo . '%')
+                ->where(function ($query) use ($palavra, $curriculo_areas_id, $curriculo_pretensao, $curriculo_area_tipo) {
+                    $query->where('requisito', 'like', '%' . $palavra . '%')
+                    ->orWhere('descricao', 'like', '%' . $palavra . '%')
+                    ->orWhere('titulo', 'like', '%' . $palavra . '%')
+                    ->orWhere('areas_id', $curriculo_areas_id)
+                    ->orWhere('salario', 'like', '%' . $curriculo_pretensao . '%')//pensando se faço um explode pro pretensao
+                    ->orWhere('titulo', 'like', '%' . $curriculo_area_tipo . '%');
+                })
+                ->whereNotIn('id', $candidaturas)
                 ->get();
             
             if($i==0){
@@ -201,9 +218,12 @@ class BuscaController extends Controller
 
         foreach ($palavrasHistorico as $palavra){
             $vagas = Vaga::with(['area'])
-                ->where('requisito', 'like', '%' . $palavra . '%')
-                ->orWhere('descricao', 'like', '%' . $palavra . '%')
-                ->orWhere('titulo', 'like', '%' . $palavra . '%')
+                ->where(function ($query) use ($palavra) {
+                    $query->where('requisito', 'like', '%' . $palavra . '%')
+                    ->orWhere('descricao', 'like', '%' . $palavra . '%')
+                    ->orWhere('titulo', 'like', '%' . $palavra . '%');
+                })
+                ->whereNotIn('id', $candidaturas)
                 ->get();
             
             $mergedCollection = $vagastotal->toBase()->merge($vagas);
@@ -212,10 +232,13 @@ class BuscaController extends Controller
 
         foreach ($palavrasObjetivos as $palavra){
             $vagas = Vaga::with(['area'])
-                ->where('requisito', 'like', '%' . $palavra . '%')
-                ->orWhere('descricao', 'like', '%' . $palavra . '%')
-                ->orWhere('titulo', 'like', '%' . $palavra . '%')
-                ->orWhere('jornada', 'like', '%' . $palavra . '%')
+                ->where(function ($query) use ($palavra) {
+                    $query->where('requisito', 'like', '%' . $palavra . '%')
+                    ->orWhere('descricao', 'like', '%' . $palavra . '%')
+                    ->orWhere('titulo', 'like', '%' . $palavra . '%')
+                    ->orWhere('jornada', 'like', '%' . $palavra . '%');
+                })
+                ->whereNotIn('id', $candidaturas)
                 ->get();
             
             $mergedCollection = $vagastotal->toBase()->merge($vagas);
@@ -268,6 +291,26 @@ class BuscaController extends Controller
             $palavra=str_replace("!", "", $palavra);
         }
         return $palavra;
+    }
+
+    public function buscaVagasProgress(){
+        $user_id = auth()->user()->id;
+        //$user_id = 3;
+        $user = User::findOrFail($user_id);
+        $juridica = $user->juridica;
+        $vagas = $juridica->vaga;
+
+        foreach($vagas as $vaga){
+            $vaga->quantidadeContratados = count($vaga->candidaturaContratada);
+            $vaga->porcentagem = BuscaController::porcentagem_nx($vaga->quantidadeContratados, $vaga->quantidade);
+        }
+        
+        return response()->json($vagas);
+
+    }
+
+    function porcentagem_nx ($parcial, $total) {
+        return ( $parcial * 100 ) / $total;
     }
     
 }
