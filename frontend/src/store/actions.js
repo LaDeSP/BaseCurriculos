@@ -810,6 +810,22 @@ import * as Cookies from 'js-cookie'
     );
   };
 
+  const getVagasPorcentagem = async ({commit, state}) => {
+
+    const token = state.auth.token;
+    return await axios({ url: 'http://localhost:8000/api/vagasPorcentagem?token=' + token, method: 'GET' })
+    .then(response => {
+      
+      let payloadProgressBar = [];
+      payloadProgressBar = response.data;
+      commit('progressBar', payloadProgressBar);
+       return response;
+    })
+    .catch(
+        error => console.log(error)
+    );
+  };
+
 
   export default {
     login,
@@ -846,5 +862,6 @@ import * as Cookies from 'js-cookie'
     updateAgenda,
     confirmAgenda,
     cancelAgenda,
+    getVagasPorcentagem
   
   };

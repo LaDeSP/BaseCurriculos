@@ -21,4 +21,8 @@ class Vaga extends Model
     public function juridica(){
     	return $this->belongsTo(Juridica::class, 'juridicas_id');
 	}
+
+	public function candidaturaContratada(){
+		return $this->hasMany(Candidatura::class, 'vagas_id')->where('status', 'CONTRATADO');
+	}
 }

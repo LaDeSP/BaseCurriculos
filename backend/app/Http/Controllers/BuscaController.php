@@ -292,5 +292,25 @@ class BuscaController extends Controller
         }
         return $palavra;
     }
+
+    public function buscaVagasProgress(){
+        //$user_id = auth()->user()->id;
+        $user_id = 3;
+        $user = User::findOrFail($user_id);
+        $juridica = $user->juridica;
+        $vagas = $juridica->vaga;
+
+        foreach($vagas as $vaga){
+            $vaga->quantidadeContratados = count($vaga->candidaturaContratada);
+            $vaga->porcentagem = BuscaController::porcentagem_nx($vaga->quantidadeContratados, $vaga->quantidade);
+        }
+        
+        return response()->json($vagas);
+
+    }
+
+    function porcentagem_nx ($parcial, $total) {
+        return ( $parcial * 100 ) / $total;
+    }
     
 }

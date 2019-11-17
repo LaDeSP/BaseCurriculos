@@ -55,6 +55,7 @@ Route::group([
     Route::get('/buscaVagasRecomendadas/{userId}', 'BuscaController@buscaVagaIndicada');
     Route::post('/confirmAgenda', 'AgendaController@confirmAgenda');
     Route::post('/cancelAgenda', 'AgendaController@cancelAgenda');
+    Route::get('/vagasPorcentagem', 'BuscaController@buscaVagasProgress');
 });
 
 Route::get('/teste', 'AgendaController@teste');
