@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label for="data">* Dia</label>
                         <ValidationProvider name="data" rules="required">
-                            <div slot-scope="{ errors }">
+                            <div class="color-red" slot-scope="{ errors }">
                                 <input type="date" class="form-control" name="data" v-model="data">
                                 <p>{{ errors[0] }}</p>
                             </div>
@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <label for="hora">* Hora</label>
                         <ValidationProvider name="hora" rules="required">
-                            <div slot-scope="{ errors }">
+                            <div class="color-red" slot-scope="{ errors }">
                                 <input type="time" name="hora"
                                 class="form-control" v-model="hora">
                                 <p>{{ errors[0] }}</p>
@@ -52,10 +52,10 @@
                     <div v-if="editing === false">
                       <div class="row">
                         <div class="col-md-10 float-left" >
-                          <router-link class="btn btn-danger btn-lg" to="/dashboard-fisica">Voltar</router-link>
+                          <router-link class="btn btn-outline-secondary" to="/candidaturas">Voltar</router-link>
                         </div>
                         <div class="col-md-2 float-right" >
-                          <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+                          <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-primary">Agendar</button>
                         </div>
                       </div>
                     </div>

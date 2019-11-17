@@ -27,12 +27,7 @@
           </a>
           <!-- Dropdown - User Information -->
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-            <div v-if="permissaoDoUsuario === 'FISICA'">
-              <router-link to="/profile-fisica" class="dropdown-item"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Meu Perfil</router-link>
-            </div>
-            <div v-else>
-               <router-link to="/profile-juridica" class="dropdown-item"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Meu Perfil</router-link>
-            </div>  
+              <router-link to="/profile" class="dropdown-item"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Meu Perfil</router-link>
               <a class="dropdown-item" href="#">
                 <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                 Configurações

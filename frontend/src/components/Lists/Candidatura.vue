@@ -2,8 +2,12 @@
     <div class="row justify-content-center">
      <div class="col-md-9">
       <div class="row" v-if="permissaoDoUsuario === 'JURIDICA'">
-        <h2>Candidaturas</h2> 
+        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link> Candidaturas</h2> 
+        <div v-if="displayCandidaturas.length == 0">
+            <br><br><br><br><h2>Não há nenhuma candidatura por enquanto! </h2>
+        </div>
         <div v-if="!toggle">
+            <div class="row">
             <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
@@ -18,12 +22,11 @@
                     </template>
                 </Card>
             </div>
-            <jw-pagination :items="vagasCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+            <jw-pagination :items="displayVagasThatHaveCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+            </div>
         </div>
         <div v-else>
-            <div>
-                <button @click="toggle = false" class="btn btn-sm btn-outline-secondary">Voltar</button>
-            </div>
+          <button @click="toggle = false" class="btn btn-sm btn-outline-secondary">Voltar</button>
             <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
               <List>
                 <template v-slot:list-header>
@@ -86,6 +89,7 @@
       <div v-else>
           <h2>Minhas Candidaturas</h2> 
           <div class="row">
+            <span v-if="displayCandidaturas.length == 0"><h3>Você ainda não fez nenhuma candidatura!</h3></span>
           <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
@@ -148,7 +152,23 @@
                                 </template>
                                 <template v-slot:footer>
                                     <div v-if="agendaById[0].contraproposta != 'FISICA'">
-                                        <button @click="newAgenda" class="btn btn-sm btn-danger">Cancelar</button>
+                                       <button @click="showModal('warning', show.id)" class="btn btn-sm btn-danger">Cancelar</button>     
+                                            <Modal v-show="isModalWarning" @close="closeModal">
+                                                <template v-slot:header>
+                                                <h3>Cancelar Entrevista</h3>
+                                                </template>
+                                                <template v-slot:body>
+                                                <h2 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> essa entrevista?</h2>
+                                                <br><h4>Faça uma observação para a empresa:</h4>
+                                                <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao" maxlength="500"></textarea>
+                                                <br><h6 class="text-center">Essa ação não poderá ser desfeita!</h6>
+                                                </template>
+                                                <template v-slot:footer>
+                                                    <button @click="cancelAgenda" class="btn btn-md btn-danger">Cancelar</button>
+                                                    <button @click="closeModal" class="btn btn-md btn-outline-secondary">Voltar</button>
+                                                </template>
+                                            </Modal>
+                                        
                                         <router-link v-bind:to="'/agenda/' + agendaById[0].id " tag="button" class="btn btn-sm btn-primary">Fazer uma contraproposta</router-link>
                                         <button @click="confirmAgenda(agendaById[0].candidatura.id)" class="btn btn-sm btn-success">Agendar Entrevista</button>
                                     </div>
@@ -200,8 +220,10 @@
                 toggle: false,
                 isModalShowMore: false,
                 isModalAgendamento: false,
+                isModalWarning: false,
                 vaga_id: 0,
                 candidato_id: 0,
+                observacao: '',
                 pageOfItems: [],
                 customLabels
             }
@@ -222,6 +244,10 @@
                  if(modal === 'showMore'){
                     this.isModalShowMore = true;
                     this.candidato_id = candidato_id;
+                 }else if(modal === 'warning'){
+                    this.isModalWarning = true;
+                    this.candidato_id = candidato_id;
+
                  }else{
                     this.isModalAgendamento = true;
                     this.candidato_id = candidato_id;
@@ -263,6 +289,19 @@
                 .then(response => {
                   console.log('delete', response);
                 }).catch(error => console.log(error))
+            },
+
+            async cancelAgenda(){
+
+                let cancelAgenda = {
+                    observacao: this.observacao,
+                    candidatura_id: this.candidato_id
+                }
+
+                await this.$store.dispatch('cancelAgenda', cancelAgenda)
+                .then(response => {
+                   this.isModalWarning = false;
+                }).catch(error => console.log(error))
             }
 
         },
@@ -271,7 +310,7 @@
             ...mapGetters([
                 'displayCandidaturas', 'permissaoDoUsuario', 
                 'displayCandidaturasByVaga', 'displayCandidatoById',
-                'displayAgendaById'
+                'displayAgendaById', 'displayVagasThatHaveCandidaturas'
             ]),
             ...mapState([
                 'vagasCandidaturas', 

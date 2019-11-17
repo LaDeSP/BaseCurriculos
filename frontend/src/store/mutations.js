@@ -98,13 +98,26 @@ const agenda = (state, payloadAgenda) => {
 }
 
 const cancelAgenda = (state, payloadAgendaId) => {
-    let index = state.agenda.findIndex(agenda => agenda.id === payloadAgendaId);
-    state.agenda.splice(index, 1);
+    if(payloadAgendaId.role == 'FISICA'){
+        let index = state.candidaturas.findIndex(candidatura => candidatura.id === payloadAgendaId.candidatura_id);
+        state.candidaturas.splice(index, 1);
+        console.log('candidaturas', state.candidaturas)
+        console.log('agenda', state.agenda)
+    }else{
+        let index = state.agenda.findIndex(agenda => agenda.id === payloadAgendaId.agenda_id);
+        state.agenda.splice(index, 1);
+    }
+    
 }  
 
-const deleteCandidatura = (state, payloadCandidaturaId) => {
-    let index = state.candidaturas.findIndex(candidatura => candidatura.id === payloadCandidaturaId);
-    state.candidaturas.splice(index, 1);
+const deleteCandidatura = (state, payloadDeleteCandidatura) => {
+    if(payloadDeleteCandidatura.role == 'FISICA'){
+        let index = state.candidaturas.findIndex(candidatura => candidatura.id === payloadDeleteCandidatura.candidatura_id);
+        state.candidaturas.splice(index, 1);
+    }else{
+        let index = state.agendas.findIndex(agenda => agenda.candidatura_id === payloadDeleteCandidatura.candidatura_id);
+        state.candidaturas.splice(index, 1);
+    }
 }
 
 const countVagasJuridica = (state, payloadCountVagas) => {
@@ -124,7 +137,7 @@ const countCandidaturas = (state, payloadCountCandidaturas) => {
     if(payloadCountCandidaturas.countCandidaturas && payloadCountCandidaturas.countCandidaturasConfirmadas == null){
         state.countCandidaturasAguardando = payloadCountCandidaturas
     }
-    console.log('mut', payloadCountCandidaturas)
+    //console.log('mut', payloadCountCandidaturas)
 }
 
   export default {

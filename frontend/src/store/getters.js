@@ -94,14 +94,48 @@ const permissaoDoUsuario = state =>{
 }
 
 const displayCandidaturas = state =>{
-  return state.candidaturas
+  let candidaturas = state.candidaturas;
+  let candidaturasFiltered = candidaturas.filter((filtered) => {
+    if(filtered.agenda){
+      if(filtered.status == 'ENTREVISTA CANCELADA' && filtered.agenda.contraproposta == 'JURIDICA'){
+        return filtered.id >= 1
+      }
+    }else{
+      return filtered.status != 'ENTREVISTA CANCELADA'
+    }
+
+  })
+  console.log('displayCandidatura', candidaturasFiltered)
+  return candidaturasFiltered
 }
 
+const displayVagasThatHaveCandidaturas = (state) => {
+
+  let index = state.vagasCandidaturas.findIndex(filtered =>  filtered.status == 'ENTREVISTA CANCELADA');
+  let vagasCandidaturas = state.vagasCandidaturas;
+  let vagasThatHaveCandidaturas = vagasCandidaturas.filter((filtered) => {
+    
+    //state.vagasCandidaturas.splice(index, 1);
+
+    if(filtered.status != 'ENTREVISTA CANCELADA'){
+      console.log('caiu no primeiro')
+      return filtered.id >= 1
+    }
+
+  })
+  
+  console.log('sweet', vagasCandidaturas)
+  return vagasThatHaveCandidaturas
+
+}
 
 const displayCandidaturasByVaga = (state) => (vaga_id) => {
   
   let candidaturas = state.candidaturas;
-  let candidaturasByVaga = candidaturas.filter((candidaturasByVaga) => {return candidaturasByVaga.vagas_id === vaga_id})
+  let candidaturasByVaga = candidaturas.filter((candidaturasByVaga) => {
+    return candidaturasByVaga.vagas_id === vaga_id && candidaturasByVaga.status != 'ENTREVISTA CANCELADA'
+  })
+  
   return candidaturasByVaga
 
 }
@@ -126,16 +160,24 @@ const displayResultados = state =>{
 const displayAgenda = (state) => {
   
   let agenda = state.agenda;
-  let agendaFiltered = agenda.filter((filtered) => {return filtered.candidatura.status != 'ENTREVISTA CANCELADA'})
+  let agendaFiltered = agenda.filter((filtered) => {
+    if(filtered.contraproposta == 'FISICA' && filtered.candidatura.status == 'ENTREVISTA CANCELADA'){
+      return filtered.id >= 1
+    }else{
+      return filtered.candidatura.status != 'ENTREVISTA CANCELADA'
+    }
+
+  })
   console.log('displayAgenda', agendaFiltered)
   return agendaFiltered
 
 }
 
-const displayAgendaById = (state) => (agenda_id) => {
+const displayAgendaById = (state) => (candidato_id) => {
   
   let agenda = state.agenda;
-  let agendaById = agenda.filter((filtered) => {return filtered.id == agenda_id})
+  let agendaById = agenda.filter((filtered) => {return filtered.candidatura_id == candidato_id})
+
   return agendaById
 
 }
@@ -152,6 +194,7 @@ export default {
   displayVagaById,
   permissaoDoUsuario,
   displayCandidaturas,
+  displayVagasThatHaveCandidaturas,
   displayCandidaturasByVaga,
   displayResultados,
   displayCandidatoById,

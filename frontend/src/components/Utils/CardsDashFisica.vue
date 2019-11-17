@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Painel</h1>
+    <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-home fa-sm"></i> Home</h1>
   </div>
     <div class="row">
       <div class="col-xl-12 col-lg-12">
@@ -11,15 +11,14 @@
             </template>
             <template v-slot:card-body>
               <div class="row no-gutters align-items-center">
-
                   <div class="h2 mb-0 font-weight-bold text-gray-900">
                     <div class="row no-gutters align-items-center">
-                      <template v-if="countCandidaturas == 0">
+                      <template v-if="countCandidaturas == 0 || displayCandidaturas == 0">
                         Nenhuma candidatura realizada!
                       </template>
                       <template v-else>
                           <div v-for="show in display3Candidaturas" :key="show.id">
-                            <cardvagas style="width: 18rem;">
+                            <cardvagas style="width: 17rem;">
                               <template v-slot:card-header >
                                   <center><h5>{{show.vaga.titulo}}</h5></center>
                               </template>
@@ -54,7 +53,7 @@
               </div>
             </template>
             <template v-slot:card-footer>
-              <div v-if="countCandidaturas != 0">
+              <div v-if="countCandidaturas != 0 && displayCandidaturas != 0">
                 <center><router-link to="/candidaturas" class="btn btn-lg btn-primary">Ver Mais <span class="fa fa-eye"></span></router-link></center>
               </div>
             </template>
@@ -269,7 +268,8 @@
             },
 
             ...mapGetters([
-              'displayVagasJuridica', 'displayVagaById', 'permissaoDoUsuario', 'dataCompleted', 'displayCandidaturas'
+              'displayVagasJuridica', 'displayVagaById', 'permissaoDoUsuario', 
+              'dataCompleted', 'displayCandidaturas'
             ]),
 
             vagaById(){

@@ -15,7 +15,7 @@
                     <div class="row justify-content-center">
                       <div div class="col-12">
                         <div class="btn-group">
-                          <router-link to="/dashboard-fisica" class="btn btn-primary btn-lg btn-block"><i class="fas fa-home"></i> Home</router-link>
+                          <router-link to="/dashboard" class="btn btn-outline-secondary btn-lg btn-block"><i class="fas fa-home"></i> Home</router-link>
                         </div>
                       </div>
                     </div>
@@ -35,7 +35,7 @@
                             <li> <strong>CPF</strong>: {{displayPessoaFisica.cpf}}</li>
                             <li> <strong>Rua</strong>: {{displayPessoaFisica.rua}}</li>
                             <li v-if="typeof displayPessoaFisica.numero !== 'undefined' || null"><strong>Número</strong>: {{displayPessoaFisica.numero}}</li>
-                            <li v-if="typeof displayPessoaFisica.numero !== 'undefined' || null"><strong>Complemento</strong>: {{displayPessoaFisica.complemento}}</li>
+                            <li v-if="typeof displayPessoaFisica.complemento !== 'undefined' || null"><strong>Complemento</strong>: {{displayPessoaFisica.complemento}}</li>
                             <li> <strong>Bairro</strong>: {{displayPessoaFisica.bairro}}</li>
                             <li> <strong>Cidade</strong>: {{displayPessoaFisica.cidade}}</li>
                             <li> <strong>CEP</strong>: {{displayPessoaFisica.cep}}</li>
@@ -58,10 +58,10 @@
                       <div class="col-9">
                         <div class="row">
                           <div class="col-md-7" >
-                            <router-link to="/new-curriculo" class="btn btn-lg btn-warning">Editar Informações</router-link>
+                            <router-link to="/new-curriculo" class="btn btn-md btn-warning">Editar Informações</router-link>
                           </div>
                           <div class="col-md-5 " >
-                            <button @click="showModal" class="btn btn-lg btn-danger">Deletar Conta</button>
+                            <button @click="showModal" class="btn btn-md btn-danger">Deletar Conta</button>
                               <Modal v-show="isModalWarning" @close="closeModal">
                                 <template v-slot:header>
                                   <h3>Deletar Conta</h3>

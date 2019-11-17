@@ -2,25 +2,11 @@
   <div class="row justify-content-center">
     <div class="col-md-9">
       <div class="row">
-        <div class="col-md-9 float-left" >
-           <template v-if="permissaoDoUsuario === 'JURIDICA'">
-             <painel>
-              <template v-slot:panel-head>
-                <h2>Minhas Vagas</h2>
-              </template>
-             </painel>
-           </template>
-           <template v-else>
-             <painel>
-              <template v-slot:panel-head>
-                <h2>Vagas</h2>
-              </template>
-             </painel>
-           </template>
-        </div>
-
         <template v-if="permissaoDoUsuario === 'JURIDICA'">
-          <div class="col-md-3 float-right" >
+          <div class="col-md-9 float-left" >
+            <h2>Minhas Vagas</h2> 
+          </div>
+          <div class="col-md-3 float-right">
             <div class="btn-group btn-group-sm">
               <button @click="onCreate" type="button" class="btn btn-primary"><h4>Criar Vaga <span><i class="fa fa-plus"></i></span></h4></button>
             </div>
@@ -43,12 +29,11 @@
           <template v-if="permissaoDoUsuario === 'JURIDICA'">
             <Card style="width: 31rem;">
               <template v-slot:card-header>
-                <h3><span class="label label-info " style="color: #4E73DF;">{{vaga.titulo}}</span></h3>
+                <h3><span class="badge badge-info">{{vaga.titulo}}</span></h3>
               </template>
               <template v-slot:card-body>
                 <p><strong>Descrição:</strong> {{vaga.descricao}}</p>
                 <p><strong>Cargo:</strong> {{vaga.cargo}}</p>
-                <p><strong>Status:</strong> {{vaga.status}}</p>
                 <p><strong>Quantidade:</strong> {{vaga.quantidade}}</p>
                 <p><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
                 <p><strong>Salário:</strong> {{vaga.salario}}</p>
@@ -72,7 +57,6 @@
                           <h2 class="text-center">Tem certeza de que deseja
                               <span style="color: #ff0000"><strong>deletar</strong></span>
                               essa vaga?</h2>
-
                       </template>
                       <template v-slot:footer>
                       <div>

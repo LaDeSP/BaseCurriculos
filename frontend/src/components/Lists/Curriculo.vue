@@ -2,32 +2,32 @@
   <card>
     <template v-slot:card-header>
       <div class="row justify-content-center">
-        <div div class="col-12">
+        <!--<div div class="col-12">
           <div class="btn-group">
-            <router-link to="/dashboard-fisica" class="btn btn-primary btn-lg btn-block"><i class="fas fa-home"></i> Home</router-link>
-          </div>
-        </div>
+            <router-link to="/dashboard" class="btn btn-outline-secondary btn-lg btn-block"><i class="fas fa-home"></i> Home</router-link>
+          </div> 
+        </div>-->
       </div>
       <center><h2>Currículo</h2></center>
     </template>
     <template v-slot:card-body>
         <h4>Objetivos</h4>
-        <p>{{displayCurriculo.objetivos}}</p>
+          {{displayCurriculo.objetivos}}
         <hr>
         <h4>Área de Atuação</h4>
-        <p>{{displayCurriculo.area}}</p>
+          {{displayCurriculo.area}}
         <hr>
         <h4>Pretensão Salarial</h4>
-        <p>{{displayCurriculo.pretensao}}</p>
+          {{displayCurriculo.pretensao}}
         <hr>
         <h4>Formação Acadêmica</h4>
-        <p>{{displayCurriculo.escolaridade}}</p>
+          {{displayCurriculo.escolaridade}}
         <hr>
         <h4>Histórico Profissional</h4>
-        <p>{{displayCurriculo.historicoProfissional}}</p>
+          {{displayCurriculo.historicoProfissional}}
         <hr>
         <h4>Qualificações</h4>
-        <p>{{displayCurriculo.qualificacoes}}</p>
+          {{displayCurriculo.qualificacoes}}
       </template>
   </card>
 </template>

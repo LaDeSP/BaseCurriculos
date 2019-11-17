@@ -8,7 +8,7 @@
             <div class="row justify-content-center">
               <div div class="col-12">
                 <div class="btn-group">
-                  <router-link to="/dashboard-juridica" class="btn btn-primary btn-lg btn-block"><i class="fas fa-home"></i> Home</router-link>
+                  <router-link to="/dashboard" class="btn btn-outline-secondary btn-lg btn-block"><i class="fas fa-home"></i> Home</router-link>
                 </div>
               </div>
             </div>
@@ -26,7 +26,7 @@
                 <li> <strong>Ramo</strong>: {{displayPessoaJuridica.ramo}}</li>
                 <li> <strong>Rua</strong>: {{displayPessoaJuridica.rua}}</li>
                 <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null"><strong>Número</strong>:{{displayPessoaJuridica.numero}}</li>
-                <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null"><strong>Complemento</strong>:{{displayPessoaJuridica.complemento}}</li>
+                <li v-if="typeof displayPessoaJuridica.complemento !== 'undefined' || null"><strong>Complemento</strong>:{{displayPessoaJuridica.complemento}}</li>
                 <li> <strong>Bairro</strong>: {{displayPessoaJuridica.bairro}}</li>
                 <li> <strong>Cidade</strong>: {{displayPessoaJuridica.cidade}}</li>
                 <li> <strong>CEP</strong>: {{displayPessoaJuridica.cep}}</li>
@@ -49,10 +49,10 @@
               <div class="col-9">
                 <div class="row">
                   <div class="col-md-7" >
-                    <router-link to="/add-juridica" class="btn btn-lg btn-warning">Editar Informações</router-link>
+                    <router-link to="/add-juridica" class="btn btn-md btn-warning">Editar Informações</router-link>
                   </div>
-                  <div class="col-md-5 " >
-                    <button @click="showModal" class="btn btn-lg btn-danger">Deletar Conta</button>
+                  <div class="col-lg-5 " >
+                    <button @click="showModal" class="btn btn-md btn-danger">Deletar Conta</button>
                       <Modal v-show="isModalWarning" @close="closeModal">
                         <template v-slot:header>
                           <h3>Deletar Conta</h3>

@@ -184,11 +184,15 @@ class AgendaController extends Controller
         $agenda_id = Agenda::where('candidatura_id', $candidatura_id)->first()->id;
         $observacao = $request->observacao; 
 
-        if($observacao){
-            Agenda::where('candidatura_id', $candidatura_id)->update(array(
-                'observacao' => $observacao
-            ));
-        }
+        
+        Agenda::where('candidatura_id', $candidatura_id)->update(array(
+            'observacao' => $observacao
+        ));
+        
+
+        Agenda::where('candidatura_id', $candidatura_id)->update(array(
+            'contraproposta'=>auth()->user()->role
+        ));
         
         Candidatura::where('id', $candidatura_id)->update(array(
             'status' => 'ENTREVISTA CANCELADA'
@@ -196,7 +200,8 @@ class AgendaController extends Controller
 
         return Response::json([
             'cancelou entrevista',
-            'agenda_id' => $agenda_id
+            'agenda_id' => $agenda_id,
+            'role' => auth()->user()->role
         ]);
 
     }

@@ -562,7 +562,11 @@ import * as Cookies from 'js-cookie'
       return await axios({ url: candidaturas_uri + '/' + candidatura_id + '?token='+ token, method: 'DELETE' })
       .then(response => {
          console.log('na action de delete cand', response)
-         commit('deleteCandidatura', candidatura_id);
+         let payloadDeleteCandidatura = {
+           'candidatura_id': candidatura_id,
+           'role': response.data.role
+         }
+         commit('deleteCandidatura', payloadDeleteCandidatura);
          return response;
       })
       .catch(
@@ -721,7 +725,8 @@ import * as Cookies from 'js-cookie'
         let payloadAgenda = [];
         payloadAgenda = response.data.agenda;
         commit('agenda', payloadAgenda)
-        console.log('agsdsd', response)
+       
+        console.log('JKAODKAJO', state.agenda)
         return response.data
       }).catch(error => {
         console.log(error)
@@ -777,7 +782,16 @@ import * as Cookies from 'js-cookie'
     return await axios({ url: 'http://localhost:8000/api/cancelAgenda?token=' + token, data: cancelAgenda, method: 'POST' })
     .then(response => {
        console.log('na action de delete agenda', response)
-       commit('cancelAgenda', response.data.agenda_id);
+    
+       let payloadAgendaId = { 
+         'role': response.data.role,
+         'agenda_id': response.data.agenda_id,
+         'candidatura_id': cancelAgenda.candidatura_id
+       }
+    
+        commit('cancelAgenda', payloadAgendaId);
+      
+
        return response;
     })
     .catch(

@@ -147,7 +147,8 @@ class CandidaturaController extends Controller
 
 
         return Response::json([
-            'deletou candidatura'=> $id
+            'deletou candidatura'=> $id,
+            'role' => auth()->user()->role
         ]);
 
     }

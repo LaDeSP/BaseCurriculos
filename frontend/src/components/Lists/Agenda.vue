@@ -15,6 +15,9 @@
                         <span v-if="show.candidatura.status == 'EM AGENDAMENTO'">
                             <span class="badge badge-warning">{{show.candidatura.status}}</span>
                         </span>
+                        <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
+                            <span class="badge badge-danger">{{show.candidatura.status}}</span>
+                        </span>
                         <span v-else-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA'">
                             <span class="badge badge-sm badge-success">CONFIRMADA</span>
                         </span>
@@ -24,19 +27,41 @@
                     </h3>
                     </template>
                     <template v-slot:card-body>
-                    <p>Vaga: {{show.candidatura.vaga.titulo}}</p>
-                    <p>Data: {{show.data | dateFormat}}</p>
-                    <p>Hora: {{show.hora}}</p>
-                    <p>Observação: {{show.observacao}}</p>
+                    <ul>
+                        <li>Vaga: {{show.candidatura.vaga.titulo}}</li>
+                        <li>Data: {{show.data | dateFormat}}</li>
+                        <li>Hora: {{show.hora}}</li>
+                    <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
+                        <br>
+                        <li>A entrevista foi cancelada. 
+                            <span v-if="show.observacao != null">
+                                O candidato fez a seguinte observação:
+                                <br><br>
+                                <i>"{{show.observacao}}"</i>
+                            </span>
+                            <span v-else>
+                                O candidato não fez observações.
+                            </span>
+                        </li>
+                    </span>
+                    <span v-else>
+                        Observação: {{show.observacao}}>
+                    </span>
+                    </ul>
                     </template>
                     <template v-slot:card-footer>
-                        <span v-if="show.candidatura.status != 'ENTREVISTA CONFIRMADA'">
+                        <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
+                            <center><button @click="deleteCandidatura(show.candidatura.id)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></center>
+                        </span>
+                        <span v-if="show.candidatura.status != 'ENTREVISTA CONFIRMADA' && show.candidatura.status != 'ENTREVISTA CANCELADA'">
                             <span v-if="show.contraproposta == 'FISICA'">
                                 <button @click="confirmAgenda(show.candidatura.id)" class="btn btn-sm btn-success">Confirmar</button>
                             </span>
                             <router-link v-bind:to="'/agenda/' + show.id" tag="button" class="btn btn-sm btn-info">Reagendar</router-link>
                         </span>
-                        <button @click="showModal('warning', show.candidatura.id)" class="btn btn-sm btn-danger">Cancelar</button>
+                        <span v-if="show.candidatura.status != 'ENTREVISTA CANCELADA'">
+                            <button @click="showModal('warning', show.candidatura.id)" class="btn btn-sm btn-danger">Cancelar</button>
+                        </span>
                               <Modal v-show="isModalWarning" @close="closeModal">
                                 <template v-slot:header>
                                   <h3>Cancelar Entrevista</h3>
@@ -148,7 +173,15 @@
                 .then(response => {
                    this.isModalWarning = false;
                 }).catch(error => console.log(error))
-            }
+            },
+
+             async deleteCandidatura(candidatura_id){
+
+                await this.$store.dispatch('deleteCandidatura', candidatura_id)
+                .then(response => {
+                  console.log('delete', response);
+                }).catch(error => console.log(error))
+            },
         },
 
         computed: {
