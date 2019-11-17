@@ -96,11 +96,14 @@ const permissaoDoUsuario = state =>{
 const displayCandidaturas = state =>{
   let candidaturas = state.candidaturas;
   let candidaturasFiltered = candidaturas.filter((filtered) => {
+    console.log('filtered', filtered)
     if(filtered.agenda){
-      if(filtered.status == 'ENTREVISTA CANCELADA' && filtered.agenda.contraproposta == 'JURIDICA'){
+      if(filtered.status == 'ENTREVISTA CANCELADA' && filtered.agenda[0].contraproposta ==  'JURIDICA'){
+        console.log('jdaodjoa')
         return filtered.id >= 1
       }
-    }else{
+    }
+    if(filtered){
       return filtered.status != 'ENTREVISTA CANCELADA'
     }
 
@@ -176,7 +179,10 @@ const displayAgenda = (state) => {
 const displayAgendaById = (state) => (candidato_id) => {
   
   let agenda = state.agenda;
-  let agendaById = agenda.filter((filtered) => {return filtered.candidatura_id == candidato_id})
+
+  let agendaById = agenda.filter((filtered) => {
+    return filtered.candidatura_id == candidato_id
+  })
 
   return agendaById
 

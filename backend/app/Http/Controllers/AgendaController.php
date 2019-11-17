@@ -142,7 +142,8 @@ class AgendaController extends Controller
         }   
     */
        
-        Agenda::where('id', $request->update_id)->update([
+        $agenda_id = Agenda::where('candidatura_id', $request->update_id)->first()->id;
+        Agenda::where('id', $agenda_id)->update([
             'data' => $request->data,
             'hora' => $request->hora,
             'observacao' => $request->observacao,
@@ -150,7 +151,7 @@ class AgendaController extends Controller
         ]);
 
         return Response::json([
-            'update agenda'=>$request->update_id
+            'update agenda'
            ], 201);
       
       
@@ -159,22 +160,41 @@ class AgendaController extends Controller
     public function confirmAgenda(Request $request){
 
         $candidatura_id = $request->candidatura_id;
-        Candidatura::where('id', $candidatura_id)->update(array(
-            'status' => 'ENTREVISTA CONFIRMADA'
-        ));
 
+        if($request->contratado == 'CONTRATADO'){
+            Candidatura::where('id', $candidatura_id)->update(array(
+                'status' => 'CONTRATADO'
+            ));
+        }else{
+            Candidatura::where('id', $candidatura_id)->update(array(
+                'status' => 'ENTREVISTA CONFIRMADA'
+            ));
+        }
+    
         $agenda = Agenda::where('candidatura_id', $candidatura_id)->first()->get();
 
         $user_id = auth()->user()->id;
-        $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
-        $curriculo_id = Curriculo::where('fisicas_id', $fisica_id)->first()->id;
-        $candidaturas = Candidatura::with(['vaga', 'agenda', 'curriculo'])
-            ->where('curriculos_id', $curriculo_id)->get();
-
-        return Response::json([
-            'agenda' => $agenda,
-            'candidaturas' => $candidaturas
-        ]);
+        $user_role = auth()->user()->role;
+        $candidaturas = [];
+        if($user_role === 'FISICA'){
+            $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
+            $curriculo_id = Curriculo::where('fisicas_id', $fisica_id)->first()->id;
+            $candidaturas = Candidatura::with(['vaga', 'agenda', 'curriculo'])
+                ->where('curriculos_id', $curriculo_id)->get();
+        }
+        
+        if($request->contratado == 'CONTRATADO'){
+            return Response::json([
+                'agenda' => $agenda,
+                'notificacao' => 'Contratado!',
+            ]);
+        }else{
+            return Response::json([
+                'agenda' => $agenda,
+                'candidaturas' => $candidaturas,
+            ]);
+        }
+       
         
     }
 
@@ -194,10 +214,16 @@ class AgendaController extends Controller
             'contraproposta'=>auth()->user()->role
         ));
         
-        Candidatura::where('id', $candidatura_id)->update(array(
-            'status' => 'ENTREVISTA CANCELADA'
-        ));
-
+        if($request->recusa == 'RECUSADO'){
+            Candidatura::where('id', $candidatura_id)->update(array(
+                'status' => 'RECUSADO'
+            ));
+        }else{
+            Candidatura::where('id', $candidatura_id)->update(array(
+                'status' => 'ENTREVISTA CANCELADA'
+            ));
+        }
+       
         return Response::json([
             'cancelou entrevista',
             'agenda_id' => $agenda_id,

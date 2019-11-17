@@ -704,8 +704,7 @@ import * as Cookies from 'js-cookie'
         let countCandidaturasAguardando = response.data.countCandidaturasAguardando;
         commit('countCandidaturas', countCandidaturasAguardando);
       }
-      
-
+  
       console.log('na action new agenda', response);
       return response.data
 
@@ -718,15 +717,13 @@ import * as Cookies from 'js-cookie'
   const loadAgenda = async ({commit, state}) => {
   
     const token = state.auth.token;
-    //const user_id = state.auth.user.id;
     return await axios({ url: agenda_uri + '?token='+ token, method: 'GET' })
       .then(response => {
         
         let payloadAgenda = [];
         payloadAgenda = response.data.agenda;
         commit('agenda', payloadAgenda)
-       
-        console.log('JKAODKAJO', state.agenda)
+
         return response.data
       }).catch(error => {
         console.log(error)
@@ -739,13 +736,7 @@ import * as Cookies from 'js-cookie'
       return await axios({ url: agenda_uri + '/'+ newAgendaData.update_id + '?token=' + token, data: newAgendaData, method: 'PUT' })
         .then(response => {
           
-          
-          let payloadAgenda = [];
-          payloadAgenda = response.data.agenda;
-         
-          commit('agenda', payloadAgenda)
-          
-          console.log('update agenda', response.data);
+         // console.log('update agenda', response.data);
          
           return response.data
         })

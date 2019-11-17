@@ -4,7 +4,7 @@ const auth_success = (state, {payload}) => {
     state.auth.user = payload.user
     state.upload.path = payload.path
 
-    console.log('auth_success', payload.token)
+    //console.log('auth_success', payload.token)
 };
 
 const auth_error = (state) => {
@@ -101,8 +101,6 @@ const cancelAgenda = (state, payloadAgendaId) => {
     if(payloadAgendaId.role == 'FISICA'){
         let index = state.candidaturas.findIndex(candidatura => candidatura.id === payloadAgendaId.candidatura_id);
         state.candidaturas.splice(index, 1);
-        console.log('candidaturas', state.candidaturas)
-        console.log('agenda', state.agenda)
     }else{
         let index = state.agenda.findIndex(agenda => agenda.id === payloadAgendaId.agenda_id);
         state.agenda.splice(index, 1);
@@ -137,7 +135,7 @@ const countCandidaturas = (state, payloadCountCandidaturas) => {
     if(payloadCountCandidaturas.countCandidaturas && payloadCountCandidaturas.countCandidaturasConfirmadas == null){
         state.countCandidaturasAguardando = payloadCountCandidaturas
     }
-    //console.log('mut', payloadCountCandidaturas)
+   console.log('mut', payloadCountCandidaturas)
 }
 
   export default {

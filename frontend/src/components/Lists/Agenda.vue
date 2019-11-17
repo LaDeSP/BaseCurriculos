@@ -11,45 +11,77 @@
             <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
-                    <h3><span class="badge badge-info ">Candidato: {{show.candidatura.curriculo.fisica.user.name}}</span>
-                        <span v-if="show.candidatura.status == 'EM AGENDAMENTO'">
-                            <span class="badge badge-warning">{{show.candidatura.status}}</span>
+                        <span v-if="notificacoes">
+                            <span class="badge badge-success">
+                                {{notificacoes}}
+                            </span>
                         </span>
-                        <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
-                            <span class="badge badge-danger">{{show.candidatura.status}}</span>
-                        </span>
-                        <span v-else-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA'">
-                            <span class="badge badge-sm badge-success">CONFIRMADA</span>
-                        </span>
-                        <span v-if="show.candidatura.status == 'AGUARDANDO'">
-                            <span class="badge badge-warning">{{show.candidatura.status}}</span>
-                        </span>
-                    </h3>
+                        <h3>
+                            <span class="badge badge-info ">
+                                Candidato: {{show.candidatura.curriculo.fisica.user.name}}
+                            </span>
+                            <span v-if="show.candidatura.status == 'EM AGENDAMENTO'">
+                                <span class="badge badge-warning">{{show.candidatura.status}}</span>
+                            </span>
+                            <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
+                                <span class="badge badge-danger">{{show.candidatura.status}}</span>
+                            </span>
+                            <span v-else-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA'">
+                                <span class="badge badge-sm badge-success">CONFIRMADA</span>
+                            </span>
+                            <span v-if="show.candidatura.status == 'AGUARDANDO'">
+                                <span class="badge badge-warning">{{show.candidatura.status}}</span>
+                            </span>
+                        </h3>
                     </template>
                     <template v-slot:card-body>
-                    <ul>
-                        <li>Vaga: {{show.candidatura.vaga.titulo}}</li>
-                        <li>Data: {{show.data | dateFormat}}</li>
-                        <li>Hora: {{show.hora}}</li>
-                    <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
-                        <br>
-                        <li>A entrevista foi cancelada. 
-                            <span v-if="show.observacao != null">
-                                O candidato fez a seguinte observação:
-                                <br><br>
-                                <i>"{{show.observacao}}"</i>
-                            </span>
-                            <span v-else>
-                                O candidato não fez observações.
-                            </span>
-                        </li>
-                    </span>
-                    <span v-else>
-                        Observação: {{show.observacao}}>
-                    </span>
-                    </ul>
+                        <ul>
+                            <li>Vaga: {{show.candidatura.vaga.titulo}}</li>
+                            <li>Data: {{show.data | dateFormat}}</li>
+                            <li>Hora: {{show.hora}}</li>
+                        <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
+                            <br>
+                            <li>A entrevista foi cancelada. 
+                                <span v-if="show.observacao != null">
+                                    O candidato fez a seguinte observação:
+                                    <br><br>
+                                    <i>"{{show.observacao}}"</i>
+                                </span>
+                                <span v-else>
+                                    O candidato não fez observações.
+                                </span>
+                            </li>
+                                </span>
+                                <span v-else>
+                                    Observação: {{show.observacao}} <br><br>
+                                </span>
+                                <span v-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA' && getDateNow(show.data)">
+                                    <strong>Notamos que a data de entrevista já passou. O candidato foi: </strong>
+                                </span>
+                        </ul>
                     </template>
                     <template v-slot:card-footer>
+                        <span v-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA' && getDateNow(show.data)" >
+                            <center>
+                                <button @click="confirmAgenda(show.candidatura.id, 'CONTRATADO')" class="btn btn-sm btn-success">Contratado</button>
+                                <button @click="showModal('warningRecusa', show.candidatura.id)" class="btn btn-sm btn-danger">Recusado</button>
+                            </center>
+                              <Modal v-show="isModalWarningRecusa" @close="closeModal">
+                                <template v-slot:header>
+                                  <h3>Recusar Candidato</h3>
+                                </template>
+                                <template v-slot:body>
+                                  <h2 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>recusar</strong></span> esse candidato?</h2>
+                                  <br><h4>Caso queira, faça uma observação para o candidato:</h4>
+                                   <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao" maxlength="500"></textarea>
+                                  <br><h6 class="text-center">Essa ação não poderá ser desfeita!</h6>
+                                </template>
+                                <template v-slot:footer>
+                                    <button @click="closeModal" class="btn btn-md btn-outline-secondary">Voltar</button>
+                                    <button @click="cancelAgenda('RECUSADO')" class="btn btn-md btn-primary">Enviar</button>
+                                </template>
+                              </Modal>
+                        </span>
                         <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
                             <center><button @click="deleteCandidatura(show.candidatura.id)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></center>
                         </span>
@@ -57,9 +89,9 @@
                             <span v-if="show.contraproposta == 'FISICA'">
                                 <button @click="confirmAgenda(show.candidatura.id)" class="btn btn-sm btn-success">Confirmar</button>
                             </span>
-                            <router-link v-bind:to="'/agenda/' + show.id" tag="button" class="btn btn-sm btn-info">Reagendar</router-link>
+                            <router-link v-bind:to="'/agenda/' + show.candidatura.id" tag="button" class="btn btn-sm btn-info">Reagendar</router-link>
                         </span>
-                        <span v-if="show.candidatura.status != 'ENTREVISTA CANCELADA'">
+                        <span v-if="show.candidatura.status != 'ENTREVISTA CANCELADA' && !getDateNow(show.data)">
                             <button @click="showModal('warning', show.candidatura.id)" class="btn btn-sm btn-danger">Cancelar</button>
                         </span>
                               <Modal v-show="isModalWarning" @close="closeModal">
@@ -109,9 +141,11 @@
         data(){
             return{
 
+                notificacoes: '',
                 candidaturas: [],
                 isModalShowMore: false,
                 isModalWarning: false,
+                isModalWarningRecusa: false,
                 pageOfItems: [],
                 candidatura_id: 0,
                 observacao: '',
@@ -133,10 +167,12 @@
                 if(modal === 'showMore'){
                     this.isModalShowMore = true;
                     this.candidato_id = id;
-                }else{
+                }else if(modal === 'warning'){
                     this.isModalWarning = true;
                     this.candidatura_id = id;
-                    console.log('candidatura_id', this.candidatura_id);
+                }else{
+                    this.isModalWarningRecusa = true;
+                    this.candidatura_id = id;
                 }
             },
 
@@ -150,23 +186,29 @@
                 this.vaga_id = vaga_id;
             },
 
-            async confirmAgenda(candidatura_id){
+            async confirmAgenda(candidatura_id, contratado){
 
                 let candidatura = {
-                    candidatura_id: candidatura_id
+                    candidatura_id: candidatura_id,
+                    contratado: contratado
                 }
 
                 await this.$store.dispatch('confirmAgenda', candidatura)
                 .then(response => {
-                    console.log(response)
+                    if(response.notificacao  != undefined){
+                        this.notificacoes = response.notificacao;
+                        console.log(this.notificacoes);
+                        console.log('KKKK', response)
+                    }
                 }).catch(error => console.log(error))
             },
 
-            async cancelAgenda(){
+            async cancelAgenda(recusado){
 
                 let cancelAgenda = {
                     observacao: this.observacao,
-                    candidatura_id: this.candidatura_id
+                    candidatura_id: this.candidatura_id,
+                    recusa: recusado,
                 }
 
                 await this.$store.dispatch('cancelAgenda', cancelAgenda)
@@ -182,6 +224,24 @@
                   console.log('delete', response);
                 }).catch(error => console.log(error))
             },
+
+            getDateNow(data){
+                let now = new Date();
+                let date = now.getDate();
+                let month = now.getMonth() + 1;
+                let year = now.getFullYear();
+
+                //let dateStr = year + '-' + month + '-' + date;
+                let dateStr = '2019-11-19';
+                var dateAgenda = Date.parse(data);
+                var dateNow = Date.parse(dateStr);
+
+                if(dateNow > dateAgenda){
+                    return true
+                }else{
+                    return false
+                }
+            }
         },
 
         computed: {
@@ -200,6 +260,7 @@
 
         async created(){
             await this.loadAgenda();
+          //  console.log('datetime',this.getDateTimeNow());
 
         },
 

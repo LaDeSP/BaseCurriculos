@@ -125,6 +125,22 @@
                                 </span>
                             </li>
                         </span>
+                        <span v-if="show.status == 'ENTREVISTA CONFIRMADA'">
+                            <br>
+                            Sua entrevista com a empresa está marcada para o dia <strong>{{show.agenda[0].data | dateFormat}}</strong>,
+                            às <strong>{{show.agenda[0].hora}}</strong>, com as seguintes observações: <i>"{{show.agenda[0].observacao}}"</i>
+                        </span>
+                        <span v-if="show.status == 'RECUSADO'">
+                          <br>  Infelizmente sua candidatura foi recusada :( <br>
+                            <span v-if="show.agenda[0].observacao != null">
+                                A empresa fez a seguinte observação:
+                                <br><br>
+                                <center><i>"{{show.agenda[0].observacao}}"</i></center>
+                            </span>
+                            <span v-else>
+                                A empresa não fez observações.
+                            </span>
+                        </span>
                     </ul>
                     </template>
                     <template v-slot:card-footer>

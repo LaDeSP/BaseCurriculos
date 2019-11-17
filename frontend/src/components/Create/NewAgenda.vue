@@ -151,17 +151,18 @@
                 this.$router.push({ name: 'agenda' })
               }
             }
-          
+            console.log('RESPONSE', response)
           })
           .catch(error => console.log(error))
         }
       },
 
       displayDataEdit(){
-        console.log('displaydatdaedit', this.agendaById[0])
+        console.log('displaydatdaedit', this.$store.state.agenda)
         this.data = this.agendaById[0].data;
         this.hora = this.agendaById[0].hora;
-      }
+      },
+      
     },
 
     computed:{ 
