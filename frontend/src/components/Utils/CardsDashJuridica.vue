@@ -93,7 +93,7 @@
                               {{show.vaga.titulo}}
                           </option>
                       </select>
-                      <p class="color-red">{{ errors[0] }}</p>
+                       <!--<p class="color-red">{{ errors[0] }}</p>-->
                     </div>
                   </ValidationProvider>
                       
@@ -116,7 +116,7 @@
                               </span>
                           </option>
                         </select>
-                        <p class="color-red">{{ errors[0] }}</p>
+                        <!--<p class="color-red">{{ errors[0] }}</p>-->
                       </div>
                     </ValidationProvider>
                   </div>
@@ -128,7 +128,7 @@
                     <ValidationProvider name="data" rules="required">
                       <div class="color-red" slot-scope="{ errors }">
                         <input type="date" class="form-control" name="data" v-model="data">
-                        <p>{{ errors[0] }}</p>
+                         <!--<p class="color-red">{{ errors[0] }}</p>-->
                       </div>
                     </ValidationProvider>
                   </div>
@@ -140,7 +140,7 @@
                      <ValidationProvider name="hora" rules="required">
                         <div class="color-red" slot-scope="{ errors }">
                           <input type="time" name="hora" class="form-control" v-model="hora">
-                          <p>{{ errors[0] }}</p>
+                           <!--<p class="color-red">{{ errors[0] }}</p>-->
                         </div>
                       </ValidationProvider>
                   </div>
@@ -152,7 +152,7 @@
                      <ValidationProvider name="observacao" rules="max:500">
                       <div slot-scope="{ errors }">
                         <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao" maxlength="500"></textarea>
-                        <p>{{ errors[0] }}</p>
+                         <!--<p class="color-red">{{ errors[0] }}</p>-->
                       </div>
                     </ValidationProvider>
                   </div>
