@@ -63,17 +63,11 @@
                 </template>
                 <template v-slot:list-footer>
                   <button @click="showModal('showMore', show.id)" class="btn btn-sm btn-default">Ver mais</button>
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
-=======
->>>>>>> 74c4b0c21e07d72d066722bc73c65a05516b5e3e
-                  <span v-if="show.status === 'EM AGENDAMENTO' || show.status === 'ENTREVISTA CONFIRMADA'">       
+                  <span v-if="show.status === 'EM AGENDAMENTO' || show.status === 'ENTREVISTA CONFIRMADA'">
                     <router-link to="/agenda" tag="button" class="btn btn-sm btn-info">Ver agendamento</router-link>
                   </span>
-                  
->>>>>>> 74c4b0c21e07d72d066722bc73c65a05516b5e3e
+
                   <Modal v-if="isModalShowMore" @close="closeModal">
                         <template v-slot:header><h3>Detalhes do Candidato</h3></template>
                         <template v-slot:body>

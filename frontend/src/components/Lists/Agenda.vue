@@ -1,9 +1,9 @@
 <template>
     <div class="row justify-content-center">
      <div class="col-md-9">
-      
+
       <h2>Entrevistas Agendadas</h2>
-      <div class="row" v-if="permissaoDoUsuario === 'JURIDICA'">
+      <div v-if="permissaoDoUsuario === 'JURIDICA'">
         <div>
             <div v-if="displayAgenda.length == 0">
                 <strong><h3>Não há entrevistas agendadas</h3></strong>
@@ -41,7 +41,7 @@
                             <li><strong>Hora</strong>: {{show.hora}}</li>
                         <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
                             <br>
-                            <li>A entrevista foi cancelada. 
+                            <li>A entrevista foi cancelada.
                                 <span v-if="show.observacao != null">
                                     O candidato fez a seguinte observação:
                                     <br><br>
@@ -112,7 +112,11 @@
                     </template>
                 </Card>
             </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="trocaPagina ">
             <jw-pagination :items="displayAgenda" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+          </div>
         </div>
       </div>
     </div>

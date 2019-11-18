@@ -4,7 +4,7 @@
       <div class="row">
         <template v-if="permissaoDoUsuario === 'JURIDICA'">
           <div class="col-md-9 float-left" >
-            <h2>Minhas Vagas</h2>
+            <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link>Minhas Vagas</h2>
           </div>
           <div class="col-md-3 float-right">
             <div class="btn-group btn-group-sm">

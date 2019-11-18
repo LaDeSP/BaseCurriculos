@@ -66,56 +66,61 @@
     <br>
 
     <div class="container-fluid" v-if="isActive.length>0">
-      <div class="row no-gutters align-items-center">
         <template v-if="permissaoDoUsuario === 'FISICA'">
           <h2>Vagas que podem lhe interessar</h2>
-          <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
-          <Card style="width: 19rem;">
-            <template v-slot:card-header>
-                <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
-            </template>
-            <template v-slot:card-body>
-                <p class="mb-1"><strong>Cargo:</strong> {{vaga.cargo}}</p>
-                <p class="mb-1"><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
-                <p class="mb-1"><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
-            </template>
-            <template v-slot:card-footer>
-              <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
-              <template v-if="dataCompleted">
-                  <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+          <br>
+          <div class="row justify-content-center">
+            <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
+            <Card style="width: 20rem; height:23rem">
+              <template v-slot:card-header>
+                  <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
               </template>
-              <template v-else>
-                <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+              <template v-slot:card-body>
+                  <p class="mb-1"><strong>Cargo:</strong> {{vaga.cargo}}</p>
+                  <p class="mb-1"><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
+                  <p class="mb-1"><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
               </template>
-              <Modal v-if="isModalShowMore" @close="closeModal">
-                    <template v-slot:header><h3>Detalhes da Vaga</h3></template>
-                    <template v-slot:body>
+              <template v-slot:card-footer>
+                <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
+                <template v-if="dataCompleted">
+                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                </template>
+                <template v-else>
+                  <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+                </template>
+                <Modal v-if="isModalShowMore" @close="closeModal">
+                      <template v-slot:header><h3>Detalhes da Vaga</h3></template>
+                      <template v-slot:body>
 
-                      <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
-                      <p class="mb-1"><strong>Descrição:</strong> {{vagaById[0].descricao}}</p>
-                      <p class="mb-1"><strong>Cargo: </strong>{{vagaById[0].cargo}}</p>
-                      <p class="mb-1"><strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}</p>
-                      <p class="mb-1"><strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}</p>
-                      <p class="mb-1"><strong>Salário:</strong> {{vagaById[0].salario}}</p>
-                      <p class="mb-1"><strong>Benefícios: </strong>{{vagaById[0].beneficio}}</p>
-                      <p class="mb-1"><strong>Requisitos:</strong> {{vagaById[0].requisito}}</p>
-                    </template>
-                    <template v-slot:footer>
-                      <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
-                      <div v-if="dataCompleted">
-                          <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
-                      </div>
-                      <div v-else>
-                        <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
-                      </div>
-                    </template>
-              </Modal>
-              </template>
-            </Card>
+                        <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
+                        <p class="mb-1"><strong>Descrição:</strong> {{vagaById[0].descricao}}</p>
+                        <p class="mb-1"><strong>Cargo: </strong>{{vagaById[0].cargo}}</p>
+                        <p class="mb-1"><strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}</p>
+                        <p class="mb-1"><strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}</p>
+                        <p class="mb-1"><strong>Salário:</strong> {{vagaById[0].salario}}</p>
+                        <p class="mb-1"><strong>Benefícios: </strong>{{vagaById[0].beneficio}}</p>
+                        <p class="mb-1"><strong>Requisitos:</strong> {{vagaById[0].requisito}}</p>
+                      </template>
+                      <template v-slot:footer>
+                        <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
+                        <div v-if="dataCompleted">
+                            <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                        </div>
+                        <div v-else>
+                          <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+                        </div>
+                      </template>
+                </Modal>
+                </template>
+              </Card>
+            </div>
           </div>
-           <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="6" :labels="customLabels"></jw-pagination>
+          <div class="row justify-content-center">
+            <div class="trocaPagina ">
+              <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="6" :labels="customLabels"></jw-pagination>
+            </div>
+          </div>
         </template>
-      </div>
     </div>
 </div>
 </template>
