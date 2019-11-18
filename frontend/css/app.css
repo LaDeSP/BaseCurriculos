@@ -25210,12 +25210,12 @@ label#thumbnail.has-thumbnail img{
 }
 
 .icon-profile{
-  width: 50%;
-  height: 50%;
-  min-width: 50%;
-  min-height: 50%;
+  max-width:32%;
+	height:auto;
 }
-
+.quadrado{
+  border-radius: 5px;
+}
 .color-red{
   color: red !important;
 }
