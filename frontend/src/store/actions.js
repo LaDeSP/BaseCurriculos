@@ -120,12 +120,13 @@ import * as Cookies from 'js-cookie'
           'historicoProfissional': newCurriculo.historicoProfissional,
         }
         
-        commit('contact', {payloadContact})
-        commit('address', {payloadAddress});
-        commit('allFisicaData', {payloadCurriculo});
-        const dataCompleted = true;  
-        commit('dataCompleted', dataCompleted);
-       
+       // commit('contact', {payloadContact})
+        //commit('address', {payloadAddress});
+        //commit('allFisicaData', {payloadCurriculo});
+       // const dataCompleted = true;  
+        //commit('dataCompleted', dataCompleted);
+       console.log('new curriculo', newCurriculo)
+       console.log('response curriculo', response.data)
         return response.data
       })
       .catch(error => {
@@ -785,6 +786,7 @@ import * as Cookies from 'js-cookie'
         let payloadAgenda = [];
         payloadAgenda = response.data.agenda;
         commit('agenda', payloadAgenda)
+        console.log('confirm Agenda response', response.data)
         if(response.data.candidaturas){
           commit('candidaturas', response.data.candidaturas) 
         }
