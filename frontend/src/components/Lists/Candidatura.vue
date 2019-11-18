@@ -1,22 +1,25 @@
 <template>
     <div class="row justify-content-center">
      <div class="col-md-9">
-      <div class="row" v-if="permissaoDoUsuario === 'JURIDICA'">
-
-        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link> 
-            Candidaturas
-        </h2>
+      <div v-if="permissaoDoUsuario === 'JURIDICA'">
+        <div v-if="!toggle">
+          <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link>Candidaturas</h2>
+        </div>
+        <div v-else>
+          <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link>Candidatos</h2>
+        </div>
+        <br>
         <div v-for="candidatura in candidaturas" :key="candidatura.id">
-            <div v-if="candidatura.status == 'CONTRATADO'"> 
+            <div v-if="candidatura.status == 'CONTRATADO'">
                <!-- <router-link to="/" class="btn btn-sm btn-secondary">Histórico</router-link> -->
             </div>
-        </div> 
+        </div>
         <div v-if="displayVagasThatHaveCandidaturas.length == 0">
             <br><br><br><br><h2>Não há nenhuma candidatura por enquanto! </h2>
         </div>
         <div v-if="!toggle">
             <div class="row">
-            <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
+              <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
                     <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span></h3>
@@ -29,12 +32,16 @@
                         <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
                     </template>
                 </Card>
+              </div>
             </div>
-            <jw-pagination :items="displayVagasThatHaveCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+            <div class="row justify-content-center">
+              <div class="trocaPagina ">
+                <jw-pagination :items="displayVagasThatHaveCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+              </div>
             </div>
         </div>
         <div v-else>
-          <button @click="toggle = false" class="btn btn-sm btn-outline-secondary">Voltar</button>
+          <button @click="toggle = false" class="btn btn-sm btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</button>
             <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
               <List>
                 <template v-slot:list-header>
@@ -56,11 +63,11 @@
                 </template>
                 <template v-slot:list-footer>
                   <button @click="showModal('showMore', show.id)" class="btn btn-sm btn-default">Ver mais</button>
-                  
+
                   <Modal v-if="isModalShowMore" @close="closeModal">
                         <template v-slot:header><h3>Detalhes do Candidato</h3></template>
                         <template v-slot:body>
-                            
+
                          <h4>Informações Pessoais</h4>
                         <ul>
                             <li> <strong>Nome Completo</strong>: {{candidatoById[0].curriculo.fisica.user.name}}</li>
@@ -68,7 +75,7 @@
                             <li> <strong>Gênero</strong>: {{candidatoById[0].curriculo.fisica.genero}}</li>
                             <li> <strong>Estado Civil</strong>: {{candidatoById[0].curriculo.fisica.estado_civil}}</li>
                             <li> <strong>CPF</strong>: {{candidatoById[0].curriculo.fisica.cpf}}</li>
-                          
+
                         </ul>
                         <h4>Redes Sociais</h4>
                         <ul>
@@ -94,7 +101,7 @@
                             <router-link v-bind:to="'/agenda/' + candidatoById[0].id" tag="button" class="btn btn-sm btn-info">Reagendar</router-link>
                           </div>
                           <div v-else-if="show.status === 'ENTREVISTA CONFIRMADA'">
-                             <router-link v-bind:to="'/agenda/'" tag="button" class="btn btn-sm btn-info">Ver Agendamento</router-link> 
+                             <router-link v-bind:to="'/agenda/'" tag="button" class="btn btn-sm btn-info">Ver Agendamento</router-link>
                           </div>
                           <div v-else>
                             <button @click="newAgenda(show.id)" class="btn btn-sm btn-info">Agendar Entrevista</button>
@@ -104,13 +111,21 @@
                   </template>
                 </List>
               </div>
-              <jw-pagination :items="candidaturasByVaga" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+              <div class="row justify-content-center">
+              <div class="trocaPagina ">
+                <jw-pagination :items="candidaturasByVaga" @changePage="onChangePage" :pageSize="4" :labels="customLabels"></jw-pagination>
+              </div>
+            </div>
+
         </div>
       </div>
       <div v-else>
-          <h2>Minhas Candidaturas</h2> 
-          <div class="row">
+        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link>Minhas Candidaturas</h2>
+          <h2></h2>
+          <div class="row justify-content-center">
             <span v-if="displayCandidaturas.length == 0"><h3>Você ainda não fez nenhuma candidatura!</h3></span>
+          </div>
+          <div class="row">
           <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
@@ -135,7 +150,7 @@
                         <li><strong>Detalhes</strong>: {{show.vaga.descricao}}</li>
                         <span v-if="show.status == 'ENTREVISTA CANCELADA'">
                             <br>
-                            <li>Sua entrevista foi cancelada. 
+                            <li>Sua entrevista foi cancelada.
                                 <span v-if="show.agenda[0].observacao != null">
                                     A empresa fez a seguinte observação:
                                     <br><br>
@@ -173,14 +188,14 @@
                                   <div>
                                     <span v-if="agendaById[0].contraproposta == 'JURIDICA' || agendaById[0].contraproposta == null ">
                                         <h5>Referente à vaga "<strong>{{agendaById[0].candidatura.vaga.titulo}}</strong>":</h5>
-                                        <h6>A empresa agendou uma entrevista para o dia <strong>{{agendaById[0].data | dateFormat}}</strong>, às <strong>{{agendaById[0].hora}}</strong>,  
+                                        <h6>A empresa agendou uma entrevista para o dia <strong>{{agendaById[0].data | dateFormat}}</strong>, às <strong>{{agendaById[0].hora}}</strong>,
                                         com as seguintes observações: <br><center>"<i>{{agendaById[0].observacao}}</i>"</center>
                                         <br>
                                         O que deseja fazer?</h6>
                                     </span>
                                     <span v-else-if="agendaById[0].contraproposta == 'FISICA'">
                                         <h5>Referente à vaga "<strong>{{agendaById[0].candidatura.vaga.titulo}}</strong>":</h5>
-                                        <h6>Você já fez uma contraproposta e agendou uma entrevista para o dia <strong>{{agendaById[0].data | dateFormat}}</strong>, às <strong>{{agendaById[0].hora}}</strong>,  
+                                        <h6>Você já fez uma contraproposta e agendou uma entrevista para o dia <strong>{{agendaById[0].data | dateFormat}}</strong>, às <strong>{{agendaById[0].hora}}</strong>,
                                         com as seguintes observações: <br><center>"<i>{{agendaById[0].observacao}}</i>"</center>
                                         <br>
                                         Aguarde a resposta da empresa!</h6>
@@ -189,7 +204,7 @@
                                 </template>
                                 <template v-slot:footer>
                                     <div v-if="agendaById[0].contraproposta != 'FISICA'">
-                                       <button @click="showModal('warning', show.id)" class="btn btn-sm btn-danger">Cancelar</button>     
+                                       <button @click="showModal('warning', show.id)" class="btn btn-sm btn-danger">Cancelar</button>
                                             <Modal v-show="isModalWarning" @close="closeModal">
                                                 <template v-slot:header>
                                                 <h3>Cancelar Entrevista</h3>
@@ -205,7 +220,7 @@
                                                     <button @click="closeModal" class="btn btn-md btn-outline-secondary">Voltar</button>
                                                 </template>
                                             </Modal>
-                                        
+
                                         <router-link v-bind:to="'/agenda/' + agendaById[0].candidatura_id " tag="button" class="btn btn-sm btn-primary">Fazer uma contraproposta</router-link>
                                         <button @click="confirmAgenda(agendaById[0].candidatura.id)" class="btn btn-sm btn-success">Agendar Entrevista</button>
                                     </div>
@@ -224,8 +239,12 @@
                     </template>
                 </Card>
             </div>
+      </div>
+        <div class="row justify-content-center">
+          <div class="trocaPagina ">
             <jw-pagination :items="displayCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
-       </div>
+          </div>
+        </div>
      </div>
    </div>
   </div>
@@ -266,7 +285,7 @@
         },
         components: {NewAgenda, Card, List, Modal,painel, JwPagination},
         methods: {
-           
+
             ...mapActions([
                 'loadCandidaturas', 'loadAgenda'
             ]),
@@ -318,7 +337,7 @@
                 }).catch(error => console.log(error))
             },
 
-            
+
             async deleteCandidatura(candidatura_id){
 
                 await this.$store.dispatch('deleteCandidatura', candidatura_id)
@@ -344,7 +363,7 @@
 
         computed: {
             ...mapGetters([
-                'displayCandidaturas', 'permissaoDoUsuario', 
+                'displayCandidaturas', 'permissaoDoUsuario',
                 'displayCandidaturasByVaga', 'displayCandidatoById',
                 'displayAgendaById', 'displayVagasThatHaveCandidaturas'
             ]),

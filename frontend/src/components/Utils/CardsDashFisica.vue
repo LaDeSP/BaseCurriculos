@@ -269,7 +269,7 @@
             },
 
             ...mapGetters([
-              'displayVagasJuridica', 'displayVagaById', 'permissaoDoUsuario', 
+              'displayVagasJuridica', 'displayVagaById', 'permissaoDoUsuario',
               'dataCompleted', 'displayCandidaturas'
             ]),
 
@@ -282,7 +282,7 @@
           async created(){
             await this.loadCandidaturas();
             await this.getVagasRecomendadas();
-           
+
           },
     }
 </script>

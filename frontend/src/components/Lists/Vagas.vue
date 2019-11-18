@@ -4,7 +4,7 @@
       <div class="row">
         <template v-if="permissaoDoUsuario === 'JURIDICA'">
           <div class="col-md-9 float-left" >
-            <h2>Minhas Vagas</h2> 
+            <h2>Minhas Vagas</h2>
           </div>
           <div class="col-md-3 float-right">
             <div class="btn-group btn-group-sm">
@@ -124,6 +124,7 @@
             </Modal>
             </template>
           </List>
+          <br>
         </div>
         <br>
         <br>
