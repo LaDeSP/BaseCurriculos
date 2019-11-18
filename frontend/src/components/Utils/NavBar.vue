@@ -4,7 +4,7 @@
       <nav class="navbar ">
         <router-link to="/dashboard" class="navbar-brand">Banco de Currículos</router-link>
       </nav>
-      <div class="container">
+      <div class="container" v-if="this.$store.state.dataCompleted!=false">
           <busca></busca>
       </div>
 
