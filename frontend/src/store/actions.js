@@ -766,7 +766,9 @@ import * as Cookies from 'js-cookie'
         let payloadAgenda = [];
         payloadAgenda = response.data.agenda;
         commit('agenda', payloadAgenda)
-        commit('candidaturas', response.data.candidaturas)
+        if(response.data.candidaturas){
+          commit('candidaturas', response.data.candidaturas) 
+        }
         console.log('confirm Agenda response', response.data)
         
         return response.data

@@ -171,7 +171,8 @@ class AgendaController extends Controller
             ));
         }
     
-        $agenda = Agenda::where('candidatura_id', $candidatura_id)->first()->get();
+        $agenda = Agenda::with(['candidatura'])
+            ->where('candidatura_id', $candidatura_id)->first()->get();
 
         $user_id = auth()->user()->id;
         $user_role = auth()->user()->role;

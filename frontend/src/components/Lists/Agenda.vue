@@ -197,8 +197,6 @@
                 .then(response => {
                     if(response.notificacao  != undefined){
                         this.notificacoes = response.notificacao;
-                        console.log(this.notificacoes);
-                        console.log('KKKK', response)
                     }
                 }).catch(error => console.log(error))
             },

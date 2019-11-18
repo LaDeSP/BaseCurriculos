@@ -2,8 +2,16 @@
     <div class="row justify-content-center">
      <div class="col-md-9">
       <div class="row" v-if="permissaoDoUsuario === 'JURIDICA'">
-        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link> Candidaturas</h2> 
-        <div v-if="displayCandidaturas.length == 0">
+
+        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link> 
+            Candidaturas
+        </h2>
+        <div v-for="candidatura in candidaturas" :key="candidatura.id">
+            <div v-if="candidatura.status == 'CONTRATADO'"> 
+               <!-- <router-link to="/" class="btn btn-sm btn-secondary">Histórico</router-link> -->
+            </div>
+        </div> 
+        <div v-if="displayVagasThatHaveCandidaturas.length == 0">
             <br><br><br><br><h2>Não há nenhuma candidatura por enquanto! </h2>
         </div>
         <div v-if="!toggle">
@@ -30,7 +38,17 @@
             <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
               <List>
                 <template v-slot:list-header>
-                    <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user.name}}</h3>
+                    <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user.name}}
+                    <span v-if="show.status == 'EM AGENDAMENTO'">
+                        <span class="badge badge-warning">EM AGENDAMENTO</span>
+                    </span>
+                    <span v-if="show.status == 'AGUARDANDO'">
+                        <span class="badge badge-warning">AGUARDANDO</span>
+                    </span>
+                    <span v-if="show.status == 'ENTREVISTA CONFIRMADA'">
+                        <span class="badge badge-success">ENTREVISTA CONFIRMADA</span>
+                    </span>
+                </h3>
                 </template>
                 <template v-slot:list-body>
                     <p class="mb-1"><strong>Objetivos:</strong> {{show.curriculo.objetivos}}</p>
@@ -74,6 +92,9 @@
                           <button @click="reject" class="btn btn-sm btn-outline-danger">Recusar</button> -->
                           <div v-if="show.status === 'EM AGENDAMENTO'">
                             <router-link v-bind:to="'/agenda/' + candidatoById[0].id" tag="button" class="btn btn-sm btn-info">Reagendar</router-link>
+                          </div>
+                          <div v-else-if="show.status === 'ENTREVISTA CONFIRMADA'">
+                             <router-link v-bind:to="'/agenda/'" tag="button" class="btn btn-sm btn-info">Ver Agendamento</router-link> 
                           </div>
                           <div v-else>
                             <button @click="newAgenda(show.id)" class="btn btn-sm btn-info">Agendar Entrevista</button>
@@ -185,7 +206,7 @@
                                                 </template>
                                             </Modal>
                                         
-                                        <router-link v-bind:to="'/agenda/' + agendaById[0].id " tag="button" class="btn btn-sm btn-primary">Fazer uma contraproposta</router-link>
+                                        <router-link v-bind:to="'/agenda/' + agendaById[0].candidatura_id " tag="button" class="btn btn-sm btn-primary">Fazer uma contraproposta</router-link>
                                         <button @click="confirmAgenda(agendaById[0].candidatura.id)" class="btn btn-sm btn-success">Agendar Entrevista</button>
                                     </div>
                                     <div v-else>
@@ -232,7 +253,6 @@
         data(){
             return{
 
-                candidaturas: [],
                 toggle: false,
                 isModalShowMore: false,
                 isModalAgendamento: false,
@@ -329,7 +349,7 @@
                 'displayAgendaById', 'displayVagasThatHaveCandidaturas'
             ]),
             ...mapState([
-                'vagasCandidaturas', 
+                'vagasCandidaturas', 'candidaturas'
             ]),
             candidaturasByVaga() {
                 return this.displayCandidaturasByVaga(this.vaga_id)
