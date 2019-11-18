@@ -54,11 +54,14 @@
             </template>
             <template v-slot:card-body>
               <div v-if="progressBar.length>0">
-                <div v-for="vaga in progressBar" :key="vaga.id">
+                <div v-for="vaga in pageOfItems" :key="vaga.id">
                   <h4 class="small font-weight-bold">"{{vaga.titulo}}" <span class="float-right"> De {{vaga.quantidade}} vagas faltam {{vaga.quantidade - vaga.quantidadeContratados}}</span></h4>
                   <div class="mb-4">
                     <b-progress :value="vaga.porcentagem" variant="success" :striped="striped"></b-progress>
                   </div>
+                </div>
+                <div class="d-flex justify-content-center withoutPreviusNext">
+                  <jw-pagination :items="progressBar" @changePage="onChangePage" :pageSize="3" :labels="customLabels"></jw-pagination>
                 </div>
               </div>
               <div v-else>
@@ -208,6 +211,11 @@
   import card from '../Utils/Card';
   import {mapState, mapGetters, mapActions} from 'vuex';
 import { BProgress } from 'bootstrap-vue'
+import JwPagination from 'jw-vue-pagination';
+  const customLabels = {
+      next: '>',
+      previous: '<',
+  };
 
 
   export default{
@@ -218,14 +226,21 @@ import { BProgress } from 'bootstrap-vue'
         data: '',
         hora: '',
         observacao: '',
-        striped: true
+        striped: true,
+        pageOfItems: [],
+        customLabels
       }
     },
     components:{
-      card, BProgress
+      card, BProgress, JwPagination
     },
 
     methods: {
+
+      onChangePage(pageOfItems) {
+        // update page of items
+        this.pageOfItems = pageOfItems;
+      },
 
        ...mapActions([
             'getVagasPorcentagem', 'loadCandidaturas'
