@@ -43,21 +43,21 @@
 
                 <tab-content title="Contato" icon="fas fa-phone">
                     <div class="form-group">
-                        <label for="telefone">Telefone-Fixo<a class="color-red">*</a></label>
+                        <label for="telefone">Telefone Fixo<a class="color-red">*</a></label>
                         <div class="form-group">
                           <ValidationProvider name="fixo" rules="required|numeric|digits:10">
                               <div slot-scope="{ errors }">
-                                  <input type="text" class="form-control" name="fixo" placeholder="Telefone-Fixo" v-model="fixo" minlength="10" maxlength="10">
+                                  <input type="text" class="form-control" name="fixo" v-model="fixo" minlength="10" maxlength="10">
                                   <p class="color-red">{{ errors[0] }}</p>
                               </div>
                           </ValidationProvider>
                         </div>
                     </div>
                     <div class="form-group">
-                      <label for="celular">Telefone-Celular<a class="color-red">*</a></label>
+                      <label for="celular">Telefone Celular<a class="color-red">*</a></label>
                       <ValidationProvider name="celular" rules="required|numeric|digits:11">
                           <div slot-scope="{ errors }">
-                              <input type="text" class="form-control" name="celular" placeholder="Telefone-Celular" v-model="celular" minlength="11" maxlength="11">
+                              <input type="text" class="form-control" name="celular" v-model="celular" minlength="11" maxlength="11">
                               <p class="color-red">{{ errors[0] }}</p>
                           </div>
                       </ValidationProvider>
@@ -274,34 +274,11 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
             }
         },
         methods: {
-            register(){
-
-                if(!this.token){
-                    console.log('loga ai seu corno');
-                }else{
-                        this.axios.post('http://localhost:8000/api/data/pjuridicas?token=' + this.token,
-
-                    {
-
-                    },
-                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .then(
-                        (response) => {
-                            if(response.data.error  != undefined){
-                                this.notificacoes = response.data.error;
-                                return;
-                            }
-                        }
-                    )
-                    .catch(
-                        (error) => console.log(error)
-                    );
-                }
-            },
-
+        
             ...mapActions([
                 'loadJuridica'
             ]),
+
             onComplete(){
 
                 let completeJuridica = {
@@ -327,13 +304,14 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 }
 
                 if(!this.dataCompleted){
+                    console.log('caiu aqui')
                     this.$store.dispatch('completeJuridica', completeJuridica)
                     .then(response => {
 
                         if(response.error  != undefined){
                             this.notificeacoes = response.error;
                         }else{
-                            this.$router.push({ name: 'profile-juridica'});
+                            this.$router.push({ name: 'dashboard'});
                         }
                     })
                     .catch(error => console.log(error))
@@ -344,7 +322,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                             if(response.error  != undefined){
                                 this.notificacoes = response.error;
                             }else{
-                                this.$router.push({ name: 'profile-juridica'});
+                                this.$router.push({ name: 'profile'});
                             }
                     }).catch(error => console.log(error))
                 }

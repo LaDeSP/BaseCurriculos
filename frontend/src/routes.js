@@ -21,7 +21,9 @@ import FisicaData from  './components/Lists/FisicaData.vue';
 import JuridicaData from  './components/Lists/JuridicaData.vue';
 import Candidatura from  './components/Lists/Candidatura.vue';
 import Agenda from  './components/Lists/Agenda.vue';
-import Dashboard from './components/Dashboards/Dashboard.vue';
+
+const Dashboard = () => import('./components/Dashboards/Dashboard.vue');
+
 import DashFIS from './components/Dashboards/DashFisica.vue';
 import DashJUR from './components/Dashboards/DashJuridica.vue';
 

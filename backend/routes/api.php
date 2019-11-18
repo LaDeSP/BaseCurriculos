@@ -58,4 +58,4 @@ Route::group([
     Route::get('/vagasPorcentagem', 'BuscaController@buscaVagasProgress');
 });
 
-Route::get('/teste', 'AgendaController@teste');
+Route::get('/teste', 'CandidaturaController@teste');

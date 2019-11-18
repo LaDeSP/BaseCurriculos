@@ -31,9 +31,11 @@ import {mapGetters, mapActions} from 'vuex';
               hasVaga: true,
             }
         },
+        
         methods:{
           ...mapActions(['loadCandidaturas']),
         },
+        
         components:{
              NewJuridicaData, NewVaga, Dash
         },
@@ -61,7 +63,7 @@ import {mapGetters, mapActions} from 'vuex';
               }).catch(error => {
                 //console.log(error)
               })
-            await this.loadCandidaturas();
+              await this.loadCandidaturas();
           }
         },
     }

@@ -443,6 +443,11 @@ import * as Cookies from 'js-cookie'
     const token = state.auth.token;
     return await axios({ url: candidaturas_uri + '?token=' + token, data: requestVaga, method: 'POST'})
     .then(response => {
+      
+      let payloadCandidaturas = [];
+      payloadCandidaturas = response.data.candidaturas;
+      commit('candidaturas', payloadCandidaturas)
+      
       return response.data
     }).catch(
       error => console.log(error)
@@ -460,7 +465,7 @@ import * as Cookies from 'js-cookie'
         payloadVagasJuridica = response.data.vagas;
         commit('vagasJuridica', payloadVagasJuridica)
         commit('countVagasJuridica', response.data.countVagas)
-  
+
         return response.data
       }).catch(error => {
         console.log(error)
@@ -552,14 +557,22 @@ import * as Cookies from 'js-cookie'
         payloadCandidaturas = response.data.candidaturas;
 
         let payloadCountCandidaturas = {
-          'countCandidaturas': response.data.countCandidaturas,
-          'countCandidaturasConfirmadas':  response.data.countCandidaturasConfirmadas,
-          'countCandidaturasAguardando': response.data.countCandidaturasAguardando
+          'candidaturas': response.data.countCandidaturas,
+          'candidaturasEmAgendamento': response.data.countCandidaturasEmAgendamento,
+          'candidaturasConfirmadas':  response.data.countCandidaturasConfirmadas,
         }
   
-        commit('vagasCandidaturas', payloadVagasCandidaturas)
-        commit('candidaturas', payloadCandidaturas)
-        commit('countCandidaturas', payloadCountCandidaturas)
+          console.log('no load candidatura', response.data)
+
+          if(payloadVagasCandidaturas){
+            commit('vagasCandidaturas', payloadVagasCandidaturas)
+          }
+
+          if(payloadCandidaturas){
+            commit('candidaturas', payloadCandidaturas)
+          }
+
+          commit('countCandidaturas', payloadCountCandidaturas)
 
         return response.data
       }).catch(error => {
@@ -711,9 +724,15 @@ import * as Cookies from 'js-cookie'
     return await axios({ url: agenda_uri + '?token=' + token, data: newAgendaData, method: 'POST' })
     .then(response => {
 
-      if(response.data.countCandidaturasAguardando){
-        let countCandidaturasAguardando = response.data.countCandidaturasAguardando;
-        commit('countCandidaturas', countCandidaturasAguardando);
+      if(response.data.countCandidaturasEmAgendamento){
+        
+        let payloadCountCandidaturas = {
+          'candidaturas': state.count.candidaturas,
+          'candidaturasEmAgendamento': response.data.countCandidaturasEmAgendamento,
+          'candidaturasConfirmadas':  state.count.candidaturasConfirmadas,
+        }
+        console.log('payloadCountCandidaturas', payloadCountCandidaturas)
+        commit('countCandidaturas', payloadCountCandidaturas);
       }
   
       console.log('na action new agenda', response);

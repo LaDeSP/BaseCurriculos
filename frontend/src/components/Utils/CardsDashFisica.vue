@@ -39,6 +39,9 @@
                                 <div v-if="show.status === 'ENTREVISTA CANCELADA'"  class=" font-weight-bold text-danger text-uppercase">
                                   <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-calendar-times"></span></h1></center>
                                 </div>
+                                 <div v-if="show.status === 'CONTRATADO'"  class=" font-weight-bold text-success text-uppercase">
+                                  <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-smile"></span></h1></center>
+                                 </div>
                               </template>
                             </cardvagas>
                         </div>

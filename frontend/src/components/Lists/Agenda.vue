@@ -36,9 +36,9 @@
                     </template>
                     <template v-slot:card-body>
                         <ul>
-                            <li>Vaga: {{show.candidatura.vaga.titulo}}</li>
-                            <li>Data: {{show.data | dateFormat}}</li>
-                            <li>Hora: {{show.hora}}</li>
+                            <li><strong>Vaga</strong>: {{show.candidatura.vaga.titulo}}</li>
+                            <li><strong>Data</strong>: {{show.data | dateFormat}}</li>
+                            <li><strong>Hora</strong>: {{show.hora}}</li>
                         <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
                             <br>
                             <li>A entrevista foi cancelada. 
@@ -53,7 +53,7 @@
                             </li>
                                 </span>
                                 <span v-else>
-                                    Observação: {{show.observacao}} <br><br>
+                                    <strong>Observação</strong>: {{show.observacao}} <br><br>
                                 </span>
                                 <span v-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA' && getDateNow(show.data)">
                                     <strong>Notamos que a data de entrevista já passou. O candidato foi: </strong>
@@ -78,7 +78,7 @@
                                 </template>
                                 <template v-slot:footer>
                                     <button @click="closeModal" class="btn btn-md btn-outline-secondary">Voltar</button>
-                                    <button @click="cancelAgenda('RECUSADO')" class="btn btn-md btn-primary">Enviar</button>
+                                    <button @click="cancelAgenda('RECUSADO')" class="btn btn-md btn-danger">Enviar</button>
                                 </template>
                               </Modal>
                         </span>
@@ -89,7 +89,7 @@
                             <span v-if="show.contraproposta == 'FISICA'">
                                 <button @click="confirmAgenda(show.candidatura.id)" class="btn btn-sm btn-success">Confirmar</button>
                             </span>
-                            <router-link v-bind:to="'/agenda/' + show.candidatura.id" tag="button" class="btn btn-sm btn-info">Reagendar</router-link>
+                            <router-link v-bind:to="'/agenda/' + show.candidatura.id" tag="button" class="btn btn-sm btn-primary">Fazer Contraproposta</router-link>
                         </span>
                         <span v-if="show.candidatura.status != 'ENTREVISTA CANCELADA' && !getDateNow(show.data)">
                             <button @click="showModal('warning', show.candidatura.id)" class="btn btn-sm btn-danger">Cancelar</button>
@@ -179,6 +179,7 @@
             closeModal(){
               this.isModalWarning = false;
               this.isModalShowMore = false;
+              this.isModalWarningRecusa = false;
             },
 
             vagaDaCandidatura(vaga_id){
@@ -230,7 +231,7 @@
                 let year = now.getFullYear();
 
                 //let dateStr = year + '-' + month + '-' + date;
-                let dateStr = '2019-11-19';
+                let dateStr = '2020-02-11';
                 var dateAgenda = Date.parse(data);
                 var dateNow = Date.parse(dateStr);
 

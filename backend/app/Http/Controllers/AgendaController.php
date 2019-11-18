@@ -78,12 +78,10 @@ class AgendaController extends Controller
                'error' => $validator->messages()
            ], 201);
        } 
-        
-
 
         $candidatura_id = $request->candidatura_id;
 
-        if(Agenda::where('candidatura_id', $candidatura_id)->exists()){
+       /* if(Agenda::where('candidatura_id', $candidatura_id)->exists()){
             
             Agenda::where('candidatura_id', $candidatura_id)->update(array(
                 'data'=>$request->data,
@@ -91,12 +89,19 @@ class AgendaController extends Controller
                 'observacao'=>$request->observacao,
                 'contraproposta'=>$request->contraproposta,
             ));
+*/
+            
+            Agenda::create([
+                'data'=>$request->data,
+                'hora'=>$request->hora,
+                'observacao'=>$request->observacao,
+                'candidatura_id'=>$candidatura_id
+             ]);
 
             Candidatura::where('id', $candidatura_id)->update(array(
                 'status' => 'EM AGENDAMENTO'
             ));
 
-            
             $user_id = auth()->user()->id;
             $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
 
@@ -104,15 +109,15 @@ class AgendaController extends Controller
                 $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
             })->get();
 
-            $countCandidaturasAguardando = $vagasCandidatura
+            $countCandidaturasEmAgendamento = $vagasCandidatura
                 ->where('status', 'EM AGENDAMENTO')->count();
 
             return Response::json([
-                'agendaExiste'=> true,
-                'countCandidaturasAguardando'=>$countCandidaturasAguardando,
+                'cadastrou agenda',
+                'countCandidaturasEmAgendamento'=>$countCandidaturasEmAgendamento,
             ]);
 
-        }else{
+       /*}else{
             Agenda::create([
                 'data'=>$request->data,
                 'hora'=>$request->hora,
@@ -128,6 +133,7 @@ class AgendaController extends Controller
                 'cadastrou agenda'
              ]);
         }
+        */
                  
     }
 
@@ -170,18 +176,26 @@ class AgendaController extends Controller
                 'status' => 'ENTREVISTA CONFIRMADA'
             ));
         }
-    
-        $agenda = Agenda::with(['candidatura'])
-            ->where('candidatura_id', $candidatura_id)->first()->get();
 
         $user_id = auth()->user()->id;
         $user_role = auth()->user()->role;
         $candidaturas = [];
+        $agenda = [];
+        
         if($user_role === 'FISICA'){
             $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
             $curriculo_id = Curriculo::where('fisicas_id', $fisica_id)->first()->id;
             $candidaturas = Candidatura::with(['vaga', 'agenda', 'curriculo'])
                 ->where('curriculos_id', $curriculo_id)->get();
+
+            $agenda = Agenda::with(['candidatura'])
+            ->where('candidatura_id', $candidatura_id)->first()->get();
+        }else{
+            $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
+            $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
+            ->whereHas('candidatura.vaga.juridica', function($query) use ($juridica_id){ 
+                $query->where('id', '=', $juridica_id);
+            })->orderBy('created_at')->get();
         }
         
         if($request->contratado == 'CONTRATADO'){
