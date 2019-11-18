@@ -10,17 +10,20 @@ class VagasTableSeeder extends Seeder
     public function run()
     {
        Vaga::create([
-            'titulo'=>'Norman Rockwell',
-            'cargo'=>'Administrador',
-            'descricao'=>'Corninho',
-            'salario'=>'87,319',
-            'beneficio'=>'nao tem',
-            'jornada'=>'100 horas',
-            'requisito'=>'kkkk',
+            'titulo'=>'Desenvolvedor PHP e Javascript',
+            'cargo'=>'Desenvolvedor Full-Stack',
+            'descricao'=>'Procuramos profissionais que tenham experiência com desenvolvimento fullstack
+             e que já tenha trabalhado com frameworks como Laravel, ReactJS e VueJS.',
+            'salario'=>'1.800',
+            'beneficio'=>'Vale combustível e vale transporte',
+            'jornada'=>'8 horas por dia',
+            'requisito'=>'- Ser criativo; 
+            - Ter disciplina para cumprimento de prazos; 
+            - Saber trabalhar bem em equipe.',
             'quantidade'=>'2',
             'status'=>'ATIVA',
             'juridicas_id'=>1,
-            'areas_id'=>5,
+            'areas_id'=>21,
        ]);
     }
 }

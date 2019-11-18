@@ -72,10 +72,8 @@ export const store = new Vuex.Store({
    progressBar: [],
    dataCompleted: false,
    hasVaga: false,
+   count: {},  
    countVagas: 0,
-   countCandidaturas: 0,
-   countCandidaturasAguardando: 0,
-   countCandidaturasConfirmadas: 0,
    resultado: [],
    agenda: [],
    

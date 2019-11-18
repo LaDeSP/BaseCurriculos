@@ -25,8 +25,8 @@
                     <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span></h3>
                     </template>
                     <template v-slot:card-body>
-                    <p>Cargo: {{show.vaga.cargo}}</p>
-                    <p>Detalhes: {{show.vaga.descricao}}</p>
+                    <p><strong>Cargo</strong>: {{show.vaga.cargo}}</p>
+                    <p><strong>Detalhes</strong>: {{show.vaga.descricao}}</p>
                     </template>
                     <template v-slot:card-footer>
                         <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
@@ -63,7 +63,14 @@
                 </template>
                 <template v-slot:list-footer>
                   <button @click="showModal('showMore', show.id)" class="btn btn-sm btn-default">Ver mais</button>
+<<<<<<< HEAD
 
+=======
+                  <span v-if="show.status === 'EM AGENDAMENTO' || show.status === 'ENTREVISTA CONFIRMADA'">       
+                    <router-link to="/agenda" tag="button" class="btn btn-sm btn-info">Ver agendamento</router-link>
+                  </span>
+                  
+>>>>>>> 74c4b0c21e07d72d066722bc73c65a05516b5e3e
                   <Modal v-if="isModalShowMore" @close="closeModal">
                         <template v-slot:header><h3>Detalhes do Candidato</h3></template>
                         <template v-slot:body>
@@ -79,26 +86,27 @@
                         </ul>
                         <h4>Redes Sociais</h4>
                         <ul>
-                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.facebook !== 'undefined' || null">Facebook: {{candidatoById[0].curriculo.fisica.contato.facebook}}</li>
-                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.twitter !== 'undefined' || null">Twitter: {{candidatoById[0].curriculo.fisica.contato.twitter}}</li>
-                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.linkedin !== 'undefined' || null">Linkedin: {{candidatoById[0].curriculo.fisica.contato.linkedin}}</li>
-                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.site !== 'undefined' || null">Site: {{candidatoById[0].curriculo.fisica.contato.site}}</li>
+                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.facebook !== 'undefined' || null"><strong>Facebook</strong>: {{candidatoById[0].curriculo.fisica.contato.facebook}}</li>
+                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.twitter !== 'undefined' || null"><strong>Twitter</strong>: {{candidatoById[0].curriculo.fisica.contato.twitter}}</li>
+                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.linkedin !== 'undefined' || null"><strong>Linkedin</strong>: {{candidatoById[0].curriculo.fisica.contato.linkedin}}</li>
+                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.site !== 'undefined' || null"><strong>Site</strong> {{candidatoById[0].curriculo.fisica.contato.site}}</li>
                         </ul>
                         <h4>Currículo</h4>
                             <ul>
-                                <li>Objetivos: {{candidatoById[0].curriculo.objetivos}}</li>
-                                <li>Área de Atuação: {{candidatoById[0].curriculo.area.tipo}}</li>
-                                <li>Pretensão Salarial: {{candidatoById[0].curriculo.pretensao}}</li>
-                                <li>Formação Acadêmica: {{candidatoById[0].curriculo.escolaridade}}</li>
-                                <li>Histórico Profissional: {{candidatoById[0].curriculo.historicoProfissional}}</li>
-                                <li>Qualificações: {{candidatoById[0].curriculo.qualificacoes}}</li>
+                                <li><strong>Objetivos</strong>: {{candidatoById[0].curriculo.objetivos}}</li>
+                                <li><strong>Área de Atuação</strong>: {{candidatoById[0].curriculo.area.tipo}}</li>
+                                <li><strong>Pretensão Salarial</strong>: {{candidatoById[0].curriculo.pretensao}}</li>
+                                <li><strong>Formação Acadêmica</strong>: {{candidatoById[0].curriculo.escolaridade}}</li>
+                                <li><strong>Histórico Profissional</strong>: {{candidatoById[0].curriculo.historicoProfissional}}</li>
+                                <li><strong>Qualificações</strong>: {{candidatoById[0].curriculo.qualificacoes}}</li>
                             </ul>
                         </template>
                         <template v-slot:footer>
                          <!-- <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
                           <button @click="reject" class="btn btn-sm btn-outline-danger">Recusar</button> -->
                           <div v-if="show.status === 'EM AGENDAMENTO'">
-                            <router-link v-bind:to="'/agenda/' + candidatoById[0].id" tag="button" class="btn btn-sm btn-info">Reagendar</router-link>
+                            <!--<router-link v-bind:to="'/agenda/' + candidatoById[0].id" tag="button" class="btn btn-sm btn-info">Reagendar</router-link>-->
+                            <router-link to="'/agenda/'" tag="button" class="btn btn-sm btn-info">Ver agendamento</router-link>
                           </div>
                           <div v-else-if="show.status === 'ENTREVISTA CONFIRMADA'">
                              <router-link v-bind:to="'/agenda/'" tag="button" class="btn btn-sm btn-info">Ver Agendamento</router-link>
@@ -108,6 +116,7 @@
                           </div>
                         </template>
                   </Modal>
+
                   </template>
                 </List>
               </div>
@@ -229,6 +238,24 @@
                                     </div>
                                 </template>
                         </Modal>
+                        </span>
+                        <span v-if="show.status == 'ENTREVISTA CONFIRMADA'">
+                             <button @click="showModal('warning', show.id)" class="btn btn-sm btn-danger">Cancelar</button>
+                              <Modal v-show="isModalWarning" @close="closeModal">
+                                <template v-slot:header>
+                                    <h3>Cancelar Entrevista</h3>
+                                </template>
+                                <template v-slot:body>
+                                    <h2 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> essa entrevista?</h2>
+                                    <br><h4>Faça uma observação para a empresa:</h4>
+                                    <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao" maxlength="500"></textarea>
+                                    <br><h6 class="text-center">Essa ação não poderá ser desfeita!</h6>
+                                </template>
+                                <template v-slot:footer>
+                                    <button @click="cancelAgenda" class="btn btn-md btn-danger">Cancelar</button>
+                                    <button @click="closeModal" class="btn btn-md btn-outline-secondary">Voltar</button>
+                                </template>
+                            </Modal>
                         </span>
                         <span v-if="show.status == 'AGUARDANDO'">
                             <button @click="deleteCandidatura(show.id)" class="btn btn-sm btn-danger">Desistir</button>

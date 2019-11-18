@@ -114,17 +114,14 @@ const displayCandidaturas = state =>{
 
 const displayVagasThatHaveCandidaturas = (state) => {
 
-  let index = state.vagasCandidaturas.findIndex(filtered =>  filtered.status == 'ENTREVISTA CANCELADA');
   let vagasCandidaturas = state.vagasCandidaturas;
   let vagasThatHaveCandidaturas = vagasCandidaturas.filter((filtered) => {
-    
-    //state.vagasCandidaturas.splice(index, 1);
-
-    if(filtered.status != 'ENTREVISTA CANCELADA' && filtered.status != 'CONTRATADO'){
+  
+    if(filtered.status != 'ENTREVISTA CANCELADA' && filtered.status != 'CONTRATADO' && filtered.status != 'RECUSADO'){
       console.log('caiu no primeiro')
       return filtered.id >= 1
     }
-
+   
   })
   
   console.log('sweet', vagasThatHaveCandidaturas)
@@ -137,7 +134,7 @@ const displayCandidaturasByVaga = (state) => (vaga_id) => {
   let candidaturas = state.candidaturas;
   let candidaturasByVaga = candidaturas.filter((candidaturasByVaga) => {
     
-    return candidaturasByVaga.vagas_id === vaga_id && candidaturasByVaga.status != 'ENTREVISTA CANCELADA' && candidaturasByVaga.status != 'CONTRATADO'
+    return candidaturasByVaga.vagas_id === vaga_id && candidaturasByVaga.status != 'ENTREVISTA CANCELADA' && candidaturasByVaga.status != 'CONTRATADO' && candidaturasByVaga.status != 'RECUSADO'
   })
   
   return candidaturasByVaga
@@ -169,7 +166,7 @@ const displayAgenda = (state) => {
     if(filtered.contraproposta == 'FISICA' && filtered.candidatura.status == 'ENTREVISTA CANCELADA'){
       return filtered.id >= 1
     }else{
-      return filtered.candidatura.status != 'ENTREVISTA CANCELADA'
+      return filtered.candidatura.status != 'ENTREVISTA CANCELADA' && filtered.candidatura.status != 'CONTRATADO'
     }
 
   })

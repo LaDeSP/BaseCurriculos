@@ -123,19 +123,7 @@ const countVagasJuridica = (state, payloadCountVagas) => {
 }
 
 const countCandidaturas = (state, payloadCountCandidaturas) => {
-    if(payloadCountCandidaturas.countCandidaturas != null){
-        state.countCandidaturas = payloadCountCandidaturas.countCandidaturas
-    }
-    if(payloadCountCandidaturas.countCandidaturasConfirmadas != null){
-        state.countCandidaturasConfirmadas = payloadCountCandidaturas.countCandidaturasConfirmadas
-    }
-    if(payloadCountCandidaturas.countCandidaturasAguardando != null){
-        state.countCandidaturasAguardando = payloadCountCandidaturas.countCandidaturasAguardando
-    }
-    if(payloadCountCandidaturas.countCandidaturas && payloadCountCandidaturas.countCandidaturasConfirmadas == null){
-        state.countCandidaturasAguardando = payloadCountCandidaturas
-    }
-   console.log('mut', payloadCountCandidaturas)
+    state.count = payloadCountCandidaturas; 
 }
 
 const progressBar = (state, payloadProgressBar) => {

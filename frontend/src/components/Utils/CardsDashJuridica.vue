@@ -36,7 +36,7 @@
                 <div class="col mr-2">
                   <center>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                      <h2>{{countCandidaturas}}</h2>
+                      <h2>{{count.candidaturas}}</h2>
                       <i class="fas fa-file"></i>
                     </div>
                   </center>
@@ -70,7 +70,7 @@
       <div class="col-lg-6 mb-6">
         <div class="row">
           <div class="col-sm-12">
-            <div v-if="countCandidaturas > 0">
+            <div v-if="count.candidaturas > 0">
                <card>
                 <template v-slot:card-header>
                   <h6 class="font-weight-bold text-primary text-success  text-uppercase mb-1">Agendar Entrevista</h6>
@@ -82,7 +82,7 @@
                     </div>
                   <select class="custom-select" name="vaga" v-model="vaga">
                       <option disabled value="">Selecione a vaga</option>
-                      <option v-for="show in vagasCandidaturas" :key="show.id" :value="show.id">
+                      <option v-for="show in vagasCandidaturas" :key="show.id" :value="show.vaga.id">
                           {{show.vaga.titulo}}
                       </option>
                   </select>
@@ -95,7 +95,12 @@
                     <select :disabled="vaga == null" class="custom-select" name="candidato" v-model="candidato">
                       <option disabled value="">Selecione o candidato</option>
                       <option v-for="show in displayCandidaturas" :key="show.id" :value="show.id">
-                          <span v-if="vaga == show.vaga.id">{{show.curriculo.fisica.user.name}}</span> 
+                          <span v-if="vaga == show.vaga.id && show.status != 'ENTREVISTA CONFIRMADA'">
+                            {{show.curriculo.fisica.user.name}}
+                          </span>
+                          <span v-else>
+                            Os candidatos dessa vaga já possuem entrevista!
+                          </span>
                       </option>
                     </select>
                   </div>
@@ -139,7 +144,7 @@
         </div>
         <card class="shadow mb-4">
             <template v-slot:card-header class="py-3">
-               <h6 class="font-weight-bold text-primary text-success  text-uppercase mb-1">Agendamentos</h6>
+               <h6 class="font-weight-bold text-primary text-success  text-uppercase mb-1">Entrevistas</h6>
             </template>
             <template v-slot:card-body >
               <div class="container">
@@ -147,16 +152,16 @@
                   <div class="col-sm">
                     <div class=" font-weight-bold text-success text-uppercase mb-1">
                       <center>
-                        <h5>Confirmados</h5>
-                        <h1 class="float-none">{{countCandidaturasConfirmadas}} <i class="fas fa-check-circle"></i></h1>
+                        <h5>Confirmadas</h5>
+                        <h1 class="float-none">{{count.candidaturasConfirmadas}} <i class="fas fa-check-circle"></i></h1>
                       </center>
                     </div>
                   </div>
                   <div class="col-sm">
                     <div class=" font-weight-bold text-warning text-uppercase mb-1">
                       <center>
-                        <h5>Aguardando</h5>
-                        <h1 class="float-none">{{countCandidaturasAguardando}} <span class="fas fa-spinner fa-pulse"></span></h1>
+                        <h5>Em agendamento</h5>
+                        <h1 class="float-none">{{count.candidaturasEmAgendamento}} <span class="fas fa-spinner fa-pulse"></span></h1>
                       </center>
                     </div>
                   </div>
@@ -193,7 +198,7 @@ import { BProgress } from 'bootstrap-vue'
     methods: {
 
        ...mapActions([
-            'getVagasPorcentagem'
+            'getVagasPorcentagem', 'loadCandidaturas'
         ]),
 
       agendar(){
@@ -219,9 +224,7 @@ import { BProgress } from 'bootstrap-vue'
 
     computed:{
       ...mapState([
-        'countVagas', 'countCandidaturas', 'countAgenda', 
-        'countCandidaturasConfirmadas', 'countCandidaturasAguardando',
-        'vagasCandidaturas'
+          'count', 'countVagas', 'vagasCandidaturas' 
       ]),
       ...mapGetters([
         'displayCandidaturas', 'progressBar'

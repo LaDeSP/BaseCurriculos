@@ -18,7 +18,8 @@
     export default {
 
         components:{
-            DashboardFisica, DashboardJuridica
+            DashboardFisica: () => import("./DashFisica"),
+            DashboardJuridica: () => import("./DashJuridica"),
         },
 
         computed: {

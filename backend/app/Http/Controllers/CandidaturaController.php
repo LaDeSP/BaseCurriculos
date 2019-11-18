@@ -18,26 +18,25 @@ class CandidaturaController extends Controller
 {
     public function teste(){
     
-      /*  $vagasCandidaturas =  Candidatura::with(['vaga', 'curriculo'])
-            ->join('vagas', function($join){
-            $join->on('vagas.id', '=', 'candidaturas.vagas_id')
-            ->where('vagas.juridicas_id', '=', 1);
-            })->get();
-     */
-        /*    $candidaturasJuridica =  Candidatura::with(['vaga', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
-            ->join('vagas', function($join) {
-            $join->on('vagas.id', '=', 'candidaturas.vagas_id')
-            ->where('vagas.juridicas_id', '=', 1);
-            })->get();
+        $vagasCandidatura =  Candidatura::with(['vaga', 'curriculo.area', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
+        ->whereHas('vaga', function($query){ 
+            $query->where('juridicas_id', '=', 1)->groupBy('vagas_id');
+        })->get();
 
-          */
-
-          $candidaturasJuridica =  Candidatura::with(['vaga', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
-            ->whereHas('vaga', function($query){ 
-                $query->where('juridicas_id', '=', 1);
-            })->groupBy('vagas_id');
-      
-            dd($candidaturasJuridica);
+        $countCandidaturas = 0;
+        $countCandidaturasAguardando = 0;
+        $countCandidaturasConfirmadas = 0;
+        foreach($vagasCandidatura as $candidatura){
+            if($candidatura->status != 'CONTRATADO' && $candidatura->status != 'ENTREVISTA CANCELADA' && $candidatura->status != 'RECUSADO'){
+                $countCandidaturas++;
+            }
+            if($candidatura->status == 'AGUARDANDO'){
+                $countCandidaturasAguardando++;
+            }
+            if($candidatura->status == 'ENTREVISTA CONFIRMADA'){
+                $countCandidaturasConfirmadas++;
+            }
+        }
       //  dd($vagasCandidaturas[0]->vaga->titulo);
     }
 
@@ -56,28 +55,36 @@ class CandidaturaController extends Controller
             $collection = collect($vagasCandidatura);
             $unique = $collection->unique('vagas_id');
             $unique_data = $unique->values()->all();
-            $countCandidaturas = count($vagasCandidatura);
+        
+            $countCandidaturas = 0;
+            $countCandidaturasEmAgendamento = 0;
+            $countCandidaturasConfirmadas = 0;
 
-            
-            $countCandidaturasConfirmadas = $vagasCandidatura
-                ->where('status', 'ENTREVISTA CONFIRMADA')->count();
+            foreach($vagasCandidatura as $candidatura){
+                if($candidatura->status != 'CONTRATADO' && $candidatura->status != 'ENTREVISTA CANCELADA' && $candidatura->status != 'RECUSADO'){
+                    $countCandidaturas++;
+                }
+                if($candidatura->status == 'EM AGENDAMENTO'){
+                    $countCandidaturasEmAgendamento++;
+                }
+                if($candidatura->status == 'ENTREVISTA CONFIRMADA'){
+                    $countCandidaturasConfirmadas++;
+                }
+            }
 
-            $countCandidaturasAguardando = $vagasCandidatura
-                ->where('status', 'EM AGENDAMENTO')->count();
-            
-            
             return Response::json([
                 'vagasCandidaturas' => $unique_data,
                 'candidaturas'=> $vagasCandidatura,
                 'countCandidaturas'=> $countCandidaturas,
+                'countCandidaturasEmAgendamento'=>$countCandidaturasEmAgendamento,
                 'countCandidaturasConfirmadas' => $countCandidaturasConfirmadas,
-                'countCandidaturasAguardando'=>$countCandidaturasAguardando,
             ]);
             
         }else{
             $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
             $curriculo_id = Curriculo::where('fisicas_id', $fisica_id)->first()->id;
             $count = 0;
+
             if(Candidatura::where('curriculos_id', $curriculo_id)->exists()){
                 $candidatura_id = Candidatura::where('curriculos_id', $curriculo_id)->first()->id;
                 $candidaturas_fisica = Candidatura::with(['vaga', 'agenda', 'curriculo'])
@@ -92,7 +99,7 @@ class CandidaturaController extends Controller
                     'countCandidaturas'=>0
                 ]);
             }
-
+            
         } 
 
     }
@@ -126,9 +133,13 @@ class CandidaturaController extends Controller
         })
         ->with('area')->get();
     
+        $candidaturas = Candidatura::with(['vaga', 'agenda', 'curriculo'])
+        ->where('curriculos_id', $user->fisica->curriculo->id)->get();
+
         return Response::json([
             'Candidatura ok',
-            'vagas'=>$vagas
+            'vagas'=>$vagas,
+            'candidaturas'=>$candidaturas
          ], 201);
     }
 
