@@ -20,7 +20,7 @@
         <div v-if="!toggle">
             <div class="row">
               <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
-                <Card style="width: 35rem; height:30rem;">
+                <Card style="width: 30rem; height:20rem;">
                     <template v-slot:card-header>
                       <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span></h3>
                     </template>
