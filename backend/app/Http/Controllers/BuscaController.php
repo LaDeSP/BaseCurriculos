@@ -19,7 +19,8 @@ class BuscaController extends Controller
         $vagas_id = Candidatura::select('vagas_id')->where('curriculos_id', $curriculo->id)->where(function ($query) {
             $query->where('status', "EM AGENDAMENTO")
                   ->orWhere('status', "AGUARDANDO")
-                  ->orWhere('status', "CONFIRMADA");
+                  ->orWhere('status', "ENTREVISTA CONFIRMADA")
+                  ->orWhere('status', "CONTRATADO");
         })->get();
 
         $candidaturas = [];
@@ -46,7 +47,8 @@ class BuscaController extends Controller
         $vagas_id = Candidatura::select('vagas_id')->where('curriculos_id', $curriculo->id)->where(function ($query) {
             $query->where('status', "EM AGENDAMENTO")
                   ->orWhere('status', "AGUARDANDO")
-                  ->orWhere('status', "CONFIRMADA");
+                  ->orWhere('status', "ENTREVISTA CONFIRMADA")
+                  ->orWhere('status', "CONTRATADO");
         })->get();
 
         $candidaturas = [];
@@ -194,7 +196,8 @@ class BuscaController extends Controller
         $vagas_id = Candidatura::select('vagas_id')->where('curriculos_id', $curriculo->id)->where(function ($query) {
             $query->where('status', "EM AGENDAMENTO")
                   ->orWhere('status', "AGUARDANDO")
-                  ->orWhere('status', "CONFIRMADA");
+                  ->orWhere('status', "ENTREVISTA CONFIRMADA")
+                  ->orWhere('status', "CONTRATADO");
         })->get();
 
         $candidaturas = [];
