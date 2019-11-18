@@ -12,8 +12,8 @@
                 </div>
               </div>
             </div>
-            <div class="container d-flex justify-content-center">
-              <img class="rounded-circle icon-profile" :src=path>
+            <div class="d-flex justify-content-center">
+              <img class="quadrado icon-profile" :src=path>
             </div>
           </template>
           <template v-slot:card-body>

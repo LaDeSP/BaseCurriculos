@@ -3,10 +3,10 @@
      <div class="col-md-9">
       <div v-if="permissaoDoUsuario === 'JURIDICA'">
         <div v-if="!toggle">
-          <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link>Candidaturas</h2>
+          <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Candidaturas</center></h2>
         </div>
         <div v-else>
-          <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link>Candidatos</h2>
+          <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Candidatos</center></h2>
         </div>
         <br>
         <div v-for="candidatura in candidaturas" :key="candidatura.id">
@@ -20,9 +20,9 @@
         <div v-if="!toggle">
             <div class="row">
               <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
-                <Card style="width: 30rem;">
+                <Card style="width: 35rem; height:30rem;">
                     <template v-slot:card-header>
-                    <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span></h3>
+                      <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span></h3>
                     </template>
                     <template v-slot:card-body>
                     <p><strong>Cargo</strong>: {{show.vaga.cargo}}</p>
@@ -41,11 +41,13 @@
             </div>
         </div>
         <div v-else>
-          <button @click="toggle = false" class="btn btn-sm btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</button>
+          <button @click="toggle = false" class="btn btn-lg btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</button>
+          <br>
+          <br>
             <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
-              <List>
+              <List style="width: 60rem; height:30rem;">
                 <template v-slot:list-header>
-                    <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user.name}}
+                  <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user.name}}
                     <span v-if="show.status == 'EM AGENDAMENTO'">
                         <span class="badge badge-warning">EM AGENDAMENTO</span>
                     </span>
@@ -55,7 +57,7 @@
                     <span v-if="show.status == 'ENTREVISTA CONFIRMADA'">
                         <span class="badge badge-success">ENTREVISTA CONFIRMADA</span>
                     </span>
-                </h3>
+                  </h3>
                 </template>
                 <template v-slot:list-body>
                     <p class="mb-1"><strong>Objetivos:</strong> {{show.curriculo.objetivos}}</p>
@@ -276,7 +278,7 @@
 
 
 <script>
-    import Card from '../Utils/CardsVagas';
+    import Card from '../Utils/Cards-fisica';
     import List from '../Utils/List';
     import Modal from '../Utils/Modal';
     import Curriculo from '../Lists/Curriculo';
