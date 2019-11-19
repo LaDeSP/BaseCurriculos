@@ -2,12 +2,11 @@
     <div class="row justify-content-center"> 
         <div class="col-lg-8">
           <div v-if="!dataCompleted">
-            <h1>Complete seus dados para podermos continuar!</h1>
+            <h1>Complete seus dados para continuar!</h1>
              <NewJuridicaData></NewJuridicaData>
           </div>
           <div v-else-if="!hasVaga">
-            <h1>Você ainda não cadastrou nenhuma vaga.
-                Que tal fazer isso agora? </h1>
+            <h1>Que tal cadastrar a sua primeira vaga?</h1>
             <NewVaga></NewVaga>
           </div>
           <div v-if="dataCompleted & hasVaga">

@@ -10,7 +10,7 @@
                   </span>
               </div>
               <div class="col-sm-12">
-                <div class="form-group">
+                <div class="form-group"> 
                   <label for="name">Nome <a class="color-red">*</a></label>
                   <ValidationProvider name="name" rules="required|max:50">
                       <div slot-scope="{ errors }">
@@ -34,15 +34,20 @@
               </div>
 
                 <div class="col-sm-12">
-                  <div class="form-group">
-                    <label  for="ramo">Ramo <a class="color-red">*</a></label>
-                    <ValidationProvider name="ramo" rules="required|max:50">
-                          <div slot-scope="{ errors }">
-                            <input type="ramo" name="ramo" class="form-control" v-model="ramo" maxlength="50" required='autofocus'>
-                            <p class="color-red">{{ errors[0] }}</p>
-                          </div>
-                      </ValidationProvider>
-                  </div>
+                   <div class="form-group">
+                        <label for="area">Área de Atuação <a class="color-red">*</a></label>
+                        <ValidationProvider name="area" rules="required">
+                            <div slot-scope="{ errors }">
+                                <select class="custom-select" name="area" v-model="area">
+                                    <option disabled value="">Selecione uma área</option>
+                                    <option v-for="area in areas" :key="area.id" :value="area.id">
+                                        {{area.tipo}}
+                                    </option>
+                                </select>
+                                <p class="color-red">{{ errors[0] }}</p>
+                            </div>
+                        </ValidationProvider>
+                    </div>
                 </div>
 
                 <div class="col-sm-12">
@@ -87,9 +92,10 @@
                 name:'',
                 email: '',
                 password: '',
-                ramo: '',
+                area: '',
                 cnpj: '',
                 role: 'JURIDICA',
+                areas:[],
                 notificacoes: []
 
 
@@ -98,12 +104,13 @@
         methods: {
 
              register(){
+
               let newJuridicaData = {
                 name: this.name,
                 email: this.email,
                 cnpj: this.cnpj,
                 password: this.password,
-                ramo: this.ramo,
+                area: this.area,
                 role: this.role
               }
 
@@ -119,7 +126,23 @@
               })
               .catch(error => console.log(error))
               
-            }
+            },
+
+            loadArea(){
+                const token = this.$store.state.auth.token;
+                this.axios.get('http://localhost:8000/api/areas?token=' + token)
+
+                    .then(response => {
+                        this.areas = response.data.areas
+                    })
+                    .catch(
+                        error => console.log(error)
+                    );
+            },
         },
+
+        created(){
+          this.loadArea();
+        }
     }
 </script>

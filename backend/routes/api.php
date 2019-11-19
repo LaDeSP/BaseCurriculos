@@ -20,6 +20,9 @@ Route::post('/logout', [
     'uses' => 'UserController@logout'
 ]);
 
+Route::post('/areas', 'AreaController@store');
+Route::get('/areas', 'AreaController@index');
+
 Route::resource('/pfisicas', 'FisicaController');
 Route::resource('/pjuridicas', 'JuridicaController');
 Route::resource('/curriculos', 'CurriculoController', [
@@ -42,8 +45,6 @@ Route::group([
 ], function ($router) {
 
     Route::post('/pjuridicas/data', 'JuridicaController@addData');
-    Route::post('/areas', 'AreaController@store');
-    Route::get('/areas', 'AreaController@index');
     Route::post('/store/foto/{categoria}/{id}', 'UploadController@storeFoto')->name('fotos.store');
     Route::get('/getActualPhoto', 'UploadController@getActualPhoto');
     Route::post('/deletePhoto/{id?}', 'UploadController@deletePhoto');//delete
@@ -58,4 +59,4 @@ Route::group([
     Route::get('/vagasPorcentagem', 'BuscaController@buscaVagasProgress');
 });
 
-Route::get('/teste', 'CandidaturaController@teste');
+Route::get('/teste', 'UserController@teste');

@@ -15,6 +15,11 @@ use Response;
 
 class UserController extends Controller implements JWTSubject
 {
+    public function teste(){
+        $teste = User::onlyTrashed()->get();
+        dd($teste);
+    }
+
     public function login(Request $request){
         
        /* $validator = Validator::make($request->all(), UserController::rules(), UserController::messages());
@@ -25,6 +30,23 @@ class UserController extends Controller implements JWTSubject
             ], 201);
         }
         */   
+        $user = new User();
+        $credentials = $request->only('email', 'password');
+        if($a){
+            try{
+                if(!$token = JWTAuth::attempt($credentials)){
+                    $error[] = 'Senha Inválida.';
+                    return response()->json([
+                        'error' => $error
+                    ], 201);
+                }
+            }catch(JWTException $e){
+                return response()->json([
+                    'error' => 'could not create token'
+                ], 500);
+            }
+        }
+
         if (!(User::where('email', '=', $request->input('email'))->exists())){
             $error[] = 'Email informado não está cadastrado.';
             return Response::json([
@@ -32,8 +54,6 @@ class UserController extends Controller implements JWTSubject
             ], 201);
         }
        
-        
-        $credentials = $request->only('email', 'password');
         //se try falhar, falhou em criar um token
         try{
             //tento usando as credenciais dadas, se não deu certo, quer dizer q token n foi criado
@@ -74,10 +94,6 @@ class UserController extends Controller implements JWTSubject
      ], 201);
         
       
-    }
-    public function teste(){
-        $teste = User::where('id', '1')->get();
-        dd(gettype($teste));
     }
 
     public function logout(){

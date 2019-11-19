@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <slot name="body">
-            <p>Sou o body.</p>
+            Sou o body.
           </slot>
         </div>
         <div class="modal-footer d-flex justify-content-center">

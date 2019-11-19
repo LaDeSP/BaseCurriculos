@@ -32,14 +32,14 @@
                 <h3><span class="badge badge-info">{{vaga.titulo}}</span></h3>
               </template>
               <template v-slot:card-body>
-                <p><strong>Descrição:</strong> {{vaga.descricao}}</p>
-                <p><strong>Cargo:</strong> {{vaga.cargo}}</p>
-                <p><strong>Quantidade:</strong> {{vaga.quantidade}}</p>
-                <p><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
-                <p><strong>Salário:</strong> {{vaga.salario}}</p>
-                <p><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
-                <p><strong>Benefícios:</strong> {{vaga.beneficio}}</p>
-                <p><strong>Requisitos:</strong> {{vaga.requisito}}</p>
+                <strong>Descrição:</strong> {{vaga.descricao}}
+                <strong>Cargo:</strong> {{vaga.cargo}}
+                <strong>Quantidade:</strong> {{vaga.quantidade}}
+                <strong>Área de Atuação:</strong> {{vaga.area.tipo}}
+                <strong>Salário:</strong> {{vaga.salario}}
+                <strong>Jornada de Trabalho:</strong> {{vaga.jornada}}
+                <strong>Benefícios:</strong> {{vaga.beneficio}}
+                <strong>Requisitos:</strong> {{vaga.requisito}}
               </template>
               <template v-slot:card-footer>
                 <div>
@@ -104,13 +104,13 @@
                   <template v-slot:body>
 
                     <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
-                    <p class="mb-1"><strong>Descrição:</strong> {{vagaById[0].descricao}}</p>
-                    <p class="mb-1"><strong>Cargo: </strong>{{vagaById[0].cargo}}</p>
-                    <p class="mb-1"><strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}</p>
-                    <p class="mb-1"><strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}</p>
-                    <p class="mb-1"><strong>Salário:</strong> {{vagaById[0].salario}}</p>
-                    <p class="mb-1"><strong>Benefícios: </strong>{{vagaById[0].beneficio}}</p>
-                    <p class="mb-1"><strong>Requisitos:</strong> {{vagaById[0].requisito}}</p>
+                    <strong>Descrição:</strong> {{vagaById[0].descricao}}
+                    <strong>Cargo: </strong>{{vagaById[0].cargo}}
+                    <strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}
+                    <strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}
+                    <strong>Salário:</strong> {{vagaById[0].salario}}
+                    <strong>Benefícios: </strong>{{vagaById[0].beneficio}}
+                    <strong>Requisitos:</strong> {{vagaById[0].requisito}}
                   </template>
                   <template v-slot:footer>
                     <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>

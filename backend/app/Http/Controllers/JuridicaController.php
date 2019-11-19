@@ -29,7 +29,7 @@ class JuridicaController extends Controller
         
         $pjuridica = new Juridica();
         $cnpj = $pjuridica->cnpj = $request->input('cnpj');
-        $ramo = $pjuridica->ramo = $request->input('ramo');
+        $area = $pjuridica->area = $request->input('area');
         $email = $request->input('email');
         $id = User::where('email', $email)->first()->id;
         $pjuridica->user_id = $id;
@@ -153,6 +153,15 @@ class JuridicaController extends Controller
 
     public function destroy($id)
     {
+        $user = User::destroy($id);
+
+        if($user){
+            return Response::json(['softdelete ok']);
+        }
+    }
+
+   /* public function destroy($id)
+    {
     
         $end_id = Juridica::where('user_id', $id)->first()->enderecos_id;
         $cont_id = Juridica::where('user_id', $id)->first()->contatos_id;
@@ -173,6 +182,7 @@ class JuridicaController extends Controller
             'msg' => 'deletado ok'
          ], 201);
     }
+    */
 
     
     public function messages_basic(){

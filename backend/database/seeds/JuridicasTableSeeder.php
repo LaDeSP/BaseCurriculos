@@ -11,7 +11,7 @@ class JuridicasTableSeeder extends Seeder
         Juridica::create([
             'user_id'=>3,
             'cnpj'=>'95987235000125',
-            'ramo'=>'Soluções Tecnológicas',
+            'areas_id'=>21,
             'contatos_id'=>2,
             'enderecos_id'=>2
         ]);
