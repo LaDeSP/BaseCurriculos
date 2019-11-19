@@ -71,7 +71,7 @@
           <br>
           <div class="row justify-content-center">
             <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
-            <Card style="width: 20rem; height:23rem">
+            <Card style="width: 20rem; height:5rem" class="igualdade">
               <template v-slot:card-header>
                   <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
               </template>

@@ -25216,6 +25216,11 @@ label#thumbnail.has-thumbnail img{
 .quadrado{
   border-radius: 5px;
 }
+ .igualdade{
+  max-height: 450px;
+  min-height: 450px;
+}
+
 .color-red{
   color: red !important;
 }
