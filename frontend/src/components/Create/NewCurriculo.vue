@@ -502,6 +502,7 @@
 
                     <div class="form-group">
                         <label for="qualificacoes">Qualificações <a class="color-red">*</a></label>
+                        <p>I</p>
                         <ValidationProvider name="qualificacoes" rules="required|max:500">
                             <div slot-scope="{ errors }">
                                 <textarea id="qualificacoes" class="md-textarea form-control" rows="5" name="qualificacoes" v-model="qualificacoes" maxlength="500"></textarea>

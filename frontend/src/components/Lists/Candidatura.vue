@@ -25,8 +25,8 @@
                       <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span></h3>
                     </template>
                     <template v-slot:card-body>
-                    <p><strong>Cargo</strong>: {{show.vaga.cargo}}</p>
-                    <p><strong>Detalhes</strong>: {{show.vaga.descricao}}</p>
+                    <strong>Cargo</strong>: {{show.vaga.cargo}}
+                    <strong>Detalhes</strong>: {{show.vaga.descricao}}
                     </template>
                     <template v-slot:card-footer>
                         <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
@@ -257,7 +257,19 @@
                             </Modal>
                         </span>
                         <span v-if="show.status == 'AGUARDANDO'">
-                            <button @click="deleteCandidatura(show.id)" class="btn btn-sm btn-danger">Desistir</button>
+                            <button @click="showModal('desistencia', show.id)" class="btn btn-sm btn-danger">Desistir</button>
+                            <Modal v-show="isModalDesistencia" @close="closeModal">
+                                <template v-slot:header>
+                                <h3>Desistir da candidatura</h3>
+                                </template>
+                                <template v-slot:body>
+                                    <h2 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>desistir</strong></span> dessa vaga?</h2>
+                                </template>
+                                <template v-slot:footer>
+                                      <button @click="deleteCandidatura(show.id)" class="btn btn-sm btn-danger">Desistir</button>
+                                    <button @click="closeModal" class="btn btn-md btn-outline-secondary">Voltar</button>
+                                </template>
+                            </Modal>
                         </span>
                         <span v-if="show.status == 'ENTREVISTA CANCELADA' || show.status == 'RECUSADO'">
                             <center><button @click="deleteCandidatura(show.id)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></center>
@@ -302,6 +314,7 @@
                 isModalShowMore: false,
                 isModalAgendamento: false,
                 isModalWarning: false,
+                isModalDesistencia: false,
                 vaga_id: 0,
                 candidato_id: 0,
                 observacao: '',
@@ -328,7 +341,9 @@
                  }else if(modal === 'warning'){
                     this.isModalWarning = true;
                     this.candidato_id = candidato_id;
-
+                 }else if(modal === 'desistencia'){
+                    this.isModalDesistencia = true;
+                    this.candidato_id = candidato_id;
                  }else{
                     this.isModalAgendamento = true;
                     this.candidato_id = candidato_id;
@@ -339,6 +354,7 @@
               this.isModalWarning = false;
               this.isModalShowMore = false;
               this.isModalAgendamento = false;
+              this.isModalDesistencia = false;
             },
 
             vagaDaCandidatura(vaga_id){
@@ -364,9 +380,9 @@
             },
 
 
-            async deleteCandidatura(candidatura_id){
+            async deleteCandidatura(){
 
-                await this.$store.dispatch('deleteCandidatura', candidatura_id)
+                await this.$store.dispatch('deleteCandidatura', this.candidato_id)
                 .then(response => {
                   console.log('delete', response);
                 }).catch(error => console.log(error))

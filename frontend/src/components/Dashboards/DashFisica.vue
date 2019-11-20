@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
           <div v-if="!dataCompleted">
-            <h1>Complete seus dados para podermos continuar!</h1>
+            <h1>Complete seus dados para continuar!</h1>
              <NewCurriculo></NewCurriculo>
           </div>
           <div v-else>

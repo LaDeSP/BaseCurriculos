@@ -93,13 +93,13 @@
                       <template v-slot:body>
 
                         <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
-                        <p class="mb-1"><strong>Descrição:</strong> {{vagaById[0].descricao}}</p>
-                        <p class="mb-1"><strong>Cargo: </strong>{{vagaById[0].cargo}}</p>
-                        <p class="mb-1"><strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}</p>
-                        <p class="mb-1"><strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}</p>
-                        <p class="mb-1"><strong>Salário:</strong> {{vagaById[0].salario}}</p>
-                        <p class="mb-1"><strong>Benefícios: </strong>{{vagaById[0].beneficio}}</p>
-                        <p class="mb-1"><strong>Requisitos:</strong> {{vagaById[0].requisito}}</p>
+                        <strong>Descrição:</strong> {{vagaById[0].descricao}}
+                        <strong>Cargo: </strong>{{vagaById[0].cargo}}
+                        <strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}
+                        <strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}
+                        <strong>Salário:</strong> {{vagaById[0].salario}}
+                        <strong>Benefícios: </strong>{{vagaById[0].beneficio}}
+                        <strong>Requisitos:</strong> {{vagaById[0].requisito}}
                       </template>
                       <template v-slot:footer>
                         <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>

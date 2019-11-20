@@ -8,7 +8,7 @@ class Juridica extends Model
 {
 	protected $fillable = [
 		'razao', 'cnpj', 'ramo', 'missao', 
-		'contatos_id', 'enderecos_id', 'user_id'
+		'contatos_id', 'enderecos_id', 'user_id', 'areas_id'
 	];
 
 	public function user(){
