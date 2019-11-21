@@ -13,6 +13,7 @@ use App\Candidatura;
 class BuscaController extends Controller
 {
     public function buscaVagas($keywords){
+        //acho que n precisa mais dessa parte aqui mas ver
         $user_id = auth()->user()->id;
         $user = User::findOrFail($user_id);
         $curriculo = $user->fisica->curriculo;
@@ -28,11 +29,10 @@ class BuscaController extends Controller
             $candidaturas[]=$candidatura->vagas_id;
         }
 
-        $vagas = Vaga::with(['area'])
+        $vagas = Vaga::with(['area', 'myCandidatura'])
             ->where(function ($query) use ($keywords) {
                 $query->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%');
             })
-            ->whereNotIn('id', $candidaturas)
             ->get();
 
 

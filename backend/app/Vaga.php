@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\User;
 class Vaga extends Model
 {
 
@@ -24,5 +24,20 @@ class Vaga extends Model
 
 	public function candidaturaContratada(){
 		return $this->hasMany(Candidatura::class, 'vagas_id')->where('status', 'CONTRATADO');
+	}
+
+	public function myCandidatura(){
+		$user_id = auth()->user()->id;
+		$user = User::findOrFail($user_id);
+		$curriculo = $user->fisica->curriculo;
+	
+		
+		return $this->hasOne(Candidatura::class, 'vagas_id')->where(function ($query) {
+            $query->where('status', "EM AGENDAMENTO")
+                  ->orWhere('status', "AGUARDANDO")
+                  ->orWhere('status', "ENTREVISTA CONFIRMADA")
+                  ->orWhere('status', "CONTRATADO");
+		})
+		->where('curriculos_id', $curriculo->id);
 	}
 }
