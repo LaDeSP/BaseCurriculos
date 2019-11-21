@@ -25,10 +25,10 @@
         <tab-content title="Informações da Vaga" icon="fas fa-file-invoice-dollar">
             <div class="form-group">
             <label for="titulo">Título <a class="color-red">*</a></label>
-            <ValidationProvider name="titulo" rules="required|max:50">
+            <ValidationProvider name="titulo" rules="required|max:250">
                 <div slot-scope="{ errors }">
                     <input type="titulo" name="titulo"
-                    class="form-control" v-model="titulo" maxlength="50">
+                    class="form-control" v-model="titulo" maxlength="250">
                     <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
@@ -36,10 +36,10 @@
 
             <div class="form-group">
             <label for="descricao">Descrição <a class="color-red">*</a></label>
-            <ValidationProvider name="descricao" rules="required|max:500">
+            <ValidationProvider name="descricao" rules="required|max:5000">
                 <div slot-scope="{ errors }">
                     <textarea type="descricao" name="descricao"
-                    class="form-control" v-model="descricao" rows="3" maxlength="500"></textarea>
+                    class="form-control" v-model="descricao" rows="3" maxlength="5000"></textarea>
                     <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
@@ -47,9 +47,9 @@
 
             <div class="form-group">
             <label for="cargo">Cargo <a class="color-red">*</a></label>
-            <ValidationProvider name="cargo" rules="required|max:50">
+            <ValidationProvider name="cargo" rules="required|max:250">
                 <div slot-scope="{ errors }">
-                    <input type="text" class="form-control" name="cargo" v-model="cargo" maxlength="50">
+                    <input type="text" class="form-control" name="cargo" v-model="cargo" maxlength="250">
                     <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
@@ -76,10 +76,10 @@
             </div>
 
             <div class="form-group">
-            <label for="salario">Salário <a class="color-red">*</a></label>
-            <ValidationProvider name="salario" rules="required|numeric|min_value:1">
+            <label for="salario">Salário</label>
+            <ValidationProvider name="salario" rules="max:250">
                 <div slot-scope="{ errors }">
-                    <input type="number"  name="salario" class="form-control" v-model="salario" step="any" placeholder="R$">
+                    <input type="text" name="salario" class="form-control" v-model="salario" maxlength="250">
                     <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
@@ -91,10 +91,10 @@
 
             <div class="form-group">
             <label for="jornada">Jornada de Trabalho <a class="color-red">*</a></label>
-            <ValidationProvider name="jornada" rules="required|max:50">
+            <ValidationProvider name="jornada" rules="required|max:250">
                 <div slot-scope="{ errors }">
                     <input type="jornada" name="jornada"
-                    class="form-control" v-model="jornada" maxlength="50">
+                    class="form-control" v-model="jornada" maxlength="250">
                     <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
@@ -102,9 +102,9 @@
 
             <div class="form-group">
             <label for="beneficios">Benefícios <a class="color-red">*</a></label>
-            <ValidationProvider name="beneficios" rules="required|max:500">
+            <ValidationProvider name="beneficios" rules="required|max:5000">
                 <div slot-scope="{ errors }">
-                <textarea class="form-control" rows="3" v-model="beneficios" maxlength="500"></textarea>
+                <textarea class="form-control" rows="3" v-model="beneficios" maxlength="5000"></textarea>
                 <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
@@ -112,9 +112,9 @@
 
             <div class="form-group">
             <label for="requisitos">Requisitos <a class="color-red">*</a></label>
-            <ValidationProvider name="requisitos" rules="required|max:500">
+            <ValidationProvider name="requisitos" rules="required|max:5000">
                 <div slot-scope="{ errors }">
-                    <textarea class="form-control"  rows="3" v-model="requisitos" maxlength="500"></textarea>
+                    <textarea class="form-control"  rows="3" v-model="requisitos" maxlength="5000"></textarea>
                     <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>

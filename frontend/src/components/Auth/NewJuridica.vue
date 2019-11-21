@@ -12,9 +12,9 @@
               <div class="col-sm-12">
                 <div class="form-group"> 
                   <label for="name">Nome <a class="color-red">*</a></label>
-                  <ValidationProvider name="name" rules="required|max:50">
+                  <ValidationProvider name="name" rules="required|max:250">
                       <div slot-scope="{ errors }">
-                        <input type="text" name="name" class="form-control" v-model="name" maxlength="50" required='autofocus'>
+                        <input type="text" name="name" class="form-control" v-model="name" maxlength="250" required='autofocus'>
                         <p class="color-red">{{ errors[0] }}</p>
                       </div>
                   </ValidationProvider>
@@ -53,9 +53,9 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label for="email">Email <a class="color-red">*</a></label>
-                    <ValidationProvider name="email" rules="required|email|max:50">
+                    <ValidationProvider name="email" rules="required|email|max:250">
                       <div slot-scope="{ errors }">
-                        <input type="email" name="email" class="form-control" v-model="email" maxlength="50" required='autofocus'>
+                        <input type="email" name="email" class="form-control" v-model="email" maxlength="250" required='autofocus'>
                         <p class="color-red">{{ errors[0] }}</p>
                       </div>
                     </ValidationProvider>

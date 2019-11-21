@@ -189,8 +189,8 @@ class JuridicaController extends Controller
         return $messages = [
             'name.required' => 'Insira um nome!',
             'name.max' => 'Insira nome com no máximo 50 caracteres',
-            'ramo.required' => 'Insira um ramo!',
-            'ramo.max' => 'Insira ramo com no máximo 50 caracteres',
+            'area.required' => 'Selecione uma área.',
+            'area.exists' => 'Selecione uma área válida.',
             'email.required' => 'Insira um email!',
             'email.email' => 'Insira um email válido!',
             'email.unique' => 'Email inserido já existe!',
@@ -207,7 +207,7 @@ class JuridicaController extends Controller
         return [
            
             'name' => 'required|max:50',
-            'ramo' => 'required|max:50',
+            'area' => 'required|exists:areas,id',
             'email' => 'required|max:50|email|unique:users,email',
             'password' => 'required|min:8|max:30',
             'cnpj' => 'required|cnpj|unique:juridicas,cnpj'
@@ -247,7 +247,7 @@ class JuridicaController extends Controller
             'outraRede' => 'max:50',
            // 'pais' => 'required',/* validar lista */
             'estado' => 'required',/* validar lista */
-            'fixo' => 'required|digits:10',
+            'fixo' => 'digits:10',
             'celular' => 'required|digits_between: 10, 11',
             'rua' => 'required|max:50',
             'numero' => 'numeric|max:1000000',

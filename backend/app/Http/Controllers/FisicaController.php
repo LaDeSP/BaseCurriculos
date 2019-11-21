@@ -85,10 +85,11 @@ class FisicaController extends Controller
     public function messages(){
         return $messages = [
             'name.required' => 'Insira um nome!',
-            'name.max' => 'Insira nome com no máximo 50 caracteres',
+            'name.max' => 'Insira nome com no máximo 250 caracteres',
             'email.required' => 'Insira um email!',
             'email.email' => 'Insira um email válido!',
             'email.unique' => 'Email inserido já existe!',
+            'email.max' => 'Email com no máximo 250 caracteres',
             'password.required' => 'Insira uma senha!',
             'password.min' => 'Senha tem que ter no mínimo 8 caracteres!',
             'password.max' => 'Senha tem que ter no máximo 30 caracteres!',
@@ -101,8 +102,8 @@ class FisicaController extends Controller
     public function rules(){
         return [
            
-            'name' => 'required|max:50',
-            'email' => 'required|max:50|email|unique:users,email',
+            'name' => 'required|max:250',
+            'email' => 'required|max:250|email|unique:users,email',
             'password' => 'required|min:8|max:30',
             'cpf' => 'required|cpf|unique:fisicas,cpf'
         ];

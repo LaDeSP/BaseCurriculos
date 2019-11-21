@@ -1,6 +1,6 @@
 <template>
   <div class="input-group col-md-11" v-if="permissaoDoUsuario === 'JURIDICA'">
-    <input class="form-control py-2" type="search" placeholder="Digite aqui.." v-model="keywords">
+    <input class="form-control py-2" type="search" placeholder="Busque aqui por qualificações necessárias" v-model="keywords">
     <span class="input-group-append">
       <button class="btn btn-outline-secondary" type="button" @click="redirectSimpleCurriculo">
           <i class="fa fa-search"></i>
@@ -71,7 +71,7 @@
 
   </div>
   <div class="input-group col-md-11" v-else>
-    <input class="form-control py-2" type="search" placeholder="Digite aqui.." v-model="keywords">
+    <input class="form-control py-2" type="search" placeholder="Busque aqui pelo título ou descrição da vaga que você quer" v-model="keywords">
     <span class="input-group-append">
       <button class="btn btn-outline-secondary" type="button" @click="redirectSimple" v-on:keyup.enter="redirectSimple">
           <i class="fa fa-search"></i>

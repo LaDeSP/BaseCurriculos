@@ -155,9 +155,9 @@ class VagaController extends Controller
     public function messages(){
         return $messages = [
             'titulo.required' => 'Insira um título!',
-            'titulo.max' => 'Insira um título com no máximo 50 caracteres!',
+            'titulo.max' => 'Insira um título com no máximo 250 caracteres!',
             'cargo.required' => 'Insira um cargo!',
-            'cargo.max' => 'Insira cargo com no máximo 50 caracteres',
+            'cargo.max' => 'Insira cargo com no máximo 250 caracteres',
             'quantidade.required' => 'Insira uma quantidade!',
             'quantidade.numeric' => 'Insira quantidade apenas com números!',
             'quantidade.min' => 'Insira quantidade com valor maior que 0!',
@@ -165,26 +165,27 @@ class VagaController extends Controller
             'salario.required' => 'Insira um salário!',
             'salario.numeric' => 'Insira salário apenas com números!',
             'salario.min' => 'Insira salário com valor maior que 0!',
+            'salario.max' => 'Salário deve ter no máximo 250 dígitos!',
             'jornada.required' => 'Insira jornada!',
-            'jornada.max' => 'Insira jornada com no máximo 50 caracteres!',
+            'jornada.max' => 'Insira jornada com no máximo 250 caracteres!',
             'beneficios.required' => 'Insira os benefícios!',
-            'beneficios.max' => 'Insira benefícios com no máximo 500 caracteres!',
+            'beneficios.max' => 'Insira benefícios com no máximo 5000 caracteres!',
             'requisitos.required' => 'Insira os requisitos!',
-            'requisitos.max' => 'Insira requisitos com no máximo 500 caracteres!'
+            'requisitos.max' => 'Insira requisitos com no máximo 5000 caracteres!'
         ];
     }
 
     public function rules(){
         return [
-            'titulo' => 'required|max:50',
-            'descricao' => 'required|max:500',
-            'cargo' => 'required|max:50',
+            'titulo' => 'required|max:250',
+            'descricao' => 'required|max:5000',
+            'cargo' => 'required|max:250',
             'quantidade' => 'required|numeric|min:1|max:1000000',
             'area' => 'required|exists:areas,id',
-            'salario' => 'required|numeric|min:1|max:1000000',
-            'jornada' => 'required|max:50',
-            'beneficios' => 'required|max:500',
-            'requisitos' => 'required|max:500'
+            'salario' => 'max:250',
+            'jornada' => 'required|max:250',
+            'beneficios' => 'required|max:5000',
+            'requisitos' => 'required|max:5000'
         ];
     }
     

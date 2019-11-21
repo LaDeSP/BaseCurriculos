@@ -14,7 +14,7 @@
                   <span class="fa fa-user fa-5x"></span>
                 </div>
                 <h2 class="text-center">Login</h2>
-                <ValidationProvider name="email" rules="required|email|max:50">
+                <ValidationProvider name="email" rules="required|email|max:250">
                   <div slot-scope="{errors}">
                     <p class="color-red">{{ errors[0] }}</p>
                     <div class="form-group">

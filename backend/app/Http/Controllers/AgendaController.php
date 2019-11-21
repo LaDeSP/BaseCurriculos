@@ -257,8 +257,8 @@ class AgendaController extends Controller
             'data.after_or_equal' => 'A data-hora devem ser igual ou maior que a data-hora atual.',
             'data.before' => 'A data deve ser realista.',
             'hora.required' => 'Insira uma hora!',
-            'observacao.max' => 'Insira observação com no máximo 500 caracteres!',
-            'contraproposta.max' => 'Insira a contraproposta com no máximo 500 caracteres!',
+            'observacao.max' => 'Insira observação com no máximo 5000 caracteres!',
+            'contraproposta.max' => 'Insira a contraproposta com no máximo 5000 caracteres!',
         ];
     }
 
@@ -266,8 +266,8 @@ class AgendaController extends Controller
         return [
             'data' => 'required|date',
             'hora' => 'required|date_format:H:i',
-            'observacao' => 'max:500',
-            'contraproposta' => 'max:500',
+            'observacao' => 'max:5000',
+            'contraproposta' => 'max:5000',
         ];
     }
 

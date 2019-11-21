@@ -32,9 +32,9 @@
                     </div>
                     <div class="form-group">
                         <label for="razao">Nome da Empresa <a class="color-red">*</a></label>
-                        <ValidationProvider name="razao" rules="required|max:50">
+                        <ValidationProvider name="razao" rules="required|max:250">
                             <div slot-scope="{ errors }">
-                                <input type="text" name="razao" class="form-control" v-model="razao"  maxlength="50">
+                                <input type="text" name="razao" class="form-control" v-model="razao"  maxlength="250">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
@@ -45,7 +45,7 @@
                     <div class="form-group">
                         <label for="telefone">Telefone Fixo<a class="color-red">*</a></label>
                         <div class="form-group">
-                          <ValidationProvider name="fixo" rules="required|numeric|digits:10">
+                          <ValidationProvider name="fixo" rules="numeric|digits:10">
                               <div slot-scope="{ errors }">
                                   <input type="text" class="form-control" name="fixo" v-model="fixo" minlength="10" maxlength="10">
                                   <p class="color-red">{{ errors[0] }}</p>
@@ -64,40 +64,40 @@
                     </div>
                     <div class="form-group">
                         <label for="linkedin">Linkedin</label>
-                        <ValidationProvider name="linkedin" rules="max:50">
+                        <ValidationProvider name="linkedin" rules="max:250">
                             <div slot-scope="{ errors }">
                                 <input type="linkedin" id="linkedin" name="linkedin"
-                                class="form-control" v-model="linkedin" maxlength="50">
+                                class="form-control" v-model="linkedin" maxlength="250">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
                     </div>
                     <div class="form-group">
                         <label for="facebook">Facebook</label>
-                        <ValidationProvider name="facebook" rules="max:50">
+                        <ValidationProvider name="facebook" rules="max:250">
                             <div slot-scope="{ errors }">
                                 <input type="facebook" id="facebook" name="facebook"
-                                class="form-control" v-model="facebook" maxlength="50">
+                                class="form-control" v-model="facebook" maxlength="250">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
                     </div>
                     <div class="form-group">
                         <label for="twitter">Twitter</label>
-                        <ValidationProvider name="twitter" rules="max:50">
+                        <ValidationProvider name="twitter" rules="max:250">
                             <div slot-scope="{ errors }">
                                 <input type="twitter" id="twitter" name="twitter"
-                                class="form-control" v-model="twitter" maxlength="50">
+                                class="form-control" v-model="twitter" maxlength="250">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
                     </div>
                     <div class="form-group">
                         <label for="site">Site</label>
-                        <ValidationProvider name="site" rules="max:50">
+                        <ValidationProvider name="site" rules="max:250">
                             <div slot-scope="{ errors }">
                                 <input type="site" id="facebook" name="site"
-                                class="form-control" v-model="site" maxlength="50">
+                                class="form-control" v-model="site" maxlength="250">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
@@ -156,9 +156,9 @@
 
                     <div class="form-group">
                       <label for="cidade">Cidade <a class="color-red">*</a></label>
-                      <ValidationProvider name="cidade" rules="required|max:50">
+                      <ValidationProvider name="cidade" rules="required|max:250">
                             <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="cidade" id="cidade" placeholder="Cidade" v-model="cidade" maxlength="50">
+                                <input type="text" class="form-control" name="cidade" id="cidade" placeholder="Cidade" v-model="cidade" maxlength="250">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                       </ValidationProvider>
@@ -166,9 +166,9 @@
 
                      <div class="form-group">
                       <label for="bairro">Bairro <a class="color-red">*</a></label>
-                      <ValidationProvider name="bairro" rules="required|max:50">
+                      <ValidationProvider name="bairro" rules="required|max:250">
                             <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" id="bairro" maxlength="50">
+                                <input type="text" class="form-control" name="bairro" placeholder="Bairro" v-model="bairro" id="bairro" maxlength="250">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
@@ -176,9 +176,9 @@
 
                     <div class="form-group">
                         <label for="endereco">Rua <a class="color-red">*</a></label>
-                        <ValidationProvider name="rua" rules="required|max:50">
+                        <ValidationProvider name="rua" rules="required|max:250">
                             <div slot-scope="{ errors }">
-                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" id="rua" maxlength="50">
+                                <input type="text" class="form-control" name="rua" placeholder="Rua" v-model="rua" id="rua" maxlength="250">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
@@ -197,9 +197,9 @@
 
                     <div class="form-group">
                       <label for="complemento">Complemento</label>
-                      <ValidationProvider name="complemento" rules="max:50">
+                      <ValidationProvider name="complemento" rules="max:250">
                           <div slot-scope="{ errors }">
-                              <input type="text" class="form-control" name="complemento" placeholder="Complemento" id="complemento" v-model="complemento" maxlength="50">
+                              <input type="text" class="form-control" name="complemento" placeholder="Complemento" id="complemento" v-model="complemento" maxlength="250">
                               <p class="color-red">{{ errors[0] }}</p>
                           </div>
                       </ValidationProvider>
@@ -389,10 +389,9 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 self.bairro = endereco.bairro;
                 self.cidade = endereco.localidade;
                 self.estado = endereco.uf;
-                self.complemento = endereco.complemento;
 
 
-                $("#numero").focus();
+                //$("#numero").focus();
 
                 });
             }

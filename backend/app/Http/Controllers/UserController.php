@@ -107,6 +107,7 @@ class UserController extends Controller implements JWTSubject
         return $messages = [
             'email.required' => 'Insira um email!',
             'email.email' => 'Insira um email válido!',
+            'email.max' => 'Email com no máximo 250 caracteres.',
             'password.required' => 'Insira uma senha!',
             'password.min' => 'Insira uma senha com no mínimo 8 caracteres!',
             'password.max' => 'Insira uma senha com no máximo 30 caracteres!'
@@ -116,7 +117,7 @@ class UserController extends Controller implements JWTSubject
 
     public function rules(){
         return [
-            'email' => 'required|max:50|email',
+            'email' => 'required|max:250|email',
             'password' => 'required|min:8|max:30'
         ];
     }

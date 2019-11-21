@@ -18,7 +18,7 @@ class CreateVagasTable extends Migration
             $table->string('titulo');
             $table->text('descricao');
             $table->string('cargo');
-            $table->string('salario');
+            $table->string('salario')->nullable();
             $table->text('beneficio');
             $table->string('jornada');
             $table->text('requisito');

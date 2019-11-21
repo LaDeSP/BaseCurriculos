@@ -38,9 +38,9 @@
                     </div>
                     <div class="form-group">
                         <label for="observacao">Observação:</label>
-                        <ValidationProvider name="observacao" rules="max:500">
+                        <ValidationProvider name="observacao" rules="max:5000">
                             <div slot-scope="{ errors }">
-                                <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao" maxlength="500"></textarea>
+                                <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao" maxlength="5000"></textarea>
                                 <p>{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
