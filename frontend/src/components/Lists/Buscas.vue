@@ -46,12 +46,12 @@
               <p class="mb-1"><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
           </template>
           <template v-slot:list-footer>
-            <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
             <template v-if="dataCompleted">
                 <div v-if="vaga.my_candidatura">
                     <button class="btn btn-sm btn-success" disabled>Você já se candidatou pra essa vaga.</button>
                 </div>
                 <div v-else>
+                    <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
                     <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
                 </div>           
             </template>
@@ -193,6 +193,7 @@ export default {
 
         onChangePage(pageOfItems) {
             // update page of items
+            console.log(pageOfItems);
             this.pageOfItems = pageOfItems;
         },
 
