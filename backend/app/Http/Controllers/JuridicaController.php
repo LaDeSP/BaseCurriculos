@@ -247,7 +247,7 @@ class JuridicaController extends Controller
             'outraRede' => 'max:50',
            // 'pais' => 'required',/* validar lista */
             'estado' => 'required',/* validar lista */
-            'fixo' => 'digits:10',
+            'fixo' => 'nullable|digits:10',
             'celular' => 'required|digits_between: 10, 11',
             'rua' => 'required|max:50',
             'numero' => 'numeric|max:1000000',
