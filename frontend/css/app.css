@@ -25276,3 +25276,7 @@ label#thumbnail.has-thumbnail img{
 .withoutPreviusNext .pagination .first, .withoutPreviusNext .pagination .last{
   display: none !important;
 }
+
+.display-none{
+  display: none !important;
+}

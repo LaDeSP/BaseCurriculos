@@ -35,7 +35,10 @@
               </div>
             </div>
             <div class="row justify-content-center">
-              <div class="trocaPagina ">
+              <div class="trocaPagina" v-if="displayVagasThatHaveCandidaturas.length > 10">
+                <jw-pagination :items="displayVagasThatHaveCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+              </div>
+              <div class="trocaPagina display-none" v-else>
                 <jw-pagination :items="displayVagasThatHaveCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
               </div>
             </div>
@@ -120,7 +123,10 @@
                 </List>
               </div>
               <div class="row justify-content-center">
-              <div class="trocaPagina ">
+              <div class="trocaPagina" v-if="candidaturasByVaga.length > 4">
+                <jw-pagination :items="candidaturasByVaga" @changePage="onChangePage" :pageSize="4" :labels="customLabels"></jw-pagination>
+              </div>
+              <div class="trocaPagina display-none" v-else>
                 <jw-pagination :items="candidaturasByVaga" @changePage="onChangePage" :pageSize="4" :labels="customLabels"></jw-pagination>
               </div>
             </div>
@@ -279,7 +285,10 @@
             </div>
       </div>
         <div class="row justify-content-center">
-          <div class="trocaPagina ">
+          <div class="trocaPagina" v-if="displayCandidaturas.length > 10">
+            <jw-pagination :items="displayCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+          </div>
+          <div class="trocaPagina display-none" v-else>
             <jw-pagination :items="displayCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
           </div>
         </div>

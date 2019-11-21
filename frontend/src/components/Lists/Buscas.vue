@@ -23,7 +23,12 @@
                 </Card>
             </div>
         </div>
-        <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+        <div v-if="displayResultados.length > 10">
+             <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+        </div>
+        <div class="display-none" v-else>
+            <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+        </div>
     </div>
     <div class="container" v-else>
         <div v-if="displayResultados.length==0">
@@ -75,7 +80,12 @@
           </List>
             </div>
         </div>
-        <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+        <div v-if="displayResultados.length > 10">
+            <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+        </div>
+        <div class="display-none" v-else>
+            <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+        </div>
     </div>
 </template>
 

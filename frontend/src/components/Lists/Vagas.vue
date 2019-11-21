@@ -74,7 +74,10 @@
       <br>
       <br>
       <div class="row no-gutters align-items-center">
-        <div class="col-11">
+        <div class="col-11" v-if="isActive.length > 4">
+          <center><jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="4" :labels="customLabels" v-if="permissaoDoUsuario === 'JURIDICA'"></jw-pagination></center>
+        </div>
+        <div class="col-11 display-none" v-else>
           <center><jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="4" :labels="customLabels" v-if="permissaoDoUsuario === 'JURIDICA'"></jw-pagination></center>
         </div>
       </div>
@@ -129,7 +132,10 @@
         <br>
         <br>
           <div class="row">
-            <div class="col-11">
+            <div class="col-11" v-if="isActive.length > 4">
+              <center><jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="4" :labels="customLabels"></jw-pagination></center>
+            </div>
+            <div class="col-11 display-none" v-else>
               <center><jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="4" :labels="customLabels"></jw-pagination></center>
             </div>
           </div>

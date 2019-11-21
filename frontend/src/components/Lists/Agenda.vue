@@ -113,7 +113,10 @@
               </div>
           </div>
           <div class="row justify-content-center">
-            <div class="trocaPagina ">
+            <div class="trocaPagina" v-if="displayAgenda.length > 10">
+              <jw-pagination :items="displayAgenda" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+            </div>
+            <div class="trocaPagina display-none" v-else>
               <jw-pagination :items="displayAgenda" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
             </div>
           </div>

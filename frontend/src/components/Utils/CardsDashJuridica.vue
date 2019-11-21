@@ -60,7 +60,10 @@
                     <b-progress :value="vaga.porcentagem" variant="success" :striped="striped"></b-progress>
                   </div>
                 </div>
-                <div class="d-flex justify-content-center withoutPreviusNext">
+                <div class="d-flex justify-content-center withoutPreviusNext" v-if="progressBar.length > 3">
+                  <jw-pagination :items="progressBar" @changePage="onChangePage" :pageSize="3" :labels="customLabels"></jw-pagination>
+                </div>
+                <div class="d-flex justify-content-center withoutPreviusNext display-none" v-else>
                   <jw-pagination :items="progressBar" @changePage="onChangePage" :pageSize="3" :labels="customLabels"></jw-pagination>
                 </div>
               </div>

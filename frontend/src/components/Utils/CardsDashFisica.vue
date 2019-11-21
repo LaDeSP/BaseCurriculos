@@ -116,7 +116,10 @@
             </div>
           </div>
           <div class="row justify-content-center">
-            <div class="trocaPagina ">
+            <div class="trocaPagina" v-if="isActive.length > 6">
+              <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="6" :labels="customLabels"></jw-pagination>
+            </div>
+            <div class="trocaPagina display-none" v-else>
               <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="6" :labels="customLabels"></jw-pagination>
             </div>
           </div>
