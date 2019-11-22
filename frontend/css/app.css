@@ -5106,6 +5106,9 @@ input[type="button"].btn-block {
   -ms-flex-direction: column;
   flex-direction: column;
 }
+.card-group [class*='col-'] {
+  float:none;
+}
 
 .card-group > .card {
   margin-bottom: 0.75rem;
@@ -8984,9 +8987,9 @@ button.bg-dark:focus {
   .mx-sm-1 {
     margin-left: 0.25rem !important;
   }
-  .card{
+  /*.card{
     margin: 5px !important;
-  }
+  }*/
   .m-sm-2 {
     margin: 0.5rem !important;
   }

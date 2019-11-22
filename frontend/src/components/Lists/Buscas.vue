@@ -3,26 +3,30 @@
         <div v-if="displayResultados.length==0">
             <h1>Nenhum resultado encontrado</h1> 
         </div>
-        <div class="row" v-else>
-            <div class="col-md-6" v-for="curriculo in pageOfItems" :key="curriculo.id" :id="curriculo.id">
-                <Card style="width: 30rem;">
-                    <template v-slot:card-header>
-                    <h3><span class="label label-info " style="color: #4E73DF;">{{curriculo.fisica.user.name}}</span></h3>
-                    </template>
-                    <template v-slot:card-body>
-                    <strong>Qualificações:</strong> {{curriculo.qualificacoes}}
-                    <strong>Escolaridade:</strong> {{curriculo.escolaridade}}
-                    <strong>Objetivos:</strong> {{curriculo.objetivos}}
-                    <strong>Pretensão Salarial:</strong> {{curriculo.pretensao}}
-                    <strong>Histórico Profissional:</strong> {{curriculo.historicoProfissional}}
-                    <strong>Cidade:</strong> {{curriculo.fisica.endereco.cidade}}
-                    <strong>Área de Atuação:</strong> {{curriculo.area.tipo}}
-                    </template>
-                    <template v-slot:card-footer>
-                    </template>
-                </Card>
+        <div class="card-group" v-else>
+            <div class="col-lg-12">
+                <div class="row">
+                    <Card class="col-sm-6" v-for="curriculo in pageOfItems" :key="curriculo.id" :id="curriculo.id">
+                        <template v-slot:card-header>
+                        <h3><span class="label label-info " style="color: #4E73DF;">{{curriculo.fisica.user.name}}</span></h3>
+                        </template>
+                        <template v-slot:card-body>
+                        <strong>Qualificações:</strong> {{curriculo.qualificacoes}}
+                        <strong>Escolaridade:</strong> {{curriculo.escolaridade}}
+                        <strong>Objetivos:</strong> {{curriculo.objetivos}}
+                        <strong>Pretensão Salarial:</strong> {{curriculo.pretensao}}
+                        <strong>Histórico Profissional:</strong> {{curriculo.historicoProfissional}}
+                        <strong>Cidade:</strong> {{curriculo.fisica.endereco.cidade}}
+                        <strong>Área de Atuação:</strong> {{curriculo.area.tipo}}
+                        </template>
+                        <template v-slot:card-footer>
+                        </template>
+                    </Card>
+                    
+                </div>
             </div>
         </div>
+            
         <div v-if="displayResultados.length > 10">
              <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
         </div>
@@ -34,55 +38,56 @@
         <div v-if="displayResultados.length==0">
             <h1>Nenhum resultado encontrado</h1> 
         </div>
-        <div class="row" v-else>
-            <div class="col-md-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
-                <List>
-          <template v-slot:list-header>
-              <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
-          </template>
-          <template v-slot:list-body>
-              <p class="mb-1"><strong>Cargo:</strong> {{vaga.cargo}}</p>
-              <p class="mb-1"><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
-              <p class="mb-1"><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
-          </template>
-          <template v-slot:list-footer>
-            <template v-if="dataCompleted">
-                <div v-if="vaga.my_candidatura">
-                    <button class="btn btn-sm btn-success" disabled>Você já se candidatou pra essa vaga.</button>
+        <div class="card-group" v-else>
+            <div class="col-lg-12">
+                <div class="row">
+                    <Card class="col-sm-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
+                        <template v-slot:card-header>
+                            <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
+                        </template>
+                        <template v-slot:card-body>
+                            <p class="mb-1"><strong>Cargo:</strong> {{vaga.cargo}}</p>
+                            <p class="mb-1"><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
+                            <p class="mb-1"><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
+                        </template>
+                        <template v-slot:card-footer>
+                            <template v-if="dataCompleted">
+                                <div v-if="vaga.my_candidatura">
+                                    <button class="btn btn-sm btn-success" disabled>Você já se candidatou pra essa vaga.</button>
+                                </div>
+                                <div v-else>
+                                    <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
+                                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar ou ver mais!</router-link>
+                            </template>
+                            <Modal v-if="isModalShowMore" @close="closeModal">
+                                <template v-slot:header><h3>Detalhes da Vaga</h3></template>
+                                <template v-slot:body>
+                                    <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
+                                    <strong>Descrição:</strong> {{vagaById[0].descricao}}
+                                    <strong>Cargo: </strong>{{vagaById[0].cargo}}
+                                    <strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}
+                                    <strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}
+                                    <strong>Salário:</strong> {{vagaById[0].salario}}
+                                    <strong>Benefícios: </strong>{{vagaById[0].beneficio}}
+                                    <strong>Requisitos:</strong> {{vagaById[0].requisito}}
+                                </template>
+                                <template v-slot:footer>
+                                    <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
+                                    <div v-if="dataCompleted">
+                                        <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                                    </div>
+                                    <div v-else>
+                                        <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+                                    </div>
+                                </template>
+                            </Modal>
+                        </template>
+                    </Card>
                 </div>
-                <div v-else>
-                    <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
-                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
-                </div>           
-            </template>
-            <template v-else>
-              <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
-            </template>
-            <Modal v-if="isModalShowMore" @close="closeModal">
-                  <template v-slot:header><h3>Detalhes da Vaga</h3></template>
-                  <template v-slot:body>
-
-                    <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
-                    <strong>Descrição:</strong> {{vagaById[0].descricao}}
-                    <strong>Cargo: </strong>{{vagaById[0].cargo}}
-                    <strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}
-                    <strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}
-                    <strong>Salário:</strong> {{vagaById[0].salario}}
-                    <strong>Benefícios: </strong>{{vagaById[0].beneficio}}
-                    <strong>Requisitos:</strong> {{vagaById[0].requisito}}
-                  </template>
-                  <template v-slot:footer>
-                    <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
-                    <div v-if="dataCompleted">
-                        <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
-                    </div>
-                    <div v-else>
-                      <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
-                    </div>
-                  </template>
-            </Modal>
-            </template>
-          </List>
             </div>
         </div>
         <div v-if="displayResultados.length > 10">
@@ -95,8 +100,7 @@
 </template>
 
 <script>
-import Card from '../Utils/CardsVagas';
-import List from '../Utils/List';
+import Card from '../Utils/Card';
 import Modal from '../Utils/ModalOld';
 import { mapActions, mapGetters } from 'vuex';
 import JwPagination from 'jw-vue-pagination';
@@ -119,7 +123,7 @@ export default {
 
         }
     },
-    components: {Card, JwPagination, List, Modal},
+    components: {Card, JwPagination, Modal},
 
     created(){
         if(this.$store.state.auth.user.role == 'JURIDICA'){

@@ -10,49 +10,47 @@
               <center><router-link to="/candidaturas" class="font-weight-bold text-primary text-uppercase mb-1">Minhas Candidaturas</router-link></center>
             </template>
             <template v-slot:card-body>
-              <div class="row no-gutters align-items-center">
-                  <div class="h2 mb-0 font-weight-bold text-gray-900">
-                    <div class="row no-gutters align-items-center">
-                      <template v-if="countCandidaturas == 0 || displayCandidaturas == 0">
-                        Nenhuma candidatura realizada!
-                      </template>
-                      <template v-else>
-                          <div v-for="show in display3Candidaturas" :key="show.id">
-                            <cardvagas style="width: 17rem;">
-                              <template v-slot:card-header >
-                                  <center><h5>{{show.vaga.titulo}}</h5></center>
-                              </template>
-                              <template v-slot:card-body>
-                                <!-- <div class=" font-weight-bold text-success text-uppercase mb-1"></div>para o texto ficar verde -->
-                                <div v-if="show.status === 'AGUARDANDO'"  class=" font-weight-bold text-warning text-uppercase">
-                                  <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-spinner fa-pulse"></span></h1></center>
-                                </div>
-                                <div v-if="show.status === 'EM AGENDAMENTO'"  class=" font-weight-bold text-warning text-uppercase">
-                                  <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-spinner fa-pulse"></span></h1></center>
-                                </div>
-                                <div v-if="show.status === 'ENTREVISTA CONFIRMADA'"  class=" font-weight-bold text-success text-uppercase">
-                                  <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-check-circle"></span></h1></center>
-                                </div>
-                                 <div v-if="show.status === 'RECUSADO'"  class=" font-weight-bold text-danger text-uppercase">
-                                  <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-frown-open"></span></h1></center>
-                                </div>
-                                <div v-if="show.status === 'ENTREVISTA CANCELADA'"  class=" font-weight-bold text-danger text-uppercase">
-                                  <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-calendar-times"></span></h1></center>
-                                </div>
-                                 <div v-if="show.status === 'CONTRATADO'"  class=" font-weight-bold text-success text-uppercase">
-                                  <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-smile"></span></h1></center>
-                                 </div>
-                              </template>
-                            </cardvagas>
-                        </div>
-                      </template>
-                    </div>
-
+              <div class="container align-items-center">
+                <template v-if="countCandidaturas == 0 || displayCandidaturas == 0">
+                  <div class="container justify-content-center">
+                    <h2>Nenhuma Candidatura Realizada!</h2>
                   </div>
-
-                <div class="col-auto">
-
-                </div>
+                </template>
+                <template v-else>
+                  <div class="card-group">
+                    <div class="col-lg-12">
+                      <div class="row">
+                        <Card class="col-sm-4" v-for="show in display3Candidaturas" :key="show.id">
+                          <template v-slot:card-header >
+                              <center><h5>{{show.vaga.titulo}}</h5></center>
+                          </template>
+                          <template v-slot:card-body>
+                            <!-- <div class=" font-weight-bold text-success text-uppercase mb-1"></div>para o texto ficar verde -->
+                            <div v-if="show.status === 'AGUARDANDO'"  class=" font-weight-bold text-warning text-uppercase">
+                              <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-spinner fa-pulse"></span></h1></center>
+                            </div>
+                            <div v-if="show.status === 'EM AGENDAMENTO'"  class=" font-weight-bold text-warning text-uppercase">
+                              <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-spinner fa-pulse"></span></h1></center>
+                            </div>
+                            <div v-if="show.status === 'ENTREVISTA CONFIRMADA'"  class=" font-weight-bold text-success text-uppercase">
+                              <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-check-circle"></span></h1></center>
+                            </div>
+                            <div v-if="show.status === 'RECUSADO'"  class=" font-weight-bold text-danger text-uppercase">
+                              <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-frown-open"></span></h1></center>
+                            </div>
+                            <div v-if="show.status === 'ENTREVISTA CANCELADA'"  class=" font-weight-bold text-danger text-uppercase">
+                              <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-calendar-times"></span></h1></center>
+                            </div>
+                            <div v-if="show.status === 'CONTRATADO'"  class=" font-weight-bold text-success text-uppercase">
+                              <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-smile"></span></h1></center>
+                            </div>
+                          </template>
+                        </Card>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+                <div class="col-auto"></div>
               </div>
             </template>
             <template v-slot:card-footer>
@@ -65,15 +63,17 @@
     </div>
     <br>
 
-    <div class="container-fluid" v-if="isActive.length>0">
-        <template v-if="permissaoDoUsuario === 'FISICA'">
-          <h2>Vagas que podem lhe interessar</h2>
-          <br>
-          <div class="row justify-content-center">
-            <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
-            <Card style="width: 20rem; height:5rem" class="igualdade">
+    <div v-if="isActive.length>0">
+      <div class="container justify-content-center">
+        <h2>Vagas que podem lhe interessar</h2>
+      </div>
+      
+      <div class="card-group">
+        <div class="col-lg-12">
+          <div class="row">
+            <Card class="col-sm-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
               <template v-slot:card-header>
-                  <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
+                <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
               </template>
               <template v-slot:card-body>
                   <p class="mb-1"><strong>Cargo:</strong> {{vaga.cargo}}</p>
@@ -89,49 +89,46 @@
                   <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
                 </template>
                 <Modal v-if="isModalShowMore" @close="closeModal">
-                      <template v-slot:header><h3>Detalhes da Vaga</h3></template>
-                      <template v-slot:body>
-
-                        <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
-                        <strong>Descrição:</strong> {{vagaById[0].descricao}}
-                        <strong>Cargo: </strong>{{vagaById[0].cargo}}
-                        <strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}
-                        <strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}
-                        <strong>Salário:</strong> {{vagaById[0].salario}}
-                        <strong>Benefícios: </strong>{{vagaById[0].beneficio}}
-                        <strong>Requisitos:</strong> {{vagaById[0].requisito}}
-                      </template>
-                      <template v-slot:footer>
-                        <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
-                        <div v-if="dataCompleted">
-                            <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
-                        </div>
-                        <div v-else>
-                          <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
-                        </div>
-                      </template>
+                  <template v-slot:header><h3>Detalhes da Vaga</h3></template>
+                  <template v-slot:body>
+                    <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
+                    <strong>Descrição:</strong> {{vagaById[0].descricao}}
+                    <strong>Cargo: </strong>{{vagaById[0].cargo}}
+                    <strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}
+                    <strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}
+                    <strong>Salário:</strong> {{vagaById[0].salario}}
+                    <strong>Benefícios: </strong>{{vagaById[0].beneficio}}
+                    <strong>Requisitos:</strong> {{vagaById[0].requisito}}
+                  </template>
+                  <template v-slot:footer>
+                    <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
+                    <div v-if="dataCompleted">
+                        <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                    </div>
+                    <div v-else>
+                      <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+                    </div>
+                  </template>
                 </Modal>
-                </template>
-              </Card>
-            </div>
+              </template>
+            </Card>
           </div>
-          <div class="row justify-content-center">
-            <div class="trocaPagina" v-if="isActive.length > 6">
-              <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="6" :labels="customLabels"></jw-pagination>
-            </div>
-            <div class="trocaPagina display-none" v-else>
-              <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="6" :labels="customLabels"></jw-pagination>
-            </div>
-          </div>
-        </template>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="trocaPagina" v-if="isActive.length > 6">
+          <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="6" :labels="customLabels"></jw-pagination>
+        </div>
+        <div class="trocaPagina display-none" v-else>
+          <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="6" :labels="customLabels"></jw-pagination>
+        </div>
+      </div>
     </div>
 </div>
 </template>
 
 <script>
-  import card from '../Utils/Card';
-  import cardvagas from '../Utils/Cards-fisica';
-  import Card from '../Utils/CardsVagas';
+  import Card from '../Utils/Card';
   import Modal from '../Utils/ModalOld';
   import List from '../Utils/List';
   import painel from '../Utils/Painel';
@@ -146,7 +143,7 @@
 
   export default{
     components:{
-      card,cardvagas,Card, Modal, List,painel, JwPagination
+     Card, Modal, List,painel, JwPagination
     },
 
     data(){
