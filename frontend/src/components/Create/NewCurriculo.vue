@@ -275,9 +275,9 @@
                     <div class="form-group">
                         <label for="telefone">Telefone Fixo</label>
                         <div class="form-group">
-                          <ValidationProvider name="fixo" rules="numeric|digits:10">
+                          <ValidationProvider name="fixo" rules="regex:^\([0-9]{2}\)[0-9]{4}\-[0-9]{4}$">
                               <div slot-scope="{ errors }">
-                                  <input type="text" class="form-control" name="fixo" v-model="fixo" minlength="10" maxlength="10">
+                                  <input type="text" class="form-control" name="fixo" v-model="fixo" v-mask="'(##)####-####'" maxlength="13">
                                   <p class="color-red">{{ errors[0] }}</p>
                               </div>
                           </ValidationProvider>
@@ -285,9 +285,9 @@
                     </div>
                     <div class="form-group">
                       <label for="celular">Telefone Celular<a class="color-red">*</a></label>
-                      <ValidationProvider name="celular" rules="required|numeric|digits:11">
+                      <ValidationProvider name="celular" rules="required|regex:^\([0-9]{2}\)[0-9]{5}\-[0-9]{4}$">
                           <div slot-scope="{ errors }">
-                              <input type="text" class="form-control" name="celular" v-model="celular" minlength="11" maxlength="11">
+                              <input type="text" class="form-control" name="celular" v-mask="'(##)#####-####'" v-model="celular" maxlength="14">
                               <p class="color-red">{{ errors[0] }}</p>
                           </div>
                       </ValidationProvider>
@@ -545,6 +545,7 @@ import UploadPhoto from '../Utils/UploadPhoto';
 import {mapActions,mapGetters} from 'vuex';
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+import {mask} from 'vue-the-mask'
 
 export default {
 
@@ -600,6 +601,7 @@ export default {
         naoLocalizado: false
     };
   },
+  directives: {mask},
   methods: {
     ...mapActions([
         'loadFisica'

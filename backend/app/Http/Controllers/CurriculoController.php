@@ -93,7 +93,7 @@ class CurriculoController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), CurriculoController::rules(), CurriculoController::messages());
-         
+       
         if ($validator->fails()) {
              return Response::json([
                 'error' => $validator->messages()
@@ -164,8 +164,8 @@ class CurriculoController extends Controller
             'emailAlt' => 'email|max:250',
             'pais' => 'required', /*validar lista*/
             'estado' => 'required', /*validar lista*/
-            'fixo' => 'nullable|digits:10',
-            'celular' => 'required|digits_between: 10, 11',
+            'fixo' => 'nullable|telefone_com_ddd',
+            'celular' => 'required|celular_com_ddd',
             'rua' => 'required|max:250',
             //'numero' => 'numeric|max:1000000',
             'complemento' => 'max:5000',
@@ -195,9 +195,9 @@ class CurriculoController extends Controller
             'outraRede.max' => 'Insira outra rede com no máximo 250 caracteres.',
             'estado.required' => 'Selecione um estado!',
             'fixo.required' => 'Insira um número fixo!',
-            'fixo.digits' => 'Número fixo precisa de 10 digitos! (DDD+numero)',
+            'fixo.telefone_com_ddd' => 'Número fixo inválido!',
             'celular.required' => 'Insira um número de celular!',
-            'celular.digits_between' => 'Número de celular precisa de 10 ou 11 digitos! (DDD+numero)',
+            'celular.celular_com_ddd' => 'Número de celular inválido!',
             'rua.required' => 'Insira uma rua!',
             'rua.max' => 'Insira rua com no máximo 250 caracteres.',
             'numero.max' => 'Insira número com no máximo 250 caracteres.',

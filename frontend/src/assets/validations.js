@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { extend } from 'vee-validate';
-import { required, email, numeric, digits, max, min, min_value, max_value, integer } from 'vee-validate/dist/rules';
+import { required, email, numeric, digits, max, min, min_value, max_value, integer, regex } from 'vee-validate/dist/rules';
 import { ValidationProvider } from 'vee-validate';
 import { ValidationObserver } from 'vee-validate';
 import { localize } from 'vee-validate';
@@ -14,6 +14,7 @@ extend('min', {...min} );
 extend('min_value', {...min_value} );
 extend('max_value', {...max_value} );
 extend('integer', {...integer} );
+extend('regex', {...regex} );
 
 
 Vue.component('ValidationProvider', ValidationProvider);
@@ -29,6 +30,7 @@ localize('pt_BR', {
       digits: 'O {_field_} precisa de {length} caracteres.',
       min_value: 'O valor mínimo é {min}.',
       integer: 'O valor não pode ser fracionário.',
-      max_value: 'O valor máximo é {max}.'
+      max_value: 'O valor máximo é {max}.',
+      regex: 'Valor inválido.'
     }
   });
