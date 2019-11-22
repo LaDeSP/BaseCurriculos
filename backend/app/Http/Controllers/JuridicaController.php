@@ -223,9 +223,9 @@ class JuridicaController extends Controller
             //'pais.required' => 'Selecione um país!',
             'estado.required' => 'Selecione um estado!',
             'fixo.required' => 'Insira um número fixo!',
-            'fixo.digits' => 'Número fixo precisa de 10 digitos! (DDD+numero)',
+            'fixo.telefone_com_ddd' => 'Número fixo inválido!',
             'celular.required' => 'Insira um número de celular!',
-            'celular.digits_between' => 'Número de celular precisa de 10 ou 11 digitos! (DDD+numero)',
+            'celular.celular_com_ddd' => 'Número de celular inválido!',
             'rua.required' => 'Insira uma rua!',
             'rua.max' => 'Insira rua com no máximo 50 caracteres.',
             'numero.max' => 'Insira número com no máximo 50 caracteres.',
@@ -247,8 +247,8 @@ class JuridicaController extends Controller
             'outraRede' => 'max:50',
            // 'pais' => 'required',/* validar lista */
             'estado' => 'required',/* validar lista */
-            'fixo' => 'nullable|digits:10',
-            'celular' => 'required|digits_between: 10, 11',
+            'fixo' => 'nullable|telefone_com_ddd',
+            'celular' => 'required|celular_com_ddd',
             'rua' => 'required|max:50',
             'numero' => 'numeric|max:1000000',
             'complemento' => 'max:500',
