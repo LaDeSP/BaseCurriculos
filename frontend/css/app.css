@@ -25283,3 +25283,7 @@ label#thumbnail.has-thumbnail img{
 .display-none{
   display: none !important;
 }
+
+.margin-bottom{
+  margin-bottom: 15px;
+}

@@ -13,26 +13,9 @@ use App\Candidatura;
 class BuscaController extends Controller
 {
     public function buscaVagas($keywords){
-        //acho que n precisa mais dessa parte aqui mas ver
-        $user_id = auth()->user()->id;
-        $user = User::findOrFail($user_id);
-        $curriculo = $user->fisica->curriculo;
-        $vagas_id = Candidatura::select('vagas_id')->where('curriculos_id', $curriculo->id)->where(function ($query) {
-            $query->where('status', "EM AGENDAMENTO")
-                  ->orWhere('status', "AGUARDANDO")
-                  ->orWhere('status', "ENTREVISTA CONFIRMADA")
-                  ->orWhere('status', "CONTRATADO");
-        })->get();
-
-        $candidaturas = [];
-        foreach($vagas_id as $candidatura){
-            $candidaturas[]=$candidatura->vagas_id;
-        }
 
         $vagas = Vaga::with(['area', 'myCandidatura'])
-            ->where(function ($query) use ($keywords) {
-                $query->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%');
-            })
+            ->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%')
             ->get();
 
 
@@ -41,21 +24,6 @@ class BuscaController extends Controller
     }
 
     public function buscaVagasAvancadas($keywords=null, $cargo=null, $beneficio=null, $jornada=null, $requisitos=null, $area=null){
-        $user_id = auth()->user()->id;
-        $user = User::findOrFail($user_id);
-        $curriculo = $user->fisica->curriculo;
-        $vagas_id = Candidatura::select('vagas_id')->where('curriculos_id', $curriculo->id)->where(function ($query) {
-            $query->where('status', "EM AGENDAMENTO")
-                  ->orWhere('status', "AGUARDANDO")
-                  ->orWhere('status', "ENTREVISTA CONFIRMADA")
-                  ->orWhere('status', "CONTRATADO");
-        })->get();
-
-        $candidaturas = [];
-        foreach($vagas_id as $candidatura){
-            $candidaturas[]=$candidatura->vagas_id;
-        }
-
         if ($keywords=="undefined"){
             $keywords=null;
         }
@@ -75,28 +43,25 @@ class BuscaController extends Controller
             $area=null;
         }
 
-        $vagas = Vaga::with(['area'])
-                ->where(function ($resultado) use ($keywords, $cargo, $beneficio, $jornada, $requisitos, $area) {
-                    $resultado->when($keywords,function($query, $keywords){
-                        $query->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%');
-                    })
-                    ->when($cargo,function($query, $cargo){
-                        $query->where('cargo', 'like', '%' . $cargo . '%');
-                    })
-                    ->when($beneficio, function($query, $beneficio){
-                        $query->where('beneficio', 'like', '%' . $beneficio . '%');
-                    })
-                    ->when($jornada, function($query, $jornada){
-                        $query->where('jornada', 'like', '%' . $jornada . '%');
-                    })
-                    ->when($requisitos, function($query, $requisitos){
-                        $query->where('requisito', 'like', '%' . $requisitos . '%');
-                    })
-                    ->when($area, function($query, $area){
-                        $query->where('areas_id', $area);
-                    });
+        $vagas = Vaga::with(['area', 'myCandidatura'])
+                ->when($keywords,function($query, $keywords){
+                    $query->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%');
                 })
-                ->whereNotIn('id', $candidaturas)
+                ->when($cargo,function($query, $cargo){
+                    $query->where('cargo', 'like', '%' . $cargo . '%');
+                })
+                ->when($beneficio, function($query, $beneficio){
+                    $query->where('beneficio', 'like', '%' . $beneficio . '%');
+                })
+                ->when($jornada, function($query, $jornada){
+                    $query->where('jornada', 'like', '%' . $jornada . '%');
+                })
+                ->when($requisitos, function($query, $requisitos){
+                    $query->where('requisito', 'like', '%' . $requisitos . '%');
+                })
+                ->when($area, function($query, $area){
+                    $query->where('areas_id', $area);
+                })
                 ->get();
 
         return response()->json($vagas);

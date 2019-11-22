@@ -63,7 +63,7 @@
     </div>
     <br>
 
-    <div v-if="isActive.length>0">
+    <div v-if="isActive.length>0" class="margin-bottom">
       <div class="container justify-content-center">
         <h2>Vagas que podem lhe interessar</h2>
       </div>
@@ -123,6 +123,14 @@
           <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="6" :labels="customLabels"></jw-pagination>
         </div>
       </div>
+      <Modal v-if="isModalSuccess" @close="closeModal">
+        <template v-slot:header></template>
+        <template v-slot:body>
+              <b-alert show variant="success">
+                <h1>Candidatura realizada com sucesso!</h1>
+            </b-alert>
+        </template>
+        </Modal>
     </div>
 </div>
 </template>
@@ -134,6 +142,8 @@
   import painel from '../Utils/Painel';
  import { mapActions, mapGetters, mapState } from 'vuex';
  import JwPagination from 'jw-vue-pagination';
+ import { BAlert } from 'bootstrap-vue'
+
   const customLabels = {
       first: 'Primeira',
       last: 'Última',
@@ -143,7 +153,7 @@
 
   export default{
     components:{
-     Card, Modal, List,painel, JwPagination
+     Card, Modal, List,painel, JwPagination, BAlert
     },
 
     data(){
@@ -153,6 +163,7 @@
           filterState: true,
           isModalWarning: false,
           isModalShowMore: false,
+          isModalSuccess: false,
           pageOfItems: [],
           customLabels
         }
@@ -184,6 +195,7 @@
           closeModal(){
               this.isModalWarning = false;
               this.isModalShowMore = false;
+              this.isModalSuccess = false;
           },
 
           onCreate(){
@@ -213,6 +225,7 @@
               .then(response => {
                   console.log(response)
                   this.isModalShowMore = false;
+                  this.isModalSuccess = true;
                   this.getVagasRecomendadas();
               }).catch(error => console.log(error))
           },

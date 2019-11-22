@@ -18,7 +18,7 @@
                 <template v-slot:card-body>
                   <div class="col-12">
                     <div class="form-group">
-                        <label for="data">* Dia</label>
+                        <label for="data">Dia <a class="color-red">*</a></label>
                         <ValidationProvider name="data" rules="required">
                             <div class="color-red" slot-scope="{ errors }">
                                 <input type="date" class="form-control" name="data" v-model="data">
@@ -27,7 +27,7 @@
                         </ValidationProvider>
                     </div>
                     <div class="form-group">
-                        <label for="hora">* Hora</label>
+                        <label for="hora">Hora <a class="color-red">*</a></label>
                         <ValidationProvider name="hora" rules="required">
                             <div class="color-red" slot-scope="{ errors }">
                                 <input type="time" name="hora"
@@ -41,6 +41,7 @@
                         <ValidationProvider name="observacao" rules="max:5000">
                             <div slot-scope="{ errors }">
                                 <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao" maxlength="5000"></textarea>
+                                <small>Use esse campo para falar dados de contato e de localização, bem como qualquer outra informação importante.</small>
                                 <p>{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>

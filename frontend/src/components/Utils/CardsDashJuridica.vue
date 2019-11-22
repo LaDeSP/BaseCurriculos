@@ -4,7 +4,7 @@
     <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-home fa-sm"></i> Home </h1>
   </div>
     <div class="row">
-      <div class="col-xl-6 col-md-12 mb-8">
+      <div class="col-xl-6 col-md-12 mb-8 margin-bottom">
         <card class="border-left-primary shadow h-100">
             <template v-slot:card-header class="py-3">
               <router-link to="/vagas" class="font-weight-bold text-primary text-uppercase mb-1">Minhas Vagas</router-link>
@@ -26,7 +26,7 @@
             </template>
         </card>
       </div>
-      <div class="col-xl-6 col-md-12 mb-8">
+      <div class="col-xl-6 col-md-12 mb-8 margin-bottom">
         <card class="border-left-success shadow h-100">
           <template v-slot:card-header class="py-3">
             <router-link to="/candidaturas" class="font-weight-bold text-success text-uppercase mb-1">Candidaturas</router-link>
@@ -47,7 +47,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-6 mb-4">
+      <div class="col-lg-6 mb-4 margin-bottom">
         <card class="shadow mb-4">
             <template v-slot:card-header class="py-3">
               <h6 class="m-0 font-weight-bold text-primary">Processos em Andamento</h6>
@@ -73,9 +73,9 @@
             </template>
         </card>
       </div>
-      <div class="col-lg-6 mb-6">
+      <div class="col-lg-6 mb-6 margin-bottom">
         <div class="row">
-          <div class="col-sm-12">
+          <div class="col-sm-12 margin-bottom">
             <div v-if="count.candidaturas > 0">
               <ValidationObserver v-slot="{ invalid }">
                 <form>
@@ -178,7 +178,7 @@
             </div>
           </div>
         </div>
-        <card class="shadow mb-4">
+        <card class="shadow mb-4 margin-bottom">
             <template v-slot:card-header class="py-3">
                <h6 class="font-weight-bold text-primary text-success  text-uppercase mb-1">Entrevistas</h6>
             </template>

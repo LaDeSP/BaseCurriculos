@@ -90,12 +90,20 @@
                 </div>
             </div>
         </div>
-        <div v-if="displayResultados.length > 10">
+        <div class="container" v-if="displayResultados.length > 10">
             <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
         </div>
-        <div class="display-none" v-else>
+        <div class="container display-none" v-else>
             <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
         </div>
+        <Modal v-if="isModalSuccess" @close="closeModal">
+            <template v-slot:header></template>
+            <template v-slot:body>
+                 <b-alert show variant="success">
+                    <h1>Candidatura realizada com sucesso!</h1>
+                </b-alert>
+            </template>
+        </Modal>
     </div>
 </template>
 
@@ -104,6 +112,8 @@ import Card from '../Utils/Card';
 import Modal from '../Utils/ModalOld';
 import { mapActions, mapGetters } from 'vuex';
 import JwPagination from 'jw-vue-pagination';
+import { BAlert } from 'bootstrap-vue'
+
 const customLabels = {
     first: 'Primeira',
     last: 'Última',
@@ -119,11 +129,12 @@ export default {
             filterState: true,
             isModalWarning: false,
             isModalShowMore: false,
+            isModalSuccess: false,
             vaga_id: 0,
 
         }
     },
-    components: {Card, JwPagination, Modal},
+    components: {Card, JwPagination, Modal, BAlert},
 
     created(){
         if(this.$store.state.auth.user.role == 'JURIDICA'){
@@ -225,6 +236,7 @@ export default {
         closeModal(){
             this.isModalWarning = false;
             this.isModalShowMore = false;
+            this.isModalSuccess = false;
         },
 
         changeStatus(id, status){
@@ -259,6 +271,7 @@ export default {
                     }
                 }
                 this.isModalShowMore = false;
+                this.isModalSuccess = true;
             }).catch(error => console.log(error))
         },
     },
