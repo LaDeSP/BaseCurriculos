@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Tymon\JWTAuth\Exception\JWTException;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 use App\User;
@@ -16,8 +17,23 @@ use Response;
 class UserController extends Controller implements JWTSubject
 {
     public function teste(){
-        $teste = User::onlyTrashed()->get();
-        dd($teste);
+
+        $teste = User::where('email', 'sansa@hotmail.com')->onlyTrashed()->get();
+       
+        $credentials = $teste->map(function ($user) {
+            return $user->only(['email', 'password']);
+        });
+        try{
+            if(!$token = JWTAuth::attempt($credentials[0])){
+                $error[] = 'Senha Inválida.';
+                return response()->json([
+                    'error' => $error
+                ], 201);
+            }
+        }catch(JWTException $e){
+            dd($e);
+        }
+        dd($credentials[0]);
     }
 
     public function login(Request $request){
@@ -30,29 +46,26 @@ class UserController extends Controller implements JWTSubject
             ], 201);
         }
         */   
-        $user = new User();
+        
         $credentials = $request->only('email', 'password');
-        if($a){
-            try{
-                if(!$token = JWTAuth::attempt($credentials)){
-                    $error[] = 'Senha Inválida.';
-                    return response()->json([
-                        'error' => $error
-                    ], 201);
-                }
-            }catch(JWTException $e){
-                return response()->json([
-                    'error' => 'could not create token'
-                ], 500);
-            }
-        }
-
-        if (!(User::where('email', '=', $request->input('email'))->exists())){
+        
+        $user = User::where('email', $request->email)->withTrashed()->first();
+        
+        if(!$user){
             $error[] = 'Email informado não está cadastrado.';
             return Response::json([
                 'error' => $error
             ], 201);
-        }
+        }else if($user->deleted_at != null){
+            if(Hash::check($request->password, $user->password)){
+                $token = auth()->login($user);
+               
+                return Response::json([
+                    'token' => $token,
+                    'user' => auth()->user()
+                ]);
+            }
+        }                
        
         //se try falhar, falhou em criar um token
         try{
@@ -68,9 +81,6 @@ class UserController extends Controller implements JWTSubject
                 'error' => 'could not create token'
             ], 500);
         }
-      //  $user = JWTAuth::parseToken()->toUser();
-      $name = User::where('email', $request->input('email'))->first()->name;
-      $role = User::where('email', $request->input('email'))->get()->first()->role;
      
       $user_id = User::where('email', $request->input('email'))->get()->first()->id;
       $teste = User::where('id', $user_id)->first();

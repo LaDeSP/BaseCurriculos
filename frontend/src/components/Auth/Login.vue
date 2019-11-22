@@ -85,11 +85,15 @@
                let password = this.password;
                this.$store.dispatch('login', {email, password})
                 .then(response => {
+                  
                  if(response.error  != undefined){
                     this.notificacoes = response.error;
                     console.log(this.notificacoes);
-                  }else{
+                  }else if(response.user.deleted_at == null){
+                    console.log('response', response)
                     this.redirecionarUsuarioPorPermissao(this.permissaoDoUsuario)
+                  }else{
+                     this.$router.push({ name: 'dashboard' })
                   }
                 })
                .catch(error => console.log(error))
