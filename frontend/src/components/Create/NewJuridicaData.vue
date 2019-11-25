@@ -43,7 +43,7 @@
 
                 <tab-content title="Contato" icon="fas fa-phone">
                     <div class="form-group">
-                        <label for="telefone">Telefone Fixo<a class="color-red">*</a></label>
+                        <label for="telefone">Telefone Fixo</label>
                         <div class="form-group">
                           <ValidationProvider name="fixo" rules="regex:^\([0-9]{2}\)[0-9]{4}\-[0-9]{4}$">
                               <div slot-scope="{ errors }">
@@ -313,7 +313,7 @@ import {mask} from 'vue-the-mask'
                         if(response.error  != undefined){
                             this.notificeacoes = response.error;
                         }else{
-                            this.$router.push({ name: 'dashboard'});
+                            this.$router.push({ name: 'dashboard', params:{criou: true}});
                         }
                     })
                     .catch(error => console.log(error))

@@ -642,7 +642,7 @@ export default {
             if(response.error  != undefined){
                 this.notificacoes = response.error;
             }else{
-                this.$router.push({ name: 'dashboard'});
+                this.$router.push({ name: 'dashboard', params:{criou: true}});
             }
         })
         .catch(error => console.log(error))
