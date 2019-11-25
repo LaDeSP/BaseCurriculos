@@ -28,7 +28,7 @@ class Vaga extends Model
 
 	public function myCandidatura(){
 		$user_id = auth()->user()->id;
-		$user = User::findOrFail($user_id);
+		$user = User::with(['fisica.curriculo'])->findOrFail($user_id);
 		$curriculo = $user->fisica->curriculo;
 	
 		
