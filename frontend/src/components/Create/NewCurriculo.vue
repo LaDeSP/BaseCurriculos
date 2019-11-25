@@ -90,6 +90,7 @@
                             <div slot-scope="{ errors }">
                                 <select class="custom-select" name="pais" v-model="pais">
                                     <option value="" disabled>Selecione seu país de nacionalidade</option>
+                                    <option value="Brasil">Brasil</option>
                                     <option value="África do Sul">África do Sul</option>
                                     <option value="Albânia">Albânia</option>
                                     <option value="Alemanha">Alemanha</option>
@@ -116,7 +117,7 @@
                                     <option value="Brunei">Brunei</option>
                                     <option value="Bulgária">Bulgária</option>
                                     <option value="Burkina Fasso">Burkina Fasso</option>
-                                    <option value="botão">botão</option>
+                                    <option value="Botão">Botão</option>
                                     <option value="Cabo Verde">Cabo Verde</option>
                                     <option value="Camarões">Camarões</option>
                                     <option value="Camboja">Camboja</option>
@@ -416,9 +417,9 @@
                     
                     <div class="form-group">
                       <label for="numero">Número</label>
-                      <ValidationProvider name="numero" rules="numeric|max:7|max_value:1000000">
+                      <ValidationProvider name="numero" rules="max:250">
                             <div slot-scope="{ errors }">
-                                <input type="number" class="form-control" name="numero" placeholder="Número" v-model="numero" id="numero" maxlength="7" max="1000000">
+                                <input type="text" class="form-control" name="numero" placeholder="Número" v-model="numero" id="numero" maxlength="250">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>
@@ -454,7 +455,6 @@
                             <div slot-scope="{ errors }">
                                 <select class="custom-select" name="area" v-model="area">
                                     <option disabled value="">Selecione uma área</option>
-                                    <option value="a">Vai dar ruim</option>
                                     <option v-for="area in areas" :key="area.id" :value="area.id">
                                         {{area.tipo}}
                                     </option>

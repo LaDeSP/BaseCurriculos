@@ -206,7 +206,7 @@ class JuridicaController extends Controller
     public function rules_basic(){
         return [
            
-            'name' => 'required|max:50',
+            'name' => 'required|max:250',
             'area' => 'required|exists:areas,id',
             'email' => 'required|max:50|email|unique:users,email',
             'password' => 'required|min:8|max:30',
@@ -222,6 +222,7 @@ class JuridicaController extends Controller
             'outraRede.max' => 'Insira outra rede com no máximo 50 caracteres.',
             //'pais.required' => 'Selecione um país!',
             'estado.required' => 'Selecione um estado!',
+            'estado.in' => 'Selecione um estado válido!',
             'fixo.required' => 'Insira um número fixo!',
             'fixo.telefone_com_ddd' => 'Número fixo inválido!',
             'celular.required' => 'Insira um número de celular!',
@@ -239,21 +240,23 @@ class JuridicaController extends Controller
         ];
     }
     public function rules_addData(){
+        $estado = "AC,AL,AP,AM,BA,CE,DF,ES,GO,MA,MT,MG,PA,PB,PR,PE,PI,RJ,RN,RS,RO,RR,SC,SP,SE,TO";
+        $pais="África do Sul,Albânia,Alemanha,Andorra,Angola,Anguilla,Antigua,Arábia Saudita,Argentina,Armênia,Aruba,Austrália,Áustria,Azerbaijão,Bahamas,Bahrein,Bangladesh,Barbados,Bélgica,Benin,Bermudas,Botsuana,Brasil,Brunei,Bulgária,Burkina Fasso,Botão,Cabo Verde,Camarões,Camboja,Canadá,Cazaquistão,Chade,Chile,China,Cidade do Vaticano,Colômbia,Congo,Coréia do Sul,Costa do Marfim,Costa Rica,Croácia,Dinamarca,Djibuti,Dominica,EUA,Egito,El Salvador,Emirados Árabes,Equador,Eritréia,Escócia,Eslováquia,Eslovênia,Espanha,Estônia,Etiópia,Fiji,Filipinas,Finlândia,França,Gabão,Gâmbia,Gana,Geórgia,Gibraltar,Granada,Grécia,Guadalupe,Guam,Guatemala,Guiana,Guiana Francesa,Guiné-bissau,Haiti,Holanda,Honduras,Hong Kong,Hungria,Iêmen,Ilhas Cayman,Ilhas Cook,Ilhas Curaçao,Ilhas Marshall,Ilhas Turks & Caicos,Ilhas Virgens (brit.),Ilhas Virgens(amer.),Ilhas Wallis e Futuna,Índia,Indonésia,Inglaterra,Irlanda,Islândia,Israel,Itália,Jamaica,Japão,Jordânia,Kuwait,Latvia,Líbano,Liechtenstein,Lituânia,Luxemburgo,Macau,Macedônia,Madagascar,Malásia,Malaui,Mali,Malta,Marrocos,Martinica,Mauritânia,Mauritius,México,Moldova,Mônaco,Montserrat,Nepal,Nicarágua,Niger,Nigéria,Noruega,Nova Caledônia,Nova Zelândia,Omã,Palau,Panamá,Papua-nova Guiné,Paquistão,Peru,Polinésia Francesa,Polônia,Porto Rico,Portugal,Qatar,Quênia,Rep. Dominicana,Rep. Tcheca,Reunion,Romênia,Ruanda,Rússia,Saipan,Samoa Americana,Senegal,Serra Leone,Seychelles,Singapura,Síria,Sri Lanka,St. Kitts & Nevis,St. Lúcia,St. Vincent,Sudão,Suécia,Suiça,Suriname,Tailândia,Tanzânia,Togo,Trinidad & Tobago,Tunísia,Tunísia,Turquia,Ucrânia,Uganda,Uruguai,Venezuela,Vietnã,Zaire,Zâmbia,Zimbábue";
         return [
-            'linkedin' => 'max:50',
-            'facebook' => 'max:50',
-            'twitter' => 'max:50',
-            'site' => 'max:50',
-            'outraRede' => 'max:50',
-           // 'pais' => 'required',/* validar lista */
-            'estado' => 'required',/* validar lista */
+            'linkedin' => 'max:250',
+            'facebook' => 'max:250',
+            'twitter' => 'max:250',
+            'site' => 'max:250',
+            'outraRede' => 'max:250',
+           // 'pais' => 'required|in:'.$pais,
+            'estado' => 'required|in:'.$estado,
             'fixo' => 'nullable|telefone_com_ddd',
             'celular' => 'required|celular_com_ddd',
-            'rua' => 'required|max:50',
-            'numero' => 'numeric|max:1000000',
-            'complemento' => 'max:500',
-            'bairro' => 'required|max:50',
-            'cidade' => 'required|max:50',
+            'rua' => 'required|max:250',
+            'numero' => 'max:250',
+            'complemento' => 'max:250',
+            'bairro' => 'required|max:250',
+            'cidade' => 'required|max:250',
             'cep'=> 'required|digits:8'
         ];
     }

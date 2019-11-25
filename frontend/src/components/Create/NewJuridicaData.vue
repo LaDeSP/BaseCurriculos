@@ -187,9 +187,9 @@
                    
                     <div class="form-group">
                       <label for="numero">Número</label>
-                      <ValidationProvider name="numero" rules="numeric|max:7|max_value:1000000">
+                      <ValidationProvider name="numero" rules="max:250">
                             <div slot-scope="{ errors }">
-                                <input type="number" class="form-control" name="numero" placeholder="Número" v-model="numero" id="numero" maxlength="7" max="1000000">
+                                <input type="text" class="form-control" name="numero" placeholder="Número" v-model="numero" id="numero" maxlength="250">
                                 <p class="color-red">{{ errors[0] }}</p>
                             </div>
                         </ValidationProvider>

@@ -151,10 +151,14 @@ class CurriculoController extends Controller
     }
     
     public function rules(){
+        $estadoCivil = "Solteiro(a),Casado(a),Separado(a),Viúvo(a)";
+        $estado = "AC,AL,AP,AM,BA,CE,DF,ES,GO,MA,MT,MG,PA,PB,PR,PE,PI,RJ,RN,RS,RO,RR,SC,SP,SE,TO";
+        $escolaridade="Ensino Fundamental(Incompleto),Ensino Fundamental(Cursando),Ensino Fundamental(Completo),Ensino Médio(Incompleto),Ensino Médio(Completo),Ensino Superior(Incompleto),Ensino Superior(Cursando),Ensino Superior(Completo),Pós-Graduação(Especialização),Pós-Graduação(Mestrado),Pós-Graduação(Doutorado)";
+        $pais="África do Sul,Albânia,Alemanha,Andorra,Angola,Anguilla,Antigua,Arábia Saudita,Argentina,Armênia,Aruba,Austrália,Áustria,Azerbaijão,Bahamas,Bahrein,Bangladesh,Barbados,Bélgica,Benin,Bermudas,Botsuana,Brasil,Brunei,Bulgária,Burkina Fasso,Botão,Cabo Verde,Camarões,Camboja,Canadá,Cazaquistão,Chade,Chile,China,Cidade do Vaticano,Colômbia,Congo,Coréia do Sul,Costa do Marfim,Costa Rica,Croácia,Dinamarca,Djibuti,Dominica,EUA,Egito,El Salvador,Emirados Árabes,Equador,Eritréia,Escócia,Eslováquia,Eslovênia,Espanha,Estônia,Etiópia,Fiji,Filipinas,Finlândia,França,Gabão,Gâmbia,Gana,Geórgia,Gibraltar,Granada,Grécia,Guadalupe,Guam,Guatemala,Guiana,Guiana Francesa,Guiné-bissau,Haiti,Holanda,Honduras,Hong Kong,Hungria,Iêmen,Ilhas Cayman,Ilhas Cook,Ilhas Curaçao,Ilhas Marshall,Ilhas Turks & Caicos,Ilhas Virgens (brit.),Ilhas Virgens(amer.),Ilhas Wallis e Futuna,Índia,Indonésia,Inglaterra,Irlanda,Islândia,Israel,Itália,Jamaica,Japão,Jordânia,Kuwait,Latvia,Líbano,Liechtenstein,Lituânia,Luxemburgo,Macau,Macedônia,Madagascar,Malásia,Malaui,Mali,Malta,Marrocos,Martinica,Mauritânia,Mauritius,México,Moldova,Mônaco,Montserrat,Nepal,Nicarágua,Niger,Nigéria,Noruega,Nova Caledônia,Nova Zelândia,Omã,Palau,Panamá,Papua-nova Guiné,Paquistão,Peru,Polinésia Francesa,Polônia,Porto Rico,Portugal,Qatar,Quênia,Rep. Dominicana,Rep. Tcheca,Reunion,Romênia,Ruanda,Rússia,Saipan,Samoa Americana,Senegal,Serra Leone,Seychelles,Singapura,Síria,Sri Lanka,St. Kitts & Nevis,St. Lúcia,St. Vincent,Sudão,Suécia,Suiça,Suriname,Tailândia,Tanzânia,Togo,Trinidad & Tobago,Tunísia,Tunísia,Turquia,Ucrânia,Uganda,Uruguai,Venezuela,Vietnã,Zaire,Zâmbia,Zimbábue";
         return [
             'nome' => 'required|max:250',
             'nascimento' => 'required|date', 
-            'estadoCivil' => 'required', /*validar lista*/
+            'estadoCivil' => 'required|in:'.$estadoCivil,
             'genero' => 'required', /*validar lista*/
             'linkedin' => 'max:250',
             'facebook' => 'max:250',
@@ -162,20 +166,20 @@ class CurriculoController extends Controller
             'site' => 'max:250',
             'outraRede' => 'max:250',
             'emailAlt' => 'email|max:250',
-            'pais' => 'required', /*validar lista*/
-            'estado' => 'required', /*validar lista*/
+            'pais' => 'required|in:'.$pais,
+            'estado' => 'required|in:'.$estado,
             'fixo' => 'nullable|telefone_com_ddd',
             'celular' => 'required|celular_com_ddd',
             'rua' => 'required|max:250',
-            //'numero' => 'numeric|max:1000000',
-            'complemento' => 'max:5000',
+            'numero' => 'max:250',
+            'complemento' => 'max:250',
             'bairro' => 'required|max:250',
             'cidade' => 'required|max:250',
             'cep'=> 'required|digits:8',
             'objetivos'=> 'required|max:5000',
             'area' => 'required|exists:areas,id',
             'pretensao' => 'required|numeric|min:1|max:1000000',
-            'escolaridade' => 'required', /*validar lista*/
+            'escolaridade' => 'required|in:'.$escolaridade,
             'qualificacoes' => 'required|max:5000',
             'historicoProfissional' => 'required|max:5000'
         ];
@@ -187,6 +191,7 @@ class CurriculoController extends Controller
             'nome.max' => 'Insira nome com no máximo 250 caracteres.',
             'nascimento.required' => 'Insira sua data de nascimento!',
             'estadoCivil.required' => 'Insira seu estado civil!',
+            'estadoCivil.in' => 'Insira um estado civil válido!',
             'genero.required' => 'Insira seu gênero!',
             'linkedin.max' => 'Insira linkedin com no máximo 250 caracteres.',
             'facebook.max' => 'Insira facebook com no máximo 250 caracteres.',
@@ -194,6 +199,7 @@ class CurriculoController extends Controller
             'site.max' => 'Insira site com no máximo 250 caracteres.',
             'outraRede.max' => 'Insira outra rede com no máximo 250 caracteres.',
             'estado.required' => 'Selecione um estado!',
+            'estado.in' => 'Selecione um estado válido!',
             'fixo.required' => 'Insira um número fixo!',
             'fixo.telefone_com_ddd' => 'Número fixo inválido!',
             'celular.required' => 'Insira um número de celular!',
