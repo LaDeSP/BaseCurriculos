@@ -799,8 +799,6 @@ import * as Cookies from 'js-cookie'
   
   };
     
-
-    
   const cancelAgenda = async ({commit, state}, cancelAgenda) => {
 
     const token = state.auth.token;

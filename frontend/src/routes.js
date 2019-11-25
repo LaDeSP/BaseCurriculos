@@ -36,6 +36,7 @@ import Sobre from './components/Home/Sobre.vue';
 import { store } from './store/store';
 
 import Buscas from './components/Lists/Buscas'
+import ContaDesativada from './components/Auth/ContaDesativada.vue';
 
 const routes = [
     {path: '', name:'home', component: Home, meta:{isHome: true}},
@@ -60,6 +61,7 @@ const routes = [
     {path: '/buscas', name: 'buscas', component: Buscas},
     {path: '/agenda', name: 'agenda', component: Agenda},
     {path: '/agenda/:id', component: NewAgenda, props: true},
+    {path: '/reativar', name: 'conta-desativada', component: ContaDesativada, meta:{isDesativada: true}},
     {path: '*', component: DeuRuim}
 
 ];

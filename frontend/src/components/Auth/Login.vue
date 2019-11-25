@@ -93,7 +93,7 @@
                     console.log('response', response)
                     this.redirecionarUsuarioPorPermissao(this.permissaoDoUsuario)
                   }else{
-                     this.$router.push({ name: 'dashboard' })
+                    this.$router.push({ name: 'conta-desativada' })
                   }
                 })
                .catch(error => console.log(error))
