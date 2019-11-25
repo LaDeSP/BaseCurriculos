@@ -13,6 +13,14 @@
             <Dash></Dash>
           </div>
         </div>
+        <Modal v-if="isModalConfirmaCadastro" @close="closeModal">
+            <template v-slot:header></template>
+            <template v-slot:body>
+                 <b-alert show variant="success">
+                    <h1>Cadastro realizado com sucesso!</h1>
+                </b-alert>
+            </template>
+        </Modal>
     </div> 
 
 </template>
@@ -22,21 +30,27 @@
 import NewJuridicaData from '../Create/NewJuridicaData';
 import NewVaga from '../Create/NewVaga';
 import Dash from '../Utils/CardsDashJuridica';
+import Modal from '../Utils/ModalOld';
+import { BAlert } from 'bootstrap-vue'
 import {mapGetters, mapActions} from 'vuex';
 
     export default {
          data(){
             return{
               hasVaga: true,
+              isModalConfirmaCadastro: false
             }
         },
         
         methods:{
           ...mapActions(['loadCandidaturas']),
+          closeModal(){
+              this.isModalConfirmaCadastro = false;
+          },
         },
         
         components:{
-             NewJuridicaData, NewVaga, Dash
+             NewJuridicaData, NewVaga, Dash, Modal, BAlert
         },
         computed: {
             ...mapGetters([
@@ -63,6 +77,9 @@ import {mapGetters, mapActions} from 'vuex';
                 //console.log(error)
               })
               await this.loadCandidaturas();
+          }
+          if (this.$route.params.cadastrou){
+            this.isModalConfirmaCadastro = true;
           }
         },
     }

@@ -120,8 +120,8 @@
                   this.notificacoes = response.error;
                 }
                 else{
-                  this.$router.push({ name: 'dashboard-juridica' })
-                }juridica
+                  this.$router.push({ name: 'dashboard-juridica', params:{cadastrou: true} })
+                }
               
               })
               .catch(error => console.log(error))
