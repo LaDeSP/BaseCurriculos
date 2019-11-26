@@ -1,6 +1,7 @@
 const isLoggedIn = state => !!state.auth.token;
 const authStatus = state => state.auth.status;
 const dataCompleted = state => state.dataCompleted; 
+const typeUser = state => state.auth.user.role; 
 
 const displayPessoaFisica = state => {
 
@@ -208,6 +209,8 @@ export default {
   displayCandidatoById,
   displayAgenda,
   displayAgendaById,
-  progressBar
+  progressBar,
+  typeUser
+
 
 };
