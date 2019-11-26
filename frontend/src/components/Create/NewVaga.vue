@@ -219,8 +219,6 @@
             displayDataEdit(){
 
                  if(this.editing){
-                    console.log('displayDataEdit', this.vagaById[0].beneficio)
-                    //console.log('desgraça ID', this.$session.get('vaga_id'))
                     this.titulo = this.vagaById[0].titulo;
                     this.descricao = this.vagaById[0].descricao;
                     this.cargo = this.vagaById[0].cargo;

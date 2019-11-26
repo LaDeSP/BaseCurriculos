@@ -4,7 +4,6 @@ const auth_success = (state, {payload}) => {
     state.auth.user = payload.user
     state.upload.path = payload.path
 
-    //console.log('auth_success', payload.token)
 };
 
 const auth_error = (state) => {

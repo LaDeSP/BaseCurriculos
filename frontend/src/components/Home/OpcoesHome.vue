@@ -58,7 +58,6 @@
         }else{
            this.isModalCadastroJuridica = true;
         }
-        console.log('showModal', this.isModalLoginFisica)
       },
       showModalCadastro(modal){
         if(modal === 'cadastroFisica'){
@@ -66,7 +65,6 @@
         }else{
            this.isModalCadastroJuridica = true;
         }
-        console.log('showModal', this.isModalLoginFisica)
       },
       closeModal(){
         this.isModalLoginFisica = false;

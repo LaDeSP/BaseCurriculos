@@ -263,7 +263,6 @@ import JwPagination from 'jw-vue-pagination';
           if(response.error  != undefined){
             this.notificacoes = response.error;
           }
-            console.log('response', response);
 
         })
         .catch(error => console.log(error))

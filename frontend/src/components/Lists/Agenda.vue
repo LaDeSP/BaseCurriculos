@@ -226,7 +226,7 @@
 
                 await this.$store.dispatch('deleteCandidatura', candidatura_id)
                 .then(response => {
-                  console.log('delete', response);
+                  
                 }).catch(error => console.log(error))
             },
 

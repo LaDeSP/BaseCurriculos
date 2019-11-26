@@ -125,8 +125,6 @@ import * as Cookies from 'js-cookie'
         //commit('allFisicaData', {payloadCurriculo});
        // const dataCompleted = true;  
         //commit('dataCompleted', dataCompleted);
-       console.log('new curriculo', newCurriculo)
-       console.log('response curriculo', response.data)
         return response.data
       })
       .catch(error => {
@@ -258,11 +256,9 @@ import * as Cookies from 'js-cookie'
         let payloadJuridica = {
           'name': JuridicaData.nome,
         } 
-        console.log('payloadAddress', payloadAddress)
         commit('contact', {payloadContact})
         commit('address', {payloadAddress});
         commit('allJuridicaData', {payloadJuridica})
-        console.log('response', response.data)
 
         return response.data
       }).catch(error => {
@@ -361,7 +357,6 @@ import * as Cookies from 'js-cookie'
         commit('allJuridicaData', {payloadJuridica})
         const dataCompleted = true;  
         commit('dataCompleted', dataCompleted)
-        console.log('response',response.data.juridica)
 
       }).catch(error => {
         //console.log(error)
@@ -404,7 +399,6 @@ import * as Cookies from 'js-cookie'
     return await axios({ url: vagas_uri + '?token=' + token, data: newVaga, method: 'POST'})
     .then(response => {
 
-      console.log('createVaga', response.data);
       return response.data
     }).catch(
       error => console.log(error)
@@ -416,7 +410,6 @@ import * as Cookies from 'js-cookie'
     return await axios({ url: vagas_uri + '/' + editVaga.vaga_id + '?token=' + token, data: editVaga, method: 'PUT'})
     .then(response => {
 
-      console.log('response', response)
       return response.data
     }).catch(
       error => console.log(error)
@@ -432,7 +425,6 @@ import * as Cookies from 'js-cookie'
       payloadVagasJuridica = response.data.vagas;
       commit('vagasJuridica', payloadVagasJuridica)
 
-      console.log('response', response)
       return response.data
     }).catch(
       error => console.log(error)
@@ -563,7 +555,6 @@ import * as Cookies from 'js-cookie'
           'candidaturasConfirmadas':  response.data.countCandidaturasConfirmadas,
         }
   
-          console.log('no load candidatura', response.data)
 
           if(payloadVagasCandidaturas){
             commit('vagasCandidaturas', payloadVagasCandidaturas)
@@ -586,7 +577,6 @@ import * as Cookies from 'js-cookie'
       const token = state.auth.token;
       return await axios({ url: candidaturas_uri + '/' + candidatura_id + '?token='+ token, method: 'DELETE' })
       .then(response => {
-         console.log('na action de delete cand', response)
          let payloadDeleteCandidatura = {
            'candidatura_id': candidatura_id,
            'role': response.data.role
@@ -604,7 +594,6 @@ import * as Cookies from 'js-cookie'
       const token = state.auth.token;
       return await axios({ url: 'http://localhost:8000/api/buscaVagas/' + keywords + '?token='+ token, method: 'GET' })
         .then(response => {
-          //console.log('na action', response.data);
           let payloadResultados = [];
 
           payloadResultados = response.data;
@@ -638,7 +627,6 @@ import * as Cookies from 'js-cookie'
       }
       return await axios({ url: 'http://localhost:8000/api/buscaVagasAvancadas/' + pesquisa.keywords + '/' + pesquisa.cargo + '/' + pesquisa.beneficio + '/' + pesquisa.jornada + '/' + pesquisa.requisitos + '/' + pesquisa.area + '?token='+ token, method: 'GET' })
         .then(response => {
-          //console.log('na action', response.data);
           let payloadResultados = [];
 
           payloadResultados = response.data;
@@ -654,7 +642,6 @@ import * as Cookies from 'js-cookie'
       const token = state.auth.token;
       return await axios({ url: 'http://localhost:8000/api/buscaCurriculos/' + keywords + '?token='+ token, method: 'GET' })
         .then(response => {
-          //console.log('na action', response.data);
           let payloadResultados = [];
 
           payloadResultados = response.data;
@@ -691,7 +678,6 @@ import * as Cookies from 'js-cookie'
       }
       return await axios({ url: 'http://localhost:8000/api/buscaCurriculosAvancadas/' + pesquisa.keywords + '/' + pesquisa.escolaridade + '/' + pesquisa.objetivos + '/' + pesquisa.historicoProfissional + '/' + pesquisa.cidade + '/' + pesquisa.nome + '/' + pesquisa.area + '?token='+ token, method: 'GET' })
         .then(response => {
-          //console.log('na action', response.data);
           let payloadResultados = [];
 
           payloadResultados = response.data;
@@ -708,7 +694,6 @@ import * as Cookies from 'js-cookie'
       const userId = state.auth.user.id;
       return await axios({ url: 'http://localhost:8000/api/buscaVagasRecomendadas/' + userId + '?token=' + token, method: 'GET' })
         .then(response => {
-          //console.log('na action', response.data);
           let payloadVagasJuridica = [];
 
           payloadVagasJuridica = response.data;
@@ -732,11 +717,9 @@ import * as Cookies from 'js-cookie'
           'candidaturasEmAgendamento': response.data.countCandidaturasEmAgendamento,
           'candidaturasConfirmadas':  state.count.candidaturasConfirmadas,
         }
-        console.log('payloadCountCandidaturas', payloadCountCandidaturas)
         commit('countCandidaturas', payloadCountCandidaturas);
       }
   
-      console.log('na action new agenda', response);
       return response.data
 
     }).catch(error => {
@@ -767,7 +750,6 @@ import * as Cookies from 'js-cookie'
       return await axios({ url: agenda_uri + '/'+ newAgendaData.update_id + '?token=' + token, data: newAgendaData, method: 'PUT' })
         .then(response => {
           
-         // console.log('update agenda', response.data);
          
           return response.data
         })
@@ -786,11 +768,9 @@ import * as Cookies from 'js-cookie'
         let payloadAgenda = [];
         payloadAgenda = response.data.agenda;
         commit('agenda', payloadAgenda)
-        console.log('confirm Agenda response', response.data)
         if(response.data.candidaturas){
           commit('candidaturas', response.data.candidaturas) 
         }
-        console.log('confirm Agenda response', response.data)
         
         return response.data
       }).catch(error => {
@@ -804,7 +784,6 @@ import * as Cookies from 'js-cookie'
     const token = state.auth.token;
     return await axios({ url: 'http://localhost:8000/api/cancelAgenda?token=' + token, data: cancelAgenda, method: 'POST' })
     .then(response => {
-       console.log('na action de delete agenda', response)
     
        let payloadAgendaId = { 
          'role': response.data.role,

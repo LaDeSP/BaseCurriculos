@@ -109,7 +109,6 @@
             onDelete(){
                 this.$store.dispatch('deleteJuridica')
                 .then(response => {
-                   //console.log(response)
                     this.$router.push({ name: 'login' })
                 }).catch(error => console.log(error))
 
@@ -125,8 +124,6 @@
           if(this.dataCompleted){
             await this.loadJuridica();
           }
-            console.log('dataCompleted', this.dataCompleted)
-            console.log(this.displayPessoaJuridica)
         },
         watch: {
             async displayPessoaFisica() {

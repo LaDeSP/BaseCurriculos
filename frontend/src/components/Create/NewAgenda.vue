@@ -114,8 +114,6 @@
           }else{
             this.contraproposta = 'JURIDICA';
           }
-
-          console.log('thiscontra', this.contraproposta)
         }
 
         let newAgendaData = {
@@ -152,14 +150,12 @@
                 this.$router.push({ name: 'agenda' })
               }
             }
-            console.log('RESPONSE', response)
           })
           .catch(error => console.log(error))
         }
       },
 
       displayDataEdit(){
-        console.log('displaydatdaedit', this.$store.state.agenda)
         this.data = this.agendaById[0].data;
         this.hora = this.agendaById[0].hora;
       },

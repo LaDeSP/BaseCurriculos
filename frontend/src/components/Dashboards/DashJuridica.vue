@@ -61,7 +61,7 @@ import {mapGetters, mapActions} from 'vuex';
           if(!this.dataCompleted){
             await this.$store.dispatch('loadJuridica')
                   .then(response => {
-                    console.log('dataCompleted', this.dataCompleted)
+                    
                   }).catch(error => {
                     //console.log(error)
                   })
@@ -72,7 +72,6 @@ import {mapGetters, mapActions} from 'vuex';
                 if(vagas.length === 0){
                   this.hasVaga = false;
                 }
-                //console.log('hasvaga', this.hasVaga)
               }).catch(error => {
                 //console.log(error)
               })

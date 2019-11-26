@@ -190,12 +190,9 @@
             if(modal === 'warning'){
               this.isModalWarning = true;
               this.vaga_id = vaga_id;
-              console.log('show', this.vaga_id)
             }else{
-              console.log('no show', vaga_id);
               this.isModalShowMore = true;
               this.vaga_id = vaga_id;
-              console.log('kkkk', this.vagaById)
 
             }
           },
@@ -230,7 +227,6 @@
               }
               this.$store.dispatch('requestVaga', requestVaga)
               .then(response => {
-                  console.log(response)
                   this.isModalShowMore = false;
               }).catch(error => console.log(error))
           },
@@ -242,7 +238,7 @@
               }
               this.$store.dispatch('changeStatusVaga', newStatus)
               .then(response => {
-                  console.log(response)
+                 
               }).catch(error => console.log(error))
 
           },
@@ -264,7 +260,6 @@
             }else{
                 this.filterState = false;
             }
-            console.log('filtersTATE', this.filterState);
           }
         },
 

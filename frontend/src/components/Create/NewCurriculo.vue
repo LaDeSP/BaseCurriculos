@@ -665,8 +665,6 @@ export default {
     },
 
     displayDataEdit(){
-        console.log('desgraça', this.displayPessoaFisica)
-        console.log('inferno', this.displayCurriculo)
         this.nascimento = this.displayPessoaFisica.nascimento
         this.genero = this.displayPessoaFisica.genero
         this.estadoCivil = this.displayPessoaFisica.estadoCivil
@@ -690,7 +688,6 @@ export default {
         this.escolaridade = this.displayCurriculo.escolaridade
         this.qualificacoes = this.displayCurriculo.qualificacoes
         this.historicoProfissional = this.displayCurriculo.historicoProfissional
-        console.log(this.pretensao)
     },
 
     loadArea(){
@@ -721,7 +718,6 @@ export default {
             self.naoLocalizado = true;
             return;
           }
-          console.log(endereco);
           self.rua = endereco.logradouro;
           self.bairro = endereco.bairro;
           self.cidade = endereco.localidade;

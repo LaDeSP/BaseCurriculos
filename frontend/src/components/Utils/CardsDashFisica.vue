@@ -182,13 +182,9 @@
             if(modal === 'warning'){
               this.isModalWarning = true;
               this.vaga_id = vaga_id;
-              console.log('show', this.vaga_id)
             }else{
-              console.log('no show', vaga_id);
               this.isModalShowMore = true;
               this.vaga_id = vaga_id;
-              console.log('kkkk', this.vagaById)
-
             }
           },
 
@@ -223,7 +219,6 @@
               }
               this.$store.dispatch('requestVagaDash', requestVaga)
               .then(response => {
-                  console.log(response)
                   this.isModalShowMore = false;
                   this.isModalSuccess = true;
                   this.getVagasRecomendadas();
@@ -238,7 +233,7 @@
 
               this.$store.dispatch('changeStatusVaga', newStatus)
               .then(response => {
-                  console.log(response)
+                 
               }).catch(error => console.log(error))
 
           },
@@ -248,7 +243,6 @@
               await this.$store.dispatch('deleteVaga', this.vaga_id)
               .then(response => {
                   this.isModalWarning = false;
-                  console.log('no metodo', response)
               }).catch(error => console.log(error))
           },
 
@@ -262,7 +256,6 @@
             }else{
                 this.filterState = false;
             }
-            console.log('filtersTATE', this.filterState);
           }
         },
 

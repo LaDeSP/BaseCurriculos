@@ -88,9 +88,7 @@
                   
                  if(response.error  != undefined){
                     this.notificacoes = response.error;
-                    console.log(this.notificacoes);
                   }else if(response.user.deleted_at == null){
-                    console.log('response', response)
                     this.redirecionarUsuarioPorPermissao(this.permissaoDoUsuario)
                   }else{
                     this.$router.push({ name: 'conta-desativada' })

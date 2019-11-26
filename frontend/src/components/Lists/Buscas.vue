@@ -208,7 +208,6 @@ export default {
 
         onChangePage(pageOfItems) {
             // update page of items
-            console.log(pageOfItems);
             this.pageOfItems = pageOfItems;
         },
 
@@ -216,14 +215,10 @@ export default {
             if(modal === 'warning'){
                 this.isModalWarning = true;
                 this.vaga_id = vaga_id;
-                console.log('show', this.vaga_id)
             }
             else{
-                console.log('no show', vaga_id);
                 this.isModalShowMore = true;
                 this.vaga_id = vaga_id;
-                console.log('kkkk', this.vagaById)
-
             }
         },
 
@@ -246,7 +241,7 @@ export default {
             }
             this.$store.dispatch('changeStatusVaga', newStatus)
             .then(response => {
-                console.log(response)
+              
             }).catch(error => console.log(error))
         },
 
@@ -264,7 +259,6 @@ export default {
             }
             this.$store.dispatch('requestVaga', requestVaga)
             .then(response => {
-                console.log(response)
                 for( var i = 0; i < this.$store.state.resultado.length; i++){ 
                     if ( this.$store.state.resultado[i].id == id) {
                         this.$store.state.resultado.splice(i, 1); 

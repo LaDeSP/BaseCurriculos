@@ -54,7 +54,7 @@
           if(!this.dataCompleted){
             await this.$store.dispatch('loadFisica')
                   .then(response => {
-                    console.log('dataCompleted', this.dataCompleted)
+                
                   }).catch(error => {
                     //console.log(error)
                   })  

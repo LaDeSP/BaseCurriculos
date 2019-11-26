@@ -97,10 +97,8 @@ const permissaoDoUsuario = state =>{
 const displayCandidaturas = state =>{
   let candidaturas = state.candidaturas;
   let candidaturasFiltered = candidaturas.filter((filtered) => {
-    console.log('filtered', filtered)
     if(filtered.agenda){
       if(filtered.status == 'ENTREVISTA CANCELADA' && filtered.agenda[0].contraproposta ==  'JURIDICA'){
-        console.log('jdaodjoa')
         return filtered.id >= 1
       }
     }
@@ -109,7 +107,6 @@ const displayCandidaturas = state =>{
     }
 
   })
-  console.log('displayCandidatura', candidaturasFiltered)
   return candidaturasFiltered
 }
 
@@ -119,13 +116,11 @@ const displayVagasThatHaveCandidaturas = (state) => {
   let vagasThatHaveCandidaturas = vagasCandidaturas.filter((filtered) => {
   
     if(filtered.status != 'ENTREVISTA CANCELADA' && filtered.status != 'CONTRATADO' && filtered.status != 'RECUSADO'){
-      console.log('caiu no primeiro')
       return filtered.id >= 1
     }
    
   })
   
-  console.log('sweet', vagasThatHaveCandidaturas)
   return vagasThatHaveCandidaturas
 
 }
@@ -163,7 +158,6 @@ const displayAgenda = (state) => {
   
   let agenda = state.agenda;
   let agendaFiltered = agenda.filter((filtered) => {
-    console.log('filtered', filtered.candidatura)
     if(filtered.contraproposta == 'FISICA' && filtered.candidatura.status == 'ENTREVISTA CANCELADA'){
       return filtered.id >= 1
     }else{
@@ -171,7 +165,6 @@ const displayAgenda = (state) => {
     }
 
   })
-  console.log('displayAgenda', agendaFiltered)
   return agendaFiltered
 
 }

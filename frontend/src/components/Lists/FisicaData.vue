@@ -126,7 +126,6 @@
             onDelete(){
                 this.$store.dispatch('deleteFisica')
                 .then(response => {
-                   //console.log(response)
                     this.$router.push({ name: 'login' })
                 }).catch(error => console.log(error))
 
@@ -148,7 +147,6 @@
           if(this.dataCompleted){
             await this.loadFisica();
           }
-            console.log('dataCompleted', this.dataCompleted)
         },
         watch: {
             async displayPessoaFisica() {

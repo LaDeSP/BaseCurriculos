@@ -384,7 +384,7 @@
 
                 await this.$store.dispatch('confirmAgenda', candidatura)
                 .then(response => {
-                    console.log(response)
+                   
                 }).catch(error => console.log(error))
             },
 
@@ -393,7 +393,7 @@
 
                 await this.$store.dispatch('deleteCandidatura', this.candidato_id)
                 .then(response => {
-                  console.log('delete', response);
+                
                 }).catch(error => console.log(error))
             },
 

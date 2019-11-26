@@ -306,7 +306,6 @@ import {mask} from 'vue-the-mask'
                 }
 
                 if(!this.dataCompleted){
-                    console.log('caiu aqui')
                     this.$store.dispatch('completeJuridica', completeJuridica)
                     .then(response => {
 
@@ -337,7 +336,6 @@ import {mask} from 'vue-the-mask'
             },
 
             displayDataEdit(){
-                console.log('inferno', this.displayPessoaJuridica)
                 this.razao = this.displayPessoaJuridica.razao
                 this.fixo = this.displayPessoaJuridica.fixo
                 this.celular = this.displayPessoaJuridica.celular
@@ -386,7 +384,6 @@ import {mask} from 'vue-the-mask'
                     self.naoLocalizado = true;
                     return;
                 }
-                console.log(endereco);
                 self.rua = endereco.logradouro;
                 self.bairro = endereco.bairro;
                 self.cidade = endereco.localidade;
