@@ -6,17 +6,20 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
-    use SoftDeletes;
+    use SoftDeletes, CascadeSoftDeletes;
   
     protected $fillable = [
         'name', 'email', 'password', 'role'
     ];
+
+    protected $cascadeDeletes = ['fisica', 'juridica'];
 
     protected $dates = ['deleted_at'];
     
