@@ -7,12 +7,12 @@ const auth_success = (state, {payload}) => {
 };
 
 const auth_error = (state) => {
-    state.status = 'error'
+    state.auth.status = 'error'
 };
 
 const logout = (state) => {
-    state.status = ''
-    state.token = ''
+    state.auth.status = ''
+    state.auth.token = ''
 }
 
 const contact = (state, {payloadContact}) => {
