@@ -15,7 +15,7 @@ extend('min_value', {...min_value} );
 extend('max_value', {...max_value} );
 extend('integer', {...integer} );
 extend('regex', {...regex} );
-extend('required_id', {...required_id} );
+extend('required_if', {...required_if} );
 
 
 Vue.component('ValidationProvider', ValidationProvider);
@@ -33,6 +33,6 @@ localize('pt_BR', {
       integer: 'O valor não pode ser fracionário.',
       max_value: 'O valor máximo é {max}.',
       regex: 'Valor inválido.',
-      required_id: 'Esse campo é obrigatório.'
+      required_if: 'Esse campo é obrigatório.'
     }
   });
