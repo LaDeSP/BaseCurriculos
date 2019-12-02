@@ -38,6 +38,9 @@ import { store } from './store/store';
 import Buscas from './components/Lists/Buscas'
 import ContaDesativada from './components/Auth/ContaDesativada.vue';
 
+import Config from './components/Lists/Config.vue';
+
+
 const routes = [
     {path: '', name:'home', component: Home, meta:{isHome: true, requiresNotAuth: true}},
     {path: '/sobre', component: Sobre,meta:{isHome:true}},
@@ -62,6 +65,7 @@ const routes = [
     {path: '/agenda', name: 'agenda', component: Agenda, meta: {requiresAuth: true}},
     {path: '/agenda/:id', component: NewAgenda, props: true, meta: {requiresAuth: true}},
     {path: '/reativar', name: 'conta-desativada', component: ContaDesativada, meta:{isDesativada: true}},
+    {path: '/config', name: 'config', component: Config, meta:{requiresAuth: true}},
     {path: '*', component: DeuRuim}
 
 ];

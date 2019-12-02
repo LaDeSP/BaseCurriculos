@@ -49,7 +49,7 @@
           <div class="col-sm-12">
             <div class="form-group">
               <span for="password">Senha</span>
-              <ValidationProvider name="password" rules="required_if:newPassword|min:8|max:30">
+              <ValidationProvider name="password" rules="min:8|max:30"><!--required_id por-->
                 <div slot-scope="{ errors }">
                   <input type="password" id="password" name="password" class="form-control" v-model="password" maxlength="30" minlength="8">
                   <p class="color-red">{{ errors[0] }}</p>
@@ -60,10 +60,17 @@
 
 
           <hr>
-          <button :disabled="invalid" v-on:keyup.enter="register" @click.prevent="register" type="submit" class="btn btn-success btn-lg">Cadastrar</button>
-            <!-- <router-link to="/login" class="btn btn-default">Voltar</router-link> -->
+          <button :disabled="invalid" v-on:keyup.enter="register" @click.prevent="update" type="submit" class="btn btn-success btn-lg">Atualizar</button>
         </form>
       </ValidationObserver>
+      <Modal v-if="isModalSuccess" @close="closeModal">
+        <template v-slot:header></template>
+        <template v-slot:body>
+              <b-alert show variant="success">
+                <h1>Dados atualizados com sucesso!</h1>
+            </b-alert>
+        </template>
+      </Modal>
     </div>
   </div>
 </div>
@@ -72,21 +79,62 @@
 </template>
 
 <script>
+  import {mapActions} from 'vuex';
+  import Modal from '../Utils/ModalOld';
+  import { BAlert } from 'bootstrap-vue';
 
-    export default {
+  export default {
+    data(){
+      return{
+        email: this.$store.state.auth.user.email,
+        cpf: this.$store.state.pessoaFisica.cpf,
+        password: '',
+        cnpj: this.$store.state.pessoaJuridica.cnpj,
+        role: this.$store.state.auth.user.role,
+        newPassword: '',
+        notificacoes: [],
+        isModalSuccess: false,
 
-        data(){
-            return{
-                email: this.$store.state.auth.user.email,
-                cpf: this.$store.state.pessoaFisica.cpf,
-                password: '',
-                cnpj: this.$store.state.pessoaJuridica.cnpj,
-                role: this.$store.state.auth.user.role,
-                newPassword: '',
-                notificacoes: [],
+      }
+    },
+    components:{
+      Modal, BAlert
+    },
 
-
-            }
+    methods: {
+      update(){
+        let attUserFisica = {
+          email: this.email,
+          cpf: this.cpf,
+          password: this.password,
+          newPassword: this.newPassword
         }
+
+        this.$store.dispatch('updateUserFisica', attUserFisica)
+        .then( response => { 
+          if(response.error  != undefined){
+            this.notificacoes = response.error;
+          }
+          else{
+            this.isModalSuccess = true;
+            this.notificacoes = [];
+          }
+        
+        })
+        .catch(error => console.log(error))
+
+      },
+      ...mapActions([
+        'loadFisica'
+      ]),
+      closeModal(){
+        this.isModalSuccess = false;
+      },
+
+    },
+    created() {
+      this.loadFisica();
     }
+
+  }
 </script>

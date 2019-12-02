@@ -63,17 +63,21 @@ class FisicaController extends Controller
     }
 
     public function updateDadosCadastroFisica (Request $request){
-        $validator = Validator::make($request->all(), FisicaController::rules_edit($user), FisicaController::messages());
-      
+        $user_id = auth()->user()->id; 
+        $user = User::findOrFail($user_id);
+        $fisica = $user->fisica;
+        
+        $validator = Validator::make($request->all(), FisicaController::rules_edit($user->id, $fisica->id), FisicaController::messages());
+        
         if ($validator->fails()) {
             return Response::json([
                 'error' => $validator->messages()
             ], 201);
         }
+        
+        
 
-        $user_id = auth()->user()->id; 
-        $user = User::findOrFail($user_id);
-        $fisica = $user->fisica;
+        
         $error = [];
         if($request->newPass){
             if(!Hash::check($request->password, $user->password)){
@@ -148,7 +152,7 @@ class FisicaController extends Controller
             'email' => 'required|max:250|email|unique:users,email,'.$email,
             'password' => 'nullable|min:8|max:30',
             'newPass' => 'nullable|min:8|max:30',
-            'cpf' => 'requerid|cpf|unique:fisicas,cpf'.$cpf
+            'cpf' => 'required|cpf|unique:fisicas,cpf,'.$cpf
         ];
     }
     
