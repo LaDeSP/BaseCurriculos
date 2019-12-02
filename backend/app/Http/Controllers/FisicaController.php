@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 use Response;
 
@@ -61,6 +62,43 @@ class FisicaController extends Controller
         ], 201);
     }
 
+    public function updateDadosCadastroFisica (Request $request){
+        $user_id = auth()->user()->id; 
+        $user = User::findOrFail($user_id);
+        $fisica = $user->fisica;
+        
+        $validator = Validator::make($request->all(), FisicaController::rules_edit($user->id, $fisica->id), FisicaController::messages());
+        
+        if ($validator->fails()) {
+            return Response::json([
+                'error' => $validator->messages()
+            ], 201);
+        }
+        
+        
+
+        
+        $error = [];
+        if($request->newPass){
+            if(!Hash::check($request->password, $user->password)){
+                $errorSenha[] = "Senha antiga errada.";
+                $error[] = $errorSenha;
+                return Response::json([
+                    'error' => $error
+                ], 201);
+            }
+            $user->password = Hash::make($request->newPass);
+        }
+        $user->email = $request->email;
+        $fisica->cpf = $request->cpf;
+        
+        $user->update();
+        $fisica->update();
+        return Response::json([
+            'message'=>'Pessoa física atualizada com sucesso!'
+        ], 201); 
+    }
+
     public function destroy($id)
     {
         $end_id = Fisica::where('user_id', $id)->first()->enderecos_id;
@@ -106,6 +144,15 @@ class FisicaController extends Controller
             'email' => 'required|max:250|email|unique:users,email',
             'password' => 'required|min:8|max:30',
             'cpf' => 'required|cpf|unique:fisicas,cpf'
+        ];
+    }
+
+    public function rules_edit($email, $cpf){
+        return [
+            'email' => 'required|max:250|email|unique:users,email,'.$email,
+            'password' => 'nullable|min:8|max:30',
+            'newPass' => 'nullable|min:8|max:30',
+            'cpf' => 'required|cpf|unique:fisicas,cpf,'.$cpf
         ];
     }
     

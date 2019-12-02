@@ -58,6 +58,7 @@ Route::group([
     Route::post('/cancelAgenda', 'AgendaController@cancelAgenda');
     Route::get('/vagasPorcentagem', 'BuscaController@buscaVagasProgress');
     Route::delete('/deactivate/{id}', 'UserController@destroy');
+    Route::post('/updateDadosCadastroFisica', 'FisicaController@updateDadosCadastroFisica');//put
 });
 Route::post('/activate/{id}', 'UserController@activateAccount');
 Route::get('/teste', 'UserController@teste');

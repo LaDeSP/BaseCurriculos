@@ -818,6 +818,22 @@ import * as Cookies from 'js-cookie'
     );
   };
 
+  const updateUserFisica = async({commit, state}, attUserFisica) => {
+    
+    const token = state.auth.token;
+    return await axios({ url: 'http://localhost:8000/api/updateDadosCadastroFisica?token='+token, data: attUserFisica, method: 'POST' })
+      .then(response => {
+        let payloadUserFisica = [];
+        payloadUserFisica = response.data;
+        commit('attUserFisica', payloadUserFisica);
+        return response.data
+      })
+      .catch(error => {
+        console.log(error)
+      }) 
+
+  };
+
 
   export default {
     login,
@@ -854,6 +870,7 @@ import * as Cookies from 'js-cookie'
     updateAgenda,
     confirmAgenda,
     cancelAgenda,
-    getVagasPorcentagem
+    getVagasPorcentagem,
+    updateUserFisica
   
   };
