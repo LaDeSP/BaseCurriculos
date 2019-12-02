@@ -151,15 +151,6 @@ class JuridicaController extends Controller
       
     }
 
-    public function destroy($id)
-    {
-        $user = User::destroy($id);
-
-        if($user){
-            return Response::json(['softdelete ok']);
-        }
-    }
-
    /* public function destroy($id)
     {
     

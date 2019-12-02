@@ -62,7 +62,7 @@
                           <h4 class="text-center">Sentiremos sua falta :(</h4>
                         </template>
                         <template v-slot:footer>
-                          <button @click="onDelete" class="btn btn-lg btn-danger">Sim, quero deletar minha conta</button>
+                          <button @click="deactivate" class="btn btn-lg btn-danger">Sim, quero deletar minha conta</button>
                           <button @click="closeModal" class="btn btn-lg btn-success">Vou dar mais uma chance para vocês...</button>
                         </template>
                       </Modal>
@@ -106,8 +106,8 @@
              closeModal(){
                 this.isModalWarning = false;
             },
-            onDelete(){
-                this.$store.dispatch('deleteJuridica')
+            deactivate(){
+                this.$store.dispatch('deactivateAccount')
                 .then(response => {
                     this.$router.push({ name: 'login' })
                 }).catch(error => console.log(error))

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Sua conta se encontra desativada no momento. Deseja reativar ela?</h1>
-    <button @click="reativarConta" class="btn btn-lg btn-success">Reativar Conta</button>
+    <button @click="activate" class="btn btn-lg btn-success">Reativar Conta</button>
     <button @click="logout" class="btn btn-lg btn-danger">Sair</button>
   </div>
 </template>
@@ -10,8 +10,8 @@
 
     export default {
         methods:{
-        reativarConta(){
-            this.$store.dispatch('reativarConta')
+        activate(){
+            this.$store.dispatch('activateAccount')
             .then(() => {
                 //this.$router.push('/dashboard')
             })

@@ -364,11 +364,11 @@ import * as Cookies from 'js-cookie'
 
   };
 
-  const deleteFisica = async ({commit, state}) => {
+  const deactivateAccount = async ({commit, state}) => {
 
     const token = state.auth.token;
     const user_id = state.auth.user.id
-    return await axios({ url: fisica_uri + '/' + user_id + '?token='+ token, method: 'DELETE' })
+    return await axios({ url: 'http://localhost:8000/api/deactivate' + '/' + user_id + '?token='+ token, method: 'DELETE' })
     .then(response => {
        commit('logout');
        Cookies.remove('vuex');
@@ -379,14 +379,15 @@ import * as Cookies from 'js-cookie'
     );
   };
 
-   const deleteJuridica = async ({commit, state}) => {
+  const activateAccount = async ({commit, state}) => {
 
     const token = state.auth.token;
     const user_id = state.auth.user.id
-    return await axios({ url: juridica_uri + '/' + user_id + '?token='+ token, method: 'DELETE' })
+    console.log('iuser', user_id);
+    return await axios({ url: 'http://localhost:8000/api/activate' + '/' + user_id + '?token='+ token, method: 'POST' })
     .then(response => {
-       commit('logout');
-       Cookies.remove('vuex');
+       //commit('logout');
+       console.log('response activate', response);
        return response;
     })
     .catch(
@@ -829,8 +830,8 @@ import * as Cookies from 'js-cookie'
     updateJuridica,
     loadFisica,
     loadJuridica,
-    deleteFisica,
-    deleteJuridica,
+    deactivateAccount,
+    activateAccount,
     createVaga,
     updateVaga,
     requestVaga,

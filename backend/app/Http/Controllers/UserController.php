@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\User;
 use App\Upload;
+use App\Juridica;
+use App\Fisica;
 use JWTAuth;
 use Response;
 
@@ -93,9 +95,6 @@ class UserController extends Controller implements JWTSubject
           $path = "http://localhost:8000/storage/".$foto->path;
         }  
     }
-      
-      
-      
 
       return Response::json([
         'token'=>$token,
@@ -111,6 +110,41 @@ class UserController extends Controller implements JWTSubject
         auth()->logout();
 
         return response()->json(['msg' => 'tchau....']);
+    }
+
+    public function activateAccount($user_id){
+
+        User::withTrashed()->find($user_id)->restore();
+        $user = User::find($user_id); 
+        $token = auth()->login($user);
+        $role = User::where('id', $user_id)->get()->first()->role;
+
+        if($role === 'FISICA'){
+            $fisica_id = Fisica::where('user_id', $user_id)->get()->first()->id;
+            Fisica::withTrashed()->find($fisica_id)->restore();
+        }else{
+            $juridica_id = Juridica::where('user_id', $user_id)->get()->first()->id;
+            Juridica::withTrashed()->find($juridica_id)->restore();
+        }
+
+        return Response::json([
+            'ativou',
+            'token'=>$token,
+            'authuser'=> auth()->user()
+        ]);
+    }
+
+    public function destroy($id){  
+        
+        $user = User::find($id); 
+        $user->delete();
+        // $user = User::destroy($id);
+        $user->save();
+
+        if($user){
+            return Response::json(['softdelete ok']);
+        }
+        
     }
 
     public function messages(){
