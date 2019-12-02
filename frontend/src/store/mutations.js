@@ -129,6 +129,11 @@ const progressBar = (state, payloadProgressBar) => {
     state.progressBar = payloadProgressBar
 }
 
+const attUserFisica = (state, payloadUserFisica) => {
+    state.auth.user.cpf = payloadUserFisica.cpf;
+    state.auth.user.email = payloadUserFisica.email;
+}
+
   export default {
     auth_success,
     auth_error,
@@ -149,6 +154,7 @@ const progressBar = (state, payloadProgressBar) => {
     deleteCandidatura,
     countVagasJuridica,
     countCandidaturas,
-    progressBar
+    progressBar,
+    attUserFisica
     
   };
