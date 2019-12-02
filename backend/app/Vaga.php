@@ -32,12 +32,25 @@ class Vaga extends Model
 		$curriculo = $user->fisica->curriculo;
 	
 		
-		return $this->hasOne(Candidatura::class, 'vagas_id')->where(function ($query) {
+		return $this->hasMany(Candidatura::class, 'vagas_id')->where(function ($query) {
             $query->where('status', "EM AGENDAMENTO")
                   ->orWhere('status', "AGUARDANDO")
                   ->orWhere('status', "ENTREVISTA CONFIRMADA")
-                  ->orWhere('status', "CONTRATADO");
+                  ->orWhere('status', "CONTRATADO");//tava hasOne e mudei pra hasMany
 		})
 		->where('curriculos_id', $curriculo->id);
+	}
+	
+	public function convite(){
+		return $this->hasMany(Convite::class, 'vagas_id');
+	}
+
+	public function myConvite(){
+		$user_id = auth()->user()->id;
+		$user = User::with(['fisica.curriculo'])->findOrFail($user_id);
+		$curriculo = $user->fisica->curriculo;
+	
+		
+		return $this->hasMany(Convite::class, 'vagas_id')->where('curriculos_id', $curriculo->id);
 	}
 }

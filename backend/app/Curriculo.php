@@ -23,5 +23,8 @@ class Curriculo extends Model
 	public function area(){
     	return $this->belongsTo(Area::class, 'areas_id');
 	}
+	public function convite(){
+		return $this->belongsTo(Convite::class);
+	}
 }
 
