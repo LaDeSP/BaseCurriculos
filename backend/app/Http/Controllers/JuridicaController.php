@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 use Response;
 
@@ -104,6 +105,49 @@ class JuridicaController extends Controller
          ], 201);
     }
 
+    public function updateDadosCadastroJuridica (Request $request){
+        $user_id = auth()->user()->id; 
+        $user = User::findOrFail($user_id);
+        $juridica = $user->juridica;
+        
+        $validator = Validator::make($request->all(), JuridicaController::rules_edit($user->id, $juridica->id), JuridicaController::messages_basic());
+        
+        if ($validator->fails()) {
+            return Response::json([
+                'error' => $validator->messages()
+            ], 201);
+        }
+        
+        $error = [];
+        if($request->newPassword){
+            if(!$request->password){
+                $errorSenha[] = "Insira senha atual.";
+                $error[] = $errorSenha;
+                return Response::json([
+                    'error' => $error
+                ], 201);
+            }
+            if(!Hash::check($request->password, $user->password)){
+                $errorSenha[] = "Senha atual errada.";
+                $error[] = $errorSenha;
+                return Response::json([
+                    'error' => $error
+                ], 201);
+            }
+            $user->password = Hash::make($request->newPassword);
+        }
+        $user->email = $request->email;
+        $juridica->cnpj = $request->cnpj;
+        
+        $user->update();
+        $juridica->update();
+        return Response::json([
+            'message'=>'Pessoa jurídica atualizada com sucesso!',
+            'cnpj'=>$juridica->cnpj,
+            'email'=>$user->email,
+        ], 201); 
+    }
+
 
     public function update(Request $request, $id)
     {
@@ -190,7 +234,10 @@ class JuridicaController extends Controller
             'password.max' => 'Senha tem que ter no máximo 30 caracteres!',
             'cpf.required' => 'Insira um CPF!',
             'cpf.cpf' => 'Insira um CPF válido!',
-            'cpf.unique' => 'CPF inserido já foi cadastrado.'
+            'cpf.unique' => 'CPF inserido já foi cadastrado.',
+            'cnpj.required' => 'Insira um CNPJ!',
+            'cnpj.cnpj' => 'Insira um CNPJ válido!',
+            'cnpj.unique' => 'CNPJ inserido já foi cadastrado.'
         ];
     }
 
@@ -249,6 +296,15 @@ class JuridicaController extends Controller
             'bairro' => 'required|max:250',
             'cidade' => 'required|max:250',
             'cep'=> 'required|digits:8'
+        ];
+    }
+
+    public function rules_edit($email, $cnpj){
+        return [
+            'email' => 'required|max:250|email|unique:users,email,'.$email,
+            'password' => 'nullable|min:8|max:30',
+            'newPassword' => 'nullable|min:8|max:30',
+            'cnpj' => 'required|cnpj|unique:juridicas,cnpj,'.$cnpj
         ];
     }
 

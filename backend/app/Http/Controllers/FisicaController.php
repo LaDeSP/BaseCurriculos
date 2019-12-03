@@ -75,19 +75,23 @@ class FisicaController extends Controller
             ], 201);
         }
         
-        
-
-        
         $error = [];
-        if($request->newPass){
-            if(!Hash::check($request->password, $user->password)){
-                $errorSenha[] = "Senha antiga errada.";
+        if($request->newPassword){
+            if(!$request->password){
+                $errorSenha[] = "Insira senha atual.";
                 $error[] = $errorSenha;
                 return Response::json([
                     'error' => $error
                 ], 201);
             }
-            $user->password = Hash::make($request->newPass);
+            if(!Hash::check($request->password, $user->password)){
+                $errorSenha[] = "Senha atual errada.";
+                $error[] = $errorSenha;
+                return Response::json([
+                    'error' => $error
+                ], 201);
+            }
+            $user->password = Hash::make($request->newPassword);
         }
         $user->email = $request->email;
         $fisica->cpf = $request->cpf;
@@ -95,7 +99,9 @@ class FisicaController extends Controller
         $user->update();
         $fisica->update();
         return Response::json([
-            'message'=>'Pessoa física atualizada com sucesso!'
+            'message'=>'Pessoa física atualizada com sucesso!',
+            'cpf'=>$fisica->cpf,
+            'email'=>$user->email,
         ], 201); 
     }
 
@@ -131,6 +137,9 @@ class FisicaController extends Controller
             'password.required' => 'Insira uma senha!',
             'password.min' => 'Senha tem que ter no mínimo 8 caracteres!',
             'password.max' => 'Senha tem que ter no máximo 30 caracteres!',
+            'newPassword.required' => 'Insira nova senha!',
+            'newPassword.min' => 'Nova senha tem que ter no mínimo 8 caracteres!',
+            'newPassword.max' => 'Nova senha tem que ter no máximo 30 caracteres!',
             'cpf.required' => 'Insira um CPF!',
             'cpf.cpf' => 'Insira um CPF válido!',
             'cpf.unique' => 'CPF inserido já foi cadastrado.'
@@ -151,7 +160,7 @@ class FisicaController extends Controller
         return [
             'email' => 'required|max:250|email|unique:users,email,'.$email,
             'password' => 'nullable|min:8|max:30',
-            'newPass' => 'nullable|min:8|max:30',
+            'newPassword' => 'nullable|min:8|max:30',
             'cpf' => 'required|cpf|unique:fisicas,cpf,'.$cpf
         ];
     }

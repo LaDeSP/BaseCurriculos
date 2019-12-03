@@ -823,9 +823,29 @@ import * as Cookies from 'js-cookie'
     const token = state.auth.token;
     return await axios({ url: 'http://localhost:8000/api/updateDadosCadastroFisica?token='+token, data: attUserFisica, method: 'POST' })
       .then(response => {
-        let payloadUserFisica = [];
-        payloadUserFisica = response.data;
-        commit('attUserFisica', payloadUserFisica);
+        if(!response.data.error){
+          let payloadUserFisica = [];
+          payloadUserFisica = response.data;
+          commit('attUserFisica', payloadUserFisica);
+        }
+        return response.data
+      })
+      .catch(error => {
+        console.log(error)
+      }) 
+
+  };
+
+  const updateUserJuridica = async({commit, state}, attUserJuridica) => {
+    
+    const token = state.auth.token;
+    return await axios({ url: 'http://localhost:8000/api/updateDadosCadastroJuridica?token='+token, data: attUserJuridica, method: 'POST' })
+      .then(response => {
+        if(!response.data.error){
+          let payloadUserJuridica = [];
+          payloadUserJuridica = response.data;
+          commit('attUserJuridica', payloadUserJuridica);
+        }
         return response.data
       })
       .catch(error => {
@@ -871,6 +891,7 @@ import * as Cookies from 'js-cookie'
     confirmAgenda,
     cancelAgenda,
     getVagasPorcentagem,
-    updateUserFisica
+    updateUserFisica,
+    updateUserJuridica
   
   };

@@ -59,6 +59,7 @@ Route::group([
     Route::get('/vagasPorcentagem', 'BuscaController@buscaVagasProgress');
     Route::delete('/deactivate/{id}', 'UserController@destroy');
     Route::post('/updateDadosCadastroFisica', 'FisicaController@updateDadosCadastroFisica');//put
+    Route::post('/updateDadosCadastroJuridica', 'JuridicaController@updateDadosCadastroJuridica');//put
 });
 Route::post('/activate/{id}', 'UserController@activateAccount');
 Route::get('/teste', 'UserController@teste');

@@ -130,8 +130,13 @@ const progressBar = (state, payloadProgressBar) => {
 }
 
 const attUserFisica = (state, payloadUserFisica) => {
-    state.auth.user.cpf = payloadUserFisica.cpf;
+    state.pessoaFisica.cpf = payloadUserFisica.cpf;
     state.auth.user.email = payloadUserFisica.email;
+}
+
+const attUserJuridica = (state, payloadUserJuridica) => {
+    state.pessoaJuridica.cnpj = payloadUserJuridica.cnpj;
+    state.auth.user.email = payloadUserJuridica.email;
 }
 
   export default {
@@ -155,6 +160,7 @@ const attUserFisica = (state, payloadUserFisica) => {
     countVagasJuridica,
     countCandidaturas,
     progressBar,
-    attUserFisica
+    attUserFisica,
+    attUserJuridica
     
   };
