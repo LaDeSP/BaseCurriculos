@@ -2,7 +2,7 @@
   <div class="input-group col-md-11" v-if="permissaoDoUsuario === 'JURIDICA'">
     <input class="form-control py-2" type="search" placeholder="Busque aqui por qualificações necessárias" v-model="keywords">
     <span class="input-group-append">
-      <button class="btn btn-outline-secondary" type="button" @click="redirectSimpleCurriculo">
+      <button class="btn btn-outline-secondary" type="button" @click="redirectSimpleCurriculo" :disabled="keywords.length<1">
           <i class="fa fa-search"></i>
       </button>
       <button class="btn primary" type="button" @click="showModalPesquisaAvancada">
@@ -61,7 +61,8 @@
           <input type="text" name="nome" class="form-control" v-model="nome" maxlength="50">  
         </div>
         <p class="color-red" v-if="aviso">{{aviso}}</p>
-        <button class="btn btn-primary" type="button" @click="redirectAdvancedCurriculo">
+        <button class="btn btn-primary" type="button" @click="redirectAdvancedCurriculo"
+        :disabled="keywords.length<1 && escolaridade.length<1 && objetivos.length<1 && historicoProfissional.length<1 && cidade.length<1 && nome.length<1 && area.length<1">
           Busca Avançada
         </button>
         
@@ -73,7 +74,7 @@
   <div class="input-group col-md-11" v-else>
     <input class="form-control py-2" type="search" placeholder="Busque aqui pelo título ou descrição da vaga que você quer" v-model="keywords">
     <span class="input-group-append">
-      <button class="btn btn-outline-secondary" type="button" @click="redirectSimple" v-on:keyup.enter="redirectSimple">
+      <button class="btn btn-outline-secondary" type="button" @click="redirectSimple" v-on:keyup.enter="redirectSimple" :disabled="keywords.length<1">
           <i class="fa fa-search"></i>
       </button>
        <button class="btn primary" type="button" @click="showModalPesquisaAvancada">
@@ -114,7 +115,8 @@
           <input type="text" name="requisitos" class="form-control" v-model="requisitos" maxlength="50">  
         </div>
         <p class="color-red" v-if="aviso">{{aviso}}</p>
-        <button class="btn btn-primary" type="button" @click="redirectAdvanced">
+        <button class="btn btn-primary" type="button" @click="redirectAdvanced"
+        :disabled="keywords.length<1 && cargo.length<1 && beneficio.length<1 && jornada.length<1 && requisitos.length<1 && area.length<1">
           Busca Avançada
         </button>
         
