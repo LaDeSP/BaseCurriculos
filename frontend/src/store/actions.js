@@ -875,7 +875,7 @@ import * as Cookies from 'js-cookie'
     .then(response => {
       
       let payloadConvites = [];
-      payloadConvites = response.data;
+      payloadConvites = response.data.convites;
       commit('attConvites', payloadConvites);
        return response;
     })
