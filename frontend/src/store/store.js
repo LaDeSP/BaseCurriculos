@@ -76,6 +76,7 @@ export const store = new Vuex.Store({
    countVagas: 0,
    resultado: [],
    agenda: [],
+   convites: [],
    
   },
 

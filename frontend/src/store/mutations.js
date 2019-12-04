@@ -139,6 +139,10 @@ const attUserJuridica = (state, payloadUserJuridica) => {
     state.auth.user.email = payloadUserJuridica.email;
 }
 
+const attConvites = (state, payloadConvites) => {
+    state.convites = payloadConvites;
+}
+
   export default {
     auth_success,
     auth_error,
@@ -161,6 +165,7 @@ const attUserJuridica = (state, payloadUserJuridica) => {
     countCandidaturas,
     progressBar,
     attUserFisica,
-    attUserJuridica
+    attUserJuridica,
+    attConvites
     
   };

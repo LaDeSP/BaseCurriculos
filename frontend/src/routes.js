@@ -40,6 +40,9 @@ import ContaDesativada from './components/Auth/ContaDesativada.vue';
 
 import Config from './components/Lists/Config.vue';
 
+import Convites from './components/Lists/Convites.vue';
+
+
 
 const routes = [
     {path: '', name:'home', component: Home, meta:{isHome: true, requiresNotAuth: true}},
@@ -66,6 +69,7 @@ const routes = [
     {path: '/agenda/:id', component: NewAgenda, props: true, meta: {requiresAuth: true}},
     {path: '/reativar', name: 'conta-desativada', component: ContaDesativada, meta:{isDesativada: true}},
     {path: '/config', name: 'config', component: Config, meta:{requiresAuth: true}},
+    {path: '/convites', name: 'convites', component: Convites, meta:{requiresAuth: true}},
     {path: '*', component: DeuRuim}
 
 ];

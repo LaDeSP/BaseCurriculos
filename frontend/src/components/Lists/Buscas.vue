@@ -20,11 +20,44 @@
                         <strong>Área de Atuação:</strong> {{curriculo.area.tipo}}
                         </template>
                         <template v-slot:card-footer>
+                            <div v-if="displayVagasJuridica.length>0">
+                                <select class="custom-select" name="vaga" v-model="vaga"> 
+                                    <option disabled value="">Selecione a vaga</option>
+                                    <option v-for="show in displayVagasJuridica" :key="show.id" :value="show.id">
+                                        {{show.titulo}}
+                                    </option>
+                                </select>
+                                <button :disabled="vaga==''" @click="onRequestConvite(curriculo.id)" class="btn btn-sm btn-success">Convidar</button>
+                            </div>
                         </template>
                     </Card>
                     
                 </div>
             </div>
+            <Modal v-if="isModalError" @close="closeModal">
+                <template v-slot:header></template>
+                <template v-slot:body>
+                    <b-alert show variant="warning">
+                        <h1>Selecione uma vaga!</h1>
+                    </b-alert>
+                </template>
+            </Modal>
+            <Modal v-if="isModalMultipleInvite" @close="closeModal">
+                <template v-slot:header></template>
+                <template v-slot:body>
+                    <b-alert show variant="danger">
+                        <h1>Você já convidou essa pessoa pra essa vaga!</h1>
+                    </b-alert>
+                </template>
+            </Modal>
+            <Modal v-if="isModalSuccess" @close="closeModal">
+            <template v-slot:header></template>
+            <template v-slot:body>
+                 <b-alert show variant="success">
+                    <h1>Candidatura realizada com sucesso!</h1>
+                </b-alert>
+            </template>
+        </Modal>
         </div>
             
         <div v-if="displayResultados.length > 10">
@@ -126,12 +159,13 @@ export default {
             keywords: '',
             pageOfItems: [],
             customLabels,
-            filterState: true,
             isModalWarning: false,
             isModalShowMore: false,
             isModalSuccess: false,
+            isModalError: false,
+            isModalMultipleInvite: false,
             vaga_id: 0,
-
+            vaga: '',
         }
     },
     components: {Card, JwPagination, Modal, BAlert},
@@ -193,7 +227,7 @@ export default {
 
     computed:{
         ...mapGetters([
-            'displayResultados', 'permissaoDoUsuario', 'dataCompleted', 'displayVagaById'
+            'displayResultados', 'permissaoDoUsuario', 'dataCompleted', 'displayVagaById', 'displayVagasJuridica'
         ]),
         
         vagaById(){
@@ -232,6 +266,8 @@ export default {
             this.isModalWarning = false;
             this.isModalShowMore = false;
             this.isModalSuccess = false;
+            this.isModalError = false;
+            this.isModalMultipleInvite = false;
         },
 
         changeStatus(id, status){
@@ -266,6 +302,30 @@ export default {
                 }
                 this.isModalShowMore = false;
                 this.isModalSuccess = true;
+            }).catch(error => console.log(error))
+        },
+
+        onRequestConvite(id){
+            if(this.vaga==''){
+                this.isModalError = true;
+                return;
+            }
+
+            let requestConvite = {
+                vaga_id: this.vaga,
+                curriculo_id: id
+            }
+            this.$store.dispatch('requestConvite', requestConvite)
+            .then(response => {
+                if(response.error){
+                    this.isModalMultipleInvite = true;
+                }
+                else{
+                    this.isModalShowMore = false;
+                    this.isModalSuccess = true;
+                }
+                
+                
             }).catch(error => console.log(error))
         },
     },
