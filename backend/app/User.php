@@ -2,24 +2,28 @@
 
 namespace App;
 
+use App\Upload;
+use App\Juridica;
+use App\Fisica;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Iatstuti\Database\Support\CascadeSoftDeletes;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
+    use SoftDeletes, SoftCascadeTrait;
     use Notifiable;
-    use SoftDeletes, CascadeSoftDeletes;
+
   
     protected $fillable = [
         'name', 'email', 'password', 'role'
     ];
 
-    protected $cascadeDeletes = ['fisica', 'juridica'];
+    protected $softCascade = ['juridica'];
 
     protected $dates = ['deleted_at'];
     

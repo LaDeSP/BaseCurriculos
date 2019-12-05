@@ -4,12 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Juridica extends Model
 {
+
+	use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
+
 	protected $fillable = [
 		'razao', 'cnpj', 'ramo', 'missao', 
 		'contatos_id', 'enderecos_id', 'user_id', 'areas_id'
 	];
+
+	protected $softCascade = ['vaga'];
 
 	public function user(){
     	return $this->belongsTo(User::class,  'user_id');

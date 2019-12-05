@@ -13,6 +13,7 @@ use App\User;
 use App\Upload;
 use App\Juridica;
 use App\Fisica;
+use App\Vaga;
 use JWTAuth;
 use Response;
 
@@ -20,22 +21,10 @@ class UserController extends Controller implements JWTSubject
 {
     public function teste(){
 
-        $teste = User::where('email', 'sansa@hotmail.com')->onlyTrashed()->get();
-       
-        $credentials = $teste->map(function ($user) {
-            return $user->only(['email', 'password']);
-        });
-        try{
-            if(!$token = JWTAuth::attempt($credentials[0])){
-                $error[] = 'Senha Inválida.';
-                return response()->json([
-                    'error' => $error
-                ], 201);
-            }
-        }catch(JWTException $e){
-            dd($e);
-        }
-        dd($credentials[0]);
+        $teste = Vaga::onlyTrashed()->get();
+      
+      //  dd($credentials[0]);
+        dd($teste);
     }
 
     public function login(Request $request){
@@ -136,10 +125,10 @@ class UserController extends Controller implements JWTSubject
 
     public function destroy($id){  
         
-        $user = User::find($id); 
-        $user->delete();
+       $user = User::find($id); 
+       $user->delete();
         // $user = User::destroy($id);
-        $user->save();
+      
 
         if($user){
             return Response::json(['softdelete ok']);

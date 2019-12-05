@@ -161,6 +161,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         LaravelLegends\PtBrValidator\ValidatorProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
+        Askedio\SoftCascade\Providers\GenericServiceProvider::class,
 
         /*
          * Package Service Providers...

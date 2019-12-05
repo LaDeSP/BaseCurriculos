@@ -19,6 +19,7 @@ class CreateJuridicasTable extends Migration
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
+            $table->softDeletes();
             $table->unsignedInteger('areas_id');
             $table->foreign('areas_id')->references('id')->on('areas');
             $table->foreign('contatos_id')->references('id')->on('contatos')->onDelete('cascade');
