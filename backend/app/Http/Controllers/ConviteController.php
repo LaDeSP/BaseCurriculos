@@ -63,15 +63,60 @@ class ConviteController extends Controller
         ], 201);
     }
 
-    public function getConvitesFisica(){
+    public function getConvites(){
         $user_id = auth()->user();
-        $curriculo = $user_id->fisica->curriculo;
+        if($user_id->role == 'FISICA'){
+            $curriculo = $user_id->fisica->curriculo;
 
-        $convites = Convite::with(['vaga'])->where('curriculos_id', $curriculo->id)->where('resposta', 'AGUARDANDO')->get();
+            $convites = Convite::with(['vaga'])->where('curriculos_id', $curriculo->id)->where('resposta', 'AGUARDANDO')->get();
 
-        return Response::json([
-            'convites' => $convites,
-        ], 201);
+            return Response::json([
+                'convites' => $convites,
+            ], 201);
+        }
+        else{
+            $juridica = $user_id->juridica;
+            $juridica_id = $juridica->id;
+            $vagasConvites =  Convite::with(['vaga', 'curriculo.area', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
+                ->whereHas('vaga', function($query) use ($juridica_id){ 
+                    $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
+                })->get();
+
+            $collection = collect($vagasConvites);
+            $unique = $collection->unique('vagas_id');
+            $unique_data = $unique->values()->all();
+        
+            $countConvites = 0;
+            $countConvitesAguardando = 0;
+            $countConvitesConfirmados = 0;
+            $countConvitesNegados = 0;
+
+            foreach($vagasConvites as $convite){
+                if($convite){
+                    $countConvites++;
+                }
+                if($convite->resposta == 'AGUARDANDO'){
+                    $countConvitesAguardando++;
+                }
+                if($convite->resposta == 'ACEITOU'){
+                    $countConvitesConfirmados++;
+                }
+                if($convite->resposta == 'RECUSOU'){
+                    $countConvitesNegados++;
+                }
+            }
+
+            return Response::json([
+                'vagasConvites' => $unique_data,
+                'convites'=> $vagasConvites,
+                'countConvites'=> $countConvites,
+                'countConvitesAguardando'=>$countConvitesAguardando,
+                'countConvitesConfirmados' => $countConvitesConfirmados,
+                'countConvitesNegados' => $countConvitesNegados
+            ]);
+
+
+        }
 
     }
 
@@ -92,7 +137,7 @@ class ConviteController extends Controller
             $convite->resposta='RECUSOU';
             $convite->update();
 
-            $convites=ConviteController::getConvitesFisica();
+            $convites=ConviteController::getConvites();
             
             return Response::json([
                 'convites' => $convites,
@@ -110,7 +155,7 @@ class ConviteController extends Controller
                 'status'=>'AGUARDANDO'
             ]);
 
-            $convites=ConviteController::getConvitesFisica();
+            $convites=ConviteController::getConvites();
             
             return Response::json([
                 'convites' => $convites,

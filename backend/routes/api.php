@@ -61,7 +61,7 @@ Route::group([
     Route::post('/updateDadosCadastroFisica', 'FisicaController@updateDadosCadastroFisica');//put
     Route::post('/updateDadosCadastroJuridica', 'JuridicaController@updateDadosCadastroJuridica');//put
     Route::post('/createConvite', 'ConviteController@store');
-    Route::get('/getConvitesFisica', 'ConviteController@getConvitesFisica');
+    Route::get('/getConvites', 'ConviteController@getConvites');
     Route::post('/respostaConvite', 'ConviteController@respostaConvite');
 });
 Route::post('/activate/{id}', 'UserController@activateAccount');

@@ -189,6 +189,33 @@ const displayConvites = state =>{
   return state.convites
 }
 
+const displayVagasThatHaveConvites = (state) => {
+
+  let vagasConvites = state.vagasConvites;
+  let vagasThatHaveConvites = vagasConvites.filter((filtered) => {
+  
+    if(filtered.status != 'RECUSOU' && filtered.status != 'ACEITOU' && filtered.status != 'AGUARDANDO'){
+      return filtered.id >= 1
+    }
+   
+  })
+  
+  return vagasThatHaveConvites
+
+}
+
+const displayConvitesByVaga = (state) => (vaga_id) => {
+  
+  let convites = state.convites;
+  let convitesByVaga = convites.filter((convitesByVaga) => {
+    
+    return convitesByVaga.vagas_id === vaga_id && convitesByVaga.status != 'CANCELADO'
+  })
+  
+  return convitesByVaga
+
+}
+
 export default {
   isLoggedIn,
   authStatus,
@@ -208,7 +235,9 @@ export default {
   displayAgendaById,
   progressBar,
   typeUser,
-  displayConvites
+  displayConvites,
+  displayVagasThatHaveConvites,
+  displayConvitesByVaga
 
 
 };
