@@ -60,6 +60,9 @@ Route::group([
     Route::delete('/deactivate/{id}', 'UserController@destroy');
     Route::post('/updateDadosCadastroFisica', 'FisicaController@updateDadosCadastroFisica');//put
     Route::post('/updateDadosCadastroJuridica', 'JuridicaController@updateDadosCadastroJuridica');//put
+    Route::post('/createConvite', 'ConviteController@store');
+    Route::get('/getConvitesFisica', 'ConviteController@getConvitesFisica');
+    Route::post('/respostaConvite', 'ConviteController@respostaConvite');
 });
 Route::post('/activate/{id}', 'UserController@activateAccount');
 Route::get('/teste', 'UserController@teste');

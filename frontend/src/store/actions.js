@@ -854,6 +854,51 @@ import * as Cookies from 'js-cookie'
 
   };
 
+  const requestConvite = async ({commit, state}, requestConvite) => {
+    const token = state.auth.token;
+    return await axios({ url:'http://localhost:8000/api/createConvite?token='+token, data: requestConvite, method: 'POST'})
+    .then(response => {
+
+     
+
+      return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  
+  };
+
+  const getConvitesFisica = async ({commit, state}) => {
+
+    const token = state.auth.token;
+    return await axios({ url: 'http://localhost:8000/api/getConvitesFisica?token=' + token, method: 'GET' })
+    .then(response => {
+      
+      let payloadConvites = [];
+      payloadConvites = response.data.convites;
+      commit('attConvites', payloadConvites);
+       return response;
+    })
+    .catch(
+        error => console.log(error)
+    );
+  };
+
+  const respondeConvite = async ({commit, state}, respostaConvite) => {
+    const token = state.auth.token;
+    return await axios({ url:'http://localhost:8000/api/respostaConvite?token='+token, data: respostaConvite, method: 'POST'})
+    .then(response => {
+      let payloadConvites = [];
+      payloadConvites = response.data.convites.original.convites;
+      commit('attConvites', payloadConvites);
+     
+
+      return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  
+  };
 
   export default {
     login,
@@ -892,6 +937,9 @@ import * as Cookies from 'js-cookie'
     cancelAgenda,
     getVagasPorcentagem,
     updateUserFisica,
-    updateUserJuridica
+    updateUserJuridica,
+    requestConvite,
+    getConvitesFisica,
+    respondeConvite
   
   };

@@ -185,6 +185,10 @@ const progressBar = state =>{
   return state.progressBar
 }
 
+const displayConvites = state =>{
+  return state.convites
+}
+
 export default {
   isLoggedIn,
   authStatus,
@@ -203,7 +207,8 @@ export default {
   displayAgenda,
   displayAgendaById,
   progressBar,
-  typeUser
+  typeUser,
+  displayConvites
 
 
 };
