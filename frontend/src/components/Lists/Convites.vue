@@ -103,7 +103,6 @@ export default {
         ]),
 
         vagaById(){
-            console.log(this.displayVagaById(this.vaga_id))
             return this.displayVagaById(this.vaga_id)
         }
     },
