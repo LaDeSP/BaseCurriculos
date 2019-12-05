@@ -884,7 +884,21 @@ import * as Cookies from 'js-cookie'
     );
   };
 
+  const respondeConvite = async ({commit, state}, respostaConvite) => {
+    const token = state.auth.token;
+    return await axios({ url:'http://localhost:8000/api/respostaConvite?token='+token, data: respostaConvite, method: 'POST'})
+    .then(response => {
+      let payloadConvites = [];
+      payloadConvites = response.data.convites.original.convites;
+      commit('attConvites', payloadConvites);
+     
 
+      return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  
+  };
 
   export default {
     login,
@@ -925,6 +939,7 @@ import * as Cookies from 'js-cookie'
     updateUserFisica,
     updateUserJuridica,
     requestConvite,
-    getConvitesFisica
+    getConvitesFisica,
+    respondeConvite
   
   };
