@@ -1,6 +1,6 @@
 <template>
     <div class="container" v-if="permissaoDoUsuario === 'FISICA'">
-        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link>Minhas Candidaturas</h2>
+        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link>Meus Convites</h2>
         <div v-if="displayConvites.length==0">
             <h1>Você ainda não tem convites.</h1> 
         </div>

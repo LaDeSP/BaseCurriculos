@@ -72,6 +72,7 @@ class ConviteController extends Controller
 
             return Response::json([
                 'convites' => $convites,
+                'countConvites' => count($convites)
             ], 201);
         }
         else{

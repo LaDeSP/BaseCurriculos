@@ -61,6 +61,25 @@
         </card>
       </div>
     </div>
+    <div class="col-xl-6 col-md-12 mb-8 margin-bottom">
+        <card class="border-left-warning shadow h-100">
+          <template v-slot:card-header class="py-3">
+            <router-link to="/convites" class="font-weight-bold text-warning text-uppercase mb-1">Convites</router-link>
+            </template>
+            <template v-slot:card-body>
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <center>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      <h2>{{countConvites.convites}}</h2>
+                      <i class="fas fa-envelope"></i>
+                    </div>
+                  </center>
+                </div>
+              </div>
+            </template>
+        </card>
+      </div>
     <br>
 
     <div v-if="isActive.length>0" class="margin-bottom">
@@ -273,7 +292,7 @@
             },
 
             ...mapState([
-              'countCandidaturas', 'candidaturas'
+              'countCandidaturas', 'candidaturas', 'countConvites'
             ]),
 
             display3Candidaturas(){
