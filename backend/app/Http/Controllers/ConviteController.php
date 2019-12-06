@@ -167,4 +167,17 @@ class ConviteController extends Controller
             'a'
         ], 201);
     }
+
+    public function cancelarConvite(Request $request){
+        $convite = Convite::findOrFail($request->convite_id);
+       
+        $convite->resposta = "CANCELADO";
+        $convite->update();
+        $convites=ConviteController::getConvites();
+            
+        return Response::json([
+            'convites' => $convites,
+            'message' => 'Você cancelou o convite..'
+        ], 201);
+    }
 }

@@ -1,5 +1,6 @@
 <template>
     <div class="container" v-if="permissaoDoUsuario === 'FISICA'">
+        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link>Minhas Candidaturas</h2>
         <div v-if="displayConvites.length==0">
             <h1>Você ainda não tem convites.</h1> 
         </div>
@@ -67,7 +68,13 @@
         </Modal>
     </div>
     <div v-else>
-         <div v-if="displayVagasThatHaveConvites.length == 0">
+        <div v-if="!toggle">
+            <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Candidaturas</center></h2>
+        </div>
+        <div v-else>
+            <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Candidatos</center></h2>
+        </div>
+        <div v-if="displayVagasThatHaveConvites.length == 0">
             <br><br><br><br><h2>Não há nenhum convite por enquanto! </h2>
         </div>
         <div v-if="!toggle">
@@ -107,6 +114,9 @@
                             <span v-if="show.resposta == 'AGUARDANDO'">
                                 <span class="badge badge-warning">AGUARDANDO</span>
                             </span>
+                            <span v-if="show.resposta == 'CANCELADO'">
+                                <span class="badge badge-danger">VOCÊ CANCELOU ESSE CONVITE</span>
+                            </span>
                             <span v-if="show.resposta == 'RECUSOU'">
                                 <span class="badge badge-warning">RECUSOU</span>
                             </span>
@@ -120,52 +130,42 @@
                         <p class="mb-1"><strong>Pretensão Salarial:</strong> {{show.curriculo.pretensao}}</p>
                     </template>
                     <template v-slot:list-footer>
+                        
                         <button @click="showModalJuridica('showMore', show.id)" class="btn btn-sm btn-default">Ver mais</button>
-                        <!--<Modal v-if="isModalShowMore" @close="closeModal">
-                        <template v-slot:header><h3>Detalhes do Candidato</h3></template>
-                        <template v-slot:body>
-
-                         <h4>Informações Pessoais</h4>
-                        <ul>
-                            <li> <strong>Nome Completo</strong>: {{candidatoById[0].curriculo.fisica.user.name}}</li>
-                            <li> <strong>Data de Nascimento</strong>: {{candidatoById[0].curriculo.fisica.data_nascimento | dateFormat}}</li>
-                            <li> <strong>Gênero</strong>: {{candidatoById[0].curriculo.fisica.genero}}</li>
-                            <li> <strong>Estado Civil</strong>: {{candidatoById[0].curriculo.fisica.estado_civil}}</li>
-                            <li> <strong>CPF</strong>: {{candidatoById[0].curriculo.fisica.cpf}}</li>
-
-                        </ul>
-                        <h4>Redes Sociais</h4>
-                        <ul>
-                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.facebook !== 'undefined' || null"><strong>Facebook</strong>: {{candidatoById[0].curriculo.fisica.contato.facebook}}</li>
-                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.twitter !== 'undefined' || null"><strong>Twitter</strong>: {{candidatoById[0].curriculo.fisica.contato.twitter}}</li>
-                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.linkedin !== 'undefined' || null"><strong>Linkedin</strong>: {{candidatoById[0].curriculo.fisica.contato.linkedin}}</li>
-                            <li v-if="typeof candidatoById[0].curriculo.fisica.contato.site !== 'undefined' || null"><strong>Site</strong> {{candidatoById[0].curriculo.fisica.contato.site}}</li>
-                        </ul>
-                        <h4>Currículo</h4>
-                            <ul>
-                                <li><strong>Objetivos</strong>: {{candidatoById[0].curriculo.objetivos}}</li>
-                                <li><strong>Área de Atuação</strong>: {{candidatoById[0].curriculo.area.tipo}}</li>
-                                <li><strong>Pretensão Salarial</strong>: {{candidatoById[0].curriculo.pretensao}}</li>
-                                <li><strong>Formação Acadêmica</strong>: {{candidatoById[0].curriculo.escolaridade}}</li>
-                                <li><strong>Histórico Profissional</strong>: {{candidatoById[0].curriculo.historicoProfissional}}</li>
-                                <li><strong>Qualificações</strong>: {{candidatoById[0].curriculo.qualificacoes}}</li>
-                            </ul>
-                        </template>
-                        <template v-slot:footer>
-                         
-                          <div v-if="show.status === 'EM AGENDAMENTO'">
-                            <router-link to="'/agenda/'" tag="button" class="btn btn-sm btn-info">Ver agendamento</router-link>
-                          </div>
-                          <div v-else-if="show.status === 'ENTREVISTA CONFIRMADA'">
-                             <router-link v-bind:to="'/agenda/'" tag="button" class="btn btn-sm btn-info">Ver Agendamento</router-link>
-                          </div>
-                          <div v-else>
-                            <button  class="btn btn-sm btn-info">Agendar Entrevista</button>
-                          </div>
-                        </template>
-                  </Modal>-->
+                        <button v-if="show.resposta == 'AGUARDANDO'" @click="cancela(show.id)" class="btn btn-danger btn-sm btn-default">Cancelar Convite</button>
+                        <Modal v-if="isModalShowMore" @close="closeModal">
+                            <template v-slot:header><h3>Detalhes do Candidato</h3></template>
+                            <template v-slot:body>
+                                <h4>Informações Pessoais</h4>
+                                <ul>
+                                    <li> <strong>Nome Completo</strong>: {{candidatoById[0].curriculo.fisica.user.name}}</li>
+                                    <li> <strong>Data de Nascimento</strong>: {{candidatoById[0].curriculo.fisica.data_nascimento | dateFormat}}</li>
+                                    <li> <strong>Gênero</strong>: {{candidatoById[0].curriculo.fisica.genero}}</li>
+                                    <li> <strong>Estado Civil</strong>: {{candidatoById[0].curriculo.fisica.estado_civil}}</li>
+                                    <li> <strong>CPF</strong>: {{candidatoById[0].curriculo.fisica.cpf}}</li>
+                                </ul>
+                                <h4>Redes Sociais</h4>
+                                <ul>
+                                    <li v-if="typeof candidatoById[0].curriculo.fisica.contato.facebook !== 'undefined' || null"><strong>Facebook</strong>: {{candidatoById[0].curriculo.fisica.contato.facebook}}</li>
+                                    <li v-if="typeof candidatoById[0].curriculo.fisica.contato.twitter !== 'undefined' || null"><strong>Twitter</strong>: {{candidatoById[0].curriculo.fisica.contato.twitter}}</li>
+                                    <li v-if="typeof candidatoById[0].curriculo.fisica.contato.linkedin !== 'undefined' || null"><strong>Linkedin</strong>: {{candidatoById[0].curriculo.fisica.contato.linkedin}}</li>
+                                    <li v-if="typeof candidatoById[0].curriculo.fisica.contato.site !== 'undefined' || null"><strong>Site</strong> {{candidatoById[0].curriculo.fisica.contato.site}}</li>
+                                </ul>
+                                <h4>Currículo</h4>
+                                    <ul>
+                                        <li><strong>Objetivos</strong>: {{candidatoById[0].curriculo.objetivos}}</li>
+                                        <li><strong>Área de Atuação</strong>: {{candidatoById[0].curriculo.area.tipo}}</li>
+                                        <li><strong>Pretensão Salarial</strong>: {{candidatoById[0].curriculo.pretensao}}</li>
+                                        <li><strong>Formação Acadêmica</strong>: {{candidatoById[0].curriculo.escolaridade}}</li>
+                                        <li><strong>Histórico Profissional</strong>: {{candidatoById[0].curriculo.historicoProfissional}}</li>
+                                        <li><strong>Qualificações</strong>: {{candidatoById[0].curriculo.qualificacoes}}</li>
+                                    </ul>
+                                </template>
+                                <template v-slot:footer>
+                                    <button v-if="show.resposta == 'AGUARDANDO'" @click="cancela(show.id)" class="btn btn-danger btn-sm btn-default">Cancelar Convite</button>
+                                </template>
+                        </Modal>
                     </template>
-
                 </List>
             </div>
             <div class="row justify-content-center">
@@ -176,6 +176,14 @@
                     <jw-pagination :items="convitesByVaga" @changePage="onChangePage" :pageSize="4" :labels="customLabels"></jw-pagination>
                 </div>
             </div>
+            <Modal v-if="isModalRefuse" @close="closeModal">
+                <template v-slot:header></template>
+                <template v-slot:body>
+                    <b-alert show variant="warning">
+                        <h1>Você cancelou o convite!</h1>
+                    </b-alert>
+                </template>
+            </Modal>
 
         </div>
     </div>
@@ -187,6 +195,7 @@ import List from '../Utils/List';
 import { mapActions, mapGetters } from 'vuex';
 import JwPagination from 'jw-vue-pagination';
 import { BAlert } from 'bootstrap-vue'
+import moment from 'moment'
 
 const customLabels = {
     first: 'Primeira',
@@ -208,6 +217,7 @@ export default {
             isModalRefuse: false,
             vaga_id: 0,
             toggle: false,
+            candidato_id: 0,
         }
     },
     components: {Card, JwPagination, Modal, BAlert, List},
@@ -216,7 +226,7 @@ export default {
         ...mapGetters([
             'displayConvites', 'permissaoDoUsuario', 'displayVagaById',
             'displayVagasThatHaveConvites', 'displayConvitesByVaga',
-            'displayCandidatoById'
+            'displayCandidatoByIdConvite'//tive que criar essa nova pq o antigo que maria fez usa candidatura. Qualquer coisa criar um mandando parametro e mudando isso em todo lugar que usa
         ]),
 
         vagaById(){
@@ -228,7 +238,7 @@ export default {
         },
 
         candidatoById() {
-            return this.displayCandidatoById(this.candidato_id)
+            return this.displayCandidatoByIdConvite(this.candidato_id)
         },
     },
 
@@ -299,6 +309,18 @@ export default {
             }).catch(error => console.log(error))
         },
 
+        cancela(convite_id){
+            let cancelConvite = {
+                convite_id: convite_id,
+            }
+
+            this.$store.dispatch('cancelaConvite', cancelConvite)
+            .then(response => {
+                this.isModalShowMore = false;
+                this.isModalRefuse = true;                
+            }).catch(error => console.log(error))
+        },
+
         vagaDoConvite(vaga_id){
             this.toggle = true;
             this.vaga_id = vaga_id;
@@ -308,7 +330,15 @@ export default {
     created(){
         this.getConvites();
         this.loadVagasJuridica();
-    }
+    },
+
+    filters:{
+        dateFormat: function(value){
+            if (value) {
+                return moment(String(value)).format('DD/MM/YYYY')
+            }
+        }
+    },
 }
 
 </script>

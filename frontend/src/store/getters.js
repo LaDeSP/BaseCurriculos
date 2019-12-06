@@ -216,6 +216,19 @@ const displayConvitesByVaga = (state) => (vaga_id) => {
 
 }
 
+const displayCandidatoByIdConvite = (state) => (candidato_id) => {
+  
+  let convites = state.convites;
+  let candidatoById = convites.filter((candidatoById) => {
+    return candidatoById.id === candidato_id
+  })
+  let deleteNull = candidatoById[0].curriculo.fisica.contato;
+  Object.keys(deleteNull).forEach((key) => (deleteNull[key] == null) && delete deleteNull[key]);
+
+  return candidatoById
+
+}
+
 export default {
   isLoggedIn,
   authStatus,
@@ -237,7 +250,7 @@ export default {
   typeUser,
   displayConvites,
   displayVagasThatHaveConvites,
-  displayConvitesByVaga
-
+  displayConvitesByVaga,
+  displayCandidatoByIdConvite
 
 };

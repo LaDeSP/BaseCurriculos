@@ -63,6 +63,7 @@ Route::group([
     Route::post('/createConvite', 'ConviteController@store');
     Route::get('/getConvites', 'ConviteController@getConvites');
     Route::post('/respostaConvite', 'ConviteController@respostaConvite');
+    Route::post('/cancelarConvite', 'ConviteController@cancelarConvite');
 });
 Route::post('/activate/{id}', 'UserController@activateAccount');
 Route::get('/teste', 'UserController@teste');

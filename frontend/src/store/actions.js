@@ -923,6 +923,23 @@ import * as Cookies from 'js-cookie'
   
   };
 
+  const cancelaConvite = async ({commit, state}, cancelConvite) => {
+    const token = state.auth.token;
+    
+    return await axios({ url:'http://localhost:8000/api/cancelarConvite?token='+token, data: cancelConvite, method: 'POST'})
+    .then(response => {
+      let payloadConvites = [];
+      payloadConvites = response.data.convites.original.convites;
+      commit('attConvites', payloadConvites);
+     
+
+      return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  
+  };
+
   export default {
     login,
     logout,
@@ -963,6 +980,7 @@ import * as Cookies from 'js-cookie'
     updateUserJuridica,
     requestConvite,
     getConvites,
-    respondeConvite
+    respondeConvite,
+    cancelaConvite
   
   };
