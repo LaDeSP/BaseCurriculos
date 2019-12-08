@@ -54,7 +54,7 @@
             <template v-slot:header></template>
             <template v-slot:body>
                  <b-alert show variant="success">
-                    <h1>Candidatura realizada com sucesso!</h1>
+                    <h1>Convite realizado com sucesso!</h1>
                 </b-alert>
             </template>
         </Modal>

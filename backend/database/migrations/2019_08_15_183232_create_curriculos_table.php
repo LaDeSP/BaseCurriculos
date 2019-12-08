@@ -24,6 +24,7 @@ class CreateCurriculosTable extends Migration
             $table->integer('fisicas_id')->unsigned();
             $table->integer('areas_id')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('fisicas_id')->references('id')->on('fisicas')->onDelete('cascade');
             $table->foreign('areas_id')->references('id')->on('areas')->onDelete('cascade');
             

@@ -55,6 +55,7 @@
             <template v-slot:body>
                  <b-alert show variant="success">
                     <h1>Você aceitou o convite! Sua candidatura foi criada. Vá para a candidaturas para vê-la.</h1>
+                    <p>A empresa irá entrar em contato.</p>
                 </b-alert>
             </template>
         </Modal>

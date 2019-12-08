@@ -104,18 +104,16 @@ class UserController extends Controller implements JWTSubject
 
         User::withTrashed()->where('id', $user_id)->restore();
         $user = User::find($user_id);
-       /* $user = User::find($user_id); 
-        $token = auth()->login($user);
+       
         $role = User::where('id', $user_id)->get()->first()->role;
 
         if($role === 'FISICA'){
             $fisica_id = Fisica::where('user_id', $user_id)->get()->first()->id;
             Fisica::withTrashed()->find($fisica_id)->restore();
         }else{
-            $juridica_id = Juridica::where('user_id', $user_id)->get()->first()->id;
+            $juridica_id = Juridica::withTrashed()->where('user_id', $user_id)->get()->first()->id;
             Juridica::withTrashed()->find($juridica_id)->restore();
         }
-        */
 
         $token = JWTAuth::fromUser($user);
         auth()->login($user);

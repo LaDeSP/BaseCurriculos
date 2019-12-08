@@ -13,7 +13,7 @@
         activate(){
             this.$store.dispatch('activateAccount')
             .then(() => {
-                //this.$router.push('/dashboard')
+                this.$router.push('/dashboard')
             })
         },
         logout(){       

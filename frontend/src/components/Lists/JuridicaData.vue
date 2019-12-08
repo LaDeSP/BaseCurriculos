@@ -52,18 +52,18 @@
                     <router-link to="/add-juridica" class="btn btn-md btn-warning">Editar Informações</router-link>
                   </div>
                   <div class="col-lg-5 " >
-                    <button @click="showModal" class="btn btn-md btn-danger">Deletar Conta</button>
+                    <button @click="showModal" class="btn btn-md btn-danger">Desativar Conta</button>
                       <Modal v-show="isModalWarning" @close="closeModal">
                         <template v-slot:header>
                           <h3>Deletar Conta</h3>
                         </template>
                         <template v-slot:body>
-                          <h2 class="text-center">Tem certeza de que deseja<span style="color: #ff0000"><strong> deletar</strong></span> sua conta?</h2>
+                          <h2 class="text-center">Tem certeza de que deseja<span style="color: #ff0000"><strong> desativar</strong></span> sua conta?</h2>
                           <h4 class="text-center">Sentiremos sua falta :(</h4>
                         </template>
                         <template v-slot:footer>
-                          <button @click="deactivate" class="btn btn-lg btn-danger">Sim, quero deletar minha conta</button>
-                          <button @click="closeModal" class="btn btn-lg btn-success">Vou dar mais uma chance para vocês...</button>
+                          <button @click="deactivate" class="btn btn-lg btn-danger">Desativar Conta</button>
+                          <button @click="closeModal" class="btn btn-lg btn-secondary">Voltar</button>
                         </template>
                       </Modal>
                   </div>
