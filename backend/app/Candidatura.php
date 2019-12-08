@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Candidatura extends Model
 {
+	use SoftDeletes, SoftCascadeTrait; 
+
 	protected $fillable = [
 		'vagas_id', 'curriculos_id', 'status'
 	];

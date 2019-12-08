@@ -3,9 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Curriculo extends Model
 {
+	use SoftDeletes, SoftCascadeTrait; 
+
+    protected $softCascade = ['candidatura', 'convite'];
+
 	protected $fillable = [
 		'objetivos', 'areas_id', 'pretensao', 'qualificacoes', 
 		'escolaridade', 'historicoProfissional', 'fisicas_id'

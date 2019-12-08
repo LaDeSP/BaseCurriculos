@@ -108,7 +108,7 @@ class UserController extends Controller implements JWTSubject
         $role = User::where('id', $user_id)->get()->first()->role;
 
         if($role === 'FISICA'){
-            $fisica_id = Fisica::where('user_id', $user_id)->get()->first()->id;
+            $fisica_id = Fisica::withTrashed()->where('user_id', $user_id)->get()->first()->id;
             Fisica::withTrashed()->find($fisica_id)->restore();
         }else{
             $juridica_id = Juridica::withTrashed()->where('user_id', $user_id)->get()->first()->id;

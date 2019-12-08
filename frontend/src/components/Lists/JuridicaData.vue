@@ -55,7 +55,7 @@
                     <button @click="showModal" class="btn btn-md btn-danger">Desativar Conta</button>
                       <Modal v-show="isModalWarning" @close="closeModal">
                         <template v-slot:header>
-                          <h3>Deletar Conta</h3>
+                          <h3>Desativar Conta</h3>
                         </template>
                         <template v-slot:body>
                           <h2 class="text-center">Tem certeza de que deseja<span style="color: #ff0000"><strong> desativar</strong></span> sua conta?</h2>
