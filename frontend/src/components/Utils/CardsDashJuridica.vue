@@ -45,6 +45,25 @@
             </template>
         </card>
       </div>
+      <div class="col-xl-6 col-md-12 mb-8 margin-bottom">
+        <card class="border-left-warning shadow h-100">
+          <template v-slot:card-header class="py-3">
+            <router-link to="/convites" class="font-weight-bold text-warning text-uppercase mb-1">Convites</router-link>
+            </template>
+            <template v-slot:card-body>
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <center>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      <h2>{{countConvites.convites}}</h2>
+                      <i class="fas fa-envelope"></i>
+                    </div>
+                  </center>
+                </div>
+              </div>
+            </template>
+        </card>
+      </div>
     </div>
     <div class="row">
       <div class="col-lg-6 mb-4 margin-bottom">
@@ -271,7 +290,7 @@ import JwPagination from 'jw-vue-pagination';
 
     computed:{
       ...mapState([
-          'count', 'countVagas', 'vagasCandidaturas' 
+          'count', 'countVagas', 'vagasCandidaturas', 'countConvites'
       ]),
       ...mapGetters([
         'displayCandidaturas', 'progressBar'

@@ -143,6 +143,14 @@ const attConvites = (state, payloadConvites) => {
     state.convites = payloadConvites;
 }
 
+const vagasConvites = (state, payloadVagasConvites) => { 
+    state.vagasConvites = payloadVagasConvites
+}
+
+const countConvites = (state, payloadCountConvites) => {
+    state.countConvites = payloadCountConvites; 
+}
+
   export default {
     auth_success,
     auth_error,
@@ -166,6 +174,8 @@ const attConvites = (state, payloadConvites) => {
     progressBar,
     attUserFisica,
     attUserJuridica,
-    attConvites
+    attConvites,
+    vagasConvites,
+    countConvites
     
   };

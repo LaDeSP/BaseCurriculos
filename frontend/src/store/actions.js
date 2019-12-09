@@ -869,15 +869,38 @@ import * as Cookies from 'js-cookie'
   
   };
 
-  const getConvitesFisica = async ({commit, state}) => {
+  const getConvites = async ({commit, state}) => {
 
     const token = state.auth.token;
-    return await axios({ url: 'http://localhost:8000/api/getConvitesFisica?token=' + token, method: 'GET' })
+    return await axios({ url: 'http://localhost:8000/api/getConvites?token=' + token, method: 'GET' })
     .then(response => {
-      
+
+      let payloadVagasConvites = [];
+      payloadVagasConvites = response.data.vagasConvites;
+
       let payloadConvites = [];
       payloadConvites = response.data.convites;
-      commit('attConvites', payloadConvites);
+
+      let payloadCountConvites = {
+        'convites': response.data.countConvites,
+        'convitesAguardando': response.data.countConvitesAguardando,
+        'convitesConfirmados':  response.data.countConvitesConfirmados,
+        'convitesNegados': response.data.countConvitesNegados,
+      }
+
+      
+      if(payloadVagasConvites){
+        commit('vagasConvites', payloadVagasConvites)
+      }
+
+      if(payloadConvites){
+        commit('attConvites', payloadConvites);
+      }
+
+      commit('countConvites', payloadCountConvites)
+      
+      
+      
        return response;
     })
     .catch(
@@ -888,6 +911,23 @@ import * as Cookies from 'js-cookie'
   const respondeConvite = async ({commit, state}, respostaConvite) => {
     const token = state.auth.token;
     return await axios({ url:'http://localhost:8000/api/respostaConvite?token='+token, data: respostaConvite, method: 'POST'})
+    .then(response => {
+      let payloadConvites = [];
+      payloadConvites = response.data.convites.original.convites;
+      commit('attConvites', payloadConvites);
+     
+
+      return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  
+  };
+
+  const cancelaConvite = async ({commit, state}, cancelConvite) => {
+    const token = state.auth.token;
+    
+    return await axios({ url:'http://localhost:8000/api/cancelarConvite?token='+token, data: cancelConvite, method: 'POST'})
     .then(response => {
       let payloadConvites = [];
       payloadConvites = response.data.convites.original.convites;
@@ -940,7 +980,8 @@ import * as Cookies from 'js-cookie'
     updateUserFisica,
     updateUserJuridica,
     requestConvite,
-    getConvitesFisica,
-    respondeConvite
+    getConvites,
+    respondeConvite,
+    cancelaConvite
   
   };
