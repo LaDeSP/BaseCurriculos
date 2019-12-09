@@ -176,10 +176,15 @@
       },
 
     },
-    created() {
-      this.loadFisica();
-      this.loadJuridica();
-    }
-
+    async created() {
+      if(this.role == 'FISICA'){
+        await this.loadFisica();
+        this.cpf=this.$store.state.pessoaJuridica.cpf;
+      }
+      else{
+        await this.loadJuridica();
+        this.cnpj=this.$store.state.pessoaJuridica.cnpj;
+      }
+    },
   }
 </script>
