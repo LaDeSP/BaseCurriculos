@@ -189,7 +189,7 @@
     },
         methods: {
           ...mapActions([
-              'getVagasRecomendadas', 'loadCandidaturas'
+              'getVagasRecomendadas', 'loadCandidaturas', 'getConvites'
           ]),
 
           onChangePage(pageOfItems) {
@@ -315,6 +315,7 @@
           async created(){
             await this.loadCandidaturas();
             await this.getVagasRecomendadas();
+            await this.getConvites();
 
           },
     }

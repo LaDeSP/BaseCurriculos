@@ -265,7 +265,7 @@ import JwPagination from 'jw-vue-pagination';
       },
 
        ...mapActions([
-            'getVagasPorcentagem', 'loadCandidaturas'
+            'getVagasPorcentagem', 'loadCandidaturas', 'getConvites'
         ]),
 
       agendar(){
@@ -298,6 +298,8 @@ import JwPagination from 'jw-vue-pagination';
     },
     async created(){
       await this.getVagasPorcentagem();
+      await this.getConvites();
+      await this.loadCandidaturas();
     }
   }
 
