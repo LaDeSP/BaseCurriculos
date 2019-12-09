@@ -19,7 +19,7 @@ import * as Cookies from 'js-cookie'
             'user': response.data.user
           } 
           commit('auth_success', {payload})
-
+          console.log('tken', response)
           return response.data
         }).catch(error => {
           console.log(error)
@@ -383,10 +383,11 @@ import * as Cookies from 'js-cookie'
 
     const token = state.auth.token;
     const user_id = state.auth.user.id
-    console.log('iuser', user_id);
+    console.log('iuser', token);
     return await axios({ url: 'http://localhost:8000/api/activate' + '/' + user_id + '?token='+ token, method: 'POST' })
     .then(response => {
-       //commit('logout');
+       const dataCompleted = true;  
+       commit('dataCompleted', dataCompleted);
        console.log('response activate', response);
        return response;
     })

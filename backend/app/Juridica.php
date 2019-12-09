@@ -5,11 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Juridica extends Model
 {
-
-	use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
+	use SoftDeletes, SoftCascadeTrait; 
 
 	protected $fillable = [
 		'razao', 'cnpj', 'ramo', 'missao', 

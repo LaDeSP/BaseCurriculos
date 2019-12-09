@@ -41,7 +41,6 @@ class UserController extends Controller implements JWTSubject
         $credentials = $request->only('email', 'password');
         
         $user = User::where('email', $request->email)->withTrashed()->first();
-        
         if(!$user){
             $error[] = 'Email informado não está cadastrado.';
             return Response::json([
@@ -49,8 +48,8 @@ class UserController extends Controller implements JWTSubject
             ], 201);
         }else if($user->deleted_at != null){
             if(Hash::check($request->password, $user->password)){
-                $token = auth()->login($user);
-               
+                $token = JWTAuth::fromUser($user);
+                auth()->login($user);
                 return Response::json([
                     'token' => $token,
                     'user' => auth()->user()
@@ -103,8 +102,9 @@ class UserController extends Controller implements JWTSubject
 
     public function activateAccount($user_id){
 
-        User::withTrashed()->find($user_id)->restore();
-        $user = User::find($user_id); 
+        User::withTrashed()->where('id', $user_id)->restore();
+        $user = User::find($user_id);
+       /* $user = User::find($user_id); 
         $token = auth()->login($user);
         $role = User::where('id', $user_id)->get()->first()->role;
 
@@ -115,11 +115,15 @@ class UserController extends Controller implements JWTSubject
             $juridica_id = Juridica::where('user_id', $user_id)->get()->first()->id;
             Juridica::withTrashed()->find($juridica_id)->restore();
         }
+        */
+
+        $token = JWTAuth::fromUser($user);
+        auth()->login($user);
 
         return Response::json([
             'ativou',
             'token'=>$token,
-            'authuser'=> auth()->user()
+            'user'=> auth()->user()
         ]);
     }
 

@@ -8,7 +8,6 @@ use App\Fisica;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,7 +22,7 @@ class User extends Authenticatable implements JWTSubject
         'name', 'email', 'password', 'role'
     ];
 
-    protected $softCascade = ['juridica'];
+    protected $softCascade = ['juridica', 'fisica'];
 
     protected $dates = ['deleted_at'];
     

@@ -26,7 +26,7 @@ class CreateVagasTable extends Migration
             $table->string('status');
             $table->integer('juridicas_id')->unsigned();
             $table->integer('areas_id')->unsigned();
-          
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('juridicas_id')->references('id')->on('juridicas')->onDelete('cascade');

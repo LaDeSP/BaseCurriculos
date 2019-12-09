@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
+
 use App\User;
 class Vaga extends Model
 {
+	use SoftDeletes, SoftCascadeTrait;
 
 	protected $fillable = [
 		'titulo', 'cargo', 'salario', 'beneficio', 'jornada',
