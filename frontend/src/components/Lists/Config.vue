@@ -179,7 +179,7 @@
     async created() {
       if(this.role == 'FISICA'){
         await this.loadFisica();
-        this.cpf=this.$store.state.pessoaJuridica.cpf;
+        this.cpf=this.$store.state.pessoaFisica.cpf;
       }
       else{
         await this.loadJuridica();
