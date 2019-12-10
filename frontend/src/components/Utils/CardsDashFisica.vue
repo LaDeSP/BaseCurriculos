@@ -210,6 +210,10 @@
           closeModal(){
               this.isModalWarning = false;
               this.isModalShowMore = false;
+              if (this.isModalSuccess == true){
+                this.getVagasRecomendadas();
+                this.isModalSuccess = false;
+              }
               this.isModalSuccess = false;
           },
 
@@ -240,7 +244,6 @@
               .then(response => {
                   this.isModalShowMore = false;
                   this.isModalSuccess = true;
-                  this.getVagasRecomendadas();
               }).catch(error => console.log(error))
           },
 
