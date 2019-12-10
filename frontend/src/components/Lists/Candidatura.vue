@@ -134,7 +134,8 @@
         </div>
       </div>
       <div v-else>
-        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link>Minhas Candidaturas</h2>
+        <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"> <i class="fa fa-home"></i>Home</router-link>
+        <center><h2>Minhas Candidaturas</h2></center>
           <h2></h2>
           <div class="row justify-content-center">
             <span v-if="displayCandidaturas.length == 0"><h3>Você ainda não fez nenhuma candidatura!</h3></span>
@@ -384,7 +385,7 @@
 
                 await this.$store.dispatch('confirmAgenda', candidatura)
                 .then(response => {
-                   
+
                 }).catch(error => console.log(error))
             },
 
@@ -393,7 +394,7 @@
 
                 await this.$store.dispatch('deleteCandidatura', this.candidato_id)
                 .then(response => {
-                
+
                 }).catch(error => console.log(error))
             },
 
