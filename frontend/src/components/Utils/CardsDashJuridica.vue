@@ -64,6 +64,25 @@
             </template>
         </card>
       </div>
+       <div class="col-xl-6 col-md-12 mb-8 margin-bottom">
+        <card class="border-left-info shadow h-100">
+          <template v-slot:card-header class="py-3">
+            <router-link to="/agenda" class="font-weight-bold text-info text-uppercase mb-1">Agenda</router-link>
+            </template>
+            <template v-slot:card-body>
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <center>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      <h2>{{countConvites.convites}}</h2>
+                      <i class="fas fa-calendar-alt"></i>
+                    </div>
+                  </center>
+                </div>
+              </div>
+            </template>
+        </card>
+      </div>
     </div>
     <div class="row">
       <div class="col-lg-6 mb-4 margin-bottom">

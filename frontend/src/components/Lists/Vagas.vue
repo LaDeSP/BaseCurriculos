@@ -25,8 +25,11 @@
         </div>
       </template>
       <div class="row no-gutters align-items-center">
-        <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
+        <div v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
           <template v-if="permissaoDoUsuario === 'JURIDICA'">
+            <span v-if="pageOfItems.length == 0">
+              {{pageOfItems}}
+            </span>
             <Card style="width: 31rem; height: 40rem">
               <template v-slot:card-header>
                 <h3><span class="badge badge-info">{{vaga.titulo}}</span></h3>

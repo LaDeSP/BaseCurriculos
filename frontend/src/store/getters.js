@@ -161,7 +161,7 @@ const displayAgenda = (state) => {
     if(filtered.contraproposta == 'FISICA' && filtered.candidatura.status == 'ENTREVISTA CANCELADA'){
       return filtered.id >= 1
     }else{
-      return filtered.candidatura.status != 'ENTREVISTA CANCELADA' && filtered.candidatura.status != 'CONTRATADO'
+      return filtered.candidatura.status != 'ENTREVISTA CANCELADA' 
     }
 
   })

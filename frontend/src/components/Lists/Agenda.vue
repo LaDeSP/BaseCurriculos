@@ -1,7 +1,7 @@
 <template>
     <div class="row justify-content-center">
       <div class="col-md-9">
-        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Entrevistas Agendadas</center></h2>
+        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Agenda de Entrevistas</center></h2>
         <div v-if="permissaoDoUsuario === 'JURIDICA'">
           <div>
               <div v-if="displayAgenda.length == 0">
@@ -87,8 +87,11 @@
                           <span v-if="show.candidatura.status != 'ENTREVISTA CONFIRMADA' && show.candidatura.status != 'ENTREVISTA CANCELADA'">
                               <span v-if="show.contraproposta == 'FISICA'">
                                   <button @click="confirmAgenda(show.candidatura.id)" class="btn btn-sm btn-success">Confirmar</button>
+                                  <router-link v-bind:to="'/agenda/' + show.candidatura.id" tag="button" class="btn btn-sm btn-primary">Fazer Contraproposta</router-link>
                               </span>
-                              <router-link v-bind:to="'/agenda/' + show.candidatura.id" tag="button" class="btn btn-sm btn-primary">Fazer Contraproposta</router-link>
+                              <span v-else>
+                                  <router-link v-bind:to="'/agenda/' + show.candidatura.id" tag="button" class="btn btn-sm btn-primary">Reagendar</router-link>
+                              </span>
                           </span>
                           <span v-if="show.candidatura.status != 'ENTREVISTA CANCELADA' && !getDateNow(show.data)">
                               <button @click="showModal('warning', show.candidatura.id)" class="btn btn-sm btn-danger">Cancelar</button>
