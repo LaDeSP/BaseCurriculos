@@ -50,7 +50,6 @@
       else{
         var path = this.FotoLocal.path;
         this.FotoLocal.path = "http://localhost:8000/storage/" + path;
-        console.log(this.FotoLocal.path)
       }
       
     }

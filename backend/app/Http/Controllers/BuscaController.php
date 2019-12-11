@@ -14,7 +14,7 @@ class BuscaController extends Controller
 {
     public function buscaVagas($keywords){
 
-        $vagas = Vaga::with(['area', 'myCandidatura'])
+        $vagas = Vaga::with(['area', 'myCandidatura', 'juridica.user.foto'])
             ->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%')
             ->get();
 
@@ -43,7 +43,7 @@ class BuscaController extends Controller
             $area=null;
         }
 
-        $vagas = Vaga::with(['area', 'myCandidatura'])
+        $vagas = Vaga::with(['area', 'myCandidatura', 'juridica.user.foto'])
                 ->when($keywords,function($query, $keywords){
                     $query->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%');
                 })
@@ -68,7 +68,7 @@ class BuscaController extends Controller
     }
 
     public function buscaCurriculos($keywords){
-        $curriculos = Curriculo::with(['fisica.user', 'fisica.endereco', 'area'])->where('qualificacoes', 'like', '%' . $keywords . '%')->get();
+        $curriculos = Curriculo::with(['fisica.user.foto', 'fisica.endereco', 'area'])->where('qualificacoes', 'like', '%' . $keywords . '%')->get();
 
 
         return response()->json($curriculos);
@@ -98,7 +98,7 @@ class BuscaController extends Controller
         }
 
         $curriculos = Curriculo::select('curriculos.*')
-                ->with(['fisica.user', 'fisica.endereco', 'area'])
+                ->with(['fisica.user.foto', 'fisica.endereco', 'area'])
                 ->join('fisicas', 'fisicas.id', '=', 'curriculos.fisicas_id')
                 ->join('enderecos', 'enderecos.id', '=', 'fisicas.enderecos_id')
                 ->join('users', 'users.id', '=', 'fisicas.user_id')
@@ -204,7 +204,7 @@ class BuscaController extends Controller
         }
 
         foreach ($palavrasHistorico as $palavra){
-            $vagas = Vaga::with(['area'])
+            $vagas = Vaga::with(['area', 'juridica.user.foto'])
                 ->where(function ($query) use ($palavra) {
                     $query->where('requisito', 'like', '%' . $palavra . '%')
                     ->orWhere('descricao', 'like', '%' . $palavra . '%')
@@ -218,7 +218,7 @@ class BuscaController extends Controller
         }
 
         foreach ($palavrasObjetivos as $palavra){
-            $vagas = Vaga::with(['area'])
+            $vagas = Vaga::with(['area', 'juridica.user.foto'])
                 ->where(function ($query) use ($palavra) {
                     $query->where('requisito', 'like', '%' . $palavra . '%')
                     ->orWhere('descricao', 'like', '%' . $palavra . '%')

@@ -6,7 +6,7 @@
         <div class="card-group" v-else>
             <div class="col-lg-12">
                 <div class="row">
-                    <Card class="col-sm-6" v-for="curriculo in pageOfItems" :key="curriculo.id" :id="curriculo.id">
+                    <Card class="col-sm-6" v-for="curriculo in pageOfItems" :key="curriculo.id" :id="curriculo.id" :foto=curriculo.fisica.user.foto :thumbnail=true>
                         <template v-slot:card-header>
                         <h3><span class="label label-info " style="color: #4E73DF;">{{curriculo.fisica.user.name}}</span></h3>
                         </template>
@@ -74,7 +74,7 @@
         <div class="card-group" v-else>
             <div class="col-lg-12">
                 <div class="row">
-                    <Card class="col-sm-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
+                    <Card class="col-sm-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)" :foto=vaga.juridica.user.foto :thumbnail=true>
                         <template v-slot:card-header>
                             <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
                         </template>
