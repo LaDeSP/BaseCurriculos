@@ -4,7 +4,7 @@
       <div class="row">
         <template v-if="permissaoDoUsuario === 'JURIDICA'">
           <div class="col-md-9 float-left" >
-            <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link>Minhas Vagas</h2>
+            <router-link v-bind:to="'/dashboard/'" tag="button" class="btn btn-lg btn-outline-secondary"><i class="fas fa-home fa-sm"></i> Home</router-link><center><h2>Minhas Vagas</h2></center>
           </div>
           <div class="col-md-3 float-right">
             <div class="btn-group btn-group-sm">
@@ -24,21 +24,30 @@
           </div>
         </div>
       </template>
-      <div class="row no-gutters align-items-center">
+    <div class="card-group">
+      <div class="col-lg-4">
+      <div class="row">
         <div  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
           <template v-if="permissaoDoUsuario === 'JURIDICA'">
-            <Card style="width: 31rem; height: 40rem">
+            <Card class="col-sm-4">
               <template v-slot:card-header>
                 <h3><span class="badge badge-info">{{vaga.titulo}}</span></h3>
               </template>
               <template v-slot:card-body>
                 <strong>Descrição:</strong> {{vaga.descricao}}
+                <br>
                 <strong>Cargo:</strong> {{vaga.cargo}}
+                <br>
                 <strong>Quantidade:</strong> {{vaga.quantidade}}
+                <br>
                 <strong>Área de Atuação:</strong> {{vaga.area.tipo}}
+                <br>
                 <strong>Salário:</strong> {{vaga.salario}}
+                <br>
                 <strong>Jornada de Trabalho:</strong> {{vaga.jornada}}
+                <br>
                 <strong>Benefícios:</strong> {{vaga.beneficio}}
+                <br>
                 <strong>Requisitos:</strong> {{vaga.requisito}}
               </template>
               <template v-slot:card-footer>
@@ -70,6 +79,8 @@
             </Card>
           </template>
         </div>
+      </div>
+      </div>
       </div>
       <br>
       <br>
@@ -238,7 +249,7 @@
               }
               this.$store.dispatch('changeStatusVaga', newStatus)
               .then(response => {
-                 
+
               }).catch(error => console.log(error))
 
           },
