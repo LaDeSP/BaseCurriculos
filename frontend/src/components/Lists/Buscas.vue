@@ -6,7 +6,7 @@
         <div class="card-group" v-else>
             <div class="col-lg-12">
                 <div class="row">
-                    <Card class="col-sm-6" v-for="curriculo in pageOfItems" :key="curriculo.id" :id="curriculo.id">
+                    <Card class="col-sm-6" v-for="curriculo in pageOfItems" :key="curriculo.id" :id="curriculo.id" :foto=curriculo.fisica.user.foto :thumbnail=true>
                         <template v-slot:card-header>
                         <h3><span class="label label-info " style="color: #4E73DF;">{{curriculo.fisica.user.name}}</span></h3>
                         </template>
@@ -21,13 +21,13 @@
                         </template>
                         <template v-slot:card-footer>
                             <div v-if="displayVagasJuridica.length>0">
-                                <select class="custom-select" name="vaga" v-model="vaga"> 
-                                    <option disabled value="">Selecione a vaga</option>
+                                <select class="custom-select" name="vaga" v-model="vaga[curriculo.id]"> 
+                                    <option selected value="">Selecione a vaga</option>
                                     <option v-for="show in displayVagasJuridica" :key="show.id" :value="show.id">
                                         {{show.titulo}}
                                     </option>
                                 </select>
-                                <button :disabled="vaga==''" @click="onRequestConvite(curriculo.id)" class="btn btn-sm btn-success">Convidar</button>
+                                <button :disabled="vaga[curriculo.id]==''||vaga[curriculo.id]==undefined" @click="onRequestConvite(curriculo.id)" class="btn btn-sm btn-success">Convidar</button>
                             </div>
                         </template>
                     </Card>
@@ -165,12 +165,12 @@ export default {
             isModalError: false,
             isModalMultipleInvite: false,
             vaga_id: 0,
-            vaga: '',
+            vaga: [],
         }
     },
     components: {Card, JwPagination, Modal, BAlert},
 
-    created(){
+    async created(){
         if(this.$store.state.auth.user.role == 'JURIDICA'){
             if((this.$route.query.escolaridade!='' || this.$route.query.objetivos!='' || this.$route.query.historicoProfissional!='' || this.$route.query.cidade!='' || this.$route.query.nome!='' || this.$route.query.area!='') == true && (this.$route.query.escolaridade!=undefined || this.$route.query.objetivos!=undefined || this.$route.query.historicoProfissional!=undefined || this.$route.query.cidade!=undefined || this.$route.query.nome!=undefined || this.$route.query.area!=undefined) == true){
                 let pesquisa = {
@@ -182,14 +182,14 @@ export default {
                     nome: this.$route.query.nome,
                     area: this.$route.query.area,
                 }
-                this.$store.dispatch('searchCurriculosAvancadas', pesquisa)
+                await this.$store.dispatch('searchCurriculosAvancadas', pesquisa)
                 .then(response => {
 
                 })
                 .catch(error => console.log(error))
             }
             else{
-                this.$store.dispatch('searchCurriculos', this.$route.query.keywords)
+                await this.$store.dispatch('searchCurriculos', this.$route.query.keywords)
                 .then(response => {
 
                 })
@@ -206,14 +206,14 @@ export default {
                     requisitos : this.$route.query.requisitos,
                     area: this.$route.query.area,
                 }
-                this.$store.dispatch('searchVagasAvancadas', pesquisa)
+                await this.$store.dispatch('searchVagasAvancadas', pesquisa)
                 .then(response => {
 
                 })
                 .catch(error => console.log(error))
             }
             else{
-                this.$store.dispatch('searchVagas', this.$route.query.keywords)
+                await this.$store.dispatch('searchVagas', this.$route.query.keywords)
                 .then(response => {
                     
                 })
@@ -221,7 +221,7 @@ export default {
             }
         }
 
-            this.loadVagasJuridica();
+        await this.loadVagasJuridica();
         
     },
 
@@ -306,13 +306,13 @@ export default {
         },
 
         onRequestConvite(id){
-            if(this.vaga==''){
+            if(this.vaga[id]==''||this.vaga[id]==undefined){
                 this.isModalError = true;
                 return;
             }
 
             let requestConvite = {
-                vaga_id: this.vaga,
+                vaga_id: this.vaga[id],
                 curriculo_id: id
             }
             this.$store.dispatch('requestConvite', requestConvite)

@@ -68,7 +68,7 @@ class BuscaController extends Controller
     }
 
     public function buscaCurriculos($keywords){
-        $curriculos = Curriculo::with(['fisica.user', 'fisica.endereco', 'area'])->where('qualificacoes', 'like', '%' . $keywords . '%')->get();
+        $curriculos = Curriculo::with(['fisica.user.foto', 'fisica.endereco', 'area'])->where('qualificacoes', 'like', '%' . $keywords . '%')->get();
 
 
         return response()->json($curriculos);
@@ -98,7 +98,7 @@ class BuscaController extends Controller
         }
 
         $curriculos = Curriculo::select('curriculos.*')
-                ->with(['fisica.user', 'fisica.endereco', 'area'])
+                ->with(['fisica.user.foto', 'fisica.endereco', 'area'])
                 ->join('fisicas', 'fisicas.id', '=', 'curriculos.fisicas_id')
                 ->join('enderecos', 'enderecos.id', '=', 'fisicas.enderecos_id')
                 ->join('users', 'users.id', '=', 'fisicas.user_id')

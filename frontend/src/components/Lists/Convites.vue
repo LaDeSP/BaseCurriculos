@@ -1,9 +1,16 @@
 <template>
-    <div class="container" v-if="permissaoDoUsuario === 'FISICA'">
-        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-sm btn-outline-secondary">Home</router-link>Meus Convites</h2>
-        <div v-if="displayConvites.length==0">
-            <h1>Você ainda não tem convites.</h1> 
+  <div class="row justify-content-center" v-if="permissaoDoUsuario === 'FISICA'">
+    <div class="col-lg-8">
+      <div class="d-flex flex-row">
+        <div class="p-2">
+          <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fas fa-home fa-sm"></i> Home</router-link>
         </div>
+      </div>
+      <center><h2>Meus Convites</h2></center>
+      <div v-if="displayConvites.length==0">
+        <center><h1>Você ainda não tem convites.</h1></center>
+      </div>
+
         <div class="card-group" v-else>
             <div class="col-lg-12">
                 <div class="row">
@@ -40,7 +47,7 @@
                             </Modal>
                         </template>
                     </Card>
-                    
+
                 </div>
             </div>
         </div>
@@ -68,12 +75,13 @@
             </template>
         </Modal>
     </div>
+  </div>
     <div v-else>
         <div v-if="!toggle">
             <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Convites</center></h2>
         </div>
         <div v-else>
-            <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Candidatos</center></h2>
+            <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Convidados</center></h2>
         </div>
         <div v-if="displayVagasThatHaveConvites.length == 0">
             <br><br><br><br><h2>Não há nenhum convite por enquanto! </h2>
@@ -131,7 +139,7 @@
                         <p class="mb-1"><strong>Pretensão Salarial:</strong> {{show.curriculo.pretensao}}</p>
                     </template>
                     <template v-slot:list-footer>
-                        
+
                         <button @click="showModalJuridica('showMore', show.id)" class="btn btn-sm btn-default">Ver mais</button>
                         <button v-if="show.resposta == 'AGUARDANDO'" @click="cancela(show.id)" class="btn btn-danger btn-sm btn-default">Cancelar Convite</button>
                         <Modal v-if="isModalShowMore" @close="closeModal">
@@ -185,10 +193,10 @@
                     </b-alert>
                 </template>
             </Modal>
-
         </div>
     </div>
 </template>
+
 <script>
 import Card from '../Utils/Card';
 import Modal from '../Utils/ModalOld';
@@ -306,7 +314,7 @@ export default {
                 else{
                     this.isModalRefuse = true;
                 }
-                
+
             }).catch(error => console.log(error))
         },
 
@@ -318,7 +326,7 @@ export default {
             this.$store.dispatch('cancelaConvite', cancelConvite)
             .then(response => {
                 this.isModalShowMore = false;
-                this.isModalRefuse = true;                
+                this.isModalRefuse = true;
             }).catch(error => console.log(error))
         },
 
@@ -327,7 +335,7 @@ export default {
             this.vaga_id = vaga_id;
         },
     },
-    
+
     created(){
         this.getConvites();
         this.loadVagasJuridica();

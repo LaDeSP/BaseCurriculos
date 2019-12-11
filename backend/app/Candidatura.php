@@ -18,7 +18,7 @@ class Candidatura extends Model
 		return $this->belongsTo(Vaga::class, 'vagas_id');
 		}
     public function curriculo(){
-    	return $this->hasOne(Curriculo::class, 'id', 'curriculos_id');
+    	return $this->belongsTo(Curriculo::class, 'curriculos_id');
 	}
 	public function agenda(){
 		return $this->hasMany(Agenda::class, 'candidatura_id');

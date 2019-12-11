@@ -86,14 +86,15 @@
       <div class="container justify-content-center">
         <h2>Vagas que podem lhe interessar</h2>
       </div>
-      
-      <div class="card-group">
+
+      <div class="card-deck">
         <div class="col-lg-12">
           <div class="row">
             <Card class="col-sm-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
               <template v-slot:card-header>
                 <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
               </template>
+              <template v-slot:thumbnail></template>
               <template v-slot:card-body>
                   <p class="mb-1"><strong>Cargo:</strong> {{vaga.cargo}}</p>
                   <p class="mb-1"><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
@@ -210,6 +211,10 @@
           closeModal(){
               this.isModalWarning = false;
               this.isModalShowMore = false;
+              if (this.isModalSuccess == true){
+                this.getVagasRecomendadas();
+                this.isModalSuccess = false;
+              }
               this.isModalSuccess = false;
           },
 
@@ -240,7 +245,6 @@
               .then(response => {
                   this.isModalShowMore = false;
                   this.isModalSuccess = true;
-                  this.getVagasRecomendadas();
               }).catch(error => console.log(error))
           },
 
@@ -252,7 +256,7 @@
 
               this.$store.dispatch('changeStatusVaga', newStatus)
               .then(response => {
-                 
+
               }).catch(error => console.log(error))
 
           },
