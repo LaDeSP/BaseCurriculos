@@ -90,7 +90,7 @@
       <div class="card-group">
         <div class="col-lg-12">
           <div class="row">
-            <Card class="col-sm-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)" :url=urlTemp>
+            <Card class="col-sm-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)" :foto=vaga.juridica.user.foto :thumbnail=true>
               <template v-slot:card-header>
                 <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
               </template>
@@ -185,8 +185,7 @@
           isModalShowMore: false,
           isModalSuccess: false,
           pageOfItems: [],
-          customLabels,
-          urlTemp: this.$store.state.upload.path
+          customLabels
         }
     },
         methods: {
@@ -196,7 +195,6 @@
 
           onChangePage(pageOfItems) {
             // update page of items
-            console.log(pageOfItems)
             this.pageOfItems = pageOfItems;
           },
 
