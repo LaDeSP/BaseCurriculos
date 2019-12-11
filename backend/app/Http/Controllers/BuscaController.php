@@ -179,7 +179,7 @@ class BuscaController extends Controller
         $curriculo_pretensao = $curriculo->pretensao;
         $curriculo_area_tipo = $curriculo->area->tipo;
         foreach ($palavrasQualificacao as $palavra){
-            $vagas = Vaga::with(['area'])
+            $vagas = Vaga::with(['area', 'juridica.user.foto'])
                 ->where(function ($query) use ($palavra, $curriculo_areas_id, $curriculo_pretensao, $curriculo_area_tipo) {
                     $query->where('requisito', 'like', '%' . $palavra . '%')
                     ->orWhere('descricao', 'like', '%' . $palavra . '%')
