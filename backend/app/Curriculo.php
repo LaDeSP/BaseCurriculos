@@ -21,7 +21,7 @@ class Curriculo extends Model
     	return $this->hasOne(Fisica::class, 'id','fisicas_id');
 	}
 	public function candidatura(){
-		return $this->belongsTo(Candidatura::class);
+		return $this->hasMany(Candidatura::class, 'curriculos_id');
 	}
 	public function contato(){
     	return $this->hasOne(Contato::class, 'id','contatos_id');
