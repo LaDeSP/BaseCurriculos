@@ -170,7 +170,7 @@ export default {
     },
     components: {Card, JwPagination, Modal, BAlert},
 
-    created(){
+    async created(){
         if(this.$store.state.auth.user.role == 'JURIDICA'){
             if((this.$route.query.escolaridade!='' || this.$route.query.objetivos!='' || this.$route.query.historicoProfissional!='' || this.$route.query.cidade!='' || this.$route.query.nome!='' || this.$route.query.area!='') == true && (this.$route.query.escolaridade!=undefined || this.$route.query.objetivos!=undefined || this.$route.query.historicoProfissional!=undefined || this.$route.query.cidade!=undefined || this.$route.query.nome!=undefined || this.$route.query.area!=undefined) == true){
                 let pesquisa = {
@@ -182,14 +182,14 @@ export default {
                     nome: this.$route.query.nome,
                     area: this.$route.query.area,
                 }
-                this.$store.dispatch('searchCurriculosAvancadas', pesquisa)
+                await this.$store.dispatch('searchCurriculosAvancadas', pesquisa)
                 .then(response => {
 
                 })
                 .catch(error => console.log(error))
             }
             else{
-                this.$store.dispatch('searchCurriculos', this.$route.query.keywords)
+                await this.$store.dispatch('searchCurriculos', this.$route.query.keywords)
                 .then(response => {
 
                 })
@@ -206,14 +206,14 @@ export default {
                     requisitos : this.$route.query.requisitos,
                     area: this.$route.query.area,
                 }
-                this.$store.dispatch('searchVagasAvancadas', pesquisa)
+                await this.$store.dispatch('searchVagasAvancadas', pesquisa)
                 .then(response => {
 
                 })
                 .catch(error => console.log(error))
             }
             else{
-                this.$store.dispatch('searchVagas', this.$route.query.keywords)
+                await this.$store.dispatch('searchVagas', this.$route.query.keywords)
                 .then(response => {
                     
                 })
@@ -221,7 +221,7 @@ export default {
             }
         }
 
-            this.loadVagasJuridica();
+        await this.loadVagasJuridica();
         
     },
 
