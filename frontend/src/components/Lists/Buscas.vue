@@ -21,13 +21,13 @@
                         </template>
                         <template v-slot:card-footer>
                             <div v-if="displayVagasJuridica.length>0">
-                                <select class="custom-select" name="vaga" v-model="vaga"> 
-                                    <option disabled value="">Selecione a vaga</option>
+                                <select class="custom-select" name="vaga" v-model="vaga[curriculo.id]"> 
+                                    <option selected value="">Selecione a vaga</option>
                                     <option v-for="show in displayVagasJuridica" :key="show.id" :value="show.id">
                                         {{show.titulo}}
                                     </option>
                                 </select>
-                                <button :disabled="vaga==''" @click="onRequestConvite(curriculo.id)" class="btn btn-sm btn-success">Convidar</button>
+                                <button :disabled="vaga[curriculo.id]==''||vaga[curriculo.id]==undefined" @click="onRequestConvite(curriculo.id)" class="btn btn-sm btn-success">Convidar</button>
                             </div>
                         </template>
                     </Card>
@@ -165,7 +165,7 @@ export default {
             isModalError: false,
             isModalMultipleInvite: false,
             vaga_id: 0,
-            vaga: '',
+            vaga: [],
         }
     },
     components: {Card, JwPagination, Modal, BAlert},
@@ -306,13 +306,13 @@ export default {
         },
 
         onRequestConvite(id){
-            if(this.vaga==''){
+            if(this.vaga[id]==''||this.vaga[id]==undefined){
                 this.isModalError = true;
                 return;
             }
 
             let requestConvite = {
-                vaga_id: this.vaga,
+                vaga_id: this.vaga[id],
                 curriculo_id: id
             }
             this.$store.dispatch('requestConvite', requestConvite)
