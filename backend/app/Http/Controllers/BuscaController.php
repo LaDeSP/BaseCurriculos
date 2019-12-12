@@ -14,7 +14,7 @@ class BuscaController extends Controller
 {
     public function buscaVagas($keywords){
 
-        $vagas = Vaga::with(['area', 'myCandidatura', 'juridica.user.foto'])
+        $vagas = Vaga::with(['area', 'myCandidatura'])
             ->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%')
             ->get();
 
@@ -43,7 +43,7 @@ class BuscaController extends Controller
             $area=null;
         }
 
-        $vagas = Vaga::with(['area', 'myCandidatura', 'juridica.user.foto'])
+        $vagas = Vaga::with(['area', 'myCandidatura'])
                 ->when($keywords,function($query, $keywords){
                     $query->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%');
                 })
@@ -179,7 +179,7 @@ class BuscaController extends Controller
         $curriculo_pretensao = $curriculo->pretensao;
         $curriculo_area_tipo = $curriculo->area->tipo;
         foreach ($palavrasQualificacao as $palavra){
-            $vagas = Vaga::with(['area', 'juridica.user.foto'])
+            $vagas = Vaga::with(['area'])
                 ->where(function ($query) use ($palavra, $curriculo_areas_id, $curriculo_pretensao, $curriculo_area_tipo) {
                     $query->where('requisito', 'like', '%' . $palavra . '%')
                     ->orWhere('descricao', 'like', '%' . $palavra . '%')
@@ -204,7 +204,7 @@ class BuscaController extends Controller
         }
 
         foreach ($palavrasHistorico as $palavra){
-            $vagas = Vaga::with(['area', 'juridica.user.foto'])
+            $vagas = Vaga::with(['area'])
                 ->where(function ($query) use ($palavra) {
                     $query->where('requisito', 'like', '%' . $palavra . '%')
                     ->orWhere('descricao', 'like', '%' . $palavra . '%')
@@ -218,7 +218,7 @@ class BuscaController extends Controller
         }
 
         foreach ($palavrasObjetivos as $palavra){
-            $vagas = Vaga::with(['area', 'juridica.user.foto'])
+            $vagas = Vaga::with(['area'])
                 ->where(function ($query) use ($palavra) {
                     $query->where('requisito', 'like', '%' . $palavra . '%')
                     ->orWhere('descricao', 'like', '%' . $palavra . '%')
