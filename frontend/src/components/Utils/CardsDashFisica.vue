@@ -86,8 +86,8 @@
       <div class="container justify-content-center">
         <h2>Vagas que podem lhe interessar</h2>
       </div>
-      
-      <div class="card-group">
+
+      <div class="card-deck">
         <div class="col-lg-12">
           <div class="row">
             <Card class="col-sm-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)" :foto=vaga.juridica.user.foto :thumbnail=true>
@@ -256,7 +256,7 @@
 
               this.$store.dispatch('changeStatusVaga', newStatus)
               .then(response => {
-                 
+
               }).catch(error => console.log(error))
 
           },
