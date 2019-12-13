@@ -7,6 +7,7 @@
             <div class="col-lg-12">
                 <div class="row">
                     <Card class="col-sm-6" v-for="curriculo in pageOfItems" :key="curriculo.id" :id="curriculo.id" :foto=curriculo.fisica.user.foto :thumbnail=true>
+                        <span class="display-none">{{changeThisCurriculo(curriculo)}}</span>
                         <template v-slot:card-header>
                         <h3><span class="label label-info " style="color: #4E73DF;">{{curriculo.fisica.user.name}}</span></h3>
                         </template>
@@ -20,10 +21,10 @@
                         <strong>Área de Atuação:</strong> {{curriculo.area.tipo}}<br>
                         </template>
                         <template v-slot:card-footer>
-                            <div v-if="displayVagasJuridica.length>0">
+                            <div v-if="vagaNaoCandidatada.length>0">
                                 <select class="custom-select" name="vaga" v-model="vaga[curriculo.id]"> 
                                     <option selected value="">Selecione a vaga</option>
-                                    <option v-for="show in displayVagasJuridica" :key="show.id" :value="show.id">
+                                    <option v-for="show in vagaNaoCandidatada" :key="show.id" :value="show.id">
                                         {{show.titulo}}
                                     </option>
                                 </select>
@@ -166,6 +167,7 @@ export default {
             isModalMultipleInvite: false,
             vaga_id: 0,
             vaga: [],
+            thisCurriculo: '',
         }
     },
     components: {Card, JwPagination, Modal, BAlert},
@@ -227,11 +229,22 @@ export default {
 
     computed:{
         ...mapGetters([
-            'displayResultados', 'permissaoDoUsuario', 'dataCompleted', 'displayVagaById', 'displayVagasJuridica'
+            'displayResultados', 'permissaoDoUsuario', 'dataCompleted', 'displayVagaById', 'displayVagasJuridica', 'displayVagasNaoCandidatadas'
         ]),
         
         vagaById(){
             return this.displayVagaById(this.vaga_id)
+        },
+
+        vagaNaoCandidatada(){
+            this.vaga[this.thisCurriculo.id]='';
+            console.log('thisvaga', this.vaga[this.thisCurriculo.id])
+            console.log('thiscurriculo', this.thisCurriculo)
+            return this.displayVagasNaoCandidatadas(this.thisCurriculo)
+        },
+
+        changeThisCurriculo: function() {
+            return (curriculo) => this.thisCurriculo = curriculo;
         }
     },
 

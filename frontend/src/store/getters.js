@@ -314,6 +314,28 @@ const displayCandidatoByIdConvite = (state) => (candidato_id) => {
 
 }
 
+const displayVagasNaoCandidatadas = (state) => (curriculo) => {
+  let vagas = state.vagasJuridica;
+  let candidaturas = curriculo.candidatura;
+  let vagasIdDasCandidaturas = [];
+
+  for (var i=0; i<candidaturas.length; i++){
+    vagasIdDasCandidaturas.push(candidaturas[i].vagas_id);
+  }
+ 
+  let vagasNaoCandidatadas = vagas;
+  Object.keys(vagasNaoCandidatadas).forEach((key) => (vagasIdDasCandidaturas.includes(vagasNaoCandidatadas[key].id)) && delete vagasNaoCandidatadas[key]);
+  let vagasIdDasCandidaturasFinal = [];
+
+  for (i=0; i<vagasNaoCandidatadas.length; i++){
+    if(!(vagasNaoCandidatadas[i]==undefined)){
+      vagasIdDasCandidaturasFinal.push(vagasNaoCandidatadas[i])
+    }
+  }
+
+  return vagasIdDasCandidaturasFinal
+}
+
 export default {
   isLoggedIn,
   authStatus,
@@ -346,6 +368,8 @@ export default {
   displayConvites,
   displayVagasThatHaveConvites,
   displayConvitesByVaga,
-  displayCandidatoByIdConvite
+  displayCandidatoByIdConvite,
+  displayVagasNaoCandidatadas
+
 
 };
