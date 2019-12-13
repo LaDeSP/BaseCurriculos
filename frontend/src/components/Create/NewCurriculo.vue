@@ -51,7 +51,6 @@
                             </div>
                         </ValidationProvider>
                     </div>
-
                     <div class="form-group">
                         <label for="genero">Gênero <a class="color-red">*</a></label>
                         <ValidationProvider name="genero" rules="required">

@@ -11,13 +11,13 @@
                         <h3><span class="label label-info " style="color: #4E73DF;">{{curriculo.fisica.user.name}}</span></h3>
                         </template>
                         <template v-slot:card-body>
-                        <strong>Qualificações:</strong> {{curriculo.qualificacoes}}
-                        <strong>Escolaridade:</strong> {{curriculo.escolaridade}}
-                        <strong>Objetivos:</strong> {{curriculo.objetivos}}
-                        <strong>Pretensão Salarial:</strong> {{curriculo.pretensao}}
-                        <strong>Histórico Profissional:</strong> {{curriculo.historicoProfissional}}
-                        <strong>Cidade:</strong> {{curriculo.fisica.endereco.cidade}}
-                        <strong>Área de Atuação:</strong> {{curriculo.area.tipo}}
+                        <strong>Qualificações:</strong> {{curriculo.qualificacoes}}<br>
+                        <strong>Escolaridade:</strong> {{curriculo.escolaridade}}<br>
+                        <strong>Objetivos:</strong> {{curriculo.objetivos}}<br>
+                        <strong>Pretensão Salarial:</strong> {{curriculo.pretensao}}<br>
+                        <strong>Histórico Profissional:</strong> {{curriculo.historicoProfissional}}<br>
+                        <strong>Cidade:</strong> {{curriculo.fisica.endereco.cidade}}<br>
+                        <strong>Área de Atuação:</strong> {{curriculo.area.tipo}}<br>
                         </template>
                         <template v-slot:card-footer>
                             <div v-if="displayVagasJuridica.length>0">

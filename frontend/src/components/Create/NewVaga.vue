@@ -104,7 +104,7 @@
             <label for="beneficios">Benefícios <a class="color-red">*</a></label>
             <ValidationProvider name="beneficios" rules="required|max:5000">
                 <div slot-scope="{ errors }">
-                <textarea class="form-control" rows="3" v-model="beneficios" maxlength="5000"></textarea>
+                <textarea class="form-control" rows="5" v-model="beneficios" maxlength="5000"></textarea>
                 <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>
@@ -114,7 +114,7 @@
             <label for="requisitos">Requisitos <a class="color-red">*</a></label>
             <ValidationProvider name="requisitos" rules="required|max:5000">
                 <div slot-scope="{ errors }">
-                    <textarea class="form-control"  rows="3" v-model="requisitos" maxlength="5000"></textarea>
+                    <textarea class="form-control"  rows="5" v-model="requisitos" maxlength="5000"></textarea>
                     <p class="color-red">{{ errors[0] }}</p>
                 </div>
             </ValidationProvider>

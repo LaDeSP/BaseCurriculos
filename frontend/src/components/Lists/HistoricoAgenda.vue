@@ -1,44 +1,12 @@
 <template>
-<span v-if="isFetching">
- <center><h1>
-    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
- </h1></center>
-</span>
-<span v-else>
     <div class="row justify-content-center">
       <div class="col-md-9">
-        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Agenda de Entrevistas</center></h2>
+        <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Agenda de Entrevistas</center></h2>
         <div v-if="permissaoDoUsuario === 'JURIDICA'">
           <div>
-               <div v-if="displayAgenda.length != 0">
-                 <div class="d-flex flex-row-reverse bd-highlight mb-3">
-                    <div class="p-2 bd-highlight">
-                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button @click="filterState = 'ALL'" type="button" class="btn btn-sm btn-outline-info">Todas</button>
-                        <button @click="filterState = 'EM AGENDAMENTO'" type="button" class="btn btn-sm btn-outline-warning">Em Agendamento</button>
-                        <button @click="filterState = 'CONFIRMADAS'" type="button" class="btn btn-sm btn-outline-success">Confirmadas</button>
-                        <button @click="filterState = 'CANCELADAS'" type="button" class="btn btn-sm btn-outline-danger">Canceladas</button>
-                        <button @click="filterState = 'FINALIZADAS'" type="button" class="btn btn-sm btn-outline-primary">Finalizadas</button>
-                        </div>
-                     </div>
-                </div>
-               </div>
-             
-                <div v-if="displayAgenda.length == 0 && filterState == 'ALL'">
-                    <strong><h3>Não há entrevistas agendadas</h3></strong>
-                </div>
-                <span v-if="filterState == 'EM AGENDAMENTO' && pageOfItems.length == 0">
-                    <h3>Não há entrevistas em agendamento. </h3>
-                </span>
-                <span v-else-if="filterState == 'CONFIRMADAS'&& pageOfItems.length == 0">
-                    <h3>Não há entrevistas confirmadas. </h3>
-                </span>
-                 <span v-else-if="filterState == 'CANCELADAS' && pageOfItems.length == 0">
-                    <h3>Não há entrevistas canceladas. </h3>
-                </span>
-                 <span v-else-if="filterState == 'FINALIZADAS' && pageOfItems.length == 0">
-                    <h3>Não há entrevistas finalizadas. </h3>
-                </span>
+              <div v-if="displayAgenda.length == 0">
+                  <strong><h3>Não há entrevistas agendadas</h3></strong>
+              </div>
               <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                   <Card style="width: 30rem;">
                       <template v-slot:card-header>
@@ -59,12 +27,6 @@
                               </span>
                               <span v-else-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA'">
                                   <span class="badge badge-sm badge-success">CONFIRMADA</span>
-                              </span>
-                               <span v-if="show.candidatura.status == 'CONTRATADO'">
-                                  <span class="badge badge-success">{{show.candidatura.status}}</span>
-                              </span>
-                              <span v-if="show.candidatura.status == 'RECUSADO'">
-                                  <span class="badge badge-danger">{{show.candidatura.status}}</span>
                               </span>
                               <span v-if="show.candidatura.status == 'AGUARDANDO'">
                                   <span class="badge badge-warning">{{show.candidatura.status}}</span>
@@ -122,7 +84,7 @@
                           <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
                               <center><button @click="deleteCandidatura(show.candidatura.id)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></center>
                           </span>
-                          <span v-if="show.candidatura.status != 'ENTREVISTA CONFIRMADA' && show.candidatura.status != 'ENTREVISTA CANCELADA' && show.candidatura.status != 'RECUSADO' && show.candidatura.status != 'CONTRATADO'">
+                          <span v-if="show.candidatura.status != 'ENTREVISTA CONFIRMADA' && show.candidatura.status != 'ENTREVISTA CANCELADA'">
                               <span v-if="show.contraproposta == 'FISICA'">
                                   <button @click="confirmAgenda(show.candidatura.id)" class="btn btn-sm btn-success">Confirmar</button>
                                   <router-link v-bind:to="'/agenda/' + show.candidatura.id" tag="button" class="btn btn-sm btn-primary">Fazer Contraproposta</router-link>
@@ -158,13 +120,12 @@
               <jw-pagination :items="displayAgenda" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
             </div>
             <div class="trocaPagina display-none" v-else>
-              <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+              <jw-pagination :items="displayAgenda" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
             </div>
           </div>
         </div>
     </div>
   </div>
-</span>
 </template>
 
 
@@ -197,25 +158,11 @@
                 pageOfItems: [],
                 candidatura_id: 0,
                 observacao: '',
-                customLabels,
-                filterState: 'ALL',
+                customLabels
             }
         },
         components: {NewAgenda, Card, List, Modal,painel, JwPagination},
         methods: {
-            changeActiveButton(status) {
-                $(".btn-group").on("click", ".btn", function() {
-                    $(this)
-                    .addClass("active")
-                    .siblings()
-                    .removeClass("active");
-                });
-                if (status === "ativa") {
-                    this.filterState = true;
-                } else {
-                    this.filterState = false;
-                }
-            },
 
             onChangePage(pageOfItems) {
                 // update page of items
@@ -306,29 +253,9 @@
         },
 
         computed: {
-            ...mapState([
-                'isFetching'
-            ]),
             ...mapGetters([
-                'permissaoDoUsuario', 'displayAgenda', 
-                'displayEntrevistasEmAgendamento', 'displayEntrevistasConfirmadas',
-                'displayEntrevistasCanceladas', 'displayEntrevistasFinalizadas',
+                'permissaoDoUsuario', 'displayAgenda'
             ]),
-            isActive() {
-                if(this.filterState === 'ALL'){
-                     console.log('oi', this.filterState)
-                     return this.displayAgenda
-                }else if (this.filterState === 'EM AGENDAMENTO') {
-                    return this.displayEntrevistasEmAgendamento
-                }else if(this.filterState === 'CONFIRMADAS'){
-                    return this.displayEntrevistasConfirmadas
-                }else if(this.filterState === 'CANCELADAS'){
-                     return this.displayEntrevistasCanceladas
-                }else if(this.filterState === 'FINALIZADAS'){
-                     return this.displayEntrevistasFinalizadas
-                }
-               
-            },
         },
 
         filters:{
@@ -341,7 +268,6 @@
 
         async created(){
             await this.loadAgenda();
-            console.log('create', this.isActive)
           //  console.log('datetime',this.getDateTimeNow());
 
         },

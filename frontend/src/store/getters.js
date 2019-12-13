@@ -82,6 +82,22 @@ const displayVagasJuridica = state =>{
   return state.vagasJuridica
 }
 
+const displayVagasAtivas = state => {
+  let vagas = state.vagasJuridica
+  let vagasAtivas = vagas.filter(vaga => {
+    return vaga.status === "ATIVA";
+  });
+  return vagasAtivas
+}
+
+const displayVagasInativas = state =>{
+  let vagas = state.vagasJuridica 
+  let vagasInativas = vagas.filter(vaga => {
+    return vaga.status === "INATIVA";
+  });
+  return vagasInativas
+}
+
 const displayVagaById = (state) => (vaga_id) => {
   
     let vagas = state.vagasJuridica;
@@ -96,7 +112,7 @@ const permissaoDoUsuario = state =>{
 
 const displayCandidaturas = state =>{
   let candidaturas = state.candidaturas;
-  let candidaturasFiltered = candidaturas.filter((filtered) => {
+ /* let candidaturasFiltered = candidaturas.filter((filtered) => {
     if(filtered.agenda){
       if(filtered.status == 'ENTREVISTA CANCELADA' && filtered.agenda[0].contraproposta ==  'JURIDICA'){
         return filtered.id >= 1
@@ -106,9 +122,45 @@ const displayCandidaturas = state =>{
       return filtered.status != 'ENTREVISTA CANCELADA'
     }
 
+  })*/
+  return candidaturas
+}
+
+const displayCandidaturasEmAgendamento = state =>{
+  let candidaturas = state.candidaturas;
+  let candidaturasFiltered = candidaturas.filter((filtered) => {
+    return filtered.status == 'EM AGENDAMENTO'
   })
   return candidaturasFiltered
 }
+
+const displayCandidaturasConfirmadas = state =>{
+  let candidaturas = state.candidaturas;
+  let candidaturasFiltered = candidaturas.filter((filtered) => {
+    return filtered.status == 'ENTREVISTA CONFIRMADA'
+  })
+  return candidaturasFiltered
+}
+
+
+const displayCandidaturasCanceladas = state =>{
+  let candidaturas = state.candidaturas;
+  let candidaturasFiltered = candidaturas.filter((filtered) => {
+    return filtered.status == 'ENTREVISTA CANCELADA'
+  })
+  return candidaturasFiltered
+}
+
+
+const displayCandidaturasFinalizadas = state =>{
+  let candidaturas = state.candidaturas;
+  let candidaturasFiltered = candidaturas.filter((filtered) => {
+    return filtered.status == 'CONTRATADO' || filtered.status == 'RECUSADO'
+  })
+  return candidaturasFiltered
+}
+
+
 
 const displayVagasThatHaveCandidaturas = (state) => {
 
@@ -156,17 +208,50 @@ const displayResultados = state =>{
 
 const displayAgenda = (state) => {
   
-  let agenda = state.agenda;
-  let agendaFiltered = agenda.filter((filtered) => {
+  let agenda = state.agenda
+  /*let agendaFiltered = agenda.filter((filtered) => {
     if(filtered.contraproposta == 'FISICA' && filtered.candidatura.status == 'ENTREVISTA CANCELADA'){
       return filtered.id >= 1
     }else{
-      return filtered.candidatura.status != 'ENTREVISTA CANCELADA' 
+      return filtered.candidatura.status == 'ENTREVISTA CANCELADA' 
     }
 
-  })
-  return agendaFiltered
+  }) */
+  return agenda
 
+}
+
+const displayEntrevistasEmAgendamento = (state) => {
+  let agenda = state.agenda
+  let emAgendamento = agenda.filter((filtered) => {
+    return filtered.candidatura.status == 'EM AGENDAMENTO'
+  })
+  return emAgendamento
+}
+
+const displayEntrevistasConfirmadas = (state) => {
+  let agenda = state.agenda
+  let confirmada = agenda.filter((filtered) => {
+    return filtered.candidatura.status == 'ENTREVISTA CONFIRMADA'
+  })
+  return confirmada
+}
+
+const displayEntrevistasCanceladas = (state) => {
+  let agenda = state.agenda
+  let cancelada = agenda.filter((filtered) => {
+    return filtered.candidatura.status == 'ENTREVISTA CANCELADA'
+  })
+  return cancelada
+}
+
+
+const displayEntrevistasFinalizadas = (state) => {
+  let agenda = state.agenda
+  let finalizada = agenda.filter((filtered) => {
+    return filtered.candidatura.status == 'CONTRATADO' || filtered.candidatura.status == 'RECUSADO'
+  })
+  return finalizada
 }
 
 const displayAgendaById = (state) => (candidato_id) => {
@@ -237,14 +322,24 @@ export default {
   displayPessoaJuridica, 
   displayCurriculo,
   displayVagasJuridica,
+  displayVagasAtivas,
+  displayVagasInativas,
   displayVagaById,
   permissaoDoUsuario,
   displayCandidaturas,
+  displayCandidaturasEmAgendamento,
+  displayCandidaturasConfirmadas,
+  displayCandidaturasCanceladas,
+  displayCandidaturasFinalizadas,
   displayVagasThatHaveCandidaturas,
   displayCandidaturasByVaga,
   displayResultados,
   displayCandidatoById,
   displayAgenda,
+  displayEntrevistasEmAgendamento,
+  displayEntrevistasConfirmadas,
+  displayEntrevistasCanceladas,
+  displayEntrevistasFinalizadas,
   displayAgendaById,
   progressBar,
   typeUser,

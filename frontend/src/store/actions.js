@@ -442,7 +442,7 @@ import * as Cookies from 'js-cookie'
       let payloadCandidaturas = [];
       payloadCandidaturas = response.data.candidaturas;
       commit('candidaturas', payloadCandidaturas)
-      
+      commit('isFetching')
       return response.data
     }).catch(
       error => console.log(error)
@@ -460,7 +460,7 @@ import * as Cookies from 'js-cookie'
         payloadVagasJuridica = response.data.vagas;
         commit('vagasJuridica', payloadVagasJuridica)
         commit('countVagasJuridica', response.data.countVagas)
-
+        commit('isFetching')
         return response.data
       }).catch(error => {
         console.log(error)
@@ -556,7 +556,6 @@ import * as Cookies from 'js-cookie'
           'candidaturasEmAgendamento': response.data.countCandidaturasEmAgendamento,
           'candidaturasConfirmadas':  response.data.countCandidaturasConfirmadas,
         }
-  
 
           if(payloadVagasCandidaturas){
             commit('vagasCandidaturas', payloadVagasCandidaturas)
@@ -567,7 +566,7 @@ import * as Cookies from 'js-cookie'
           }
 
           commit('countCandidaturas', payloadCountCandidaturas)
-
+          commit('isFetching')
         return response.data
       }).catch(error => {
         console.log(error)
@@ -739,6 +738,7 @@ import * as Cookies from 'js-cookie'
         let payloadAgenda = [];
         payloadAgenda = response.data.agenda;
         commit('agenda', payloadAgenda)
+        commit('isFetching')
 
         return response.data
       }).catch(error => {

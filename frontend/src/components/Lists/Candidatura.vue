@@ -1,4 +1,10 @@
 <template>
+<span v-if="isFetching">
+ <center><h1>
+    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+ </h1></center>
+</span>
+<span v-else>
     <div class="row justify-content-center">
      <div class="col-md-9">
       <div v-if="permissaoDoUsuario === 'JURIDICA'">
@@ -134,9 +140,34 @@
         </div>
       </div>
       <div v-else>
-        <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"> <i class="fa fa-home"></i>Home</router-link>
+        <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"> <i class="fa fa-home"></i>Home</router-link>
         <center><h2>Minhas Candidaturas</h2></center>
           <h2></h2>
+          <div v-if="displayCandidaturas.length != 0">
+                 <div class="d-flex flex-row-reverse bd-highlight mb-3">
+                    <div class="p-2 bd-highlight">
+                     <div class="btn-group" role="group" aria-label="Basic example">
+                        <button @click="filterState = 'ALL'" type="button" class="btn btn-sm btn-outline-info">Todas</button>
+                        <button @click="filterState = 'AGUARDANDO'" type="button" class="btn btn-sm btn-outline-warning">Aguardando</button>
+                        <button @click="filterState = 'CONFIRMADAS'" type="button" class="btn btn-sm btn-outline-success">Confirmadas</button>
+                        <button @click="filterState = 'CANCELADAS'" type="button" class="btn btn-sm btn-outline-danger">Canceladas</button>
+                        <button @click="filterState = 'FINALIZADAS'" type="button" class="btn btn-sm btn-outline-primary">Finalizadas</button>
+                        </div>
+                     </div>
+                </div>
+                 <span v-if="filterState == 'AGUARDANDO' && pageOfItems.length == 0">
+                    <h3>Não há candidaturas aguardando. </h3>
+                </span>
+                <span v-else-if="filterState == 'CONFIRMADAS'&& pageOfItems.length == 0">
+                    <h3>Não há candidaturas com entrevistas confirmadas. </h3>
+                </span>
+                 <span v-else-if="filterState == 'CANCELADAS' && pageOfItems.length == 0">
+                    <h3>Não há candidaturas com entrevistas canceladas. </h3>
+                </span>
+                 <span v-else-if="filterState == 'FINALIZADAS' && pageOfItems.length == 0">
+                    <h3>Não há candidaturas finalizadas. </h3>
+                </span>
+               </div>
           <div class="row justify-content-center">
             <span v-if="displayCandidaturas.length == 0"><h3>Você ainda não fez nenhuma candidatura!</h3></span>
           </div>
@@ -156,6 +187,12 @@
                         </span>
                           <span v-if="show.status == 'AGUARDANDO'">
                             <span class="badge badge-warning">{{show.status}}</span>
+                        </span>
+                        <span v-if="show.status == 'RECUSADO'">
+                            <span class="badge badge-danger">{{show.status}}</span>
+                        </span>
+                        <span v-if="show.status == 'CONTRATADO'">
+                            <span class="badge badge-success">{{show.status}}</span>
                         </span>
                     </h3>
                     </template>
@@ -290,12 +327,13 @@
             <jw-pagination :items="displayCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
           </div>
           <div class="trocaPagina display-none" v-else>
-            <jw-pagination :items="displayCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+            <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
           </div>
         </div>
      </div>
    </div>
   </div>
+</span>
 </template>
 
 
@@ -329,7 +367,8 @@
                 candidato_id: 0,
                 observacao: '',
                 pageOfItems: [],
-                customLabels
+                customLabels,
+                filterState: 'ALL',
             }
         },
         components: {NewAgenda, Card, List, Modal,painel, JwPagination},
@@ -417,10 +456,12 @@
             ...mapGetters([
                 'displayCandidaturas', 'permissaoDoUsuario',
                 'displayCandidaturasByVaga', 'displayCandidatoById',
-                'displayAgendaById', 'displayVagasThatHaveCandidaturas'
+                'displayAgendaById', 'displayVagasThatHaveCandidaturas',
+                'displayCandidaturasEmAgendamento', 'displayCandidaturasConfirmadas',
+                'displayCandidaturasCanceladas', 'displayCandidaturasFinalizadas'
             ]),
             ...mapState([
-                'vagasCandidaturas', 'candidaturas'
+                'vagasCandidaturas', 'candidaturas', 'isFetching'
             ]),
             candidaturasByVaga() {
                 return this.displayCandidaturasByVaga(this.vaga_id)
@@ -430,6 +471,21 @@
             },
             agendaById() {
                 return this.displayAgendaById(this.candidato_id)
+            },
+            isActive() {
+                if(this.filterState === 'ALL'){
+                     console.log('oi', this.filterState)
+                     return this.displayCandidaturas
+                }else if (this.filterState === 'AGUARDANDO') {
+                    return this.displayCandidaturasEmAgendamento
+                }else if(this.filterState === 'CONFIRMADAS'){
+                    return this.displayCandidaturasConfirmadas
+                }else if(this.filterState === 'CANCELADAS'){
+                     return this.displayCandidaturasCanceladas
+                }else if(this.filterState === 'FINALIZADAS'){
+                     return this.displayCandidaturasFinalizadas
+                }
+               
             },
         },
 

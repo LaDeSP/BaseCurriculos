@@ -151,6 +151,11 @@ const countConvites = (state, payloadCountConvites) => {
     state.countConvites = payloadCountConvites; 
 }
 
+const isFetching = (state) => {
+    state.isFetching = !isFetching
+    console.log('na mut', state.isFetching)
+}
+
   export default {
     auth_success,
     auth_error,
@@ -176,6 +181,7 @@ const countConvites = (state, payloadCountConvites) => {
     attUserJuridica,
     attConvites,
     vagasConvites,
-    countConvites
+    countConvites,
+    isFetching,
     
   };
