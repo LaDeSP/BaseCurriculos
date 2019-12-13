@@ -10,7 +10,7 @@
               <center><router-link to="/candidaturas" class="font-weight-bold text-primary text-uppercase mb-1">Minhas Candidaturas</router-link></center>
             </template>
             <template v-slot:card-body>
-              <div class="container align-items-center">
+              <div class="align-items-center">
                 <template v-if="countCandidaturas == 0 || displayCandidaturas == 0">
                   <div class="container justify-content-center">
                     <h2>Nenhuma Candidatura Realizada!</h2>
@@ -20,7 +20,7 @@
                   <div class="card-group">
                     <div class="col-lg-12">
                       <div class="row">
-                        <Card class="col-sm-4" v-for="show in display3Candidaturas" :key="show.id">
+                        <Card class="col-sm-4 mb-2 ml-2" v-for="show in display3Candidaturas" :key="show.id">
                           <template v-slot:card-header >
                               <center><h5>{{show.vaga.titulo}}</h5></center>
                           </template>
@@ -50,7 +50,6 @@
                     </div>
                   </div>
                 </template>
-                <div class="col-auto"></div>
               </div>
             </template>
             <template v-slot:card-footer>
@@ -61,10 +60,12 @@
         </card>
       </div>
     </div>
-    <div class="col-xl-6 col-md-12 mb-8 margin-bottom">
+    <br>
+    <div class="row align-content-center">
+    <div class="col-6">
         <card class="border-left-warning shadow h-100">
           <template v-slot:card-header class="py-3">
-            <router-link to="/convites" class="font-weight-bold text-warning text-uppercase mb-1">Convites</router-link>
+            <center><router-link to="/convites" class="font-weight-bold text-warning text-uppercase card-title">Convites</router-link></center>
             </template>
             <template v-slot:card-body>
               <div class="row no-gutters align-items-center">
@@ -80,6 +81,7 @@
             </template>
         </card>
       </div>
+      </div>
     <br>
 
     <div v-if="isActive.length>0" class="margin-bottom">
@@ -92,13 +94,13 @@
           <div class="row">
             <Card class="col-sm-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
               <template v-slot:card-header>
-                <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
+                <h3 class="card-title" style="color: #4E73DF;">{{vaga.titulo}}</h3>
               </template>
               <template v-slot:thumbnail></template>
               <template v-slot:card-body>
-                  <p class="mb-1"><strong>Cargo:</strong> {{vaga.cargo}}</p>
-                  <p class="mb-1"><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
-                  <p class="mb-1"><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
+                  <p class="card-text"><strong>Cargo:</strong> {{vaga.cargo}}</p>
+                  <p class="card-text"><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
+                  <p class="card-text"><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
               </template>
               <template v-slot:card-footer>
                 <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
@@ -112,13 +114,14 @@
                   <template v-slot:header><h3>Detalhes da Vaga</h3></template>
                   <template v-slot:body>
                     <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
-                    <strong>Descrição:</strong> {{vagaById[0].descricao}}
-                    <strong>Cargo: </strong>{{vagaById[0].cargo}}
-                    <strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}
-                    <strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}
-                    <strong>Salário:</strong> {{vagaById[0].salario}}
-                    <strong>Benefícios: </strong>{{vagaById[0].beneficio}}
-                    <strong>Requisitos:</strong> {{vagaById[0].requisito}}
+                    <br>
+                    <p class="card-text"><strong>Descrição:</strong> {{vagaById[0].descricao}}</p>
+                    <p class="card-text"><strong>Cargo: </strong>{{vagaById[0].cargo}}</p>
+                    <p class="card-text"><strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}</p>
+                    <p class="card-text"><strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}</p>
+                    <p class="card-text"><strong>Salário:</strong> {{vagaById[0].salario}}</p>
+                    <p class="card-text"><strong>Benefícios: </strong>{{vagaById[0].beneficio}}</p>
+                    <p class="card-text"><strong>Requisitos:</strong> {{vagaById[0].requisito}}</p>
                   </template>
                   <template v-slot:footer>
                     <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>

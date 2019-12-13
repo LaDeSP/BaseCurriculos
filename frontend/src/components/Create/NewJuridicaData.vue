@@ -1,11 +1,25 @@
 <template>
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div v-if="!this.dataCompleted">
-                <h3>Cadastrar Informações</h3>
+              <center><h3>Cadastrar Informações</h3></center>
             </div>
             <div v-else>
-                <h3>Editar Informações</h3>
+              <div class="row">
+                 <div class="col-4">
+                  <div class=" bd-highlight flex-left">
+                      <router-link
+                        v-bind:to="'/dashboard/'"
+                        tag="button"
+                        class="btn btn-md btn-outline-secondary">
+                        <i class="fas fa-home fa-sm"></i> Home
+                      </router-link>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <h3>Editar Informações</h3>
+                </div>
+              </div>
             </div>
             <ValidationObserver v-slot="{ invalid }">
              <form-wizard @on-complete="onComplete"
@@ -184,7 +198,7 @@
                         </ValidationProvider>
                     </div>
 
-                   
+
                     <div class="form-group">
                       <label for="numero">Número</label>
                       <ValidationProvider name="numero" rules="max:250">
@@ -205,7 +219,7 @@
                       </ValidationProvider>
                     </div>
 
-                    
+
                 </tab-content>
                 <div slot="footer" slot-scope="props">
                     <div class="wizard-footer-left">
@@ -276,7 +290,7 @@ import {mask} from 'vue-the-mask'
         },
         directives: {mask},
         methods: {
-        
+
             ...mapActions([
                 'loadJuridica'
             ]),

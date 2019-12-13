@@ -6,7 +6,21 @@
                 <h3>Cadastrar Informações</h3>
             </div>
             <div v-else>
-                <h3>Editar Informações</h3>
+                <div class="row">
+                 <div class="col-4">
+                  <div class=" bd-highlight flex-left">
+                      <router-link
+                        v-bind:to="'/dashboard/'"
+                        tag="button"
+                        class="btn btn-md btn-outline-secondary">
+                        <i class="fas fa-home fa-sm"></i> Home
+                      </router-link>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <h3>Editar Informações</h3>
+                </div>
+              </div>
             </div>
 
             <ValidationObserver v-slot="{ invalid }">
@@ -413,7 +427,7 @@
                             </div>
                         </ValidationProvider>
                      </div>
-                    
+
                     <div class="form-group">
                       <label for="numero">Número</label>
                       <ValidationProvider name="numero" rules="max:250">
@@ -434,7 +448,7 @@
                       </ValidationProvider>
                     </div>
 
-                   
+
                 </tab-content>
 
                 <tab-content title="Informações Profissionais" icon="fas fa-file-alt">
@@ -501,7 +515,7 @@
 
                     <div class="form-group">
                         <label for="qualificacoes">Qualificações <a class="color-red">*</a>  <p>Insira sua formação, seus cursos, qualidades, etc.</p></label>
-                       
+
                         <ValidationProvider name="qualificacoes" rules="required|max:5000">
                             <div slot-scope="{ errors }">
                                 <textarea id="qualificacoes" class="md-textarea form-control" rows="5" name="qualificacoes" v-model="qualificacoes" maxlength="5000"></textarea>
