@@ -142,7 +142,7 @@
                       <p class="color-red">{{ errors[0] }}</p>
                     </div>
                   </ValidationProvider>
-                      
+
                   </div>
                   <br>
                   <div class="input-group">
@@ -215,7 +215,7 @@
                   <h6 class="font-weight-bold text-primary text-success  text-uppercase mb-1">Não há candidatos ainda!</h6>
                 </template>
                 <template v-slot:card-body>
-                  
+
                 </template>
               </card>
             </div>
@@ -223,29 +223,27 @@
         </div>
         <card class="shadow mb-4 margin-bottom">
             <template v-slot:card-header class="py-3">
-               <h6 class="font-weight-bold text-primary text-success  text-uppercase mb-1">Entrevistas</h6>
+               <center><h6 class="font-weight-bold text-primary text-success  text-uppercase">Entrevistas</h6></center>
             </template>
             <template v-slot:card-body >
-              <div class="container">
                 <div class="row">
-                  <div class="col-sm">
+                  <div class="col-sm-6">
                     <div class=" font-weight-bold text-success text-uppercase mb-1">
                       <center>
-                        <h5>Confirmadas</h5>
+                        <h6> <small>Confirmadas</small></h6>
                         <h1 class="float-none">{{count.candidaturasConfirmadas}} <i class="fas fa-check-circle"></i></h1>
                       </center>
                     </div>
                   </div>
-                  <div class="col-sm">
+                  <div class="col-sm-6">
                     <div class=" font-weight-bold text-warning text-uppercase mb-1">
                       <center>
-                        <h5>Em agendamento</h5>
-                        <h1 class="float-none">{{count.candidaturasEmAgendamento}} <span class="fas fa-spinner fa-pulse"></span></h1>
+                        <h6><small>Em agendamento</small></h6>
+                        <h1 class="float-none">{{count.candidaturasEmAgendamento}}<span class="fas fa-spinner fa-pulse"></span></h1>
                       </center>
                     </div>
                   </div>
                 </div>
-              </div>
             </template>
         </card>
       </div>
@@ -302,7 +300,7 @@ import JwPagination from 'jw-vue-pagination';
         }
 
         this.$store.dispatch('newAgenda', newAgendaData)
-        .then( response => { 
+        .then( response => {
           if(response.error  != undefined){
             this.notificacoes = response.error;
           }
@@ -310,7 +308,7 @@ import JwPagination from 'jw-vue-pagination';
         })
         .catch(error => console.log(error))
       }
-    }, 
+    },
 
     computed:{
       ...mapState([
