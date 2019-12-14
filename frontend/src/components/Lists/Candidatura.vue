@@ -9,10 +9,10 @@
      <div class="col-md-9">
       <div v-if="permissaoDoUsuario === 'JURIDICA'">
         <div v-if="!toggle">
-          <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Candidaturas</center></h2>
+          <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Candidaturas</center></h2>
         </div>
         <div v-else>
-          <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Candidatos</center></h2>
+          <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Candidatos</center></h2>
         </div>
         <br>
         <div v-for="candidatura in candidaturas" :key="candidatura.id">
@@ -485,7 +485,7 @@
                 }else if(this.filterState === 'FINALIZADAS'){
                      return this.displayCandidaturasFinalizadas
                 }
-               
+
             },
         },
 

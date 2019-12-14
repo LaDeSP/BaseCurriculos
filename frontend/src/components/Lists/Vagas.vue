@@ -9,19 +9,21 @@
     <div class="col-md-9">
       <div class="row">
         <template v-if="permissaoDoUsuario === 'JURIDICA'">
-          <div class="d-flex justify-content-around bd-highlight">
-            <div class="p-2 bd-highlight">
-                <router-link
-                  v-bind:to="'/dashboard/'"
-                  tag="button"
-                  class="btn btn-md btn-outline-secondary">
-                  <i class="fas fa-home fa-sm"></i> Home
-                </router-link>
+            <div class="col-4">
+              <div class=" bd-highlight">
+                  <router-link
+                    v-bind:to="'/dashboard/'"
+                    tag="button"
+                    class="btn btn-md btn-outline-secondary">
+                    <i class="fas fa-home fa-sm"></i> Home
+                  </router-link>
+              </div>
             </div>
-            <div class="p-2 bd-highlight">
-              <h2 class="text-center">Minhas Vagas</h2>
+            <div class="col-4">
+              <div class=" bd-highlight">
+                <h2>Minhas Vagas</h2>
+              </div>
             </div>
-          </div>
         </template>
       </div>
       <br />

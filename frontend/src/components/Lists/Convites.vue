@@ -3,7 +3,7 @@
     <div class="col-lg-8">
       <div class="d-flex flex-row">
         <div class="p-2">
-          <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fas fa-home fa-sm"></i> Home</router-link>
+          <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fas fa-home fa-sm"></i> Home</router-link>
         </div>
       </div>
       <center><h2>Meus Convites</h2></center>
