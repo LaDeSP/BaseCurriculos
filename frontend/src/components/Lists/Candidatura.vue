@@ -140,11 +140,16 @@
         </div>
       </div>
       <div v-else>
-        <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"> <i class="fa fa-home"></i>Home</router-link>
-        <center><h2>Minhas Candidaturas</h2></center>
-          <h2></h2>
+                <div class="row">
+          <div class="col-4">
+            <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link>
+          </div>
+          <div class="6">
+            <h2 class="mb-4"><center><h2>Minhas Candidaturas</h2></center></h2>
+          </div>
+        </div>
           <div v-if="displayCandidaturas.length != 0">
-                 <div class="d-flex flex-row-reverse bd-highlight mb-3">
+                 <center class="bd-highlight mb-3">
                     <div class="p-2 bd-highlight">
                      <div class="btn-group" role="group" aria-label="Basic example">
                         <button @click="filterState = 'ALL'" type="button" class="btn btn-sm btn-outline-info">Todas</button>
@@ -154,18 +159,35 @@
                         <button @click="filterState = 'FINALIZADAS'" type="button" class="btn btn-sm btn-outline-primary">Finalizadas</button>
                         </div>
                      </div>
-                </div>
+                </center>
                  <span v-if="filterState == 'AGUARDANDO' && pageOfItems.length == 0">
-                    <h3>Não há candidaturas aguardando. </h3>
+                  <br>
+                  <br>
+                  <div class="container">
+                    <center><h3>Não há candidaturas aguardando. </h3></center>
+                  </div>
+
                 </span>
                 <span v-else-if="filterState == 'CONFIRMADAS'&& pageOfItems.length == 0">
-                    <h3>Não há candidaturas com entrevistas confirmadas. </h3>
+                  <br>
+                  <br>
+                  <div class="container">
+                    <center><h3>Não há candidaturas com entrevistas confirmadas. </h3></center>
+                  </div>
                 </span>
                  <span v-else-if="filterState == 'CANCELADAS' && pageOfItems.length == 0">
-                    <h3>Não há candidaturas com entrevistas canceladas. </h3>
+                  <br>
+                  <br>
+                  <div class="container">
+                    <center><h3>Não há candidaturas com entrevistas canceladas. </h3></center>
+                  </div>
                 </span>
                  <span v-else-if="filterState == 'FINALIZADAS' && pageOfItems.length == 0">
-                    <h3>Não há candidaturas finalizadas. </h3>
+                  <br>
+                  <br>
+                  <div class="container">
+                    <center><h3>Não há candidaturas finalizadas. </h3></center>
+                  </div>
                 </span>
                </div>
           <div class="row justify-content-center">
