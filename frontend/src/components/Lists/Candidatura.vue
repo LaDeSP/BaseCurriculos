@@ -121,6 +121,7 @@
                           </div>
                           <div v-else>
                             <button @click="newAgenda(show.id)" class="btn btn-sm btn-info">Agendar Entrevista</button>
+                            <button @click="recusaCandidatura(show.id)" class="btn btn-sm btn-danger">Recusar Candidato</button>
                           </div>
                         </template>
                   </Modal>
@@ -135,6 +136,14 @@
               <div class="trocaPagina display-none" v-else>
                 <jw-pagination :items="candidaturasByVaga" @changePage="onChangePage" :pageSize="4" :labels="customLabels"></jw-pagination>
               </div>
+              <Modal v-if="isModalRecusa" @close="closeModal">
+                  <template v-slot:header> </template>
+                  <template v-slot:body>
+                      <b-alert show variant="success">
+                          <h1>Você recusou o candidato com sucesso!</h1>
+                      </b-alert>
+                  </template>
+              </Modal>
             </div>
 
         </div>
@@ -360,6 +369,14 @@
             <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
           </div>
         </div>
+        <Modal v-if="isModalEditouEntrevista" @close="closeModal">
+          <template v-slot:header></template>
+          <template v-slot:body>
+              <b-alert show variant="success">
+                  <h1>Entrevista editada com sucesso!</h1>
+              </b-alert>
+          </template>
+        </Modal>
      </div>
    </div>
   </div>
@@ -377,6 +394,8 @@
     import painel from '../Utils/Painel';
     import moment from 'moment'
     import JwPagination from 'jw-vue-pagination';
+    import { BAlert } from 'bootstrap-vue'
+
     const customLabels = {
         first: 'Primeira',
         last: 'Última',
@@ -393,15 +412,17 @@
                 isModalAgendamento: false,
                 isModalWarning: false,
                 isModalDesistencia: false,
+                isModalRecusa: false,
                 vaga_id: 0,
                 candidato_id: 0,
                 observacao: '',
                 pageOfItems: [],
                 customLabels,
                 filterState: 'ALL',
+                isModalEditouEntrevista: false,
             }
         },
-        components: {NewAgenda, Card, List, Modal,painel, JwPagination},
+        components: {NewAgenda, Card, List, Modal,painel, JwPagination, BAlert},
         methods: {
 
             ...mapActions([
@@ -434,6 +455,8 @@
               this.isModalShowMore = false;
               this.isModalAgendamento = false;
               this.isModalDesistencia = false;
+              this.isModalRecusa = false;
+              this.isModalEditouEntrevista = false;
             },
 
             vagaDaCandidatura(vaga_id){
@@ -463,6 +486,16 @@
 
                 await this.$store.dispatch('deleteCandidatura', this.candidato_id)
                 .then(response => {
+
+                }).catch(error => console.log(error))
+            },
+
+            async recusaCandidatura(candidatura_id){
+                await this.$store.dispatch('recusaCandidatura', candidatura_id)
+                .then(response => {
+                  this.loadCandidaturas();
+                  this.isModalRecusa = true;
+                  
 
                 }).catch(error => console.log(error))
             },
@@ -530,6 +563,9 @@
         async created(){
             await this.loadCandidaturas();
             await this.loadAgenda();
+            if (this.$route.params.editouEntrevista){
+                this.isModalEditouEntrevista = true;
+            }
         },
 
     }

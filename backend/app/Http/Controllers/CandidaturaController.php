@@ -151,6 +151,24 @@ class CandidaturaController extends Controller
         ], 201);   
     }
 
+    public function recusaCandidato($id){
+
+        $candidatura_id = $id;
+        $candidatura = Candidatura::findOrFail($candidatura_id);
+        $candidatura->status = "RECUSADO";
+       
+        $candidatura->update();
+        
+
+        return Response::json([
+            'recusou candidato',
+            
+            'role' => auth()->user()->role
+        ]);
+
+    }
+
+
     public function destroy($id){
 
         $candidatura = Candidatura::find($id);

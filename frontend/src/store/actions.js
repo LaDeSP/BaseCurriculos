@@ -967,6 +967,20 @@ import * as Cookies from 'js-cookie'
   
   };
 
+  const recusaCandidatura = async ({commit, state}, candidatura_id) => {
+    const token = state.auth.token;
+    
+    return await axios({ url:'http://localhost:8000/api/recusarCandidato/' + candidatura_id + '?token='+token, method: 'POST'})
+    .then(response => {
+     
+
+      return response.data
+    }).catch(
+      error => console.log(error)
+    );
+  
+  };
+
   export default {
     login,
     refreshToken,
@@ -1009,6 +1023,7 @@ import * as Cookies from 'js-cookie'
     requestConvite,
     getConvites,
     respondeConvite,
-    cancelaConvite
+    cancelaConvite, 
+    recusaCandidatura
   
   };
