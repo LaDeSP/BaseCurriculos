@@ -4,7 +4,7 @@
       <div class="modal-content" @click.stop>
         <div class="modal-header" style="color: #858796;">
           <slot name="header">
-            <h5 class="modal-title" id="exampleModalLabel" >Eu sou a header.</h5>
+            <h5 class="modal-title" id="exampleModalLabel" ></h5>
           </slot>
           <button data-dismiss="modal" @click="close" class="close" aria-label="Close" style='color: #ff0000;'>x</button>
         </div>

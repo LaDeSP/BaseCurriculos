@@ -65,6 +65,8 @@ Route::group([
     Route::get('/getConvites', 'ConviteController@getConvites');
     Route::post('/respostaConvite', 'ConviteController@respostaConvite');
     Route::post('/cancelarConvite', 'ConviteController@cancelarConvite');
+    Route::post('/recusarCandidato/{id}', 'CandidaturaController@recusaCandidato');
+
     /*Route::get('/token/refresh', function(){
         try {
             $token = JWTAuth::parseToken()->refresh();
