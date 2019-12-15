@@ -12,6 +12,11 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 
 import './assets/validations';
 
+
+const token = store.state.auth.token;
+axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
+
+
 Vue.use(VueFilterDateFormat);
 Vue.use(VueFormWizard);
 Vue.use(VueRouter);

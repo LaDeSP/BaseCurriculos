@@ -371,6 +371,7 @@
         async created(){
             await this.loadAgenda();
             console.log('create', this.isActive)
+             console.log('agenda/statetoken', this.$store.state.auth.token)
           //  console.log('datetime',this.getDateTimeNow());
 
         },

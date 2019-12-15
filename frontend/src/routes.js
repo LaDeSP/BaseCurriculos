@@ -1,9 +1,5 @@
 import axios from 'axios';
 import VueRouter from 'vue-router';
-
-//const token = localStorage.getItem('token');
-//axios.defaults.headers.common['Authorization'] = token;
-
 import Login from './components/Auth/Login.vue';
 import Logout from './components/Auth/Logout.vue';
 
@@ -41,8 +37,7 @@ import ContaDesativada from './components/Auth/ContaDesativada.vue';
 import Config from './components/Lists/Config.vue';
 
 import Convites from './components/Lists/Convites.vue';
-
-
+import Refresh from './components/Auth/Refresh.vue'
 
 const routes = [
     {path: '', name:'home', component: Home, meta:{isHome: true, requiresNotAuth: true}},
@@ -70,10 +65,69 @@ const routes = [
     {path: '/reativar', name: 'conta-desativada', component: ContaDesativada, meta:{isDesativada: true}},
     {path: '/config', name: 'config', component: Config, meta:{requiresAuth: true}},
     {path: '/convites', name: 'convites', component: Convites, meta:{requiresAuth: true}},
+    {path: '/refresh', component: Refresh},
     {path: '*', component: DeuRuim}
 
 ];
 
+
+/*
+
+let subscribers = [];
+
+axios.interceptors.response.use(response => {
+  return response;
+}, err => {
+  const {
+    config, 
+    response: {status, data}
+  } = err;
+
+  const originalRequest = config;
+
+  if(data.message === 'Error fetching Token'){
+    router.push({name: 'login'});
+    return Promise.reject(false);
+ }
+
+  if(status === 401 && data.message === 'Token Expired'){
+    if(!isRefreshing) {
+      isRefreshing = true;
+      store.dispatch("refreshToken")
+      .then(({status}) => {
+        if(status === 200 || status === 204){
+          isRefreshing = false;
+          subscribers = [];
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    }
+
+    const requestSubscribers = new Promise(resolve => {
+      subscribeTokenRefresh(() => {
+        resolve(axios(originalRequest));
+      });
+    });
+
+    onRefreshed();
+    
+    return requestSubscribers;
+  }
+ 
+});
+
+function subscribeTokenRefresh(cb){
+  subscribers.push();
+}
+
+function onRefreshed(){
+  subscribers.map(cb => cb());
+}
+
+subscribers = [];
+*/
 const router = new VueRouter({mode: 'history', routes: routes});
 
 router.beforeEach((to, from, next) => {
@@ -117,6 +171,31 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+let isRefreshingToken = store.state.isRefreshingToken;
+
+axios.interceptors.response.use(response => {
+  return response;
+}, error => {
+ 
+  if(error.response.status === 401 && error.response.statusText === 'Unauthorized') { 
+    if(!isRefreshingToken) {
+      store.commit('isRefreshingToken')
+     // store.commit('logout'); //se precisar, assim que token expirar dá logout no user
+      //router.push('/login');
+    store.dispatch("refreshToken")
+      .then((res) => {
+          console.log('no inter', res);
+          store.commit('isRefreshingToken')
+        })
+      .catch(error => {
+        console.error(error);
+      });
+    
+    }
+  }
+})
+
 
 
 /*router.beforeEach((to, from, next) => {

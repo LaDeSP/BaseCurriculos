@@ -26,6 +26,31 @@ import * as Cookies from 'js-cookie'
         })    
   };
 
+  const refreshToken = async ({commit, state}) => {
+
+    const token = state.auth.token;
+    return await axios({ url: 'http://localhost:8000/api/token/refresh?token=' + token, 
+       method: 'GET' })
+      .then(response => {
+        console.log('antes do if', response)
+        if(response.status === 200 || response.status === 204){
+          console.log('response', response)
+          console.log('antigo state', state.auth.token);
+          console.log('na respo o token', response.data.token)
+          let newToken = response.data.token;
+         // console.log('na respo o token', response.data[0].original.access_token);
+          commit('refreshToken', newToken)
+          console.log('o novo state', state.auth.token);
+
+          return response
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      })
+
+  }
+
   const logout = async ({commit, state}) => {
      
     const token = state.auth.token;
@@ -461,6 +486,7 @@ import * as Cookies from 'js-cookie'
         commit('vagasJuridica', payloadVagasJuridica)
         commit('countVagasJuridica', response.data.countVagas)
         commit('isFetching')
+
         return response.data
       }).catch(error => {
         console.log(error)
@@ -730,7 +756,7 @@ import * as Cookies from 'js-cookie'
   };
 
   const loadAgenda = async ({commit, state}) => {
-  
+  console.log('loadagenda', state.auth.token)
     const token = state.auth.token;
     return await axios({ url: agenda_uri + '?token='+ token, method: 'GET' })
       .then(response => {
@@ -943,6 +969,7 @@ import * as Cookies from 'js-cookie'
 
   export default {
     login,
+    refreshToken,
     logout,
     newFisica,
     newJuridica,

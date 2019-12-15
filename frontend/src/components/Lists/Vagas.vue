@@ -433,7 +433,7 @@ export default {
 
   created() {
     this.loadVagasJuridica();
-    console.log('fec', this.$store.state.isFetching)
+    console.log('vagas/statetoken', this.$store.state.auth.token)
     console.log('actio', this.displayVagasJuridica)
   }
 };

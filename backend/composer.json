@@ -12,7 +12,7 @@
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "laravellegends/pt-br-validator": "5.1.*",
-        "tymon/jwt-auth": "1.0.*"
+        "tymon/jwt-auth": "1.0.0-rc3"
     },
     "require-dev": {
     

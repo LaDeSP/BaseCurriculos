@@ -1,5 +1,5 @@
 <template>
-<span v-if="isFetching">
+<span v-if="isFetching || isRefreshingToken">
  <center><h1>
     Carregando...  <span class="fas fa-spinner fa-pulse"></span>
  </h1></center>
@@ -312,7 +312,8 @@ import JwPagination from 'jw-vue-pagination';
 
     computed:{
       ...mapState([
-          'count', 'countVagas', 'vagasCandidaturas', 'countConvites', 'isFetching'
+          'count', 'countVagas', 'vagasCandidaturas', 'countConvites', 
+          'isFetching', 'isRefreshingToken'
       ]),
       ...mapGetters([
         'displayCandidaturas', 'progressBar'

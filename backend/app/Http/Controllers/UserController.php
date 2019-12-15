@@ -19,13 +19,18 @@ use Response;
 
 class UserController extends Controller implements JWTSubject
 {
+   
     public function teste(){
 
-        $teste = Vaga::onlyTrashed()->get();
-      
-      //  dd($credentials[0]);
-        dd($teste);
+       
+        dd(auth()->user());
     }
+
+    public function __construct()
+    {
+        //$this->middleware('jwt.auth', ['only' => ['deactivate']]);
+    }
+
 
     public function login(Request $request){
         
@@ -52,7 +57,8 @@ class UserController extends Controller implements JWTSubject
                 auth()->login($user);
                 return Response::json([
                     'token' => $token,
-                    'user' => auth()->user()
+                    'user' => auth()->user(),
+                    'expires' => auth('api')->factory()->getTTL() * 60,
                 ]);
             }
         }                
@@ -60,6 +66,7 @@ class UserController extends Controller implements JWTSubject
         //se try falhar, falhou em criar um token
         try{
             //tento usando as credenciais dadas, se não deu certo, quer dizer q token n foi criado
+            JWTAuth::factory()->setTTL(1);
             if(!$token = JWTAuth::attempt($credentials)){
                 $error[] = 'Senha Inválida.';
                 return response()->json([
@@ -87,9 +94,12 @@ class UserController extends Controller implements JWTSubject
       return Response::json([
         'token'=>$token,
         'user' => auth()->user(),
-        'foto'=>$path
+        'foto'=>$path,
+        'expires' => auth('api')->factory()->getTTL() * 60,
      ], 201);
-        
+       
+    
+    //return $this->respondWithToken($token);
       
     }
 
@@ -137,6 +147,35 @@ class UserController extends Controller implements JWTSubject
         }
         
     }
+
+    public function refresh()
+    {
+      //  $user_id = auth()->user()->id;
+        //$user = User::find($id);
+        //$oldToken = JWTAuth::fromUser($user);
+       // $token = auth('api')->refresh();
+       $token = auth()->refresh();
+        return response()->json([
+            'token' => $token
+        ]);
+    }
+
+
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $this->guard()->factory()->getTTL() * 60
+        ]);
+    }
+
+ 
+    public function guard()
+    {
+        return Auth::guard();
+    }
+    
 
     public function messages(){
         return $messages = [
