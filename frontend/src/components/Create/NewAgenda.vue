@@ -132,7 +132,7 @@
               this.notificacoes = response.error;
             }
             else{
-              this.$router.push({ name: 'agenda' });
+              this.$router.push({ name: 'agenda',  params:{agendou: true} });
             }
           
           })
@@ -145,9 +145,9 @@
             }
             else{
               if(this.permissaoDoUsuario == 'FISICA'){
-                this.$router.push({ name: 'candidaturas' })
+                this.$router.push({ name: 'candidaturas', params:{editouEntrevista: true} })
               }else{
-                this.$router.push({ name: 'agenda' })
+                this.$router.push({ name: 'agenda', params:{agendou: true} })
               }
             }
           })

@@ -193,6 +193,14 @@
               <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
             </div>
           </div>
+            <Modal v-if="isModalCriouEntrevista" @close="closeModal">
+                <template v-slot:header></template>
+                <template v-slot:body>
+                    <b-alert show variant="success">
+                        <h1>Entrevista agendada com sucesso!</h1>
+                    </b-alert>
+                </template>
+            </Modal>
         </div>
     </div>
   </div>
@@ -210,6 +218,8 @@
     import painel from '../Utils/Painel';
     import moment from 'moment'
     import JwPagination from 'jw-vue-pagination';
+    import { BAlert } from 'bootstrap-vue'
+
     const customLabels = {
         first: 'Primeira',
         last: 'Última',
@@ -231,9 +241,10 @@
                 observacao: '',
                 customLabels,
                 filterState: 'ALL',
+                isModalCriouEntrevista: false,
             }
         },
-        components: {NewAgenda, Card, List, Modal,painel, JwPagination},
+        components: {NewAgenda, Card, List, Modal,painel, JwPagination, BAlert},
         methods: {
             changeActiveButton(status) {
                 $(".btn-group").on("click", ".btn", function() {
@@ -274,6 +285,7 @@
               this.isModalWarning = false;
               this.isModalShowMore = false;
               this.isModalWarningRecusa = false;
+              this.isModalCriouEntrevista = false;
             },
 
             vagaDaCandidatura(vaga_id){
@@ -374,8 +386,11 @@
         async created(){
             await this.loadAgenda();
             console.log('create', this.isActive)
-             console.log('agenda/statetoken', this.$store.state.auth.token)
-          //  console.log('datetime',this.getDateTimeNow());
+            console.log('agenda/statetoken', this.$store.state.auth.token)
+            //console.log('datetime',this.getDateTimeNow());
+            if (this.$route.params.agendou){
+                this.isModalCriouEntrevista = true;
+            }
 
         },
 

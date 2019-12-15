@@ -369,6 +369,14 @@
             <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
           </div>
         </div>
+        <Modal v-if="isModalEditouEntrevista" @close="closeModal">
+          <template v-slot:header></template>
+          <template v-slot:body>
+              <b-alert show variant="success">
+                  <h1>Entrevista editada com sucesso!</h1>
+              </b-alert>
+          </template>
+        </Modal>
      </div>
    </div>
   </div>
@@ -411,6 +419,7 @@
                 pageOfItems: [],
                 customLabels,
                 filterState: 'ALL',
+                isModalEditouEntrevista: false,
             }
         },
         components: {NewAgenda, Card, List, Modal,painel, JwPagination, BAlert},
@@ -447,6 +456,7 @@
               this.isModalAgendamento = false;
               this.isModalDesistencia = false;
               this.isModalRecusa = false;
+              this.isModalEditouEntrevista = false;
             },
 
             vagaDaCandidatura(vaga_id){
@@ -553,6 +563,9 @@
         async created(){
             await this.loadCandidaturas();
             await this.loadAgenda();
+            if (this.$route.params.editouEntrevista){
+                this.isModalEditouEntrevista = true;
+            }
         },
 
     }
