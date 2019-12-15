@@ -1,6 +1,4 @@
 <template>
-<div>
-  <div class="card-group">
     <div class="card">
       <div class="card-header">
         <slot name="card-header">
@@ -15,8 +13,6 @@
           </slot>
       </div>
     </div>
-  </div>
-</div>
 </template>
 
 <script>
