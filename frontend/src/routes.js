@@ -174,7 +174,7 @@ router.beforeEach((to, from, next) => {
 
 let isRefreshingToken = store.state.isRefreshingToken;
 
-axios.interceptors.response.use(response => {
+/*axios.interceptors.response.use(response => {
   return response;
 }, error => {
  
@@ -194,7 +194,7 @@ axios.interceptors.response.use(response => {
     
     }
   }
-})
+})*/
 
 
 

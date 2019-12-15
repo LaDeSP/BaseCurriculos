@@ -66,7 +66,7 @@ class UserController extends Controller implements JWTSubject
         //se try falhar, falhou em criar um token
         try{
             //tento usando as credenciais dadas, se não deu certo, quer dizer q token n foi criado
-            JWTAuth::factory()->setTTL(1);
+            JWTAuth::factory()->setTTL(1440);
             if(!$token = JWTAuth::attempt($credentials)){
                 $error[] = 'Senha Inválida.';
                 return response()->json([
