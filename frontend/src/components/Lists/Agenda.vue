@@ -90,7 +90,7 @@
                                   <span class="badge badge-sm badge-success">CONFIRMADA</span>
                               </span>
                                <span v-if="show.candidatura.status == 'CONTRATADO'">
-                                  <span class="badge badge-success">{{show.candidatura.status}}</span>
+                                  <span class="badge badge-primary">{{show.candidatura.status}}</span>
                               </span>
                               <span v-if="show.candidatura.status == 'RECUSADO'">
                                   <span class="badge badge-danger">{{show.candidatura.status}}</span>
@@ -132,7 +132,7 @@
                       <template v-slot:card-footer>
                           <span v-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA' && getDateNow(show.data)" >
                               <center>
-                                  <button @click="confirmAgenda(show.candidatura.id, 'CONTRATADO')" class="btn btn-sm btn-success">Contratado</button>
+                                  <button @click="confirmAgenda(show.candidatura.id, 'CONTRATADO')" class="btn btn-sm btn-primary">Contratado</button>
                                   <button @click="showModal('warningRecusa', show.candidatura.id)" class="btn btn-sm btn-danger">Recusado</button>
                               </center>
                                 <Modal v-show="isModalWarningRecusa" @close="closeModal">
@@ -325,7 +325,7 @@
                 let year = now.getFullYear();
 
                 //let dateStr = year + '-' + month + '-' + date;
-                let dateStr = '2019-12-13';
+                let dateStr = '2021-12-13';
                 var dateAgenda = Date.parse(data);
                 var dateNow = Date.parse(dateStr);
 
@@ -334,7 +334,7 @@
                 }else{
                     return false
                 }
-            }
+            },
         },
 
         computed: {
@@ -374,8 +374,7 @@
         async created(){
             await this.loadAgenda();
             console.log('create', this.isActive)
-             console.log('agenda/statetoken', this.$store.state.auth.token)
-          //  console.log('datetime',this.getDateTimeNow());
+            
 
         },
 

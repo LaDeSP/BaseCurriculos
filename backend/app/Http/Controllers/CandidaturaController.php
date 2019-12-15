@@ -109,21 +109,21 @@ class CandidaturaController extends Controller
         $vaga_id = $request->vaga_id;
         $fisicas_id = Fisica::where('user_id', $request->user_id)->first()->id;
         $curriculos_id = Curriculo::where('fisicas_id', $fisicas_id)->first()->id;
-      //  $quantVaga = Vaga::where('id', $vaga_id)->first()->quantidade;
+       // $quantVaga = Vaga::where('id', $vaga_id)->first()->quantidade;
        // $quantCandidato = Candidatura::where('vagas_id', $vaga_id)->count();
 
-//        if($quantCandidato < $quantVaga){
+     //   if($quantCandidato < $quantVaga){
             Candidatura::create([
                 'vagas_id' => $vaga_id,
                 'curriculos_id' => $curriculos_id,
                 'status'=>'AGUARDANDO'
             ]);
-  //      }else{
-    //        Vaga::where('id', $vaga_id)
-      //      ->update([
-        //        'status' => 'INATIVA'
-         //   ]);
-      //}
+     /*  }else{
+            Vaga::where('id', $vaga_id)
+                ->update([
+                'status' => 'INATIVA'
+            ]);
+        } */
       $user_id = auth()->user()->id; 
       $user = User::find($user_id);
       $vagas = Vaga::whereNotIn('id', function($q) use ($user){

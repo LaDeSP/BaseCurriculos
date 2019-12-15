@@ -73,10 +73,13 @@
                 <Card class="col-sm-5 mb-2 ml-2" >
                   <template v-slot:card-header>
                     <h3 class="card-title" style="color: #4E73DF;">
-                      {{vaga.titulo}}
+                    {{vaga.titulo}} 
                     </h3>
                   </template>
                   <template v-slot:card-body>
+                    <div v-if="notificacao" style="color: red;"> 
+                    <p style="white-space:pre-line;"><strong>{{notificacao}}</strong></p>
+                    </div>
                       <strong>Descrição:</strong>
                       {{vaga.descricao}} <br><br>
                       <strong>Cargo:</strong>
@@ -305,7 +308,8 @@ export default {
       isModalWarning: false,
       isModalShowMore: false,
       pageOfItems: [],
-      customLabels
+      customLabels,
+      notificacao: '',
     };
   },
   components: { Card, Modal, List, painel, JwPagination },
@@ -370,7 +374,10 @@ export default {
       };
       this.$store
         .dispatch("changeStatusVaga", newStatus)
-        .then(response => {})
+        .then(response => {
+        
+          this.notificacao =  response.notificacao
+        })
         .catch(error => console.log(error));
     },
 
@@ -395,6 +402,10 @@ export default {
       } else {
         this.filterState = false;
       }
+    },
+
+    lineBreak(content){
+       return content.replace(/#/g, '`');
     }
   },
 
@@ -433,8 +444,6 @@ export default {
 
   created() {
     this.loadVagasJuridica();
-    console.log('vagas/statetoken', this.$store.state.auth.token)
-    console.log('actio', this.displayVagasJuridica)
   }
 };
 </script>

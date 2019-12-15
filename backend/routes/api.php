@@ -76,6 +76,6 @@ Route::group([
 
 });
 Route::post('/activate/{id}', 'UserController@activateAccount');
-Route::get('/teste', 'UserController@teste');
+Route::get('/teste', 'AgendaController@teste');
 Route::get('/token/refresh', 'UserController@refresh')->name('inferno');
 
