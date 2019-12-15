@@ -238,7 +238,15 @@
                         <span v-if="show.status == 'ENTREVISTA CONFIRMADA'">
                             <br>
                             Sua entrevista com a empresa está marcada para o dia <strong>{{show.agenda[0].data | dateFormat}}</strong>,
-                            às <strong>{{show.agenda[0].hora}}</strong>, com as seguintes observações: <i>"{{show.agenda[0].observacao}}"</i>
+                            às <strong>{{show.agenda[0].hora}}</strong>,
+                            <span v-if="show.agenda[0].observacao != null">
+                                com as seguintes observações:
+                                <br><br>
+                                <center><i>"{{show.agenda[0].observacao}}"</i></center>
+                            </span> 
+                             <span v-else>
+                                a empresa não fez observações.
+                            </span>
                         </span>
                         <span v-if="show.status == 'RECUSADO'">
                           <br>  Infelizmente sua candidatura foi recusada :( <br>
@@ -285,7 +293,7 @@
                                                 </template>
                                                 <template v-slot:body>
                                                 <h2 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> essa entrevista?</h2>
-                                                <br><h4>Faça uma observação para a empresa:</h4>
+                                                <center><br><h6>Você pode fazer uma observação para a empresa:</h6></center>
                                                 <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao" maxlength="500"></textarea>
                                                 <br><h6 class="text-center">Essa ação não poderá ser desfeita!</h6>
                                                 </template>
@@ -337,7 +345,7 @@
                                 </template>
                             </Modal>
                         </span>
-                        <span v-if="show.status == 'ENTREVISTA CANCELADA' || show.status == 'RECUSADO'">
+                        <span v-if="show.status == 'ENTREVISTA CANCELADDA' || show.status == 'RECUSADDO'">
                             <center><button @click="deleteCandidatura(show.id)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></center>
                         </span>
                     </template>

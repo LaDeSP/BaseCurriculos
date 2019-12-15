@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div v-if="!this.dataCompleted">
-              <center><h3>Cadastrar Informações</h3></center>
+              <h3>Cadastrar Informações</h3>
             </div>
             <div v-else>
               <div class="row">
@@ -17,7 +17,7 @@
                   </div>
                 </div>
                 <div class="col-5">
-                  <h3>Editar Informações</h3>
+                  <h3>  <router-link to="/profile" class="btn btn-md btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</router-link> <center>Editar Informações</center></h3>
                 </div>
               </div>
             </div>

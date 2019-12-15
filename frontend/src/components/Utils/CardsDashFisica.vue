@@ -1,5 +1,10 @@
 <template>
-<div>
+<span v-if="isFetching == true || isRefreshingToken == true">
+ <center><h1>
+    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+ </h1></center>
+</span>
+<span v-else>
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-home fa-sm"></i> Home</h1>
   </div>
@@ -155,7 +160,7 @@
         </template>
         </Modal>
     </div>
-</div>
+</span>
 </template>
 
 <script>
@@ -299,7 +304,7 @@
             },
 
             ...mapState([
-              'countCandidaturas', 'candidaturas', 'countConvites'
+              'countCandidaturas', 'candidaturas', 'countConvites', 'isFetching', 'isRefreshingToken'
             ]),
 
             display3Candidaturas(){

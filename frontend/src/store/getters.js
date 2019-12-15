@@ -129,7 +129,7 @@ const displayCandidaturas = state =>{
 const displayCandidaturasEmAgendamento = state =>{
   let candidaturas = state.candidaturas;
   let candidaturasFiltered = candidaturas.filter((filtered) => {
-    return filtered.status == 'EM AGENDAMENTO'
+    return filtered.status == 'AGUARDANDO'
   })
   return candidaturasFiltered
 }

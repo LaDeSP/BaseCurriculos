@@ -77,22 +77,22 @@
                     </h3>
                   </template>
                   <template v-slot:card-body>
-                      <p class="card-text"><strong>Descrição:</strong>
-                      {{vaga.descricao}} <br></p>
-                      <p class="card-text"><strong>Cargo:</strong>
-                      {{vaga.cargo}}<br></p>
-                      <p class="card-text"><strong>Quantidade:</strong>
-                      {{vaga.quantidade}}<br></p>
-                      <p class="card-text"><strong>Área de Atuação:</strong>
-                      {{vaga.area.tipo}}<br></p>
-                      <p class="card-text"><strong>Salário:</strong>
-                      {{vaga.salario}}<br></p>
-                      <p class="card-text"><strong>Jornada de Trabalho:</strong>
-                      {{vaga.jornada}}<br></p>
-                      <p class="card-text"><strong>Benefícios:</strong>
-                      {{vaga.beneficio}}<br></p>
-                      <p class="card-text"><strong>Requisitos:</strong>
-                      {{vaga.requisito}}<br></p>
+                      <strong>Descrição:</strong>
+                      {{vaga.descricao}} <br><br>
+                      <strong>Cargo:</strong>
+                      {{vaga.cargo}}<br><br>
+                      <strong>Quantidade:</strong>
+                      {{vaga.quantidade}}<br><br>
+                      <strong>Área de Atuação:</strong>
+                      {{vaga.area.tipo}}<br><br>
+                      <strong>Salário:</strong>
+                      {{vaga.salario}}<br><br>
+                      <strong>Jornada de Trabalho:</strong>
+                      {{vaga.jornada}}<br><br>
+                      <strong>Benefícios:</strong>
+                      {{vaga.beneficio}}<br><br>
+                      <strong>Requisitos:</strong>
+                      {{vaga.requisito}}<br><br>
                   </template>
                   <template v-slot:card-footer>
                     <div>

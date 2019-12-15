@@ -1,11 +1,12 @@
 <template>
 <div class="row justify-content-center">
     <div class="col-md-7">
+        
         <div v-if="!this.editing">
-            <h3>Cadastrar Informações</h3>
+            <h3><router-link to="/vagas" class="btn btn-md btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</router-link> <center>Cadastrar Informações</center></h3>
         </div>
         <div v-else>
-            <h3>Editar Informações</h3>
+            <h3><router-link to="/vagas" class="btn btn-md btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</router-link> <center>Editar Informações</center></h3>
         </div>
         <hr>
 

@@ -118,8 +118,11 @@
                                   </span>
                               </li>
                                   </span>
+                                  <span v-if="show.observacao != null">
+                                      <strong>Observações:</strong> {{show.observacao}} <br><br>
+                                  </span>
                                   <span v-else>
-                                      <strong>Observação</strong>: {{show.observacao}} <br><br>
+                                      <strong>Observações</strong>: Não há observações.<br><br>
                                   </span>
                                   <span v-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA' && getDateNow(show.data)">
                                       <strong>Notamos que a data de entrevista já passou. O candidato foi: </strong>
@@ -148,7 +151,7 @@
                                   </template>
                                 </Modal>
                           </span>
-                          <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
+                          <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADDA'">
                               <center><button @click="deleteCandidatura(show.candidatura.id)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></center>
                           </span>
                           <span v-if="show.candidatura.status != 'ENTREVISTA CONFIRMADA' && show.candidatura.status != 'ENTREVISTA CANCELADA' && show.candidatura.status != 'RECUSADO' && show.candidatura.status != 'CONTRATADO'">
@@ -169,7 +172,7 @@
                                   </template>
                                   <template v-slot:body>
                                     <h2 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> essa entrevista?</h2>
-                                    <br><h4>Faça uma observação para o candidato:</h4>
+                                    <center><br><h6>Você pode fazer uma observação para o candidato:</h6></center>
                                     <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao" maxlength="500"></textarea>
                                     <br><h6 class="text-center">Essa ação não poderá ser desfeita!</h6>
                                   </template>
@@ -322,7 +325,7 @@
                 let year = now.getFullYear();
 
                 //let dateStr = year + '-' + month + '-' + date;
-                let dateStr = '2020-12-13';
+                let dateStr = '2019-12-13';
                 var dateAgenda = Date.parse(data);
                 var dateNow = Date.parse(dateStr);
 

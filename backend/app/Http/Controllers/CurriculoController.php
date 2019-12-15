@@ -76,7 +76,10 @@ class CurriculoController extends Controller
     public function show($id)
     {  
         $fisicas_id = Fisica::where('user_id', $id)->first()->id;
-        $area_id = Curriculo::where('fisicas_id', $fisicas_id)->first()->areas_id;
+        if($area_id = Curriculo::where('fisicas_id', $fisicas_id)->first()->areas_id){
+            $area_id = Curriculo::where('fisicas_id', $fisicas_id)->first()->areas_id;
+        }
+  
         $area = Area::where('id', $area_id)->first()->tipo;
         $fisica = Fisica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->get();
 

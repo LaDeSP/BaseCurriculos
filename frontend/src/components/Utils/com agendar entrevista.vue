@@ -117,6 +117,110 @@
         </card>
       </div>
       <div class="col-lg-6 mb-6 margin-bottom">
+        <div class="row">
+          <div class="col-sm-12 margin-bottom">
+            <div v-if="count.candidaturas > 0">
+              <ValidationObserver v-slot="{ invalid }">
+                <form>
+               <card>
+                <template v-slot:card-header>
+                  <h6 class="font-weight-bold text-primary text-success  text-uppercase mb-1">Agendar Entrevista</h6>
+                </template>
+                <template v-slot:card-body>
+                  <div class="input-group">
+                    <div class="input-group-predend">
+                      <span class="input-group-text">Vaga:</span>
+                    </div>
+                  <ValidationProvider name="vaga" rules="required">
+                    <div slot-scope="{ errors }">
+                      <select class="custom-select" name="vaga" v-model="vaga">
+                          <option disabled value="">Selecione a vaga</option>
+                          <option v-for="show in vagasCandidaturas" :key="show.id" :value="show.vaga.id">
+                              {{show.vaga.titulo}}
+                          </option>
+                      </select>
+                      <p class="color-red">{{ errors[0] }}</p>
+                    </div>
+                  </ValidationProvider>
+
+                  </div>
+                  <br>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Candidato:</span>
+                    </div>
+                    <ValidationProvider name="candidato" rules="required">
+                      <div slot-scope="{ errors }">
+                        <select :disabled="vaga == null" class="custom-select" name="candidato" v-model="candidato">
+                          <option disabled value="">Selecione o candidato</option>
+                          <option v-for="show in displayCandidaturas" :key="show.id" :value="show.id">
+                              <span v-if="vaga == show.vaga.id && show.status != 'ENTREVISTA CONFIRMADA'">
+                                {{show.curriculo.fisica.user.name}}
+                              </span>
+                              <span v-else>
+                                Os candidatos dessa vaga já possuem entrevista!
+                              </span>
+                          </option>
+                        </select>
+                        <p class="color-red">{{ errors[0] }}</p>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+                  <br>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Data:</span>
+                    </div>
+                    <ValidationProvider name="data" rules="required">
+                      <div class="color-red" slot-scope="{ errors }">
+                        <input type="date" class="form-control" name="data" v-model="data">
+                          <p class="color-red">{{ errors[0] }}</p>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+                  <br>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Hora:</span>
+                    </div>
+                     <ValidationProvider name="hora" rules="required">
+                        <div class="color-red" slot-scope="{ errors }">
+                          <input type="time" name="hora" class="form-control" v-model="hora">
+                           <p class="color-red">{{ errors[0] }}</p>
+                        </div>
+                      </ValidationProvider>
+                  </div>
+                   <br>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Observação:</span>
+                    </div>
+                     <ValidationProvider name="observacao" rules="max:5000">
+                      <div slot-scope="{ errors }">
+                        <textarea class="md-textarea form-control" rows="5" name="observacao" v-model="observacao" maxlength="5000"></textarea>
+                         <p class="color-red">{{ errors[0] }}</p>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+                  <br>
+                  <center><button :disabled="invalid" @click.prevent="agendar" class="btn btn-primary"> Agendar</button></center>
+                </template>
+              </card>
+                </form>
+                </ValidationObserver>
+            </div>
+            <div v-else>
+              <card>
+                <template>
+                  <h6 class="font-weight-bold text-primary text-success  text-uppercase mb-1">Não há candidatos ainda!</h6>
+                </template>
+                <template v-slot:card-body>
+
+                </template>
+              </card>
+            </div>
+          </div>
+        </div>
         <card class="shadow mb-4 margin-bottom">
             <template v-slot:card-header class="py-3">
                <center><h6 class="font-weight-bold text-primary text-success  text-uppercase">Entrevistas</h6></center>
