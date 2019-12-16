@@ -16,6 +16,7 @@ class BuscaController extends Controller
 
         $vagas = Vaga::with(['area', 'myCandidatura'])
             ->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%')
+            ->orderBy('created_at', 'desc')
             ->get();
 
 
@@ -62,13 +63,14 @@ class BuscaController extends Controller
                 ->when($area, function($query, $area){
                     $query->where('areas_id', $area);
                 })
+                ->orderBy('created_at', 'desc')
                 ->get();
 
         return response()->json($vagas);
     }
 
     public function buscaCurriculos($keywords){
-        $curriculos = Curriculo::with(['fisica.user.foto', 'fisica.endereco', 'area', 'candidatura'])->where('qualificacoes', 'like', '%' . $keywords . '%')->get();
+        $curriculos = Curriculo::with(['fisica.user.foto', 'fisica.endereco', 'area', 'candidatura'])->where('qualificacoes', 'like', '%' . $keywords . '%')->orderBy('created_at', 'desc')->get();
 
 
         return response()->json($curriculos);
@@ -123,6 +125,7 @@ class BuscaController extends Controller
                 ->when($area, function($query, $area){
                     $query->where('areas_id', $area);
                 })
+                ->orderBy('created_at', 'desc')
                 ->get();
 
         return response()->json($curriculos);
@@ -163,7 +166,7 @@ class BuscaController extends Controller
                   ->orWhere('status', "AGUARDANDO")
                   ->orWhere('status', "ENTREVISTA CONFIRMADA")
                   ->orWhere('status', "CONTRATADO");
-        })->get();
+        })->orderBy('created_at', 'desc')->get();
 
         $candidaturas = [];
         foreach($vagas_id as $candidatura){
@@ -189,6 +192,7 @@ class BuscaController extends Controller
                     ->orWhere('titulo', 'like', '%' . $curriculo_area_tipo . '%');
                 })
                 ->whereNotIn('id', $candidaturas)
+                ->orderBy('created_at', 'desc')
                 ->get();
             
             if($i==0){
@@ -211,6 +215,7 @@ class BuscaController extends Controller
                     ->orWhere('titulo', 'like', '%' . $palavra . '%');
                 })
                 ->whereNotIn('id', $candidaturas)
+                ->orderBy('created_at', 'desc')
                 ->get();
             
             $mergedCollection = $vagastotal->toBase()->merge($vagas);
@@ -226,6 +231,7 @@ class BuscaController extends Controller
                     ->orWhere('jornada', 'like', '%' . $palavra . '%');
                 })
                 ->whereNotIn('id', $candidaturas)
+                ->orderBy('created_at', 'desc')
                 ->get();
             
             $mergedCollection = $vagastotal->toBase()->merge($vagas);

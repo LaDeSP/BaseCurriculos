@@ -8,24 +8,22 @@ use App\Agenda;
 use App\Juridica;
 use App\Fisica;
 use App\User;
-use App\Vaga;
 use App\Curriculo;
-use App\Candidatura; 
 
+use App\Candidatura;
 use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
     public function teste (){
 
-         $quantidadeContratados = Candidatura::where('vagas_id', 1)
-         ->where('status', 'CONTRATADO')->count(); 
-        //dd($user->juridica->vaga[0]->candidatura[0]->agenda);
-
-       //$quantidadeContratados = Candidatura::whereHas('vaga_id', function($q){
-        //$q->where('created_at', '>=', '2015-01-01 00:00:00');
-        //})->get();
-       dd($quantidadeContratados);
+        $agenda =  Agenda::with(['candidatura.vaga', 'curriculo.fisica.user'])
+        ->whereHas('candidatura.vaga.juridica', function($query){ 
+            $query->where('id', '=', 2);
+        })->orderBy('created_at', 'desc')->get();
+    
+        dd($agenda);
+       // dd($user->juridica->vaga[0]->candidatura[0]->agenda);
     }
 
     public function index(){
@@ -37,7 +35,7 @@ class AgendaController extends Controller
             $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
             ->whereHas('candidatura.vaga.juridica', function($query) use ($juridica_id){ 
                 $query->where('id', '=', $juridica_id);
-            })->orderBy('created_at')->get();
+            })->orderBy('created_at', 'desc')->get();
     
           //  $collection = collect($vagasCandidatura);
            // $unique = $collection->unique('vagas_id');
@@ -53,7 +51,7 @@ class AgendaController extends Controller
             $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
             ->whereHas('candidatura.curriculo.fisica', function($query) use ($fisica_id){ 
                 $query->where('id', '=', $fisica_id);
-            })->orderBy('created_at')->get();
+            })->orderBy('created_at', 'desc')->get();
 
             return Response::json([
                 'agenda' => $agenda, 
@@ -109,7 +107,7 @@ class AgendaController extends Controller
 
             $vagasCandidatura =  Candidatura::whereHas('vaga', function($query) use ($juridica_id){ 
                 $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
-            })->get();
+            })->orderBy('created_at', 'desc')->get();
 
             $countCandidaturasEmAgendamento = $vagasCandidatura
                 ->where('status', 'EM AGENDAMENTO')->count();
@@ -166,7 +164,19 @@ class AgendaController extends Controller
     }
 
     public function confirmAgenda(Request $request){
-        
+
+        $candidatura_id = $request->candidatura_id;
+
+        if($request->contratado == 'CONTRATADO'){
+            Candidatura::where('id', $candidatura_id)->update(array(
+                'status' => 'CONTRATADO'
+            ));
+        }else{
+            Candidatura::where('id', $candidatura_id)->update(array(
+                'status' => 'ENTREVISTA CONFIRMADA'
+            ));
+        }
+
         $user_id = auth()->user()->id;
         $user_role = auth()->user()->role;
         $candidaturas = [];
@@ -176,66 +186,24 @@ class AgendaController extends Controller
             $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
             $curriculo_id = Curriculo::where('fisicas_id', $fisica_id)->first()->id;
             $candidaturas = Candidatura::with(['vaga', 'agenda', 'curriculo'])
-                ->where('curriculos_id', $curriculo_id)->get();
+                ->where('curriculos_id', $curriculo_id)->orderBy('created_at', 'desc')->get();
 
             $agenda = Agenda::with(['candidatura'])
             ->where('candidatura_id', $candidatura_id)->first()->get();
-        }
-
-
-        $candidatura_id = $request->candidatura_id;
-        $vagas_id = Candidatura::where('id', $candidatura_id)->first()->vagas_id;
-        $quantidadeVagas = Vaga::where('id', $vagas_id)->first()->quantidade;
-        $statusVaga = Vaga::where('id', $vagas_id)->first()->status;
-       
-        $quantidadeContratados = Candidatura::where('vagas_id', $vagas_id)
-            ->where('status', 'CONTRATADO')->count(); 
-
-        if($statusVaga === 'ATIVA'){
-            if($quantidadeVagas > $quantidadeContratados){
-                if($request->contratado == 'CONTRATADO'){
-                    Candidatura::where('id', $candidatura_id)->update(array(
-                        'status' => 'CONTRATADO'
-                    ));
-
-                    $quantidadeContratadosAualizada = Candidatura::where('vagas_id', $vagas_id)
-                        ->where('status', 'CONTRATADO')->count(); 
-
-                    if($quantidadeContratadosAualizada == $quantidadeVagas){
-                        Vaga::where('id', $vagas_id)
-                            ->update([
-                            'status' => 'INATIVA'
-                        ]);
-
-                        return response::json([
-                            'message' => 'Vaga está cheia, foi inativada',
-                            'agenda' => $agenda,
-                        ]);
-                    }
-                    $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
-                    $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
-                    ->whereHas('candidatura.vaga.juridica', function($query) use ($juridica_id){ 
-                        $query->where('id', '=', $juridica_id);
-                    })->orderBy('created_at')->get();
-                    
-                    return Response::json([
-                        'agenda' => $agenda,
-                        'notificacao' => 'Contratado!',
-                    ]);
-                   
-                }else{
-                    Candidatura::where('id', $candidatura_id)->update(array(
-                        'status' => 'ENTREVISTA CONFIRMADA'
-                    ));
-                }
-            }   
         }else{
-            return Response::json([
-                'message' => 'Essa vaga está inativa! Se já estiver repleta, altere a quantidade para ativá-la novamente.'
-            ]);
+            $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
+            $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
+            ->whereHas('candidatura.vaga.juridica', function($query) use ($juridica_id){ 
+                $query->where('id', '=', $juridica_id);
+            })->orderBy('created_at', 'desc')->get();
         }
         
-        if($request->contratado != 'CONTRATADO'){
+        if($request->contratado == 'CONTRATADO'){
+            return Response::json([
+                'agenda' => $agenda,
+                'notificacao' => 'Contratado!',
+            ]);
+        }else{
             return Response::json([
                 'agenda' => $agenda,
                 'candidaturas' => $candidaturas,

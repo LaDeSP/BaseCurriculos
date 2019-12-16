@@ -99,7 +99,7 @@ class JuridicaController extends Controller
 
     public function show($id)
     {
-        $juridica = Juridica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->get();
+        $juridica = Juridica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->orderBy('created_at', 'desc')->get();
         return Response::json([
             'juridica' => $juridica
          ], 201);
