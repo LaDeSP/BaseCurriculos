@@ -412,7 +412,7 @@
                         <span class="card-title text-warning">{{show.status}}</span>
                       </span>
                       <span v-if="show.status == 'RECUSADO'">
-                        <span class="card-title text-danger">ENCERRADO</span>
+                        <span class="card-title text-dark">ENCERRADO</span>
                       </span>
                       <span v-if="show.status == 'CONTRATADO'">
                         <span class="card-title text-success">{{show.status}}</span>
@@ -474,19 +474,19 @@
                             <i>"{{show.agenda[0].observacao}}"</i>
                           </center>
                         </span>
-                      
+                      </span>
                         <span v-if="show.status == 'RECUSADO'">
                          <br><span style="color:red; font-weight: bold;"> Infelizmente, a empresa decidiu não dar continuidade no seu processo de contratação. :( </span><br><br>
                             <span v-if="show.agenda.length > 0">
                               <span v-if="show.agenda[0].observacao != null">
-                                 Foi feita a seguinte observação:
+                                 Foi feita a seguinte observação: 
                                 <br><br>
                                 <center><i>"{{show.agenda[0].observacao}}"</i></center>
                               </span>
                               <span v-else>
                                 A empresa não fez observações.
                               </span>
-                        <span v-else>A empresa não fez observações.</span>
+                          </span>
                       </span>
                     </ul>
                   </template>
@@ -875,186 +875,5 @@ export default {
       }
     }
   },
-
-    export default {
-        data(){
-            return{
-
-                toggle: false,
-                isModalShowMore: false,
-                isModalAgendamento: false,
-                isModalWarning: false,
-                isModalDesistencia: false,
-                isModalRecusa: false,
-                vaga_id: 0,
-                candidato_id: 0,
-                observacao: '',
-                pageOfItems: [],
-                customLabels,
-                filterState: 'ALL',
-                isModalEditouEntrevista: false,
-            }
-        },
-        components: {NewAgenda, Card, List, Modal,painel, JwPagination, BAlert},
-        methods: {
-
-            ...mapActions([
-                'loadCandidaturas', 'loadAgenda'
-            ]),
-
-             onChangePage(pageOfItems) {
-                // update page of items
-                this.pageOfItems = pageOfItems;
-            },
-
-             showModal(modal, candidato_id){
-                 if(modal === 'showMore'){
-                    this.isModalShowMore = true;
-                    this.candidato_id = candidato_id;
-                 }else if(modal === 'warning'){
-                    this.isModalWarning = true;
-                    this.candidato_id = candidato_id;
-                 }else if(modal === 'desistencia'){
-                    this.isModalDesistencia = true;
-                    this.candidato_id = candidato_id;
-                 }else{
-                    this.isModalAgendamento = true;
-                    this.candidato_id = candidato_id;
-                 }
-            },
-
-            closeModal(){
-              this.isModalWarning = false;
-              this.isModalShowMore = false;
-              this.isModalAgendamento = false;
-              this.isModalDesistencia = false;
-              this.isModalRecusa = false;
-              this.isModalEditouEntrevista = false;
-            },
-
-            vagaDaCandidatura(vaga_id){
-                this.toggle = true;
-                this.vaga_id = vaga_id;
-            },
-
-            newAgenda(candidato_id){
-                this.$session.set('candidato_id', candidato_id);
-                this.$router.push({ name: 'new-agenda'})
-            },
-
-            async confirmAgenda(candidatura_id){
-
-                let candidatura = {
-                    candidatura_id: candidatura_id
-                }
-
-                await this.$store.dispatch('confirmAgenda', candidatura)
-                .then(response => {
-
-                }).catch(error => console.log(error))
-            },
-
-
-            async deleteCandidatura(){
-
-                await this.$store.dispatch('deleteCandidatura', this.candidato_id)
-                .then(response => {
-
-                }).catch(error => console.log(error))
-            },
-
-            async recusaCandidatura(candidatura_id){
-                await this.$store.dispatch('recusaCandidatura', candidatura_id)
-                .then(response => {
-                  this.loadCandidaturas();
-                  this.isModalRecusa = true;
-
-
-                }).catch(error => console.log(error))
-            },
-
-            async cancelAgenda(){
-
-                let cancelAgenda = {
-                    observacao: this.observacao,
-                    candidatura_id: this.candidato_id
-                }
-
-                await this.$store.dispatch('cancelAgenda', cancelAgenda)
-                .then(response => {
-                   this.isModalWarning = false;
-                }).catch(error => console.log(error))
-            }
-
-        },
-
-        computed: {
-            ...mapGetters([
-                'displayCandidaturas', 'permissaoDoUsuario',
-                'displayCandidaturasByVaga', 'displayCandidatoById',
-                'displayAgendaById', 'displayVagasThatHaveCandidaturas',
-                'displayCandidaturasEmAgendamento', 'displayCandidaturasConfirmadas',
-                'displayCandidaturasCanceladas', 'displayCandidaturasFinalizadas'
-            ]),
-            ...mapState([
-                'vagasCandidaturas', 'candidaturas', 'isFetching'
-            ]),
-            candidaturasByVaga() {
-                return this.displayCandidaturasByVaga(this.vaga_id)
-            },
-            candidatoById() {
-                return this.displayCandidatoById(this.candidato_id)
-            },
-            agendaById() {
-                return this.displayAgendaById(this.candidato_id)
-            },
-            isActive() {
-                if(this.filterState === 'ALL'){
-                     console.log('oi', this.filterState)
-                     console.log('display can', this.displayCandidaturas)
-                     return this.displayCandidaturas
-                }else if (this.filterState === 'AGUARDANDO') {
-                    return this.displayCandidaturasEmAgendamento
-                }else if(this.filterState === 'CONFIRMADAS'){
-                    return this.displayCandidaturasConfirmadas
-                }else if(this.filterState === 'CANCELADAS'){
-                     return this.displayCandidaturasCanceladas
-                }else if(this.filterState === 'FINALIZADAS'){
-                     return this.displayCandidaturasFinalizadas
-                }
-
-            },
-        },
-
-        filters:{
-            dateFormat: function(value){
-                if (value) {
-                    return moment(String(value)).format('DD/MM/YYYY')
-                }
-            }
-        },
-
-        async created(){
-            await this.loadCandidaturas();
-            await this.loadAgenda();
-            if (this.$route.params.editouEntrevista){
-                this.isModalEditouEntrevista = true;
-            }
-        },
-  filters: {
-    dateFormat: function(value) {
-      if (value) {
-        return moment(String(value)).format("DD/MM/YYYY");
-      }
-    }
-  },
-
-  async created() {
-    await this.loadCandidaturas();
-    await this.loadAgenda();
-    if (this.$route.params.editouEntrevista) {
-      this.isModalEditouEntrevista = true;
-    }
-  }
-};
+}
 </script>
