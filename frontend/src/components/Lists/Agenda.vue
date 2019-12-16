@@ -30,8 +30,6 @@
                         </div>
                     </center>
                </div>
-
-
                 <div v-if="displayAgenda.length == 0 && filterState == 'ALL'">
                   <br>
                   <br>
@@ -70,8 +68,8 @@
                 </span>
 
               <div v-for="show in pageOfItems" :key="show.id" :id="show.id" class="margin-bottom">
-                  <div class="card-group">
-                  <div class="col-lg-12">
+              <div class="card-group">
+                <div class="col-lg-12">
                   <div class="row">
                   <Card class="col-sm-6">
                       <template v-slot:card-header>
