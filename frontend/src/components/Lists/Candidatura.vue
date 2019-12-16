@@ -9,7 +9,14 @@
      <div class="col-md-9">
       <div v-if="permissaoDoUsuario === 'JURIDICA'">
         <div v-if="!toggle">
-          <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Candidaturas</center></h2>
+<div class="row">
+          <div class="col-5">
+            <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link>
+          </div>
+          <div class="6">
+                <h2 class="mb-4"><center>Candidaturas</center></h2>
+          </div>
+        </div>
         </div>
         <div v-else>
           <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Candidatos</center></h2>
@@ -24,11 +31,10 @@
             <br><br><br><br><h2>Não há nenhuma candidatura por enquanto! </h2>
         </div>
         <div v-if="!toggle">
-          <div class="card-group">
-              <div class="col-lg-12">
+          <div class="card-deck">
+              <div class="col-12">
                 <div class="row">
-                  <div v-for="show in pageOfItems" :key="show.id" :id="show.id" class="margin-bottom">
-                    <Card class="col-sm-6 ml-1">
+                  <Card class="col-6 column" v-for="show in pageOfItems" :key="show.id" :id="show.id">
                         <template v-slot:card-header>
                           <h3 class="card-title" style="color: #4E73DF;">Vaga: {{show.vaga.titulo}}</h3>
                         </template>
@@ -39,17 +45,16 @@
                         <template v-slot:card-footer>
                           <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
                         </template>
-                    </Card>
-                </div>
+                </Card>
               </div>
           </div>
           </div>
             <div class="row justify-content-center">
-              <div class="trocaPagina" v-if="displayVagasThatHaveCandidaturas.length > 10">
-                <jw-pagination :items="displayVagasThatHaveCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+              <div class="trocaPagina" v-if="displayVagasThatHaveCandidaturas.length > 2">
+                <jw-pagination :items="displayVagasThatHaveCandidaturas" @changePage="onChangePage" :pageSize="2" :labels="customLabels"></jw-pagination>
               </div>
               <div class="trocaPagina display-none" v-else>
-                <jw-pagination :items="displayVagasThatHaveCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
+                <jw-pagination :items="displayVagasThatHaveCandidaturas" @changePage="onChangePage" :pageSize="2" :labels="customLabels"></jw-pagination>
               </div>
             </div>
         </div>
