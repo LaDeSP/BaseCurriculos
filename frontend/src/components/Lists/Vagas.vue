@@ -60,10 +60,14 @@
       <br />
 
         <span v-if="filterState == true && pageOfItems.length == 0">
-        <h3>Não há nenhuma vaga ativa. </h3>
+          <div class="container">
+          <center><h3>Não há nenhuma vaga ativa. </h3></center>
+          </div>
         </span>
         <span v-else-if="filterState == false && pageOfItems.length == 0">
-          <h3>Não há nenhuma vaga inativa. </h3>
+          <div class="container">
+          <center><h3>Não há nenhuma vaga inativa. </h3></center>
+          </div>
         </span>
         <template v-if="permissaoDoUsuario === 'JURIDICA'">
             <div class="card-deck">
