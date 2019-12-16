@@ -21,7 +21,7 @@ class CandidaturaController extends Controller
         $vagasCandidatura =  Candidatura::with(['vaga', 'curriculo.area', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
         ->whereHas('vaga', function($query){ 
             $query->where('juridicas_id', '=', 1)->groupBy('vagas_id');
-        })->get();
+        })->orderBy('created_at', 'desc')->get();
 
         $countCandidaturas = 0;
         $countCandidaturasAguardando = 0;
@@ -50,7 +50,7 @@ class CandidaturaController extends Controller
             $vagasCandidatura =  Candidatura::with(['vaga', 'curriculo.area', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
             ->whereHas('vaga', function($query) use ($juridica_id){ 
                 $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
-            })->get();
+            })->orderBy('created_at', 'desc')->get();
 
             $collection = collect($vagasCandidatura);
             $unique = $collection->unique('vagas_id');
@@ -88,7 +88,7 @@ class CandidaturaController extends Controller
             if(Candidatura::where('curriculos_id', $curriculo_id)->exists()){
                 $candidatura_id = Candidatura::where('curriculos_id', $curriculo_id)->first()->id;
                 $candidaturas_fisica = Candidatura::with(['vaga', 'agenda', 'curriculo'])
-                ->where('curriculos_id', $curriculo_id)->get();
+                ->where('curriculos_id', $curriculo_id)->orderBy('created_at', 'desc')->get();
             
                 return Response::json([
                 'candidaturas' => $candidaturas_fisica,
@@ -131,10 +131,10 @@ class CandidaturaController extends Controller
             ->select('vagas_id')
             ->where('curriculos_id', '=', $user->fisica->curriculo->id);
         })
-        ->with('area')->get();
+        ->with('area')->orderBy('created_at', 'desc')->get();
     
         $candidaturas = Candidatura::with(['vaga', 'agenda', 'curriculo'])
-        ->where('curriculos_id', $user->fisica->curriculo->id)->get();
+        ->where('curriculos_id', $user->fisica->curriculo->id)->orderBy('created_at', 'desc')->get();
 
         return Response::json([
             'Candidatura ok',

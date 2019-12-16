@@ -20,7 +20,7 @@ class AgendaController extends Controller
         $agenda =  Agenda::with(['candidatura.vaga', 'curriculo.fisica.user'])
         ->whereHas('candidatura.vaga.juridica', function($query){ 
             $query->where('id', '=', 2);
-        })->get();
+        })->orderBy('created_at', 'desc')->get();
     
         dd($agenda);
        // dd($user->juridica->vaga[0]->candidatura[0]->agenda);
@@ -35,7 +35,7 @@ class AgendaController extends Controller
             $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
             ->whereHas('candidatura.vaga.juridica', function($query) use ($juridica_id){ 
                 $query->where('id', '=', $juridica_id);
-            })->orderBy('created_at')->get();
+            })->orderBy('created_at', 'desc')->get();
     
           //  $collection = collect($vagasCandidatura);
            // $unique = $collection->unique('vagas_id');
@@ -51,7 +51,7 @@ class AgendaController extends Controller
             $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
             ->whereHas('candidatura.curriculo.fisica', function($query) use ($fisica_id){ 
                 $query->where('id', '=', $fisica_id);
-            })->orderBy('created_at')->get();
+            })->orderBy('created_at', 'desc')->get();
 
             return Response::json([
                 'agenda' => $agenda, 
@@ -107,7 +107,7 @@ class AgendaController extends Controller
 
             $vagasCandidatura =  Candidatura::whereHas('vaga', function($query) use ($juridica_id){ 
                 $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
-            })->get();
+            })->orderBy('created_at', 'desc')->get();
 
             $countCandidaturasEmAgendamento = $vagasCandidatura
                 ->where('status', 'EM AGENDAMENTO')->count();
@@ -186,7 +186,7 @@ class AgendaController extends Controller
             $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
             $curriculo_id = Curriculo::where('fisicas_id', $fisica_id)->first()->id;
             $candidaturas = Candidatura::with(['vaga', 'agenda', 'curriculo'])
-                ->where('curriculos_id', $curriculo_id)->get();
+                ->where('curriculos_id', $curriculo_id)->orderBy('created_at', 'desc')->get();
 
             $agenda = Agenda::with(['candidatura'])
             ->where('candidatura_id', $candidatura_id)->first()->get();
@@ -195,7 +195,7 @@ class AgendaController extends Controller
             $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
             ->whereHas('candidatura.vaga.juridica', function($query) use ($juridica_id){ 
                 $query->where('id', '=', $juridica_id);
-            })->orderBy('created_at')->get();
+            })->orderBy('created_at', 'desc')->get();
         }
         
         if($request->contratado == 'CONTRATADO'){
