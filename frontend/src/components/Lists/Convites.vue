@@ -17,10 +17,10 @@
         <center><h1>Você ainda não tem convites.</h1></center>
       </div>
 
-        <div class="card-group" v-else>
+        <div class="card-deck" v-else>
             <div class="col-lg-12">
                 <div class="row">
-                    <Card class="col-sm-6" v-for="convite in pageOfItems" :key="convite.id" :id="convite.id">
+                    <Card class="col-sm-6 column" v-for="convite in pageOfItems" :key="convite.id" :id="convite.id">
                         <template v-slot:card-header>
                         <h3><span class="label label-info " style="color: #4E73DF;">{{convite.vaga.titulo}}</span></h3>
                         </template>
@@ -97,9 +97,10 @@
           </div>
         </div>
         <div v-if="!toggle">
-            <div class="row">
-              <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
-                <Card style="width: 30rem; height:20rem;">
+          <div class="card-deck">
+            <div class="col-12">
+              <div class="row">
+              <Card class="col-sm-6  column" v-for="show in pageOfItems" :key="show.id" :id="show.id">
                     <template v-slot:card-header>
                       <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span></h3>
                     </template>
@@ -110,8 +111,9 @@
                     <template v-slot:card-footer>
                         <button @click="vagaDoConvite(show.vagas_id)" class="btn btn-sm btn-success">Ver Convites</button>
                     </template>
-                </Card>
-              </div>
+              </Card>
+            </div>
+            </div>
             </div>
             <div class="row justify-content-center">
               <div class="trocaPagina" v-if="displayVagasThatHaveConvites.length > 10">
