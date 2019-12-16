@@ -20,7 +20,7 @@
                       </router-link> 
                   </div>
                 </div>
-                <div class="col-5">
+                    <div class="col-5">
                   <h3> <center>Editar Informações</center></h3>
                 </div>
               </div>
