@@ -31,7 +31,10 @@
 
     export default {
         components:{
-            ProfileFisica, NewCurriculo,dashfisica, Modal, BAlert
+            ProfileFisica: () => import("../Lists/FisicaData"),
+            NewCurriculo: () => import("../Create/NewCurriculo"),
+            dashfisica: () => import("../Utils/CardsDashFisica"), 
+            Modal, BAlert
         },
         data() {
 

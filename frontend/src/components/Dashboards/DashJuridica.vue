@@ -50,7 +50,10 @@ import {mapGetters, mapActions} from 'vuex';
         },
         
         components:{
-             NewJuridicaData, NewVaga, Dash, Modal, BAlert
+             NewJuridicaData: () => import("../Create/NewJuridicaData"),
+             NewVaga: () => import("../Create/NewVaga"),
+             Dash: () => import("../Utils/CardsDashJuridica"),
+             Modal, BAlert
         },
         computed: {
             ...mapGetters([
