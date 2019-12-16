@@ -6,7 +6,7 @@
 </span>
 <span v-else>
     <div class="row justify-content-center">
-      <div class="col-md-9">
+      <div class="col-9">
         <div class="row">
           <div class="col-4">
             <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link>
@@ -66,12 +66,10 @@
                   </div>
 
                 </span>
-
-              <div v-for="show in pageOfItems" :key="show.id" :id="show.id" class="margin-bottom">
-              <div class="card-group">
-                <div class="col-lg-12">
-                  <div class="row">
-                  <Card class="col-sm-6">
+                <div class="card-deck">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <Card class="col-sm-6 margin-bottom column" v-for="show in pageOfItems" :key="show.id" :id="show.id" >
                       <template v-slot:card-header>
                           <span v-if="notificacoes">
                               <span class="badge badge-success">
@@ -79,26 +77,26 @@
                               </span>
                           </span>
                           <h3>
-                              <span class="badge badge-info ">
+                              <span class="text-info ">
                                   Candidato: {{show.candidatura.curriculo.fisica.user.name}}
                               </span>
                               <span v-if="show.candidatura.status == 'EM AGENDAMENTO'">
-                                  <span class="badge badge-warning">{{show.candidatura.status}}</span>
+                                  <span class="text-warning">{{show.candidatura.status}}</span>
                               </span>
                               <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
-                                  <span class="badge badge-danger">{{show.candidatura.status}}</span>
+                                  <span class="text-danger">{{show.candidatura.status}}</span>
                               </span>
                               <span v-else-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA'">
-                                  <span class="badge badge-sm badge-success">CONFIRMADA</span>
+                                  <span class="text-success">CONFIRMADA</span>
                               </span>
                                <span v-if="show.candidatura.status == 'CONTRATADO'">
-                                  <span class="badge badge-success">{{show.candidatura.status}}</span>
+                                  <span class="text-success">{{show.candidatura.status}}</span>
                               </span>
                               <span v-if="show.candidatura.status == 'RECUSADO'">
-                                  <span class="badge badge-danger">{{show.candidatura.status}}</span>
+                                  <span class="text-danger">{{show.candidatura.status}}</span>
                               </span>
                               <span v-if="show.candidatura.status == 'AGUARDANDO'">
-                                  <span class="badge badge-warning">{{show.candidatura.status}}</span>
+                                  <span class="text-warning">{{show.candidatura.status}}</span>
                               </span>
                           </h3>
                       </template>
@@ -185,10 +183,9 @@
                                 </Modal>
                       </template>
                   </Card>
-              </div>
+                </div>
               </div>
             </div>
-          </div>
           </div>
           <div class="row justify-content-center">
             <div class="trocaPagina" v-if="displayAgenda.length > 10">
