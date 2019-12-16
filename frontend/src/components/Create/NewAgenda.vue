@@ -1,4 +1,10 @@
 <template>
+<span v-if="isFetching">
+ <center><h1>
+    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+ </h1></center>
+</span>
+<span v-else>
   <div class="row justify-content-center">
     <div class="col-6">
         <ValidationObserver v-slot="{ invalid }">
@@ -81,6 +87,7 @@
       </ValidationObserver>
     </div>
   </div>
+  </span>
 </template>
 
 <script>
@@ -176,11 +183,17 @@
 
     async created(){
       
-      if(this.$route.params.id){
-        this.editing = true;
-        await this.loadAgenda();
-        this.displayDataEdit();
-      }
+     
+    },
+    
+    async beforeRouteEnter(to, from, next) {
+        next(vm => {
+            if(this.$route.params.id){
+              vm.editing = true;
+              vm.loadAgenda();
+              vm.displayDataEdit();
+            }
+        });
     }
 
   }

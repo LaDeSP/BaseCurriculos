@@ -1,4 +1,11 @@
 <template>
+<span v-if="isFetching">
+ <center><h1>
+    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+ </h1></center>
+</span>
+<span v-else>
+
 <div class="row justify-content-center">
     <div class="col-md-7">
         
@@ -137,11 +144,12 @@
 
     </div>
 </div>
+</span>
 </template>
 
 <script>
 
-  import { mapActions, mapGetters } from 'vuex';
+  import { mapActions, mapGetters, mapState} from 'vuex';
 
     export default {
       
@@ -214,11 +222,15 @@
             verifyEdit(){
                
                 this.vaga_id = this.$session.get('vaga_id');
+                 
+                   this.$store.commit('isFetching')
+                    console.log('dada', this.$store.state.isFetching)
                 this.displayDataEdit();
+                
             },
 
             displayDataEdit(){
-
+             
                  if(this.editing){
                     this.titulo = this.vagaById[0].titulo;
                     this.descricao = this.vagaById[0].descricao;
@@ -233,7 +245,10 @@
                     this.salario = parseFloat(this.vagaById[0].salario);
                   
                  }
-                
+               
+                this.$store.commit('isFetching')
+
+                console.log('fetchin 2', this.$store.state.isFetching)
             },
 
             loadArea(){
@@ -247,6 +262,10 @@
         
         computed:{
              
+            ...mapState([
+                'isFetching'
+            ]),
+
             ...mapGetters([
               'displayVagasJuridica', 'displayVagaById'
             ]),
@@ -258,12 +277,18 @@
         },
 
         async created(){
-
             await this.loadVagasJuridica();
             this.loadArea();
             this.verifyEdit();
-                
         },
+
+       /* async beforeRouteEnter(to, from, next) {
+            next(vm => {
+                vm.loadVagasJuridica();
+                vm.loadArea();
+                vm.verifyEdit();
+            });
+        } */
     }
 </script>
 

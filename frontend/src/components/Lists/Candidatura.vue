@@ -31,11 +31,12 @@
                       <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span></h3>
                     </template>
                     <template v-slot:card-body>
-                    <strong>Cargo</strong>: {{show.vaga.cargo}}
-                    <strong>Detalhes</strong>: {{show.vaga.descricao}}
+                    <strong>Cargo</strong>: {{show.vaga.cargo}}<br>
+                    <strong>Detalhes</strong>: {{show.vaga.descricao}}<br>
                     </template>
                     <template v-slot:card-footer>
                         <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
+                    {{displayVagasThatHaveCandidaturas}}
                     </template>
                 </Card>
               </div>
@@ -50,7 +51,7 @@
             </div>
         </div>
         <div v-else>
-          <button @click="toggle = false" class="btn btn-lg btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</button>
+          <button @click="toggle = false" class="btn btn-md btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</button>
           <br>
           <br>
             <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
@@ -69,8 +70,8 @@
                   </h3>
                 </template>
                 <template v-slot:list-body>
-                    <p class="mb-1"><strong>Objetivos:</strong> {{show.curriculo.objetivos}}</p>
-                    <p class="mb-1"><strong>Pretensão Salarial:</strong> {{show.curriculo.pretensao}}</p>
+                    <br><strong>Objetivos:</strong> {{show.curriculo.objetivos}}<br><br>
+                    <strong>Pretensão Salarial:</strong> {{show.curriculo.pretensao}}<br>
                 </template>
                 <template v-slot:list-footer>
                   <button @click="showModal('showMore', show.id)" class="btn btn-sm btn-default">Ver mais</button>
@@ -220,7 +221,7 @@
                             <span class="badge badge-warning">{{show.status}}</span>
                         </span>
                         <span v-if="show.status == 'RECUSADO'">
-                            <span class="badge badge-danger">{{show.status}}</span>
+                            <span class="badge badge-danger">ENCERRADO</span>
                         </span>
                         <span v-if="show.status == 'CONTRATADO'">
                             <span class="badge badge-success">{{show.status}}</span>
@@ -258,9 +259,9 @@
                             </span>
                         </span>
                         <span v-if="show.status == 'RECUSADO'">
-                          <br>  Infelizmente sua candidatura foi recusada :( <br>
+                         <br><span style="color:red; font-weight: bold;"> Infelizmente, a empresa decidiu não dar continuidade no seu processo de contratação. :( </span><br><br>
                             <span v-if="show.agenda[0].observacao != null">
-                                A empresa fez a seguinte observação:
+                                Foi feita a seguinte observação:
                                 <br><br>
                                 <center><i>"{{show.agenda[0].observacao}}"</i></center>
                             </span>

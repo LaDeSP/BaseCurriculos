@@ -102,9 +102,9 @@
                       </template>
                       <template v-slot:card-body>
                           <ul>
-                              <li><strong>Vaga</strong>: {{show.candidatura.vaga.titulo}}</li>
-                              <li><strong>Data</strong>: {{show.data | dateFormat}}</li>
-                              <li><strong>Hora</strong>: {{show.hora}}</li>
+                              <li><strong>Vaga</strong>: {{show.candidatura.vaga.titulo}}</li><br>
+                              <li><strong>Data</strong>: {{show.data | dateFormat}}</li><br>
+                              <li><strong>Hora</strong>: {{show.hora}}</li><br>
                           <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
                               <br>
                               <li>A entrevista foi cancelada.
