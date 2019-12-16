@@ -17,10 +17,10 @@
         <center><h1>Você ainda não tem convites.</h1></center>
       </div>
 
-        <div class="card-group" v-else>
+        <div class="card-deck" v-else>
             <div class="col-lg-12">
                 <div class="row">
-                    <Card class="col-sm-6" v-for="convite in pageOfItems" :key="convite.id" :id="convite.id">
+                    <Card class="col-sm-6 column" v-for="convite in pageOfItems" :key="convite.id" :id="convite.id">
                         <template v-slot:card-header>
                         <h3><span class="label label-info " style="color: #4E73DF;">{{convite.vaga.titulo}}</span></h3>
                         </template>
