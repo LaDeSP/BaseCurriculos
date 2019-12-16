@@ -90,7 +90,9 @@
             <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Convidados</center></h2>
         </div>
         <div v-if="displayVagasThatHaveConvites.length == 0">
-            <br><br><br><br><h2>Não há nenhum convite por enquanto! </h2>
+          <div class="container justify-content-center">
+            <h2>Não há nenhum convite por enquanto! </h2>
+          </div>
         </div>
         <div v-if="!toggle">
             <div class="row">
