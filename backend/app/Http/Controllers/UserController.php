@@ -96,6 +96,7 @@ class UserController extends Controller implements JWTSubject
         'user' => auth()->user(),
         'foto'=>$path,
         'expires' => auth('api')->factory()->getTTL() * 60,
+        'id' => auth()->user()->id
      ], 201);
        
     
@@ -131,7 +132,7 @@ class UserController extends Controller implements JWTSubject
         return Response::json([
             'ativou',
             'token'=>$token,
-            'user'=> auth()->user()
+            'user'=> auth()->user(),
         ]);
     }
 

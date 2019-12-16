@@ -666,7 +666,7 @@ export default {
                 if(response.error  != undefined){
                     this.notificacoes = response.error;
                 }else{
-                    this.$router.push({ name: 'profile-fisica'});
+                    this.$router.push({ name: 'profile'});
                 }
         }).catch(error => console.log(error))
       }
@@ -681,7 +681,7 @@ export default {
         this.nascimento = this.displayPessoaFisica.nascimento
         this.genero = this.displayPessoaFisica.genero
         this.estadoCivil = this.displayPessoaFisica.estadoCivil
-        this.pais = this.displayPessoaFisica.nascimento
+        this.pais = this.displayPessoaFisica.pais
         this.fixo = this.displayPessoaFisica.fixo
         this.celular = this.displayPessoaFisica.celular
         this.linkedin = this.displayCurriculo.linkedin

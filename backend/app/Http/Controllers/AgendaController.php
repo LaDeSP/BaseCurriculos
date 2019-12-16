@@ -41,8 +41,11 @@ class AgendaController extends Controller
            // $unique = $collection->unique('vagas_id');
            // $unique_data = $unique->values()->all();
     
+           $countAgenda = count($agenda);
+           
             return Response::json([
                 'agenda' => $agenda,
+                'countAgenda' => $countAgenda
              ]);
 
         }else{

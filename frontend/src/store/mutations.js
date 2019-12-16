@@ -19,6 +19,7 @@ const isRefreshingToken = (state) => {
 }
 
 const logout = (state) => {
+    state.auth.user = {},
     state.auth.status = ''
     state.auth.token = ''
 }
@@ -164,6 +165,11 @@ const isFetching = (state) => {
     console.log('na mut', state.isFetching)
 }
 
+const countAgenda = (state, payloadCountAgenda) => {
+    state.countAgenda = payloadCountAgenda; 
+}
+
+
   export default {
     auth_success,
     refreshToken,
@@ -193,6 +199,7 @@ const isFetching = (state) => {
     countConvites,
     isFetching,
     isRefreshingToken,
+    countAgenda,
 
     
   };

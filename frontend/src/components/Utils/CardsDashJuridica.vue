@@ -79,7 +79,7 @@
                 <div class="col mr-2">
                   <center>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                      <h2>{{countConvites.convites}}</h2>
+                      <h2>{{countAgenda}}</h2>
                       <i class="fas fa-calendar-alt"></i>
                     </div>
                   </center>
@@ -119,7 +119,7 @@
       <div class="col-lg-6 mb-6 margin-bottom">
         <card class="shadow mb-4 margin-bottom">
             <template v-slot:card-header class="py-3">
-               <center><h6 class="font-weight-bold text-primary text-success  text-uppercase">Entrevistas</h6></center>
+              <h6 class="font-weight-bold text-primary text-info ">Entrevistas</h6>
             </template>
             <template v-slot:card-body >
                 <div class="row">
@@ -209,7 +209,7 @@ import JwPagination from 'jw-vue-pagination';
     computed:{
       ...mapState([
           'count', 'countVagas', 'vagasCandidaturas', 'countConvites', 
-          'isFetching', 'isRefreshingToken'
+          'isFetching', 'isRefreshingToken', 'countAgenda'
       ]),
       ...mapGetters([
         'displayCandidaturas', 'progressBar'

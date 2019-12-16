@@ -758,14 +758,16 @@ import * as Cookies from 'js-cookie'
   };
 
   const loadAgenda = async ({commit, state}) => {
-  console.log('loadagenda', state.auth.token)
+
     const token = state.auth.token;
     return await axios({ url: agenda_uri + '?token='+ token, method: 'GET' })
       .then(response => {
-        
+        console.log('loadagenda', response)
         let payloadAgenda = [];
         payloadAgenda = response.data.agenda;
         commit('agenda', payloadAgenda)
+        let countAgenda = response.data.countAgenda;
+        commit('countAgenda', countAgenda)
         commit('isFetching')
 
         return response.data

@@ -21,7 +21,9 @@
             </div>
         </div>
         <div v-if="displayVagasThatHaveCandidaturas.length == 0">
-            <br><br><br><br><h2>Não há nenhuma candidatura por enquanto! </h2>
+            <div class="container">
+                    <center><h3>Não há candidaturas por enquanto! </h3></center>
+             </div>
         </div>
         <div v-if="!toggle">
           <div class="card-group">
@@ -224,7 +226,7 @@
                             <span class="badge badge-warning">{{show.status}}</span>
                         </span>
                         <span v-if="show.status == 'RECUSADO'">
-                            <span class="badge badge-danger">ENCERRADO</span>
+                            <span class="badge badge-dark">ENCERRADO</span>
                         </span>
                         <span v-if="show.status == 'CONTRATADO'">
                             <span class="badge badge-success">{{show.status}}</span>
@@ -261,15 +263,18 @@
                                 a empresa não fez observações.
                             </span>
                         </span>
+                      
                         <span v-if="show.status == 'RECUSADO'">
                          <br><span style="color:red; font-weight: bold;"> Infelizmente, a empresa decidiu não dar continuidade no seu processo de contratação. :( </span><br><br>
-                            <span v-if="show.agenda[0].observacao != null">
-                                Foi feita a seguinte observação:
+                            <span v-if="show.agenda.length > 0">
+                              <span v-if="show.agenda[0].observacao != null">
+                                 Foi feita a seguinte observação:
                                 <br><br>
                                 <center><i>"{{show.agenda[0].observacao}}"</i></center>
-                            </span>
-                            <span v-else>
+                              </span>
+                              <span v-else>
                                 A empresa não fez observações.
+                              </span>
                             </span>
                         </span>
                     </ul>
@@ -542,6 +547,7 @@
             isActive() {
                 if(this.filterState === 'ALL'){
                      console.log('oi', this.filterState)
+                     console.log('display can', this.displayCandidaturas)
                      return this.displayCandidaturas
                 }else if (this.filterState === 'AGUARDANDO') {
                     return this.displayCandidaturasEmAgendamento
