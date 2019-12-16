@@ -24,7 +24,7 @@
             <br><br><br><br><h2>Não há nenhuma candidatura por enquanto! </h2>
         </div>
         <div v-if="!toggle">
-                      <div class="card-group">
+          <div class="card-group">
               <div class="col-lg-12">
                 <div class="row">
                   <div v-for="show in pageOfItems" :key="show.id" :id="show.id" class="margin-bottom">
@@ -37,7 +37,7 @@
                         <p class="card-text"><strong>Detalhes</strong>:{{show.vaga.descricao}}</p>
                         </template>
                         <template v-slot:card-footer>
-                            <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
+                          <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
                         </template>
                     </Card>
                 </div>
@@ -389,7 +389,7 @@
 
 
 <script>
-    import Card from '../Utils/Cards-fisica';
+    import Card from '../Utils/Card';
     import List from '../Utils/List';
     import Modal from '../Utils/Modal';
     import Curriculo from '../Lists/Curriculo';

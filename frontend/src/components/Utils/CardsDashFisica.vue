@@ -90,9 +90,9 @@
     <br>
 
     <div v-if="isActive.length>0" class="margin-bottom">
-      <div class="container justify-content-center">
+      <center class="justify-content-center mb-4">
         <h2>Vagas que podem lhe interessar</h2>
-      </div>
+      </center>
 
       <div class="card-deck">
         <div class="col-lg-12">
