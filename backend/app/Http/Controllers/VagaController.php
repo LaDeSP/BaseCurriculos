@@ -25,7 +25,7 @@ class VagaController extends Controller
        
         if(auth()->user()->role === 'JURIDICA'){
             $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
-            $vagasJuridica = Vaga::with('area')->where('juridicas_id', $juridica_id)->orderBy('created_at', 'desc')->get();
+            $vagasJuridica = Vaga::with('area')->where('juridicas_id', $juridica_id)->orderBy('created_at')->get();
            
             $countVagas = Vaga::where('juridicas_id', $juridica_id)
                           ->where('status', 'ATIVA')->get()->count();

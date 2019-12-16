@@ -1,17 +1,31 @@
 <template>
+<span v-if="isFetching">
+ <center><h1>
+    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+ </h1></center>
+</span>
+<span v-else>
     <div class="row justify-content-center"> 
         <div class="col-lg-8">
-          <div v-if="!dataCompleted">
-            <h1>Complete seus dados para continuar!</h1>
-             <NewJuridicaData></NewJuridicaData>
-          </div>
-          <div v-else-if="!hasVaga">
-            <h1>Que tal cadastrar a sua primeira vaga?</h1>
-            <NewVaga></NewVaga>
-          </div>
-          <div v-if="dataCompleted & hasVaga">
-            <Dash></Dash>
-          </div>
+          <span v-if="isFetching">
+            <center><h1>
+               Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+            </h1></center>
+          </span>
+          <span v-else>
+            <div v-if="!dataCompleted">
+              <h1>Complete seus dados para continuar!</h1>
+              <NewJuridicaData></NewJuridicaData>
+            </div>
+            <div v-else-if="!hasVaga">
+              <h1>Que tal cadastrar a sua primeira vaga?</h1>
+              <NewVaga></NewVaga>
+            </div>
+            <div v-if="dataCompleted & hasVaga">
+              <Dash></Dash>
+            </div>
+          </span>
+          
         </div>
         <Modal v-if="isModalConfirmaCadastro" @close="closeModal">
             <template v-slot:header></template>
@@ -22,17 +36,17 @@
             </template>
         </Modal>
     </div> 
-
+</span>
 </template>
 
 <script>
 
-import NewJuridicaData from '../Create/NewJuridicaData';
+
 import NewVaga from '../Create/NewVaga';
 import Dash from '../Utils/CardsDashJuridica';
 import Modal from '../Utils/ModalOld';
 import { BAlert } from 'bootstrap-vue'
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapActions, mapState} from 'vuex';
 
     export default {
          data(){
@@ -43,35 +57,38 @@ import {mapGetters, mapActions} from 'vuex';
         },
         
         methods:{
-          ...mapActions(['loadCandidaturas']),
+          ...mapActions(['loadCandidaturas', 'loadJuridica']),
           closeModal(){
               this.isModalConfirmaCadastro = false;
           },
         },
         
         components:{
-             NewJuridicaData, NewVaga, Dash, Modal, BAlert
+
+             NewJuridicaData: () => ({
+               component: import('../Create/NewJuridicaData'),
+               loading: '<center><h1>CarregandoOOOO</h1></center>'
+             }),
+
+             NewVaga, Dash, Modal, BAlert
         },
         computed: {
-            ...mapGetters([
-                'dataCompleted'
+      
+            ...mapState([
+                'isFetching', 'dataCompleted'
             ]),
         },
+
         async created() {
-          if(!this.dataCompleted){
-            await this.$store.dispatch('loadJuridica')
-                  .then(response => {
-                    
-                  }).catch(error => {
-                    //console.log(error)
-                  })
+          if(this.dataCompleted == false){
+            await this.loadJuridica();
           }else{
-            await this.$store.dispatch('loadVagasJuridica')
-              .then(response => {
-                let vagas = response.vagas; 
-                if(vagas.length === 0){
-                  this.hasVaga = false;
-                }
+                await this.$store.dispatch('loadVagasJuridica')
+                .then(response => {
+                    let vagas = response.vagas; 
+                    if(vagas.length === 0){
+                    this.hasVaga = false;
+                    }
               }).catch(error => {
                 //console.log(error)
               })
@@ -79,8 +96,9 @@ import {mapGetters, mapActions} from 'vuex';
           }
           if (this.$route.params.cadastrou){
             this.isModalConfirmaCadastro = true;
-          }
+          } 
         },
+        
     }
 </script>
 

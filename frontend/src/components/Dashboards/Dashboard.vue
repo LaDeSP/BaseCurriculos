@@ -31,7 +31,7 @@
   
   import DashboardFisica from './DashFisica';
   import DashboardJuridica from './DashJuridica';
-  import {mapGetters} from 'vuex';
+  import {mapGetters, mapState} from 'vuex';
   import Modal from '../Utils/ModalOld';
   import { BAlert } from 'bootstrap-vue'
 
@@ -61,19 +61,24 @@
                     .catch(error => {
                         console.error(error);
                     });
-            }
+            },
+            
         },
 
         computed: {
             ...mapGetters([
                 'permissaoDoUsuario'
             ]),
+
+             ...mapState([
+                'datacompleted'
+            ]),
         },
 
         async created(){
             if (this.$route.params.criou){
                 this.isModalConfirmaCompleted = true;
-            } 
+            }
         }
 
         /*interval(){

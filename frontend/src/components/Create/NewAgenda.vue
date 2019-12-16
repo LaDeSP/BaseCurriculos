@@ -1,5 +1,5 @@
 <template>
-<span v-if="isFetching">
+<span v-if="isFetching && editing">
  <center><h1>
     Carregando...  <span class="fas fa-spinner fa-pulse"></span>
  </h1></center>
@@ -171,7 +171,7 @@
 
     computed:{ 
       ...mapState([
-        'agenda'
+        'agenda', 'isFetching'
       ]),
       ...mapGetters([
         'displayAgendaById', 'permissaoDoUsuario'
@@ -182,11 +182,15 @@
     },
 
     async created(){
-      
+      if(this.$route.params.id){
+              this.editing = true;
+              await this.loadAgenda();
+              this.displayDataEdit();
+            }
      
     },
     
-    async beforeRouteEnter(to, from, next) {
+    /*async beforeRouteEnter(to, from, next) {
         next(vm => {
             if(this.$route.params.id){
               vm.editing = true;
@@ -194,7 +198,7 @@
               vm.displayDataEdit();
             }
         });
-    }
+    } */
 
   }
 </script>
