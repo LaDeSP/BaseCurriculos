@@ -24,22 +24,26 @@
             <br><br><br><br><h2>Não há nenhuma candidatura por enquanto! </h2>
         </div>
         <div v-if="!toggle">
-            <div class="row">
-              <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
-                <Card style="width: 30rem; height:20rem;">
-                    <template v-slot:card-header>
-                      <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span></h3>
-                    </template>
-                    <template v-slot:card-body>
-                    <strong>Cargo</strong>: {{show.vaga.cargo}}
-                    <strong>Detalhes</strong>: {{show.vaga.descricao}}
-                    </template>
-                    <template v-slot:card-footer>
-                        <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
-                    </template>
-                </Card>
+          <div class="card-group">
+              <div class="col-lg-12">
+                <div class="row">
+                  <div v-for="show in pageOfItems" :key="show.id" :id="show.id" class="margin-bottom">
+                    <Card class="col-sm-6 ml-1">
+                        <template v-slot:card-header>
+                          <h3 class="card-title" style="color: #4E73DF;">Vaga: {{show.vaga.titulo}}</h3>
+                        </template>
+                        <template v-slot:card-body>
+                        <strong>Cargo</strong>: {{show.vaga.cargo}}<br>
+                        <strong>Detalhes</strong>: {{show.vaga.descricao}}<br>
+                        </template>
+                        <template v-slot:card-footer>
+                          <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
+                        </template>
+                    </Card>
+                </div>
               </div>
-            </div>
+          </div>
+          </div>
             <div class="row justify-content-center">
               <div class="trocaPagina" v-if="displayVagasThatHaveCandidaturas.length > 10">
                 <jw-pagination :items="displayVagasThatHaveCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
@@ -50,7 +54,7 @@
             </div>
         </div>
         <div v-else>
-          <button @click="toggle = false" class="btn btn-lg btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</button>
+          <button @click="toggle = false" class="btn btn-md btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</button>
           <br>
           <br>
             <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
@@ -69,8 +73,8 @@
                   </h3>
                 </template>
                 <template v-slot:list-body>
-                    <p class="mb-1"><strong>Objetivos:</strong> {{show.curriculo.objetivos}}</p>
-                    <p class="mb-1"><strong>Pretensão Salarial:</strong> {{show.curriculo.pretensao}}</p>
+                    <br><strong>Objetivos:</strong> {{show.curriculo.objetivos}}<br><br>
+                    <strong>Pretensão Salarial:</strong> {{show.curriculo.pretensao}}<br>
                 </template>
                 <template v-slot:list-footer>
                   <button @click="showModal('showMore', show.id)" class="btn btn-sm btn-default">Ver mais</button>
@@ -220,7 +224,7 @@
                             <span class="badge badge-warning">{{show.status}}</span>
                         </span>
                         <span v-if="show.status == 'RECUSADO'">
-                            <span class="badge badge-danger">{{show.status}}</span>
+                            <span class="badge badge-danger">ENCERRADO</span>
                         </span>
                         <span v-if="show.status == 'CONTRATADO'">
                             <span class="badge badge-success">{{show.status}}</span>
@@ -252,15 +256,15 @@
                                 com as seguintes observações:
                                 <br><br>
                                 <center><i>"{{show.agenda[0].observacao}}"</i></center>
-                            </span> 
+                            </span>
                              <span v-else>
                                 a empresa não fez observações.
                             </span>
                         </span>
                         <span v-if="show.status == 'RECUSADO'">
-                          <br>  Infelizmente sua candidatura foi recusada :( <br>
+                         <br><span style="color:red; font-weight: bold;"> Infelizmente, a empresa decidiu não dar continuidade no seu processo de contratação. :( </span><br><br>
                             <span v-if="show.agenda[0].observacao != null">
-                                A empresa fez a seguinte observação:
+                                Foi feita a seguinte observação:
                                 <br><br>
                                 <center><i>"{{show.agenda[0].observacao}}"</i></center>
                             </span>
@@ -322,7 +326,7 @@
                         </Modal>
                         </span>
                         <span v-if="show.status == 'ENTREVISTA CONFIRMADA'">
-                             <button @click="showModal('warning', show.id)" class="btn btn-sm btn-danger">Cancelar</button>
+                             <center><button @click="showModal('warning', show.id)" class="btn btn-sm btn-danger">Cancelar</button></center>
                               <Modal v-show="isModalWarning" @close="closeModal">
                                 <template v-slot:header>
                                     <h3>Cancelar Entrevista</h3>
@@ -385,7 +389,7 @@
 
 
 <script>
-    import Card from '../Utils/Cards-fisica';
+    import Card from '../Utils/Card';
     import List from '../Utils/List';
     import Modal from '../Utils/Modal';
     import Curriculo from '../Lists/Curriculo';
@@ -495,7 +499,7 @@
                 .then(response => {
                   this.loadCandidaturas();
                   this.isModalRecusa = true;
-                  
+
 
                 }).catch(error => console.log(error))
             },

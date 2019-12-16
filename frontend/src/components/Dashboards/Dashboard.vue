@@ -1,7 +1,7 @@
 <template>
              
     <div v-if="permissaoDoUsuario === 'FISICA'">
-         <button @click="teste">TESTE </button>
+    
         <DashboardFisica></DashboardFisica>
         <Modal v-if="isModalConfirmaCompleted" @close="closeModal">
             <template v-slot:header></template>
@@ -13,7 +13,7 @@
         </Modal>
     </div>
     <div v-else>
-      <button @click="teste">TESTE </button>
+      
         <DashboardJuridica></DashboardJuridica>
         <Modal v-if="isModalConfirmaCompleted" @close="closeModal">
             <template v-slot:header></template>

@@ -1,4 +1,11 @@
 <template>
+<span v-if="isFetching">
+ <center><h1>
+    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+ </h1></center>
+</span>
+<span v-else>
+
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div v-if="!this.dataCompleted">
@@ -8,16 +15,13 @@
               <div class="row">
                  <div class="col-4">
                   <div class=" bd-highlight flex-left">
-                      <router-link
-                        v-bind:to="'/dashboard/'"
-                        tag="button"
-                        class="btn btn-md btn-outline-secondary">
-                        <i class="fas fa-home fa-sm"></i> Home
-                      </router-link>
+                      <router-link to="/profile" class="btn btn-md btn-outline-secondary">
+                        <i class="fas fa-long-arrow-alt-left"></i> Voltar
+                      </router-link> 
                   </div>
                 </div>
-                <div class="col-5">
-                  <h3>  <router-link to="/profile" class="btn btn-md btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</router-link> <center>Editar Informações</center></h3>
+                    <div class="col-5">
+                  <h3> <center>Editar Informações</center></h3>
                 </div>
               </div>
             </div>
@@ -235,11 +239,12 @@
         </div>
 
     </div>
+</span>
 </template>
 
 <script>
 import UploadPhoto from '../Utils/UploadPhoto';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import {mask} from 'vue-the-mask'
@@ -415,6 +420,8 @@ import {mask} from 'vue-the-mask'
                 ...mapGetters([
                     'displayPessoaJuridica', 'dataCompleted'
                 ]),
+
+                ...mapState(['isFetching']),
 
             },
 

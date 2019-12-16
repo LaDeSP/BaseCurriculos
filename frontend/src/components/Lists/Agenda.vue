@@ -30,8 +30,6 @@
                         </div>
                     </center>
                </div>
-
-
                 <div v-if="displayAgenda.length == 0 && filterState == 'ALL'">
                   <br>
                   <br>
@@ -70,8 +68,8 @@
                 </span>
 
               <div v-for="show in pageOfItems" :key="show.id" :id="show.id" class="margin-bottom">
-                  <div class="card-group">
-                  <div class="col-lg-12">
+              <div class="card-group">
+                <div class="col-lg-12">
                   <div class="row">
                   <Card class="col-sm-6">
                       <template v-slot:card-header>
@@ -106,9 +104,9 @@
                       </template>
                       <template v-slot:card-body>
                           <ul>
-                              <li><strong>Vaga</strong>: {{show.candidatura.vaga.titulo}}</li>
-                              <li><strong>Data</strong>: {{show.data | dateFormat}}</li>
-                              <li><strong>Hora</strong>: {{show.hora}}</li>
+                              <li><strong>Vaga</strong>: {{show.candidatura.vaga.titulo}}</li><br>
+                              <li><strong>Data</strong>: {{show.data | dateFormat}}</li><br>
+                              <li><strong>Hora</strong>: {{show.hora}}</li><br>
                           <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
                               <br>
                               <li>A entrevista foi cancelada.

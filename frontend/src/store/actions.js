@@ -338,6 +338,7 @@ import * as Cookies from 'js-cookie'
         commit('allFisicaData', {payloadCurriculo})
         const dataCompleted = true;  
         commit('dataCompleted', dataCompleted)
+        commit('isFetching')
 
       }).catch(error => {
         //console.log(error)
@@ -382,6 +383,7 @@ import * as Cookies from 'js-cookie'
         commit('allJuridicaData', {payloadJuridica})
         const dataCompleted = true;  
         commit('dataCompleted', dataCompleted)
+        commit('isFetching')
 
       }).catch(error => {
         //console.log(error)

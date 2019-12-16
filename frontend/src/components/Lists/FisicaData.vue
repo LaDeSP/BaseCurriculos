@@ -1,5 +1,12 @@
 <template>
-  <div class="row justify-content-center">
+<span v-if="isFetching">
+ <center><h1>
+    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+ </h1></center>
+</span>
+<span v-else>
+
+  <div class="row justify-content-center mb-3">
       <div class="col-8">
           <div v-if="dataCompleted">
             <nav>
@@ -93,11 +100,11 @@
           </div>
     </div>
   </div>
-
+</span>
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex';
+    import {mapActions, mapGetters, mapState} from 'vuex';
     import moment from 'moment'
     import Curriculo from './Curriculo.vue';
     import Modal from '../Utils/Modal.vue';
@@ -135,6 +142,8 @@
             ...mapGetters([
                 'dataCompleted', 'displayPessoaFisica', 'displayCurriculo'
             ]),
+
+            ...mapState(['isFetching']),
         },
         filters:{
             dateFormat: function(value){

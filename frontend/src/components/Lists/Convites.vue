@@ -1,4 +1,10 @@
 <template>
+<span v-if="isFetching == true">
+ <center><h1>
+    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+ </h1></center>
+</span>
+<span v-else>
   <div class="row justify-content-center" v-if="permissaoDoUsuario === 'FISICA'">
     <div class="col-lg-8">
       <div class="d-flex flex-row">
@@ -78,13 +84,15 @@
   </div>
     <div v-else>
         <div v-if="!toggle">
-            <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Convites</center></h2>
+            <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Convites</center></h2>
         </div>
         <div v-else>
-            <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-lg btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Convidados</center></h2>
+            <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Convidados</center></h2>
         </div>
         <div v-if="displayVagasThatHaveConvites.length == 0">
-            <br><br><br><br><h2>Não há nenhum convite por enquanto! </h2>
+          <div class="container justify-content-center">
+            <h2>Não há nenhum convite por enquanto! </h2>
+          </div>
         </div>
         <div v-if="!toggle">
             <div class="row">
@@ -195,13 +203,14 @@
             </Modal>
         </div>
     </div>
+</span>
 </template>
 
 <script>
 import Card from '../Utils/Card';
 import Modal from '../Utils/ModalOld';
 import List from '../Utils/List';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import JwPagination from 'jw-vue-pagination';
 import { BAlert } from 'bootstrap-vue'
 import moment from 'moment'
@@ -232,6 +241,10 @@ export default {
     components: {Card, JwPagination, Modal, BAlert, List},
 
     computed:{
+        ...mapState([
+            'isFetching'
+        ]),
+
         ...mapGetters([
             'displayConvites', 'permissaoDoUsuario', 'displayVagaById',
             'displayVagasThatHaveConvites', 'displayConvitesByVaga',

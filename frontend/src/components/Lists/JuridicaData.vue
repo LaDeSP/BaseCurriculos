@@ -1,6 +1,12 @@
 <template>
-<div>
-  <div class="row justify-content-center">
+<span v-if="isFetching">
+ <center><h1>
+    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+ </h1></center>
+</span>
+<span v-else>
+
+  <div class="row justify-content-center mb-3">
     <div class="col-8">
       <div v-if="this.dataCompleted">
         <card>
@@ -79,11 +85,11 @@
       </div>
     </div>
   </div>
-</div>
+</span>
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex';
+    import {mapActions, mapGetters, mapState} from 'vuex';
     import Modal from '../Utils/Modal.vue';
     import NewJuridicaData from '../Create/NewJuridicaData.vue';
     import painel from '../Utils/Painel';
@@ -118,6 +124,8 @@
             ...mapGetters([
                 'dataCompleted', 'displayPessoaJuridica'
             ]),
+
+            ...mapState(['isFetching']),
         },
 
         async created(){
