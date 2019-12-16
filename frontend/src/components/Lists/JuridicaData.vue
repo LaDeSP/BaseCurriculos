@@ -6,7 +6,7 @@
 </span>
 <span v-else>
 
-  <div class="row justify-content-center">
+  <div class="row justify-content-center mb-3">
     <div class="col-8">
       <div v-if="this.dataCompleted">
         <card>
