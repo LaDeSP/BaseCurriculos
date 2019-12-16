@@ -326,7 +326,7 @@
                         </Modal>
                         </span>
                         <span v-if="show.status == 'ENTREVISTA CONFIRMADA'">
-                             <button @click="showModal('warning', show.id)" class="btn btn-sm btn-danger">Cancelar</button>
+                             <center><button @click="showModal('warning', show.id)" class="btn btn-sm btn-danger">Cancelar</button></center>
                               <Modal v-show="isModalWarning" @close="closeModal">
                                 <template v-slot:header>
                                     <h3>Cancelar Entrevista</h3>
