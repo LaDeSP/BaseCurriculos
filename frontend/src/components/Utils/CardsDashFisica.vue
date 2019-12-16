@@ -1,5 +1,5 @@
 <template>
-<span v-if="isFetching == true || isRefreshingToken == true">
+<span v-if="isFetching == true">
  <center><h1>
     Carregando...  <span class="fas fa-spinner fa-pulse"></span>
  </h1></center>
@@ -41,7 +41,7 @@
                               <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-check-circle"></span></h1></center>
                             </div>
                             <div v-if="show.status === 'RECUSADO'"  class=" font-weight-bold text-danger text-uppercase">
-                              <center><h5>A empresa decidiu não dar continuidade no seu processo de contratação.</h5><h1 class="float-none"> <span class="fas fa-frown-open"></span></h1></center>
+                              <center><h5>Encerrado</h5><h1 class="float-none"> <span class="fas fa-frown-open"></span></h1></center>
                             </div>
                             <div v-if="show.status === 'ENTREVISTA CANCELADA'"  class=" font-weight-bold text-danger text-uppercase">
                               <center><h5>{{show.status}}</h5><h1 class="float-none"> <span class="fas fa-calendar-times"></span></h1></center>
