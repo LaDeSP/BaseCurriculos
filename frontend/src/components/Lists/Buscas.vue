@@ -1,7 +1,7 @@
 <template>
     <div class="container" v-if="permissaoDoUsuario === 'JURIDICA'">
         <div v-if="displayResultados.length==0">
-            <h1>Nenhum resultado encontrado</h1> 
+            <h1>Nenhum resultado encontrado</h1>
         </div>
         <div class="card-group" v-else>
             <div class="col-lg-12">
@@ -21,7 +21,7 @@
                         </template>
                         <template v-slot:card-footer>
                             <div v-if="displayVagasJuridica.length>0">
-                                <select class="custom-select" name="vaga" v-model="vaga[curriculo.id]"> 
+                                <select class="custom-select" name="vaga" v-model="vaga[curriculo.id]">
                                     <option selected value="">Selecione a vaga</option>
                                     <option v-for="show in displayVagasJuridica" :key="show.id" :value="show.id">
                                         {{show.titulo}}
@@ -31,7 +31,7 @@
                             </div>
                         </template>
                     </Card>
-                    
+
                 </div>
             </div>
             <Modal v-if="isModalError" @close="closeModal">
@@ -59,7 +59,7 @@
             </template>
         </Modal>
         </div>
-            
+
         <div v-if="displayResultados.length > 10">
              <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
         </div>
@@ -69,7 +69,7 @@
     </div>
     <div class="container" v-else>
         <div v-if="displayResultados.length==0">
-            <h1>Nenhum resultado encontrado</h1> 
+            <div class="container justify-content-center"><h1>Nenhum resultado encontrado</h1> </div>
         </div>
         <div class="card-group" v-else>
             <div class="col-lg-12">
@@ -176,8 +176,8 @@ export default {
             if((this.$route.query.escolaridade!='' || this.$route.query.objetivos!='' || this.$route.query.historicoProfissional!='' || this.$route.query.cidade!='' || this.$route.query.nome!='' || this.$route.query.area!='') == true && (this.$route.query.escolaridade!=undefined || this.$route.query.objetivos!=undefined || this.$route.query.historicoProfissional!=undefined || this.$route.query.cidade!=undefined || this.$route.query.nome!=undefined || this.$route.query.area!=undefined) == true){
                 let pesquisa = {
                     keywords : this.$route.query.keywords,
-                    escolaridade : this.$route.query.escolaridade, 
-                    objetivos : this.$route.query.objetivos, 
+                    escolaridade : this.$route.query.escolaridade,
+                    objetivos : this.$route.query.objetivos,
                     historicoProfissional : this.$route.query.historicoProfissional,
                     cidade : this.$route.query.cidade,
                     nome: this.$route.query.nome,
@@ -201,8 +201,8 @@ export default {
             if((this.$route.query.cargo!='' || this.$route.query.beneficio!='' || this.$route.query.jornada!='' || this.$route.query.requisitos!='' || this.$route.query.area!='') == true && (this.$route.query.cargo!=undefined || this.$route.query.beneficio!=undefined || this.$route.query.jornada!=undefined || this.$route.query.requisitos!=undefined || this.$route.query.area!=undefined) == true){
                 let pesquisa = {
                     keywords : this.$route.query.keywords,
-                    cargo : this.$route.query.cargo, 
-                    beneficio : this.$route.query.beneficio, 
+                    cargo : this.$route.query.cargo,
+                    beneficio : this.$route.query.beneficio,
                     jornada : this.$route.query.jornada,
                     requisitos : this.$route.query.requisitos,
                     area: this.$route.query.area,
@@ -216,21 +216,21 @@ export default {
             else{
                 await this.$store.dispatch('searchVagas', this.$route.query.keywords)
                 .then(response => {
-                    
+
                 })
                 .catch(error => console.log(error))
             }
         }
 
         await this.loadVagasJuridica();
-        
+
     },
 
     computed:{
         ...mapGetters([
             'displayResultados', 'permissaoDoUsuario', 'dataCompleted', 'displayVagaById', 'displayVagasJuridica', 'displayVagasNaoCandidatadas'
         ]),
-        
+
         vagaById(){
             return this.displayVagaById(this.vaga_id)
         },
@@ -289,7 +289,7 @@ export default {
             }
             this.$store.dispatch('changeStatusVaga', newStatus)
             .then(response => {
-              
+
             }).catch(error => console.log(error))
         },
 
@@ -307,9 +307,9 @@ export default {
             }
             this.$store.dispatch('requestVaga', requestVaga)
             .then(response => {
-                for( var i = 0; i < this.$store.state.resultado.length; i++){ 
+                for( var i = 0; i < this.$store.state.resultado.length; i++){
                     if ( this.$store.state.resultado[i].id == id) {
-                        this.$store.state.resultado.splice(i, 1); 
+                        this.$store.state.resultado.splice(i, 1);
                     }
                 }
                 this.isModalShowMore = false;
@@ -336,8 +336,8 @@ export default {
                     this.isModalShowMore = false;
                     this.isModalSuccess = true;
                 }
-                
-                
+
+
             }).catch(error => console.log(error))
         },
     },

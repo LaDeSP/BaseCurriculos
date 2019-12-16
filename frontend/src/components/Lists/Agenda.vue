@@ -188,11 +188,11 @@
             </div>
           </div>
           <div class="row justify-content-center">
-            <div class="trocaPagina" v-if="displayAgenda.length > 2">
-              <jw-pagination :items="displayAgenda" @changePage="onChangePage" :pageSize="2" :labels="customLabels"></jw-pagination>
+            <div class="trocaPagina" v-if="displayAgenda.length > 10">
+              <jw-pagination :items="displayAgenda" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
             </div>
             <div class="trocaPagina display-none" v-else>
-              <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="2" :labels="customLabels"></jw-pagination>
+              <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
             </div>
           </div>
         </div>
