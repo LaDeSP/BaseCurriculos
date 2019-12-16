@@ -12,6 +12,7 @@ use App\Vaga;
 use App\Juridica;
 use App\Area;
 use App\User;
+use App\Candidatura;
 
 class VagaController extends Controller
 {
@@ -126,9 +127,35 @@ class VagaController extends Controller
     }
 
     public function changeStatus(Request $request){
-        Vaga::where('id', $request->vaga_id)->update([
-            'status'=>$request->status
-        ]);
+        
+        $status = $request->status;
+        $vaga_id = $request->vaga_id;
+        $quantidadeVaga = Vaga::where('id', $vaga_id)->first()->quantidade;
+        
+        if($status == 'ATIVA'){
+
+            if($quantidadeContratados = Candidatura::where('vagas_id', $vaga_id)
+                ->where('status', 'CONTRATADO')->count()){
+                
+                if($quantidadeVaga == $quantidadeContratados){
+                    return response::json([
+                        'notificacao' => 'O limite está cheio. 
+                        Aumente a quantidade da vaga para ativá-la novamente.'
+                    ]);
+                }else{
+                    Vaga::where('id', $vaga_id)->update([
+                        'status'=>$status
+                    ]);
+                }
+                
+            }else{
+                Vaga::where('id', $vaga_id)->update([
+                    'status'=>$status
+                ]);
+            }
+           
+        }
+    
 
       //  $vagaChanged = Vaga::with('juridica', 'area')
             //->where('id', $request->vaga_id)
@@ -138,7 +165,7 @@ class VagaController extends Controller
        $vagaChanged = Vaga::with('area')->where('juridicas_id', $juridica_id)->orderBy('created_at', 'desc')->get();
     
         return Response::json([
-            'mudou status',
+
             'vagaChanged' => $vagaChanged
         ]);
     }

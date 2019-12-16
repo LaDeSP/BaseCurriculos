@@ -498,7 +498,7 @@ import * as Cookies from 'js-cookie'
     const token = state.auth.token;
     return await axios({ url: vagas_uri + '/changeStatus' + '?token=' + token, data: newStatus, method: 'POST'})
     .then(response => {
-      
+      console.log('change statuys', response);
       let payloadVagasJuridica = [];
       payloadVagasJuridica = response.data.vagaChanged;
 
@@ -792,7 +792,7 @@ import * as Cookies from 'js-cookie'
       const token = state.auth.token;
       return await axios({ url: 'http://localhost:8000/api/confirmAgenda?token=' + token, data: candidatura_id, method: 'POST' })
       .then(response => {
-
+        console.log('aaaaa', response)
         let payloadAgenda = [];
         payloadAgenda = response.data.agenda;
         commit('agenda', payloadAgenda)

@@ -68,8 +68,12 @@
                   </div>
 
                 </span>
-              <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
-                  <Card style="width: 30rem;">
+
+              <div v-for="show in pageOfItems" :key="show.id" :id="show.id" class="margin-bottom">
+                  <div class="card-group">
+                  <div class="col-lg-12">
+                  <div class="row">
+                  <Card class="col-sm-6">
                       <template v-slot:card-header>
                           <span v-if="notificacoes">
                               <span class="badge badge-success">
@@ -184,6 +188,9 @@
                       </template>
                   </Card>
               </div>
+              </div>
+            </div>
+          </div>
           </div>
           <div class="row justify-content-center">
             <div class="trocaPagina" v-if="displayAgenda.length > 10">
@@ -193,14 +200,6 @@
               <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
             </div>
           </div>
-            <Modal v-if="isModalCriouEntrevista" @close="closeModal">
-                <template v-slot:header></template>
-                <template v-slot:body>
-                    <b-alert show variant="success">
-                        <h1>Entrevista agendada com sucesso!</h1>
-                    </b-alert>
-                </template>
-            </Modal>
         </div>
     </div>
   </div>
@@ -209,7 +208,7 @@
 
 
 <script>
-    import Card from '../Utils/CardsVagas';
+    import Card from '../Utils/Card';
     import List from '../Utils/List';
     import Modal from '../Utils/Modal';
     import Curriculo from '../Lists/Curriculo';
@@ -218,8 +217,6 @@
     import painel from '../Utils/Painel';
     import moment from 'moment'
     import JwPagination from 'jw-vue-pagination';
-    import { BAlert } from 'bootstrap-vue'
-
     const customLabels = {
         first: 'Primeira',
         last: 'Última',
@@ -241,10 +238,9 @@
                 observacao: '',
                 customLabels,
                 filterState: 'ALL',
-                isModalCriouEntrevista: false,
             }
         },
-        components: {NewAgenda, Card, List, Modal,painel, JwPagination, BAlert},
+        components: {NewAgenda, Card, List, Modal,painel, JwPagination},
         methods: {
             changeActiveButton(status) {
                 $(".btn-group").on("click", ".btn", function() {
@@ -285,7 +281,6 @@
               this.isModalWarning = false;
               this.isModalShowMore = false;
               this.isModalWarningRecusa = false;
-              this.isModalCriouEntrevista = false;
             },
 
             vagaDaCandidatura(vaga_id){
@@ -386,11 +381,8 @@
         async created(){
             await this.loadAgenda();
             console.log('create', this.isActive)
-            console.log('agenda/statetoken', this.$store.state.auth.token)
-            //console.log('datetime',this.getDateTimeNow());
-            if (this.$route.params.agendou){
-                this.isModalCriouEntrevista = true;
-            }
+             console.log('agenda/statetoken', this.$store.state.auth.token)
+          //  console.log('datetime',this.getDateTimeNow());
 
         },
 
