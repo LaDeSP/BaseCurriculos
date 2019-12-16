@@ -6,7 +6,7 @@
 </span>
 <span v-else>
   <div class="row justify-content-center" v-if="permissaoDoUsuario === 'FISICA'">
-    <div class="col-lg-8">
+      <div class="col-md-9">
       <div class="d-flex flex-row">
         <div class="p-2">
           <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fas fa-home fa-sm"></i> Home</router-link>
@@ -82,7 +82,9 @@
         </Modal>
     </div>
   </div>
-    <div v-else>
+  <div v-else>
+  <div class="row justify-content-center">
+      <div class="col-md-9">
         <div v-if="!toggle">
             <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Convites</center></h2>
         </div>
@@ -202,6 +204,8 @@
                 </template>
             </Modal>
         </div>
+        </div>
+      </div>
     </div>
 </span>
 </template>

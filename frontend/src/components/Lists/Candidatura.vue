@@ -210,24 +210,24 @@
           <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <Card style="width: 30rem;">
                     <template v-slot:card-header>
-                    <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span>
+                    <h3><div class="text-info ">Vaga: {{show.vaga.titulo}}</div>
                         <span v-if="show.status == 'ENTREVISTA CANCELADA'">
-                            <span class="badge badge-danger">{{show.status}}</span>
+                            <div class="text-danger">{{show.status}}</div>
                         </span>
                         <span v-if="show.status == 'ENTREVISTA CONFIRMADA'">
-                            <span class="badge badge-success">{{show.status}}</span>
+                            <div class="text-success">{{show.status}}</div>
                         </span>
                          <span v-if="show.status == 'EM AGENDAMENTO'">
-                            <span class="badge badge-warning">{{show.status}}</span>
+                            <div class="text-warning">{{show.status}}</div>
                         </span>
                           <span v-if="show.status == 'AGUARDANDO'">
-                            <span class="badge badge-warning">{{show.status}}</span>
+                            <div class="text-warning">{{show.status}}</div>
                         </span>
                         <span v-if="show.status == 'RECUSADO'">
-                            <span class="badge badge-danger">ENCERRADO</span>
+                            <div class="text-danger">ENCERRADO</div>
                         </span>
                         <span v-if="show.status == 'CONTRATADO'">
-                            <span class="badge badge-success">{{show.status}}</span>
+                            <div class="text-success">{{show.status}}</div>
                         </span>
                     </h3>
                     </template>
@@ -262,7 +262,7 @@
                             </span>
                         </span>
                         <span v-if="show.status == 'RECUSADO'">
-                         <br><span style="color:red; font-weight: bold;"> Infelizmente, a empresa decidiu não dar continuidade no seu processo de contratação. :( </span><br><br>
+                         <br><div class="font-weight-bold text-danger"> Infelizmente, a empresa decidiu não dar continuidade no seu processo de contratação. :( </div><br><br>
                             <span v-if="show.agenda[0].observacao != null">
                                 Foi feita a seguinte observação:
                                 <br><br>
