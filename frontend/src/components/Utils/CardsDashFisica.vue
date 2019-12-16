@@ -22,10 +22,10 @@
                   </div>
                 </template>
                 <template v-else>
-                  <div class="card-group">
+                  <div class="card-deck">
                     <div class="col-lg-12">
                       <div class="row">
-                        <Card class="col-sm-4 mb-2 ml-2" v-for="show in display3Candidaturas" :key="show.id">
+                        <Card class="col-sm-4 column" v-for="show in display3Candidaturas" :key="show.id">
                           <template v-slot:card-header >
                               <center><h5>{{show.vaga.titulo}}</h5></center>
                           </template>
@@ -97,7 +97,7 @@
       <div class="card-deck">
         <div class="col-lg-12">
           <div class="row">
-            <Card class="col-sm-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
+            <Card class="col-sm-6 column" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
               <template v-slot:card-header>
                 <h3 class="card-title" style="color: #4E73DF;">{{vaga.titulo}}</h3>
               </template>
