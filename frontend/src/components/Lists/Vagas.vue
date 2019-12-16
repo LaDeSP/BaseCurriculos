@@ -6,7 +6,7 @@
 </span>
 <span v-else>
 <div class="row justify-content-center">
-    <div class="col-md-9">
+    <div class="col-9">
       <div class="row">
         <template v-if="permissaoDoUsuario === 'JURIDICA'">
             <div class="col-4">
@@ -60,42 +60,45 @@
       <br />
 
         <span v-if="filterState == true && pageOfItems.length == 0">
-        <h3>Não há nenhuma vaga ativa. </h3>
+          <div class="container">
+          <center><h3>Não há nenhuma vaga ativa. </h3></center>
+          </div>
         </span>
         <span v-else-if="filterState == false && pageOfItems.length == 0">
-          <h3>Não há nenhuma vaga inativa. </h3>
+          <div class="container">
+          <center><h3>Não há nenhuma vaga inativa. </h3></center>
+          </div>
         </span>
-        <div class="card-deck">
-          <div class="col-lg-12">
-          <div class="row">
-            <div v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
-              <template v-if="permissaoDoUsuario === 'JURIDICA'">
-                <Card class="col-sm-5 mb-2 ml-2" >
+        <template v-if="permissaoDoUsuario === 'JURIDICA'">
+            <div class="card-deck">
+              <div class="col-12">
+                <div class="row">
+                <Card class="col-6 column"  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
                   <template v-slot:card-header>
                     <h3 class="card-title" style="color: #4E73DF;">
-                    {{vaga.titulo}} 
+                    {{vaga.titulo}}
                     </h3>
                   </template>
                   <template v-slot:card-body>
-                    <div v-if="notificacao" style="color: red;"> 
+                    <div v-if="notificacao" style="color: red;">
                     <p style="white-space:pre-line;"><strong>{{notificacao}}</strong></p>
                     </div>
-                      <strong>Descrição:</strong>
-                      {{vaga.descricao}} <br><br>
-                      <strong>Cargo:</strong>
-                      {{vaga.cargo}}<br><br>
-                      <strong>Quantidade:</strong>
-                      {{vaga.quantidade}}<br><br>
-                      <strong>Área de Atuação:</strong>
-                      {{vaga.area.tipo}}<br><br>
-                      <strong>Salário:</strong>
-                      {{vaga.salario}}<br><br>
-                      <strong>Jornada de Trabalho:</strong>
-                      {{vaga.jornada}}<br><br>
-                      <strong>Benefícios:</strong>
-                      {{vaga.beneficio}}<br><br>
-                      <strong>Requisitos:</strong>
-                      {{vaga.requisito}}<br><br>
+                      <p class="card-text"><strong>Descrição:</strong>
+                      {{vaga.descricao}}</p>
+                      <p class="card-text"><strong>Cargo:</strong>
+                      {{vaga.cargo}}</p>
+                      <p class="card-text"><strong>Quantidade:</strong>
+                      {{vaga.quantidade}}</p>
+                      <p class="card-text"><strong>Área de Atuação:</strong>
+                      {{vaga.area.tipo}}</p>
+                      <p class="card-text"><strong>Salário:</strong>
+                      {{vaga.salario}}</p>
+                      <p class="card-text"><strong>Jornada de Trabalho:</strong>
+                      {{vaga.jornada}}</p>
+                      <p class="card-text"><strong>Benefícios:</strong>
+                      {{vaga.beneficio}}</p>
+                      <p class="card-text"><strong>Requisitos:</strong>
+                      {{vaga.requisito}}</p>
                   </template>
                   <template v-slot:card-footer>
                     <div>
@@ -144,20 +147,20 @@
                     </div>
                   </template>
                 </Card>
-              </template>
-            </div>
           </div>
         </div>
-      </div>
+              </div>
+              </template>
+
       <br />
       <br />
       <div class="row no-gutters align-items-center">
-        <div class="col-11" v-if="isActive.length > 4">
+        <div class="col-11" v-if="isActive.length > 2">
           <center>
             <jw-pagination
               :items="isActive"
               @changePage="onChangePage"
-              :pageSize="4"
+              :pageSize="2"
               :labels="customLabels"
               v-if="permissaoDoUsuario === 'JURIDICA'"
             ></jw-pagination>
@@ -286,7 +289,7 @@
 
 
 <script>
-import Card from "../Utils/CardsVagas";
+import Card from "../Utils/Card";
 import Modal from "../Utils/ModalOld";
 import List from "../Utils/List";
 import painel from "../Utils/Painel";
@@ -375,7 +378,7 @@ export default {
       this.$store
         .dispatch("changeStatusVaga", newStatus)
         .then(response => {
-        
+
           this.notificacao =  response.notificacao
         })
         .catch(error => console.log(error));

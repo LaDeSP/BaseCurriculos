@@ -64,13 +64,10 @@ import {mapGetters, mapActions, mapState} from 'vuex';
         },
         
         components:{
-
-             NewJuridicaData: () => ({
-               component: import('../Create/NewJuridicaData'),
-               loading: '<center><h1>CarregandoOOOO</h1></center>'
-             }),
-
-             NewVaga, Dash, Modal, BAlert
+             NewJuridicaData: () => import("../Create/NewJuridicaData"),
+             NewVaga: () => import("../Create/NewVaga"),
+             Dash: () => import("../Utils/CardsDashJuridica"),
+             Modal, BAlert
         },
         computed: {
       
