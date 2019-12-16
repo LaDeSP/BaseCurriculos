@@ -30,8 +30,6 @@
                         </div>
                     </center>
                </div>
-
-
                 <div v-if="displayAgenda.length == 0 && filterState == 'ALL'">
                   <br>
                   <br>
@@ -68,8 +66,12 @@
                   </div>
 
                 </span>
-              <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
-                  <Card style="width: 30rem;">
+
+              <div v-for="show in pageOfItems" :key="show.id" :id="show.id" class="margin-bottom">
+              <div class="card-group">
+                <div class="col-lg-12">
+                  <div class="row">
+                  <Card class="col-sm-6">
                       <template v-slot:card-header>
                           <span v-if="notificacoes">
                               <span class="badge badge-success">
@@ -90,7 +92,7 @@
                                   <span class="badge badge-sm badge-success">CONFIRMADA</span>
                               </span>
                                <span v-if="show.candidatura.status == 'CONTRATADO'">
-                                  <span class="badge badge-primary">{{show.candidatura.status}}</span>
+                                  <span class="badge badge-success">{{show.candidatura.status}}</span>
                               </span>
                               <span v-if="show.candidatura.status == 'RECUSADO'">
                                   <span class="badge badge-danger">{{show.candidatura.status}}</span>
@@ -132,7 +134,7 @@
                       <template v-slot:card-footer>
                           <span v-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA' && getDateNow(show.data)" >
                               <center>
-                                  <button @click="confirmAgenda(show.candidatura.id, 'CONTRATADO')" class="btn btn-sm btn-primary">Contratado</button>
+                                  <button @click="confirmAgenda(show.candidatura.id, 'CONTRATADO')" class="btn btn-sm btn-success">Contratado</button>
                                   <button @click="showModal('warningRecusa', show.candidatura.id)" class="btn btn-sm btn-danger">Recusado</button>
                               </center>
                                 <Modal v-show="isModalWarningRecusa" @close="closeModal">
@@ -184,6 +186,9 @@
                       </template>
                   </Card>
               </div>
+              </div>
+            </div>
+          </div>
           </div>
           <div class="row justify-content-center">
             <div class="trocaPagina" v-if="displayAgenda.length > 10">
@@ -193,14 +198,6 @@
               <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
             </div>
           </div>
-            <Modal v-if="isModalCriouEntrevista" @close="closeModal">
-                <template v-slot:header></template>
-                <template v-slot:body>
-                    <b-alert show variant="success">
-                        <h1>Entrevista agendada com sucesso!</h1>
-                    </b-alert>
-                </template>
-            </Modal>
         </div>
     </div>
   </div>
@@ -209,7 +206,7 @@
 
 
 <script>
-    import Card from '../Utils/CardsVagas';
+    import Card from '../Utils/Card';
     import List from '../Utils/List';
     import Modal from '../Utils/Modal';
     import Curriculo from '../Lists/Curriculo';
@@ -218,8 +215,6 @@
     import painel from '../Utils/Painel';
     import moment from 'moment'
     import JwPagination from 'jw-vue-pagination';
-    import { BAlert } from 'bootstrap-vue'
-
     const customLabels = {
         first: 'Primeira',
         last: 'Última',
@@ -241,10 +236,9 @@
                 observacao: '',
                 customLabels,
                 filterState: 'ALL',
-                isModalCriouEntrevista: false,
             }
         },
-        components: {NewAgenda, Card, List, Modal,painel, JwPagination, BAlert},
+        components: {NewAgenda, Card, List, Modal,painel, JwPagination},
         methods: {
             changeActiveButton(status) {
                 $(".btn-group").on("click", ".btn", function() {
@@ -285,7 +279,6 @@
               this.isModalWarning = false;
               this.isModalShowMore = false;
               this.isModalWarningRecusa = false;
-              this.isModalCriouEntrevista = false;
             },
 
             vagaDaCandidatura(vaga_id){
@@ -337,7 +330,7 @@
                 let year = now.getFullYear();
 
                 //let dateStr = year + '-' + month + '-' + date;
-                let dateStr = '2021-12-13';
+                let dateStr = '2019-12-13';
                 var dateAgenda = Date.parse(data);
                 var dateNow = Date.parse(dateStr);
 
@@ -346,7 +339,7 @@
                 }else{
                     return false
                 }
-            },
+            }
         },
 
         computed: {
@@ -386,7 +379,8 @@
         async created(){
             await this.loadAgenda();
             console.log('create', this.isActive)
-            
+             console.log('agenda/statetoken', this.$store.state.auth.token)
+          //  console.log('datetime',this.getDateTimeNow());
 
         },
 

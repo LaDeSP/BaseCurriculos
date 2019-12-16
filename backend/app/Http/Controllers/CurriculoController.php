@@ -81,9 +81,9 @@ class CurriculoController extends Controller
         }
   
         $area = Area::where('id', $area_id)->first()->tipo;
-        $fisica = Fisica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->get();
+        $fisica = Fisica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->orderBy('created_at', 'desc')->get();
 
-        $curriculo = Curriculo::with(['fisica'])->where('fisicas_id', $fisicas_id)->get();
+        $curriculo = Curriculo::with(['fisica'])->where('fisicas_id', $fisicas_id)->orderBy('created_at', 'desc')->get();
         
         return Response::json([
            'curriculo' => $curriculo,

@@ -40,7 +40,8 @@
                     </template>
                 </Card>
               </div>
-            </div>
+          </div>
+          </div>
             <div class="row justify-content-center">
               <div class="trocaPagina" v-if="displayVagasThatHaveCandidaturas.length > 10">
                 <jw-pagination :items="displayVagasThatHaveCandidaturas" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
@@ -253,7 +254,7 @@
                                 com as seguintes observações:
                                 <br><br>
                                 <center><i>"{{show.agenda[0].observacao}}"</i></center>
-                            </span> 
+                            </span>
                              <span v-else>
                                 a empresa não fez observações.
                             </span>
@@ -386,7 +387,7 @@
 
 
 <script>
-    import Card from '../Utils/Cards-fisica';
+    import Card from '../Utils/Card';
     import List from '../Utils/List';
     import Modal from '../Utils/Modal';
     import Curriculo from '../Lists/Curriculo';
@@ -496,7 +497,7 @@
                 .then(response => {
                   this.loadCandidaturas();
                   this.isModalRecusa = true;
-                  
+
 
                 }).catch(error => console.log(error))
             },

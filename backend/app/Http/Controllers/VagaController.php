@@ -25,7 +25,7 @@ class VagaController extends Controller
        
         if(auth()->user()->role === 'JURIDICA'){
             $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
-            $vagasJuridica = Vaga::with('area')->where('juridicas_id', $juridica_id)->get();
+            $vagasJuridica = Vaga::with('area')->where('juridicas_id', $juridica_id)->orderBy('created_at', 'desc')->get();
            
             $countVagas = Vaga::where('juridicas_id', $juridica_id)
                           ->where('status', 'ATIVA')->get()->count();
@@ -43,9 +43,9 @@ class VagaController extends Controller
                         ->select('vagas_id')
                         ->where('curriculos_id', '=', $user->fisica->curriculo->id);
                     })
-                    ->with('area')->get();              
+                    ->with('area')->orderBy('created_at', 'desc')->get();              
             }else{
-                $vagas = Vaga::with('area')->get();
+                $vagas = Vaga::with('area')->orderBy('created_at', 'desc')->get();
             }
            
             return Response::json([
@@ -162,7 +162,7 @@ class VagaController extends Controller
        //     ->get();
 
        $juridica_id = Juridica::where('user_id', auth()->user()->id)->first()->id;
-       $vagaChanged = Vaga::with('area')->where('juridicas_id', $juridica_id)->get();
+       $vagaChanged = Vaga::with('area')->where('juridicas_id', $juridica_id)->orderBy('created_at', 'desc')->get();
     
         return Response::json([
 
