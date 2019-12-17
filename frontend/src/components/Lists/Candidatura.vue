@@ -1,11 +1,11 @@
 <template>
   <span v-if="isFetching">
-    <center>
-      <h1>
-        Carregando...
-        <span class="fas fa-spinner fa-pulse"></span>
-      </h1>
-    </center>
+  <div class="container"></div>
+  <div class="container">
+    <center><h1>
+        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+    </h1></center>
+  </div>
   </span>
   <span v-else>
     <div class="row justify-content-center">
@@ -479,7 +479,7 @@
                          <br><span style="color:red; font-weight: bold;"> Infelizmente, a empresa decidiu não dar continuidade no seu processo de contratação. :( </span><br><br>
                             <span v-if="show.agenda.length > 0">
                               <span v-if="show.agenda[0].observacao != null">
-                                 Foi feita a seguinte observação: 
+                                 Foi feita a seguinte observação:
                                 <br><br>
                                 <center><i>"{{show.agenda[0].observacao}}"</i></center>
                               </span>

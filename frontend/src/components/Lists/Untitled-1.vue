@@ -1,18 +1,21 @@
 <template>
 <span v-if="isFetching">
- <center><h1>
-    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
- </h1></center>
+  <div class="container"></div>
+  <div class="container">
+    <center><h1>
+        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+    </h1></center>
+  </div>
 </span>
 <span v-else>
-   <div class="row justify-content-center"> 
+   <div class="row justify-content-center">
         <div class="col-lg-8">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-home fa-sm"></i> Home </h1>
           </div>
         </div>
     </div>
-   
+
 <div class="row justify-content-center">
     <div class="col-md-9">
       <div class="row">
@@ -23,7 +26,7 @@
                   v-bind:to="'/dashboard/'"
                   tag="button"
                   class="btn btn-md btn-outline-secondary">
-                  <i class="fas fa-home fa-sm"></i> Home 
+                  <i class="fas fa-home fa-sm"></i> Home
                 </router-link>
             </div>
             <div class="p-2 bd-highlight">
@@ -56,7 +59,7 @@
                   Criar Vaga
                   <span>
                     <i class="fa fa-plus"></i>
-                  </span>  
+                  </span>
               </button>
             </div>
            </div>
@@ -80,7 +83,7 @@
                 </h3>
               </template>
               <template v-slot:card-body>
-              
+
                   <strong>Descrição:</strong>
                   {{vaga.descricao}} <br>
                   <strong>Cargo:</strong>
@@ -97,7 +100,7 @@
                   {{vaga.beneficio}}<br>
                   <strong>Requisitos:</strong>
                   {{vaga.requisito}}<br>
-              
+
               </template>
               <template v-slot:card-footer>
                 <div>
@@ -281,7 +284,7 @@
     </div>
   </div>
 </span>
-  
+
 </template>
 
 

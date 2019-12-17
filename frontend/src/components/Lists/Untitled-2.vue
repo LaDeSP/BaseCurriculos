@@ -1,21 +1,24 @@
 <template>
 <span v-if="isFetching">
- <center><h1>
-    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
- </h1></center>
+  <div class="container"></div>
+  <div class="container">
+    <center><h1>
+        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+    </h1></center>
+  </div>
 </span>
 <span v-else>
-   <div class="row justify-content-center"> 
+   <div class="row justify-content-center">
         <div class="col-lg-8">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">     <router-link
                   v-bind:to="'/dashboard/'"
                   tag="button"
                   class="btn btn-md btn-outline-secondary">
-                  <i class="fas fa-home fa-sm"></i> Home 
-                </router-link> 
+                  <i class="fas fa-home fa-sm"></i> Home
+                </router-link>
             Minhas Vagas </h1>
-          </div> 
+          </div>
             <div class="row">
                <template v-if="permissaoDoUsuario === 'JURIDICA'">
                 <div class="d-flex flex-row bd-highlight mb-3">
@@ -40,7 +43,7 @@
                           Criar Vaga
                           <span>
                             <i class="fa fa-plus"></i>
-                          </span>  
+                          </span>
                       </button>
                     </div>
                   </div>
@@ -66,7 +69,7 @@
                         </h3>
                       </template>
                       <template v-slot:card-body>
-                      
+
                           <strong>Descrição:</strong>
                           {{vaga.descricao}} <br>
                           <strong>Cargo:</strong>
@@ -83,7 +86,7 @@
                           {{vaga.beneficio}}<br>
                           <strong>Requisitos:</strong>
                           {{vaga.requisito}}<br>
-                      
+
                       </template>
                       <template v-slot:card-footer>
                         <div>
@@ -138,7 +141,7 @@
        </div>
     </div>
 </span>
-  
+
 </template>
 
 

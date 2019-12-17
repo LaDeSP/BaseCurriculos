@@ -1,11 +1,14 @@
 <template>
 <span v-if="isFetching">
- <center><h1>
-    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
- </h1></center>
+  <div class="container"></div>
+  <div class="container">
+    <center><h1>
+        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+    </h1></center>
+  </div>
 </span>
 <span v-else>
-    <div class="row justify-content-center"> 
+    <div class="row justify-content-center">
         <div class="col-lg-8">
           <span v-if="isFetching">
             <center><h1>
@@ -25,7 +28,7 @@
               <Dash></Dash>
             </div>
           </span>
-          
+
         </div>
         <Modal v-if="isModalConfirmaCadastro" @close="closeModal">
             <template v-slot:header></template>
@@ -35,7 +38,7 @@
                 </b-alert>
             </template>
         </Modal>
-    </div> 
+    </div>
 </span>
 </template>
 
@@ -55,14 +58,14 @@ import {mapGetters, mapActions, mapState} from 'vuex';
               isModalConfirmaCadastro: false
             }
         },
-        
+
         methods:{
           ...mapActions(['loadCandidaturas', 'loadJuridica']),
           closeModal(){
               this.isModalConfirmaCadastro = false;
           },
         },
-        
+
         components:{
              NewJuridicaData: () => import("../Create/NewJuridicaData"),
              NewVaga: () => import("../Create/NewVaga"),
@@ -70,7 +73,7 @@ import {mapGetters, mapActions, mapState} from 'vuex';
              Modal, BAlert
         },
         computed: {
-      
+
             ...mapState([
                 'isFetching', 'dataCompleted'
             ]),
@@ -82,7 +85,7 @@ import {mapGetters, mapActions, mapState} from 'vuex';
           }else{
                 await this.$store.dispatch('loadVagasJuridica')
                 .then(response => {
-                    let vagas = response.vagas; 
+                    let vagas = response.vagas;
                     if(vagas.length === 0){
                     this.hasVaga = false;
                     }
@@ -93,9 +96,9 @@ import {mapGetters, mapActions, mapState} from 'vuex';
           }
           if (this.$route.params.cadastrou){
             this.isModalConfirmaCadastro = true;
-          } 
+          }
         },
-        
+
     }
 </script>
 
