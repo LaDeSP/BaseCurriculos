@@ -81,29 +81,28 @@
                                   {{notificacoes}}
                               </span>
                           </span>
-                          <h3>
+
                               <span class="text-info ">
-                                  Candidato: {{show.candidatura.curriculo.fisica.user.name}}
+                                <h3 class="card-title">  Candidato: {{show.candidatura.curriculo.fisica.user.name}}</h3>
                               </span>
                               <span v-if="show.candidatura.status == 'EM AGENDAMENTO'">
-                                  <span class="text-warning">{{show.candidatura.status}}</span>
+                                  <h5 class="card-title"><span class="text-warning">{{show.candidatura.status}}</span></h5>
                               </span>
                               <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
-                                  <span class="text-danger">{{show.candidatura.status}}</span>
+                                  <h5 class="card-title"><span class="text-danger">{{show.candidatura.status}}</span></h5>
                               </span>
                               <span v-else-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA'">
-                                  <span class="text-success">CONFIRMADA</span>
+                                  <h5 class="card-title"><span class="text-success">CONFIRMADA</span></h5>
                               </span>
                                <span v-if="show.candidatura.status == 'CONTRATADO'">
-                                  <span class="text-success">{{show.candidatura.status}}</span>
+                                  <h5 class="card-title"><span class="text-success">{{show.candidatura.status}}</span></h5>
                               </span>
                               <span v-if="show.candidatura.status == 'RECUSADO'">
-                                  <span class="text-danger">{{show.candidatura.status}}</span>
+                                  <h5 class="card-title"><span class="text-danger">{{show.candidatura.status}}</span></h5>
                               </span>
                               <span v-if="show.candidatura.status == 'AGUARDANDO'">
-                                  <span class="text-warning">{{show.candidatura.status}}</span>
+                                  <h5 class="card-title"><span class="text-warning">{{show.candidatura.status}}</span></h5>
                               </span>
-                          </h3>
                       </template>
                       <template v-slot:card-body>
                           <ul>
