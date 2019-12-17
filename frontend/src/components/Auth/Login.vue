@@ -2,9 +2,9 @@
     <header class="masthead2">
         <NavBarLogin></NavBarLogin>
         <div class="container">
-          <div class="login-form">
+          <div class="login-form-topzera">
             <ValidationObserver v-slot="{ invalid }">
-              <form>
+              <form class="internocard">
                 <div class="container" v-if="notificacoes">
                   <span v-for="notificacao in notificacoes" :key="notificacao" class="badge badge-danger badge-pill">
                     {{notificacao}}
@@ -85,7 +85,7 @@
                let password = this.password;
                this.$store.dispatch('login', {email, password})
                 .then(response => {
-                  
+
                  if(response.error  != undefined){
                     this.notificacoes = response.error;
                   }else if(response.user.deleted_at == null){
