@@ -722,5 +722,12 @@ export default {
         }
     }
   },
+  async created(){
+    await this.loadCandidaturas();
+    await this.loadAgenda();
+    if (this.$route.params.editouEntrevista){
+        this.isModalEditouEntrevista = true;
+    }
+  },
 }
 </script>
