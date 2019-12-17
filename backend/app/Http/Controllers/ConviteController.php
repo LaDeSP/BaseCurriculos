@@ -26,10 +26,23 @@ class ConviteController extends Controller
        // $quantCandidato = Candidatura::where('vagas_id', $vaga_id)->count();
 
 //        if($quantCandidato < $quantVaga){
-        $result = Convite::where('vagas_id', $vaga_id)->where('curriculos_id', $curriculo_id)->exists();
+        $result = Convite::where('vagas_id', $vaga_id)->where('curriculos_id', $curriculo_id)->where('resposta', 'AGUARDANDO')->exists();
+        $resultCandidatura = Candidatura::where('vagas_id', $vaga_id)->where('curriculos_id', $curriculo_id)->where(function ($query) {
+                                $query->where('status', "EM AGENDAMENTO")
+                                    ->orWhere('status', "AGUARDANDO")
+                                    ->orWhere('status', "ENTREVISTA CONFIRMADA");
+                                    })->exists();
         if($result){
             $errorConvite[] = "Você já convidou essa pessoa.";
             $error[] = $errorConvite;
+            return Response::json([
+                'error' => $error
+            ], 201);
+        }
+
+        if($resultCandidatura){
+            $errorCandidatura[] = "Essa pessoa está candidata nessa vaga.";
+            $error[] = $errorCandidatura;
             return Response::json([
                 'error' => $error
             ], 201);

@@ -50,6 +50,14 @@
                     </b-alert>
                 </template>
             </Modal>
+            <Modal v-if="isModalJaCandidatou" @close="closeModal">
+                <template v-slot:header></template>
+                <template v-slot:body>
+                    <b-alert show variant="danger">
+                        <h1>Essa pessoa já está com uma candidatura em andamento nessa vaga.</h1>
+                    </b-alert>
+                </template>
+            </Modal>
             <Modal v-if="isModalSuccess" @close="closeModal">
             <template v-slot:header></template>
             <template v-slot:body>
@@ -164,6 +172,7 @@ export default {
             isModalSuccess: false,
             isModalError: false,
             isModalMultipleInvite: false,
+            isModalJaCandidatou: false,
             vaga_id: 0,
             vaga: [],
             thisCurriculo: '',
@@ -280,6 +289,7 @@ export default {
             this.isModalSuccess = false;
             this.isModalError = false;
             this.isModalMultipleInvite = false;
+            this.isModalJaCandidatou = false;
         },
 
         changeStatus(id, status){
@@ -330,7 +340,12 @@ export default {
             this.$store.dispatch('requestConvite', requestConvite)
             .then(response => {
                 if(response.error){
-                    this.isModalMultipleInvite = true;
+                    if(response.error[0]=="Essa pessoa está candidata nessa vaga."){
+                        this.isModalJaCandidatou = true;
+                    }
+                    else{
+                        this.isModalMultipleInvite = true;
+                    }
                 }
                 else{
                     this.isModalShowMore = false;
