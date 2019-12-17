@@ -32,16 +32,22 @@
             </div>
           </div>
           <div v-else>
-            <h2>
-              <router-link
-                v-bind:to="'/dashboard/'"
-                tag="button"
-                class="btn btn-md btn-outline-secondary"
-              >
-                <i class="fa fa-home"></i> Home
-              </router-link>
-              <center>Candidatos</center>
-            </h2>
+            <div class="row">
+              <div class="col-5">
+                <router-link
+                  v-bind:to="'/dashboard/'"
+                  tag="button"
+                  class="btn btn-md btn-outline-secondary"
+                >
+                  <i class="fa fa-home"></i> Home
+                </router-link>
+              </div>
+              <div class="6">
+                <h2 class="mb-4">
+                  <center>Candidatos</center>
+                </h2>
+              </div>
+            </div>
           </div>
           <br />
           <div v-for="candidatura in candidaturas" :key="candidatura.id">
@@ -55,7 +61,7 @@
              </div>
         </div>
         <div v-if="!toggle">
-          <div class="card-group">
+          <div class="card-deck">
               <div class="col-lg-12">
                 <div class="row">
                   <Card
@@ -68,12 +74,10 @@
                       <h3 class="card-title" style="color: #4E73DF;">Vaga: {{show.vaga.titulo}}</h3>
                     </template>
                     <template v-slot:card-body>
-                      <strong>Cargo</strong>
-                      : {{show.vaga.cargo}}
-                      <br />
-                      <strong>Detalhes</strong>
-                      : {{show.vaga.descricao}}
-                      <br />
+                      <p class="card-text"><strong>Cargo</strong>
+                      : {{show.vaga.cargo}}</p>
+                      <p class="card-text"><strong>Detalhes</strong>
+                      : {{show.vaga.descricao}}</p>
                     </template>
                     <template v-slot:card-footer>
                       <button
@@ -110,8 +114,8 @@
             </button>
             <br />
             <br />
-            <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
-              <List style="width: 60rem; height:30rem;">
+            <div class="list-group">
+            <List class="mb-4" style="width: 60rem; height:15rem;" v-for="show in pageOfItems" :key="show.id" :id="show.id">
                 <template v-slot:list-header>
                   <h3 class="mb-1" style="color: #4E73DF;">
                     {{show.curriculo.fisica.user.name}}
@@ -266,7 +270,7 @@
                     </template>
                   </Modal>
                 </template>
-              </List>
+            </List>
             </div>
             <div class="row justify-content-center">
               <div class="trocaPagina" v-if="candidaturasByVaga.length > 4">
@@ -386,7 +390,13 @@
           </div>
           <div class="row justify-content-center">
             <span v-if="displayCandidaturas.length == 0">
-              <h3>Você ainda não fez nenhuma candidatura!</h3>
+              <br />
+              <br />
+              <div class="container">
+                <center>
+                  <h3>Você ainda não fez nenhuma candidatura!</h3>
+                </center>
+              </div>
             </span>
           </div>
           <div class="card-deck">

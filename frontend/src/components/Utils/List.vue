@@ -1,6 +1,5 @@
 <template>
 
-    <div class="list-group">
         <div class="list-group-item  flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
             <slot name="list-header">
@@ -16,7 +15,6 @@
             <slot name="list-footer">
             </slot>
         </div>
-    </div>
 
 </template>
 
