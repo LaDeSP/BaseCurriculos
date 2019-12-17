@@ -1,5 +1,6 @@
 <template>
     <div class="container" v-if="permissaoDoUsuario === 'JURIDICA'">
+        <h1>Resultados</h1>
         <div v-if="displayResultados.length==0">
             <h1>Nenhum resultado encontrado</h1>
         </div>
@@ -76,6 +77,7 @@
         </div>
     </div>
     <div class="container" v-else>
+        <h1>Resultados</h1>
         <div v-if="displayResultados.length==0">
             <div class="container justify-content-center"><h1>Nenhum resultado encontrado</h1> </div>
         </div>
