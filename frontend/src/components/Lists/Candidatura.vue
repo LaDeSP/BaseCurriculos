@@ -875,5 +875,12 @@ export default {
       }
     }
   },
+  filters:{
+    dateFormat: function(value){
+        if (value) {
+            return moment(String(value)).format('DD/MM/YYYY')
+        }
+    }
+  },
 }
 </script>
