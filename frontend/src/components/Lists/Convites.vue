@@ -154,6 +154,9 @@
                         </h3>
                     </template>
                     <template v-slot:list-body>
+                        <div v-if="show.resposta == 'ACEITOU'">
+                            <small>Uma candidatura foi criada. Vá para candidaturas para agendar uma entrevista.</small>
+                        </div>
                         <p class="mb-1"><strong>Objetivos:</strong> {{show.curriculo.objetivos}}</p>
                         <p class="mb-1"><strong>Pretensão Salarial:</strong> {{show.curriculo.pretensao}}</p>
                     </template>
