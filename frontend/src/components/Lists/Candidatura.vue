@@ -42,10 +42,6 @@
                 </h2>
               </div>
             </div>
-            <h2>
-              <router-link v-bind:to="'/dashboard/'" tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link>
-              <center>Candidatos</center>
-            </h2>
           </div>
           <br />
           <div v-for="candidatura in candidaturas" :key="candidatura.id">
