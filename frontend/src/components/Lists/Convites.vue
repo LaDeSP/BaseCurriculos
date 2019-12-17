@@ -17,7 +17,9 @@
       </div>
       <center><h2>Meus Convites</h2></center>
       <div v-if="displayConvites.length==0">
-        <center><h1>Você ainda não tem convites.</h1></center>
+        <div class="container">
+          <center><h1>Você ainda não tem convites.</h1></center>
+        </div>
       </div>
 
         <div class="card-deck" v-else>
