@@ -1,8 +1,11 @@
 <template>
 <span v-if="isFetching && editing">
- <center><h1>
-    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
- </h1></center>
+  <div class="container"></div>
+  <div class="container">
+    <center><h1>
+        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+    </h1></center>
+  </div>
 </span>
 <span v-else>
   <div class="row justify-content-center">
@@ -114,7 +117,7 @@
       ...mapActions(['loadAgenda']),
 
       register(){
-    
+
         if(this.editing){
           if(this.permissaoDoUsuario === 'FISICA'){
             this.contraproposta = 'FISICA';
@@ -134,19 +137,19 @@
 
         if(!this.editing){
           this.$store.dispatch('newAgenda', newAgendaData)
-          .then( response => { 
+          .then( response => {
             if(response.error  != undefined){
               this.notificacoes = response.error;
             }
             else{
               this.$router.push({ name: 'agenda',  params:{agendou: true} });
             }
-          
+
           })
           .catch(error => console.log(error))
         }else{
           this.$store.dispatch('updateAgenda', newAgendaData)
-          .then( response => { 
+          .then( response => {
             if(response.error  != undefined){
               this.notificacoes = response.error;
             }
@@ -166,10 +169,10 @@
         this.data = this.agendaById[0].data;
         this.hora = this.agendaById[0].hora;
       },
-      
+
     },
 
-    computed:{ 
+    computed:{
       ...mapState([
         'agenda', 'isFetching'
       ]),
@@ -187,9 +190,9 @@
               await this.loadAgenda();
               this.displayDataEdit();
             }
-     
+
     },
-    
+
     /*async beforeRouteEnter(to, from, next) {
         next(vm => {
             if(this.$route.params.id){

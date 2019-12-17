@@ -1,11 +1,11 @@
 <template>
   <span v-if="isFetching == true">
-    <center>
-      <h1>
-        Carregando...
-        <span class="fas fa-spinner fa-pulse"></span>
-      </h1>
-    </center>
+  <div class="container"></div>
+  <div class="container">
+    <center><h1>
+        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+    </h1></center>
+  </div>
   </span>
   <span v-else>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">

@@ -1,14 +1,17 @@
 <template>
 <span v-if="isFetching">
- <center><h1>
-    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
- </h1></center>
+  <div class="container"></div>
+  <div class="container">
+    <center><h1>
+        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+    </h1></center>
+  </div>
 </span>
 <span v-else>
 
 <div class="row justify-content-center">
     <div class="col-md-7">
-        
+
         <div v-if="!this.editing">
             <h3><router-link to="/vagas" class="btn btn-md btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</router-link> <center>Cadastrar Informações</center></h3>
         </div>
@@ -152,7 +155,7 @@
   import { mapActions, mapGetters, mapState} from 'vuex';
 
     export default {
-      
+
         data(){
             return{
 
@@ -218,19 +221,19 @@
                     }).catch(error => console.log(error))
                 }
             },
-    
+
             verifyEdit(){
-               
+
                 this.vaga_id = this.$session.get('vaga_id');
-                 
+
                    this.$store.commit('isFetching')
                     console.log('dada', this.$store.state.isFetching)
                 this.displayDataEdit();
-                
+
             },
 
             displayDataEdit(){
-             
+
                  if(this.editing){
                     this.titulo = this.vagaById[0].titulo;
                     this.descricao = this.vagaById[0].descricao;
@@ -243,9 +246,9 @@
                     this.jornada = this.vagaById[0].jornada;
                     this.area = this.vagaById[0].area.id;
                     this.salario = parseFloat(this.vagaById[0].salario);
-                  
+
                  }
-               
+
                 this.$store.commit('isFetching')
 
                 console.log('fetchin 2', this.$store.state.isFetching)
@@ -259,9 +262,9 @@
                 }).catch(error => console.log(error))
             },
         },
-        
+
         computed:{
-             
+
             ...mapState([
                 'isFetching'
             ]),

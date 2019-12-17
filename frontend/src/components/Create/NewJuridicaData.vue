@@ -1,8 +1,11 @@
 <template>
 <span v-if="isFetching">
- <center><h1>
-    Carregando...  <span class="fas fa-spinner fa-pulse"></span>
- </h1></center>
+  <div class="container"></div>
+  <div class="container">
+    <center><h1>
+        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+    </h1></center>
+  </div>
 </span>
 <span v-else>
 
@@ -17,7 +20,7 @@
                   <div class=" bd-highlight flex-left">
                       <router-link to="/profile" class="btn btn-md btn-outline-secondary">
                         <i class="fas fa-long-arrow-alt-left"></i> Voltar
-                      </router-link> 
+                      </router-link>
                   </div>
                 </div>
                     <div class="col-5">
