@@ -1,6 +1,8 @@
 <template>
   <span v-if="isFetching">
-  <div class="container"></div>
+  <br>
+  <br>
+  <br>
   <div class="container">
     <center><h1>
         Carregando...  <span class="fas fa-spinner fa-pulse"></span>

@@ -2,7 +2,10 @@
     <div class="container" v-if="permissaoDoUsuario === 'JURIDICA'">
         <h1>Resultados</h1>
         <div v-if="displayResultados.length==0">
-            <h1>Nenhum resultado encontrado</h1>
+          <br>
+          <br>
+          <br>
+          <div class="container"><center><h1>Nenhum resultado encontrado</h1></center></div>
         </div>
         <div class="card-group" v-else>
             <div class="col-lg-12">
