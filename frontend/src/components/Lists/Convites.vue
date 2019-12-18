@@ -136,7 +136,7 @@
             <br>
             <br>
             <div class="list-group">
-              <List class="mb-4" style="width: 60rem; height:15rem;" v-for="show in pageOfItems" :key="show.id" :id="show.id">
+              <List class="mb-4" style="width: 60rem; height:17rem;" v-for="show in pageOfItems" :key="show.id" :id="show.id">
                       <template v-slot:list-header>
                         <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user.name}}
                             <span v-if="show.resposta == 'AGUARDANDO'">
