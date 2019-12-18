@@ -1,6 +1,23 @@
 <template>
-    <div class="container" v-if="permissaoDoUsuario === 'JURIDICA'">
-        <h1>Resultados</h1>
+<div class="row justify-content-center">
+  <div class="col-md-9">
+    <div v-if="permissaoDoUsuario === 'JURIDICA'">
+        <div class="row mb-4">
+          <div class="col-5">
+            <router-link
+              v-bind:to="'/dashboard/'"
+              tag="button"
+              class="btn btn-md btn-outline-secondary"
+            >
+              <i class="fa fa-home"></i> Home
+            </router-link>
+          </div>
+          <div class="6">
+            <h2 class="mb-1">
+              <center><h1>Resultados</h1></center>
+            </h2>
+          </div>
+        </div>
         <div v-if="displayResultados.length==0">
           <br>
           <br>
@@ -12,16 +29,16 @@
                 <div class="row">
                     <Card class="col-sm-6 column" v-for="curriculo in pageOfItems" :key="curriculo.id" :id="curriculo.id" :foto=curriculo.fisica.user.foto :thumbnail=true>
                         <template v-slot:card-header>
-                        <h3><span class="label label-info " style="color: #4E73DF;">{{curriculo.fisica.user.name}}</span></h3>
+                        <h3 class="card-title"><span class="label label-info " style="color: #4E73DF;">{{curriculo.fisica.user.name}}</span></h3>
                         </template>
                         <template v-slot:card-body>
-                        <strong>Qualificações:</strong> {{curriculo.qualificacoes}}<br>
-                        <strong>Escolaridade:</strong> {{curriculo.escolaridade}}<br>
-                        <strong>Objetivos:</strong> {{curriculo.objetivos}}<br>
-                        <strong>Pretensão Salarial:</strong> {{curriculo.pretensao}}<br>
-                        <strong>Histórico Profissional:</strong> {{curriculo.historicoProfissional}}<br>
-                        <strong>Cidade:</strong> {{curriculo.fisica.endereco.cidade}}<br>
-                        <strong>Área de Atuação:</strong> {{curriculo.area.tipo}}<br>
+                        <p class="card-text"><strong>Qualificações:</strong> {{curriculo.qualificacoes}}</p>
+                        <p class="card-text"><strong>Escolaridade:</strong> {{curriculo.escolaridade}}</p>
+                        <p class="card-text"><strong>Objetivos:</strong> {{curriculo.objetivos}}</p>
+                        <p class="card-text"><strong>Pretensão Salarial:</strong> {{curriculo.pretensao}}</p>
+                        <p class="card-text"><strong>Histórico Profissional:</strong> {{curriculo.historicoProfissional}}</p>
+                        <p class="card-text"><strong>Cidade:</strong> {{curriculo.fisica.endereco.cidade}}</p>
+                        <p class="card-text"><strong>Área de Atuação:</strong> {{curriculo.area.tipo}}</p>
                         </template>
                         <template v-slot:card-footer>
                             <div v-if="displayVagasJuridica.length>0">
@@ -79,8 +96,23 @@
             <jw-pagination :items="displayResultados" @changePage="onChangePage" :pageSize="10" :labels="customLabels"></jw-pagination>
         </div>
     </div>
-    <div class="container" v-else>
-        <h1>Resultados</h1>
+    <div v-else>
+        <div class="row mb-4">
+          <div class="col-5">
+            <router-link
+              v-bind:to="'/dashboard/'"
+              tag="button"
+              class="btn btn-md btn-outline-secondary"
+            >
+              <i class="fa fa-home"></i> Home
+            </router-link>
+          </div>
+          <div class="6">
+            <h2 class="mb-1">
+              <center><h1>Resultados</h1></center>
+            </h2>
+          </div>
+        </div>
         <div v-if="displayResultados.length==0">
             <div class="container justify-content-center"><h1>Nenhum resultado encontrado</h1> </div>
         </div>
@@ -89,12 +121,12 @@
                 <div class="row">
                     <Card class="col-sm-6 column" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
                         <template v-slot:card-header>
-                            <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
+                            <h3 class="card-title" style="color: #4E73DF;">{{vaga.titulo}}</h3>
                         </template>
                         <template v-slot:card-body>
-                            <p class="mb-1"><strong>Cargo:</strong> {{vaga.cargo}}</p>
-                            <p class="mb-1"><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
-                            <p class="mb-1"><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
+                            <p class="card-text"><strong>Cargo:</strong> {{vaga.cargo}}</p>
+                            <p class="card-text"><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
+                            <p class="card-text"><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
                         </template>
                         <template v-slot:card-footer>
                             <template v-if="dataCompleted">
@@ -151,6 +183,8 @@
             </template>
         </Modal>
     </div>
+  </div>
+</div>
 </template>
 
 <script>
