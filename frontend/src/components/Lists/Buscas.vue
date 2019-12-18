@@ -7,10 +7,10 @@
           <br>
           <div class="container"><center><h1>Nenhum resultado encontrado</h1></center></div>
         </div>
-        <div class="card-group" v-else>
+        <div class="card-deck" v-else>
             <div class="col-lg-12">
                 <div class="row">
-                    <Card class="col-sm-6" v-for="curriculo in pageOfItems" :key="curriculo.id" :id="curriculo.id" :foto=curriculo.fisica.user.foto :thumbnail=true>
+                    <Card class="col-sm-6 column" v-for="curriculo in pageOfItems" :key="curriculo.id" :id="curriculo.id" :foto=curriculo.fisica.user.foto :thumbnail=true>
                         <template v-slot:card-header>
                         <h3><span class="label label-info " style="color: #4E73DF;">{{curriculo.fisica.user.name}}</span></h3>
                         </template>
@@ -84,10 +84,10 @@
         <div v-if="displayResultados.length==0">
             <div class="container justify-content-center"><h1>Nenhum resultado encontrado</h1> </div>
         </div>
-        <div class="card-group" v-else>
+        <div class="card-deck" v-else>
             <div class="col-lg-12">
                 <div class="row">
-                    <Card class="col-sm-6" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
+                    <Card class="col-sm-6 column" v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
                         <template v-slot:card-header>
                             <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
                         </template>
