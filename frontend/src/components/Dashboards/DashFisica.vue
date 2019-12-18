@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
           <div v-if="!dataCompleted">
-            <h1>Complete seus dados para continuar!</h1>
+            <center><h1>Complete seus dados para continuar!</h1></center>
              <NewCurriculo></NewCurriculo>
           </div>
           <div v-else>
@@ -33,7 +33,7 @@
         components:{
             ProfileFisica: () => import("../Lists/FisicaData"),
             NewCurriculo: () => import("../Create/NewCurriculo"),
-            dashfisica: () => import("../Utils/CardsDashFisica"), 
+            dashfisica: () => import("../Utils/CardsDashFisica"),
             Modal, BAlert
         },
         data() {
@@ -57,10 +57,10 @@
           if(!this.dataCompleted){
             await this.$store.dispatch('loadFisica')
                   .then(response => {
-                
+
                   }).catch(error => {
                     //console.log(error)
-                  })  
+                  })
           }
           if (this.$route.params.cadastrou){
             this.isModalConfirmaCadastro = true;

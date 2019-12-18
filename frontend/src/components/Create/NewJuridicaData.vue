@@ -12,9 +12,9 @@
 <span v-else>
 
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div v-if="!this.dataCompleted">
-              <h3>Cadastrar Informações</h3>
+              <center><h3>Cadastrar Informações</h3></center>
             </div>
             <div v-else>
               <div class="row">
@@ -25,7 +25,7 @@
                       </router-link>
                   </div>
                 </div>
-                    <div class="col-5">
+                    <div class="col-6">
                   <h3> <center>Editar Informações</center></h3>
                 </div>
               </div>

@@ -1,24 +1,19 @@
 <template>
 
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-7">
             <div v-if="!this.dataCompleted">
-                <h3>Cadastrar Informações</h3>
+                <center><h3>Cadastrar Informações</h3></center>
             </div>
             <div v-else>
                 <div class="row">
                  <div class="col-4">
                   <div class=" bd-highlight flex-left">
-                      <router-link
-                        v-bind:to="'/dashboard/'"
-                        tag="button"
-                        class="btn btn-md btn-outline-secondary">
-                        <i class="fas fa-home fa-sm"></i> Home
-                      </router-link>
+                    <router-link to="/profile" class="btn btn-md btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</router-link>
                   </div>
                 </div>
                 <div class="col-5">
-                  <h3> <router-link to="/profile" class="btn btn-md btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</router-link> <center>Editar Informações</center></h3>
+                  <h3><center>Editar Informações</center></h3>
                 </div>
               </div>
             </div>

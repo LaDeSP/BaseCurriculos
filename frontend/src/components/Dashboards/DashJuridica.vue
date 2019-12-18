@@ -19,7 +19,7 @@
           </span>
           <span v-else>
             <div v-if="!dataCompleted">
-              <h1>Complete seus dados para continuar!</h1>
+              <center><h1>Complete seus dados para continuar!</h1></center>
               <NewJuridicaData></NewJuridicaData>
             </div>
             <div v-else-if="!hasVaga">
