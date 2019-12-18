@@ -102,7 +102,7 @@
                   this.notificacoes = response.error;
                 }
                 else{
-                  this.$router.push({ name: 'dashboard-fisica', params:{cadastrou: true} })
+                  this.$router.push({ name: 'dashboard', params:{cadastrou: true} })
                 }
               
               })

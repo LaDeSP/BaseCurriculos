@@ -108,7 +108,7 @@ class UserController extends Controller implements JWTSubject
         
         auth()->logout();
 
-        return response()->json(['msg' => 'tchau....']);
+        return response()->json(['msg' => auth()->user(), 'fdp' => auth()->logout()]);
     }
 
     public function activateAccount($user_id){

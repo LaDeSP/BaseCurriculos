@@ -56,7 +56,7 @@ import * as Cookies from 'js-cookie'
     const token = state.auth.token;
     await axios({ url: 'http://localhost:8000/api/logout?token=' + token, method: 'POST' })
     .then(response => {
-      
+       console.log('logot' , response)
       const dataCompleted = false;
       commit('logout');
       commit('dataCompleted', dataCompleted)
@@ -112,6 +112,7 @@ import * as Cookies from 'js-cookie'
     return await axios({ url: curriculos_uri + '?token=' + token, data: newCurriculo, method: 'POST' })
       .then(response => {
         
+        console.log('curriculo', response)
         let payloadContact = {
           'celular': newCurriculo.celular,
           'fixo': newCurriculo.fixo,
@@ -145,12 +146,12 @@ import * as Cookies from 'js-cookie'
           'historicoProfissional': newCurriculo.historicoProfissional,
         }
         
-       // commit('contact', {payloadContact})
-        //commit('address', {payloadAddress});
-        //commit('allFisicaData', {payloadCurriculo});
-       // const dataCompleted = true;  
-        //commit('dataCompleted', dataCompleted);
-        return response.data
+        commit('contact', {payloadContact})
+        commit('address', {payloadAddress});
+        commit('allFisicaData', {payloadCurriculo});
+        const dataCompleted = true;  
+        commit('dataCompleted', dataCompleted);
+        return response
       })
       .catch(error => {
         console.log(error)
@@ -192,7 +193,7 @@ import * as Cookies from 'js-cookie'
         const dataCompleted = true;  
         commit('dataCompleted', dataCompleted);
        
-        return response.data
+        return response
       }).catch(error => {
         console.log(error)
       })
@@ -243,7 +244,7 @@ import * as Cookies from 'js-cookie'
         commit('address', {payloadAddress});
         commit('allFisicaData', {payloadCurriculo});
        
-        return response.data
+        return response
       })
       .catch(error => {
         console.log(error)
@@ -285,7 +286,7 @@ import * as Cookies from 'js-cookie'
         commit('address', {payloadAddress});
         commit('allJuridicaData', {payloadJuridica})
 
-        return response.data
+        return response
       }).catch(error => {
         console.log(error)
       })
@@ -845,7 +846,10 @@ import * as Cookies from 'js-cookie'
        return response;
     })
     .catch(
-        error => console.log(error)
+        error => {
+          console.log('teste');
+          console.error(error);
+        } 
     );
   };
 

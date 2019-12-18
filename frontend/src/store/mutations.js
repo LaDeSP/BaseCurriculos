@@ -162,7 +162,7 @@ const countConvites = (state, payloadCountConvites) => {
 
 const isFetching = (state) => {
     state.isFetching = !isFetching
-    console.log('na mut', state.isFetching)
+  
 }
 
 const countAgenda = (state, payloadCountAgenda) => {

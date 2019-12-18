@@ -17,7 +17,7 @@ Route::post('/login', [
     'uses' => 'UserController@login'
 ]);
 
-Route::post('/logout', [
+Route::post('/laaaagout', [
     'uses' => 'UserController@logout'
 ]);
 
@@ -66,6 +66,7 @@ Route::group([
     Route::post('/respostaConvite', 'ConviteController@respostaConvite');
     Route::post('/cancelarConvite', 'ConviteController@cancelarConvite');
     Route::post('/recusarCandidato/{id}', 'CandidaturaController@recusaCandidato');
+    Route::post('/logout', 'UserController@logout');
 
     /*Route::get('/token/refresh', function(){
         try {

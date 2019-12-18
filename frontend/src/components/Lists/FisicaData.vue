@@ -55,7 +55,7 @@
                             <li> <strong>Telefone Fixo</strong>: {{displayPessoaFisica.fixo}}</li>
                             <li> <strong>Telefone Celular</strong>: {{displayPessoaFisica.celular}}</li>
                         </ul>
-                        <h4>Contato</h4>
+                        <h4>Redes Sociais</h4>
                         <ul>
                             <li v-if="typeof displayCurriculo.facebook !== 'undefined' || null">Facebook: {{displayCurriculo.facebook}}</li>
                             <li v-if="typeof displayCurriculo.twitter !== 'undefined' || null">Twitter: {{displayCurriculo.twitter}}</li>

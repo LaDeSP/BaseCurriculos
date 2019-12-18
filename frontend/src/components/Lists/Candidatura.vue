@@ -64,9 +64,9 @@
                     </template>
                     <template v-slot:card-body>
                       <p class="card-text"><strong>Cargo</strong>
-                      : {{show.vaga.cargo}}</p>
+                      : {{show.vaga.cargo}}</p><br><br>
                       <p class="card-text"><strong>Detalhes</strong>
-                      : {{show.vaga.descricao}}</p>
+                      : {{show.vaga.descricao}}</p><br><br>
                     </template>
                     <template v-slot:card-footer>
                       <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
@@ -339,11 +339,11 @@
                     <ul>
                       <li>
                         <strong>Cargo</strong>
-                        : {{show.vaga.cargo}}
+                        : {{show.vaga.cargo}}<br><br>
                       </li>
                       <li>
                         <strong>Detalhes</strong>
-                        : {{show.vaga.descricao}}
+                        : {{show.vaga.descricao}}<br><br>
                       </li>
                       <span v-if="show.status == 'ENTREVISTA CANCELADA'">
                         <br />
@@ -373,22 +373,8 @@
                         </span>
                         <span v-else>a empresa não fez observações.</span>
                       </span>
-                      <span v-if="show.status == 'RECUSADO'">
-                        <br />
-                        <div class="font-weight-bold text-danger">Infelizmente, a empresa decidiu não dar continuidade no seu processo de contratação. :(</div>
-                        <br />
-                        <br />
-                        <span v-if="show.agenda[0].observacao != null">
-                          Foi feita a seguinte observação:
-                          <br />
-                          <br />
-                          <center>
-                            <i>"{{show.agenda[0].observacao}}"</i>
-                          </center>
-                        </span>
-                      </span>
                         <span v-if="show.status == 'RECUSADO'">
-                         <br><span style="color:red; font-weight: bold;"> Infelizmente, a empresa decidiu não dar continuidade no seu processo de contratação. :( </span><br><br>
+                         <br><span style="color:red; font-weight: bold;"> Infelizmente, a empresa decidiu não dar continuidade no processo de sua candidatura :( </span><br><br>
                             <span v-if="show.agenda.length > 0">
                               <span v-if="show.agenda[0].observacao != null">
                                  Foi feita a seguinte observação:

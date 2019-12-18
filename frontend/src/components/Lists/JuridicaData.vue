@@ -34,7 +34,6 @@
               <ul>
                 <li> <strong>Nome da Empresa</strong>: {{displayPessoaJuridica.razao}}</li>
                 <li> <strong>CNPJ</strong>: {{displayPessoaJuridica.cnpj}}</li>
-                <li> <strong>Ramo</strong>: {{displayPessoaJuridica.ramo}}</li>
                 <li> <strong>Rua</strong>: {{displayPessoaJuridica.rua}}</li>
                 <li v-if="typeof displayPessoaJuridica.numero !== 'undefined' || null"><strong>Número</strong>:{{displayPessoaJuridica.numero}}</li>
                 <li v-if="typeof displayPessoaJuridica.complemento !== 'undefined' || null"><strong>Complemento</strong>:{{displayPessoaJuridica.complemento}}</li>
@@ -45,7 +44,7 @@
                 <li> <strong>Telefone Fixo</strong>: {{displayPessoaJuridica.fixo}}</li>
                 <li> <strong>Telefone Celular</strong>: {{displayPessoaJuridica.celular}}</li>
               </ul>
-              <h4><strong>Contato</strong></h4>
+              <h4><strong>Redes Sociais</strong></h4>
               <ul>
                 <li v-if="typeof displayPessoaJuridica.facebook !== 'undefined' || null">Facebook: {{displayPessoaJuridica.facebook}}</li>
                 <li v-if="typeof displayPessoaJuridica.twitter !== 'undefined' || null">Twitter: {{displayPessoaJuridica.twitter}}</li>

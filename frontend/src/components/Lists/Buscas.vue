@@ -1,4 +1,16 @@
 <template>
+<span v-if="isFetching">
+  <br>
+  <br>
+  <br>
+  <div class="container">
+    <center><h1>
+        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+    </h1></center>
+  </div>
+</span>
+<span v-else>
+
 <div class="row justify-content-center">
   <div class="col-md-9">
     <div v-if="permissaoDoUsuario === 'JURIDICA'">
@@ -145,13 +157,13 @@
                                 <template v-slot:header><h3>Detalhes da Vaga</h3></template>
                                 <template v-slot:body>
                                     <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
-                                    <strong>Descrição:</strong> {{vagaById[0].descricao}}
-                                    <strong>Cargo: </strong>{{vagaById[0].cargo}}
-                                    <strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}
-                                    <strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}
-                                    <strong>Salário:</strong> {{vagaById[0].salario}}
-                                    <strong>Benefícios: </strong>{{vagaById[0].beneficio}}
-                                    <strong>Requisitos:</strong> {{vagaById[0].requisito}}
+                                    <strong>Descrição:</strong> {{vagaById[0].descricao}}<br><br>
+                                    <strong>Cargo: </strong>{{vagaById[0].cargo}}<br><br>
+                                    <strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}<br><br>
+                                    <strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}<br><br>
+                                    <strong>Salário:</strong> {{vagaById[0].salario}}<br><br>
+                                    <strong>Benefícios: </strong>{{vagaById[0].beneficio}}<br><br>
+                                    <strong>Requisitos:</strong> {{vagaById[0].requisito}}<br><br>
                                 </template>
                                 <template v-slot:footer>
                                     <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
@@ -185,12 +197,13 @@
     </div>
   </div>
 </div>
+</span>
 </template>
 
 <script>
 import Card from '../Utils/Card';
 import Modal from '../Utils/ModalOld';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import JwPagination from 'jw-vue-pagination';
 import { BAlert } from 'bootstrap-vue'
 
@@ -276,7 +289,12 @@ export default {
 
     computed:{
         ...mapGetters([
-            'displayResultados', 'permissaoDoUsuario', 'dataCompleted', 'displayVagaById', 'displayVagasJuridica', 'displayVagasNaoCandidatadas'
+            'displayResultados', 'permissaoDoUsuario', 'dataCompleted', 'displayVagaById', 
+            'displayVagasJuridica', 'displayVagasNaoCandidatadas'
+        ]),
+
+        ...mapState([
+            'isFetching'
         ]),
 
         vagaById(){

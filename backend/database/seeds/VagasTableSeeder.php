@@ -17,9 +17,7 @@ class VagasTableSeeder extends Seeder
             'salario'=>'1.800',
             'beneficio'=>'Vale combustível e vale transporte',
             'jornada'=>'8 horas por dia',
-            'requisito'=>'- Ser criativo; 
-            - Ter disciplina para cumprimento de prazos; 
-            - Saber trabalhar bem em equipe.',
+            'requisito'=>'Ser criativo; Ter disciplina para cumprimento de prazos; Saber trabalhar bem em equipe.',
             'quantidade'=>'2',
             'status'=>'ATIVA',
             'juridicas_id'=>1,

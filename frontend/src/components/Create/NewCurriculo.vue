@@ -652,10 +652,9 @@ export default {
      if(!this.dataCompleted){
         await this.$store.dispatch('completeFisica', curriculo)
         .then(response => {
-            if(response.error  != undefined){
-                this.notificacoes = response.error;
-            }else{
-            
+            if(response.data.error  != undefined){
+                this.notificacoes = response.data.error;
+            }else if(response.status == 201){
                 this.$router.go({ name: 'dashboard', params:{criou: true}});
             }
         })
@@ -664,11 +663,14 @@ export default {
      }else{
         await this.$store.dispatch('updateFisica', curriculo)
         .then(response => {
-                if(response.error  != undefined){
-                    this.notificacoes = response.error;
-                }else{
-                    this.$router.push({ name: 'profile'});
+                if(response.data.error  != undefined){
+                    this.notificacoes = response.data.error;
+                }else if(response.status == 200){
+                    console.log('infernnnnnn')
+                    this.$router.push({ name: 'profile', params:{criou: true}});
                 }
+
+                console.log('vendo a rsp' , response)
         }).catch(error => console.log(error))
       }
     },

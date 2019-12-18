@@ -69,18 +69,20 @@ class CurriculoController extends Controller
         ]);
         
         return Response::json([
-        'PORRAAAAAA'=>auth()->user()
+            'Currículo cadastrado com sucesso!'
         ], 201);
     }
 
     public function show($id)
     {  
         $fisicas_id = Fisica::where('user_id', $id)->first()->id;
-        if($area_id = Curriculo::where('fisicas_id', $fisicas_id)->first()->areas_id){
+        $area_id = 0;
+        $area = '';
+        if(Curriculo::where('fisicas_id', $fisicas_id)->exists()){
             $area_id = Curriculo::where('fisicas_id', $fisicas_id)->first()->areas_id;
+            $area = Area::where('id', $area_id)->first()->tipo;
         }
-  
-        $area = Area::where('id', $area_id)->first()->tipo;
+
         $fisica = Fisica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->orderBy('created_at', 'desc')->get();
 
         $curriculo = Curriculo::with(['fisica'])->where('fisicas_id', $fisicas_id)->orderBy('created_at', 'desc')->get();
@@ -147,8 +149,8 @@ class CurriculoController extends Controller
         ]);
 
         return Response::json([
-            'SEI LA MAN'=>$request->input('user_id')
-           ], 201);
+            'Currículo editado com sucesso!'
+        ], 200);
       
       
     }

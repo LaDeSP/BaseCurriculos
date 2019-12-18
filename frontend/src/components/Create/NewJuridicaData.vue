@@ -333,8 +333,8 @@ import {mask} from 'vue-the-mask'
                     this.$store.dispatch('completeJuridica', completeJuridica)
                     .then(response => {
 
-                        if(response.error  != undefined){
-                            this.notificeacoes = response.error;
+                        if(response.data.error  != undefined){
+                            this.notificacoes = response.data.error;
                         }else{
                             this.$router.push({ name: 'dashboard', params:{criou: true}});
                         }
@@ -344,8 +344,8 @@ import {mask} from 'vue-the-mask'
                 }else{
                     this.$store.dispatch('updateJuridica', completeJuridica)
                     .then(response => {
-                            if(response.error  != undefined){
-                                this.notificacoes = response.error;
+                            if(response.data.error != undefined){
+                                this.notificacoes = response.data.error;
                             }else{
                                 this.$router.push({ name: 'profile'});
                             }

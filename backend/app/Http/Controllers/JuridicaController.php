@@ -92,7 +92,6 @@ class JuridicaController extends Controller
         
         return Response::json([
             'message' => 'Dados cadastrados com sucesso!',
-            'OI' => auth()->user()
          ], 201);
 
     }
@@ -190,8 +189,9 @@ class JuridicaController extends Controller
         ));
     
         return Response::json([
-            'update ok',
-        ]);
+            'Dados editados com sucesso!'
+        ], 200);
+        
       
     }
 
