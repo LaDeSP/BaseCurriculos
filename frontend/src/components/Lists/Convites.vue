@@ -135,9 +135,9 @@
             <button @click="toggle = false" class="btn btn-lg btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</button>
             <br>
             <br>
-            <div class="list-group" v-for="show in pageOfItems" :key="show.id" :id="show.id">
-                <List class="mb-4" style="width: 60rem; height:15rem;">
-                    <template v-slot:list-header>
+            <div class="list-group">
+              <List class="mb-4" style="width: 60rem; height:15rem;" v-for="show in pageOfItems" :key="show.id" :id="show.id">
+                      <template v-slot:list-header>
                         <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user.name}}
                             <span v-if="show.resposta == 'AGUARDANDO'">
                                 <span class="badge badge-warning">AGUARDANDO</span>
@@ -197,7 +197,7 @@
                                 </template>
                         </Modal>
                     </template>
-                </List>
+            </List>
             </div>
             <div class="row justify-content-center">
                 <div class="trocaPagina" v-if="convitesByVaga.length > 4">
