@@ -135,8 +135,8 @@
             <button @click="toggle = false" class="btn btn-lg btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</button>
             <br>
             <br>
-            <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
-                <List style="width: 60rem; height:30rem;">
+            <div class="list-group" v-for="show in pageOfItems" :key="show.id" :id="show.id">
+                <List class="mb-4" style="width: 60rem; height:15rem;">
                     <template v-slot:list-header>
                         <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user.name}}
                             <span v-if="show.resposta == 'AGUARDANDO'">
