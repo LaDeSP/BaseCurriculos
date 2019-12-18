@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div v-if="!this.dataCompleted">
-                <h3>Cadastrar Informações</h3>
+                <center><h3>Cadastrar Informações</h3></center>
             </div>
             <div v-else>
                 <div class="row">
@@ -655,7 +655,7 @@ export default {
             if(response.error  != undefined){
                 this.notificacoes = response.error;
             }else{
-            
+
                 this.$router.go({ name: 'dashboard', params:{criou: true}});
             }
         })
