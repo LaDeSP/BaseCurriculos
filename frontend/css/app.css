@@ -24861,6 +24861,13 @@ body.sidebar-toggled footer.sticky-footer {
   }
 }
 
+@media (min-width: 576px) {
+  .column {
+    float: left;
+    width: 50%;
+    padding: 5px;
+  }
+}
 
 /*------------------------------------------------------------------
 [ Alert validate ]*/
@@ -25001,13 +25008,6 @@ p{
 .inferno{
   margin: 10px;
 }
-
-.column {
-    float: left;
-    width: 50%;
-    padding: 5px;
-  }
-
   /* Clear floats after image containers */
   .row::after {
     content: "";
