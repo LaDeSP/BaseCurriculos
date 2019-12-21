@@ -25,7 +25,7 @@ export default {
 
             this.axios.post('http://localhost:8000/', formData)
                 .then(response => {
-                    console.log(response);
+                  
                 })
         }
     }

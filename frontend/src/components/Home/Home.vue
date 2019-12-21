@@ -1,7 +1,7 @@
 <template>
 <div>
    <header class="masthead">
-      <NavBarHome></NavBarHome>
+    <NavBarHome></NavBarHome>
     <div class="container">
       <div class="intro-text">
           <div class="intro-lead-in" >Bem-Vindo ao Banco de Currículos,</div>
@@ -40,7 +40,6 @@
     methods: {
       showModal(){
         this.isModalFacaParte = true;
-        console.log('showModal', this.isModalFacaParte)
       },
       closeModal(){
         this.isModalFacaParte = false;

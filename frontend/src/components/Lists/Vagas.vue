@@ -1,172 +1,452 @@
 <template>
-    <div class="panel panel-default">
-        <div class="col-md-12"> 
-            <div class="btn-group btn-group-sm" role="group">
-                <button @click="changeActiveButton('ativa')" type="button" class="active btn btn-outline-success">Ver Vagas Ativas</button>
-                <button @click="changeActiveButton" type="button" class="btn btn-outline-secondary">Ver Vagas Inativas</button>
+<span v-if="isFetching">
+  <div class="container"></div>
+  <div class="container">
+    <center><h1>
+        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+    </h1></center>
+  </div>
+</span>
+<span v-else>
+<div class="row justify-content-center">
+    <div class="col-9">
+      <div class="row">
+        <template v-if="permissaoDoUsuario === 'JURIDICA'">
+            <div class="col-4">
+              <div class=" bd-highlight">
+                  <router-link
+                    v-bind:to="'/dashboard/'"
+                    tag="button"
+                    class="btn btn-md btn-outline-secondary">
+                    <i class="fas fa-home fa-sm"></i> Home
+                  </router-link>
+              </div>
             </div>
+            <div class="col-4">
+              <div class=" bd-highlight">
+                <h2>Minhas Vagas</h2>
+              </div>
+            </div>
+        </template>
+      </div>
+      <br />
+      <template v-if="permissaoDoUsuario === 'JURIDICA'">
+        <div class="d-flex flex-row bd-highlight mb-3">
+          <div class="p-2 flex-fill bd-highlight">
+            <div class="btn-group btn-group-sm" role="group">
+              <button
+                @click="changeActiveButton('ativa')"
+                type="button"
+                class="active btn btn-outline-success">
+                Vagas Ativas
+              </button>
+              <button
+                @click="changeActiveButton"
+                type="button"
+                class="btn btn-outline-secondary"
+              >Vagas Inativas</button>
+            </div>
+          </div>
+          <div class="p-2 bd-highlight">
+             <div class="btn-group btn-group-sm" role="group">
+              <button @click="onCreate" type="button" class="btn btn-primary">
+                  Criar Vaga
+                  <span>
+                    <i class="fa fa-plus"></i>
+                  </span>
+              </button>
+            </div>
+           </div>
         </div>
-        <div class="panel-heading"><h2>Vagas de Emprego</h2></div>
-            <div class="panel-body" v-for="vaga in isActive" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">     
-              <h3><span class="label label-info ">Título: {{vaga.titulo}}</span></h3>
-                <p>Local:{{vaga.local}}</p>
-                 <p>Status:{{vaga.status}}</p>
-                <p>Quantidade: {{vaga.quantidade}}</p>
-                <p>Área de Atuação: {{vaga.area.tipo}}</p>
-                <p>Salário: {{vaga.salario}}</p>
-                <p>Jornada de Trabalho: {{vaga.jornada}}</p>
-                <p>Benefícios: {{vaga.beneficio}}</p>
-                <p>Requisitos: {{vaga.requisito}}</p>
+      </template>
+      <br />
+      <br />
 
-                <div v-if="isFIS === true">
-                   <router-link v-bind:to="'' + vaga.id" tag="button" class="btn btn-sm btn-default">Ver mais</router-link>
-                   <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button> 
-                </div>
-                <div v-else>
-                    <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">Editar</button>
-                    <span v-if="filterState">
-                        <button @click="changeStatus(vaga.id, 'INATIVA')" class="btn btn-sm btn-outline-danger">Desativar</button>  
-                    </span>
-                    <span v-else>
-                        <button @click="changeStatus(vaga.id, 'ATIVA')" class="btn btn-sm btn-outline-primary">Ativar</button>  
-                    </span>
-                    <button @click="onDelete(vaga.id)" class="btn btn-sm btn-danger">Deletar</button>  
-                </div>
-               <hr>
+        <span v-if="filterState == true && pageOfItems.length == 0">
+          <div class="container">
+          <center><h3>Não há nenhuma vaga ativa. </h3></center>
+          </div>
+        </span>
+        <span v-else-if="filterState == false && pageOfItems.length == 0">
+          <div class="container">
+          <center><h3>Não há nenhuma vaga inativa. </h3></center>
+          </div>
+        </span>
+        <template v-if="permissaoDoUsuario === 'JURIDICA'">
+            <div class="card-deck">
+              <div class="col-12">
+                <div class="row">
+                <Card class="col-6 column"  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
+                  <template v-slot:card-header>
+                    <h3 class="card-title" style="color: #4E73DF;">
+                    {{vaga.titulo}}
+                    </h3>
+                  </template>
+                  <template v-slot:card-body>
+                    <div v-if="notificacao" style="color: red;">
+                    <p style="white-space:pre-line;"><strong>{{notificacao}}</strong></p>
+                    </div>
+                      <strong>Descrição:</strong>
+                      {{vaga.descricao}} <br><br>
+                      <strong>Cargo:</strong>
+                      {{vaga.cargo}}  <br><br>
+                      <strong>Quantidade:</strong>
+                      {{vaga.quantidade}}  <br><br>
+                      <strong>Área de Atuação:</strong>
+                      {{vaga.area.tipo}}  <br><br>
+                      <strong>Salário:</strong>
+                      {{vaga.salario}}  <br><br>
+                      <strong>Jornada de Trabalho:</strong>
+                      {{vaga.jornada}}  <br><br>
+                      <strong>Benefícios:</strong>
+                      {{vaga.beneficio}}  <br><br>
+                      <strong>Requisitos:</strong>
+                      {{vaga.requisito}}  <br><br>
+                  </template>
+                  <template v-slot:card-footer>
+                    <div>
+                      <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">
+                        <h6 class="card-text">Editar</h6>
+                      </button>
+                      <span v-if="filterState">
+                        <button
+                          @click="changeStatus(vaga.id, 'INATIVA')"
+                          class="btn btn-sm btn-outline-secondary"
+                        >
+                          <h6 class="card-text">Desativar</h6>
+                        </button>
+                      </span>
+                      <span v-else>
+                        <button
+                          @click="changeStatus(vaga.id, 'ATIVA')"
+                          class="btn btn-sm btn-outline-success"
+                        >
+                          <h6 class="card-text">Ativar</h6>
+                        </button>
+                      </span>
+                      <button @click="showModal('warning', vaga.id)" class="btn btn-sm btn-danger">
+                        <h6 class="card-text">Deletar</h6>
+                      </button>
+                      <Modal v-show="isModalWarning" @close="closeModal">
+                        <template v-slot:header>
+                          <h3>Deletar Vaga</h3>
+                        </template>
+                        <template v-slot:body>
+                          <h2 class="text-center">
+                            Tem certeza de que deseja
+                            <span style="color: #ff0000">
+                              <strong>deletar</strong>
+                            </span>
+                            essa vaga?
+                          </h2>
+                        </template>
+                        <template v-slot:footer>
+                          <div>
+                            <button @click="onDelete" class="btn btn-lg btn-danger">Sim</button>
+                            <button @click="closeModal" class="btn btn-lg btn-success">Não</button>
+                          </div>
+                        </template>
+                      </Modal>
+                    </div>
+                  </template>
+                </Card>
+          </div>
         </div>
+              </div>
+              </template>
+
+      <br />
+      <br />
+      <div class="row no-gutters align-items-center">
+        <div class="col-11" v-if="isActive.length > 2">
+          <center>
+            <jw-pagination
+              :items="isActive"
+              @changePage="onChangePage"
+              :pageSize="2"
+              :labels="customLabels"
+              v-if="permissaoDoUsuario === 'JURIDICA'"
+            ></jw-pagination>
+          </center>
+        </div>
+        <div class="col-11 display-none" v-else>
+          <center>
+            <jw-pagination
+              :items="isActive"
+              @changePage="onChangePage"
+              :pageSize="4"
+              :labels="customLabels"
+              v-if="permissaoDoUsuario === 'JURIDICA'"
+            ></jw-pagination>
+          </center>
+        </div>
+      </div>
+      <br />
+      <br />
+      <template v-if="permissaoDoUsuario === 'FISICA'">
+        <div
+          v-for="vaga in pageOfItems"
+          :key="vaga.id"
+          :id="vaga.id"
+          @vagaDeleted="onVagaDeleted($event)"
+        >
+          <List>
+            <template v-slot:list-header>
+              <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
+            </template>
+            <template v-slot:list-body>
+                <strong>Cargo:</strong>
+                {{vaga.cargo}}
+              
+                <strong>Área de Atuação:</strong>
+                {{vaga.area.tipo}}
+              
+                <strong>Jornada de Trabalho:</strong>
+                {{vaga.jornada}}
+              
+            </template>
+            <template v-slot:list-footer>
+              <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
+              <template v-if="dataCompleted">
+                <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+              </template>
+              <template v-else>
+                <router-link
+                  to="/new-curriculo"
+                  class="btn btn-sm btn-info"
+                >Preencha seu currículo para se candidatar!</router-link>
+              </template>
+              <Modal v-if="isModalShowMore" @close="closeModal">
+                <template v-slot:header>
+                  <h3>Detalhes da Vaga</h3>
+                </template>
+                <template v-slot:body>
+                  <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
+                  <strong>Descrição:</strong>
+                  {{vagaById[0].descricao}}
+                  <strong>Cargo:</strong>
+                  {{vagaById[0].cargo}}
+                  <strong>Área de Atuação:</strong>
+                  {{vagaById[0].area.tipo}}
+                  <strong>Jornada de Trabalho:</strong>
+                  {{vagaById[0].jornada}}
+                  <strong>Salário:</strong>
+                  {{vagaById[0].salario}}
+                  <strong>Benefícios:</strong>
+                  {{vagaById[0].beneficio}}
+                  <strong>Requisitos:</strong>
+                  {{vagaById[0].requisito}}
+                </template>
+                <template v-slot:footer>
+                  <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
+                  <div v-if="dataCompleted">
+                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                  </div>
+                  <div v-else>
+                    <router-link
+                      to="/new-curriculo"
+                      class="btn btn-sm btn-info"
+                    >Preencha seu currículo para se candidatar!</router-link>
+                  </div>
+                </template>
+              </Modal>
+            </template>
+          </List>
+          <br />
+        </div>
+        <br />
+        <br />
+        <div class="row">
+          <div class="col-11" v-if="isActive.length > 4">
+            <center>
+              <jw-pagination
+                :items="isActive"
+                @changePage="onChangePage"
+                :pageSize="4"
+                :labels="customLabels"
+              ></jw-pagination>
+            </center>
+          </div>
+          <div class="col-11 display-none" v-else>
+            <center>
+              <jw-pagination
+                :items="isActive"
+                @changePage="onChangePage"
+                :pageSize="4"
+                :labels="customLabels"
+              ></jw-pagination>
+            </center>
+          </div>
+        </div>
+        <br />
+        <br />
+      </template>
     </div>
+  </div>
+</span>
+
 </template>
 
 
 <script>
-   
-    export default {
-        data(){
-            return{
-              
-                vagas: [],
-                role: '',
-                uri: 'http://localhost:8000/api/vagas',
-                token: this.$session.get('jwt'),
-                auth_jur: 0,
-                isFIS: false,
-                filterState: true
-            }
-        },
-        methods: {
+import Card from "../Utils/Card";
+import Modal from "../Utils/ModalOld";
+import List from "../Utils/List";
+import painel from "../Utils/Painel";
+import { mapActions, mapGetters, mapState } from "vuex";
+import JwPagination from "jw-vue-pagination";
+const customLabels = {
+  first: "Primeira",
+  last: "Última",
+  previous: "Anterior",
+  next: "Próxima"
+};
 
-            loadVagas(){
+export default {
+  data() {
+    return {
+      vagas: [],
+      vaga_id: 0,
+      filterState: true,
+      isModalWarning: false,
+      isModalShowMore: false,
+      pageOfItems: [],
+      customLabels,
+      notificacao: '',
+    };
+  },
+  components: { Card, Modal, List, painel, JwPagination },
+  methods: {
+    ...mapActions(["loadVagasJuridica"]),
 
-                this.axios
-                    .get(this.uri + '?token=' + this.token)
-                    .then(response => {
-                        this.vagas = response.data.vagas
-                        this.auth_jur = response.data.auth_jur
-                        console.log(response)
-                    })
-                    .catch(
-                        error => console.log(error)
-                    );
-            },
+    onChangePage(pageOfItems) {
+      // update page of items
+      this.pageOfItems = pageOfItems;
+    },
 
-            onEdit(vaga_id){
+    showModal(modal, vaga_id) {
+      if (modal === "warning") {
+        this.isModalWarning = true;
+        this.vaga_id = vaga_id;
+      } else {
+        this.isModalShowMore = true;
+        this.vaga_id = vaga_id;
+      }
+    },
 
-                this.$router.push({ name: 'new-vaga', params: { editing: true, vaga_id }})
-            },
+    closeModal() {
+      this.isModalWarning = false;
+      this.isModalShowMore = false;
+    },
 
-            onRequest(vagaId){
-                
-                const vaga_id = vagaId;
-                this.axios.post('http://localhost:8000/api/candidaturas?token=' + this.token, 
-                    {
-                        vaga_id: vaga_id,
-                        user_id: this.$session.get('user_id')
-                    },
-                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .then(
-                        (response) => console.log(response),
-                    )
-                    .catch(
-                        (error) => console.log(error),
-                        
-                    );
-               
-            },
-            changeStatus(id, status){
+    onCreate() {
+      this.$session.set("editing", false);
+      this.$router.push({ name: "new-vaga" });
+    },
 
-               this.axios.post(this.uri + '/' + 'changeStatus' + '?token=' + this.token, 
-                    {
-                        vaga_id: id,
-                        status: status
-                    },
-                    {headers: {'X-Requested-With': 'XMLHttpRequest'}})
-                    .then(
-                        (response) => console.log(response)
-                    )
-                    .catch(
-                        (error) => console.log(error),
-                        
-                    );
-                   
-              
-               
-            },
-            onDelete(id){
+    onEdit(vaga_id) {
+      this.$session.set("editing", true);
+      this.$session.set("vaga_id", vaga_id);
+      this.$router.push({ name: "new-vaga" });
+    },
 
-                this.$emit('vagaDeleted', id);
+    onRequest(id) {
+      let vaga_id = 0;
+      if (this.vaga_id != 0) {
+        vaga_id = this.vaga_id;
+      } else {
+        vaga_id = id;
+      }
 
-                this.axios.delete(this.uri + '/' + id + '?token=' + this.token)
-                    .then(
-                        response => console.log(response),
-                    )
-                    .catch(
-                        error => console.log(error)
-                    );
-               
-            },
-            onVagaDeleted(id){
-                const position = this.vagas.findIndex((element) => {
-                    return element.id == id;
-                });
+      let requestVaga = {
+        vaga_id: vaga_id,
+        user_id: this.$store.state.auth.user.id
+      };
+      this.$store
+        .dispatch("requestVaga", requestVaga)
+        .then(response => {
+          this.isModalShowMore = false;
+        })
+        .catch(error => console.log(error));
+    },
 
-                this.vagas.splice(position, 1);
-            },
+    changeStatus(id, status) {
+      let newStatus = {
+        vaga_id: id,
+        status: status
+      };
+      this.$store
+        .dispatch("changeStatusVaga", newStatus)
+        .then(response => {
 
-            changeActiveButton(tipo){
-                
-                $('.btn-group').on('click', '.btn', function() {
-                    $(this).addClass('active').siblings().removeClass('active');
-                });
-                if(tipo === 'ativa'){
-                    this.filterState = true;
-                }else{
-                    this.filterState = false;
-                }
-                console.log('filtersTATE', this.filterState);
-            }
-        },
-        computed:{
-             isActive(){
-                if(this.$session.get('role') === 'FISICA'){
-                    return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA';})
-                }else{
-                    if(this.filterState === true){
-                        return this.vagas.filter((vaga) => {return vaga.status === 'ATIVA' && vaga.juridicas_id == this.auth_jur;})
-                    }else{
-                        return this.vagas.filter((vaga) => {return vaga.status === 'INATIVA' && vaga.juridicas_id == this.auth_jur;})
-                    }
-                }
-            }
+          this.notificacao =  response.notificacao
+        })
+        .catch(error => console.log(error));
+    },
 
-        },
-        beforeMount(){
-               if(this.$session.get('role') === 'FISICA'){this.isFIS = true}
-        },
-        
-        created(){
-            this.loadVagas();
-            console.log('state', this.$store.state.auth);
-            console.log('getters', this.$store.getters);
-        }
+    async onDelete() {
+      await this.$store
+        .dispatch("deleteVaga", this.vaga_id)
+        .then(response => {
+          this.isModalWarning = false;
+        })
+        .catch(error => console.log(error));
+    },
+
+    changeActiveButton(status) {
+      $(".btn-group").on("click", ".btn", function() {
+        $(this)
+          .addClass("active")
+          .siblings()
+          .removeClass("active");
+      });
+      if (status === "ativa") {
+        this.filterState = true;
+      } else {
+        this.filterState = false;
+      }
+    },
+
+    lineBreak(content){
+       return content.replace(/#/g, '`');
     }
+  },
+
+  computed: {
+    isActive() {
+      if (this.permissaoDoUsuario === "FISICA") {
+        return this.displayVagasJuridica.filter(vaga => {
+          return vaga.status === "ATIVA";
+        });
+      } else {
+        if (this.filterState === true) {
+          return this.displayVagasAtivas
+        } else {
+          return this.displayVagasInativas
+        }
+      }
+    },
+
+    ...mapState([
+      'isFetching'
+    ]),
+
+    ...mapGetters([
+      "displayVagasJuridica",
+      "displayVagaById",
+      "permissaoDoUsuario",
+      "displayVagasAtivas",
+      "displayVagasInativas",
+      "dataCompleted"
+    ]),
+
+    vagaById() {
+      return this.displayVagaById(this.vaga_id);
+    }
+  },
+
+  created() {
+    this.loadVagasJuridica();
+  }
+};
 </script>

@@ -12,7 +12,6 @@ class CreateJuridicasTable extends Migration
         Schema::create('juridicas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('cnpj')->unique();
-            $table->string('ramo');
             $table->integer('contatos_id')->unsigned()->nullable();
             $table->integer('enderecos_id')->unsigned()->nullable();
             $table->timestamps();
@@ -20,6 +19,9 @@ class CreateJuridicasTable extends Migration
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
+            $table->softDeletes();
+            $table->unsignedInteger('areas_id');
+            $table->foreign('areas_id')->references('id')->on('areas');
             $table->foreign('contatos_id')->references('id')->on('contatos')->onDelete('cascade');
             $table->foreign('enderecos_id')->references('id')->on('enderecos')->onDelete('cascade');
         });

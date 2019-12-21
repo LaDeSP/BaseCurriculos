@@ -3,9 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use \Askedio\SoftCascade\Traits\SoftCascadeTrait; 
+
 
 class Fisica extends Model
 {
+
+	use SoftDeletes, SoftCascadeTrait; 
+
+	protected $softCascade = ['curriculo'];
+
 	protected $fillable = [
 		'cpf', 'genero', 'estado_civil', 'data_nascimento', 
 		'contatos_id', 'enderecos_id', 'user_id'
@@ -24,7 +32,7 @@ class Fisica extends Model
 	}
 
 	public function curriculo(){
-		return $this->hasOne(Curriculo::class);
+		return $this->belongsTo(Curriculo::class, 'id', 'fisicas_id');
 	}
 	
 }

@@ -10,6 +10,7 @@
  * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+
 :root {
   --blue: #4e73df;
   --indigo: #6610f2;
@@ -52,7 +53,9 @@ html {
   font-family: sans serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
+  height: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  overflow-x: hidden;
 }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
@@ -60,7 +63,10 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 
 body {
+
   margin: 0;
+  padding: 0;
+  height: 100px;
   font-family: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 1rem;
   font-weight: 400;
@@ -68,10 +74,15 @@ body {
   color: #858796;
   text-align: left;
   background-color: #fff;
+  overflow-x: hidden;
 }
 
 [tabindex="-1"]:focus {
   outline: 0 !important;
+}
+
+ul {
+  list-style-type: none;
 }
 
 hr {
@@ -586,12 +597,68 @@ pre code {
   }
 }
 
+.site-footer {
+  background: linear-gradient(to bottom,#5a5c69,#4F4F4F);
+  padding: 50px 0;
+  margin-right: 0;
+}
+.site-footer .copyright{
+  font-family:Arial, Helvetica !important;
+  color:white;
+}
+
+
+.background{
+  background-image: url('../img/beck.png');
+  background-size: 100%;
+}
+
+
+footer{
+  background-color: #5a5c69 !important;
+  padding: 40px 0px;
+  margin-bottom: 5px !important;
+}
+
+footer ul li{
+ padding:5px 0px;
+}
+
+.ptc span , .mapa span , .social span{
+color: #FFF;
+font-weight: 800;
+padding-bottom: 10px;
+margin-bottom: 20px;
+display: block;
+text-transform: uppercase;
+font-size: 20px;
+letter-spacing: 3px;
+}
+
+.ptc li a , .mapa li a , .social li a{
+ color:#FFF;
+ letter-spacing: 2px;
+ text-decoration:none;
+ font-size:15px;
+}
+
+.social li{
+ float:left;
+}
+
+.ptc , .mapa , .social {
+ list-style: none;
+}
+
 .container-fluid {
   width: 100%;
   padding-right: 0.75rem;
   padding-left: 0.75rem;
   margin-right: auto;
   margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .row {
@@ -5039,6 +5106,9 @@ input[type="button"].btn-block {
   -ms-flex-direction: column;
   flex-direction: column;
 }
+.card-group [class*='col-'] {
+  float:none;
+}
 
 .card-group > .card {
   margin-bottom: 0.75rem;
@@ -6115,6 +6185,7 @@ a.close.disabled {
   outline: 0;
   max-width: 100%;
   max-height: 100%;
+  background-color: rgba(8, 8, 8, 0.8);
 
 }
 
@@ -8916,9 +8987,9 @@ button.bg-dark:focus {
   .mx-sm-1 {
     margin-left: 0.25rem !important;
   }
-  .card{
+  /*.card{
     margin: 5px !important;
-  }
+  }*/
   .m-sm-2 {
     margin: 0.5rem !important;
   }
@@ -12055,32 +12126,6 @@ form.user .btn-user {
   animation: noise-anim-2 3s infinite linear alternate-reverse;
 }
 
-.mini-footer {
- background:#5a5c69 !important;
- color: white !important;
- text-align:center;
- padding:3px 0
-}
-.mini-footer p {
-  margin:3;
-  font: 18px arial, sans-serif;
-  line-height:22px;
-  font-size:15px;
-}
-.containerfooter{
-  padding: 1%;
-  text-align: center;
-}
-/* footer {
-    background-color: #5a5c69 !important;
-    color: white !important;
-}
-footer .copyright {
-    text-align: center;
-    text-decoration: none;
-    font: 18px arial, sans-serif;
-} */
-
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
@@ -13031,6 +13076,8 @@ pre code {
 
 .container {
   width: 100%;
+  min-height: 100%;
+  position: relative;
   padding-right: 0.75rem;
   padding-left: 0.75rem;
   margin-right: auto;
@@ -24814,6 +24861,13 @@ body.sidebar-toggled footer.sticky-footer {
   }
 }
 
+@media (min-width: 576px) {
+  .column {
+    float: left;
+    width: 50%;
+    padding: 5px;
+  }
+}
 
 /*------------------------------------------------------------------
 [ Alert validate ]*/
@@ -24954,13 +25008,6 @@ p{
 .inferno{
   margin: 10px;
 }
-
-.column {
-    float: left;
-    width: 50%;
-    padding: 5px;
-  }
-
   /* Clear floats after image containers */
   .row::after {
     content: "";
@@ -24975,6 +25022,7 @@ header.masthead1 {
   background-attachment: scroll;
   background-position: center center;
   background-size: cover;
+
 }
 
 header.masthead1 .intro-text1 {
@@ -25070,6 +25118,57 @@ header.masthead .intro-text .intro-heading {
   }
 }
 
+header.masthead2 {
+  text-align: center;
+  color: white;
+  background-image: url("../img/funfo.jpg");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
+}
+
+header.masthead2 .intro-text2 {
+  padding-top: 150px;
+  padding-bottom: 100px;
+}
+
+header.masthead2 .intro-text2 .intro-lead-in {
+  font-size: 22px;
+  font-style: italic;
+  line-height: 22px;
+  margin-bottom: 25px;
+  font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+header.masthead2 .intro-text2 .intro-heading {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 50px;
+  margin-bottom: 25px;
+  font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@media (min-width: 768px) {
+  header.masthead2 .intro-text2 {
+    padding-top: 147;
+    padding-bottom: 200px;
+  }
+  header.masthead2 .intro-text2 .intro-lead-in {
+    font-size: 40px;
+    font-style: italic;
+    line-height: 40px;
+    margin-bottom: 25px;
+    font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  }
+  header.masthead2 .intro-text2 .intro-heading {
+    font-size: 68px;
+    font-weight: 700;
+    line-height: 75px;
+    margin-bottom: 50px;
+    font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  }
+}
 .service-heading {
   margin: 15px 0;
   text-transform: none;
@@ -25092,8 +25191,8 @@ label#thumbnail {
   align-items: center;
 }
 
-label#thumbnail input { 
-  /* como ta dentro de uma label ela automaticamente redireciona o click pro input, 
+label#thumbnail input {
+  /* como ta dentro de uma label ela automaticamente redireciona o click pro input,
   mesmo q ele esteja invisivel vai abrir a janela de upload */
   display: none;
 }
@@ -25105,3 +25204,87 @@ label#thumbnail.has-thumbnail{
 label#thumbnail.has-thumbnail img{
   display: none;
 }
+
+.dropzone .dz-preview .dz-image img {
+    max-width: 200px;
+    width: 200px;
+    max-height: 200px;
+    height: 200px;
+}
+
+.icon-profile{
+  max-width:32%;
+	height:auto;
+}
+.quadrado{
+  border-radius: 5px;
+}
+ .igualdade{
+  max-height: 450px;
+  min-height: 450px;
+}
+
+.color-red{
+  color: red !important;
+}
+
+/* css do login apartir daqui */
+.login-form-topzera {
+  width: 350px;
+  margin: 0 auto;
+  padding: 10px 0 20px;
+}
+.internocard {
+  color: #7a7a7a;
+  border-radius: 2px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  background: #ececec;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  position: relative;
+  }
+.login-form-topzera h2 {
+  font-size: 22px;
+  margin: 35px 0 25px;
+  }
+.login-form-topzera .avatar {
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: -50px;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  z-index: 9;
+  background: #F0FFFF;
+  padding: 15px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+.login-form-topzera .avatar img {
+  width: 100%;
+}
+.login-form-topzera input[type="checkbox"] {
+    margin-top: 2px;
+}
+/* css do login termina daqui */
+
+.trocaPagina{
+  padding: 100px 0;
+  margin-right: 0;
+
+}
+
+.withoutPreviusNext .pagination .first, .withoutPreviusNext .pagination .last{
+  display: none !important;
+}
+
+.display-none{
+  display: none !important;
+}
+
+.margin-bottom{
+  margin-bottom: 15px;
+}
+

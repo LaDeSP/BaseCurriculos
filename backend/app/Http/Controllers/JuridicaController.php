@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 use Response;
 
@@ -29,7 +30,7 @@ class JuridicaController extends Controller
         
         $pjuridica = new Juridica();
         $cnpj = $pjuridica->cnpj = $request->input('cnpj');
-        $ramo = $pjuridica->ramo = $request->input('ramo');
+        $areas_id = $pjuridica->areas_id = $request->input('area');//pra funcionar tive que trocar area por areas_id. mas n sei se é padrão
         $email = $request->input('email');
         $id = User::where('email', $email)->first()->id;
         $pjuridica->user_id = $id;
@@ -45,6 +46,7 @@ class JuridicaController extends Controller
             'name' => $request->input('name'),
             'role' => $request->input('role'),
             'user'=> auth()->user(),
+            'foto'=> "http://localhost:8000/anon.jpg",
             'message' => 'Pessoa Jurídica cadastrada com sucesso!'
             ], 201); 
     }
@@ -57,46 +59,92 @@ class JuridicaController extends Controller
            ], 201);
         }
 
-        $con_id = Contato::insertGetId([
-            'celular' => $request->input('celular'),
-            'fixo' => $request->input('fixo'),
-            'linkedin' => $request->input('linkedin'),
-            'facebook' => $request->input('facebook'),
-            'twitter' => $request->input('twitter'),
-            'site' => $request->input('site'),
-            'outraRede' => $request->input('outraRede')
+       $user_id = auth()->user()->id;
+       User::where('id', $user_id)->update(['name'=>$request->nome]);
+
+       $juridica = Juridica::where('user_id', $user_id)->first()->id;
+       
+       $con_id = Contato::insertGetId([
+            'celular' => $request->celular,
+            'fixo' => $request->fixo,
+            'linkedin' => $request->linkedin,
+            'facebook' => $request->facebook,
+            'twitter' => $request->twitter,
+            'site' => $request->site,
         ]);
 
         $end_id = Endereco::insertGetId([
-            'rua' => $request->input('rua'),
-            'bairro' => $request->input('bairro'),
-            'cidade' => $request->input('cidade'),
-            'estado' => $request->input('estado'),
-            'complemento' => $request->input('complemento'),
-            'numero' => $request->input('numero'),
-            'pais' => $request->input('pais'),
-            'cep' => $request->input('cep')
+            'rua' => $request->rua,
+            'bairro' => $request->bairro,
+            'cidade' => $request->cidade,
+            'estado' => $request->estado,
+            'complemento' => $request->complemento,
+            'numero' => $request->numero,
+          //  'pais' => $request->pais,
+            'cep' => $request->cep,
         ]);
         
-        Juridica::where('user_id', $request->input('user_id'))
+        Juridica::where('user_id', $user_id)
         ->update(array(
             'contatos_id' => $con_id, 
             'enderecos_id' => $end_id
-
         ));
-
+        
         return Response::json([
-            'message' => 'Dados cadastrados com sucesso!'
+            'message' => 'Dados cadastrados com sucesso!',
          ], 201);
 
     }
 
     public function show($id)
     {
-        $juridica = Juridica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->get();
+        $juridica = Juridica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->orderBy('created_at', 'desc')->get();
         return Response::json([
             'juridica' => $juridica
          ], 201);
+    }
+
+    public function updateDadosCadastroJuridica (Request $request){
+        $user_id = auth()->user()->id; 
+        $user = User::findOrFail($user_id);
+        $juridica = $user->juridica;
+        
+        $validator = Validator::make($request->all(), JuridicaController::rules_edit($user->id, $juridica->id), JuridicaController::messages_basic());
+        
+        if ($validator->fails()) {
+            return Response::json([
+                'error' => $validator->messages()
+            ], 201);
+        }
+        
+        $error = [];
+        if($request->newPassword){
+            if(!$request->password){
+                $errorSenha[] = "Insira senha atual.";
+                $error[] = $errorSenha;
+                return Response::json([
+                    'error' => $error
+                ], 201);
+            }
+            if(!Hash::check($request->password, $user->password)){
+                $errorSenha[] = "Senha atual errada.";
+                $error[] = $errorSenha;
+                return Response::json([
+                    'error' => $error
+                ], 201);
+            }
+            $user->password = Hash::make($request->newPassword);
+        }
+        $user->email = $request->email;
+        $juridica->cnpj = $request->cnpj;
+        
+        $user->update();
+        $juridica->update();
+        return Response::json([
+            'message'=>'Pessoa jurídica atualizada com sucesso!',
+            'cnpj'=>$juridica->cnpj,
+            'email'=>$user->email,
+        ], 201); 
     }
 
 
@@ -105,7 +153,7 @@ class JuridicaController extends Controller
         $end_id = Juridica::where('user_id', $id)->value('enderecos_id');
         $con_id = Juridica::where('user_id', $id)->value('contatos_id');
 
-        //User::where('id', $id)->update(['name'=>$request->nome]);
+        User::where('id', $id)->update(['name'=>$request->nome]);
         
         $validator = Validator::make($request->all(), JuridicaController::rules_addData(), JuridicaController::messages_addData());
         if ($validator->fails()) {
@@ -121,7 +169,7 @@ class JuridicaController extends Controller
             'estado' => $request->estado,
             'complemento' => $request->complemento,
             'numero' => $request->numero,
-            'pais' => $request->pais,
+          //  'pais' => $request->pais,
             'cep' => $request->cep
         ]);
 
@@ -136,18 +184,18 @@ class JuridicaController extends Controller
         ]);
 
         Juridica::where('user_id', $id)->update(array(
-                'contatos_id' => $con_id, 
-                'enderecos_id' => $end_id
-            ));
-
+            'contatos_id' => $con_id, 
+            'enderecos_id' => $end_id
+        ));
+    
         return Response::json([
-            'SEI LA MAN'=>$request->user_id
-           ], 201);
-      
+            'Dados editados com sucesso!'
+        ], 200);
+        
       
     }
 
-    public function destroy($id)
+   /* public function destroy($id)
     {
     
         $end_id = Juridica::where('user_id', $id)->first()->enderecos_id;
@@ -156,24 +204,28 @@ class JuridicaController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        $end = Endereco::find($end_id);
-        $end->delete();
+        if($end_id && $cont_id){
+            $end = Endereco::find($end_id);
+            $end->delete();
 
-        $cont = Contato::find($cont_id);
-        $cont->delete();
-        
+            $cont = Contato::find($cont_id);
+            $cont->delete();
+    
+        }
+
         return Response::json([
             'msg' => 'deletado ok'
          ], 201);
     }
+    */
 
     
     public function messages_basic(){
         return $messages = [
             'name.required' => 'Insira um nome!',
             'name.max' => 'Insira nome com no máximo 50 caracteres',
-            'ramo.required' => 'Insira um ramo!',
-            'ramo.max' => 'Insira ramo com no máximo 50 caracteres',
+            'area.required' => 'Selecione uma área.',
+            'area.exists' => 'Selecione uma área válida.',
             'email.required' => 'Insira um email!',
             'email.email' => 'Insira um email válido!',
             'email.unique' => 'Email inserido já existe!',
@@ -182,16 +234,19 @@ class JuridicaController extends Controller
             'password.max' => 'Senha tem que ter no máximo 30 caracteres!',
             'cpf.required' => 'Insira um CPF!',
             'cpf.cpf' => 'Insira um CPF válido!',
-            'cpf.unique' => 'CPF inserido já foi cadastrado.'
+            'cpf.unique' => 'CPF inserido já foi cadastrado.',
+            'cnpj.required' => 'Insira um CNPJ!',
+            'cnpj.cnpj' => 'Insira um CNPJ válido!',
+            'cnpj.unique' => 'CNPJ inserido já foi cadastrado.'
         ];
     }
 
     public function rules_basic(){
         return [
            
-            'name' => 'required|max:50',
-            'ramo' => 'required|max:50',
-            'email' => 'required|email|unique:users,email',
+            'name' => 'required|max:250',
+            'area' => 'required|exists:areas,id',
+            'email' => 'required|max:50|email|unique:users,email',
             'password' => 'required|min:8|max:30',
             'cnpj' => 'required|cnpj|unique:juridicas,cnpj'
         ];
@@ -203,12 +258,13 @@ class JuridicaController extends Controller
             'twitter.max' => 'Insira twitter com no máximo 50 caracteres.',
             'site.max' => 'Insira site com no máximo 50 caracteres.',
             'outraRede.max' => 'Insira outra rede com no máximo 50 caracteres.',
-            'pais.required' => 'Selecione um país!',
+            //'pais.required' => 'Selecione um país!',
             'estado.required' => 'Selecione um estado!',
+            'estado.in' => 'Selecione um estado válido!',
             'fixo.required' => 'Insira um número fixo!',
-            'fixo.digits' => 'Número fixo precisa de 10 digitos! (DDD+numero)',
+            'fixo.telefone_com_ddd' => 'Número fixo inválido!',
             'celular.required' => 'Insira um número de celular!',
-            'celular.digits_between' => 'Número de celular precisa de 10 ou 11 digitos! (DDD+numero)',
+            'celular.celular_com_ddd' => 'Número de celular inválido!',
             'rua.required' => 'Insira uma rua!',
             'rua.max' => 'Insira rua com no máximo 50 caracteres.',
             'numero.max' => 'Insira número com no máximo 50 caracteres.',
@@ -222,22 +278,33 @@ class JuridicaController extends Controller
         ];
     }
     public function rules_addData(){
+        $estado = "AC,AL,AP,AM,BA,CE,DF,ES,GO,MA,MT,MS,MG,PA,PB,PR,PE,PI,RJ,RN,RS,RO,RR,SC,SP,SE,TO";
+        $pais="África do Sul,Albânia,Alemanha,Andorra,Angola,Anguilla,Antigua,Arábia Saudita,Argentina,Armênia,Aruba,Austrália,Áustria,Azerbaijão,Bahamas,Bahrein,Bangladesh,Barbados,Bélgica,Benin,Bermudas,Botsuana,Brasil,Brunei,Bulgária,Burkina Fasso,Botão,Cabo Verde,Camarões,Camboja,Canadá,Cazaquistão,Chade,Chile,China,Cidade do Vaticano,Colômbia,Congo,Coréia do Sul,Costa do Marfim,Costa Rica,Croácia,Dinamarca,Djibuti,Dominica,EUA,Egito,El Salvador,Emirados Árabes,Equador,Eritréia,Escócia,Eslováquia,Eslovênia,Espanha,Estônia,Etiópia,Fiji,Filipinas,Finlândia,França,Gabão,Gâmbia,Gana,Geórgia,Gibraltar,Granada,Grécia,Guadalupe,Guam,Guatemala,Guiana,Guiana Francesa,Guiné-bissau,Haiti,Holanda,Honduras,Hong Kong,Hungria,Iêmen,Ilhas Cayman,Ilhas Cook,Ilhas Curaçao,Ilhas Marshall,Ilhas Turks & Caicos,Ilhas Virgens (brit.),Ilhas Virgens(amer.),Ilhas Wallis e Futuna,Índia,Indonésia,Inglaterra,Irlanda,Islândia,Israel,Itália,Jamaica,Japão,Jordânia,Kuwait,Latvia,Líbano,Liechtenstein,Lituânia,Luxemburgo,Macau,Macedônia,Madagascar,Malásia,Malaui,Mali,Malta,Marrocos,Martinica,Mauritânia,Mauritius,México,Moldova,Mônaco,Montserrat,Nepal,Nicarágua,Niger,Nigéria,Noruega,Nova Caledônia,Nova Zelândia,Omã,Palau,Panamá,Papua-nova Guiné,Paquistão,Peru,Polinésia Francesa,Polônia,Porto Rico,Portugal,Qatar,Quênia,Rep. Dominicana,Rep. Tcheca,Reunion,Romênia,Ruanda,Rússia,Saipan,Samoa Americana,Senegal,Serra Leone,Seychelles,Singapura,Síria,Sri Lanka,St. Kitts & Nevis,St. Lúcia,St. Vincent,Sudão,Suécia,Suiça,Suriname,Tailândia,Tanzânia,Togo,Trinidad & Tobago,Tunísia,Tunísia,Turquia,Ucrânia,Uganda,Uruguai,Venezuela,Vietnã,Zaire,Zâmbia,Zimbábue";
         return [
-            'linkedin' => 'max:50',
-            'facebook' => 'max:50',
-            'twitter' => 'max:50',
-            'site' => 'max:50',
-            'outraRede' => 'max:50',
-            'pais' => 'required',
-            'estado' => 'required',
-            'fixo' => 'required|digits:10',
-            'celular' => 'required|digits_between: 10, 11',
-            'rua' => 'required|max:50',
-            'numero' => 'max:50',
-            'complemento' => 'max:500',
-            'bairro' => 'required|max:50',
-            'cidade' => 'required|max:50',
+            'linkedin' => 'max:250',
+            'facebook' => 'max:250',
+            'twitter' => 'max:250',
+            'site' => 'max:250',
+            'outraRede' => 'max:250',
+           // 'pais' => 'required|in:'.$pais,
+            'estado' => 'required|in:'.$estado,
+            'fixo' => 'nullable|telefone_com_ddd',
+            'celular' => 'required|celular_com_ddd',
+            'rua' => 'required|max:250',
+            'numero' => 'max:250',
+            'complemento' => 'max:250',
+            'bairro' => 'required|max:250',
+            'cidade' => 'required|max:250',
             'cep'=> 'required|digits:8'
+        ];
+    }
+
+    public function rules_edit($email, $cnpj){
+        return [
+            'email' => 'required|max:250|email|unique:users,email,'.$email,
+            'password' => 'nullable|min:8|max:30',
+            'newPassword' => 'nullable|min:8|max:30',
+            'cnpj' => 'required|cnpj|unique:juridicas,cnpj,'.$cnpj
         ];
     }
 

@@ -16,16 +16,17 @@ class CreateVagasTable extends Migration
         Schema::create('vagas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('titulo');
-            $table->string('local');
-            $table->string('salario');
-            $table->string('beneficio');
+            $table->text('descricao');
+            $table->string('cargo');
+            $table->string('salario')->nullable();
+            $table->text('beneficio');
             $table->string('jornada');
-            $table->string('requisito');
+            $table->text('requisito');
             $table->integer('quantidade');
             $table->string('status');
             $table->integer('juridicas_id')->unsigned();
             $table->integer('areas_id')->unsigned();
-          
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('juridicas_id')->references('id')->on('juridicas')->onDelete('cascade');

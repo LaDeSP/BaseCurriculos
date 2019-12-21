@@ -3,14 +3,14 @@
     <div>
       <div v-if="!$route.meta.isHome">
         <NavBar></NavBar>
-        <div class="container">
+        <div class="container-fluid" >
           <router-view></router-view>
         </div>
       </div>
       <div v-else>
         <router-view></router-view>
       </div>
-      <Footer></Footer>
+      <Footer ></Footer>
     </div>
 
 </template>
@@ -37,3 +37,10 @@ export default {
     }
 }
 </script>
+
+<style lang="stylus">
+  .container
+    padding 10% !important;
+    align-content center;
+
+</style>

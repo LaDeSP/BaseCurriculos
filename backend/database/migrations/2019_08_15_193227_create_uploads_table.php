@@ -14,11 +14,12 @@ class CreateUploadsTable extends Migration
             $table->string('filename');
             $table->string('mime');
             $table->string('path');
-            $table->integer('size');
-            $table->integer('curriculos_id')->unsigned();
-
+            $table->integer('curriculos_id')->unsigned()->nullable();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->timestamps();
+
             $table->foreign('curriculos_id')->references('id')->on('curriculos')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

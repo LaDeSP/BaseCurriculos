@@ -15,8 +15,9 @@ class CreateCandidaturasTable extends Migration
             $table->integer('curriculos_id')->unsigned();
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('vagas_id')->references('id')->on('vagas');
-            $table->foreign('curriculos_id')->references('id')->on('curriculos');
+            $table->foreign('curriculos_id')->references('id')->on('curriculos')->onCascade('cascade');
 
         });
     }

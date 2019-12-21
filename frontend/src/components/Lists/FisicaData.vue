@@ -1,113 +1,171 @@
 <template>
-    <div class="panel panel-default">
-        <div class="panel-heading"><h2>Informações Pessoais</h2></div>
-        <div class="panel-body">
-            <div v-if="loadFlag === true">
-              <div v-for="show in fisica" :key="show.id">
-                <h4>* Nome Completo: <strong>{{show.user.name}}</strong></h4>
-                <p>* Data de Nascimento: {{show.data_nascimento | dateFormat}}</p>
-                <p>* Gênero: {{show.genero}}</p>
-                <p>* Estado Civil: {{show.estado_civil}}</p>
-                <p>* CPF: {{show.cpf}}</p>
-                <p>* Rua: {{show.endereco.rua}}</p>
-                <p>* Bairro: {{show.endereco.bairro}}</p>
-                <p>* Cidade: {{show.endereco.cidade}}</p>
-                <p>* CEP: {{show.endereco.cep}}</p>
-                <p>* País de Nacionalidade {{show.endereco.cep}}</p>
-                <p>* Telefone Fixo: {{show.contato.fixo}}</p>
-                <p>* Telefone Celular: {{show.contato.celular}}</p>
-             </div>
+<span v-if="isFetching">
+  <br>
+  <br>
+  <br>
+  <div class="container">
+    <center><h1>
+        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+    </h1></center>
+  </div>
+</span>
+<span v-else>
+
+  <div class="row justify-content-center mb-3">
+      <div class="col-8">
+          <div v-if="dataCompleted">
+            <nav>
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#info" role="tab" aria-controls="nav-home" aria-selected="true">Informações Pessoais</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Curriculo</a>
+              </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="info" role="tabpanel">
+                <card>
+                  <template v-slot:card-header>
+                    <div class="row justify-content-center">
+                      <div div class="col-12">
+                        <div class="btn-group">
+                          <router-link to="/dashboard" class="btn btn-outline-secondary btn-md btn-block"><i class="fas fa-home"></i> Home</router-link>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                      <img class="quadrado icon-profile" :src=path>
+                    </div>
+                  </template>
+                  <template v-slot:card-body>
+                    <div class="row justify-content-center">
+                      <div class="col-6">
+                        <h4>Informações Pessoais</h4>
+                        <ul>
+                            <li> <strong>Nome Completo</strong>: {{displayPessoaFisica.nome}}</li>
+                            <li> <strong>Data de Nascimento</strong>: {{displayPessoaFisica.nascimento | dateFormat}}</li>
+                            <li> <strong>Gênero</strong>: {{displayPessoaFisica.genero}}</li>
+                            <li> <strong>Estado Civil</strong>: {{displayPessoaFisica.estadoCivil}}</li>
+                            <li> <strong>CPF</strong>: {{displayPessoaFisica.cpf}}</li>
+                            <li> <strong>Rua</strong>: {{displayPessoaFisica.rua}}</li>
+                            <li v-if="typeof displayPessoaFisica.numero !== 'undefined' || null"><strong>Número</strong>: {{displayPessoaFisica.numero}}</li>
+                            <li v-if="typeof displayPessoaFisica.complemento !== 'undefined' || null"><strong>Complemento</strong>: {{displayPessoaFisica.complemento}}</li>
+                            <li> <strong>Bairro</strong>: {{displayPessoaFisica.bairro}}</li>
+                            <li> <strong>Cidade</strong>: {{displayPessoaFisica.cidade}}</li>
+                            <li> <strong>CEP</strong>: {{displayPessoaFisica.cep}}</li>
+                            <li> <strong>País de Nacionalidade</strong>: {{displayPessoaFisica.cep}}</li>
+                            <li> <strong>Telefone Fixo</strong>: {{displayPessoaFisica.fixo}}</li>
+                            <li> <strong>Telefone Celular</strong>: {{displayPessoaFisica.celular}}</li>
+                        </ul>
+                        <h4>Redes Sociais</h4>
+                        <ul>
+                            <li v-if="typeof displayCurriculo.facebook !== 'undefined' || null">Facebook: {{displayCurriculo.facebook}}</li>
+                            <li v-if="typeof displayCurriculo.twitter !== 'undefined' || null">Twitter: {{displayCurriculo.twitter}}</li>
+                            <li v-if="typeof displayCurriculo.linkedin !== 'undefined' || null">Linkedin: {{displayCurriculo.linkedin}}</li>
+                            <li v-if="typeof displayCurriculo.site !== 'undefined' || null">Site: {{displayCurriculo.site}}</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </template>
+                <template v-slot:card-footer>
+                    <div class="row justify-content-center">
+                      <div class="col-9">
+                        <div class="row">
+                          <div class="col-md-7" >
+                            <router-link to="/new-curriculo" class="btn btn-md btn-warning">Editar Informações</router-link>
+                          </div>
+                          <div class="col-md-5 " >
+                            <button @click="showModal" class="btn btn-md btn-danger">Desativar Conta</button>
+                              <Modal v-show="isModalWarning" @close="closeModal">
+                                <template v-slot:header>
+                                  <h3>Desativar Conta</h3>
+                                </template>
+                                <template v-slot:body>
+                                  <h2 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>deletar</strong></span> sua conta?</h2>
+                                  <h4 class="text-center">Sentiremos sua falta :(</h4>
+                                </template>
+                                <template v-slot:footer>
+                                    <button @click="deactivate" class="btn btn-md btn-danger">Desativar Conta</button>
+                                    <button @click="closeModal" class="btn btn-md btn-secondary">Voltar</button>
+                                </template>
+                              </Modal>
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+                  </template>
+                </card>
+              </div>
+              <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <Curriculo></Curriculo>
+              </div>
             </div>
-             <hr>
-
-            <div v-if="loadFlag === true">
-
-                <curriculo></curriculo>
-
-             <div class="panel-footer">
-                <button @click="onEdit()" class="btn btn-lg btn-warning">Editar Informações</button>
-                <router-link to="/DashFIS" tag="button" class="btn btn-lg btn-default ">Voltar</router-link>
-                <button @click="onDelete()" class="btn btn-lg btn-danger">Deletar Conta</button>
-            </div>
-
-            </div>
-            <div v-else>
-                <h4>Quase lá! Que tal preencher seu curriculo...</h4>
-                <new-curriculo></new-curriculo>
-            </div>
-
-        </div>
+          </div>
+          <div v-else>
+              <h4>Você ainda não completou suas informações... Que tal fazer isso agora?</h4>
+              <NewCurriculo></NewCurriculo>
+          </div>
     </div>
+  </div>
+</span>
 </template>
 
 <script>
-
+    import {mapActions, mapGetters, mapState} from 'vuex';
     import moment from 'moment'
     import Curriculo from './Curriculo.vue';
+    import Modal from '../Utils/Modal.vue';
     import NewCurriculo from '../Create/NewCurriculo.vue';
-
+    import card from '../Utils/Card';
     export default {
-
-        data(){
-            return{
-                fisica: [],
-                loadFlag: false,
-                uri: 'http://localhost:8000/api/pfisicas/',
-                token: this.$session.get('jwt')
+        data() {
+            return {
+                isModalWarning: false,
+                path:this.$store.state.upload.path,
+            }
+        },
+        components: {
+          Curriculo, NewCurriculo, Modal,card
+        },
+        methods: {
+            ...mapActions([
+                'loadFisica'
+            ]),
+            showModal(){
+                this.isModalWarning = true;
+            },
+             closeModal(){
+                this.isModalWarning = false;
+            },
+            deactivate(){
+                this.$store.dispatch('deactivateAccount')
+                .then(response => {
+                    this.$router.push({ name: 'login' })
+                }).catch(error => console.log(error))
 
             }
         },
-        components: {'curriculo': Curriculo, 'new-curriculo': NewCurriculo},
-        methods: {
+        computed: {
+            ...mapGetters([
+                'dataCompleted', 'displayPessoaFisica', 'displayCurriculo'
+            ]),
 
-            loadFisica(){
-                const user_id = this.$session.get('user_id');
-
-                this.axios.get(this.uri + user_id + '?token=' + this.token)
-                    .then(response => {
-                        if(response.data.fisica[0].contatos_id && response.data.fisica[0].enderecos_id !== null){
-                           this.loadFlag = true;
-                           this.fisica = response.data.fisica;
-                           console.log(this.loadFlag);
-                       }
-
-                    })
-                    .catch(
-                        error => console.log(error)
-                    );
-            },
-            onEdit(){
-                const user_id = this.$session.get('user_id');
-                this.$router.push({ name: 'new-curriculo', params: { editing: true, user_id }})
-            },
-
-            onDelete(){
-                const user_id = this.$session.get('user_id');
-                this.axios.delete(this.uri + user_id + '?token=' + this.token)
-                    .then(response => {
-                        this.$session.remove('jwt');
-                        this.$session.destroy();
-                        this.$router.push({ name: 'login' })
-                    })
-                    .catch(
-                        error => console.log(error)
-                    );
-            }
+            ...mapState(['isFetching']),
         },
         filters:{
-
             dateFormat: function(value){
                 if (value) {
                     return moment(String(value)).format('DD/MM/YYYY')
                 }
             }
         },
-
-        created(){
-
-            this.loadFisica();
+       async created(){
+          if(this.dataCompleted){
+            await this.loadFisica();
+          }
+        },
+        watch: {
+            async displayPessoaFisica() {
+                await this.loadFisica();
+            }
         }
-
     }
 </script>
-

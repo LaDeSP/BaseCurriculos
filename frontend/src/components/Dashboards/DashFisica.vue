@@ -1,45 +1,74 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h1 id="centro">Bem Vindo, {{name}}</h1>
-
-                <div class="panel panel-default" id="caixa">
-                    <div class="panel-heading" ><center>Painel - Pessoa Física</center></div>
-                        <div class="panel-body" >
-
-                                <router-link class="btn btn-secondary btn-lg active btn-block" to="/profile-fisica">Meu Perfil</router-link>
-                                <router-link class="btn btn-secondary btn-lg active btn-block" to="/vagas">Ver Vagas</router-link>
-
-                    </div>
-                </div>
-
-            </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div v-if="!dataCompleted">
+            <center><h1>Complete seus dados para continuar!</h1></center>
+             <NewCurriculo></NewCurriculo>
+          </div>
+          <div v-else>
+            <dashfisica></dashfisica>
+          </div>
         </div>
+        <Modal v-if="isModalConfirmaCadastro" @close="closeModal">
+            <template v-slot:header></template>
+            <template v-slot:body>
+                 <b-alert show variant="success">
+                    <h1>Cadastro realizado com sucesso!</h1>
+                </b-alert>
+            </template>
+        </Modal>
     </div>
+
 </template>
 
 <script>
+  import ProfileFisica from '../Lists/FisicaData';
+  import NewCurriculo from  '../Create/NewCurriculo';
+  import dashfisica from '../Utils/CardsDashFisica'
+  import Modal from '../Utils/ModalOld';
+  import { BAlert } from 'bootstrap-vue'
+  import {mapGetters} from 'vuex';
 
     export default {
-        
+        components:{
+            ProfileFisica: () => import("../Lists/FisicaData"),
+            NewCurriculo: () => import("../Create/NewCurriculo"),
+            dashfisica: () => import("../Utils/CardsDashFisica"),
+            Modal, BAlert
+        },
         data() {
 
             return {
-                name: this.$session.get('name')
+                name: this.$store.state.auth.user.name,
+                isModalConfirmaCadastro: false,
             }
         },
+        computed: {
+          ...mapGetters([
+            'dataCompleted'
+        ]),
+      },
+      methods: {
+          closeModal(){
+              this.isModalConfirmaCadastro = false;
+          },
+        },
+        async created() {
+          if(!this.dataCompleted){
+            await this.$store.dispatch('loadFisica')
+                  .then(response => {
+
+                  }).catch(error => {
+                    //console.log(error)
+                  })
+          }
+          if (this.$route.params.cadastrou){
+            this.isModalConfirmaCadastro = true;
+          }
+
+      },
     }
 
 </script>
 
-<style>
-  #caixa{
-    width: 50%;
-    height: 470px;
-    margin-left: 20%;
-  }
-  #centro{
-      margin-left: 20%;
-  }
-</style>
+

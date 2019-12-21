@@ -12,7 +12,7 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   plugins: [
     createPersistedState({
-      paths: ['auth'],
+      paths: ['auth', 'dataCompleted', 'upload'],
       storage: {
         getItem: key => Cookies.get(key),
         setItem: (key, value) =>
@@ -27,35 +27,61 @@ export const store = new Vuex.Store({
      token: '',
      user: {}
    },
+   contact: {
+      celular: '',
+      fixo: '',
+      facebook: '',
+      twitter: '',
+      linkedin: '',
+      site: '',
+   },
+   address: {
+      rua: '',
+      bairro: '',
+      cidade: '',
+      cep: '',
+      pais: '',
+      estado: '',
+   },
    pessoaFisica: {
-    nome: '',
-    nascimento: '',
-    genero: '',
-    rua: '',
-    bairro: '',
-    cidade: '',
-    cep: '',
-    celular: '',
-    fixo: '',
-    facebook: '',
-    twitter: '',
-    linkedin:'',
-    site: '',
-    outraRede: '',
-    objetivos: '',
-    area: '',
-    pretensao: '',
-    qualificacoes: '',
-    historicoProfissional: '',
-    emailAlt: '',
-    estadoCivil: '',
-    pais: '',
-    estado: '',
-    escolaridade: '',
+      cpf: '',
+      nascimento: '',
+      genero: '',
+      estadoCivil: '',
+      objetivos: '',
+      area: {
+        nome: '',
+        id: 0,
+      },
+      pretensao: '',
+      qualificacoes: '',
+      historicoProfissional: '',
+      escolaridade: '',
+     
    },
    pessoaJuridica: {
-
-   }
+      cnpj: '',
+      ramo: '',
+   },
+   upload:{
+     path: '',
+   },
+   vagasJuridica: [],
+   candidaturas: [],
+   vagasCandidaturas: [],
+   progressBar: [],
+   vagasConvites: [],
+   dataCompleted: false,
+   hasVaga: false,
+   count: {},
+   countConvites: {}, 
+   countVagas: 0,
+   countAgenda: 0,
+   resultado: [],
+   agenda: [],
+   convites: [],
+   isFetching: true,
+   
   },
 
   actions,
