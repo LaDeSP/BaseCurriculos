@@ -360,7 +360,7 @@ export default {
             }).catch(error => console.log(error))
         },
 
-        onRequest(id){
+        async onRequest(id){
             let vaga_id = 0;
             if(this.vaga_id != 0){
             vaga_id = this.vaga_id;
@@ -372,7 +372,7 @@ export default {
             vaga_id: vaga_id,
             user_id: this.$store.state.auth.user.id
             }
-            this.$store.dispatch('requestVaga', requestVaga)
+            await this.$store.dispatch('requestVaga', requestVaga)
             .then(response => {
                 for( var i = 0; i < this.$store.state.resultado.length; i++){
                     if ( this.$store.state.resultado[i].id == id) {

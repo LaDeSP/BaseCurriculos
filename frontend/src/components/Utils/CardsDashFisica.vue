@@ -138,14 +138,14 @@
     </div>
     <br />
     <div class="row align-content-center">
-      <div class="col-6">
+      <div class="col-xl-12 col-lg-12">
         <card class="border-left-warning shadow h-100">
           <template v-slot:card-header class="py-3">
             <center>
               <router-link
                 to="/convites"
                 class="font-weight-bold text-warning text-uppercase card-title"
-              >Convites</router-link>
+              >Meus Convites</router-link>
             </center>
           </template>
           <template v-slot:card-body>
@@ -154,10 +154,20 @@
                 <center>
                   <div class="h5 mb-0 font-weight-bold text-gray-800">
                     <h2>{{countConvites.convites}}</h2>
-                    <i class="fas fa-envelope"></i>
+                    <router-link to="/convites" class="text-gray-800"><i class="fas fa-envelope"></i></router-link>
                   </div>
                 </center>
               </div>
+            </div>
+          </template>
+          <template v-slot:card-footer>
+            <div v-if="countCandidaturas != 0 && displayCandidaturas != 0">
+              <center>
+                <router-link to="/convites" class="btn btn-lg btn-warning">
+                  Ver Mais
+                  <span class="fa fa-eye"></span>
+                </router-link>
+              </center>
             </div>
           </template>
         </card>

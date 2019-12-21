@@ -203,7 +203,7 @@
                                 </template>
                         </Modal>
                     </template>
-                </List>
+            </List>
             </div>
             <div class="row justify-content-center">
                 <div class="trocaPagina" v-if="convitesByVaga.length > 4">
