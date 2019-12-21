@@ -20,4 +20,5 @@ class Convite extends Model
     	return $this->hasOne(Curriculo::class, 'id', 'curriculos_id');
 	}
 
+  
 }

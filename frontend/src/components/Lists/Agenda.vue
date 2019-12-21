@@ -106,27 +106,27 @@
                       </template>
                       <template v-slot:card-body>
                           <ul>
-                              <li><strong>Vaga</strong>: {{show.candidatura.vaga.titulo}}</li><br>
-                              <li><strong>Data</strong>: {{show.data | dateFormat}}</li><br>
-                              <li><strong>Hora</strong>: {{show.hora}}</li><br>
+                              <li><strong>Vaga</strong>: {{show.candidatura.vaga.titulo}}</li>
+                              <li><strong>Data</strong>: {{show.data | dateFormat}}</li>
+                              <li><strong>Hora</strong>: {{show.hora}}</li>
                           <span v-if="show.candidatura.status == 'ENTREVISTA CANCELADA'">
-                              <br>
-                              <li>A entrevista foi cancelada.
-                                  <span v-if="show.observacao != null">
+                            
+                              <li><span v-if="show.contraproposta == 'FISICA'">A entrevista foi cancelada.<br></span>
+                                  <span v-if="show.observacao != null && show.contraproposta == 'FISICA'">
                                       O candidato fez a seguinte observação:
                                       <br><br>
                                       <i>"{{show.observacao}}"</i>
                                   </span>
-                                  <span v-else>
+                                  <span v-else-if="show.contraproposta == 'FISICA'">
                                       O candidato não fez observações.
                                   </span>
                               </li>
                                   </span>
-                                  <span v-if="show.observacao != null">
-                                      <strong>Observações:</strong> {{show.observacao}} <br><br>
+                                  <span v-if="show.observacao != null && show.contraproposta == 'JURIDICA'">
+                                      <strong>Observações:</strong> {{show.observacao}}
                                   </span>
                                   <span v-else>
-                                      <strong>Observações</strong>: Não há observações.<br><br>
+                                      <strong>Observações</strong>: Não há observações.
                                   </span>
                                   <span v-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA' && getDateNow(show.data)">
                                       <strong>Notamos que a data de entrevista já passou. O candidato foi: </strong>
@@ -181,7 +181,7 @@
                                     <br><h6 class="text-center">Essa ação não poderá ser desfeita!</h6>
                                   </template>
                                   <template v-slot:footer>
-                                      <button @click="cancelAgenda" class="btn btn-md btn-danger">Cancelar</button>
+                                      <button @click="cancelAgenda" class="btn btn-md btn-danger">Cancelar Entrevista</button>
                                       <button @click="closeModal" class="btn btn-md btn-outline-secondary">Voltar</button>
                                   </template>
                                 </Modal>
@@ -380,7 +380,6 @@
         async created(){
             await this.loadAgenda();
             console.log('create', this.isActive)
-             console.log('agenda/statetoken', this.$store.state.auth.token)
           //  console.log('datetime',this.getDateTimeNow());
 
         },

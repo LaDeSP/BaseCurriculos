@@ -63,10 +63,10 @@
                       <h3 class="card-title" style="color: #4E73DF;">Vaga: {{show.vaga.titulo}}</h3>
                     </template>
                     <template v-slot:card-body>
-                      <p class="card-text"><strong>Cargo</strong>
-                      : {{show.vaga.cargo}}</p><br><br>
-                      <p class="card-text"><strong>Detalhes</strong>
-                      : {{show.vaga.descricao}}</p><br><br>
+                      <strong>Cargo</strong>
+                      : {{show.vaga.cargo}} <br><br>
+                      <strong>Detalhes</strong>
+                      : {{show.vaga.descricao}} <br><br>
                     </template>
                     <template v-slot:card-footer>
                       <button @click="vagaDaCandidatura(show.vagas_id)" class="btn btn-sm btn-success">Ver Candidatos</button>
@@ -201,16 +201,13 @@
                     <template v-slot:footer>
                       <!-- <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
                       <button @click="reject" class="btn btn-sm btn-outline-danger">Recusar</button>-->
-                      <div v-if="show.status === 'EM AGENDAMENTO'">
+                      <div v-if="show.status === 'EM AGENDAMENTO' && show.status === 'ENTREVISTA CONFIRMADA'">
                         <!--<router-link v-bind:to="'/agenda/' + candidatoById[0].id" tag="button" class="btn btn-sm btn-info">Reagendar</router-link>-->
-                        <router-link to="'/agenda/'" tag="button" class="btn btn-sm btn-info">Ver agendamento</router-link>
-                      </div>
-                      <div v-else-if="show.status === 'ENTREVISTA CONFIRMADA'">
-                        <router-link v-bind:to="'/agenda/'" tag="button" class="btn btn-sm btn-info">Ver Agendamento</router-link>
+                        <router-link to="/agenda" tag="button" class="btn btn-sm btn-info">Ver agendamento</router-link>
                       </div>
                       <div v-else>
-                        <button @click="newAgenda(show.id)" class="btn btn-sm btn-info">Agendar Entrevista</button>
-                        <button @click="recusaCandidatura(show.id)" class="btn btn-sm btn-danger">Recusar Candidato</button>
+                        <button @click="newAgenda(candidatoById[0].id)" class="btn btn-sm btn-info">Agendar Entrevista</button>
+                        <button @click="recusaCandidatura(candidatoById[0].id)" class="btn btn-sm btn-danger">Recusar Candidato</button>
                       </div>
                     </template>
                   </Modal>
@@ -254,6 +251,7 @@
                 <div class="btn-group" role="group" aria-label="Basic example">
                   <button @click="filterState = 'ALL'" type="button" class="btn btn-sm btn-outline-info">Todas</button>
                   <button @click="filterState = 'AGUARDANDO'" type="button" class="btn btn-sm btn-outline-warning">Aguardando</button>
+                  <button @click="filterState = 'EM AGENDAMENTO'" type="button" class="btn btn-sm btn-outline-warning">Em Agendamento</button>
                   <button @click="filterState = 'CONFIRMADAS'" type="button" class="btn btn-sm btn-outline-success">Confirmadas</button>
                   <button @click="filterState = 'CANCELADAS'" type="button" class="btn btn-sm btn-outline-danger">Canceladas</button>
                   <button @click="filterState = 'FINALIZADAS'" type="button" class="btn btn-sm btn-outline-primary">Finalizadas</button>
@@ -266,6 +264,15 @@
               <div class="container">
                 <center>
                   <h3>Não há candidaturas aguardando.</h3>
+                </center>
+              </div>
+            </span>
+              <span v-else-if="filterState == 'EM AGENDAMENTO'&& pageOfItems.length == 0">
+              <br />
+              <br />
+              <div class="container">
+                <center>
+                  <h3>Não há candidaturas em agendamento.</h3>
                 </center>
               </div>
             </span>
@@ -346,7 +353,7 @@
                         : {{show.vaga.descricao}}<br><br>
                       </li>
                       <span v-if="show.status == 'ENTREVISTA CANCELADA'">
-                        <br />
+                       
                         <li>
                           Sua entrevista foi cancelada.
                           <span v-if="show.agenda[0].observacao != null">
@@ -667,6 +674,7 @@ export default {
       "displayCandidatoById",
       "displayAgendaById",
       "displayVagasThatHaveCandidaturas",
+      "displayCandidaturasAguardando",
       "displayCandidaturasEmAgendamento",
       "displayCandidaturasConfirmadas",
       "displayCandidaturasCanceladas",
@@ -688,6 +696,9 @@ export default {
         return this.displayCandidaturas;
       }
       else if (this.filterState === "AGUARDANDO") {
+        return this.displayCandidaturasAguardando;
+      }
+      else if (this.filterState === "EM AGENDAMENTO") {
         return this.displayCandidaturasEmAgendamento;
       }
       else if (this.filterState === "CONFIRMADAS") {

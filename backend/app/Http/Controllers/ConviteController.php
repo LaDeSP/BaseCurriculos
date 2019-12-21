@@ -81,7 +81,7 @@ class ConviteController extends Controller
         if($user_id->role == 'FISICA'){
             $curriculo = $user_id->fisica->curriculo;
 
-            $convites = Convite::with(['vaga'])->where('curriculos_id', $curriculo->id)->where('resposta', 'AGUARDANDO')->orderBy('created_at', 'desc')->get();
+            $convites = Convite::with(['vaga.area', 'vaga'])->where('curriculos_id', $curriculo->id)->where('resposta', 'AGUARDANDO')->orderBy('created_at', 'desc')->get();
 
             return Response::json([
                 'convites' => $convites,

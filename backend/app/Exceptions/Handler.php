@@ -1,10 +1,13 @@
 <?php
+
 namespace App\Exceptions;
+
 use Response;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -15,6 +18,7 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         //
     ];
+
     /**
      * A list of the inputs that are never flashed for validation exceptions.
      *
@@ -24,6 +28,7 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
     /**
      * Report or log an exception.
      *
@@ -34,6 +39,7 @@ class Handler extends ExceptionHandler
     {
         parent::report($exception);
     }
+
     /**
      * Render an exception into an HTTP response.
      *
@@ -52,5 +58,6 @@ class Handler extends ExceptionHandler
         }
         return parent::render($request, $exception);
     }
+
    
 }

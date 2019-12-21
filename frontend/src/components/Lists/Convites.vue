@@ -17,7 +17,7 @@
           <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fas fa-home fa-sm"></i> Home</router-link>
         </div>
       </div>
-      <center><h2>Meus Convites</h2></center>
+      <center><h2>Meus Convites</h2></center><br><br>
       <div v-if="displayConvites.length==0">
         <div class="container">
           <center><h1>Você ainda não tem convites.</h1></center>
@@ -32,9 +32,9 @@
                         <h3><span class="label label-info " style="color: #4E73DF;">{{convite.vaga.titulo}}</span></h3>
                         </template>
                         <template v-slot:card-body>
-                            <p class="mb-1"><strong>Cargo:</strong> {{convite.vaga.cargo}}</p>
-                            <p class="mb-1"><strong>Área de Atuação:</strong> {{convite.vaga.area}}</p>
-                            <p class="mb-1"><strong>Jornada de Trabalho:</strong> {{convite.vaga.jornada}}</p>
+                            <strong>Cargo:</strong> {{convite.vaga.cargo}} <br><br>
+                            <strong>Área de Atuação:</strong> {{convite.vaga.area.tipo}} <br><br>
+                            <strong>Jornada de Trabalho:</strong> {{convite.vaga.jornada}} <br><br>
                         </template>
                         <template v-slot:card-footer>
                             <button @click="showModal('else', convite.vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
@@ -44,13 +44,15 @@
                                 <template v-slot:header><h3>Detalhes da Vaga</h3></template>
                                 <template v-slot:body>
                                     <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
-                                    <strong>Descrição:</strong> {{vagaById[0].descricao}}
-                                    <strong>Cargo: </strong>{{vagaById[0].cargo}}
-                                    <strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}
-                                    <strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}}
-                                    <strong>Salário:</strong> {{vagaById[0].salario}}
-                                    <strong>Benefícios: </strong>{{vagaById[0].beneficio}}
-                                    <strong>Requisitos:</strong> {{vagaById[0].requisito}}
+                                    <br>
+                                    <strong>Descrição:</strong> {{vagaById[0].descricao}} <br><br>
+                                    <strong>Cargo: </strong>{{vagaById[0].cargo}} <br><br>
+                                   
+                                    <strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}} <br><br>
+                                    <strong>Jornada de Trabalho: </strong>{{vagaById[0].jornada}} <br><br>
+                                    <strong>Salário:</strong> {{vagaById[0].salario}} <br><br>
+                                    <strong>Benefícios: </strong>{{vagaById[0].beneficio}} <br><br>
+                                    <strong>Requisitos:</strong> {{vagaById[0].requisito}} <br><br>
                                 </template>
                                 <template v-slot:footer>
                                     <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
@@ -93,7 +95,7 @@
   <div class="row justify-content-center">
       <div class="col-md-9">
         <div v-if="!toggle">
-            <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Convites</center></h2>
+            <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Convites</center></h2><br><br>
         </div>
         <div v-else>
             <h2><router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fa fa-home"></i> Home</router-link><center>Convidados</center></h2>
@@ -112,8 +114,8 @@
                       <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span></h3>
                     </template>
                     <template v-slot:card-body>
-                    <strong>Cargo</strong>: {{show.vaga.cargo}}
-                    <strong>Detalhes</strong>: {{show.vaga.descricao}}
+                    <strong>Cargo</strong>: {{show.vaga.cargo}} <br><br>
+                    <strong>Detalhes</strong>: {{show.vaga.descricao}} <br><br>
                     </template>
                     <template v-slot:card-footer>
                         <button @click="vagaDoConvite(show.vagas_id)" class="btn btn-sm btn-success">Ver Convites</button>
@@ -132,11 +134,11 @@
             </div>
         </div>
         <div v-else>
-            <button @click="toggle = false" class="btn btn-lg btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</button>
+            <button @click="toggle = false" class="btn btn-md btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</button>
             <br>
             <br>
-            <div v-for="show in pageOfItems" :key="show.id" :id="show.id">
-                <List style="width: 60rem; height:30rem;">
+            <div class="list-group">
+                <List class="mb-4" style="width: 60rem; height:17rem;" v-for="show in pageOfItems" :key="show.id" :id="show.id">
                     <template v-slot:list-header>
                         <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user.name}}
                             <span v-if="show.resposta == 'AGUARDANDO'">
@@ -157,12 +159,15 @@
                         <div v-if="show.resposta == 'ACEITOU'">
                             <small>Uma candidatura foi criada. Vá para candidaturas para agendar uma entrevista.</small>
                         </div>
-                        <p class="mb-1"><strong>Objetivos:</strong> {{show.curriculo.objetivos}}</p>
-                        <p class="mb-1"><strong>Pretensão Salarial:</strong> {{show.curriculo.pretensao}}</p>
+                        <br>
+                        <strong>Objetivos:</strong> {{show.curriculo.objetivos}} <br><br>
+                        <strong>Pretensão Salarial:</strong> {{show.curriculo.pretensao}} <br><br>
                     </template>
                     <template v-slot:list-footer>
-
                         <button @click="showModalJuridica('showMore', show.id)" class="btn btn-sm btn-default">Ver mais</button>
+                        <span v-if="show.resposta == 'ACEITOU'">
+                            <router-link to="/candidaturas" class="btn btn-md btn-outline-secondary">Ir para Candidaturas</router-link>
+                        </span>
                         <button v-if="show.resposta == 'AGUARDANDO'" @click="cancela(show.id)" class="btn btn-danger btn-sm btn-default">Cancelar Convite</button>
                         <Modal v-if="isModalShowMore" @close="closeModal">
                             <template v-slot:header><h3>Detalhes do Candidato</h3></template>
@@ -184,6 +189,7 @@
                                 </ul>
                                 <h4>Currículo</h4>
                                     <ul>
+                                       
                                         <li><strong>Objetivos</strong>: {{candidatoById[0].curriculo.objetivos}}</li>
                                         <li><strong>Área de Atuação</strong>: {{candidatoById[0].curriculo.area.tipo}}</li>
                                         <li><strong>Pretensão Salarial</strong>: {{candidatoById[0].curriculo.pretensao}}</li>

@@ -10,14 +10,6 @@ const auth_error = (state) => {
     state.auth.status = 'error'
 };
 
-const refreshToken = (state, token) => {
-    state.auth.token = token
-}
-
-const isRefreshingToken = (state) => {
-    state.isRefreshingToken = !isRefreshingToken
-}
-
 const logout = (state) => {
     state.auth.user = {},
     state.auth.status = ''
@@ -172,7 +164,6 @@ const countAgenda = (state, payloadCountAgenda) => {
 
   export default {
     auth_success,
-    refreshToken,
     auth_error,
     logout,
     contact,
@@ -198,7 +189,6 @@ const countAgenda = (state, payloadCountAgenda) => {
     vagasConvites,
     countConvites,
     isFetching,
-    isRefreshingToken,
     countAgenda,
 
     

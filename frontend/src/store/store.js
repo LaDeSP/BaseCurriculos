@@ -81,7 +81,6 @@ export const store = new Vuex.Store({
    agenda: [],
    convites: [],
    isFetching: true,
-   isRefreshingToken: false,
    
   },
 

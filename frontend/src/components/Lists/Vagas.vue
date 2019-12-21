@@ -86,22 +86,22 @@
                     <div v-if="notificacao" style="color: red;">
                     <p style="white-space:pre-line;"><strong>{{notificacao}}</strong></p>
                     </div>
-                      <p class="card-text"><strong>Descrição:</strong>
-                      {{vaga.descricao}}</p>
-                      <p class="card-text"><strong>Cargo:</strong>
-                      {{vaga.cargo}}</p>
-                      <p class="card-text"><strong>Quantidade:</strong>
-                      {{vaga.quantidade}}</p>
-                      <p class="card-text"><strong>Área de Atuação:</strong>
-                      {{vaga.area.tipo}}</p>
-                      <p class="card-text"><strong>Salário:</strong>
-                      {{vaga.salario}}</p>
-                      <p class="card-text"><strong>Jornada de Trabalho:</strong>
-                      {{vaga.jornada}}</p>
-                      <p class="card-text"><strong>Benefícios:</strong>
-                      {{vaga.beneficio}}</p>
-                      <p class="card-text"><strong>Requisitos:</strong>
-                      {{vaga.requisito}}</p>
+                      <strong>Descrição:</strong>
+                      {{vaga.descricao}} <br><br>
+                      <strong>Cargo:</strong>
+                      {{vaga.cargo}}  <br><br>
+                      <strong>Quantidade:</strong>
+                      {{vaga.quantidade}}  <br><br>
+                      <strong>Área de Atuação:</strong>
+                      {{vaga.area.tipo}}  <br><br>
+                      <strong>Salário:</strong>
+                      {{vaga.salario}}  <br><br>
+                      <strong>Jornada de Trabalho:</strong>
+                      {{vaga.jornada}}  <br><br>
+                      <strong>Benefícios:</strong>
+                      {{vaga.beneficio}}  <br><br>
+                      <strong>Requisitos:</strong>
+                      {{vaga.requisito}}  <br><br>
                   </template>
                   <template v-slot:card-footer>
                     <div>
@@ -195,18 +195,15 @@
               <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
             </template>
             <template v-slot:list-body>
-              <p class="mb-1">
                 <strong>Cargo:</strong>
                 {{vaga.cargo}}
-              </p>
-              <p class="mb-1">
+              
                 <strong>Área de Atuação:</strong>
                 {{vaga.area.tipo}}
-              </p>
-              <p class="mb-1">
+              
                 <strong>Jornada de Trabalho:</strong>
                 {{vaga.jornada}}
-              </p>
+              
             </template>
             <template v-slot:list-footer>
               <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>

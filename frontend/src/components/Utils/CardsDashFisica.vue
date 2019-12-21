@@ -185,18 +185,18 @@
               </template>
               <template v-slot:thumbnail></template>
               <template v-slot:card-body>
-                <p class="card-text">
+                
                   <strong>Cargo:</strong>
-                  {{vaga.cargo}}
-                </p>
-                <p class="card-text">
+                  {{vaga.cargo}}<br><br>
+                
+                
                   <strong>Área de Atuação:</strong>
-                  {{vaga.area.tipo}}
-                </p>
-                <p class="card-text">
+                  {{vaga.area.tipo}}<br><br>
+                
+                
                   <strong>Jornada de Trabalho:</strong>
-                  {{vaga.jornada}}
-                </p>
+                  {{vaga.jornada}}<br><br>
+                
               </template>
               <template v-slot:card-footer>
                 <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
@@ -216,34 +216,34 @@
                   <template v-slot:body>
                     <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
                     <br />
-                    <p class="card-text">
+                    
                       <strong>Descrição:</strong>
-                      {{vagaById[0].descricao}}
-                    </p>
-                    <p class="card-text">
+                      {{vagaById[0].descricao}}<br><br>
+                    
+                    
                       <strong>Cargo:</strong>
-                      {{vagaById[0].cargo}}
-                    </p>
-                    <p class="card-text">
+                      {{vagaById[0].cargo}}<br><br>
+                    
+                    
                       <strong>Área de Atuação:</strong>
-                      {{vagaById[0].area.tipo}}
-                    </p>
-                    <p class="card-text">
+                      {{vagaById[0].area.tipo}}<br><br>
+                    
+                    
                       <strong>Jornada de Trabalho:</strong>
-                      {{vagaById[0].jornada}}
-                    </p>
-                    <p class="card-text">
+                      {{vagaById[0].jornada}}<br><br>
+                    
+                    
                       <strong>Salário:</strong>
-                      {{vagaById[0].salario}}
-                    </p>
-                    <p class="card-text">
+                      {{vagaById[0].salario}}<br><br>
+                    
+                    
                       <strong>Benefícios:</strong>
-                      {{vagaById[0].beneficio}}
-                    </p>
-                    <p class="card-text">
+                      {{vagaById[0].beneficio}}<br><br>
+                    
+                    
                       <strong>Requisitos:</strong>
-                      {{vagaById[0].requisito}}
-                    </p>
+                      {{vagaById[0].requisito}}<br><br>
+                    
                   </template>
                   <template v-slot:footer>
                     <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>

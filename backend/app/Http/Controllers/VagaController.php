@@ -149,11 +149,16 @@ class VagaController extends Controller
                 }
                 
             }else{
+                
                 Vaga::where('id', $vaga_id)->update([
                     'status'=>$status
                 ]);
             }
            
+        }else{
+            Vaga::where('id', $vaga_id)->update([
+                'status'=>$status
+            ]);
         }
     
 

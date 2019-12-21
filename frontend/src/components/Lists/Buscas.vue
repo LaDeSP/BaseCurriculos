@@ -43,14 +43,14 @@
                         <template v-slot:card-header>
                         <h3 class="card-title"><span class="label label-info " style="color: #4E73DF;">{{curriculo.fisica.user.name}}</span></h3>
                         </template>
-                        <template v-slot:card-body>
-                        <p class="card-text"><strong>Qualificações:</strong> {{curriculo.qualificacoes}}</p>
-                        <p class="card-text"><strong>Escolaridade:</strong> {{curriculo.escolaridade}}</p>
-                        <p class="card-text"><strong>Objetivos:</strong> {{curriculo.objetivos}}</p>
-                        <p class="card-text"><strong>Pretensão Salarial:</strong> {{curriculo.pretensao}}</p>
-                        <p class="card-text"><strong>Histórico Profissional:</strong> {{curriculo.historicoProfissional}}</p>
-                        <p class="card-text"><strong>Cidade:</strong> {{curriculo.fisica.endereco.cidade}}</p>
-                        <p class="card-text"><strong>Área de Atuação:</strong> {{curriculo.area.tipo}}</p>
+                        <template v-slot:card-body> <br><br>
+                        <strong>Qualificações:</strong> {{curriculo.qualificacoes}}  <br><br>
+                        <strong>Escolaridade:</strong> {{curriculo.escolaridade}}  <br><br>
+                        <strong>Objetivos:</strong> {{curriculo.objetivos}}  <br><br>
+                        <strong>Pretensão Salarial:</strong> {{curriculo.pretensao}}  <br><br>
+                        <strong>Histórico Profissional:</strong> {{curriculo.historicoProfissional}}  <br><br>
+                        <strong>Cidade:</strong> {{curriculo.fisica.endereco.cidade}}  <br><br>
+                        <strong>Área de Atuação:</strong> {{curriculo.area.tipo}}  <br><br>
                         </template>
                         <template v-slot:card-footer>
                             <div v-if="displayVagasJuridica.length>0">
@@ -59,7 +59,7 @@
                                     <option v-for="show in displayVagasJuridica" :key="show.id" :value="show.id">
                                         {{show.titulo}}
                                     </option>
-                                </select>
+                                </select><br><br>
                                 <button :disabled="vaga[curriculo.id]==''||vaga[curriculo.id]==undefined" @click="onRequestConvite(curriculo.id)" class="btn btn-sm btn-success">Convidar</button>
                             </div>
                         </template>
@@ -136,9 +136,9 @@
                             <h3 class="card-title" style="color: #4E73DF;">{{vaga.titulo}}</h3>
                         </template>
                         <template v-slot:card-body>
-                            <p class="card-text"><strong>Cargo:</strong> {{vaga.cargo}}</p>
-                            <p class="card-text"><strong>Área de Atuação:</strong> {{vaga.area.tipo}}</p>
-                            <p class="card-text"><strong>Jornada de Trabalho:</strong> {{vaga.jornada}}</p>
+                            <strong>Cargo:</strong> {{vaga.cargo}} <br><br>
+                            <strong>Área de Atuação:</strong> {{vaga.area.tipo}}  <br><br>
+                            <strong>Jornada de Trabalho:</strong> {{vaga.jornada}}  <br><br>
                         </template>
                         <template v-slot:card-footer>
                             <template v-if="dataCompleted">

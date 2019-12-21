@@ -58,27 +58,14 @@ Route::group([
     Route::post('/confirmAgenda', 'AgendaController@confirmAgenda');
     Route::post('/cancelAgenda', 'AgendaController@cancelAgenda');
     Route::get('/vagasPorcentagem', 'BuscaController@buscaVagasProgress');
-    Route::delete('/deactivate/{id}', 'UserController@destroy')->name('deactivate');
+    Route::delete('/deactivate/{id}', 'UserController@destroy');
     Route::post('/updateDadosCadastroFisica', 'FisicaController@updateDadosCadastroFisica');//put
     Route::post('/updateDadosCadastroJuridica', 'JuridicaController@updateDadosCadastroJuridica');//put
     Route::post('/createConvite', 'ConviteController@store');
     Route::get('/getConvites', 'ConviteController@getConvites');
     Route::post('/respostaConvite', 'ConviteController@respostaConvite');
     Route::post('/cancelarConvite', 'ConviteController@cancelarConvite');
-    Route::post('/recusarCandidato/{id}', 'CandidaturaController@recusaCandidato');
     Route::post('/logout', 'UserController@logout');
-
-    /*Route::get('/token/refresh', function(){
-        try {
-            $token = JWTAuth::parseToken()->refresh();
-            return response()->json(compact('token'));
-        }catch (JWTException $exception){
-            return response()->json(['error' => 'token_invalid'],400);
-        }
-    });*/
-
 });
 Route::post('/activate/{id}', 'UserController@activateAccount');
-Route::get('/teste', 'AgendaController@teste');
-Route::get('/token/refresh', 'UserController@refresh')->name('inferno');
-
+Route::get('/teste', 'UserController@teste');

@@ -126,10 +126,18 @@ const displayCandidaturas = state =>{
   return candidaturas
 }
 
-const displayCandidaturasEmAgendamento = state =>{
+const displayCandidaturasAguardando = state =>{
   let candidaturas = state.candidaturas;
   let candidaturasFiltered = candidaturas.filter((filtered) => {
     return filtered.status == 'AGUARDANDO'
+  })
+  return candidaturasFiltered
+}
+
+const displayCandidaturasEmAgendamento = state =>{
+  let candidaturas = state.candidaturas;
+  let candidaturasFiltered = candidaturas.filter((filtered) => {
+    return filtered.status == 'EM AGENDAMENTO'
   })
   return candidaturasFiltered
 }
@@ -349,6 +357,7 @@ export default {
   displayVagaById,
   permissaoDoUsuario,
   displayCandidaturas,
+  displayCandidaturasAguardando,
   displayCandidaturasEmAgendamento,
   displayCandidaturasConfirmadas,
   displayCandidaturasCanceladas,
