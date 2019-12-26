@@ -49,8 +49,7 @@ class CurriculoController extends Controller
             'outraRede' => $request->outraRede
         ]);
 
-        Fisica::where('user_id', $user_id)
-        ->update(array(
+        Fisica::where('user_id', $user_id)->update(array(
             'data_nascimento' => $request->nascimento,
             'genero'  => $request->genero,
             'estado_civil' => $request->estadoCivil,
@@ -78,6 +77,7 @@ class CurriculoController extends Controller
         $fisicas_id = Fisica::where('user_id', $id)->first()->id;
         $area_id = 0;
         $area = '';
+
         if(Curriculo::where('fisicas_id', $fisicas_id)->exists()){
             $area_id = Curriculo::where('fisicas_id', $fisicas_id)->first()->areas_id;
             $area = Area::where('id', $area_id)->first()->tipo;
@@ -132,10 +132,10 @@ class CurriculoController extends Controller
         ]);
 
         Fisica::where('user_id', $id)->update(array(
-                'data_nascimento' => $request->nascimento,
-                'genero'  => $request->genero,
-                'estado_civil' => $request->estadoCivil
-            ));
+            'data_nascimento' => $request->nascimento,
+            'genero'  => $request->genero,
+            'estado_civil' => $request->estadoCivil
+        ));
         
         $fisicas_id = Fisica::where('user_id', $id)->first()->id;
 

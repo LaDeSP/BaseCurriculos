@@ -11,14 +11,16 @@ class Convite extends Model
     use SoftDeletes, SoftCascadeTrait; 
 
     protected $fillable = [
-        'resposta', 'curriculos_id', 'vagas_id'
+      'resposta', 'curriculos_id', 'vagas_id'
     ];
+    
     public function vaga(){
-		return $this->belongsTo(Vaga::class, 'vagas_id');
+		  return $this->belongsTo(Vaga::class, 'vagas_id');
     }
+
     public function curriculo(){
-    	return $this->hasOne(Curriculo::class, 'id', 'curriculos_id');
-	}
+      return $this->hasOne(Curriculo::class, 'id', 'curriculos_id');
+	  }
 
   
 }

@@ -40,8 +40,7 @@ class FisicaController extends Controller
 
         $credentials = $request->only('email', 'password');
         $token = JWTAuth::attempt($credentials);
-        //$user = User::first();
-        //$token = JWTAuth::fromUser($user);
+        
         return Response::json([
             'token'=> $token,
             'name' => $request->input('name'),
@@ -50,13 +49,17 @@ class FisicaController extends Controller
             'user'=>auth()->user(),
             'foto'=> "http://localhost:8000/anon.jpg",
             'message'=>'Pessoa física cadastrada com sucesso!'
-            ], 201); 
+        ], 201); 
        
     }
 
     public function show($id)
     {   
-        $fisica = Fisica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->orderBy('created_at', 'desc')->get();
+        $fisica = Fisica::with(['contato', 'endereco', 'user'])
+                    ->where('user_id', $id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+                    
         return Response::json([
            'fisica' => $fisica
         ], 201);

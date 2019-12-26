@@ -19,9 +19,11 @@ class Vaga extends Model
 	public function candidatura(){
 		return $this->hasMany(Candidatura::class, 'vagas_id');
 	}
+
     public function area(){
     	return $this->belongsTo(Area::class, 'areas_id');
 	}
+
     public function juridica(){
     	return $this->belongsTo(Juridica::class, 'juridicas_id');
 	}
@@ -40,7 +42,7 @@ class Vaga extends Model
             $query->where('status', "EM AGENDAMENTO")
                   ->orWhere('status', "AGUARDANDO")
                   ->orWhere('status', "ENTREVISTA CONFIRMADA")
-                  ->orWhere('status', "CONTRATADO");//tava hasOne e mudei pra hasMany, mas mudei de novo pq é vaga DO CARA e ele só pode se candidatar uma vez
+                  ->orWhere('status', "CONTRATADO");
 		})
 		->where('curriculos_id', $curriculo->id);
 	}

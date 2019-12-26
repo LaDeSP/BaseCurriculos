@@ -22,16 +22,19 @@ class ConviteController extends Controller
     {   
         $vaga_id = $request->vaga_id;
         $curriculo_id = $request->curriculo_id;
-      //  $quantVaga = Vaga::where('id', $vaga_id)->first()->quantidade;
-       // $quantCandidato = Candidatura::where('vagas_id', $vaga_id)->count();
+     
+        $result = Convite::where('vagas_id', $vaga_id)
+                  ->where('curriculos_id', $curriculo_id)
+                  ->where('resposta', 'AGUARDANDO')
+                  ->exists();
 
-//        if($quantCandidato < $quantVaga){
-        $result = Convite::where('vagas_id', $vaga_id)->where('curriculos_id', $curriculo_id)->where('resposta', 'AGUARDANDO')->exists();
         $resultCandidatura = Candidatura::where('vagas_id', $vaga_id)->where('curriculos_id', $curriculo_id)->where(function ($query) {
-                                $query->where('status', "EM AGENDAMENTO")
-                                    ->orWhere('status', "AGUARDANDO")
-                                    ->orWhere('status', "ENTREVISTA CONFIRMADA");
-                                    })->exists();
+                             $query->where('status', "EM AGENDAMENTO")
+                                ->orWhere('status', "AGUARDANDO")
+                                ->orWhere('status', "ENTREVISTA CONFIRMADA");
+                             })
+                             ->exists();
+
         if($result){
             $errorConvite[] = "Você já convidou essa pessoa.";
             $error[] = $errorConvite;
@@ -47,28 +50,12 @@ class ConviteController extends Controller
                 'error' => $error
             ], 201);
         }
-            Convite::create([
-                'vagas_id' => $vaga_id,
-                'curriculos_id' => $curriculo_id,
-                'resposta'=>'AGUARDANDO'
-            ]);//Qualquer coisa colocar algo ligando a candidatura
-  //      }else{
-    //        Vaga::where('id', $vaga_id)
-      //      ->update([
-        //        'status' => 'INATIVA'
-         //   ]);
-      //}
-       /*$user_id = auth()->user()->id; 
-      $user = User::find($user_id);
-      $vagas = Vaga::whereNotIn('id', function($q) use ($user){
-        $q->from('candidaturas')
-            ->select('vagas_id')
-            ->where('curriculos_id', '=', $user->fisica->curriculo->id);
-        })
-        ->with('area')->get();
-    
-        $candidaturas = Candidatura::with(['vaga', 'agenda', 'curriculo'])
-        ->where('curriculos_id', $user->fisica->curriculo->id)->get();*/
+        
+        Convite::create([
+            'vagas_id' => $vaga_id,
+            'curriculos_id' => $curriculo_id,
+            'resposta'=>'AGUARDANDO'
+        ]);
 
         return Response::json([
             'convite ok',
@@ -92,9 +79,11 @@ class ConviteController extends Controller
             $juridica = $user_id->juridica;
             $juridica_id = $juridica->id;
             $vagasConvites =  Convite::with(['vaga', 'curriculo.area', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
-                ->whereHas('vaga', function($query) use ($juridica_id){ 
-                    $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
-                })->orderBy('created_at', 'desc')->get();
+                                ->whereHas('vaga', function($query) use ($juridica_id){ 
+                                    $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
+                                })
+                                ->orderBy('created_at', 'desc')
+                                ->get();
 
             $collection = collect($vagasConvites);
             $unique = $collection->unique('vagas_id');

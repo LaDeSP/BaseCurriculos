@@ -68,4 +68,3 @@ Route::group([
     Route::post('/logout', 'UserController@logout');
 });
 Route::post('/activate/{id}', 'UserController@activateAccount');
-Route::get('/teste', 'UserController@teste');

@@ -43,9 +43,11 @@ class User extends Authenticatable implements JWTSubject
     public function foto(){
     	return $this->belongsTo(Upload::class, 'id', 'user_id');
     }
+
     public function fisica(){
     	return $this->belongsTo(Fisica::class, 'id', 'user_id');
     }
+    
     public function juridica(){
     	return $this->belongsTo(Juridica::class, 'id', 'user_id');
 	}

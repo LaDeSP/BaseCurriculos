@@ -10,11 +10,11 @@ class Area extends Model
         'tipo'
     ];
 
-   public function vagas(){
-       return $this->hasMany(Vaga::class);
-   }
-
-   public function curriculo(){
-       return $this->hasMany(Curriculo::class);
-   }
+    public function vagas(){
+        return $this->hasMany(Vaga::class);
+    }
+    
+    public function curriculo(){
+        return $this->hasMany(Curriculo::class);
+    }
 }

@@ -20,15 +20,19 @@ class Curriculo extends Model
     public function fisica(){
     	return $this->hasOne(Fisica::class, 'id','fisicas_id');
 	}
+
 	public function candidatura(){
 		return $this->hasMany(Candidatura::class, 'curriculos_id');
 	}
+
 	public function contato(){
     	return $this->hasOne(Contato::class, 'id','contatos_id');
 	}
+
 	public function area(){
     	return $this->belongsTo(Area::class, 'areas_id');
 	}
+	
 	public function convite(){
 		return $this->belongsTo(Convite::class);
 	}

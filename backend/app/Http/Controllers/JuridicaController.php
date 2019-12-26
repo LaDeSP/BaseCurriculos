@@ -24,13 +24,13 @@ class JuridicaController extends Controller
         if ($validator->fails()) {
             return Response::json([
                'error' => $validator->messages()
-           ], 201);
+            ], 201);
         }
         $this->register($request);
         
         $pjuridica = new Juridica();
         $cnpj = $pjuridica->cnpj = $request->input('cnpj');
-        $areas_id = $pjuridica->areas_id = $request->input('area');//pra funcionar tive que trocar area por areas_id. mas n sei se é padrão
+        $areas_id = $pjuridica->areas_id = $request->input('area');
         $email = $request->input('email');
         $id = User::where('email', $email)->first()->id;
         $pjuridica->user_id = $id;
@@ -39,8 +39,7 @@ class JuridicaController extends Controller
 
         $credentials = $request->only('email', 'password');
         $token = JWTAuth::attempt($credentials);
-        // $user = User::find($id);
-        //$token = auth()->login($user);
+       
         return Response::json([
             'token'=> $token,
             'name' => $request->input('name'),
@@ -48,7 +47,7 @@ class JuridicaController extends Controller
             'user'=> auth()->user(),
             'foto'=> "http://localhost:8000/anon.jpg",
             'message' => 'Pessoa Jurídica cadastrada com sucesso!'
-            ], 201); 
+        ], 201); 
     }
 
     public function addData(Request $request){
@@ -56,7 +55,7 @@ class JuridicaController extends Controller
         if ($validator->fails()) {
             return Response::json([
                'error' => $validator->messages()
-           ], 201);
+            ], 201);
         }
 
        $user_id = auth()->user()->id;
@@ -80,28 +79,30 @@ class JuridicaController extends Controller
             'estado' => $request->estado,
             'complemento' => $request->complemento,
             'numero' => $request->numero,
-          //  'pais' => $request->pais,
             'cep' => $request->cep,
         ]);
         
-        Juridica::where('user_id', $user_id)
-        ->update(array(
+        Juridica::where('user_id', $user_id)->update(array(
             'contatos_id' => $con_id, 
             'enderecos_id' => $end_id
         ));
         
         return Response::json([
             'message' => 'Dados cadastrados com sucesso!',
-         ], 201);
+        ], 201);
 
     }
 
     public function show($id)
     {
-        $juridica = Juridica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->orderBy('created_at', 'desc')->get();
+        $juridica = Juridica::with(['contato', 'endereco', 'user'])
+                    ->where('user_id', $id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
         return Response::json([
             'juridica' => $juridica
-         ], 201);
+        ], 201);
     }
 
     public function updateDadosCadastroJuridica (Request $request){
@@ -169,7 +170,6 @@ class JuridicaController extends Controller
             'estado' => $request->estado,
             'complemento' => $request->complemento,
             'numero' => $request->numero,
-          //  'pais' => $request->pais,
             'cep' => $request->cep
         ]);
 
@@ -194,31 +194,6 @@ class JuridicaController extends Controller
         
       
     }
-
-   /* public function destroy($id)
-    {
-    
-        $end_id = Juridica::where('user_id', $id)->first()->enderecos_id;
-        $cont_id = Juridica::where('user_id', $id)->first()->contatos_id;
-        
-        $user = User::find($id);
-        $user->delete();
-
-        if($end_id && $cont_id){
-            $end = Endereco::find($end_id);
-            $end->delete();
-
-            $cont = Contato::find($cont_id);
-            $cont->delete();
-    
-        }
-
-        return Response::json([
-            'msg' => 'deletado ok'
-         ], 201);
-    }
-    */
-
     
     public function messages_basic(){
         return $messages = [
@@ -258,7 +233,6 @@ class JuridicaController extends Controller
             'twitter.max' => 'Insira twitter com no máximo 50 caracteres.',
             'site.max' => 'Insira site com no máximo 50 caracteres.',
             'outraRede.max' => 'Insira outra rede com no máximo 50 caracteres.',
-            //'pais.required' => 'Selecione um país!',
             'estado.required' => 'Selecione um estado!',
             'estado.in' => 'Selecione um estado válido!',
             'fixo.required' => 'Insira um número fixo!',
@@ -286,7 +260,6 @@ class JuridicaController extends Controller
             'twitter' => 'max:250',
             'site' => 'max:250',
             'outraRede' => 'max:250',
-           // 'pais' => 'required|in:'.$pais,
             'estado' => 'required|in:'.$estado,
             'fixo' => 'nullable|telefone_com_ddd',
             'celular' => 'required|celular_com_ddd',

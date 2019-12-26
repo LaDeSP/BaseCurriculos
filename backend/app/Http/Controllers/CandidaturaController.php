@@ -16,30 +16,6 @@ use App\Candidatura;
 
 class CandidaturaController extends Controller
 {
-    public function teste(){
-    
-        $vagasCandidatura =  Candidatura::with(['vaga', 'curriculo.area', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
-        ->whereHas('vaga', function($query){ 
-            $query->where('juridicas_id', '=', 1)->groupBy('vagas_id');
-        })->orderBy('created_at', 'desc')->get();
-
-        $countCandidaturas = 0;
-        $countCandidaturasAguardando = 0;
-        $countCandidaturasConfirmadas = 0;
-        foreach($vagasCandidatura as $candidatura){
-            if($candidatura->status != 'CONTRATADO' && $candidatura->status != 'ENTREVISTA CANCELADA' && $candidatura->status != 'RECUSADO'){
-                $countCandidaturas++;
-            }
-            if($candidatura->status == 'AGUARDANDO'){
-                $countCandidaturasAguardando++;
-            }
-            if($candidatura->status == 'ENTREVISTA CONFIRMADA'){
-                $countCandidaturasConfirmadas++;
-            }
-        }
-      //  dd($vagasCandidaturas[0]->vaga->titulo);
-    }
-
     public function index(){
 
         $user_id = auth()->user()->id;
@@ -48,9 +24,11 @@ class CandidaturaController extends Controller
         if(auth()->user()->role === 'JURIDICA'){
             $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
             $vagasCandidatura =  Candidatura::with(['vaga', 'curriculo.area', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
-            ->whereHas('vaga', function($query) use ($juridica_id){ 
-                $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
-            })->orderBy('created_at', 'desc')->get();
+                                ->whereHas('vaga', function($query) use ($juridica_id){ 
+                                    $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
+                                })
+                                ->orderBy('created_at', 'desc')
+                                ->get();
 
             $collection = collect($vagasCandidatura);
             $unique = $collection->unique('vagas_id');
@@ -80,7 +58,8 @@ class CandidaturaController extends Controller
                 'countCandidaturasConfirmadas' => $countCandidaturasConfirmadas,
             ]);
             
-        }else{
+        }
+        else{
             $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
             $curriculo_id = Curriculo::where('fisicas_id', $fisica_id)->first()->id;
             $count = 0;
@@ -88,13 +67,16 @@ class CandidaturaController extends Controller
             if(Candidatura::where('curriculos_id', $curriculo_id)->exists()){
                 $candidatura_id = Candidatura::where('curriculos_id', $curriculo_id)->first()->id;
                 $candidaturas_fisica = Candidatura::with(['vaga', 'agenda', 'curriculo'])
-                ->where('curriculos_id', $curriculo_id)->orderBy('created_at', 'desc')->get();
+                                        ->where('curriculos_id', $curriculo_id)
+                                        ->orderBy('created_at', 'desc')
+                                        ->get();
             
                 return Response::json([
-                'candidaturas' => $candidaturas_fisica,
-                'countCandidaturas' => 1,
+                    'candidaturas' => $candidaturas_fisica,
+                    'countCandidaturas' => 1,
                 ]);
-            }else{
+            }
+            else{
                 return Response::json([
                     'countCandidaturas'=>0
                 ]);
@@ -109,32 +91,28 @@ class CandidaturaController extends Controller
         $vaga_id = $request->vaga_id;
         $fisicas_id = Fisica::where('user_id', $request->user_id)->first()->id;
         $curriculos_id = Curriculo::where('fisicas_id', $fisicas_id)->first()->id;
-       // $quantVaga = Vaga::where('id', $vaga_id)->first()->quantidade;
-       // $quantCandidato = Candidatura::where('vagas_id', $vaga_id)->count();
-
-     //   if($quantCandidato < $quantVaga){
-            Candidatura::create([
-                'vagas_id' => $vaga_id,
-                'curriculos_id' => $curriculos_id,
-                'status'=>'AGUARDANDO'
-            ]);
-     /*  }else{
-            Vaga::where('id', $vaga_id)
-                ->update([
-                'status' => 'INATIVA'
-            ]);
-        } */
-      $user_id = auth()->user()->id; 
-      $user = User::find($user_id);
-      $vagas = Vaga::whereNotIn('id', function($q) use ($user){
-        $q->from('candidaturas')
-            ->select('vagas_id')
-            ->where('curriculos_id', '=', $user->fisica->curriculo->id);
-        })
-        ->with('area')->orderBy('created_at', 'desc')->get();
+       
+        Candidatura::create([
+            'vagas_id' => $vaga_id,
+            'curriculos_id' => $curriculos_id,
+            'status'=>'AGUARDANDO'
+        ]);
+    
+        $user_id = auth()->user()->id; 
+        $user = User::find($user_id);
+        $vagas = Vaga::whereNotIn('id', function($q) use ($user){
+                $q->from('candidaturas')
+                    ->select('vagas_id')
+                    ->where('curriculos_id', '=', $user->fisica->curriculo->id);
+                })
+                ->with('area')
+                ->orderBy('created_at', 'desc')
+                ->get();
     
         $candidaturas = Candidatura::with(['vaga', 'agenda', 'curriculo'])
-        ->where('curriculos_id', $user->fisica->curriculo->id)->orderBy('created_at', 'desc')->get();
+                        ->where('curriculos_id', $user->fisica->curriculo->id)
+                        ->orderBy('created_at', 'desc')
+                        ->get();
 
         return Response::json([
             'Candidatura ok',

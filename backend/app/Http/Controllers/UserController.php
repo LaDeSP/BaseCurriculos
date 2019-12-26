@@ -19,24 +19,7 @@ use Response;
 
 class UserController extends Controller implements JWTSubject
 {
-    public function teste(){
-
-        $teste = Vaga::onlyTrashed()->get();
-      
-      //  dd($credentials[0]);
-        dd($teste);
-    }
-
     public function login(Request $request){
-        
-       /* $validator = Validator::make($request->all(), UserController::rules(), UserController::messages());
-         
-        if ($validator->fails()) {
-             return Response::json([
-                'error' => $validator->messages()
-            ], 201);
-        }
-        */   
         
         $credentials = $request->only('email', 'password');
         
@@ -46,7 +29,8 @@ class UserController extends Controller implements JWTSubject
             return Response::json([
                 'error' => $error
             ], 201);
-        }else if($user->deleted_at != null){
+        }
+        else if($user->deleted_at != null){
             if(Hash::check($request->password, $user->password)){
                 $token = JWTAuth::fromUser($user);
                 auth()->login($user);
@@ -56,10 +40,8 @@ class UserController extends Controller implements JWTSubject
                 ]);
             }
         }                
-       
-        //se try falhar, falhou em criar um token
+               
         try{
-            //tento usando as credenciais dadas, se não deu certo, quer dizer q token n foi criado
             JWTAuth::factory()->setTTL(1440);
             if(!$token = JWTAuth::attempt($credentials)){
                 $error[] = 'Senha Inválida.';
@@ -67,31 +49,32 @@ class UserController extends Controller implements JWTSubject
                     'error' => $error
                 ], 201);
             }
-        }catch(JWTException $e){
+        }
+        catch(JWTException $e){
             return response()->json([
                 'error' => 'could not create token'
             ], 500);
         }
      
-      $user_id = User::where('email', $request->input('email'))->get()->first()->id;
-      $teste = User::where('id', $user_id)->first();
-      $path="http://localhost:8000/anon.jpg";
+        $user_id = User::where('email', $request->input('email'))->get()->first()->id;
+        $teste = User::where('id', $user_id)->first();
+        $path="http://localhost:8000/anon.jpg";
    
         
-    if ($teste->foto){
-        if(Upload::where('user_id', $teste->id)->exists()){
-          $foto = Upload::where('user_id', $teste->id)->first();
-          $path = "http://localhost:8000/storage/".$foto->path;
-        }  
-    }
+        if ($teste->foto){
+            if(Upload::where('user_id', $teste->id)->exists()){
+                $foto = Upload::where('user_id', $teste->id)->first();
+                $path = "http://localhost:8000/storage/".$foto->path;
+            }  
+        }
 
-      return Response::json([
-        'token'=>$token,
-        'user' => auth()->user(),
-        'foto'=>$path,
-        'expires' => auth('api')->factory()->getTTL() * 60,
-        'id' => auth()->user()->id
-     ], 201);
+        return Response::json([
+            'token'=>$token,
+            'user' => auth()->user(),
+            'foto'=>$path,
+            'expires' => auth('api')->factory()->getTTL() * 60,
+            'id' => auth()->user()->id
+        ], 201);
         
       
     }
@@ -113,7 +96,8 @@ class UserController extends Controller implements JWTSubject
         if($role === 'FISICA'){
             $fisica_id = Fisica::withTrashed()->where('user_id', $user_id)->get()->first()->id;
             Fisica::withTrashed()->find($fisica_id)->restore();
-        }else{
+        }
+        else{
             $juridica_id = Juridica::withTrashed()->where('user_id', $user_id)->get()->first()->id;
             Juridica::withTrashed()->find($juridica_id)->restore();
         }
@@ -131,9 +115,7 @@ class UserController extends Controller implements JWTSubject
     public function destroy($id){  
         
        $user = User::find($id); 
-       $user->delete();
-        // $user = User::destroy($id);
-      
+       $user->delete();      
 
         if($user){
             return Response::json(['softdelete ok']);

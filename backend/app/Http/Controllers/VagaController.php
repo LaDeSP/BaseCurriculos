@@ -25,17 +25,23 @@ class VagaController extends Controller
        
         if(auth()->user()->role === 'JURIDICA'){
             $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
-            $vagasJuridica = Vaga::with('area')->where('juridicas_id', $juridica_id)->orderBy('created_at')->get();
+            $vagasJuridica = Vaga::with('area')
+                                ->where('juridicas_id', $juridica_id)
+                                ->orderBy('created_at')
+                                ->get();
            
             $countVagas = Vaga::where('juridicas_id', $juridica_id)
-                          ->where('status', 'ATIVA')->get()->count();
+                          ->where('status', 'ATIVA')
+                          ->get()
+                          ->count();
            
             return Response::json([
                 'vagas' => $vagasJuridica,
                 'countVagas'=>$countVagas
             ], 201);   
 
-        }else{
+        }
+        else{
             $fisica_id = Fisica::where('user_id', $user_id)->first()->id;
             if(Curriculo::where('fisicas_id', $fisica_id)->exists()){
                 $vagas = Vaga::whereNotIn('id', function($q) use ($user){
@@ -43,8 +49,11 @@ class VagaController extends Controller
                         ->select('vagas_id')
                         ->where('curriculos_id', '=', $user->fisica->curriculo->id);
                     })
-                    ->with('area')->orderBy('created_at', 'desc')->get();              
-            }else{
+                    ->with('area')
+                    ->orderBy('created_at', 'desc')
+                    ->get();              
+            }
+            else{
                 $vagas = Vaga::with('area')->orderBy('created_at', 'desc')->get();
             }
            
@@ -62,7 +71,7 @@ class VagaController extends Controller
         $validator = Validator::make($request->all(), VagaController::rules(), VagaController::messages());
          
         if ($validator->fails()) {
-             return Response::json([
+            return Response::json([
                 'error' => $validator->messages()
             ], 201);
         }
@@ -85,7 +94,7 @@ class VagaController extends Controller
 
         return Response::json([
             'message' => 'Vagas Cadastradas'
-         ], 201);
+        ], 201);
     }
  
 
@@ -105,7 +114,7 @@ class VagaController extends Controller
         $validator = Validator::make($request->all(), VagaController::rules(), VagaController::messages());
          
         if ($validator->fails()) {
-             return Response::json([
+            return Response::json([
                 'error' => $validator->messages()
             ], 201);
         }
@@ -134,43 +143,39 @@ class VagaController extends Controller
         
         if($status == 'ATIVA'){
 
-            if($quantidadeContratados = Candidatura::where('vagas_id', $vaga_id)
-                ->where('status', 'CONTRATADO')->count()){
+            if($quantidadeContratados = Candidatura::where('vagas_id', $vaga_id)->where('status', 'CONTRATADO')->count()){
                 
                 if($quantidadeVaga == $quantidadeContratados){
                     return response::json([
                         'notificacao' => 'O limite está cheio. 
                         Aumente a quantidade da vaga para ativá-la novamente.'
                     ]);
-                }else{
+                }
+                else{
                     Vaga::where('id', $vaga_id)->update([
                         'status'=>$status
                     ]);
                 }
                 
-            }else{
+            }
+            else{
                 
                 Vaga::where('id', $vaga_id)->update([
                     'status'=>$status
                 ]);
             }
            
-        }else{
+        }
+        else{
             Vaga::where('id', $vaga_id)->update([
                 'status'=>$status
             ]);
         }
-    
 
-      //  $vagaChanged = Vaga::with('juridica', 'area')
-            //->where('id', $request->vaga_id)
-       //     ->get();
-
-       $juridica_id = Juridica::where('user_id', auth()->user()->id)->first()->id;
-       $vagaChanged = Vaga::with('area')->where('juridicas_id', $juridica_id)->orderBy('created_at', 'desc')->get();
+        $juridica_id = Juridica::where('user_id', auth()->user()->id)->first()->id;
+        $vagaChanged = Vaga::with('area')->where('juridicas_id', $juridica_id)->orderBy('created_at', 'desc')->get();
     
         return Response::json([
-
             'vagaChanged' => $vagaChanged
         ]);
     }
@@ -182,8 +187,9 @@ class VagaController extends Controller
 
         return Response::json([
             'msg' => 'deletado ok'
-         ], 201);
+        ], 201);
     }
+    
     public function messages(){
         return $messages = [
             'titulo.required' => 'Insira um título!',

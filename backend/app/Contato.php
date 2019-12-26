@@ -17,6 +17,7 @@ class Contato extends Model
     public function juridica(){
         return $this->belongsTo(Juridica::class);
     }
+    
     public function curriculo(){
 		return $this->belongsTo(Curriculo::class);
 	}

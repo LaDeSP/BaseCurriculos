@@ -76,7 +76,7 @@ class UploadController extends Controller
         
         if ($teste->foto){
             if(Upload::where('user_id', auth()->user()->id)->exists()){
-                $foto = Upload::where('user_id', $teste->id)->first();//talvez n precise desse segundo if. testar dps
+                $foto = Upload::where('user_id', $teste->id)->first();
                 $path = "http://localhost:8000/storage/".$foto->path;
             }
         }
@@ -97,19 +97,19 @@ class UploadController extends Controller
             $foto->delete();
             return Response::json([
                 'foto'=>"http://localhost:8000/anon.jpg"
-               ], 200);
+            ], 200);
         }
         else{
             $foto = Upload::findOrFail($id);
             $foto->delete();
             return Response::json([
                 'message'=>'Certo'
-               ], 200);
+            ], 200);
         }
 
         return Response::json([
             'foto'=>'deu ruim'
-           ], 201);
+        ], 201);
     }
 
     public function rulesFotos(){
@@ -122,7 +122,6 @@ class UploadController extends Controller
         return [
             'arquivos' => 'required',
             'arquivos.*' => 'mimes:doc,pdf,xls'
-
         ];
     }
 
