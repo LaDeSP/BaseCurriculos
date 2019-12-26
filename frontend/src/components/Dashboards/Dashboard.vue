@@ -1,11 +1,10 @@
-<template>
-           
+<template>   
     <div v-if="permissaoDoUsuario === 'FISICA'">
         <DashboardFisica></DashboardFisica>
         <Modal v-if="isModalConfirmaCompleted" @close="closeModal">
             <template v-slot:header></template>
             <template v-slot:body>
-                 <b-alert show variant="success">
+                <b-alert show variant="success">
                     <h1>Currículo criado com sucesso!</h1>
                 </b-alert>
             </template>
@@ -16,13 +15,12 @@
         <Modal v-if="isModalConfirmaCompleted" @close="closeModal">
             <template v-slot:header></template>
             <template v-slot:body>
-                 <b-alert show variant="success">
+                <b-alert show variant="success">
                     <h1>Cadastro completado com sucesso!</h1>
                 </b-alert>
             </template>
         </Modal>
     </div>
-    
 </template>
 
 <script>
@@ -68,7 +66,6 @@
             }
         }
     }
-
 </script>
 
 
