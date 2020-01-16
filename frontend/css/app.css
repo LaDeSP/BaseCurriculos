@@ -25228,6 +25228,10 @@ label#thumbnail.has-thumbnail img{
   color: red !important;
 }
 
+.color-white{
+  color: white !important;
+}
+
 /* css do login apartir daqui */
 .login-form-topzera {
   width: 350px;

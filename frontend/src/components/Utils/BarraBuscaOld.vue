@@ -1,10 +1,15 @@
 <template>
-  <div v-if="permissaoDoUsuario === 'JURIDICA'">
-    <b-nav-form>
-      <b-form-input size="sm" class="mr-sm-2" placeholder="Busque aqui por qualificações necessárias" v-model="keywords"></b-form-input>
-      <b-button size="sm" class="my-2 my-sm-0" type="button" @click="redirectSimpleCurriculo" :disabled="keywords.length<1"><i class="fa fa-search"></i></b-button>
-      <button class="btn primary" type="button" @click="showModalPesquisaAvancada">Busca Avançada</button>
-    </b-nav-form>
+  <div class="input-group col-md-11" v-if="permissaoDoUsuario === 'JURIDICA'">
+    <input class="form-control py-2" type="search" placeholder="Busque aqui por qualificações necessárias" v-model="keywords">
+    <span class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button" @click="redirectSimpleCurriculo" :disabled="keywords.length<1">
+          <i class="fa fa-search"></i>
+      </button>
+      <button class="btn primary" type="button" @click="showModalPesquisaAvancada">
+          Busca Avançada
+      </button>
+    </span>
+
     <Modal v-show="isModalPesquisaAvancada" @close="closeModalPesquisaAvancada">
       <template v-slot:header><h3>Busca Avançada</h3></template>
       <template v-slot:body>
@@ -15,10 +20,10 @@
         <div class="form-group">
           <label for="area">Área de Atuação</label>
           <select class="custom-select" name="area" v-model="area">
-            <option value="">Selecione uma área</option>
-            <option v-for="area in areas" :key="area.id" :value="area.id">
-              {{area.tipo}}
-            </option>
+              <option value="">Selecione uma área</option>
+              <option v-for="area in areas" :key="area.id" :value="area.id">
+                  {{area.tipo}}
+              </option>
           </select>           
         </div>
         <div class="form-group">
@@ -56,16 +61,27 @@
           <input type="text" name="nome" class="form-control" v-model="nome" maxlength="50">  
         </div>
         <p class="color-red" v-if="aviso">{{aviso}}</p>
-        <button class="btn btn-primary" type="button" @click="redirectAdvancedCurriculo" :disabled="keywords.length<1 && escolaridade.length<1 && objetivos.length<1 && historicoProfissional.length<1 && cidade.length<1 && nome.length<1 && area.length<1">Busca Avançada</button>
+        <button class="btn btn-primary" type="button" @click="redirectAdvancedCurriculo"
+        :disabled="keywords.length<1 && escolaridade.length<1 && objetivos.length<1 && historicoProfissional.length<1 && cidade.length<1 && nome.length<1 && area.length<1">
+          Busca Avançada
+        </button>
+        
+
       </template>
     </Modal>
+
   </div>
-  <div v-else>
-    <b-nav-form>
-      <b-form-input size="sm" class="mr-sm-2" placeholder="Busque aqui por título ou descrição da vaga que deseja" v-model="keywords"></b-form-input>
-      <b-button size="sm" class="my-2 my-sm-0" type="button" @click="redirectSimpleCurriculo" :disabled="keywords.length<1"><i class="fa fa-search"></i></b-button>
-      <button class="btn primary" type="button" @click="showModalPesquisaAvancada">Busca Avançada</button>
-    </b-nav-form>
+  <div class="input-group col-md-11" v-else>
+    <input class="form-control py-2" type="search" placeholder="Busque aqui pelo título ou descrição da vaga que você quer" v-model="keywords">
+    <span class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button" @click="redirectSimple" v-on:keyup.enter="redirectSimple" :disabled="keywords.length<1">
+          <i class="fa fa-search"></i>
+      </button>
+       <button class="btn primary" type="button" @click="showModalPesquisaAvancada">
+          Busca Avançada
+      </button>
+    </span>
+
     <Modal v-show="isModalPesquisaAvancada" @close="closeModalPesquisaAvancada">
       <template v-slot:header><h3>Busca Avançada</h3></template>
       <template v-slot:body>
@@ -76,10 +92,10 @@
         <div class="form-group">
           <label for="area">Área de Atuação</label>
           <select class="custom-select" name="area" v-model="area">
-            <option value="">Selecione uma área</option>
-            <option v-for="area in areas" :key="area.id" :value="area.id">
-              {{area.tipo}}
-            </option>
+              <option value="">Selecione uma área</option>
+              <option v-for="area in areas" :key="area.id" :value="area.id">
+                  {{area.tipo}}
+              </option>
           </select>           
         </div>
         <div class="form-group">
@@ -99,7 +115,12 @@
           <input type="text" name="requisitos" class="form-control" v-model="requisitos" maxlength="50">  
         </div>
         <p class="color-red" v-if="aviso">{{aviso}}</p>
-        <button class="btn btn-primary" type="button" @click="redirectAdvanced" :disabled="keywords.length<1 && cargo.length<1 && beneficio.length<1 && jornada.length<1 && requisitos.length<1 && area.length<1">Busca Avançada</button>
+        <button class="btn btn-primary" type="button" @click="redirectAdvanced"
+        :disabled="keywords.length<1 && cargo.length<1 && beneficio.length<1 && jornada.length<1 && requisitos.length<1 && area.length<1">
+          Busca Avançada
+        </button>
+        
+
       </template>
     </Modal>
   </div>
@@ -108,14 +129,13 @@
 <script>
   import Modal from '../Utils/Modal.vue';
   import {mapGetters} from 'vuex';
-  import { BButton, BFormInput, BNavForm } from 'bootstrap-vue'
 
 
 
   export default {
     name: 'BarraBusca',
     components:{
-      Modal, BButton, BFormInput, BNavForm
+      Modal,
     },
     data(){
       return{
