@@ -64,12 +64,12 @@
                 </template>
                 <template v-slot:card-footer>
                   <div class="row justify-content-center">
-                    <div class="col-9">
+                    <div class="col-md-12">
                       <div class="row">
-                        <div class="col-md-7" >
+                        <div class="col-sm-6" >
                           <router-link to="/new-curriculo" class="btn btn-md btn-warning">Editar Informações</router-link>
                         </div>
-                        <div class="col-md-5 " >
+                        <div class="col-sm-6" >
                           <button @click="showModal" class="btn btn-md btn-danger">Desativar Conta</button>
                           <Modal v-show="isModalWarning" @close="closeModal">
                             <template v-slot:header>
@@ -96,10 +96,10 @@
             </div>
           </div>
         </div>
-            <div v-else>
-                <h4>Você ainda não completou suas informações... Que tal fazer isso agora?</h4>
-                <NewCurriculo></NewCurriculo>
-            </div>
+        <div v-else>
+          <h4>Você ainda não completou suas informações... Que tal fazer isso agora?</h4>
+          <NewCurriculo></NewCurriculo>
+        </div>
       </div>
     </div>
   </span>
