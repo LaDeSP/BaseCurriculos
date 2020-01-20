@@ -11,8 +11,8 @@
 </span>
 <span v-else>
 
-  <div class="row justify-content-center mb-3">
-      <div class="col-8">
+  <div  class="col-lg-12" >
+      <div class="row justify-content-center mb-3">
           <div v-if="dataCompleted">
             <nav>
               <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -25,7 +25,7 @@
                 <card>
                   <template v-slot:card-header>
                     <div class="row justify-content-center">
-                      <div div class="col-12">
+                      <div div class="col-md-12">
                         <div class="btn-group">
                           <router-link to="/dashboard" class="btn btn-outline-secondary btn-md btn-block"><i class="fas fa-home"></i> Home</router-link>
                         </div>
@@ -37,7 +37,7 @@
                   </template>
                   <template v-slot:card-body>
                     <div class="row justify-content-center">
-                      <div class="col-6">
+                      <div class="col-md-12">
                         <h4>Informações Pessoais</h4>
                         <ul>
                             <li> <strong>Nome Completo</strong>: {{displayPessoaFisica.nome}}</li>
