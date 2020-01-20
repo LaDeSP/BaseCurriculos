@@ -39,29 +39,31 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex';
-    import painel from '../Utils/Painel';
-    import card from '../Utils/Card';
-    export default {
-       data() {
-            return {
-                path:this.$store.state.upload.path,
-            }
-        },
-        components:{
-          painel,card
-        },
-        methods: {
-            ...mapActions([
-                'loadOnlyCurriculo'
-            ]),
-        },
-        computed: {
-            ...mapGetters([
-                'displayCurriculo'
-            ]),
-        },
+  import {mapActions, mapGetters} from 'vuex';
+  import painel from '../Utils/Painel';
+  import card from '../Utils/Card';
+  export default {
+    data() {
+      return {
+        path:this.$store.state.upload.path,
+      }
+    },
 
-    }
+    components:{
+      painel,card
+    },
 
+    methods: {
+      ...mapActions([
+        'loadOnlyCurriculo'
+      ]),
+    },
+
+    computed: {
+      ...mapGetters([
+        'displayCurriculo'
+      ]),
+    },
+
+  }
 </script>
