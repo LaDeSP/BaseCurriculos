@@ -1,6 +1,6 @@
 <template>
   <header class="masthead1">
-    <NavBarSobre></NavBarSobre>
+    <NavBar></NavBar>
     <div class="container">
         <div class="intro-text1">
           <div class="inferno">
@@ -21,7 +21,8 @@
 
 <script>
 
-  import NavBarSobre from './NavBarSobre.vue';
+  import NavBar from '../Utils/NavBar.vue';
+
 
   export default {
     data(){
@@ -31,7 +32,7 @@
     },
     
     components:{
-      NavBarSobre
+      NavBar
     }
   }
 

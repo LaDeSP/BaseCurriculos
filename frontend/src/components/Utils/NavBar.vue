@@ -3,7 +3,7 @@
     <b-navbar-brand v-if="!$route.meta.isDesativada"><router-link to="/dashboard" class="navbar-brand">Banco de Currículos</router-link></b-navbar-brand>
     <b-navbar-brand v-else>Banco de Currículos</b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-    <b-collapse id="nav-collapse" is-nav>
+    <b-collapse id="nav-collapse" is-nav v-if="isLoggedIn">
       <busca v-if="this.$store.state.dataCompleted!=false" class="ml-auto"></busca>
       <b-navbar-nav class="ml-auto">
         <b-navbar-nav v-if="!$route.meta.isDesativada">
@@ -18,6 +18,19 @@
             <b-dropdown-item><Logout></Logout></b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
+      </b-navbar-nav>
+    </b-collapse>
+    <b-collapse id="nav-collapse" is-nav v-else>
+      <b-navbar-nav class="ml-auto" v-if="this.$router.currentRoute.name == 'home'">
+        <b-nav-item><router-link class="navbar-brand" to="/login"><i class="fas fa-sign-in-alt"></i> Entrar</router-link></b-nav-item>
+        <b-nav-item><router-link class="navbar-brand" to="/sobre"><i class="far fa-lightbulb"></i> Sobre</router-link></b-nav-item>
+      </b-navbar-nav>
+      <b-navbar-nav class="ml-auto" v-if="this.$router.currentRoute.name == 'login'">
+        <b-nav-item><router-link class="navbar-brand" to="/"><i class="fas fa-home"></i> Voltar</router-link></b-nav-item>
+        <b-nav-item><router-link class="navbar-brand" to="/sobre"><i class="far fa-lightbulb"></i> Sobre</router-link></b-nav-item>
+      </b-navbar-nav>
+      <b-navbar-nav class="ml-auto" v-if="this.$router.currentRoute.name == 'sobre'">
+        <b-nav-item><router-link class="navbar-brand" to="/"><i class="fas fa-home"></i> Voltar</router-link></b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -44,7 +57,7 @@ import { BNavbar, BNavbarNav, BNavbarBrand, BNavbarToggle, BDropdown, BCollapse,
         
        computed:{
          ...mapGetters([
-           'permissaoDoUsuario'
+           'permissaoDoUsuario', 'isLoggedIn'
          ]),
        }
     }

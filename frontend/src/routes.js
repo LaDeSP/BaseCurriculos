@@ -46,7 +46,7 @@ import Convites from './components/Lists/Convites.vue';
 
 const routes = [
     {path: '', name:'home', component: Home, meta:{isHome: true, requiresNotAuth: true}},
-    {path: '/sobre', component: Sobre,meta:{isHome:true}},
+    {path: '/sobre', name:'sobre', component: Sobre,meta:{isHome:true}},
     {path: '/login', name: 'login', component: Login, meta:{isHome:true, requiresNotAuth:true}},
     {path: '/logout', name: 'logout', component: Logout, meta: {requiresAuth: true}},
     {path: '/new-juridica', name:'cadastro-juridica', component: NewJuridica, meta: {requiresNotAuth: true}},

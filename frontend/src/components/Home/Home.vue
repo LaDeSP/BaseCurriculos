@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="masthead">
-      <NavBarHome></NavBarHome>
+      <NavBar></NavBar>
       <div class="container">
         <div class="intro-text">
             <div class="intro-lead-in" >Bem-Vindo ao Banco de Currículos,</div>
@@ -22,13 +22,13 @@
 <script>
 
   import Modal from '../Utils/Modal.vue';
-  import NavBarHome from './NavBarHome.vue';
   import OpcoesHome from './OpcoesHome.vue';
+  import NavBar from '../Utils/NavBar.vue';
 
 
   export default {
     components:{
-      NavBarHome, Modal, OpcoesHome
+      Modal, OpcoesHome, NavBar
     },
 
     data(){

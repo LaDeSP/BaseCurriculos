@@ -1,6 +1,6 @@
 <template>
     <header class="masthead2">
-        <NavBarLogin></NavBarLogin>
+        <NavBar></NavBar>
         <div class="container">
           <div class="login-form-topzera">
             <ValidationObserver v-slot="{ invalid }">
@@ -53,14 +53,15 @@
 </template>
 
 <script>
-    import NavBarLogin from '../Home/NavBarLogin.vue'
     import Modal from '../Utils/Modal.vue';
     import OpcoesHome from '../Home/OpcoesHome.vue';
     import {mapGetters} from 'vuex'
     import card from '../Utils/Card.vue';
+    import NavBar from '../Utils/NavBar.vue';
+
     export default {
         components: {
-            NavBarLogin, Modal, OpcoesHome,card
+          Modal, OpcoesHome,card, NavBar
         },
         data(){
             return{
