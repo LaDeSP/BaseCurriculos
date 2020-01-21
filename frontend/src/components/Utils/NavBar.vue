@@ -7,7 +7,7 @@
       <busca v-if="this.$store.state.dataCompleted!=false" class="ml-auto"></busca>
       <b-navbar-nav class="ml-auto">
         <b-navbar-nav v-if="!$route.meta.isDesativada">
-          <b-nav-item><router-link to="/dashboard"><i class="fas fa-home fa-lg color-white"></i></router-link></b-nav-item>
+          <!--<b-nav-item><router-link to="/dashboard"><i class="fas fa-home fa-lg color-white"></i></router-link></b-nav-item>-->
           <b-nav-item-dropdown right>
             <template v-slot:button-content>
               <!--<img class="fotinha rounded-circle" :src=this.$store.state.upload.path>-->
