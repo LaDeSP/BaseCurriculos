@@ -1,16 +1,9 @@
 <template>
-<div class="row justify-content-center">
-    <div class="col-8">
-          <div class="row mb-3">
-          <div class="col-4">
-            <router-link v-bind:to="'/dashboard/'"  tag="button" class="btn btn-md btn-outline-secondary"><i class="fas fa-home fa-sm"></i> Home</router-link>
-          </div>
-          <div class="col-6">
-            <h2>Configurações</h2>
-          </div>
-        </div>
-    <div class="container-fluid fix-form-modal">
-    <div class="row  justify-content-center">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 d-flex justify-content-center">
+      <h2>Configurações</h2>
+    </div>
+    <div class="col-lg-8 fix-form-modal">
       <div class="card">
         <div class="card-body">
           <ValidationObserver v-slot="{ invalid }">
@@ -20,44 +13,40 @@
                     {{notificacao[0]}}
                 </span>
               </div>
-            <div class="col-sm-12">
+              <div class="col-md-12">
                 <div class="form-group">
-                      <label for="email">Email <a class="color-red">*</a></label>
-                    <ValidationProvider name="email" rules="required|email|max:250">
-                        <div slot-scope="{ errors }">
-                          <input type="email" name="email" class="form-control" v-model="email" maxlength="250" required='autofocus'>
-                          <p class="color-red">{{ errors[0] }}</p>
-                        </div>
-                    </ValidationProvider>
+                  <label for="email">Email <a class="color-red">*</a></label>
+                  <ValidationProvider name="email" rules="required|email|max:250">
+                    <div slot-scope="{ errors }">
+                      <input type="email" name="email" class="form-control" v-model="email" maxlength="250" required='autofocus'>
+                      <p class="color-red">{{ errors[0] }}</p>
+                    </div>
+                  </ValidationProvider>
                 </div>
               </div>
-
-              <div class="col-sm-12" v-if="role=='FISICA'">
+              <div class="col-md-12" v-if="role=='FISICA'">
                 <div class="form-group">
                   <label for="cpf">CPF <a class="color-red">*</a></label>
                   <ValidationProvider name="cpf" rules="required|numeric|digits:11">
-                      <div slot-scope="{ errors }">
-                        <input type="text" class="form-control" name="cpf" v-model="cpf" maxlength="11" minlength="11" required='autofocus'>
-                        <p class="color-red">{{ errors[0] }}</p>
-                      </div>
+                    <div slot-scope="{ errors }">
+                      <input type="text" class="form-control" name="cpf" v-model="cpf" maxlength="11" minlength="11" required='autofocus'>
+                      <p class="color-red">{{ errors[0] }}</p>
+                    </div>
                   </ValidationProvider>
                 </div>
               </div>
-
-              <div class="col-sm-12" v-if="role=='JURIDICA'">
+              <div class="col-md-12" v-if="role=='JURIDICA'">
                 <div class="form-group">
                   <label for="cnpj">CNPJ <a class="color-red">*</a></label>
                   <ValidationProvider name="cnpj" rules="required|numeric|digits:14">
-                      <div slot-scope="{ errors }">
-                        <input type="text" class="form-control" name="cnpj" v-model="cnpj" maxlength="14" minlength="14" required='autofocus'>
-                        <p class="color-red">{{ errors[0] }}</p>
-                      </div>
+                    <div slot-scope="{ errors }">
+                      <input type="text" class="form-control" name="cnpj" v-model="cnpj" maxlength="14" minlength="14" required='autofocus'>
+                      <p class="color-red">{{ errors[0] }}</p>
+                    </div>
                   </ValidationProvider>
                 </div>
               </div>
-
-
-              <div class="col-sm-12">
+              <div class="col-md-12">
                 <div class="form-group">
                   <span for="newPassword">Nova Senha</span>
                   <ValidationProvider name="newPassword" rules="min:8|max:30" vid="newPassword">
@@ -69,11 +58,10 @@
                   </ValidationProvider>
                 </div>
               </div>
-
-              <div class="col-sm-12" v-if="newPassword != ''" ><!--isso tava no a -->
+              <div class="col-md-12" v-if="newPassword != ''" >
                 <div class="form-group">
                   <span for="password">Senha Atual <a class="color-red">*</a></span>
-                  <ValidationProvider name="password" rules="required|min:8|max:30"><!--required_if aqui se eele tiver direto sem aquele v-if-->
+                  <ValidationProvider name="password" rules="required|min:8|max:30">
                     <div slot-scope="{ errors }">
                       <input type="password" id="password" name="password" class="form-control" :disabled="newPassword==''" v-model="password" maxlength="30" minlength="8">
                       <!--<small>Só precisa ser preenchido quando há uma nova senha. Não é obrigatório em outros casos. Não causa efeito nenhum se preenchido sem nova senha.</small>-->
@@ -87,22 +75,18 @@
               </div>
             </form>
           </ValidationObserver>
-          </div>
         </div>
-        <Modal v-if="isModalSuccess" @close="closeModal">
-          <template v-slot:header></template>
-          <template v-slot:body>
-                <b-alert show variant="success">
-                  <h1>Dados atualizados com sucesso!</h1>
-              </b-alert>
-          </template>
-        </Modal>
       </div>
+      <Modal v-if="isModalSuccess" @close="closeModal">
+        <template v-slot:header></template>
+        <template v-slot:body>
+          <b-alert show variant="success">
+            <h1>Dados atualizados com sucesso!</h1>
+          </b-alert>
+        </template>
+      </Modal>
     </div>
   </div>
-</div>
-
-
 </template>
 
 <script>
@@ -125,6 +109,7 @@
 
       }
     },
+
     components:{
       Modal, BAlert, card
     },
@@ -151,8 +136,7 @@
               this.newPassword = '';
             }
 
-          })
-          .catch(error => console.log(error))
+          }).catch(error => console.log(error))
         }
         else if(this.role=='JURIDICA'){
           let attUserJuridica = {
@@ -174,19 +158,21 @@
               this.newPassword = '';
             }
 
-          })
-          .catch(error => console.log(error))
+          }).catch(error => console.log(error))
         }
 
       },
+
       ...mapActions([
         'loadFisica', 'loadJuridica'
       ]),
+
       closeModal(){
         this.isModalSuccess = false;
       },
 
     },
+
     async created() {
       if(this.role == 'FISICA'){
         await this.loadFisica();
