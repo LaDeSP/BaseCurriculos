@@ -1,19 +1,19 @@
 <template>
 
     <div class="row justify-content-center">
-        <div class="col-7">
+        <div class="col-lg-7">
             <div v-if="!this.dataCompleted">
                 <center><h3>Cadastrar Informações</h3></center>
             </div>
             <div v-else>
                 <div class="row">
-                    <div class="col-4">
-                        <div class=" bd-highlight flex-left">
+                    <div class="col-md-4">
+                        <div class="bd-highlight flex-left justify-content-center-when-cellphone d-flex-when-cellphone margin-bottom">
                             <router-link to="/profile" class="btn btn-md btn-outline-secondary"><i class="fas fa-long-arrow-alt-left"></i> Voltar</router-link>
                         </div>
                     </div>
-                    <div class="col-5">
-                    <h3><center>Editar Informações</center></h3>
+                    <div class="col-md-4">
+                        <h3><center>Editar Informações</center></h3>
                     </div>
                 </div>
             </div>
@@ -361,7 +361,7 @@
 
                         <div class="form-group">
                             <label for="estado">Estado <a class="color-red">*</a></label>
-                            <ValidationProvider name="estadio" rules="required">
+                            <ValidationProvider name="estado" rules="required">
                                 <div slot-scope="{ errors }">
                                     <select class="custom-select" name="estado" v-model="estado" id="estado">
                                         <option disabled value="">Selecione seu estado</option>
@@ -481,8 +481,7 @@
                             <label for="pretensao">Pretensão Salarial <a class="color-red">*</a></label>
                             <ValidationProvider name="pretensao" rules="required|numeric|min_value:1|max_value:1000000|max:7">
                                 <div slot-scope="{ errors }">
-                                    <input type="number" id="pretensao" name="pretensao"
-                                    class="form-control" v-model="pretensao" step="any">
+                                    <input type="number" id="pretensao" name="pretensao" class="form-control" v-model="pretensao" step="any">
                                     <p class="color-red">{{ errors[0] }}</p>
                                 </div>
                             </ValidationProvider>
@@ -655,11 +654,11 @@
                 .then(response => {
                     if(response.data.error  != undefined){
                         this.notificacoes = response.data.error;
-                    }else if(response.status == 201){
+                    }
+                    else if(response.status == 201){
                         this.$router.go({ name: 'dashboard', params:{criou: true}});
                     }
-                })
-                .catch(error => console.log(error))
+                }).catch(error => console.log(error))
             }
             else{
                 await this.$store.dispatch('updateFisica', curriculo)
@@ -670,8 +669,7 @@
                     else if(response.status == 200){
                         this.$router.push({ name: 'profile', params:{criou: true}});
                     }
-                })
-                .catch(error => console.log(error))
+                }).catch(error => console.log(error))
             }
         },
 
@@ -712,8 +710,7 @@
             .then(response => {
                 this.areas = response.areas;
                 this.nome = this.$store.state.auth.user.name;
-            })
-            .catch(error => console.log(error))
+            }).catch(error => console.log(error))
         },
 
         getActualPhoto(){
