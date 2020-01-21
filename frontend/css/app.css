@@ -25292,3 +25292,16 @@ label#thumbnail.has-thumbnail img{
   margin-bottom: 15px;
 }
 
+@media (max-width: 768px) {
+  .justify-content-center-when-cellphone {
+    -webkit-box-pack: center !important;
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+  }
+
+  .d-flex-when-cellphone {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+  }
+}
