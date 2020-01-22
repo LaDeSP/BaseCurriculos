@@ -121,270 +121,235 @@
         </div>
         <br />
         <br />
-      <template v-if="permissaoDoUsuario === 'FISICA'">
-        <div
-          v-for="vaga in pageOfItems"
-          :key="vaga.id"
-          :id="vaga.id"
-          @vagaDeleted="onVagaDeleted($event)"
-        >
-          <List>
-            <template v-slot:list-header>
-              <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
-            </template>
-            <template v-slot:list-body>
-                <strong>Cargo:</strong>
-                {{vaga.cargo}}
-              
-                <strong>Área de Atuação:</strong>
-                {{vaga.area.tipo}}
-              
-                <strong>Jornada de Trabalho:</strong>
-                {{vaga.jornada}}
-              
-            </template>
-            <template v-slot:list-footer>
-              <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
-              <template v-if="dataCompleted">
-                <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+        <template v-if="permissaoDoUsuario === 'FISICA'">
+          <div v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id" @vagaDeleted="onVagaDeleted($event)">
+            <List>
+              <template v-slot:list-header>
+                <h3 class="mb-1" style="color: #4E73DF;">{{vaga.titulo}}</h3>
               </template>
-              <template v-else>
-                <router-link
-                  to="/new-curriculo"
-                  class="btn btn-sm btn-info"
-                >Preencha seu currículo para se candidatar!</router-link>
+              <template v-slot:list-body>
+                <strong>Cargo:</strong> {{vaga.cargo}}
+                <strong>Área de Atuação:</strong> {{vaga.area.tipo}}
+                <strong>Jornada de Trabalho:</strong> {{vaga.jornada}}    
               </template>
-              <Modal v-if="isModalShowMore" @close="closeModal">
-                <template v-slot:header>
-                  <h3>Detalhes da Vaga</h3>
+              <template v-slot:list-footer>
+                <button @click="showModal('else', vaga.id)" class="btn btn-sm btn-default">Ver mais</button>
+                <template v-if="dataCompleted">
+                  <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
                 </template>
-                <template v-slot:body>
-                  <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
-                  <strong>Descrição:</strong>
-                  {{vagaById[0].descricao}}
-                  <strong>Cargo:</strong>
-                  {{vagaById[0].cargo}}
-                  <strong>Área de Atuação:</strong>
-                  {{vagaById[0].area.tipo}}
-                  <strong>Jornada de Trabalho:</strong>
-                  {{vagaById[0].jornada}}
-                  <strong>Salário:</strong>
-                  {{vagaById[0].salario}}
-                  <strong>Benefícios:</strong>
-                  {{vagaById[0].beneficio}}
-                  <strong>Requisitos:</strong>
-                  {{vagaById[0].requisito}}
+                <template v-else>
+                  <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
                 </template>
-                <template v-slot:footer>
-                  <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
-                  <div v-if="dataCompleted">
-                    <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
-                  </div>
-                  <div v-else>
-                    <router-link
-                      to="/new-curriculo"
-                      class="btn btn-sm btn-info"
-                    >Preencha seu currículo para se candidatar!</router-link>
-                  </div>
-                </template>
-              </Modal>
-            </template>
-          </List>
+                <Modal v-if="isModalShowMore" @close="closeModal">
+                  <template v-slot:header>
+                    <h3>Detalhes da Vaga</h3>
+                  </template>
+                  <template v-slot:body>
+                    <h3 class="mb-1" style="color: #4E73DF;">{{vagaById[0].titulo}}</h3>
+                    <strong>Descrição:</strong> {{vagaById[0].descricao}}
+                    <strong>Cargo:</strong> {{vagaById[0].cargo}}
+                    <strong>Área de Atuação:</strong> {{vagaById[0].area.tipo}}
+                    <strong>Jornada de Trabalho:</strong> {{vagaById[0].jornada}}
+                    <strong>Salário:</strong> {{vagaById[0].salario}}
+                    <strong>Benefícios:</strong> {{vagaById[0].beneficio}}
+                    <strong>Requisitos:</strong> {{vagaById[0].requisito}}
+                  </template>
+                  <template v-slot:footer>
+                    <button @click="closeModal" class="btn btn-sm btn-outline-default">Voltar</button>
+                    <div v-if="dataCompleted">
+                      <button @click="onRequest(vaga.id)" class="btn btn-sm btn-success">Se Candidatar</button>
+                    </div>
+                    <div v-else>
+                      <router-link to="/new-curriculo" class="btn btn-sm btn-info">Preencha seu currículo para se candidatar!</router-link>
+                    </div>
+                  </template>
+                </Modal>
+              </template>
+            </List>
+            <br />
+          </div>
           <br />
-        </div>
-        <br />
-        <br />
-        <div class="row">
-          <div class="col-11" v-if="isActive.length > 4">
-            <center>
-              <jw-pagination
-                :items="isActive"
-                @changePage="onChangePage"
-                :pageSize="4"
-                :labels="customLabels"
-              ></jw-pagination>
-            </center>
+          <br />
+          <div class="row">
+            <div class="col-11" v-if="isActive.length > 4">
+              <center>
+                <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="4" :labels="customLabels"></jw-pagination>
+              </center>
+            </div>
+            <div class="col-11 display-none" v-else>
+              <center>
+                <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="4" :labels="customLabels"></jw-pagination>
+              </center>
+            </div>
           </div>
-          <div class="col-11 display-none" v-else>
-            <center>
-              <jw-pagination
-                :items="isActive"
-                @changePage="onChangePage"
-                :pageSize="4"
-                :labels="customLabels"
-              ></jw-pagination>
-            </center>
-          </div>
-        </div>
-        <br />
-        <br />
-      </template>
+          <br />
+          <br />
+        </template>
+      </div>
     </div>
-  </div>
-</span>
-
+  </span>
 </template>
 
-
 <script>
-import Card from "../Utils/Card";
-import Modal from "../Utils/ModalOld";
-import List from "../Utils/List";
-import painel from "../Utils/Painel";
-import { mapActions, mapGetters, mapState } from "vuex";
-import JwPagination from "jw-vue-pagination";
-const customLabels = {
-  first: "Primeira",
-  last: "Última",
-  previous: "Anterior",
-  next: "Próxima"
-};
+  import Card from "../Utils/Card";
+  import Modal from "../Utils/ModalOld";
+  import List from "../Utils/List";
+  import painel from "../Utils/Painel";
+  import { mapActions, mapGetters, mapState } from "vuex";
+  import JwPagination from "jw-vue-pagination";
+  const customLabels = {
+    first: "Primeira",
+    last: "Última",
+    previous: "Anterior",
+    next: "Próxima"
+  };
 
-export default {
-  data() {
-    return {
-      vagas: [],
-      vaga_id: 0,
-      filterState: true,
-      isModalWarning: false,
-      isModalShowMore: false,
-      pageOfItems: [],
-      customLabels,
-      notificacao: '',
-    };
-  },
-  components: { Card, Modal, List, painel, JwPagination },
-  methods: {
-    ...mapActions(["loadVagasJuridica"]),
-
-    onChangePage(pageOfItems) {
-      // update page of items
-      this.pageOfItems = pageOfItems;
-    },
-
-    showModal(modal, vaga_id) {
-      if (modal === "warning") {
-        this.isModalWarning = true;
-        this.vaga_id = vaga_id;
-      } else {
-        this.isModalShowMore = true;
-        this.vaga_id = vaga_id;
-      }
-    },
-
-    closeModal() {
-      this.isModalWarning = false;
-      this.isModalShowMore = false;
-    },
-
-    onCreate() {
-      this.$session.set("editing", false);
-      this.$router.push({ name: "new-vaga" });
-    },
-
-    onEdit(vaga_id) {
-      this.$session.set("editing", true);
-      this.$session.set("vaga_id", vaga_id);
-      this.$router.push({ name: "new-vaga" });
-    },
-
-    onRequest(id) {
-      let vaga_id = 0;
-      if (this.vaga_id != 0) {
-        vaga_id = this.vaga_id;
-      } else {
-        vaga_id = id;
-      }
-
-      let requestVaga = {
-        vaga_id: vaga_id,
-        user_id: this.$store.state.auth.user.id
+  export default {
+    data() {
+      return {
+        vagas: [],
+        vaga_id: 0,
+        filterState: true,
+        isModalWarning: false,
+        isModalShowMore: false,
+        pageOfItems: [],
+        customLabels,
+        notificacao: '',
       };
-      this.$store
-        .dispatch("requestVaga", requestVaga)
-        .then(response => {
-          this.isModalShowMore = false;
-        })
-        .catch(error => console.log(error));
     },
 
-    changeStatus(id, status) {
-      let newStatus = {
-        vaga_id: id,
-        status: status
-      };
-      this.$store
-        .dispatch("changeStatusVaga", newStatus)
-        .then(response => {
+    components: { Card, Modal, List, painel, JwPagination },
 
-          this.notificacao =  response.notificacao
-        })
-        .catch(error => console.log(error));
-    },
+    methods: {
+      ...mapActions(["loadVagasJuridica"]),
 
-    async onDelete() {
-      await this.$store
-        .dispatch("deleteVaga", this.vaga_id)
-        .then(response => {
-          this.isModalWarning = false;
-        })
-        .catch(error => console.log(error));
-    },
+      onChangePage(pageOfItems) {
+        this.pageOfItems = pageOfItems;
+      },
 
-    changeActiveButton(status) {
-      $(".btn-group").on("click", ".btn", function() {
-        $(this)
-          .addClass("active")
-          .siblings()
-          .removeClass("active");
-      });
-      if (status === "ativa") {
-        this.filterState = true;
-      } else {
-        this.filterState = false;
-      }
-    },
-
-    lineBreak(content){
-       return content.replace(/#/g, '`');
-    }
-  },
-
-  computed: {
-    isActive() {
-      if (this.permissaoDoUsuario === "FISICA") {
-        return this.displayVagasJuridica.filter(vaga => {
-          return vaga.status === "ATIVA";
-        });
-      } else {
-        if (this.filterState === true) {
-          return this.displayVagasAtivas
-        } else {
-          return this.displayVagasInativas
+      showModal(modal, vaga_id) {
+        if (modal === "warning") {
+          this.isModalWarning = true;
+          this.vaga_id = vaga_id;
         }
+        else {
+          this.isModalShowMore = true;
+          this.vaga_id = vaga_id;
+        }
+      },
+
+      closeModal() {
+        this.isModalWarning = false;
+        this.isModalShowMore = false;
+      },
+
+      onCreate() {
+        this.$session.set("editing", false);
+        this.$router.push({ name: "new-vaga" });
+      },
+
+      onEdit(vaga_id) {
+        this.$session.set("editing", true);
+        this.$session.set("vaga_id", vaga_id);
+        this.$router.push({ name: "new-vaga" });
+      },
+
+      onRequest(id) {
+        let vaga_id = 0;
+        if (this.vaga_id != 0) {
+          vaga_id = this.vaga_id;
+        }
+        else {
+          vaga_id = id;
+        }
+
+        let requestVaga = {
+          vaga_id: vaga_id,
+          user_id: this.$store.state.auth.user.id
+        };
+
+        this.$store.dispatch("requestVaga", requestVaga)
+          .then(response => {
+            this.isModalShowMore = false;
+          }).catch(error => console.log(error));
+      },
+
+      changeStatus(id, status) {
+        let newStatus = {
+          vaga_id: id,
+          status: status
+        };
+        this.$store
+          .dispatch("changeStatusVaga", newStatus)
+            .then(response => {
+              this.notificacao =  response.notificacao
+          }).catch(error => console.log(error));
+      },
+
+      async onDelete() {
+        await this.$store.dispatch("deleteVaga", this.vaga_id)
+          .then(response => {
+            this.isModalWarning = false;
+          }).catch(error => console.log(error));
+      },
+
+      changeActiveButton(status) {
+        $(".btn-group").on("click", ".btn", function() {
+          $(this)
+            .addClass("active")
+            .siblings()
+            .removeClass("active");
+        });
+        if (status === "ativa") {
+          this.filterState = true;
+        }
+        else {
+          this.filterState = false;
+        }
+      },
+
+      lineBreak(content){
+        return content.replace(/#/g, '`');
       }
     },
 
-    ...mapState([
-      'isFetching'
-    ]),
+    computed: {
+      isActive() {
+        if (this.permissaoDoUsuario === "FISICA") {
+          return this.displayVagasJuridica.filter(vaga => {
+            return vaga.status === "ATIVA";
+          });
+        }
+        else {
+          if (this.filterState === true) {
+            return this.displayVagasAtivas
+          }
+          else {
+            return this.displayVagasInativas
+          }
+        }
+      },
 
-    ...mapGetters([
-      "displayVagasJuridica",
-      "displayVagaById",
-      "permissaoDoUsuario",
-      "displayVagasAtivas",
-      "displayVagasInativas",
-      "dataCompleted"
-    ]),
+      ...mapState([
+        'isFetching'
+      ]),
 
-    vagaById() {
-      return this.displayVagaById(this.vaga_id);
+      ...mapGetters([
+        "displayVagasJuridica",
+        "displayVagaById",
+        "permissaoDoUsuario",
+        "displayVagasAtivas",
+        "displayVagasInativas",
+        "dataCompleted"
+      ]),
+
+      vagaById() {
+        return this.displayVagaById(this.vaga_id);
+      }
+    },
+
+    created() {
+      this.loadVagasJuridica();
     }
-  },
-
-  created() {
-    this.loadVagasJuridica();
-  }
-};
+  };
 </script>
