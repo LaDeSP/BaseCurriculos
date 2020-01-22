@@ -10,9 +10,9 @@
   </div>
 </span>
 <span v-else>
-  <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-home fa-sm"></i> Home </h1>
-  </div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 justify-content-center-when-cellphone d-flex-when-cellphone">
+      <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-home fa-sm"></i> Home</h1>
+    </div>
     <div class="row">
       <div class="col-xl-6 col-md-12 mb-8 margin-bottom">
         <card class="border-left-primary shadow h-100">

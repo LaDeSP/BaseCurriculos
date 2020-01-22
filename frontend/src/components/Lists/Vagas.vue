@@ -9,53 +9,28 @@
 </span>
 <span v-else>
 <div class="row justify-content-center">
-    <div class="col-9">
-      <div class="row">
+    <div class="col-lg-10 d-sm-flex align-items-center justify-content-between mb-4 justify-content-center-when-cellphone d-flex-when-cellphone">
+      <router-link v-bind:to="'/dashboard/'" tag="button" class="btn btn-md btn-outline-secondary"><i class="fas fa-home fa-sm"></i> Home</router-link>
+    </div>
+    <div class="col-lg-10">
         <template v-if="permissaoDoUsuario === 'JURIDICA'">
-            <div class="col-4">
-              <div class=" bd-highlight">
-                  <router-link
-                    v-bind:to="'/dashboard/'"
-                    tag="button"
-                    class="btn btn-md btn-outline-secondary">
-                    <i class="fas fa-home fa-sm"></i> Home
-                  </router-link>
-              </div>
-            </div>
-            <div class="col-4">
-              <div class=" bd-highlight">
-                <h2>Minhas Vagas</h2>
-              </div>
-            </div>
+          <div class="col-md-12 justify-content-center d-flex">
+            <h2>Minhas Vagas</h2>
+          </div>
         </template>
-      </div>
       <br />
       <template v-if="permissaoDoUsuario === 'JURIDICA'">
         <div class="d-flex flex-row bd-highlight mb-3">
           <div class="p-2 flex-fill bd-highlight">
             <div class="btn-group btn-group-sm" role="group">
-              <button
-                @click="changeActiveButton('ativa')"
-                type="button"
-                class="active btn btn-outline-success">
-                Vagas Ativas
-              </button>
-              <button
-                @click="changeActiveButton"
-                type="button"
-                class="btn btn-outline-secondary"
-              >Vagas Inativas</button>
+              <button @click="changeActiveButton('ativa')" type="button" class="active btn btn-outline-success">Vagas Ativas</button>
+              <button @click="changeActiveButton" type="button" class="btn btn-outline-secondary">Vagas Inativas</button>
             </div>
           </div>
           <div class="p-2 bd-highlight">
-             <div class="btn-group btn-group-sm" role="group">
-              <button @click="onCreate" type="button" class="btn btn-primary">
-                  Criar Vaga
-                  <span>
-                    <i class="fa fa-plus"></i>
-                  </span>
-              </button>
-            </div>
+              <div class="btn-group btn-group-sm" role="group">
+                <button @click="onCreate" type="button" class="btn btn-primary">Criar Vaga <span><i class="fa fa-plus"></i></span></button>
+              </div>
            </div>
         </div>
       </template>
@@ -74,9 +49,9 @@
         </span>
         <template v-if="permissaoDoUsuario === 'JURIDICA'">
             <div class="card-deck">
-              <div class="col-12">
+              <div class="col-md-12">
                 <div class="row">
-                <Card class="col-6 column"  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
+                <Card class="col-sm-6"  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
                   <template v-slot:card-header>
                     <h3 class="card-title" style="color: #4E73DF;">
                     {{vaga.titulo}}
