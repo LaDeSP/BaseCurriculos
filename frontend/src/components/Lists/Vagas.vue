@@ -1,82 +1,70 @@
 <template>
-<span v-if="isFetching">
-  <div class="container"></div>
-  <div class="container">
-    <center><h1>
-        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
-    </h1></center>
-  </div>
-</span>
-<span v-else>
-<div class="row justify-content-center">
-    <div class="col-lg-10 d-sm-flex align-items-center justify-content-between mb-4 justify-content-center-when-cellphone d-flex-when-cellphone">
-      <router-link v-bind:to="'/dashboard/'" tag="button" class="btn btn-md btn-outline-secondary"><i class="fas fa-home fa-sm"></i> Home</router-link>
+  <span v-if="isFetching">
+    <div class="container">
+      <center><h1>Carregando...  <span class="fas fa-spinner fa-pulse"></span></h1></center>
     </div>
-    <div class="col-lg-10">
+  </span>
+  <span v-else>
+    <div class="row justify-content-center">
+      <div class="col-lg-10 d-sm-flex align-items-center justify-content-between mb-4 justify-content-center-when-cellphone d-flex-when-cellphone">
+        <router-link v-bind:to="'/dashboard/'" tag="button" class="btn btn-md btn-outline-secondary"><i class="fas fa-home fa-sm"></i> Home</router-link>
+      </div>
+      <div class="col-lg-10">
         <template v-if="permissaoDoUsuario === 'JURIDICA'">
           <div class="col-md-12 justify-content-center d-flex">
             <h2>Minhas Vagas</h2>
           </div>
         </template>
-      <br />
-      <template v-if="permissaoDoUsuario === 'JURIDICA'">
-        <div class="d-flex flex-row bd-highlight mb-3">
-          <div class="p-2 flex-fill bd-highlight">
-            <div class="btn-group btn-group-sm" role="group">
-              <button @click="changeActiveButton('ativa')" type="button" class="active btn btn-outline-success">Vagas Ativas</button>
-              <button @click="changeActiveButton" type="button" class="btn btn-outline-secondary">Vagas Inativas</button>
+        <br />
+        <template v-if="permissaoDoUsuario === 'JURIDICA'">
+          <div class="d-flex flex-row bd-highlight mb-3">
+            <div class="p-2 flex-fill bd-highlight">
+              <div class="btn-group btn-group-sm" role="group">
+                <button @click="changeActiveButton('ativa')" type="button" class="active btn btn-outline-success">Vagas Ativas</button>
+                <button @click="changeActiveButton" type="button" class="btn btn-outline-secondary">Vagas Inativas</button>
+              </div>
+            </div>
+            <div class="p-2 bd-highlight">
+                <div class="btn-group btn-group-sm" role="group">
+                  <button @click="onCreate" type="button" class="btn btn-primary">Criar Vaga <span><i class="fa fa-plus"></i></span></button>
+                </div>
             </div>
           </div>
-          <div class="p-2 bd-highlight">
-              <div class="btn-group btn-group-sm" role="group">
-                <button @click="onCreate" type="button" class="btn btn-primary">Criar Vaga <span><i class="fa fa-plus"></i></span></button>
-              </div>
-           </div>
-        </div>
-      </template>
-      <br />
-      <br />
-
+        </template>
+        <br />
+        <br />
         <span v-if="filterState == true && pageOfItems.length == 0">
           <div class="container">
-          <center><h3>Não há nenhuma vaga ativa. </h3></center>
+            <center><h3>Não há nenhuma vaga ativa. </h3></center>
           </div>
         </span>
         <span v-else-if="filterState == false && pageOfItems.length == 0">
           <div class="container">
-          <center><h3>Não há nenhuma vaga inativa. </h3></center>
+            <center><h3>Não há nenhuma vaga inativa. </h3></center>
           </div>
         </span>
         <template v-if="permissaoDoUsuario === 'JURIDICA'">
-            <div class="card-deck">
-              <div class="col-md-12">
-                <div class="row">
+          <div class="card-deck">
+            <div class="col-md-12">
+              <div class="row">
                 <Card class="col-sm-6"  v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
                   <template v-slot:card-header>
                     <h3 class="card-title" style="color: #4E73DF;">
-                    {{vaga.titulo}}
+                      {{vaga.titulo}}
                     </h3>
                   </template>
                   <template v-slot:card-body>
                     <div v-if="notificacao" style="color: red;">
-                    <p style="white-space:pre-line;"><strong>{{notificacao}}</strong></p>
+                      <p style="white-space:pre-line;"><strong>{{notificacao}}</strong></p>
                     </div>
-                      <strong>Descrição:</strong>
-                      {{vaga.descricao}} <br><br>
-                      <strong>Cargo:</strong>
-                      {{vaga.cargo}}  <br><br>
-                      <strong>Quantidade:</strong>
-                      {{vaga.quantidade}}  <br><br>
-                      <strong>Área de Atuação:</strong>
-                      {{vaga.area.tipo}}  <br><br>
-                      <strong>Salário:</strong>
-                      {{vaga.salario}}  <br><br>
-                      <strong>Jornada de Trabalho:</strong>
-                      {{vaga.jornada}}  <br><br>
-                      <strong>Benefícios:</strong>
-                      {{vaga.beneficio}}  <br><br>
-                      <strong>Requisitos:</strong>
-                      {{vaga.requisito}}  <br><br>
+                    <strong>Descrição:</strong> {{vaga.descricao}} <br><br>
+                    <strong>Cargo:</strong> {{vaga.cargo}}  <br><br>
+                    <strong>Quantidade:</strong> {{vaga.quantidade}}  <br><br>
+                    <strong>Área de Atuação:</strong> {{vaga.area.tipo}}  <br><br>
+                    <strong>Salário:</strong> {{vaga.salario}}  <br><br>
+                    <strong>Jornada de Trabalho:</strong> {{vaga.jornada}}  <br><br>
+                    <strong>Benefícios:</strong> {{vaga.beneficio}}  <br><br>
+                    <strong>Requisitos:</strong> {{vaga.requisito}}  <br><br>
                   </template>
                   <template v-slot:card-footer>
                     <div>
@@ -84,18 +72,12 @@
                         <h6 class="card-text">Editar</h6>
                       </button>
                       <span v-if="filterState">
-                        <button
-                          @click="changeStatus(vaga.id, 'INATIVA')"
-                          class="btn btn-sm btn-outline-secondary"
-                        >
+                        <button @click="changeStatus(vaga.id, 'INATIVA')" class="btn btn-sm btn-outline-secondary">
                           <h6 class="card-text">Desativar</h6>
                         </button>
                       </span>
                       <span v-else>
-                        <button
-                          @click="changeStatus(vaga.id, 'ATIVA')"
-                          class="btn btn-sm btn-outline-success"
-                        >
+                        <button @click="changeStatus(vaga.id, 'ATIVA')" class="btn btn-sm btn-outline-success">
                           <h6 class="card-text">Ativar</h6>
                         </button>
                       </span>
@@ -107,13 +89,7 @@
                           <h3>Deletar Vaga</h3>
                         </template>
                         <template v-slot:body>
-                          <h2 class="text-center">
-                            Tem certeza de que deseja
-                            <span style="color: #ff0000">
-                              <strong>deletar</strong>
-                            </span>
-                            essa vaga?
-                          </h2>
+                          <h2 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>deletar</strong></span> essa vaga?</h2>
                         </template>
                         <template v-slot:footer>
                           <div>
@@ -125,39 +101,26 @@
                     </div>
                   </template>
                 </Card>
+              </div>
+            </div>
+          </div>
+        </template>
+        <br />
+        <br />
+        <div class="row no-gutters align-items-center">
+          <div class="col-md-11" v-if="isActive.length > 2">
+            <center>
+              <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="2" :labels="customLabels" v-if="permissaoDoUsuario === 'JURIDICA'"></jw-pagination>
+            </center>
+          </div>
+          <div class="col-md-11 display-none" v-else>
+            <center>
+              <jw-pagination :items="isActive" @changePage="onChangePage" :pageSize="4" :labels="customLabels" v-if="permissaoDoUsuario === 'JURIDICA'"></jw-pagination>
+            </center>
           </div>
         </div>
-              </div>
-              </template>
-
-      <br />
-      <br />
-      <div class="row no-gutters align-items-center">
-        <div class="col-11" v-if="isActive.length > 2">
-          <center>
-            <jw-pagination
-              :items="isActive"
-              @changePage="onChangePage"
-              :pageSize="2"
-              :labels="customLabels"
-              v-if="permissaoDoUsuario === 'JURIDICA'"
-            ></jw-pagination>
-          </center>
-        </div>
-        <div class="col-11 display-none" v-else>
-          <center>
-            <jw-pagination
-              :items="isActive"
-              @changePage="onChangePage"
-              :pageSize="4"
-              :labels="customLabels"
-              v-if="permissaoDoUsuario === 'JURIDICA'"
-            ></jw-pagination>
-          </center>
-        </div>
-      </div>
-      <br />
-      <br />
+        <br />
+        <br />
       <template v-if="permissaoDoUsuario === 'FISICA'">
         <div
           v-for="vaga in pageOfItems"
