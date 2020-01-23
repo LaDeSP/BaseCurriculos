@@ -1,8 +1,6 @@
 <template>
   <span v-if="isFetching && editing">
-    <br>
-    <br>
-    <br>
+    <br><br><br>
     <div class="container">
       <center>
         <h1>Carregando...  <span class="fas fa-spinner fa-pulse"></span></h1>
@@ -11,7 +9,7 @@
   </span>
   <span v-else>
     <div class="row justify-content-center">
-      <div class="col-6">
+      <div class="col-lg-6">
         <ValidationObserver v-slot="{ invalid }">
           <form>
             <div v-if="notificacoes">
@@ -64,25 +62,21 @@
               <template v-slot:card-footer class="justify-content-center">
                 <div v-if="editing === false">
                   <div class="row">
-                    <div class="col-md-10 float-left" >
+                    <div class="col-6 d-flex justify-content-start">
                       <router-link class="btn btn-outline-secondary" to="/candidaturas">Voltar</router-link>
                     </div>
-                    <div class="col-md-2 float-right" >
+                    <div class="col-6 d-flex justify-content-end">
                       <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-primary">Agendar</button>
                     </div>
                   </div>
                 </div>
                 <div v-else>
                   <div class="row">
-                    <div class="col-md-10 float-left" >
-                      <span v-if="permissaoDoUsuario == 'FISICA'">
-                        <router-link class="btn btn-outline-secondary" to="/candidaturas">Voltar</router-link>
-                      </span>
-                      <span v-else>
-                        <router-link class="btn btn-outline-secondary" to="/agenda">Voltar</router-link>
-                      </span>
+                    <div class="col-6 d-flex justify-content-start">
+                      <router-link v-if="permissaoDoUsuario == 'FISICA'" class="btn btn-outline-secondary" to="/candidaturas">Voltar</router-link>
+                      <router-link v-else class="btn btn-outline-secondary" to="/agenda">Voltar</router-link>
                     </div>
-                    <div class="col-md-2 float-right" >
+                    <div class="col-6 d-flex justify-content-end">
                       <button :disabled="invalid" @click.prevent="register" type="submit" class="btn btn-primary">Enviar</button>
                     </div>
                   </div>
@@ -161,12 +155,12 @@
             else{
               if(this.permissaoDoUsuario == 'FISICA'){
                 this.$router.push({ name: 'candidaturas', params:{editouEntrevista: true} })
-              }else{
+              }
+              else{
                 this.$router.push({ name: 'agenda', params:{agendou: true} })
               }
             }
-          })
-          .catch(error => console.log(error))
+          }).catch(error => console.log(error))
         }
       },
 
@@ -187,7 +181,7 @@
       ]),
 
       agendaById() {
-          return this.displayAgendaById(this.$route.params.id)
+        return this.displayAgendaById(this.$route.params.id)
       },
     },
 
