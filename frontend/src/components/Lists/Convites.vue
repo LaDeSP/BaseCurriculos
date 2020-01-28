@@ -106,7 +106,7 @@
                                 <div class="row">
                                     <Card class="col-sm-6" v-for="show in pageOfItems" :key="show.id" :id="show.id">
                                         <template v-slot:card-header>
-                                            <h3><span class="badge badge-info ">Vaga: {{show.vaga.titulo}}</span></h3>
+                                            <h3><span class="badge-info borda-redonda padding-title">Vaga: {{show.vaga.titulo}}</span></h3>
                                         </template>
                                         <template v-slot:card-body>
                                             <strong>Cargo</strong>: {{show.vaga.cargo}} <br><br>
@@ -133,7 +133,7 @@
                         <br>
                         <br>
                         <div class="list-group">
-                            <List class="mb-4" style="width: 60rem; height:17rem;" v-for="show in pageOfItems" :key="show.id" :id="show.id">
+                            <List class="mb-4 col-md-12" v-for="show in pageOfItems" :key="show.id" :id="show.id">
                                 <template v-slot:list-header>
                                     <h3 class="mb-1" style="color: #4E73DF;">{{show.curriculo.fisica.user.name}}
                                         <span v-if="show.resposta == 'AGUARDANDO'" class="badge badge-warning">AGUARDANDO</span>

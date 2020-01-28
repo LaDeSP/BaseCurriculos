@@ -66,10 +66,10 @@
                   <div class="row justify-content-center">
                     <div class="col-md-12">
                       <div class="row">
-                        <div class="col-sm-6 d-flex justify-content-center" >
+                        <div class="col-6 d-flex justify-content-start" >
                           <router-link to="/new-curriculo" class="btn btn-md btn-warning">Editar Informações</router-link>
                         </div>
-                        <div class="col-sm-6 d-flex justify-content-center" >
+                        <div class="col-6 d-flex justify-content-end" >
                           <button @click="showModal" class="btn btn-md btn-danger">Desativar Conta</button>
                           <Modal v-show="isModalWarning" @close="closeModal">
                             <template v-slot:header>
