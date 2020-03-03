@@ -232,11 +232,11 @@
                             </div>
                         </tab-content>
 
-                        <div slot="footer" slot-scope="props">
-                            <div class="wizard-footer-left">
+                        <div class="row" slot="footer" slot-scope="props">
+                            <div class="wizard-footer-left col-6 d-flex justify-content-start">
                                 <wizard-button  v-if="props.activeTabIndex > 0" @click.native="props.prevTab()" :style="props.fillButtonStyle">Voltar</wizard-button>
                             </div>
-                            <div class="wizard-footer-right">
+                            <div class="wizard-footer-right col-6 d-flex justify-content-end">
                                 <wizard-button v-if="!props.isLastStep" @click.native="props.nextTab()" class="wizard-footer-right" :style="props.fillButtonStyle">Próximo</wizard-button>
                                 <wizard-button v-else :disabled="invalid" @click.native="onComplete" class="wizard-footer-right finish-button" :style="props.fillButtonStyle">  {{props.isLastStep ? 'Salvar' : 'Próximo'}}</wizard-button>
                             </div>
