@@ -52,7 +52,7 @@
                         <li> <strong>Telefone Fixo</strong>: {{displayPessoaFisica.fixo}}</li>
                         <li> <strong>Telefone Celular</strong>: {{displayPessoaFisica.celular}}</li>
                       </ul>
-                      <h4>Redes Sociais</h4>
+                      <h4 v-if="(typeof displayCurriculo.facebook !== 'undefined' || null) && (typeof displayCurriculo.twitter !== 'undefined' || null) && (typeof displayCurriculo.linkedin !== 'undefined' || null) && (typeof displayCurriculo.site !== 'undefined' || null)">Redes Sociais</h4>
                       <ul>
                         <li v-if="typeof displayCurriculo.facebook !== 'undefined' || null">Facebook: {{displayCurriculo.facebook}}</li>
                         <li v-if="typeof displayCurriculo.twitter !== 'undefined' || null">Twitter: {{displayCurriculo.twitter}}</li>
