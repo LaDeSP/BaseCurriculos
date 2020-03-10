@@ -40,7 +40,7 @@
                     <li> <strong>Telefone Fixo</strong>: {{displayPessoaJuridica.fixo}}</li>
                     <li> <strong>Telefone Celular</strong>: {{displayPessoaJuridica.celular}}</li>
                   </ul>
-                  <h4><strong>Redes Sociais</strong></h4>
+                  <h4 v-if="(typeof displayPessoaJuridica.facebook !== 'undefined' || null)&&(typeof displayPessoaJuridica.twitter !== 'undefined' || null)&&(typeof displayPessoaJuridica.linkedin !== 'undefined' || null)&&(typeof displayPessoaJuridica.site !== 'undefined' || null)"><strong>Redes Sociais</strong></h4>
                   <ul>
                     <li v-if="typeof displayPessoaJuridica.facebook !== 'undefined' || null">Facebook: {{displayPessoaJuridica.facebook}}</li>
                     <li v-if="typeof displayPessoaJuridica.twitter !== 'undefined' || null">Twitter: {{displayPessoaJuridica.twitter}}</li>
