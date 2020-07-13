@@ -23,5 +23,19 @@ class VagasTableSeeder extends Seeder
             'juridicas_id'=>1,
             'areas_id'=>21,
        ]);
+
+       Vaga::create([
+        'titulo'=>'Gerente de projetos TI',
+        'cargo'=>'Gerente de projetos',
+        'descricao'=>'Procuramos profissionais que tenham experiência com gerência de projetos',
+        'salario'=>'A combinar',
+        'beneficio'=>'Vale alimentação e vale transporte',
+        'jornada'=>'8 horas por dia',
+        'requisito'=>'Ser responsável; Ter disciplina para cumprimento de prazos; Saber trabalhar bem em equipe.',
+        'quantidade'=>'1',
+        'status'=>'ATIVA',
+        'juridicas_id'=>1,
+        'areas_id'=>21,
+        ]);
     }
 }

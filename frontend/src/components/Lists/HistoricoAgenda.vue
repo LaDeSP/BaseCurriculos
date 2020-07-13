@@ -54,6 +54,7 @@
                                   <span v-else>
                                       <strong>Observação</strong>: {{show.observacao}} <br><br>
                                   </span>
+                        
                                   <span v-if="show.candidatura.status == 'ENTREVISTA CONFIRMADA' && getDateNow(show.data)">
                                       <strong>Notamos que a data de entrevista já passou. O candidato foi: </strong>
                                   </span>
@@ -234,6 +235,7 @@
             },
 
             getDateNow(data){
+                console.log('data', data)
                 let now = new Date();
                 let date = now.getDate();
                 let month = now.getMonth() + 1;

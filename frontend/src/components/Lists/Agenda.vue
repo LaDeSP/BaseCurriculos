@@ -312,7 +312,7 @@
                 let month = now.getMonth() + 1;
                 let year = now.getFullYear();
 
-                let dateStr = '2019-12-13';
+                let dateStr = '2020-12-13';
                 var dateAgenda = Date.parse(data);
                 var dateNow = Date.parse(dateStr);
 
