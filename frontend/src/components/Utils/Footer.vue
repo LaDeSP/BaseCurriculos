@@ -3,7 +3,7 @@
       <div class="site-footer">
        <div class="align-items-end">
           <div class="copyright text-center">
-            Copyright &copy; 2019 <span>Banco de Currículos</span>
+            Copyright &copy; 2020 <span>Banco de Currículos</span>
           </div>
         </div> 
     </div>
