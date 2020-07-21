@@ -606,6 +606,10 @@ pre code {
   font-family:Arial, Helvetica !important;
   color:white;
 }
+.site-footer .copyright .logoDaFabrica{
+  width: 8%;
+  height: 8%;
+}
 
 
 .background{
@@ -25004,7 +25008,6 @@ p{
 .login-icon{
   color: #495057;
 }
-
 .inferno{
   margin: 10px;
 }

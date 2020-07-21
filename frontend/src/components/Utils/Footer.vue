@@ -1,11 +1,10 @@
 <template>
 
       <div class="site-footer">
-       <div class="align-items-end">
-          <div class="copyright text-center">
+        <div class="copyright text-center">
             Copyright &copy; 2020 <span>Banco de Currículos</span>
-          </div>
-        </div> 
+            <img class="logoDaFabrica" src="../../../img/logo1.jpg">
+        </div>
     </div>
 </template>
 
