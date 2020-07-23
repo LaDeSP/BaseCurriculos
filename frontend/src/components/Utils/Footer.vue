@@ -2,7 +2,7 @@
 
       <div class="site-footer">
         <div class="copyright text-center">
-            <img class="logoDaFabrica" src="../../../img/logo1.jpg">
+            <a href="https://fabricadesoftwaredopantanal.ufms.br"><img class="logoDaFabrica" src="../../../img/logo3.png"></a>
             Copyright &copy; 2020 <span>Banco de Currículos</span>
             
         </div>
