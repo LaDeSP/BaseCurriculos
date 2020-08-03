@@ -1,0 +1,305 @@
+<template>
+<span v-if="isFetching">
+  <br>
+  <br>
+  <br>
+  <div class="container">
+    <center><h1>
+        Carregando...  <span class="fas fa-spinner fa-pulse"></span>
+    </h1></center>
+  </div>
+</span>
+<span v-else>
+   <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">     <router-link
+                  v-bind:to="'/dashboard/'"
+                  tag="button"
+                  class="btn btn-md btn-outline-secondary">
+                  <i class="fas fa-home fa-sm"></i> Home
+                </router-link>
+            Minhas Vagas </h1>
+          </div>
+            <div class="row">
+               <template v-if="permissaoDoUsuario === 'JURIDICA'">
+                <div class="d-flex flex-row bd-highlight mb-3">
+                  <div class="p-2 flex-fill bd-highlight">
+                    <div class="btn-group btn-group-sm" role="group">
+                      <button
+                        @click="changeActiveButton('ativa')"
+                        type="button"
+                        class="active btn btn-outline-success">
+                        Vagas Ativas
+                      </button>
+                      <button
+                        @click="changeActiveButton"
+                        type="button"
+                        class="btn btn-outline-secondary"
+                      >Vagas Inativas</button>
+                    </div>
+                  </div>
+                  <div class="p-2 bd-highlight">
+                    <div class="btn-group btn-group-sm" role="group">
+                      <button @click="onCreate" type="button" class="btn btn-primary">
+                          Criar Vaga
+                          <span>
+                            <i class="fa fa-plus"></i>
+                          </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </template>
+              <br />
+              <br />
+            </div>
+             <div class="row">
+                <span v-if="filterState == true && pageOfItems.length == 0">
+                  <h3>Não há nenhuma vaga ativa. </h3>
+                </span>
+                <span v-else-if="filterState == false && pageOfItems.length == 0">
+                  <h3>Não há nenhuma vaga inativa. </h3>
+                  {{isActive}}
+                </span>
+                <div v-for="vaga in pageOfItems" :key="vaga.id" :id="vaga.id">
+                  <template v-if="permissaoDoUsuario === 'JURIDICA'">
+                    <Card class="mb-2 ml-2" style="width: 25rem;">
+                      <template v-slot:card-header>
+                        <h3 class="card-title">
+                          <span class="badge badge-info">{{vaga.titulo}}</span>
+                        </h3>
+                      </template>
+                      <template v-slot:card-body>
+
+                          <strong>Descrição:</strong>
+                          {{vaga.descricao}} <br>
+                          <strong>Cargo:</strong>
+                          {{vaga.cargo}}<br>
+                          <strong>Quantidade:</strong>
+                          {{vaga.quantidade}}<br>
+                          <strong>Área de Atuação:</strong>
+                          {{vaga.area.tipo}}<br>
+                          <strong>Salário:</strong>
+                          {{vaga.salario}}<br>
+                          <strong>Jornada de Trabalho:</strong>
+                          {{vaga.jornada}}<br>
+                          <strong>Benefícios:</strong>
+                          {{vaga.beneficio}}<br>
+                          <strong>Requisitos:</strong>
+                          {{vaga.requisito}}<br>
+
+                      </template>
+                      <template v-slot:card-footer>
+                        <div>
+                          <button @click="onEdit(vaga.id)" class="btn btn-sm btn-warning">
+                            <h6 class="card-text">Editar</h6>
+                          </button>
+                          <span v-if="filterState">
+                            <button
+                              @click="changeStatus(vaga.id, 'INATIVA')"
+                              class="btn btn-sm btn-outline-secondary"
+                            >
+                              <h6 class="card-text">Desativar</h6>
+                            </button>
+                          </span>
+                          <span v-else>
+                            <button
+                              @click="changeStatus(vaga.id, 'ATIVA')"
+                              class="btn btn-sm btn-outline-success"
+                            >
+                              <h6 class="card-text">Ativar</h6>
+                            </button>
+                          </span>
+                          <button @click="showModal('warning', vaga.id)" class="btn btn-sm btn-danger">
+                            <h6 class="card-text">Deletar</h6>
+                          </button>
+                          <Modal v-show="isModalWarning" @close="closeModal">
+                            <template v-slot:header>
+                              <h3>Deletar Vaga</h3>
+                            </template>
+                            <template v-slot:body>
+                              <h2 class="text-center">
+                                Tem certeza de que deseja
+                                <span style="color: #ff0000">
+                                  <strong>deletar</strong>
+                                </span>
+                                essa vaga?
+                              </h2>
+                            </template>
+                            <template v-slot:footer>
+                              <div>
+                                <button @click="onDelete" class="btn btn-lg btn-danger">Sim</button>
+                                <button @click="closeModal" class="btn btn-lg btn-success">Não</button>
+                              </div>
+                            </template>
+                          </Modal>
+                        </div>
+                      </template>
+                    </Card>
+                  </template>
+                </div>
+      </div>
+       </div>
+    </div>
+</span>
+
+</template>
+
+
+<script>
+import Card from "../Utils/CardsVagas";
+import Modal from "../Utils/ModalOld";
+import List from "../Utils/List";
+import painel from "../Utils/Painel";
+import { mapActions, mapGetters, mapState } from "vuex";
+import JwPagination from "jw-vue-pagination";
+const customLabels = {
+  first: "Primeira",
+  last: "Última",
+  previous: "Anterior",
+  next: "Próxima"
+};
+
+export default {
+  data() {
+    return {
+      vagas: [],
+      vaga_id: 0,
+      filterState: true,
+      isModalWarning: false,
+      isModalShowMore: false,
+      pageOfItems: [],
+      customLabels
+    };
+  },
+  components: { Card, Modal, List, painel, JwPagination },
+  methods: {
+    ...mapActions(["loadVagasJuridica"]),
+
+    onChangePage(pageOfItems) {
+      // update page of items
+      this.pageOfItems = pageOfItems;
+    },
+
+    showModal(modal, vaga_id) {
+      if (modal === "warning") {
+        this.isModalWarning = true;
+        this.vaga_id = vaga_id;
+      } else {
+        this.isModalShowMore = true;
+        this.vaga_id = vaga_id;
+      }
+    },
+
+    closeModal() {
+      this.isModalWarning = false;
+      this.isModalShowMore = false;
+    },
+
+    onCreate() {
+      this.$session.set("editing", false);
+      this.$router.push({ name: "new-vaga" });
+    },
+
+    onEdit(vaga_id) {
+      this.$session.set("editing", true);
+      this.$session.set("vaga_id", vaga_id);
+      this.$router.push({ name: "new-vaga" });
+    },
+
+    onRequest(id) {
+      let vaga_id = 0;
+      if (this.vaga_id != 0) {
+        vaga_id = this.vaga_id;
+      } else {
+        vaga_id = id;
+      }
+
+      let requestVaga = {
+        vaga_id: vaga_id,
+        user_id: this.$store.state.auth.user.id
+      };
+      this.$store
+        .dispatch("requestVaga", requestVaga)
+        .then(response => {
+          this.isModalShowMore = false;
+        })
+        .catch(error => console.log(error));
+    },
+
+    changeStatus(id, status) {
+      let newStatus = {
+        vaga_id: id,
+        status: status
+      };
+      this.$store
+        .dispatch("changeStatusVaga", newStatus)
+        .then(response => {})
+        .catch(error => console.log(error));
+    },
+
+    async onDelete() {
+      await this.$store
+        .dispatch("deleteVaga", this.vaga_id)
+        .then(response => {
+          this.isModalWarning = false;
+        })
+        .catch(error => console.log(error));
+    },
+
+    changeActiveButton(status) {
+      $(".btn-group").on("click", ".btn", function() {
+        $(this)
+          .addClass("active")
+          .siblings()
+          .removeClass("active");
+      });
+      if (status === "ativa") {
+        this.filterState = true;
+      } else {
+        this.filterState = false;
+      }
+    }
+  },
+
+  computed: {
+    isActive() {
+      if (this.permissaoDoUsuario === "FISICA") {
+        return this.displayVagasJuridica.filter(vaga => {
+          return vaga.status === "ATIVA";
+        });
+      } else {
+        if (this.filterState === true) {
+          return this.displayVagasAtivas
+        } else {
+          return this.displayVagasInativas
+        }
+      }
+    },
+
+    ...mapState([
+      'isFetching'
+    ]),
+
+    ...mapGetters([
+      "displayVagasJuridica",
+      "displayVagaById",
+      "permissaoDoUsuario",
+      "displayVagasAtivas",
+      "displayVagasInativas",
+      "dataCompleted"
+    ]),
+
+    vagaById() {
+      return this.displayVagaById(this.vaga_id);
+    }
+  },
+
+  created() {
+    this.loadVagasJuridica();
+    console.log('fec', this.$store.state.isFetching)
+    console.log('actio', this.displayVagasJuridica)
+  }
+};
+</script>

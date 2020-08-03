@@ -1,19 +1,53 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+<v-app>
+  <NavBar></NavBar>
+  <div v-if="$route.meta.isHome || $route.meta.isSobre || $route.meta.isLogin">
+    <router-view></router-view>
+    <LoadingScreen v-if="isLoading"></LoadingScreen>     
   </div>
+  <div v-else>
+    <v-main>
+      <v-container class="fill-height">
+        <router-view></router-view>
+        <LoadingScreen v-if="isLoading"></LoadingScreen>
+      </v-container>
+    </v-main>
+  </div>
+  <Footer></Footer>
+</v-app>
 </template>
 
+
+<script>
+  import NavBar from './components/Utils/NavBar.vue';
+  import Footer from './components/Utils/Footer.vue';
+  import LoadingScreen from './components/Utils/LoadingScreen'
+  
+export default {
+
+    data(){
+      return{
+
+      }
+    },
+    components:{
+        NavBar, Footer, LoadingScreen
+
+    },
+    created(){  
+      console.log('no app', this.$route)
+    }
+}
+</script>
+
 <style lang="stylus">
-#app
-  font-family Avenir, Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-  margin-top 60px
+  .container 
+    min-height 100vh
+  .v-application a
+    color inherit !important
+    text-decoration none
+  
+  .v-btn
+    text-transform none
+    
 </style>
