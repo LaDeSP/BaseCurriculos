@@ -19,9 +19,9 @@
 
 
 <script>
-  import NavBar from './components/Utils/NavBar.vue';
-  import Footer from './components/Utils/Footer.vue';
-  import LoadingScreen from './components/Utils/LoadingScreen'
+  import NavBar from './components/Utils/NavBar.vue'
+  import Footer from './components/Utils/Footer.vue'
+  import LoadingScreen from './views/LoadingScreen'
   
 export default {
 

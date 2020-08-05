@@ -25,12 +25,59 @@ Vue.use(VueRouter)
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: () => import(/* webpackChunkName: "Login"*/ '../views/Dashboard')
+    component: () => import(/* webpackChunkName: "Dashboard"*/ '../views/Dashboard')
   },
   {
     path: '/juridica',
     name: 'Juridica',
-    component: () => import(/* webpackChunkName: "Login"*/ '../views/Juridica')
+    component: () => import(/* webpackChunkName: "Juridica"*/ '../views/Juridica')
+  },
+  {
+    path: '/loading',
+    name: 'LoadingScreen',
+    component: () => import(/* webpackChunkName: "LoadingScreen"*/ '../views/LoadingScreen')
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import(/* webpackChunkName: "Profile"*/ '../views/Profile')
+  },
+   {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import(/* webpackChunkName: "Settings"*/ '../components/Dashboards/Configuracoes')
+  },
+  {
+    path: '/candidaturas',
+    name: 'Candidaturas',
+    component: () => import(/* webpackChunkName: "Candidaturas"*/ '../views/Candidaturas')
+  },
+  {
+    path: '/vagas',
+    name: 'Vagas',
+    component: () => import(/* webpackChunkName: "Vagas"*/ '../views/Vagas')
+  },
+  {
+    path: '/canjur',
+    name: 'canjur',
+    component: () => import(/* webpackChunkName: "Vagas"*/ '../components/Candidaturas/CandidaturasJuridica')
+  },
+  {
+    path: '/convites',
+    name: 'convites',
+    component: () => import(/* webpackChunkName: "Vagas"*/ '../views/Convites')
+  },
+  {
+    path: '/agenda',
+    name: 'agenda',
+    component: () => import(/* webpackChunkName: "Vagas"*/ '../views/Agenda'),
+    children: [
+      {
+        path: 'new',
+        name: 'new-agenda',
+        component: () => import(/* webpackChunkName: "Vagas"*/ '../components/Forms/FormNovoAgendamento'),
+      }
+    ]
   }
 ]
 

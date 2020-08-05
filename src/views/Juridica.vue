@@ -1,7 +1,8 @@
 <template>
  <v-row align="center" justify="center">
+    <span class="pagina"><v-icon class="pagina">fas fa-home fa-lg</v-icon> Home</span>
     <TopCards></TopCards>
-    <v-row>
+    <v-row justify="center">
       <v-col cols="10" lg="6" md="8" sm="8">
         <ProcessosEmAndamento></ProcessosEmAndamento>
       </v-col>
@@ -20,3 +21,8 @@ export default {
   components:{TopCards, ProcessosEmAndamento, StatusEntrevistas}
 }
 </script>
+
+<style lang="stylus">
+  .pagina 
+    font-size 30px
+</style>

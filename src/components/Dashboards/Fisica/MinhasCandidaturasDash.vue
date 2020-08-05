@@ -1,9 +1,11 @@
 <template>
+<div class="text-center">
+  <span class="pagina"><v-icon class="pagina">fas fa-home fa-lg</v-icon> Home</span>
   <v-card class="borda-card mx-auto elevation-6" max-width="800" align="center" justify="center">
     <v-card-title class="primary--text">
         <router-link to="candidaturas">Minhas Candidaturas</router-link>  
         <v-spacer></v-spacer>
-        <v-btn outlined color="grey darken-1">Ver mais <v-icon class="pl-1">fa fa-eye</v-icon></v-btn>
+        <router-link to="candidaturas"><v-btn outlined color="grey darken-1">Ver mais <v-icon class="pl-1">fa fa-eye</v-icon></v-btn></router-link>  
     </v-card-title>
     <v-card-text>
         <v-row class="justify-space-between my-5">
@@ -28,9 +30,13 @@
         </v-row>
     </v-card-text> 
   </v-card>
+</div>
 </template>
 
 <style scoped lang="stylus">
+  .pagina 
+    font-size 30px
+    padding-bottom 10px
   .v-application a:hover
     color #4e73df !important
     text-decoration underline

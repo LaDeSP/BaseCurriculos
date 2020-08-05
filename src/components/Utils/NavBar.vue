@@ -14,7 +14,7 @@
         prepend-inner-icon="mdi-magnify"
         label="Pesquisa"
       ></v-text-field>
-      <v-btn depressed class="ml-1">Busca Avançada</v-btn>
+      <v-btn depressed class="ml-2">Busca Avançada</v-btn>
     </template>
     <v-spacer></v-spacer>
     <template v-if="this.$route.path == '/login' || this.$route.path == '/sobre'">
@@ -98,7 +98,7 @@ export default {
       if(page == 'Meu Perfil'){
         this.$router.push('/profile')
       }else if(page == 'Configurações'){
-        this.$router.push('/config')
+        this.$router.push('/settings')
       }else if(page == 'Sair'){
         console.log('logout')
       }

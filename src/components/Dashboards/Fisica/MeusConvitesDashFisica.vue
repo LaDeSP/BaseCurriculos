@@ -1,7 +1,7 @@
 <template>
   <v-card class="borda-card mt-3 mx-auto elevation-6" max-width="800" align="center" justify="center">
     <v-card-title class="warning--text">
-        <router-link to="candidaturas">Meus convites</router-link>  
+        <router-link to="convites">Meus convites</router-link>  
         <v-spacer></v-spacer>
         <v-btn outlined color="grey darken-1">Ver mais <v-icon class="pl-1">fa fa-eye</v-icon></v-btn>
     </v-card-title>

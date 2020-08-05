@@ -1,7 +1,6 @@
 <template>
 <div>
-  <span class="pagina"><v-icon class="pagina">fas fa-home fa-lg</v-icon> Home</span>
-  <v-row>
+  <v-row align="center" justify="center">
     <v-col v-for="(card, index) in cards" :key="index" cols="10" lg="6" md="8" sm="8">
       <v-card class="mx-auto elevation-6" :style="getStyle(card.title)" max-width="800" align="center" justify="center">
         <v-card-title :class="getTitleColor(card.title)">
@@ -84,8 +83,6 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .pagina 
-    font-size 30px
   .borda-card
     border-left: 5px solid #4e73df !important
   .v-card__title
