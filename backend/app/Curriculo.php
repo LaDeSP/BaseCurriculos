@@ -14,15 +14,11 @@ class Curriculo extends Model
 
 	protected $fillable = [
 		'objetivos', 'areas_id', 'pretensao', 'qualificacoes', 
-		'escolaridade', 'historicoProfissional', 'historicosP_id', 'fisicas_id'
+		'escolaridade', 'historicoProfissional', 'fisicas_id'
 	];
 	
   public function fisica(){
     return $this->hasOne(Fisica::class, 'id','fisicas_id');
-	}
-
-	public function historicoProfissional(){
-    return $this->hasOne(HistoricoProfissional::class, 'id','historicosP_id');
 	}
 
 	public function candidatura(){

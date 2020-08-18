@@ -8,13 +8,24 @@
     <v-card-text>
         <v-row class="my-5">
           <v-col>
-              <h1>0</h1>
+              <h1>{{convites.length}}</h1>
               <v-icon class="mt-3">fas fa-envelope</v-icon>
           </v-col>
         </v-row>
     </v-card-text> 
   </v-card>
 </template>
+
+<script>
+import {mapState} from 'vuex'
+
+export default {
+  computed: {
+    ...mapState(['convites'])
+  }
+
+}
+</script>
 
 <style scoped lang="stylus">
   .v-application a:hover

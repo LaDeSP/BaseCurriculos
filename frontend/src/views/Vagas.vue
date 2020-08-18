@@ -1,6 +1,6 @@
 <template>
  <v-row class="fill-height" align="center" justify="center">
-    <v-col cols="10" md="8" sm="10" xs="2">
+    <v-col cols="12" lg="12" md="8" sm="10">
       <router-link to="/dashboard">
         <v-btn>
           <v-icon class="pr-1">fas fa-home fa-lg</v-icon> Home
@@ -15,6 +15,7 @@
             centered 
             grow
             color="black"
+            show-arrows
           >
           <v-tabs-slider></v-tabs-slider>
           <v-tab href="#tab-1" class="green lighten-1">

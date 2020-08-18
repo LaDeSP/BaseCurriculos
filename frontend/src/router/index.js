@@ -80,8 +80,12 @@ Vue.use(VueRouter)
     meta: {requiresAuth: true},
     component: () => import(/* webpackChunkName: "Agenda"*/ '../views/Agenda'),
     children: [
-      { path: 'new', 
-        name: 'new',
+      { path: 'new/:id', 
+        name: 'newAgenda',
+        component: () => import(/* webpackChunkName: "Agenda"*/ '../components/Forms/FormNovoAgendamento')
+      },
+      { path: 'edit/:id', 
+        name: 'editAgenda',
         component: () => import(/* webpackChunkName: "Agenda"*/ '../components/Forms/FormNovoAgendamento')
       }
     ]
@@ -91,6 +95,18 @@ Vue.use(VueRouter)
     name: 'search',
     meta: {requiresAuth: true},
     component: () => import(/* webpackChunkName: "Convites"*/ '../views/Resultados')
+  },
+  {
+    path: '/new-user',
+    name: 'newJuridicaUser',
+    meta: {requiresAuth: true},
+    component: () => import(/* webpackChunkName: "Convites"*/ '../components/Forms/FormCreateUserJuridica')
+  },
+  {
+    path: '/manage-users',
+    name: 'manageJuridicaUsers',
+    meta: {requiresAuth: true},
+    component: () => import(/* webpackChunkName: "Convites"*/ '../components/Display/ManageJuridicaUsers')
   }
 ]
 

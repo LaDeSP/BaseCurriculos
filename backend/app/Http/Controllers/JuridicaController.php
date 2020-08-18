@@ -88,7 +88,7 @@ class JuridicaController extends Controller
         ));
         
         return Response::json([
-            'message' => 'Dados cadastrados com sucesso!',
+           'username'=>$request->nome
         ], 201);
 
     }

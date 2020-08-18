@@ -25,7 +25,6 @@ export default {
         state.dataCompleted = payload
     },
     [mutationTypes.SET_NEW_USER_PIC](state, payload){
-        console.log('payloadsssssss', payload)
         state.upload.path = payload
     },
     [mutationTypes.PESSOA_FISICA_INFO](state, pessoaFisicaPayload){
@@ -46,5 +45,26 @@ export default {
     },
     [mutationTypes.SET_VAGAS_PESSOA_JURIDICA](state, vagasDaPessoaJuridica){
         state.vagasJuridica = vagasDaPessoaJuridica
-    }
+    },
+    [mutationTypes.SET_CONVITES](state, payload){
+        state.convites = payload
+    },
+    [mutationTypes.SET_CANDIDATURAS_FISICA](state, payload){
+        state.candidaturasFisica = payload
+    },
+    [mutationTypes.SET_VAGAS](state, payload){
+        state.vagas = payload
+    },
+    [mutationTypes.DELETE_CANDIDATURA_CANCELADA](state, payload){
+        if(payload.role == 'FISICA'){
+            let index = state.candidaturasFisica.findIndex(candidatura => candidatura.id == payload.candidaturaId)
+            state.candidaturasFisica.splice(index, 1)
+        }else{
+            let index = state.agendas.findIndex(agenda => agenda.candidatura_id == payload.candidaturaId)
+            state.candidaturas.splice(index, 1)
+        }
+    },
+    [mutationTypes.JURIDICA_USERS](state, payload){
+        state.juridicaUsers = payload
+    },
 }

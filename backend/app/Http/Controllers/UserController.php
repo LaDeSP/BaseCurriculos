@@ -19,6 +19,13 @@ use Response;
 
 class UserController extends Controller implements JWTSubject
 {
+    public function index(){
+        $usersJuridica = User::where('role', 'JURIDICA')->get();
+        return Response::json([
+            'usersJuridica'=>$usersJuridica
+        ]);
+    }
+
     public function login(Request $request){
         
         $credentials = $request->only('email', 'password');
@@ -118,6 +125,16 @@ class UserController extends Controller implements JWTSubject
             return Response::json(['soft deleted']);
         }
         
+    }
+
+    public function handleUserStatus(Request $request){
+        if($request->action === 'act'){
+            User::where('id', $request->userId)->update(['status'=>'ATIVO']);
+        }else if($request->action == 'deact'){
+            User::where('id', $request->userId)->update(['status'=>'INATIVO']);
+        }
+
+        return Response::json([$this->index()->original]);
     }
 
     public function messages(){

@@ -10,9 +10,10 @@ class CurriculosTableSeeder extends Seeder
     public function run()
     {
         HistoricoProfissional::create([
-            'data_inicial' => '2019-01-08',
-            'data_final' => '2020-01-01',
-            'descricao_experiencia' => 'Trabalhei como desenvolvedora júnior na Sansa Tech.'
+            'dataInicial' => '2019-01-08',
+            'dataFinal' => '2020-01-01',
+            'descricaoExperiencia' => 'Trabalhei como desenvolvedora júnior na Sansa Tech.',
+            'fisicas_id' => 1
         ]);        
         
         Curriculo::create([
@@ -20,7 +21,6 @@ class CurriculosTableSeeder extends Seeder
             'pretensao'=>'2.000',
             'escolaridade'=>'Ensino Superior(Completo)',
             'qualificacoes'=>'Experiências com PHP, Python e Javascript. Trabalho bem em equipe.',
-            'historicosP_id' => 1,
             'fisicas_id'=>1,
             'areas_id'=>21,
         ]);

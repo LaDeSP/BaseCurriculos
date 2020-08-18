@@ -23,6 +23,10 @@ class Fisica extends Model
     	return $this->hasOne(User::class, 'id', 'user_id');
 	}
 
+	public function historicoProfissional(){
+		return $this->hasOne(HistoricoProfissional::class, 'id', 'fisicas_id');
+	}
+
     public function contato(){
     	return $this->hasOne(Contato::class,  'id', 'contatos_id');
 	}
@@ -34,5 +38,5 @@ class Fisica extends Model
 	public function curriculo(){
 		return $this->belongsTo(Curriculo::class, 'id', 'fisicas_id');
 	}
-	
+
 }

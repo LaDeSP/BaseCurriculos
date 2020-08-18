@@ -5,6 +5,9 @@ import vagas from './VagasApi'
 import candidaturas from './CandidaturasApi'
 import buscas from './BuscasApi'
 import foto from './FotoApi'
+import convites from './ConvitesApi'
+import agendamento from './AgendaApi'
+import account from './AccountApi'
 
 export default {
     auth,
@@ -13,5 +16,8 @@ export default {
     vagas,
     candidaturas,
     buscas,
-    foto
+    foto,
+    convites,
+    agendamento,
+    account
 }

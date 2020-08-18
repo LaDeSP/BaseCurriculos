@@ -78,7 +78,7 @@ class CandidaturaController extends Controller
             }
             else{
                 return Response::json([
-                    'countCandidaturas'=>0
+                    'candidaturas'=>[]
                 ]);
             }
             
@@ -88,8 +88,8 @@ class CandidaturaController extends Controller
 
     public function store(Request $request)
     {   
-        $vaga_id = $request->vaga_id;
-        $fisicas_id = Fisica::where('user_id', $request->user_id)->first()->id;
+        $vaga_id = $request->vagaId;
+        $fisicas_id = Fisica::where('user_id', $request->userId)->first()->id;
         $curriculos_id = Curriculo::where('fisicas_id', $fisicas_id)->first()->id;
        
         Candidatura::create([
@@ -150,6 +150,7 @@ class CandidaturaController extends Controller
     public function destroy($id){
 
         $candidatura = Candidatura::find($id);
+        
         $candidatura->delete();
 
 

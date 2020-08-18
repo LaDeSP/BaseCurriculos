@@ -100,7 +100,7 @@ export default {
         }).catch(error => console.log(error))
     },
     redirecionarUsuarioPorPermissao(permissao){
-      if(permissao === "FISICA" || permissao === 'JURIDICA'){
+      if(permissao === "FISICA" || permissao === 'JURIDICA' || permissao == 'MASTER'){
         this.$router.push({name: 'dashboard' })
       }else{
         alert('erro no login')

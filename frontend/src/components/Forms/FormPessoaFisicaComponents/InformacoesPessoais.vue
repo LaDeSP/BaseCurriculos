@@ -317,7 +317,6 @@ export default {
   computed: {
     ...mapState(['pessoaFisicaInfo']),
     dateFormated(){
-      console.log('thisssaaakiiai', this.date)
       if(this.date != '' && this.date != undefined){
         return moment(this.date).format('DD/MM/YYYY')
       }else{
@@ -327,7 +326,6 @@ export default {
   },
   methods: {
     async loadDataToEdit(){
-      console.log('no info fisica', this.pessoaFisicaInfo.data_nascimento)
       this.date = this.pessoaFisicaInfo.data_nascimento
       this.genero = this.pessoaFisicaInfo.genero
       this.estadoCivil = this.pessoaFisicaInfo.estado_civil

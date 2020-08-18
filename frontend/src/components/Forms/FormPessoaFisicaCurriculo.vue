@@ -160,8 +160,8 @@
                             <v-row v-for="(experiencia, index) in experienciasTratado" :key="index">
                               <v-col cols="12" md="10">
                                 <span>
-                                  <strong>Data Inicial</strong>: {{experiencia.dataInicialFormatada}} <br/>
-                                  <strong>Data Final</strong>: {{experiencia.dataFinalFormatada}} <br/>
+                                  <strong>Data Inicial</strong>: {{experiencia.dataInicial | dateFormat}} <br/>
+                                  <strong>Data Final</strong>: {{experiencia.dataFinal | dateFormat}} <br/>
                                   <strong>Descrição</strong>: {{experiencia.descricaoExperiencia}} <br/>
                               </span>
                               </v-col>
@@ -283,6 +283,13 @@ export default {
       
     }
   },
+  filters:{
+    dateFormat: function(value){
+      if (value) {
+        return moment(String(value)).format('DD/MM/YYYY')
+      }
+    }
+  },
   async created(){
     await this.$store.dispatch(actionTypes.GET_AREAS)
       .then(response => {
@@ -340,7 +347,7 @@ export default {
         pretensao: this.pretensaoSalarial,
         escolaridade: this.nivelEscolaridade,
         qualificacoes: this.qualificacoes,
-        historicoProfissional: 'this.experiencias'
+        historicoProfissional: this.experiencias
       }
       if(!this.edicao){
         this.$store.dispatch(actionTypes.COMPLETE_PESSOA_FISICA, payload)
@@ -350,7 +357,7 @@ export default {
             this.pleaseWaitDialog = false
           }else{
             this.pleaseWaitDialog = false
-            this.$router.push({ name: 'dashboard', params:{cadastroCurriculoSucesso: true} })
+            //this.$router.push({ name: 'dashboard', params:{cadastroCurriculoSucesso: true} })
           }
         })
       }else{
@@ -361,7 +368,7 @@ export default {
             this.pleaseWaitDialog = false
           }else{
             this.pleaseWaitDialog = false
-            this.$router.push({ name: 'dashboard', params:{cadastroCurriculoSucesso: true} })
+            //this.$router.push({ name: 'dashboard', params:{cadastroCurriculoSucesso: true} })
           }
         })
       }
@@ -423,14 +430,12 @@ export default {
       this.numero = value.numero
     },
     loadDataToEdit(){  
-      console.log('emtrou no load data to edit, pessoa fisica info', this.pessoaFisicaInfo)
-      console.log('entrou no laod data edit, pessoa fisica curriculo', this.pessoaFisicaCurriculo)
       this.objetivosProfissionais = this.pessoaFisicaCurriculo.curriculo.objetivos
       this.areaAtuacao = this.pessoaFisicaCurriculo.area.id
       this.pretensaoSalarial = this.pessoaFisicaCurriculo.curriculo.pretensao 
       this.nivelEscolaridade = this.pessoaFisicaCurriculo.curriculo.escolaridade
       this.qualificacoes = this.pessoaFisicaCurriculo.curriculo.qualificacoes
-      //this.experiencias = this.pessoaFisicaCurriculo.curriculo.historico_profissional
+      this.experiencias = this.pessoaFisicaCurriculo.historicoProfissional
     }
   },
 }

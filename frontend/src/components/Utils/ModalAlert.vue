@@ -14,23 +14,26 @@
         <h3 class="text-center">{{payload.title}}</h3>
       </v-card-title>
         <v-card-text class="text-justify my-5 justify-center text-center">
-            <slot>
+            <slot> 
               Texto do Modal Alert
             </slot>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="ml-1" color="red lighten-1 white--text"  @click="dialog = false">{{payload.title}}</v-btn>
-          <v-btn class="ml-1" color="grey white--text"  @click="dialog = false">Voltar</v-btn>
+          <v-btn class="ml-1" color="red lighten-1 white--text" @click="cancelAction()">{{payload.title}}</v-btn>
+          <v-btn class="ml-1" color="grey white--text" @click="dialog = false">Voltar</v-btn>
         </v-card-actions>
   </v-card>
 </v-dialog>
 </template>
 
 <script>
+import {actionTypes} from '@/core/constants'
+
 export default {
     props:{
-      payload: Object
+      payload: Object,
+      candidaturaId: Number
     },
     data(){
         return{
@@ -38,11 +41,30 @@ export default {
         }
     },
     created(){
-      //console.log('this ', this.payload)
+      console.log('this ', this.candidaturaId)
     },
     methods:{
       closeDialog(){
         this.dialog = false
+      },
+      async cancelAction(){
+        switch (this.payload.action) {
+          case 'cancelar candidatura':
+            console.log('no case', this.candidaturaId)
+            await this.$store.dispatch(actionTypes.CANCELAR_CANDIDATURA, this.candidaturaId)
+            break;
+          case 'cancelar agendamento':
+            await this.$store.dispatch(actionTypes.CANCELAR_AGENDAMENTO, payload.agendamentoId)
+            break;
+          case 'cancelar entrevista':
+            await this.$store.dispatch(actionTypes.CANCELAR_ENTREVISTA, payload.agendamentoId)
+            break;
+          case 'desativar conta':
+            break;
+          default:
+            break;
+        }
+        
       }
     }
 }

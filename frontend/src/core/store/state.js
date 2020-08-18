@@ -8,8 +8,9 @@ export default{
   upload:{
     path: ''
   },
+  candidaturasFisica: [],
+  vagas: [],
   vagasJuridica: [],
-  candidaturas: [],
   vagasCandidaturas: [],
   progressBar: [],
   vagasConvites: [],
@@ -22,5 +23,6 @@ export default{
   resultado: [],
   agenda: [],
   convites: [],
+  juridicaUsers: [],
   isFetching: true
 }

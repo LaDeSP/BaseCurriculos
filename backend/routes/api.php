@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
+header('Access-Control-Allow-Origin:  *');
+header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, PATCH, DELETE');
+header('Access-Control-Allow-Headers:  *');
+
 Auth::routes(); 
 Route::post('/login', [
     'uses' => 'UserController@login'
@@ -67,5 +71,7 @@ Route::group([
     Route::post('/respostaConvite', 'ConviteController@respostaConvite');
     Route::post('/cancelarConvite', 'ConviteController@cancelarConvite');
     Route::post('/logout', 'UserController@logout');
+    Route::get('/users', 'UserController@index');
+    Route::post('/userStatus', 'UserController@handleUserStatus');
 });
 Route::post('/activate/{id}', 'UserController@activateAccount');

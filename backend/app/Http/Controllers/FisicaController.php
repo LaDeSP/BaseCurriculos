@@ -18,6 +18,10 @@ class FisicaController extends Controller
 {
     use UserTrait;
 
+    public function index(){
+        
+    }
+
     public function store(Request $request)
     {  
         $validator = Validator::make($request->all(), FisicaController::rules(), FisicaController::messages());

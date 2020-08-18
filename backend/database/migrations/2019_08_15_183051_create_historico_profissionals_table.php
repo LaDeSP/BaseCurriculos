@@ -16,9 +16,11 @@ class CreateHistoricoProfissionalsTable extends Migration
         Schema::create('historico_profissionals', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->date('data_inicial')->nullable();
-            $table->date('data_final')->nullable();
-            $table->longText('descricao_experiencia')->nullable();
+            $table->date('dataInicial')->nullable();
+            $table->date('dataFinal')->nullable();
+            $table->longText('descricaoExperiencia')->nullable();
+            $table->integer('fisicas_id')->unsigned();
+            $table->foreign('fisicas_id')->references('id')->on('fisicas')->onDelete('cascade');
         });
     }
 

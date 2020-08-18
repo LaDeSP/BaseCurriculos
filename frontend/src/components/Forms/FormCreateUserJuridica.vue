@@ -1,37 +1,13 @@
 <template>
-<v-dialog v-model="dialog" max-width="800px">
-  <template v-slot:activator="{on: evento, attrs}">
-      <div>
-          <template v-if="$route.path == '/'">
-            <v-btn
-              large
-              color="primary"
-              dark 
-              v-bind="attrs"
-              v-on="evento"
-            >
-              FAÇA PARTE
-            </v-btn>
-          </template>
-          <template v-if="$route.path == '/login'">
-            <v-btn
-              outlined
-              color="green darken-1"
-              dark 
-              v-bind="attrs"
-              v-on="evento"
-            >
-              Não possuo cadastro
-            </v-btn>
-        </template>
-      </div>
-  </template>
-  <v-card>
-      <v-card-title>
-        <h3 class="text-center">Cadastro de Pessoa Física</h3>
-        <v-spacer></v-spacer>
-        <FormCreatePessoaJuridica @close="closeDialog"></FormCreatePessoaJuridica>
-      </v-card-title>
+<v-row class="fill-height" align="center" justify="center">
+  <v-col cols="12" lg="12" md="8" sm="12">
+    <router-link to="/dashboard">
+        <v-btn>
+          <v-icon class="pr-1">fas fa-home fa-lg</v-icon> Home
+        </v-btn>
+      </router-link>
+    <v-card>
+      <v-card-title class="justify-center text-center"><h2>Cadastrar Pessoa Jurídica</h2></v-card-title>
       <template>
         <ValidationObserver ref="observer" v-slot="{ invalid }">
         <v-form>
@@ -47,22 +23,37 @@
             <template v-else>
               <ValidationProvider v-slot="{ errors }" name="name" rules="required|max:250">
                 <v-text-field 
-                  label="Nome Completo *"
+                  label="Nome da Empresa*"
                   v-model="name"
                   name="name"
                   :error-messages="errors"
                   type="text"
                 ></v-text-field>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" name="cpf" rules="required|numeric|digits:11">
+              <ValidationProvider v-slot="{ errors }" name="cnpj" rules="required|numeric|digits:14">
                 <v-text-field 
-                  label="CPF *"
-                  v-model="cpf"
-                  :counter="11"
-                  name="cpf"
+                  label="CNPJ *"
+                  v-model="cnpj"
+                  maxlength="14"
+                  minlength="14" 
+                  required='autofocus'
+                  :counter="14"
+                  name="cnpj"
                   :error-messages="errors"
                   type="text"
                 ></v-text-field>
+              </ValidationProvider>
+              <ValidationProvider v-slot="{ errors }" name="areaAtuacao" rules="required">
+                <v-select
+                  class="mt-0"
+                  v-model="areaAtuacao"
+                  :items="itemsAreaAtuacao"
+                  item-text="tipo"
+                  item-value="id"
+                  :error-messages="errors"
+                  label="Área de Atuação *"
+                  required
+                ></v-select>
               </ValidationProvider>
               <ValidationProvider v-slot="{ errors }" name="email" rules="required|email|max:250">
                 <v-text-field 
@@ -85,30 +76,21 @@
             </template>
           </v-card-text>
           <v-divider></v-divider>
-          <v-card-actions>
-            <span>
-              <v-btn outlined color="red darken-1" text @click="dialog = false">Fechar</v-btn>
-            </span>
-            <v-spacer></v-spacer>
-            <template v-if="$route.path == '/'">
-              <router-link to="/login" >
-                <v-btn outlined color="blue darken-1" text @click="dialog = false">Já possuo cadastro</v-btn>
-              </router-link>
-            </template>
+          <v-card-actions class="text-center justify-center">
             <v-btn :disabled="invalid" v-on:keyup.enter="register" class="ml-1" outlined color="green darken-1" text @click="register">Cadastrar</v-btn>
           </v-card-actions>
         </v-form>
         </ValidationObserver>
       </template>
-  </v-card>
-</v-dialog>
+    </v-card>
+  </v-col>
+</v-row>
+
 </template>
 
 <script>
-import FormCreatePessoaJuridica from './FormCreatePessoaJuridica'
 import {actionTypes} from '../../core/constants'
 export default {
-  components:{FormCreatePessoaJuridica},
   data(){
     return{
       dialog: false,
@@ -116,31 +98,37 @@ export default {
       name: '',
       email: '',
       password: '',
-      cpf: '',
-      role: 'FISICA',
+      areaAtuacao: '',
+      itemsAreaAtuacao: [],
+      cnpj: '',
+      role: 'JURIDICA',
       notificacoes: []
     }
   },
+  async created(){
+    await this.$store.dispatch(actionTypes.GET_AREAS)
+      .then(response => {
+        this.itemsAreaAtuacao = response.areas
+      })
+  },
   methods:{
-    closeDialog(){
-      this.dialog = false
-    },
     async register(){
-      let fisica = {
+      let juridica = {
         name: this.name,
         email: this.email,
-        cpf: this.cpf, 
+        cnpj: this.cnpj, 
+        area: this.areaAtuacao,
         password: this.password, 
         role: this.role
       }
       this.pleaseWait = true
-      await this.$store.dispatch(actionTypes.CREATE_PESSOA_FISICA, fisica)
+      await this.$store.dispatch(actionTypes.CREATE_PESSOA_JURIDICA, juridica)
         .then(response => {
           if(response.error  != undefined){
             this.notificacoes = response.error
             this.pleaseWait = false
           }else{
-            this.$router.push({ name: 'dashboard', params:{cadastroFisicaSucesso: true} })
+            this.$router.push({ name: 'dashboard', params:{cadastroJuridicaSucesso: true} })
           }
         })
     }

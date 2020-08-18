@@ -26,11 +26,11 @@ class CurriculoController extends Controller
         $data = [];
         foreach($request->historicoProfissional as $historico){
             dd('vaaaar', $historico);
-            $data = HistoricoProfissional::create([
+            /* $data = HistoricoProfissional::create([
                 'data_inicial' => $request->dataInicial,
                 'data_final' => $request->dataFinal, 
                 'descricao_experiencia' => $request->descricaoExperiencia
-            ]);
+            ]); */
         } 
         dd('xaaaaa', $data->id);
         Curriculo::create([
@@ -49,7 +49,7 @@ class CurriculoController extends Controller
 
     }    
 
-    public function storeSAVED(Request $request){
+    public function store(Request $request){
        $validator = Validator::make($request->all(), CurriculoController::rules(), CurriculoController::messages());
          
         if ($validator->fails()) {
@@ -91,29 +91,28 @@ class CurriculoController extends Controller
             'contatos_id' => $con_id, 
             'enderecos_id' => $end_id
         ));
-
-        $data = [];
+        
         foreach($request->historicoProfissional as $historico){
-            dd('vaaaar', $historico);
-            $data = HistoricoProfissional::create([
-                'data_inicial' => $request->dataInicial,
-                'data_final' => $request->dataFinal, 
-                'descricao_experiencia' => $request->descricaoExperiencia
+            HistoricoProfissional::create([
+                'dataInicial' => $historico['dataInicial'],
+                'dataFinal' =>  $historico['dataFinal'], 
+                'descricaoExperiencia' => $historico['descricaoExperiencia'],
+                'fisicas_id'=>$fisica
             ]);
         } 
-        dd('xaaaaa', $data->id);
+        
         Curriculo::create([
             'objetivos' => $request->objetivos,
             'areas_id' => $request->area,
             'pretensao' => $request->pretensao,
             'qualificacoes' => $request->qualificacoes,
-            'historicosP_id' => $data->id,
             'escolaridade' => $request->escolaridade,
-            'fisicas_id' => Fisica::where('user_id', $user_id)->first()->id
+            'fisicas_id' => $fisica
         ]);
         
         return Response::json([
-            'Currículo cadastrado com sucesso!'
+            'Currículo cadastrado com sucesso!',
+            'username'=>$request->nome
         ], 201);
     }
 
@@ -130,23 +129,18 @@ class CurriculoController extends Controller
 
         $fisica = Fisica::with(['contato', 'endereco', 'user'])->where('user_id', $id)->orderBy('created_at', 'desc')->get();
 
-        $curriculo = Curriculo::with(['fisica', 'historicoProfissional'])->where('fisicas_id', $fisicas_id)->orderBy('created_at', 'desc')->get();
-       
+        $curriculo = Curriculo::with(['fisica'])->where('fisicas_id', $fisicas_id)->orderBy('created_at', 'desc')->get();
+        $historicoProfissional = HistoricoProfissional::where('fisicas_id', $fisicas_id)->orderBy('created_at', 'desc')->get();
         return Response::json([
            'curriculo' => $curriculo,
+           'historicoProfissional' => $historicoProfissional,
            'fisica' => $fisica,
            'area'=> $area,
            'area_id' => $area_id
         ], 201);
     }
 
-    public function store(Request $request)
-    {
-        dd($request);
-        dd($request->historicoProfissional);
-    }
-
-    public function updateSAVED(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), CurriculoController::rules(), CurriculoController::messages());
        
@@ -189,6 +183,15 @@ class CurriculoController extends Controller
         ));
         
         $fisicas_id = Fisica::where('user_id', $id)->first()->id;
+
+        foreach($request->historicoProfissional as $historico){
+            HistoricoProfissional::create([
+                'dataInicial' => $historico['dataInicial'],
+                'dataFinal' =>  $historico['dataFinal'], 
+                'descricaoExperiencia' => $historico['descricaoExperiencia'],
+                'fisicas_id'=>$fisica
+            ]);
+        } 
 
         Curriculo::where('fisicas_id', $fisicas_id)->update([
             'objetivos' => $request->objetivos,

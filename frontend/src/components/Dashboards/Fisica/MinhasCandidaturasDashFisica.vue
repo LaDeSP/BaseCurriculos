@@ -8,38 +8,69 @@
         <router-link to="candidaturas"><v-btn outlined color="grey darken-1">Ver mais <v-icon class="pl-1">fa fa-eye</v-icon></v-btn></router-link>  
     </v-card-title>
     <v-card-text>
-        <v-row class="justify-space-between my-5">
-          <v-col cols="10" sm="4">
+      <template v-if="candidaturasFisica.length == 0">
+            <span style="font-size: 20px">Nenhuma Candidatura Realizada!</span>
+      </template>
+      <template v-else>
+        <v-row>
+          <v-col cols="10" sm="4" v-for="candidatura in getUltimasCandidaturas" :key="candidatura.id">
               <v-card class="py-5">
-                <v-card-title>Titulo deste</v-card-title>
-                <v-icon>fas fa-spinner fa-pulse</v-icon>
-              </v-card>
-          </v-col>
-          <v-col cols="10" sm="4">
-              <v-card class="py-5">
-                <v-card-title>Titulo deste</v-card-title>
-                <v-icon>fas fa-spinner fa-pulse</v-icon>
-              </v-card>
-          </v-col>
-          <v-col cols="10" sm="4">
-              <v-card class="py-5">
-                <v-card-title>Titulo deste</v-card-title>
-                <v-icon>fas fa-spinner fa-pulse</v-icon>
+                <v-card-title>{{candidatura.vaga.titulo}}</v-card-title>
+                <v-divider></v-divider>
+                <v-card-text class="mt-1">
+                    <span :class="getStyle(candidatura.status)">
+                    <div>{{candidatura.status}}</div>
+                    <v-icon large :class="getStyle(candidatura.status)">{{icon}}</v-icon>
+                  </span>
+                </v-card-text>
               </v-card>
           </v-col>
         </v-row>
+      </template>
     </v-card-text> 
   </v-card>
 </div>
 </template>
 
+<script>
+import {mapState, mapGetters} from 'vuex'
+export default {
+  data() {
+    return {
+      icon: ''
+    }
+  },
+  computed: {
+    ...mapState(['candidaturasFisica']),
+    ...mapGetters(['getUltimasCandidaturas'])
+  },
+  methods: {
+    getStyle(status){
+      if(status == 'AGUARDANDO' || status == 'EM AGENDAMENTO'){
+        this.icon = 'fas fa-spinner fa-pulse'
+        return 'mt-2 warning--text'
+      }else if(status == 'ENTREVISTA CONFIRMADA'){
+        this.icon = 'fas fa-check-circle'
+        return 'success--text'
+      }else if(status == 'RECUSADO'){
+        this.icon = 'fas fa-frown-open'
+        return 'red lighten-2'
+      }else if(status == 'ENTREVISTA CANCELADA'){
+        this.icon = 'fas fa-calendar-times'
+        return 'red lighten-2'
+      }else if(status == 'CONTRATADO'){
+        this.icon = 'fas fa-smile'
+        return 'success--text'
+      }
+    }
+  }
+}
+</script>
+
 <style scoped lang="stylus">
   .pagina 
     font-size 30px
     padding-bottom 10px
-  .v-application a:hover
-    color #4e73df !important
-    text-decoration underline
   .borda-card
     border-left: 5px solid #4e73df !important
   .v-card__title

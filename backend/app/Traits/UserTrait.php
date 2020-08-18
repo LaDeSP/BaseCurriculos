@@ -24,7 +24,8 @@ trait UserTrait {
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
-            'role' => $request->input('role')
+            'role' => $request->input('role'),
+            'status' => 'ATIVO'
         ]);
 
         $user->save();

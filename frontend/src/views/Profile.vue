@@ -1,6 +1,6 @@
 <template>
 <v-row align="center" justify="center">
-  <v-col cols="10" md="12" sm="10" xs="2">
+  <v-col cols="10" lg="12" md="12" sm="10" xs="2">
     <template v-if="isLoaded">
       <router-link to="/dashboard">
         <v-btn>
@@ -14,6 +14,7 @@
           centered 
           dark 
           icons-and-text=""
+          show-arrows
         >
         <v-tabs-slider></v-tabs-slider>
         <v-tab href="#tab-1">
@@ -147,10 +148,14 @@
                         {{pessoaFisicaCurriculo.curriculo.escolaridade}}
                     </v-list-item-content>
                   </v-list-item>
-                  <v-list-item class="mb-2">
+                  <v-list-item class="">
                     <v-list-item-content>
-                      <h2 align="left">Histórico Profissional</h2>
-                        {{pessoaFisicaCurriculo.curriculo.historicoProfissional}}
+                      <h2 align="left" class="mb-2">Histórico Profissional</h2>
+                        <span class="mb-3" align="left" v-for="historico in pessoaFisicaCurriculo.historicoProfissional" :key="historico.id">
+                          <strong>Data Inicial</strong>: {{historico.dataInicial | dateFormat}} <br/>
+                          <strong>Data Final</strong>: {{historico.dataFinal | dateFormat}} <br/>
+                          <strong>Descrição</strong>: {{historico.descricaoExperiencia}} <br/>
+                        </span>
                     </v-list-item-content>
                   </v-list-item>
                   <v-list-item class="mb-2">

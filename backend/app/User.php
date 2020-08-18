@@ -19,7 +19,7 @@ class User extends Authenticatable implements JWTSubject
 
   
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'name', 'email', 'password', 'role', 'status'
     ];
 
     protected $softCascade = ['juridica', 'fisica'];

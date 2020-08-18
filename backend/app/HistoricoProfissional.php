@@ -8,10 +8,10 @@ class HistoricoProfissional extends Model
 {
 
 	protected $fillable = [
-		'data_inicial', 'data_final', 'descricao_experiencia'
+		'dataInicial', 'dataFinal', 'descricaoExperiencia', 'fisicas_id'
     ];
     
-    public function curriculo(){
-	    return $this->belongsTo(Curriculo::class, 'id', 'historicosP_id');
+    public function fisica(){
+	    return $this->belongsTo(Fisica::class, 'id', 'fisicas_id');
 	}
 }
