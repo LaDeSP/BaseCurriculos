@@ -193,10 +193,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['pessoaFisicaInfo'])
+    ...mapState(['pessoaJuridicaInfo'])
   },
   methods: {
-     submit(){
+     async submit(){
       this.pleaseWaitDialog = true
       let payload = {
         nome: this.infosJuridica.nome,
@@ -215,7 +215,7 @@ export default {
         numero: this.numero
       }
       if(!this.edicao){
-        this.$store.dispatch(actionTypes.COMPLETE_PESSOA_JURIDICA, payload)
+        await this.$store.dispatch(actionTypes.COMPLETE_PESSOA_JURIDICA, payload)
         .then(response =>{
           if(response.error != undefined){
             this.notificacoes = response.error
@@ -228,26 +228,28 @@ export default {
           }
         })
       }else{
-        this.$store.dispatch(actionTypes.UPDATE_PESSOA_JURIDICA, payload)
+        await this.$store.dispatch(actionTypes.UPDATE_PESSOA_JURIDICA, payload)
         .then(response =>{
+          console.log('resssss', response)
           if(response.error != undefined){
             this.notificacoes = response.error
             this.pleaseWaitDialog = false
           }else{
+            console.log('entrou aki')
             this.pleaseWaitDialog = false
-            //this.$router.push({ name: 'dashboard', params:{cadastroCurriculoSucesso: true} })
+            this.$emit('handleNotifSuccess', false)
           }
         })
       }
     },
     loadDataToEdit(){
-      this.cep = this.pessoaFisicaInfo.endereco.cep
-      this.estado = this.pessoaFisicaInfo.endereco.estado
-      this.cidade = this.pessoaFisicaInfo.endereco.cidade
-      this.bairro = this.pessoaFisicaInfo.endereco.bairro
-      this.rua = this.pessoaFisicaInfo.endereco.rua
-      this.complemento = this.pessoaFisicaInfo.endereco.complemento
-      this.numero = this.pessoaFisicaInfo.endereco.numero
+      this.cep = this.pessoaJuridicaInfo.endereco.cep
+      this.estado = this.pessoaJuridicaInfo.endereco.estado
+      this.cidade = this.pessoaJuridicaInfo.endereco.cidade
+      this.bairro = this.pessoaJuridicaInfo.endereco.bairro
+      this.rua = this.pessoaJuridicaInfo.endereco.rua
+      this.complemento = this.pessoaJuridicaInfo.endereco.complemento
+      this.numero = this.pessoaJuridicaInfo.endereco.numero
     },
     sendStep(value){
        let payload = {

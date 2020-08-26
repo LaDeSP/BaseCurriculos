@@ -217,7 +217,7 @@ class AgendaController extends Controller
     public function messages(){
         return $messages = [
             'data.required' => 'Insira uma data!',
-            'data.after_or_equal' => 'A data-hora devem ser igual ou maior que a data-hora atual.',
+            'data.after_or_equal' => 'A data-hora deve ser igual ou maior que a data-hora atual.',
             'data.before' => 'A data deve ser realista.',
             'hora.required' => 'Insira uma hora!',
             'observacao.max' => 'Insira observação com no máximo 5000 caracteres!',

@@ -1,0 +1,126 @@
+<template>
+ <v-row align="center" justify="center">
+    <v-col cols="12" lg="12" md="10" sm="10" v-if="isLoaded">
+      <span v-if="notificacao">
+        <v-alert type="success">
+          {{notificacao}}
+        </v-alert>
+      </span>
+      <router-link to="/dashboard">
+        <v-btn>
+          <v-icon class="pr-1">fas fa-home fa-lg</v-icon> Home
+        </v-btn>
+      </router-link>
+      <v-card align="center">
+          <v-card-title class="text-center justify-center py-6">
+            <h1>Minhas Vagas</h1> 
+          </v-card-title>
+          {{vagasJuridica}}
+          <v-tabs 
+            v-model="tab"
+            centered 
+            grow
+            color="black"
+            show-arrows
+          >
+          <v-tabs-slider></v-tabs-slider>
+          <v-tab href="#tab-1" class="green lighten-1" @click="getVagas('ATIVAS')">
+            Vagas Ativas
+          </v-tab>
+          <v-tab href="#tab-2" class="grey lighten-1" @click="getVagas('INATIVAS')">
+            Vagas Inativas
+          </v-tab>
+          <v-tabs-items v-model="tab">
+            <v-tab-item
+              v-for="i in 2"
+              :key="i"
+              :value="'tab-' + i"
+            >
+            <v-card align="center">
+              <v-card-text>
+                <router-link to="/vagas/create">
+                  <v-btn class="ml-3" outlined color="primary darken-1">
+                    Criar Nova Vaga 
+                    <v-icon class="pl-1">fa fa-plus</v-icon>
+                  </v-btn>
+                </router-link>
+                <v-row >
+                  <template v-if="vagasJuridica.length == 0">
+                      <span style="font-size: 20px" align="center">Não há nenhuma vaga com esse status.</span>
+                  </template>
+                  <template v-else-if="!edicao">
+                    <v-col cols="12" lg="6" md="6" sm="12" v-for="vaga in getVagasAtivas" :key="vaga.id">
+                      <v-card class="py-5" align="center">
+                        <v-card-title class="primary--text">
+                          <h3>{{vaga.titulo}}</h3>
+                        </v-card-title>
+                        <v-card-text class="black--text">
+                          <strong>Cargo:</strong> {{vaga.cargo}} <br/>
+                          <strong>Área de Atuação:</strong> {{vaga.area.tipo}} <br/>
+                          <strong>Jornada de Trabalho:</strong> {{vaga.jornada}}
+                        </v-card-text>
+                        <v-card-actions class="text-center justify-center">
+                          <router-link :to="`/vagas/edit/${vaga.id}`">
+                            <v-btn outlined color="yellow darken-3">
+                              Editar Vaga
+                            </v-btn>
+                          </router-link>
+                        </v-card-actions>
+                      </v-card>
+                    </v-col>
+                  </template>
+                </v-row>
+              </v-card-text>
+            </v-card>
+            </v-tab-item>
+          </v-tabs-items>
+          </v-tabs>
+        </v-card>
+    </v-col>
+ </v-row>
+</template>
+
+<script>
+import FormCreateVaga from '@/components/Forms/FormCreateVaga'
+import {actionTypes} from '@/core/constants'
+import {mapState, mapGetters} from 'vuex'
+
+export default {
+  components: {FormCreateVaga},
+  data(){ 
+    return{
+      tab: null, 
+      notificacao: '',
+      isLoaded: false,
+      edicao: false,
+      vagasJuridica: []
+    }
+  },
+  async created(){
+    this.setNotificacoes()
+    await this.$store.dispatch(actionTypes.GET_VAGAS_JURIDICAS)
+    this.vagasJuridica = this.getVagasAtivas
+    this.isLoaded = true
+  },
+  computed: {
+    ...mapState(['vagas']),
+    ...mapGetters(['getVagasAtivas', 'getVagasInativas'])
+  },
+  methods: {
+    setNotificacoes(){
+      if(this.$route.params.cadastroVagaSucesso){
+        this.notificacao = 'Vaga cadastrada com sucesso!'
+      }
+    },
+    getVagas(status){
+      if(status == 'ATIVAS') this.vagasJuridica = this.getVagasAtivas 
+      else if(status == 'INATIVAS') this.vagasJuridica = this.getVagasInativas
+    }
+  }
+}
+</script>
+
+<style lang="stylus" scoped>
+  .dados 
+    font-size 15px
+</style>

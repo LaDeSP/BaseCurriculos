@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-const searchVagas = async ({state}, keywords) => {
+const searchVagas = async (state, keywords) => {
     return await axios.get(`buscaVagas/${keywords}?token=${state.auth.token}`)
 }
-const searchAvancadoVagas = async ({state}, search) => {
+const searchAvancadoVagas = async (state, search) => {
     if (search.keywords == '') search.keywords='undefined'
     if (search.cargo == '') search.cargo='undefined'
     if (search.beneficio == '') search.beneficio='undefined'
@@ -15,10 +15,10 @@ const searchAvancadoVagas = async ({state}, search) => {
         buscaVagasAvancadas/${search.keywords}/${search.cargo}/${search.beneficio}/${search.jornada}/${search.requisitos}/${search.area}?token=${state.auth.token}
     `)
 }
-const searchCurriculos = async ({state}, keywords) => {
+const searchCurriculos = async (state, keywords) => {
     return await axios.get(`buscaCurriculos/${keywords}?token=${state.auth.token}`)
 }
-const searchAvancadoCurriculos = async ({state}, search) => {
+const searchAvancadoCurriculos = async (state, search) => {
     if (search.keywords == '') search.keywords='undefined'
     if (search.escolaridade == '') search.escolaridade='undefined'
     if (search.objetivos == '') search.objetivos='undefined'

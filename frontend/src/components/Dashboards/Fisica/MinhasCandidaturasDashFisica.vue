@@ -8,7 +8,7 @@
         <router-link to="candidaturas"><v-btn outlined color="grey darken-1">Ver mais <v-icon class="pl-1">fa fa-eye</v-icon></v-btn></router-link>  
     </v-card-title>
     <v-card-text>
-      <template v-if="candidaturasFisica.length == 0">
+      <template v-if="candidaturas.length == 0">
             <span style="font-size: 20px">Nenhuma Candidatura Realizada!</span>
       </template>
       <template v-else>
@@ -41,7 +41,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['candidaturasFisica']),
+    ...mapState(['candidaturas']),
     ...mapGetters(['getUltimasCandidaturas'])
   },
   methods: {

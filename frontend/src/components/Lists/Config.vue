@@ -10,7 +10,7 @@
             <form>
               <div v-if="notificacoes">
                 <span v-for="notificacao in notificacoes" :key="notificacao[0]" class="badge badge-danger badge-pill">
-                    {{notificacao[0]}}
+                    {{notificacao[0]}} 
                 </span>
               </div>
               <div class="col-md-12">

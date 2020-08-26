@@ -1,6 +1,11 @@
 <template>
- <v-row class="fill-height" align="center" justify="center">
-    <v-col cols="12" lg="12" md="8" sm="10">
+ <v-row align="center" justify="center">
+    <v-col cols="12" lg="12" md="10" sm="10" v-if="isLoaded">
+      <span v-if="notificacao">
+        <v-alert type="success">
+          {{notificacao}}
+        </v-alert>
+      </span>
       <router-link to="/dashboard">
         <v-btn>
           <v-icon class="pr-1">fas fa-home fa-lg</v-icon> Home
@@ -18,40 +23,64 @@
             show-arrows
           >
           <v-tabs-slider></v-tabs-slider>
-          <v-tab href="#tab-1" class="green lighten-1">
+          <v-tab href="#tab-1" class="green lighten-1" @click="changeButton('ATIVAS')">
             Vagas Ativas
           </v-tab>
-          <v-tab href="#tab-2" class="grey lighten-1">
+          <v-tab href="#tab-2" class="grey lighten-1" @click="changeButton('INATIVAS')">
             Vagas Inativas
           </v-tab>
           <v-tabs-items v-model="tab">
             <v-tab-item
-              v-for="i in 3"
+              v-for="i in 2"
               :key="i"
               :value="'tab-' + i"
             >
             <v-card align="center">
               <v-card-text>
-                <v-btn class="ml-3" outlined color="primary darken-1">
-                  Criar Nova Vaga 
-                  <v-icon class="pl-1">fa fa-plus</v-icon>
-                </v-btn>
-                <v-row class="justify-space-between my-5">
-                  <v-col>
-                      <v-card class="py-5">
-                        <v-card-title>Titulo deste</v-card-title>
+                <router-link to="/vagas/create">
+                  <v-btn class="ml-3" outlined color="primary darken-1">
+                    Criar Nova Vaga 
+                    <v-icon class="pl-1">fa fa-plus</v-icon>
+                  </v-btn>
+                </router-link>
+                <v-row align="center" justify="center">
+                  <template v-if="getVagas.length == 0">
+                      <span style="font-size: 20px" class="my-10">Não há nenhuma vaga com esse status.</span>
+                  </template>
+                  <template v-else>
+                    <v-col cols="12" lg="6" md="6" sm="12" v-for="vaga in getVagas" :key="vaga.id">
+                      <v-card class="py-5" align="center">
+                        <v-card-title class="primary--text text-center justify-center">
+                          <h3>{{vaga.titulo}}</h3>
+                        </v-card-title>
+                        <v-card-text align="left" class="black--text">
+                          <strong>Descrição:</strong> {{vaga.descricao}} <br/>
+                          <strong>Cargo:</strong> {{vaga.cargo}} <br/>
+                          <strong>Quantidade:</strong> {{vaga.quantidade}} <br/>
+                          <strong>Área de Atuação:</strong> {{vaga.area.tipo}} <br/>
+                          <strong>Salário:</strong> {{vaga.quantidade}} <br/>
+                          <strong>Jornada de Trabalho:</strong> {{vaga.salario}} <br/>
+                          <strong>Benefícios:</strong> {{vaga.beneficio}} <br/>
+                          <strong>Requisitos:</strong> {{vaga.requisito}} <br/>
+                        </v-card-text>
+                        <v-card-actions class="text-center justify-center">
+                          <router-link :to="`/vagas/edit/${vaga.id}`">
+                            <v-btn class="mr-2" outlined color="yellow darken-3">
+                              Editar
+                            </v-btn>
+                          </router-link>
+                          <v-btn class="mr-1" outlined :color="getButtonColor(vaga.status)" @click="updateStatus(vaga.id, vaga.status)">
+                            {{statusButton}}
+                          </v-btn>
+                          <ModalAlert :payload="avisoModal">
+                            <slot>
+                              <h1 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>deletar</strong></span> essa vaga?</h1>
+                            </slot>
+                          </ModalAlert>
+                        </v-card-actions>
                       </v-card>
-                  </v-col>
-                  <v-col>
-                      <v-card class="py-5">
-                        <v-card-title>Titulo deste</v-card-title>
-                      </v-card>
-                  </v-col>
-                  <v-col>
-                      <v-card class="py-5">
-                        <v-card-title>Titulo deste</v-card-title>
-                      </v-card>
-                  </v-col>
+                    </v-col>
+                  </template>
                 </v-row>
               </v-card-text>
             </v-card>
@@ -64,14 +93,72 @@
 </template>
 
 <script>
-import FormPessoaFisicaCurriculo from '../components/Forms/FormPessoaFisicaCurriculo'
+import FormCreateVaga from '@/components/Forms/FormCreateVaga'
+import ModalAlert from '@/components/Utils/ModalAlert'
+import {actionTypes} from '@/core/constants'
+import {mapState, mapGetters} from 'vuex'
 
 export default {
-  components: {FormPessoaFisicaCurriculo},
-  data(){
+  components: {FormCreateVaga, ModalAlert},
+  data(){ 
     return{
       tab: null, 
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      notificacao: '',
+      status: 'ATIVAS',
+      isLoaded: false,
+      edicao: false,
+      vagasJuridica: [],
+      avisoModal: {
+        title: 'Deletar Vaga',
+        action: 'deletar vaga'
+      }
+    }
+  },
+  async created(){
+    this.setNotificacoes()
+    await this.$store.dispatch(actionTypes.GET_VAGAS_JURIDICAS)
+    this.vagasJuridica = this.getVagasAtivas
+    this.isLoaded = true
+  },
+  computed: {
+    ...mapState(['vagas']),
+    ...mapGetters(['getVagasAtivas', 'getVagasInativas']),
+    getVagas(){
+      console.log('shitorjtor', this.status)
+      if(this.status == 'ATIVAS') return this.getVagasAtivas 
+      else if(this.status == 'INATIVAS') return this.getVagasInativas
+    }
+  },
+  methods: {
+    setNotificacoes(){
+      if(this.$route.params.cadastroVagaSucesso){
+        this.notificacao = 'Vaga cadastrada com sucesso!'
+      }else if(this.$route.params.updateVagaSucesso){
+        this.notificacao = 'Vaga atualizada com sucesso!'
+      }
+    },
+    async updateStatus(id, status) {
+      status == 'ATIVA' ? status = 'INATIVA' : status = 'ATIVA'
+      let newStatus = {
+        vaga_id: id,
+        status: status
+      };
+      await this.$store.dispatch(actionTypes.UPDATE_VAGA_STATUS, newStatus)
+        .then(response => {
+          this.notificacao =  response.notificacao
+      })
+    },
+    changeButton(value){
+      value == 'ATIVAS' ? this.status = 'ATIVAS' : this.status = 'INATIVAS'
+    },
+    getButtonColor(status){
+      if(status == 'ATIVA'){
+        this.statusButton = 'Desativar'
+        return 'default darken-3'
+      }else{
+        this.statusButton = 'Ativar'
+        return 'success'
+      }
     }
   }
 }

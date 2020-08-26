@@ -6,6 +6,14 @@ Vue.use(VueRouter)
 
   const routes = [
   {
+    path: '*',
+    component: () => import(/* webpackChunkName: "NotFound"*/ '../views/NotFound')
+  },
+  {
+    path: '/error',
+    component: () => import(/* webpackChunkName: "Error"*/ '../views/Error')
+  },
+  {
     path: '/',
     name: 'home',
     meta:{isHome: true, showOnlyIfNoAuth: true},
@@ -61,7 +69,19 @@ Vue.use(VueRouter)
     path: '/vagas',
     name: 'vagas',
     meta: {requiresAuth: true},
-    component: () => import(/* webpackChunkName: "Vagas"*/ '../views/Vagas')
+    component: () => import(/* webpackChunkName: "Vagas"*/ '../views/Vagas'),
+  },
+  {
+    path: '/vagas/create',
+    name: 'createVaga',
+    meta: {requiresAuth: true},
+    component: () => import(/* webpackChunkName: "CreateVaga"*/ '../components/Forms/FormCreateVaga'),
+  },
+  {
+    path: '/vagas/edit/:vagaId',
+    name: 'editVaga',
+    meta: {requiresAuth: true},
+    component: () => import(/* webpackChunkName: "EditVaga"*/ '../components/Forms/FormCreateVaga'),
   },
   {
     path: '/canjur',
@@ -79,34 +99,36 @@ Vue.use(VueRouter)
     name: 'agenda',
     meta: {requiresAuth: true},
     component: () => import(/* webpackChunkName: "Agenda"*/ '../views/Agenda'),
-    children: [
-      { path: 'new/:id', 
-        name: 'newAgenda',
-        component: () => import(/* webpackChunkName: "Agenda"*/ '../components/Forms/FormNovoAgendamento')
-      },
-      { path: 'edit/:id', 
-        name: 'editAgenda',
-        component: () => import(/* webpackChunkName: "Agenda"*/ '../components/Forms/FormNovoAgendamento')
-      }
-    ]
+  },
+  {
+    path: '/agenda/new/:newCandidaturaId',
+    name: 'newAgenda',
+    meta: {requiresAuth: true},
+    component: () => import(/* webpackChunkName: "NewAgenda"*/ '../components/Forms/FormNovoAgendamento'),
+  },
+  {
+    path: '/agenda/edit/:editCandidaturaId',
+    name: 'editAgenda',
+    meta: {requiresAuth: true},
+    component: () => import(/* webpackChunkName: "EditAgenda"*/ '../components/Forms/FormNovoAgendamento'),
   },
   {
     path: '/search',
     name: 'search',
     meta: {requiresAuth: true},
-    component: () => import(/* webpackChunkName: "Convites"*/ '../views/Resultados')
+    component: () => import(/* webpackChunkName: "Resultados"*/ '../views/Resultados')
   },
   {
     path: '/new-user',
     name: 'newJuridicaUser',
     meta: {requiresAuth: true},
-    component: () => import(/* webpackChunkName: "Convites"*/ '../components/Forms/FormCreateUserJuridica')
+    component: () => import(/* webpackChunkName: "NewJuridicaUser"*/ '../components/Forms/FormCreateUserJuridica')
   },
   {
     path: '/manage-users',
     name: 'manageJuridicaUsers',
     meta: {requiresAuth: true},
-    component: () => import(/* webpackChunkName: "Convites"*/ '../components/Display/ManageJuridicaUsers')
+    component: () => import(/* webpackChunkName: "ManageJuridicaUsers"*/ '../components/Display/ManageJuridicaUsers')
   }
 ]
 
@@ -116,7 +138,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log('beforeEach', store.state, store.getters)
+  console.log('beforeEach', store.state)
   if(to.matched.some(record => record.meta.requiresAuth)){
     if(store.state.auth.isLoggedIn){
       next()

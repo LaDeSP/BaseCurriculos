@@ -189,7 +189,8 @@ class JuridicaController extends Controller
         ));
     
         return Response::json([
-            'Dados editados com sucesso!'
+            'Dados editados com sucesso!', 
+            'updated'=>$this->show($id)->original
         ], 200);
         
       

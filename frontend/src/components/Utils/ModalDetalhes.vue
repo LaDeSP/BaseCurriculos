@@ -19,6 +19,14 @@
             </slot>
         </v-card-text>
         <v-card-actions class="text-center justify-center">
+          <template v-if="payload.action == 'ver curriculo'">
+            <router-link :to="`agenda/new/${candidaturaId}`"><v-btn class="mr-1" color="success lighten-1 white--text">Agendar Entrevista</v-btn></router-link>
+            <ModalAlert :payload="recusarCandidato">
+              <template>
+                <h1 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>recusar</strong></span> esse candidato?</h1>
+              </template>
+            </ModalAlert>
+          </template>
           <template v-if="payload.action == 'ver agendamento'">
             <ModalAlert :payload="cancelarAgendamento">
               <template>
@@ -39,7 +47,8 @@ import ModalAlert from '@/components/Utils/ModalAlert'
 export default {
     components: {ModalAlert},
     props:{
-      payload: Object
+      payload: Object,
+      candidaturaId: Number
     },
     data(){
         return{
@@ -47,6 +56,10 @@ export default {
           cancelarAgendamento: {
             'title': 'Cancelar Agendamento',
             'action': 'cancelar agendamento'
+          },
+          recusarCandidato: {
+            'title': 'Recusar Candidato',
+            action: 'recusar candidato'
           }
         }
     },

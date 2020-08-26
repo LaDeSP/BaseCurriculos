@@ -7,13 +7,20 @@
     <router-link to="/"><v-toolbar-title class="pl-1 hidden-sm-and-down">Sistema de Recrutamento e Seleção</v-toolbar-title></router-link>
     <v-spacer></v-spacer>
     <template v-if="auth.isLoggedIn && dataCompleted">
-      <v-text-field justify="center" 
-        flat 
-        solo-inverted 
-        hide-details 
-        prepend-inner-icon="mdi-magnify"
-        label="Pesquisa"
-      ></v-text-field>
+      <template v-if="$route.path != '/error' || $route.path != '/error/'">
+        <v-text-field justify="center" 
+          flat 
+          v-model="keywords"
+          solo-inverted 
+          hide-details 
+          :label="searchLabel"
+        ></v-text-field>
+        <v-btn depressed class="ml-1" @click="redirectSimpleSearch">
+          <v-icon>
+            mdi-magnify
+          </v-icon>
+        </v-btn>
+      </template>
     </template>
     <v-spacer></v-spacer>
     <template v-if="this.$route.path == '/login' || this.$route.path == '/sobre'">
@@ -38,34 +45,36 @@
       </router-link>
     </template>
     <template v-if="dataCompleted">
-      <v-menu offset-y v-if="auth.isLoggedIn">
-        <template v-slot:activator="{ on }">
-          <v-btn text slot="activator" v-on="on">
-            <h3 class="white--text mr-2 text-capitalize text-truncate" title="auth.user.name">{{auth.user.name}}</h3>
-            <v-avatar
-              size="50px"
-              item
-            >
-              <v-img 
-                :src="getPic"
-                alt="Vuetify"
-              ></v-img>
-            </v-avatar>
-          </v-btn>
-        </template>
-          <v-list>
-            <v-list-item v-for="(item, index) in menu" :key="index" @click="pushToPage(item.title)">
-              <v-list-item-action>
-                <v-icon>{{item.icon}}</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>{{item.title}}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-      </v-menu>
+      <template v-if="$route.path != '/error' || $route.path != '/error/'">
+        <v-menu offset-y v-if="auth.isLoggedIn">
+          <template v-slot:activator="{ on }">
+            <v-btn text slot="activator" v-on="on">
+              <h3 class="white--text mr-2 text-capitalize text-truncate" title="auth.user.name">{{auth.user.name}}</h3>
+              <v-avatar
+                size="50px"
+                item
+              >
+                <v-img 
+                  :src="upload.path"
+                  alt="Vuetify"
+                ></v-img>
+              </v-avatar>
+            </v-btn>
+          </template>
+            <v-list>
+              <v-list-item v-for="(item, index) in menu" :key="index" @click="pushToPage(item.title)">
+                <v-list-item-action>
+                  <v-icon>{{item.icon}}</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                  <v-list-item-title>{{item.title}}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+        </v-menu>
+      </template>
     </template>
-    <template v-else-if="!$route.meta.showOnlyIfNoAuth">
+    <template v-else-if="!$route.meta.showOnlyIfNoAuth && auth.isLoggedIn">
       <v-btn large depressed class="white--text" @click="logout">
         Sair
       </v-btn>
@@ -83,7 +92,9 @@ export default {
   components:{Logout, FormBuscaAvancada},
   data() {
     return {
-      avatar: this.$store.state.upload.path,
+      avatar: '',
+      searchLabel: '',
+      keywords: '',
       menu: [
         { icon: 'mdi-account-circle', title: 'Meu Perfil' },
         { icon: 'mdi-cog', title: 'Configurações' },
@@ -91,13 +102,33 @@ export default {
       ],
     }
   },
-  computed:{
-    ...mapState(['auth', 'dataCompleted']),
-    getPic(){
-      return this.avatar
+  created(){
+    if(this.tipoPermissao == 'FISICA'){
+      this.searchLabel = 'Busque título ou especificações da vaga'
+    }else if(this.tipoPermissao == 'JURIDICA'){
+      this.searchLabel = 'Busque qualificações'
     }
   },
+  computed:{
+    ...mapState(['auth', 'dataCompleted', 'upload']),
+    ...mapGetters(['tipoPermissao'])
+  },
   methods:{
+    redirectSimpleSearch(){
+      if(this.keywords == '' || this.keywords == undefined){
+        return
+      }
+      console.log('thi.', this.$router)
+      if(this.$router.currentRoute.name == 'search'){
+        if(this.tipoPermissao == 'FISICA'){
+          this.$store.dispatch(actionTypes.GET_BUSCA_VAGAS, this.keywords)
+        }else if(this.tipoPermissao == 'JURIDICA'){
+          this.$store.dispatch(actionTypes.GET_BUSCA_VAGAS, this.keywords)
+        }
+      }else{
+        this.$router.push({name: 'search', query: {keywords: this.keywords}})
+      }
+    },
     async pushToPage(page){
       if(page == 'Meu Perfil'){
         this.$router.push('/profile')

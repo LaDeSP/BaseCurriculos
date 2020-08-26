@@ -8,8 +8,8 @@
   <div v-else>
     <v-main>
       <v-container class="fill-height">
-        <router-view></router-view>
         <LoadingScreen v-if="isLoading"></LoadingScreen>
+        <router-view></router-view>
       </v-container>
     </v-main>
   </div>
@@ -32,6 +32,8 @@ export default {
 </script>
 
 <style lang="stylus">
+  .aviso 
+    font-size 20px
   .container 
     min-height 100vh
   .v-application a

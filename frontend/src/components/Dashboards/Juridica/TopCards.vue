@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-row align="center" justify="center">
-    <v-col v-for="(card, index) in cards" :key="index" cols="10" lg="6" md="8" sm="8">
+    <v-col v-for="(card, index) in cards" :key="index" cols="10" lg="6" md="6" sm="8">
       <v-card class="mx-auto elevation-6" :style="getStyle(card.title)" max-width="800" align="center" justify="center">
         <v-card-title :class="getTitleColor(card.title)">
             <router-link :to="card.path">{{card.title}}</router-link>  
@@ -15,7 +15,20 @@
         <v-card-text>
           <v-row class="my-5">
             <v-col>
-              <h1>0</h1>
+              <h1>
+                <template v-if="card.title == 'Minhas Vagas'">
+                  {{counter.vagasAtivas}} 
+                </template>
+                <template v-else-if="card.title == 'Candidaturas'">
+                  {{counter.candidaturas.todasCandidaturas}} 
+                </template>
+                <template v-else-if="card.title == 'Convites'">
+                  {{counter.convites.todosConvites}} 
+                </template>
+                <template v-else-if="card.title == 'Agenda'">
+                  {{counter.agenda}} 
+                </template>
+              </h1>
               <v-icon class="mt-3">{{card.icon}}</v-icon>
             </v-col>
           </v-row>
@@ -27,6 +40,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   data(){
     return{
@@ -54,6 +68,9 @@ export default {
 
       ]
     }
+  },
+  computed: {
+    ...mapState(['counter'])
   },
   methods:{
     getStyle(type){

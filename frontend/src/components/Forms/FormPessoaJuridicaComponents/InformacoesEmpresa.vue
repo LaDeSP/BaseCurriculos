@@ -63,9 +63,6 @@ export default {
   async created(){
     console.log('no info juridica, edicao?', this.edicao)
     this.name = this.$store.state.auth.user.name
-    if(this.edicao){
-      await this.loadDataToEdit()
-    }
   },
   computed: {
     ...mapState(['pessoaJuridicaInfo'])

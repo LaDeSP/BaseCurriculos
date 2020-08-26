@@ -102,16 +102,16 @@ export default {
     }
   },
   computed: {
-    ...mapState(['pessoaFisicaInfo'])
+    ...mapState(['pessoaJuridicaInfo'])
   },
   methods: {
     loadDataToEdit(){
-      this.fixo = this.pessoaFisicaInfo.contato.fixo
-      this.celular = this.pessoaFisicaInfo.contato.celular
-      this.linkedin = this.pessoaFisicaInfo.contato.linkedin
-      this.facebook = this.pessoaFisicaInfo.contato.facebook
-      this.twitter = this.pessoaFisicaInfo.contato.twitter
-      this.site = this.pessoaFisicaInfo.contato.site
+      this.fixo = this.pessoaJuridicaInfo.contato.fixo
+      this.celular = this.pessoaJuridicaInfo.contato.celular
+      this.linkedin = this.pessoaJuridicaInfo.contato.linkedin
+      this.facebook = this.pessoaJuridicaInfo.contato.facebook
+      this.twitter = this.pessoaJuridicaInfo.contato.twitter
+      this.site = this.pessoaJuridicaInfo.contato.site
     },
     sendStep(value){
        let payload = {

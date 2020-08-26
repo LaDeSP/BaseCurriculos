@@ -65,10 +65,6 @@ export default {
       .then(response => {
         this.itemsAreaAtuacao = response.areas
       })
-    console.log('modo edicao?', this.edicao)
-    if(this.edicao){
-      this.loadDataToEdit()
-    }
   },
   methods: {
     getStep(value){
@@ -84,7 +80,7 @@ export default {
       this.infosContato = value
     },
     getNotifSuccess(value){
-      console.log('get notif success dform data', value)
+      console.log('no form juridica data event', value)
       this.$emit('handleNotifSuccess', value)
     }
   }

@@ -26,10 +26,10 @@
               <span class="pagina"><v-icon class="pagina">fas fa-home fa-lg</v-icon> Home</span>
               <TopCards></TopCards>
               <v-row justify="center">
-                <v-col cols="10" lg="6" md="8" sm="8">
+                <v-col cols="10" lg="6" md="6" sm="8">
                   <ProcessosEmAndamento></ProcessosEmAndamento>
                 </v-col>
-                <v-col cols="10" lg="6" md="8" sm="8">
+                <v-col cols="10" lg="6" md="6" sm="8">
                   <StatusEntrevistas></StatusEntrevistas>
                 </v-col>
               </v-row>
@@ -39,8 +39,7 @@
               <FormPessoaJuridicaData @handleNotifSuccess="getNotifSuccess"></FormPessoaJuridicaData>
             </template>
             <template v-if="isLoaded && !hasVaga">
-              <h1 class="text-center justify-center">Que tal cadastrar sua primeira vaga?</h1>
-              <FormCreateVaga></FormCreateVaga>
+              <FormCreateVaga :title="titlePrimeiraVaga"></FormCreateVaga>
             </template>
           </v-row>    
         </template>
@@ -76,7 +75,8 @@ export default {
     return {
       notificacao: '',
       hasVaga: false,
-      isLoaded: false
+      isLoaded: false,
+      titlePrimeiraVaga: 'Que tal cadastrar sua primeira vaga?'
     }
   },
   async created(){
@@ -100,13 +100,13 @@ export default {
       }
     },
     async loadUserData(){
-      console.log('load user', this.dataCompleted)
       if(this.tipoPermissao == 'FISICA'){
+        console.log('tipo permissao fisica if')
         await this.$store.dispatch(actionTypes.GET_PESSOA_FISICA)
         if(this.dataCompleted){
-          await this.$store.dispatch(actionTypes.GET_CANDIDATURAS_FISICA)
+          await this.$store.dispatch(actionTypes.GET_CANDIDATURAS)
           await this.$store.dispatch(actionTypes.GET_VAGAS_RECOMENDADAS)
-          await this.$store.dispatch(actionTypes.GET_CONVITES)
+          await this.$store.dispatch(actionTypes.GET_TODOS_CONVITES)
         }
         this.isLoaded = true
       }else if(this.tipoPermissao == 'JURIDICA'){
@@ -116,6 +116,10 @@ export default {
             .then(response => {
               if(response.vagas.length > 0) this.hasVaga = true 
             })
+          await this.$store.dispatch(actionTypes.GET_CANDIDATURAS)
+          await this.$store.dispatch(actionTypes.GET_AGENDA)
+          await this.$store.dispatch(actionTypes.GET_TODOS_CONVITES)
+          await this.$store.dispatch(actionTypes.GET_PORCENTAGEM_VAGAS)
         }
         this.isLoaded = true
       }      

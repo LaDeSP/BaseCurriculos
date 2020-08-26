@@ -189,7 +189,7 @@ class CurriculoController extends Controller
                 'dataInicial' => $historico['dataInicial'],
                 'dataFinal' =>  $historico['dataFinal'], 
                 'descricaoExperiencia' => $historico['descricaoExperiencia'],
-                'fisicas_id'=>$fisica
+                'fisicas_id'=>$fisicas_id
             ]);
         } 
 

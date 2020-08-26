@@ -14,6 +14,11 @@ export default {
         state.auth = {}
         state.upload.path = ''
         state.dataCompleted = false
+        state.candidaturas = []
+        state.convites = []
+        state.vagas = []
+        state.counter = {}
+
     },
     [mutationTypes.AUTH_ERROR](state){
         state.auth.status = 'error'
@@ -46,14 +51,36 @@ export default {
     [mutationTypes.SET_VAGAS_PESSOA_JURIDICA](state, vagasDaPessoaJuridica){
         state.vagasJuridica = vagasDaPessoaJuridica
     },
+    [mutationTypes.SET_VAGAS_COM_CANDIDATURAS](state, vagasComCandidaturas){
+        state.vagasComCandidaturas = vagasComCandidaturas
+    },
     [mutationTypes.SET_CONVITES](state, payload){
         state.convites = payload
     },
-    [mutationTypes.SET_CANDIDATURAS_FISICA](state, payload){
-        state.candidaturasFisica = payload
+    [mutationTypes.SET_COUNTER_CONVITES](state, payload){
+        state.counter.convites = payload
+    },
+    [mutationTypes.SET_CANDIDATURAS](state, payload){
+        state.candidaturas = payload
+    },
+    [mutationTypes.SET_PROGRESS_BAR](state, payload){
+        state.progressBar = payload
     },
     [mutationTypes.SET_VAGAS](state, payload){
         state.vagas = payload
+    },
+    [mutationTypes.SET_AGENDA](state, payload){
+        state.agenda = payload
+    },
+    [mutationTypes.SET_COUNTER_AGENDA](state, payload){
+        console.log('VEIO NO MUT DO COUNTER')
+        state.counter.agenda = payload
+    },
+    [mutationTypes.SET_COUNTER_VAGAS_ATIVAS](state, payload){
+        state.counter.vagasAtivas = payload
+    },
+    [mutationTypes.SET_COUNTER_CANDIDATURAS](state, payload){
+        state.counter.candidaturas = payload
     },
     [mutationTypes.DELETE_CANDIDATURA_CANCELADA](state, payload){
         if(payload.role == 'FISICA'){
@@ -66,5 +93,16 @@ export default {
     },
     [mutationTypes.JURIDICA_USERS](state, payload){
         state.juridicaUsers = payload
+    },
+    [mutationTypes.UPDATE_FISICA_USER_DATA](state, payload){
+        state.pessoaFisicaInfo.cpf = payload.cpf 
+        state.auth.user.email = payload.email
+    },
+    [mutationTypes.UPDATE_JURIDICA_USER_DATA](state, payload){
+        state.pessoaJuridicaInfo.cnpj = payload.cnpj
+        state.auth.user.email = payload.email
+    },
+    [mutationTypes.SET_RESULTADO](state, payload){
+        state.resultado = payload
     },
 }

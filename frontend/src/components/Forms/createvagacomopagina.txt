@@ -32,7 +32,7 @@
                   {{notificacao[0]}}
                 </span>
               </template>
-              <InformacoesVaga :isLoaded="isLoaded" :edicao="edicao" :vaga="vaga" @handlePayload="getPayloadInfoVaga" @handleStep="getStep"></InformacoesVaga>
+              <InformacoesVaga :edicao="edicao" @handlePayload="getPayloadInfoVaga" @handleStep="getStep"></InformacoesVaga>
               <template>
                 <v-stepper-content step="2">
                   <v-card-text>
@@ -112,16 +112,18 @@ import InformacoesVaga from './FormCreateVagaComponents/InformacoesVaga'
 
 export default {
   components: {InformacoesVaga},
+  props: {
+    edicao: Boolean
+  },
   data(){
     return {
       step: 1,
-      edicao: false,
       title: 'Criar Nova Vaga',
       isLoaded: false,
       pleaseWaitDialog: false,
       aviso: '',
       notificacoes: [],
-      vaga: {},
+      vaga: [],
       menu: false,
       titulo: '',
       descricao: '',
@@ -136,14 +138,12 @@ export default {
     }
   },
   async created(){
-    if(this.$route.params.vagaId) this.loadDataToEdit()
-    else{
-      await this.$store.dispatch(actionTypes.GET_AREAS)
+    await this.$store.dispatch(actionTypes.GET_AREAS)
       .then(response => {
         this.itemsAreaAtuacao = response.areas
         this.isLoaded = true
       })
-    }
+    if(this.$route.params.vagaId) this.loadDataToEdit()
   },
   computed: {
     ...mapGetters(['getVagaById']),
@@ -154,9 +154,6 @@ export default {
   methods: {
     getStep(value){
       this.step = value
-    },
-    getIsLoaded(value){
-      this.isLoaded = value
     },
     getPayloadInfoVaga(value){
       this.titulo = value.titulo
@@ -194,28 +191,23 @@ export default {
           }
         })
       }else{
-        this.$store.dispatch(actionTypes.UPDATE_VAGA, payload)
+        this.$store.dispatch(actionTypes.UPDATE_PESSOA_FISICA, payload)
         .then(response =>{
           if(response.error != undefined){
             this.notificacoes = response.error
             this.pleaseWaitDialog = false
           }else{
             this.pleaseWaitDialog = false
-            this.$router.push({ name: 'vagas', params:{updateVagaSucesso: true} })
+            //this.$router.push({ name: 'dashboard', params:{cadastroCurriculoSucesso: true} })
           }
         })
       }
     },
-    async loadDataToEdit(){
-      await this.$store.dispatch(actionTypes.GET_VAGAS_JURIDICAS)
-      this.edicao = true
+    loadDataToEdit(){
       this.title = 'Editar Vaga'
       this.vagaId = this.$route.params.vagaId
       this.vaga = this.vagaById[0]
-      this.jornada = this.vaga.jornada 
-      this.beneficios = this.vaga.beneficio
-      this.requisitos = this.vaga.requisito
-      this.isLoaded = true
+      console.log('vuex ?', this.vagaById)
     }
   }
 }

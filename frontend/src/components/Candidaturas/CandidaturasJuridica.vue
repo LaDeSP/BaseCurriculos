@@ -1,85 +1,126 @@
 <template>
- <v-row class="fill-height" align="center" justify="center">
-    <v-col cols="10" md="12" sm="10" xs="2">
-      <router-link to="/dashboard">
-        <v-btn>
-          <v-icon class="pr-1">fas fa-home fa-lg</v-icon> Home
-        </v-btn>
-      </router-link>
-      <v-card align="center">
-        <v-card-title class="text-center justify-center py-6">
-          <h1>Candidaturas</h1> 
-        </v-card-title>
-        <v-row class="justify-space-between my-5 mr-2 ml-2">
-          <v-col md="4">
-            <v-card class="py-5 my-5">
-              <v-card-title>Titulo deste</v-card-title>
-              <v-card-text>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus impedit, sint adipisci quo hic, quidem reiciendis ea praesentium nesciunt eaque vero repellendus aliquid eum distinctio ullam in dicta maiores sed?</v-card-text>
-              <v-card-actions class="justify-center text-center">
-                <v-btn class="default">Ver Candidatos</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-          <v-col md="4">
-            <v-card class="py-5 my-5">
-              <v-card-title>Titulo deste</v-card-title>
-              <v-card-text>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus impedit, sint adipisci quo hic, quidem reiciendis ea praesentium nesciunt eaque vero repellendus aliquid eum distinctio ullam in dicta maiores sed?</v-card-text>
-              <v-card-actions class="justify-center text-center">
-                <v-btn class="default">Ver Candidatos</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-          <v-col md="4">
-            <v-card class="py-5 my-5">
-              <v-card-title>Titulo deste</v-card-title>
-              <v-card-text>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus impedit, sint adipisci quo hic, quidem reiciendis ea praesentium nesciunt eaque vero repellendus aliquid eum distinctio ullam in dicta maiores sed?</v-card-text>
-              <v-card-actions class="justify-center text-center">
-                <v-btn class="default">Ver Candidatos</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-          <v-col>
-            <v-card>
-              <v-list>
-              <v-list-item-group color="primary">
-                <v-list-item>
-                  <v-list-item-content>
-                    <h2 align="left">Lana Banana 
-                    <v-responsive 
-                      class="text-center rounded-pill info d-inline-flex align-center justify-center ml-2"
-                      height="30"
-                      width="100"
-                    ></v-responsive></h2> 
-                      IOI OIDOEJFOE JOE OI EU SOU O GOKU
-                      <DetalhesCandidato></DetalhesCandidato>
-                  </v-list-item-content>
-                </v-list-item>
-                 <v-list-item>
-                  <v-list-item-content>
-                    <h2 align="left">Sansinha</h2>
-                      IOI OIDOEJFOE JOE OI EU SOU O GOKU
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-content>
-                    <h2 align="left">Godinha</h2>
-                      IOI OIDOEJFOE JOE OI EU SOU O GOKU
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-card>
-    </v-col>
- </v-row>
+<v-card-text justify="center" align="center">
+  <template v-if="!toggle">
+    <template v-if="getVagasThatHaveCandidaturas.length == 0">
+      <span class="aviso">Não há nenhuma vaga com candidatura.</span>
+    </template>
+    <template v-else>
+      <v-col cols="12" lg="6" md="6" sm="12" v-for="value in pageOfItems" :key="value.id">
+        <v-card>
+          <v-card-title class="primary--text text-center justify-center">
+            <h3>{{value.vaga.titulo}}</h3>
+          </v-card-title>
+          <v-card-text class="black--text" align="left">
+            <strong>Cargo:</strong> {{value.vaga.cargo}} <br/>
+            <strong>Descrição:</strong> {{value.vaga.descricao}} <br/>
+          </v-card-text>
+          <v-card-actions class="justify-center text-center"> 
+            <v-btn @click="verCandidatos(value.vagas_id)" color="primary">
+              Ver Candidatos
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+      <v-row align="center" justify="center">
+        <v-col cols="12" md="6">
+          <template v-if="getVagasThatHaveCandidaturas.length > 4">
+            <jw-pagination 
+              :items="getVagasThatHaveCandidaturas"
+              @changePage="onChangePage"
+              :pageSize="4"
+              :labels="customLabels"
+            ></jw-pagination>
+          </template>
+          <template v-else>
+            <span style="display: none" >
+              <jw-pagination 
+                :items="getVagasThatHaveCandidaturas" 
+                @changePage="onChangePage"
+                :pageSize="4" 
+                :labels="customLabels"
+              ></jw-pagination>
+            </span>
+          </template>
+        </v-col>
+      </v-row>
+    </template>
+  </template>
+  
+</v-card-text>
 </template>
 
 <script>
-import DetalhesCandidato from '../Display/DisplayDetalhesCandidato'
+import {actionTypes} from '@/core/constants'
+import {mapState, mapGetters} from 'vuex'
+import ModalAlert from '@/components/Utils/ModalAlert'
+import ModalDetalhes from '@/components/Utils/ModalDetalhes'
+
+const customLabels = {
+  first: "Primeira",
+  last: "Última",
+  previous: "Anterior",
+  next: "Próxima"
+}
+
 export default {
-  components: {DetalhesCandidato}
+  components: {ModalAlert, ModalDetalhes},
+  data(){
+    return{
+      isLoaded: false,
+      title: '',
+      toggle: false,
+      tab: null, 
+      pageOfItems: [],
+      customLabels,
+      candidaturasData: [],
+      statusCandidatura: '',
+      verAgendamento: {
+        'buttonText': 'Ver Agendamento',
+        'title': 'Detalhes do Agendamento',
+        'action': 'ver agendamento'
+      },
+      cancelarCandidatura: {
+        'title': 'Cancelar Candidatura',
+        'action': 'cancelar candidatura'
+      },
+      cancelarEntrevista: {
+        'title': 'Cancelar Entrevista',
+        'action': 'cancelar entrevista'
+      },
+      active: 'TODAS',
+      vagaId: 0
+    }
+  },
+  async created(){
+    this.title = 'Candidaturas'
+  },
+  computed: {
+    ...mapState(['candidaturas']),
+    ...mapGetters([
+      'tipoPermissao', 'getCandidaturasFiltradas', 'getCandidaturasDaVaga',
+      'getCandidaturasFinalizadas', 'getVagasThatHaveCandidaturas'
+    ]),
+    getCandidaturas(){
+      if(this.active == 'TODAS'){
+        return this.candidaturas
+      }else if(status == 'FINALIZADAS'){
+        return this.getCandidaturasFinalizadas(this.active)
+      }else{
+        return this.getCandidaturasFiltradas(this.active)
+      }
+    },
+    candidaturasDaVaga(){
+      return this.getCandidaturasDaVaga(this.vagaId)
+    }
+  },
+  methods: {
+    onChangePage(pageOfItems) {
+      this.pageOfItems = pageOfItems
+    },
+    verCandidatos(vagaId){
+      let payload = {vagaId: vagaId, toggle: true}
+      this.$emit('handlePayload', payload)
+    }
+  }
 }
 </script>
-
