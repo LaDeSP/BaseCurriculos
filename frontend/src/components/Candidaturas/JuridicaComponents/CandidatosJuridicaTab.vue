@@ -22,72 +22,74 @@
             <span style="font-size: 20px" class="my-10">Não há nenhuma candidatura.</span>
           </template>
           <template v-else>
-            <v-col cols="12" lg="6" md="6" sm="12" v-for="candidatura in pageOfItems" :key="candidatura.id">
-              <v-card class="py-2">
-                <v-card-title class="primary--text">
-                  <h3>{{candidatura.vaga.titulo}}</h3>
-                </v-card-title>
-                <v-card-text class="black--text" align="left">
-                  <span>
-                    <strong>Nome:</strong> {{candidatura.curriculo.fisica.user.name}} <br/>
-                    <strong>Objetivos: </strong> {{candidatura.curriculo.objetivos}} <br/>
-                    <strong>Pretensão Salarial: </strong> {{candidatura.curriculo.pretensao}} <br/>
-                  </span>
-                </v-card-text>
-                <v-card-actions class="text-center justify-center">
-                  <template v-if="candidatura.status == 'AGUARDANDO' || candidatura.status == 'EM AGENDAMENTO'">
-                    <ModalDetalhes :candidaturaId="candidatura.id" :payload="verCurriculo">
-                      <template v-slot:texto>
-                        <v-row>
-                          <v-col>
-                            <h2 class="mb-1">Informações Pessoais</h2>
-                            <strong>Nome Completo:</strong> {{candidatura.curriculo.fisica.user.name}} <br/>
-                            <strong>Data de Nascimento:</strong> {{candidatura.curriculo.fisica.data_nascimento}} <br/>
-                            <strong>Gênero:</strong> {{candidatura.curriculo.fisica.genero}} <br/>
-                            <strong>Estado Civil:</strong> {{candidatura.curriculo.fisica.estado_civil}} <br/>
-                            <strong>CPF:</strong> {{candidatura.curriculo.fisica.cpf}} <br/> <br/>
-                          </v-col>
-                          <v-col>
-                            <h2 class="mb-1" v-if="candidatura.curriculo.fisica.contato.twitter || 
-                              candidatura.curriculo.fisica.contato.linkedin || 
-                              candidatura.curriculo.fisica.contato.site || 
-                              candidatura.curriculo.fisica.contato.facebook">
-                              Redes Sociais
-                            </h2>
-                            <span v-if="candidatura.curriculo.fisica.contato.linkedin">
-                              <strong>Linkedin:</strong> {{candidatura.curriculo.fisica.contato.linkedin}} <br/>
-                            </span>
-                            <span v-if="candidatura.curriculo.fisica.contato.facebook">
-                              <strong>Facebook:</strong> {{candidatura.curriculo.fisica.contato.facebook}} <br/>
-                            </span>
-                            <span v-if="candidatura.curriculo.fisica.contato.twitter">
-                              <strong>Twitter:</strong> {{candidatura.curriculo.fisica.contato.twitter}} <br/>
-                            </span>
-                            <span v-if="candidatura.curriculo.fisica.contato.site">
-                              <strong>Site:</strong> {{candidatura.curriculo.fisica.contato.site}} <br/>
-                            </span> <br/>
-                          </v-col>
-                        </v-row>
-                        <h2 class="mb-1">Currículo</h2>
-                        <strong>Objetivos:</strong> {{candidatura.curriculo.objetivos}} <br/>
-                        <strong>Área de Atuação:</strong> {{candidatura.curriculo.area.tipo}} <br/>
-                        <strong>Pretensão Salarial:</strong> {{candidatura.curriculo.pretensao}} <br/>
-                        <strong>Formação Acadêmica:</strong> {{candidatura.curriculo.escolaridade}} <br/>
-                        <strong>Histórico</strong> {{candidatura.curriculo}} <br/>
-                        <strong>Qualificações:</strong> {{candidatura.curriculo.qualificacoes}} <br/>
-                      </template>
-                    </ModalDetalhes>
-                  </template>
-                  <template v-if="candidatura.status == 'EM AGENDAMENTO'">
-                    <router-link to="/agenda">
-                      <v-btn class="ml-1" outlined color="primary">
-                        Ver Agendamento
-                      </v-btn>
-                    </router-link>
-                  </template>
-                </v-card-actions>
-              </v-card>
-            </v-col>
+            <v-row class="my-5" justify="center">
+              <v-col cols="12" lg="6" md="6" sm="12" v-for="candidatura in pageOfItems" :key="candidatura.id">
+                <v-card class="py-2">
+                  <v-card-title class="primary--text">
+                    <h3>{{candidatura.vaga.titulo}}</h3>
+                  </v-card-title>
+                  <v-card-text class="black--text" align="left">
+                    <span>
+                      <strong>Nome:</strong> {{candidatura.curriculo.fisica.user.name}} <br/>
+                      <strong>Objetivos: </strong> {{candidatura.curriculo.objetivos}} <br/>
+                      <strong>Pretensão Salarial: </strong> {{candidatura.curriculo.pretensao}} <br/>
+                    </span>
+                  </v-card-text>
+                  <v-card-actions class="text-center justify-center">
+                    <template v-if="candidatura.status == 'AGUARDANDO' || candidatura.status == 'EM AGENDAMENTO'">
+                      <ModalDetalhes :candidaturaId="candidatura.id" :payload="verCurriculo">
+                        <template v-slot:texto>
+                          <v-row>
+                            <v-col>
+                              <h2 class="mb-1">Informações Pessoais</h2>
+                              <strong>Nome Completo:</strong> {{candidatura.curriculo.fisica.user.name}} <br/>
+                              <strong>Data de Nascimento:</strong> {{candidatura.curriculo.fisica.data_nascimento}} <br/>
+                              <strong>Gênero:</strong> {{candidatura.curriculo.fisica.genero}} <br/>
+                              <strong>Estado Civil:</strong> {{candidatura.curriculo.fisica.estado_civil}} <br/>
+                              <strong>CPF:</strong> {{candidatura.curriculo.fisica.cpf}} <br/> <br/>
+                            </v-col>
+                            <v-col>
+                              <h2 class="mb-1" v-if="candidatura.curriculo.fisica.contato.twitter || 
+                                candidatura.curriculo.fisica.contato.linkedin || 
+                                candidatura.curriculo.fisica.contato.site || 
+                                candidatura.curriculo.fisica.contato.facebook">
+                                Redes Sociais
+                              </h2>
+                              <span v-if="candidatura.curriculo.fisica.contato.linkedin">
+                                <strong>Linkedin:</strong> {{candidatura.curriculo.fisica.contato.linkedin}} <br/>
+                              </span>
+                              <span v-if="candidatura.curriculo.fisica.contato.facebook">
+                                <strong>Facebook:</strong> {{candidatura.curriculo.fisica.contato.facebook}} <br/>
+                              </span>
+                              <span v-if="candidatura.curriculo.fisica.contato.twitter">
+                                <strong>Twitter:</strong> {{candidatura.curriculo.fisica.contato.twitter}} <br/>
+                              </span>
+                              <span v-if="candidatura.curriculo.fisica.contato.site">
+                                <strong>Site:</strong> {{candidatura.curriculo.fisica.contato.site}} <br/>
+                              </span> <br/>
+                            </v-col>
+                          </v-row>
+                          <h2 class="mb-1">Currículo</h2>
+                          <strong>Objetivos:</strong> {{candidatura.curriculo.objetivos}} <br/>
+                          <strong>Área de Atuação:</strong> {{candidatura.curriculo.area.tipo}} <br/>
+                          <strong>Pretensão Salarial:</strong> {{candidatura.curriculo.pretensao}} <br/>
+                          <strong>Formação Acadêmica:</strong> {{candidatura.curriculo.escolaridade}} <br/>
+                          <strong>Histórico</strong> {{candidatura.curriculo}} <br/>
+                          <strong>Qualificações:</strong> {{candidatura.curriculo.qualificacoes}} <br/>
+                        </template>
+                      </ModalDetalhes>
+                    </template>
+                    <template v-if="candidatura.status == 'EM AGENDAMENTO'">
+                      <router-link to="/agenda">
+                        <v-btn class="ml-1" outlined color="primary">
+                          Ver Agendamento
+                        </v-btn>
+                      </router-link>
+                    </template>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
           </template>
             <v-row align="center" justify="center">
               <v-col cols="12" md="6">
@@ -150,7 +152,8 @@ export default {
       verCurriculo: {
         'buttonText': 'Ver Mais',
         'title': 'Detalhes do Candidato',
-        'action': 'ver curriculo'
+        'action': 'ver curriculo',
+        'hasCardActions': true
       },
       verAgendamento: {
         'buttonText': 'Ver Agendamento',

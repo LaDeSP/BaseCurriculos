@@ -1,72 +1,106 @@
 <template>
- <v-row class="fill-height" align="center" justify="center">
-    <v-col cols="10" md="12" sm="10" xs="2">
+ <v-row align="center" justify="center" v-if="isLoaded">
+    <v-col cols="12" lg="12" md="12" sm="10">
+      <template v-if="toggle">
+        <v-btn class="mr-1" @click="toggle = false">
+          <v-icon class="pr-1">mdi-arrow-left-circle</v-icon> Voltar
+        </v-btn>
+      </template>
       <router-link to="/dashboard">
         <v-btn>
           <v-icon class="pr-1">fas fa-home fa-lg</v-icon> Home
         </v-btn>
       </router-link>
-      <v-card align="center" min-height="300">
+      <v-card justify="center" align="center">
         <v-card-title class="text-center justify-center py-6">
-          <h1>Convites</h1> 
+          <h1>{{title}}</h1>
         </v-card-title>
-        <v-row class="justify-space-between my-5 mr-2 ml-2">
-            <template v-if="getConvitesAguardando.length == 0">
-              <v-col lg="12" md="12">
-                <span style="font-size: 25px">Você ainda não possui nenhum convite.</span>
-              </v-col>
-            </template>
-            <template v-else>
-              <v-col lg="12" md="12" v-for="convite in getConvitesAguardando" :key="convite.id">
-                <v-card class="py-5 my-5">
-                  <v-card-title>Titulo deste</v-card-title>
-                  <v-card-text>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus impedit, sint adipisci quo hic, quidem reiciendis ea praesentium nesciunt eaque vero repellendus aliquid eum distinctio ullam in dicta maiores sed?</v-card-text>
-                  <v-card-actions class="justify-center text-center">
-                    <v-btn class="default">Ver Candidatos</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-col>
-            </template>
-        </v-row>
+        <template v-if="tipoPermissao == 'JURIDICA'">
+          <template v-if="!toggle">
+            <ConvitesJuridica @handlePayload="getPayload"></ConvitesJuridica>
+          </template> 
+          <template v-else>
+            <ConvitesJuridicaTab :vagaId="vagaId"></ConvitesJuridicaTab>
+          </template>
+        </template>
+        <template v-else-if="tipoPermissao == 'FISICA'">
+          <ConvitesFisica></ConvitesFisica>
+        </template>
       </v-card>
     </v-col>
  </v-row>
 </template>
 
 <script>
+import ConvitesJuridica from '@/components/Convites/ConvitesJuridica'
+import ConvitesFisica from '@/components/Convites/ConvitesFisica'
+import ConvitesJuridicaTab from '@/components/Convites/JuridicaComponents/ConvitesJuridicaTab'
 import {actionTypes} from '@/core/constants'
-import {mapGetters} from 'vuex'
-
-const customLabels = {
-  first: 'Primeira',
-  last: 'Última',
-  previous: 'Anterior',
-  next: 'Próxima'
-}
+import {mapState, mapGetters} from 'vuex'
 
 export default {
-  components: {},
-  data() {
-    return {
-      pageOfItems: [],
-      customLabels, 
-      vagaId: 0,
+  components: {ConvitesFisica, ConvitesJuridica, ConvitesJuridicaTab},
+  data(){
+    return{
+      isLoaded: false,
+      title: '',
+      tab: null, 
       toggle: false,
-      candidatoId: 0
+      candidaturasData: [],
+      statusCandidatura: '',
+      verAgendamento: {
+        'buttonText': 'Ver Agendamento',
+        'title': 'Detalhes do Agendamento',
+        'action': 'ver agendamento'
+      },
+      cancelarCandidatura: {
+        'title': 'Cancelar Candidatura',
+        'action': 'cancelar candidatura'
+      },
+      cancelarEntrevista: {
+        'title': 'Cancelar Entrevista',
+        'action': 'cancelar entrevista'
+      },
+      active: 'TODAS'
     }
   },
   async created(){
-    this.$store.dispatch(actionTypes.GET_CONVITES)
+    await this.$store.dispatch(actionTypes.GET_TODOS_CONVITES)
     if(this.tipoPermissao == 'FISICA'){
-      console.log('kakakaka')
-    }else{
-      this.$store.dispatch(actionTypes.GET_VAGAS_JURIDICAS)
+      this.title = 'Convites'
+      this.isLoaded = true
+      this.candidaturasData = this.candidaturas
+    }else if(this.tipoPermissao == 'JURIDICA'){
+      this.title = 'Meus Convites'
+      this.isLoaded =true
     }
-
   },
   computed: {
-    ...mapGetters(['tipoPermissao', 'getConvitesAguardando'])
+    ...mapState(['candidaturas']),
+    ...mapGetters([
+      'tipoPermissao', 'getCandidaturasFiltradas', 'getCandidaturasFinalizadas',
+      'getVagasAtivas', 'getVagasThatHaveCandidaturas'
+    ]),
+    getCandidaturas(){
+      if(this.active == 'TODAS'){
+        return this.candidaturas
+      }else if(status == 'FINALIZADAS'){
+        return this.getCandidaturasFinalizadas(this.active)
+      }else{
+        return this.getCandidaturasFiltradas(this.active)
+      }
+    }
+  },
+  methods: {
+    getPayload(payload){
+      this.vagaId = payload.vagaId 
+      this.toggle = payload.toggle
+    }
   }
 }
 </script>
 
+<style lang="stylus" scoped>
+  .dados 
+    font-size 15px
+</style>

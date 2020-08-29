@@ -18,10 +18,12 @@ export default {
         state.convites = []
         state.vagas = []
         state.counter = {}
-
     },
     [mutationTypes.AUTH_ERROR](state){
         state.auth.status = 'error'
+    },
+    [mutationTypes.UPDATE_AUTH_USER](state, payload){
+        state.auth.user = payload
     },
     [mutationTypes.TIPO_PERMISSAO](state, payload){
         state.tipoPermissao = payload
@@ -56,6 +58,9 @@ export default {
     },
     [mutationTypes.SET_CONVITES](state, payload){
         state.convites = payload
+    },
+    [mutationTypes.SET_VAGAS_COM_CONVITES](state, vagasComConvites){
+        state.vagasComConvites = vagasComConvites
     },
     [mutationTypes.SET_COUNTER_CONVITES](state, payload){
         state.counter.convites = payload

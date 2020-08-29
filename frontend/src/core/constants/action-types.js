@@ -36,10 +36,15 @@ export default {
     UPDATE_USER_JURIDICA: 'updateUserJuridica',
     REQUEST_VAGA_DASH: 'requestVagaDash',
     
+    REATIVAR_CONTA: 'reativarConta',
+
     DELETE_USER_PIC: 'deleteUserPic',
+    DESATIVAR_CONTA: 'desativaConta',
     CANCELAR_CANDIDATURA: 'cancelarCandidatura',
     CANCELAR_AGENDAMENTO: 'cancelarAgendamento',
     CANCELAR_ENTREVISTA: 'cancelarEntrevista',
+    CANCELAR_CONVITE: 'cancelarConvite',
 
-    HANDLE_USER_STATUS: 'handleUserStatus'
+    HANDLE_USER_STATUS: 'handleUserStatus',
+    RESPOSTA_CONVITE: 'respostaConvite'
 } 

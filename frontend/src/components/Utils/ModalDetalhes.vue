@@ -19,7 +19,10 @@
             </slot>
         </v-card-text>
         <v-card-actions class="text-center justify-center">
-          <template v-if="payload.action == 'ver curriculo'">
+          <template v-if="!payload.hasCardActions">
+            <v-btn outlined color="red" @click="dialog = false">Fechar</v-btn>
+          </template>
+          <template v-if="payload.action == 'ver curriculo' && payload.hasCardActions">
             <router-link :to="`agenda/new/${candidaturaId}`"><v-btn class="mr-1" color="success lighten-1 white--text">Agendar Entrevista</v-btn></router-link>
             <ModalAlert :payload="recusarCandidato">
               <template>

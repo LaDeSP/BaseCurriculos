@@ -95,7 +95,7 @@ export default {
           }else if(response.user.deleted_at == null){
             this.redirecionarUsuarioPorPermissao(this.tipoPermissao)
           }else{
-            this.$router.push({ name: 'conta-desativada' })
+           this.$router.push({name: 'accountStatus'})
           }
         }).catch(error => console.log(error))
     },

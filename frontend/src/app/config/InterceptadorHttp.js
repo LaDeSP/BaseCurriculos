@@ -43,7 +43,7 @@ class InterceptadorHttp {
 
   handleErrors(error){
     loadingScreen.stopLoadingScreen()
-    console.log('deu ruim aqui', store)
+    console.log('deu ruim aqui', error.response)
     let errorPayload = {
         "status": error.response.status, 
         "statusText": error.response.statusText,

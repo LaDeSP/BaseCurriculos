@@ -58,8 +58,8 @@
                           <strong>Cargo:</strong> {{vaga.cargo}} <br/>
                           <strong>Quantidade:</strong> {{vaga.quantidade}} <br/>
                           <strong>Área de Atuação:</strong> {{vaga.area.tipo}} <br/>
-                          <strong>Salário:</strong> {{vaga.quantidade}} <br/>
-                          <strong>Jornada de Trabalho:</strong> {{vaga.salario}} <br/>
+                          <strong>Salário:</strong> {{vaga.salario}} <br/>
+                          <strong>Jornada de Trabalho:</strong> {{vaga.jornada}} <br/>
                           <strong>Benefícios:</strong> {{vaga.beneficio}} <br/>
                           <strong>Requisitos:</strong> {{vaga.requisito}} <br/>
                         </v-card-text>

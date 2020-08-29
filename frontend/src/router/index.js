@@ -86,6 +86,7 @@ Vue.use(VueRouter)
   {
     path: '/canjur',
     name: 'canjur',
+    meta: {requiresAuth: true},
     component: () => import(/* webpackChunkName: "CandidaturasJuridica"*/ '../components/Candidaturas/CandidaturasJuridica')
   },
   {
@@ -129,6 +130,12 @@ Vue.use(VueRouter)
     name: 'manageJuridicaUsers',
     meta: {requiresAuth: true},
     component: () => import(/* webpackChunkName: "ManageJuridicaUsers"*/ '../components/Display/ManageJuridicaUsers')
+  },
+  {
+    path: '/accountStatus',
+    name: 'accountStatus',
+    meta: {requiresInactiveAccount: true},
+    component: () => import(/* webpackChunkName: "AccountStatus"*/ '@/views/AccountStatus')
   }
 ]
 
@@ -141,10 +148,17 @@ router.beforeEach((to, from, next) => {
   console.log('beforeEach', store.state)
   if(to.matched.some(record => record.meta.requiresAuth)){
     if(store.state.auth.isLoggedIn){
-      next()
-      return
-    }
-    next('/')
+      if(store.state.auth.user.deleted_at == null){
+        console.log('deleted null')
+        next()
+        return
+      }else{
+        console.log('deleted not null')
+        next('/accountStatus')
+      }
+    }else{
+      next('/')
+    } 
   }else if(to.matched.some(record => record.meta.showOnlyIfNoAuth)){
     if(store.state.auth.isLoggedIn){
       next('/dashboard')

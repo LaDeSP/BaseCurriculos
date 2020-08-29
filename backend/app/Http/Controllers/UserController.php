@@ -20,7 +20,7 @@ use Response;
 class UserController extends Controller implements JWTSubject
 {
     public function index(){
-        $usersJuridica = User::where('role', 'JURIDICA')->get();
+        $usersJuridica = User::where('role', 'JURIDICA')->withTrashed()->get();
         return Response::json([
             'usersJuridica'=>$usersJuridica
         ]);
@@ -106,12 +106,24 @@ class UserController extends Controller implements JWTSubject
             Juridica::withTrashed()->find($juridica_id)->restore();
         }
 
+        $teste = User::where('id', $user_id)->first();
+        $path="http://localhost:8000/anon.jpg";
+   
+        
+        if ($teste->foto){
+            if(Upload::where('user_id', $teste->id)->exists()){
+                $foto = Upload::where('user_id', $teste->id)->first();
+                $path = "http://localhost:8000/storage/".$foto->path;
+            }  
+        }
+
         $token = JWTAuth::fromUser($user);
         auth()->login($user);
 
         return Response::json([
             'conta reativada',
             'token'=>$token,
+            'foto'=> $path,
             'user'=> auth()->user(),
         ]);
     }
@@ -119,6 +131,7 @@ class UserController extends Controller implements JWTSubject
     public function destroy($id){  
         
        $user = User::find($id); 
+       //User::where('id', $id)->update(['status'=>'INATIVO']);
        $user->delete();      
 
         if($user){
@@ -128,10 +141,13 @@ class UserController extends Controller implements JWTSubject
     }
 
     public function handleUserStatus(Request $request){
-        if($request->action === 'act'){
-            User::where('id', $request->userId)->update(['status'=>'ATIVO']);
+        $user_id = $request->userId;
+        if($request->action == 'act'){
+            User::where('id', $user_id)->update(['status'=>'ATIVO']);
+            $this->activateAccount($user_id);
         }else if($request->action == 'deact'){
-            User::where('id', $request->userId)->update(['status'=>'INATIVO']);
+            User::where('id', $user_id)->update(['status'=>'INATIVO']);
+            $this->destroy($user_id);
         }
 
         return Response::json([$this->index()->original]);

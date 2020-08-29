@@ -37,11 +37,9 @@ import CandidaturasFisica from '@/components/Candidaturas/CandidaturasFisica'
 import CandidatosJuridicaTab from '@/components/Candidaturas/JuridicaComponents/CandidatosJuridicaTab'
 import {actionTypes} from '@/core/constants'
 import {mapState, mapGetters} from 'vuex'
-import ModalAlert from '../components/Utils/ModalAlert'
-import ModalDetalhes from '../components/Utils/ModalDetalhes'
 
 export default {
-  components: {CandidaturasFisica, ModalAlert, ModalDetalhes, CandidaturasJuridica, CandidatosJuridicaTab},
+  components: {CandidaturasFisica, CandidaturasJuridica, CandidatosJuridicaTab},
   data(){
     return{
       isLoaded: false,
@@ -70,7 +68,6 @@ export default {
     await this.$store.dispatch(actionTypes.GET_CANDIDATURAS)
     if(this.tipoPermissao == 'FISICA'){
       this.title = 'Minhas Candidaturas'
-      this.toggle = true
       this.isLoaded = true
       this.candidaturasData = this.candidaturas
     }else if(this.tipoPermissao == 'JURIDICA'){

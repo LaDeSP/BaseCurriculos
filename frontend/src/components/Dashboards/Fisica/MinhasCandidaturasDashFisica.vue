@@ -15,12 +15,14 @@
         <v-row>
           <v-col cols="10" sm="4" v-for="candidatura in getUltimasCandidaturas" :key="candidatura.id">
               <v-card class="py-5">
-                <v-card-title>{{candidatura.vaga.titulo}}</v-card-title>
+                <v-card-title class="text-center justify-center">
+                  {{candidatura.vaga.titulo}}
+                </v-card-title>
                 <v-divider></v-divider>
-                <v-card-text class="mt-1">
+                <v-card-text class="mt-1 same-size-card">
                     <span :class="getStyle(candidatura.status)">
                     <div>{{candidatura.status}}</div>
-                    <v-icon large :class="getStyle(candidatura.status)">{{icon}}</v-icon>
+                    <v-icon :class="getIcons(candidatura.status)" large></v-icon>
                   </span>
                 </v-card-text>
               </v-card>
@@ -54,13 +56,33 @@ export default {
         return 'success--text'
       }else if(status == 'RECUSADO'){
         this.icon = 'fas fa-frown-open'
-        return 'red lighten-2'
+        return 'red--text'
       }else if(status == 'ENTREVISTA CANCELADA'){
         this.icon = 'fas fa-calendar-times'
-        return 'red lighten-2'
+        return 'red--text'
       }else if(status == 'CONTRATADO'){
         this.icon = 'fas fa-smile'
         return 'success--text'
+      }
+    },
+    getIcons(status){
+      switch (status) {
+        case 'AGUARDANDO':
+        case 'EM AGENDAMENTO':
+          return 'warning--text fas fa-spinner fa-pulse'
+          break;
+        case 'ENTREVISTA CONFIRMADA':
+          return 'success--text fas fa-check-circle'
+          break;
+        case 'RECUSADO':
+          return 'red--text fas fa-frown-open'
+          break;
+        case 'ENTREVISTA CANCELADA':
+          return 'red--text fas fa-calendar-times'
+          break;
+        case 'CONTRATADO':
+          return 'success--text fas fa-smile'
+          break;
       }
     }
   }
@@ -75,4 +97,6 @@ export default {
     border-left: 5px solid #4e73df !important
   .v-card__title
     justify-content center
+  .same-size-card 
+    height 100px !important
 </style>

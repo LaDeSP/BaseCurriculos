@@ -32,6 +32,9 @@ export default {
 </script>
 
 <style lang="stylus">
+  .same-size-card 
+    overflow-y auto
+    height 280px
   .aviso 
     font-size 20px
   .container 

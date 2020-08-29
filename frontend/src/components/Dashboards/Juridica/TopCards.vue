@@ -23,7 +23,7 @@
                   {{counter.candidaturas.todasCandidaturas}} 
                 </template>
                 <template v-else-if="card.title == 'Convites'">
-                  {{counter.convites.todosConvites}} 
+                  {{counterConvites}} 
                 </template>
                 <template v-else-if="card.title == 'Agenda'">
                   {{counter.agenda}} 
@@ -44,6 +44,7 @@ import {mapState} from 'vuex'
 export default {
   data(){
     return{
+      counterConvites: 0,
       cards: [
         {
           'title': 'Minhas Vagas',
@@ -68,6 +69,9 @@ export default {
 
       ]
     }
+  },
+  created(){
+    this.counterConvites = this.counter.convites.convitesAguardando + this.counter.convites.convitesConfirmados + this.counter.convites.convitesNegados
   },
   computed: {
     ...mapState(['counter'])

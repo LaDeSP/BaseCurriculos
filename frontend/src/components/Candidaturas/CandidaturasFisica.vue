@@ -18,7 +18,7 @@
         :key="i"
         :value="'tab-' + i"
       >
-      <v-card align="center" min-height="300">
+      <v-card align="center" min-height="200">
         <v-card-text> 
           <v-row justify="center">
             <template v-if="getCandidaturas.length == 0">

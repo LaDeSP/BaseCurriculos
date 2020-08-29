@@ -67,6 +67,33 @@ const getAgendaFiltrada = state => (status) => {
       return filtered.candidatura.status == status
   })
 }
+const getVagasThatHaveConvites = state => {
+  return state.vagasComConvites.filter(filtered => {
+    console.log('filtered convite', filtered)
+    switch (filtered.resposta) {
+      case 'AGUARDANDO':
+      case 'ACEITOU':
+      case 'RECUSOU':
+        return filtered
+    }
+  })
+}
+const getConvitesDaVaga = state => (vagaId) => {
+   
+  console.log('convites filt', state.convites)
+  let convites = state.convites.filter(filtered => {  
+    if(filtered.vagas_id == vagaId){
+      if(filtered.resposta != 'CANCELADO'){
+        return filtered
+      }
+    }
+  })
+  for(let value of convites){
+    Object.keys(value.curriculo.fisica.contato)
+  .forEach((key) => (value.curriculo.fisica.contato[key] == null) && delete value.curriculo.fisica.contato[key])
+  }
+  return convites
+}
 
 export default {
     tipoPermissao,
@@ -80,6 +107,8 @@ export default {
     getVagaById,
     getVagasThatHaveCandidaturas,
     getCandidaturasDaVaga,
-    getAgendaFiltrada
+    getAgendaFiltrada,
+    getVagasThatHaveConvites,
+    getConvitesDaVaga
 
 }

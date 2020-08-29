@@ -88,9 +88,10 @@ export default {
     ...mapGetters(['tipoPermissao'])
   }, 
   methods: {
-    setNotificacoes(){
+    async setNotificacoes(){
       if(this.$route.params.cadastroFisicaSucesso){
         this.notificacao = 'Cadastro realizado com sucesso!'
+        await this.$store.dispatch(actionTypes.GET_VAGAS_RECOMENDADAS)
       }else if(this.$route.params.cadastroCurriculoSucesso){
         this.notificacao = 'Seu currículo foi cadastrado com sucesso!'
       }else if(this.$route.params.cadastroJuridicaSucesso){

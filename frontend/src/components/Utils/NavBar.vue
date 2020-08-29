@@ -7,7 +7,9 @@
     <router-link to="/"><v-toolbar-title class="pl-1 hidden-sm-and-down">Sistema de Recrutamento e Seleção</v-toolbar-title></router-link>
     <v-spacer></v-spacer>
     <template v-if="auth.isLoggedIn && dataCompleted">
-      <template v-if="$route.path != '/error' || $route.path != '/error/'">
+      <template v-if="$route.path != '/error' && $route.path != '/error/'
+        && $route.path != '/accountStatus' && $route.path != '/accountStatus/'
+      ">
         <v-text-field justify="center" 
           flat 
           v-model="keywords"
@@ -20,6 +22,7 @@
             mdi-magnify
           </v-icon>
         </v-btn>
+        <FormBuscaAvancada></FormBuscaAvancada>
       </template>
     </template>
     <v-spacer></v-spacer>
@@ -45,7 +48,9 @@
       </router-link>
     </template>
     <template v-if="dataCompleted">
-      <template v-if="$route.path != '/error' || $route.path != '/error/'">
+      <template v-if="$route.path != '/error' && $route.path != '/error/'
+        && $route.path != '/accountStatus' && $route.path != '/accountStatus/'
+      ">
         <v-menu offset-y v-if="auth.isLoggedIn">
           <template v-slot:activator="{ on }">
             <v-btn text slot="activator" v-on="on">
@@ -75,9 +80,11 @@
       </template>
     </template>
     <template v-else-if="!$route.meta.showOnlyIfNoAuth && auth.isLoggedIn">
-      <v-btn large depressed class="white--text" @click="logout">
-        Sair
-      </v-btn>
+      <template v-if="$route.path != '/accountStatus' && $route.path != '/accountStatus/'">
+        <v-btn large depressed class="white--text" @click="logout">
+          Sair
+        </v-btn>
+      </template>
     </template>
   </v-app-bar>
 </template>
@@ -103,10 +110,12 @@ export default {
     }
   },
   created(){
-    if(this.tipoPermissao == 'FISICA'){
-      this.searchLabel = 'Busque título ou especificações da vaga'
-    }else if(this.tipoPermissao == 'JURIDICA'){
-      this.searchLabel = 'Busque qualificações'
+    if(this.auth.isLoggedIn){
+      if(this.tipoPermissao == 'FISICA'){
+        this.searchLabel = 'Busque título ou especificações da vaga'
+      }else if(this.tipoPermissao == 'JURIDICA'){
+        this.searchLabel = 'Busque qualificações'
+      }
     }
   },
   computed:{
@@ -114,16 +123,16 @@ export default {
     ...mapGetters(['tipoPermissao'])
   },
   methods:{
-    redirectSimpleSearch(){
+    async redirectSimpleSearch(){
       if(this.keywords == '' || this.keywords == undefined){
         return
       }
-      console.log('thi.', this.$router)
+      console.log('this router navbar.', this.$router)
       if(this.$router.currentRoute.name == 'search'){
         if(this.tipoPermissao == 'FISICA'){
-          this.$store.dispatch(actionTypes.GET_BUSCA_VAGAS, this.keywords)
+          await this.$store.dispatch(actionTypes.GET_BUSCA_VAGAS, this.keywords)
         }else if(this.tipoPermissao == 'JURIDICA'){
-          this.$store.dispatch(actionTypes.GET_BUSCA_VAGAS, this.keywords)
+          await this.$store.dispatch(actionTypes.GET_BUSCA_CURRICULOS, this.keywords)
         }
       }else{
         this.$router.push({name: 'search', query: {keywords: this.keywords}})

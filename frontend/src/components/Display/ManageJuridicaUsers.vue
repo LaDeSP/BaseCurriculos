@@ -8,7 +8,7 @@
       </router-link>
       <v-card align="center">
         <v-card-title class="text-center justify-center py-6">
-          <h2>Gerenciar Usuários</h2> 
+          <h2>Gerenciar Usuários Jurídica</h2> 
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"

@@ -13,13 +13,30 @@
     <v-btn
       color="success"
       dark 
+      :loading="pleaseWaitDialog"
       @click="criarCandidatura()"
     >
       Se Candidatar
     </v-btn>
+    <v-dialog
+      v-model="pleaseWaitDialog"
+      hide-overlay
+      persistent
+      width="300"
+    > 
+      <v-card class="grey darken-3 text-center white--text" dark>
+        <v-card-text>Por favor, aguarde...
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </template>
   <v-card>
-      <v-card-title>
+      <v-card-title class="text-center justify-center">
         <h3 class="primary--text">{{vaga.titulo}}</h3>
       </v-card-title>
       <v-card-text class="black--text">
@@ -52,16 +69,22 @@
 
 <script>
 import { actionTypes } from '../../../core/constants'
+import {mapState} from 'vuex'
 export default {
   props: {
     vagaId: Number,
-    vaga: Object 
+    vaga: Object,
+    vagaBuscada: Boolean
   },
   data() {
     return {
       dialog: false,
-      notificacao: ''
+      notificacao: '',
+      pleaseWaitDialog: false
     }
+  },
+  computed: {
+    ...mapState(['resultado'])
   },
   methods: {
     async criarCandidatura(){
@@ -69,8 +92,24 @@ export default {
         vagaId: this.vagaId, 
         userId: this.$store.state.auth.user.id
       }
-      this.$emit('handleNotif', 'Candidatura realizada com sucesso')
+      this.pleaseWaitDialog = true
       await this.$store.dispatch(actionTypes.REQUEST_VAGA_DASH, payload)
+        .then(response => {
+          console.log('response er', response, response.error != undefined)
+          if(response.error != undefined){
+            this.$emit('handleNotif', response.error)
+          }else{
+            this.$emit('handleNotif', 'Candidatura realizada com sucesso')
+            if(this.vagaBuscada){
+              for(let i = 0; i < this.resultado.length; i++){
+                if (this.resultado[i].id == this.vagaId) {
+                  this.resultado.splice(i, 1)
+                }
+              }
+            }
+          }
+        })
+        this.pleaseWaitDialog = false
     }
   }
 }

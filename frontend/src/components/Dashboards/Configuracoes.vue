@@ -1,6 +1,6 @@
 <template>
   <v-row align="center" justify="center">
-    <v-col cols="10" md="8" sm="10" xs="2" v-if="isLoaded">
+    <v-col cols="12" lg="8" md="10" sm="4">
       <router-link to="/dashboard">
         <v-btn>
           <v-icon class="pr-1">fas fa-home fa-lg</v-icon> Home
@@ -89,9 +89,29 @@
               </template>
             </v-card-text>
             <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn :disabled="invalid" v-on:keyup.enter="submit" class="ml-1" color="success darken-1" @click="submit()">Salvar</v-btn>              
+            <v-card-actions class="text-center justify-center">
+              <v-btn :disabled="invalid" 
+                v-on:keyup.enter="submit" class="ml-1" 
+                color="success darken-1" 
+                @click="submit()"
+                :loading="pleaseWaitDialog"
+              >Salvar</v-btn>   
+              <v-dialog
+                v-model="pleaseWaitDialog"
+                hide-overlay
+                persistent
+                width="300"
+              > 
+                <v-card class="grey darken-3 text-center white--text" dark>
+                  <v-card-text>Por favor, aguarde...
+                    <v-progress-linear
+                      indeterminate
+                      color="white"
+                      class="mb-0"
+                    ></v-progress-linear>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>           
             </v-card-actions>
           </v-card>
         </v-form>
@@ -111,6 +131,7 @@ export default {
       password: '',
       cnpj: '',
       snackbar: false,
+      pleaseWaitDialog: false,
       snackNotificacao: '',
       timeout: 2000,
       newPassword: '',
@@ -119,9 +140,7 @@ export default {
   }
   },
   async created(){
-    console.log(this.$store.state)
     this.email = this.auth.user.email
-    console.log('einfeofe', this.email)
     if(this.tipoPermissao == 'FISICA'){
       await this.$store.dispatch(actionTypes.GET_PESSOA_FISICA)
       this.cpf = this.pessoaFisicaInfo.cpf
@@ -138,6 +157,7 @@ export default {
   },
   methods: {
     submit(){
+      this.pleaseWaitDialog = true
       let payloadUser = {
         email: this.email,
         password: this.password,
@@ -149,20 +169,22 @@ export default {
           .then(response => {
             if(response.error != undefined){
               this.notificacoes = response.error
+              this.pleaseWaitDialog = false
             }
           })
       }else if(this.tipoPermissao == 'JURIDICA'){
         payloadUser.cnpj = this.cnpj
-        this.isLoaded = false
         this.$store.dispatch(actionTypes.UPDATE_USER_JURIDICA, payloadUser)
           .then(response => {
             if(response.error != undefined){
               this.notificacoes = response.error
+              this.pleaseWaitDialog = false
             }else{
+              this.notificacoes = ''
               this.snackNotificacao = 'Dados atualizados com sucesso!'
+              this.pleaseWaitDialog = false
               this.snackbar = true
             }
-            this.isLoaded = true
           })
       }
     }

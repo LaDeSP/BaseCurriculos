@@ -92,6 +92,16 @@ class CandidaturaController extends Controller
         $fisicas_id = Fisica::where('user_id', $request->userId)->first()->id;
         $curriculos_id = Curriculo::where('fisicas_id', $fisicas_id)->first()->id;
        
+        $result = Candidatura::where('vagas_id', $vaga_id)
+        ->where('curriculos_id', $curriculos_id)
+        ->exists();
+
+        if($result){
+            return Response::json([
+                'error' => "Você já se candidatou a esta vaga."
+            ], 201);
+        }
+        
         Candidatura::create([
             'vagas_id' => $vaga_id,
             'curriculos_id' => $curriculos_id,

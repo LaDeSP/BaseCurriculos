@@ -68,7 +68,9 @@ class ConviteController extends Controller
         if($user_id->role == 'FISICA'){
             $curriculo = $user_id->fisica->curriculo;
 
-            $convites = Convite::with(['vaga.area', 'vaga'])->where('curriculos_id', $curriculo->id)->where('resposta', 'AGUARDANDO')->orderBy('created_at', 'desc')->get();
+            $convites = Convite::with(['vaga.area', 'vaga'])
+                        ->where('curriculos_id', $curriculo->id)
+                        ->orderBy('created_at', 'desc')->get();
 
             return Response::json([
                 'convites' => $convites,
@@ -173,12 +175,27 @@ class ConviteController extends Controller
 
     public function cancelarConvite(Request $request){
         $convite = Convite::findOrFail($request->convite_id);
-       
+        
+        $user_id = auth()->user();
+        $juridica = $user_id->juridica;
+        $juridica_id = $juridica->id;
+
         $convite->resposta = "CANCELADO";
         $convite->update();
-        $convites=ConviteController::getConvites();
+        $convites=ConviteController::getConvites()->original;
+        $vagasConvites =  Convite::with(['vaga', 'curriculo.area', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
+                                ->whereHas('vaga', function($query) use ($juridica_id){ 
+                                    $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
+                                })
+                                ->orderBy('created_at', 'desc')
+                                ->get();
+
+        $collection = collect($vagasConvites);
+        $unique = $collection->unique('vagas_id');
+        $unique_data = $unique->values()->all();
             
         return Response::json([
+            'vagasConvites' => $unique_data,
             'convites' => $convites,
             'message' => 'Você cancelou o convite..'
         ], 201);

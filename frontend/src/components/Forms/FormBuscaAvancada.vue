@@ -13,65 +13,76 @@
     </v-btn>
   </template>
   <v-card>
-      <v-card-title>
-        <h3 class="text-center">Busca Avançada</h3>
-        <v-spacer></v-spacer>
+      <v-card-title class="text-center justify-center">
+        <h3>Busca Avançada</h3>
       </v-card-title>
-      <v-card-text class="pa-10">
-        <v-text-field label="Qualificações "></v-text-field>
-        <v-select
-          class="mt-0"
-          v-model="areaAtuacao"
-          :items="itemsGeneros"
-          :error-messages="errors"
-          label="Área de Atuação *"
-          required
-        ></v-select>
-        <v-select
-          class="mt-3"
-          v-model="estadoCivil"
-          :items="itemsEstadoCivil"
-          :error-messages="errors"
-          label="Nível de Escolaridade *"
-          required
-        ></v-select>
-        <v-text-field label="Objetivos"></v-text-field>
-        <v-text-field label="Histórico Profissional"></v-text-field>
-        <v-text-field label="Cidade"></v-text-field>  
-        <v-text-field label="Nome"></v-text-field> 
-      </v-card-text>
-      <v-divider></v-divider>
-      <v-card-actions>
-        <span>
-            <v-btn outlined color="red darken-1" text @click="dialog = false">Fechar</v-btn>
-        </span>
-        <v-spacer></v-spacer>
-        <template v-if="this.$route.path == '/'">
-          <router-link to="/login" >
-            <v-btn outlined color="blue darken-1" text @click="dialog = false">Já possuo cadastro</v-btn>
-          </router-link>
+        <template v-if="tipoPermissao == 'FISICA'">
+          <BuscaAvancadaFisica></BuscaAvancadaFisica>
         </template>
-        <v-btn class="ml-1" color="primary darken-1" @click="dialog = false">Buscar</v-btn>
-  </v-card-actions>
+        <template v-else-if="tipoPermissao == 'JURIDICA'">
+          <BuscaAvancadaJuridica :itemsAreaAtuacao="itemsAreaAtuacao" @closeDialog="closeDialog"></BuscaAvancadaJuridica>
+        </template>
   </v-card>
 </v-dialog>
 </template>
 
 <script>
+import {actionTypes} from '@/core/constants'
+import {mapGetters} from 'vuex'
+import BuscaAvancadaFisica from '@/components/BuscaAvancada/BuscaAvancadaFisica'
+import BuscaAvancadaJuridica from '@/components/BuscaAvancada/BuscaAvancadaJuridica'
 export default {
-    components:{},
-    data(){
-        return{
-            dialog: false
+  components:{BuscaAvancadaFisica, BuscaAvancadaJuridica},
+  data(){
+    return{
+      dialog: false,
+      keywords: '',
+      notificacao: '',
+      itemsAreaAtuacao: []
+    }
+  },
+  async created(){
+    console.log('this.route', this.$route)
+    await this.$store.dispatch(actionTypes.GET_AREAS)
+    .then(response => {
+      this.itemsAreaAtuacao = response.areas
+    })
+  },
+  computed:{
+    ...mapGetters(['tipoPermissao'])
+  },
+  methods:{
+    closeDialog(value){
+      this.dialog = value
+    },
+    async advancedSearchVagas(){
+      if ((this.keywords=='' || this.keywords==undefined)==true && (this.cargo=='' || this.cargo==undefined)
+        && (this.beneficio=='' || this.beneficio==undefined) && (this.jornada=='' || this.jornada==undefined)
+        && (this.requisitos=='' || this.requisitos==undefined) && (this.area=='' || this.area==undefined)){
+        this.notificacao = "Preencha pelo menos um campo para realizar a busca."
+        return
+      }
+      if (this.$router.currentRoute.name == "search"){
+        let pesquisa = {
+          keywords : this.keywords,
+          cargo : this.cargo, 
+          beneficio : this.beneficio, 
+          jornada : this.jornada,
+          requisitos : this.requisitos,
+          area: this.area
         }
-    },
-    created(){
-        console.log('this.route', this.$route)
-    },
-    methods:{
-      closeDialog(){
+          this.$store.dispatch('searchVagasAvancadas', pesquisa)
+          .then(response => {
+              this.dialog = false
+              this.notificacao = ''
+          })
+          .catch(error => console.log(error))
+      }
+      else{
+        this.$router.push({ name: 'buscas', query: { keywords: this.keywords, cargo: this.cargo, beneficio: this.beneficio, jornada: this.jornada, requisitos: this.requisitos, area: this.area} })
         this.dialog = false
       }
     }
+  }
 }
 </script>

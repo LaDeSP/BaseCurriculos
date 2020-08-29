@@ -16,6 +16,8 @@ class Vaga extends Model
 		'requisito', 'juridicas_id', 'areas_id', 'quantidade', 'status', 'descricao'
 	];
 
+	protected $softCascade = ['candidatura', 'convite'];
+
 	public function candidatura(){
 		return $this->hasMany(Candidatura::class, 'vagas_id');
 	}

@@ -6,8 +6,8 @@ const createConvite = async (state, conviteData) => {
 const getConvites = async (state) => {
     return await axios.get(`getConvites?token=${state.auth.token}`)
 }
-const confirmConvite = async (state, confirmedConvite) => {
-    return await axios.post(`respostaConvite?token=${state.auth.token}`, confirmedConvite)
+const respostaConvite = async (state, resposta) => {
+    return await axios.post(`respostaConvite?token=${state.auth.token}`, resposta)
 }
 const cancelConvite = async (state, convite) => {
     return await axios.post(`cancelarConvite?token=${state.auth.token}`, convite)
@@ -16,6 +16,6 @@ const cancelConvite = async (state, convite) => {
 export default {
     createConvite,
     getConvites,
-    confirmConvite,
+    respostaConvite,
     cancelConvite
 }

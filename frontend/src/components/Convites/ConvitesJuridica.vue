@@ -1,13 +1,13 @@
 <template>
 <v-card-text justify="center" align="center">
   <template v-if="!toggle">
-    <template v-if="getVagasThatHaveCandidaturas.length == 0">
-      <span class="aviso">Não há nenhuma vaga com candidatura.</span>
+    <template v-if="getVagasThatHaveConvites.length == 0">
+      <span class="aviso">Não há nenhum convite.</span>
     </template>
     <template v-else>
       <v-row class="my-5" justify="center">
         <v-col cols="12" lg="6" md="6" sm="12" v-for="value in pageOfItems" :key="value.id">
-          <v-card>
+          <v-card class="py-2">
             <v-card-title class="primary--text text-center justify-center">
               <h3>{{value.vaga.titulo}}</h3>
             </v-card-title>
@@ -25,9 +25,9 @@
       </v-row>
       <v-row align="center" justify="center">
         <v-col cols="12" md="6">
-          <template v-if="getVagasThatHaveCandidaturas.length > 4">
+          <template v-if="getVagasThatHaveConvites.length > 4">
             <jw-pagination 
-              :items="getVagasThatHaveCandidaturas"
+              :items="getVagasThatHaveConvites"
               @changePage="onChangePage"
               :pageSize="4"
               :labels="customLabels"
@@ -36,7 +36,7 @@
           <template v-else>
             <span style="display: none" >
               <jw-pagination 
-                :items="getVagasThatHaveCandidaturas" 
+                :items="getVagasThatHaveConvites" 
                 @changePage="onChangePage"
                 :pageSize="4" 
                 :labels="customLabels"
@@ -97,10 +97,10 @@ export default {
     this.title = 'Candidaturas'
   },
   computed: {
-    ...mapState(['candidaturas']),
+    ...mapState(['candidaturas', 'vagasComConvites']),
     ...mapGetters([
       'tipoPermissao', 'getCandidaturasFiltradas', 'getCandidaturasDaVaga',
-      'getCandidaturasFinalizadas', 'getVagasThatHaveCandidaturas'
+      'getCandidaturasFinalizadas', 'getVagasThatHaveConvites'
     ]),
     getCandidaturas(){
       if(this.active == 'TODAS'){

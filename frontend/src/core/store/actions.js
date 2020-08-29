@@ -21,7 +21,7 @@ export default {
     return response.data
   },
   async [actionTypes.LOGOUT]({commit, state}){
-    let logout = await api.auth.logout(state)
+    await api.auth.logout(state)
     commit(mutationTypes.LOGOUT)
     commit(mutationTypes.SET_DATA_COMPLETED, false)
   },
@@ -44,13 +44,11 @@ export default {
   },
   async [actionTypes.UPDATE_USER_PIC]({commit, state}){
     const response = await api.foto.updateUserPic(state)
-    let picPath = response.data.foto 
-    commit(mutationTypes.SET_NEW_USER_PIC, picPath)
+    commit(mutationTypes.SET_NEW_USER_PIC, response.data.foto)
   },
   async [actionTypes.DELETE_USER_PIC]({commit, state}){
     const response = await api.foto.deleteUserPic(state)
-    let picPath = response.data.foto 
-    commit(mutationTypes.SET_NEW_USER_PIC, picPath)
+    commit(mutationTypes.SET_NEW_USER_PIC, response.data.foto)
   },
   async [actionTypes.COMPLETE_PESSOA_FISICA]({commit, state}, completedPessoaFisicaData){
     const response = await api.pessoaFisica.completePessoaFisicaData(completedPessoaFisicaData, state)
@@ -135,8 +133,7 @@ export default {
   },
   async [actionTypes.GET_TODOS_CONVITES]({commit, state}){
     const response = await api.convites.getConvites(state)
-    console.log('DESGRACADO')
-    commit(mutationTypes.SET_CONVITES, response.data.convites)
+    console.log('GET_TODOS_CONVITES', response)
     let payloadConvites = {
       'todosConvites': response.data.countConvites,
       'convitesAguardando': response.data.countConvitesAguardando,
@@ -144,12 +141,17 @@ export default {
       'convitesNegados': response.data.countConvitesNegados 
     }
     commit(mutationTypes.SET_CONVITES, response.data.convites)
+    commit(mutationTypes.SET_VAGAS_COM_CONVITES, response.data.vagasConvites)
     commit(mutationTypes.SET_COUNTER_CONVITES, payloadConvites)
   },
   async [actionTypes.REQUEST_VAGA_DASH]({commit, state}, vagaPayload){
     const response = await api.candidaturas.createCandidatura(state, vagaPayload)
-    commit(mutationTypes.SET_CANDIDATURAS, response.data.candidaturas)
-    commit(mutationTypes.SET_VAGAS, response.data.vagas)
+    console.log('REQUEST_VAGA_DASH', response)
+    if(!response.data.error){
+      commit(mutationTypes.SET_CANDIDATURAS, response.data.candidaturas)
+      commit(mutationTypes.SET_VAGAS, response.data.vagas)
+    }
+    return response.data
   },
   async [actionTypes.CANCELAR_CANDIDATURA]({commit, state}, candidaturaId){
     const response = await api.candidaturas.deleteCandidatura(state, candidaturaId)
@@ -179,6 +181,7 @@ export default {
   },
   async [actionTypes.HANDLE_USER_STATUS]({commit, state}, payload){
     const response = await api.account.handleUserAccount(state, payload)
+    console.log('HANDLE_USER_STATUS', response.data[0].usersJuridica)
     commit(mutationTypes.JURIDICA_USERS, response.data[0].usersJuridica)
   },
   async [actionTypes.CREATE_NOVA_VAGA]({commit, state}, vagaData){
@@ -236,5 +239,40 @@ export default {
     const response = await api.convites.createConvite(state, conviteData)
     console.log('CREATE_NOVO_CONVITE', response)
     return response.data
-  }
+  },
+  async [actionTypes.REATIVAR_CONTA]({commit, state}){
+    const response = await api.account.activateAccount(state)
+    console.log('REATIVAR_CONTA', response)
+    if(!response.data.error){
+      commit(mutationTypes.SET_DATA_COMPLETED, true)
+      commit(mutationTypes.UPDATE_AUTH_USER, response.data.user)
+      commit(mutationTypes.SET_NEW_USER_PIC, response.data.foto)
+    }
+  },
+  async [actionTypes.DESATIVAR_CONTA]({commit, state}){
+    console.log('before deact', state)
+    const response = await api.account.deactivateAccount(state)
+    console.log('DESATIVAR_CONTA', response)
+    commit(mutationTypes.LOGOUT)
+  },
+  async [actionTypes.GET_BUSCA_AVANCADA_VAGAS]({commit, state}, keywords){
+    const response = await api.buscas.searchAvancadoVagas(state, keywords)
+    console.log('GET_BUSCA_AVANCADA_VAGAS', response)
+    commit(mutationTypes.SET_RESULTADO, response.data) 
+  },
+  async [actionTypes.GET_BUSCA_AVANCADA_CURRICULOS]({commit, state}, pesquisa){
+    const response = await api.buscas.searchAvancadoCurriculos(state, pesquisa)
+    console.log('GET_BUSCA_AVANCADA_CURRICULOS', response)
+    commit(mutationTypes.SET_RESULTADO, response.data) 
+  },
+  async [actionTypes.CANCELAR_CONVITE]({commit, state}, conviteId){
+    const response = await api.convites.cancelConvite(state, conviteId)
+    console.log('CANCELAR_CONVITE', response)
+    commit(mutationTypes.SET_CONVITES, response.data.convites.convites) 
+    commit(mutationTypes.SET_VAGAS_COM_CONVITES, response.data.vagasConvites)
+  },
+  async [actionTypes.RESPOSTA_CONVITE]({commit, state}, resposta){
+    const response = await api.convites.respostaConvite(state, resposta)
+    console.log('RESPOSTA_CONVITE', response)
+  },
 }

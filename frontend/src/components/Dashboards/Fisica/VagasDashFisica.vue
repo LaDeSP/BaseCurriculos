@@ -20,17 +20,18 @@
     <h2 class="text-center my-4">Vagas que podem lhe interessar</h2>
     <v-row class="my-5">
       <v-col cols="12" lg="6" md="6" sm="6" v-for="vaga in pageOfItems" :key="vaga.id">
-        <v-card class="py-5" min-height="40vh">
-          <v-card-title class="primary--text ">
+        <v-card class="py-5">
+          <v-card-title class="primary--text text-center justify-center">
             <h3>{{vaga.titulo}}</h3>
           </v-card-title>
-          <v-card-text class="black--text">
+          <v-card-text class="black--text same-size-card">
             <strong>Cargo:</strong> {{vaga.cargo}} <br/>
             <strong>Área de Atuação:</strong> {{vaga.area.tipo}} <br/>
             <strong>Jornada de Trabalho:</strong> {{vaga.jornada}}
           </v-card-text>
           <v-card-actions class="text-center justify-center">
             <ActionsDaVagaRecomendada 
+              :vagaBuscada="false"
               :vaga="vaga" 
               :vagaId="vaga.id"
               @handleNotif="getNotificacao"
@@ -114,4 +115,6 @@ export default {
     border-left 5px solid #4e73df !important
   .v-card__title
     justify-content center
+  .same-size-card 
+    height 100px !important
 </style>

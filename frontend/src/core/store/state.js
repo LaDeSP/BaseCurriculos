@@ -11,6 +11,7 @@ export default{
   candidaturas: [],
   vagas: [],
   vagasComCandidaturas: [],
+  vagasComConvites: [],
   counter: {},
   vagasJuridica: [],
   vagasCandidaturas: [],
