@@ -50,5 +50,10 @@ class User extends Authenticatable implements JWTSubject
     
     public function juridica(){
     	return $this->belongsTo(Juridica::class, 'id', 'user_id');
-	}
+    }
+    
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new \App\Notifications\MailResetPasswordNotification($token));
+    }
 }
