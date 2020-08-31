@@ -136,6 +136,22 @@ Vue.use(VueRouter)
     name: 'accountStatus',
     meta: {requiresInactiveAccount: true},
     component: () => import(/* webpackChunkName: "AccountStatus"*/ '@/views/AccountStatus')
+  },
+  { 
+    path: '/reset-password', 
+    name: 'reset-password', 
+    component: () => import(/* webpackChunkName: "AccountStatus"*/ '@/views/ForgotPassword'),
+    meta: { 
+      auth:false 
+    } 
+  },
+  { 
+    path: '/reset-password/:token', 
+    name: 'reset-password-form', 
+    component: () => import(/* webpackChunkName: "AccountStatus"*/ '@/views/ResetPasswordForm'),
+    meta: { 
+      auth:false 
+    } 
   }
 ]
 
