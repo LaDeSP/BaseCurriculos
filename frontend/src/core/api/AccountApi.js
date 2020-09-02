@@ -10,9 +10,13 @@ const deactivateAccount = async (state) => {
 const handleUserAccount = async (state, payload) => {
     return await axios.post(`userStatus?token=${state.auth.token}`, payload)
 }
+const forgotPassword = async (payload) => {
+    return await axios.post(`reset-password`, payload)
+}
 
 export default {
     activateAccount,
     deactivateAccount,
-    handleUserAccount
+    handleUserAccount,
+    forgotPassword
 }

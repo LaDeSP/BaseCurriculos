@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-col align="center" cols="12" lg="10" md="10" sm="6">
     <h1 style="font-size: 100px; color: #B71C1C" class="--text" >DEU RUIM!</h1>
-    <template v-if="error.statusText == 'Unauthorized'">
+    <template v-if="error.status == 401">
       <h2 style="font-size: 50px"> Sua sessão expirou. <br/> Faça login novamente. </h2>
         <router-link to="/login">
           <v-btn large color="primary" dark class="mt-6">

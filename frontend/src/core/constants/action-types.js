@@ -46,5 +46,7 @@ export default {
     CANCELAR_CONVITE: 'cancelarConvite',
 
     HANDLE_USER_STATUS: 'handleUserStatus',
-    RESPOSTA_CONVITE: 'respostaConvite'
+    RESPOSTA_CONVITE: 'respostaConvite',
+    FORGOT_PASSWORD: 'forgotPassword',
+    RESET_PASSWORD: 'resetPassword'
 } 

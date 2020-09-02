@@ -275,4 +275,8 @@ export default {
     const response = await api.convites.respostaConvite(state, resposta)
     console.log('RESPOSTA_CONVITE', response)
   },
+  async [actionTypes.FORGOT_PASSWORD]({commit}, payload){
+    const response = await api.account.forgotPassword(payload)
+    console.log('FORGOT_PASSWORD RESPONSE', response)
+  },
 }
