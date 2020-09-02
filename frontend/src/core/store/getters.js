@@ -19,13 +19,15 @@ const getCandidaturasFiltradas = state => (status) => {
 }
 const getCandidaturasFinalizadas = state => (status) => {
   return state.candidaturas.filter(filtered => {
+    console.log('dentro', filtered)
     return filtered.status == 'CONTRATADO' || filtered.status == 'RECUSADO'
   })
 }
 const getAgendaById = state => (candidaturaId) => {
-    return state.agenda.filter(filtered => {
+    let agendaById = state.agenda.filter(filtered => {
         return filtered.candidatura_id == candidaturaId
     })
+    return agendaById[0]
 }
 const getConvitesAguardando = state => {
   return state.convites.filter(filtered => {
@@ -58,7 +60,7 @@ const getCandidaturasDaVaga = state => (vagaId) => {
   })
   for(let value of candidaturas){
     Object.keys(value.curriculo.fisica.contato)
-  .forEach((key) => (value.curriculo.fisica.contato[key] == null) && delete value.curriculo.fisica.contato[key])
+    .forEach((key) => (value.curriculo.fisica.contato[key] == null) && delete value.curriculo.fisica.contato[key])
   }
   return candidaturas
 }
@@ -79,8 +81,6 @@ const getVagasThatHaveConvites = state => {
   })
 }
 const getConvitesDaVaga = state => (vagaId) => {
-   
-  console.log('convites filt', state.convites)
   let convites = state.convites.filter(filtered => {  
     if(filtered.vagas_id == vagaId){
       if(filtered.resposta != 'CANCELADO'){
@@ -90,7 +90,7 @@ const getConvitesDaVaga = state => (vagaId) => {
   })
   for(let value of convites){
     Object.keys(value.curriculo.fisica.contato)
-  .forEach((key) => (value.curriculo.fisica.contato[key] == null) && delete value.curriculo.fisica.contato[key])
+    .forEach((key) => (value.curriculo.fisica.contato[key] == null) && delete value.curriculo.fisica.contato[key])
   }
   return convites
 }

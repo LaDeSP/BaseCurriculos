@@ -105,7 +105,7 @@ class AgendaController extends Controller
 
     public function update(Request $request, $id)
     {  
-        $agenda_id = Agenda::where('candidatura_id', $request->update_id)->first()->id;
+        $agenda_id = Agenda::where('candidatura_id', $request->candidatura_id)->first()->id;
         Agenda::where('id', $agenda_id)->update([
             'data' => $request->data,
             'hora' => $request->hora,
@@ -204,7 +204,7 @@ class AgendaController extends Controller
        
         return Response::json([
             'cancelou entrevista',
-            'agenda_id' => $agenda_id,
+            'updateAgenda' => $this->index()->original,
             'role' => auth()->user()->role
         ]);
 

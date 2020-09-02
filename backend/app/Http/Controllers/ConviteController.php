@@ -142,7 +142,7 @@ class ConviteController extends Controller
             $convite->resposta='RECUSOU';
             $convite->update();
 
-            $convites=ConviteController::getConvites();
+            $convites=ConviteController::getConvites()->original;
             
             return Response::json([
                 'convites' => $convites,
@@ -160,7 +160,7 @@ class ConviteController extends Controller
                 'status'=>'AGUARDANDO'
             ]);
 
-            $convites=ConviteController::getConvites();
+            $convites=ConviteController::getConvites()->original;
             
             return Response::json([
                 'convites' => $convites,

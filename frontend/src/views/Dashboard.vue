@@ -16,7 +16,7 @@
             </template>
              <template v-else-if="isLoaded && !dataCompleted">
               <h1 class="text-center justify-center">Complete seus dados para continuar!</h1>
-              <FormPessoaFisicaCurriculo :edicao="false"></FormPessoaFisicaCurriculo>  
+              <FormPessoaFisicaCurriculo :edicao="false" @isDataCompleted="getDataFlag"></FormPessoaFisicaCurriculo>  
             </template>
           </v-col>
         </template>
@@ -35,13 +35,17 @@
               </v-row>
             </template>
             <template v-else-if="isLoaded && !dataCompleted">
-              <h1 class="text-center justify-center">Complete seus dados para continuar!</h1>
-              <FormPessoaJuridicaData @handleNotifSuccess="getNotifSuccess"></FormPessoaJuridicaData>
-            </template>
-            <template v-if="isLoaded && !hasVaga">
-              <FormCreateVaga :title="titlePrimeiraVaga"></FormCreateVaga>
+              <v-col cols="10" lg="10" md="6" sm="8">
+                <h1 class="text-center justify-center">Complete seus dados para continuar!</h1>
+                <FormPessoaJuridicaData @handleNotifSuccess="getNotifSuccess"></FormPessoaJuridicaData>
+              </v-col>
             </template>
           </v-row>    
+          <template v-if="isLoaded && dataCompleted && !hasVaga">
+            <v-col cols="10" lg="10" md="6" sm="8">
+              <FormCreateVaga :title="titlePrimeiraVaga"></FormCreateVaga>
+            </v-col>
+          </template>
         </template>
         <template v-else-if="tipoPermissao == 'MASTER'">
           <TopCardsMaster></TopCardsMaster>
@@ -91,7 +95,6 @@ export default {
     async setNotificacoes(){
       if(this.$route.params.cadastroFisicaSucesso){
         this.notificacao = 'Cadastro realizado com sucesso!'
-        await this.$store.dispatch(actionTypes.GET_VAGAS_RECOMENDADAS)
       }else if(this.$route.params.cadastroCurriculoSucesso){
         this.notificacao = 'Seu currículo foi cadastrado com sucesso!'
       }else if(this.$route.params.cadastroJuridicaSucesso){
@@ -124,6 +127,12 @@ export default {
         }
         this.isLoaded = true
       }      
+    },
+    async getDataFlag(value){
+      if(value){
+        this.notificacao = 'Seu currículo foi cadastrado com sucesso!'
+        await this.$store.dispatch(actionTypes.GET_VAGAS_RECOMENDADAS)
+      }
     },
     getNotifSuccess(value){
       console.log('get not if siuccess dash', value)

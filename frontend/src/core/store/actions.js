@@ -156,13 +156,18 @@ export default {
   async [actionTypes.CANCELAR_CANDIDATURA]({commit, state}, candidaturaId){
     const response = await api.candidaturas.deleteCandidatura(state, candidaturaId)
     let payloadCancelarCandidatura = {'candidaturaId': candidaturaId, 'role': state.auth.user.role}
-    commit(mutationTypes.DELETE_CANDIDATURA_CANCELADA, payloadCancelarCandidatura)
+    console.log('CANCELAR_CANDIDATURA', response)
+    commit(mutationTypes.SET_CANDIDATURAS, response.data.updateCandidaturas.candidaturas)
+  },
+  async [actionTypes.CANCELAR_ENTREVISTA]({commit, state}, agendamentoPayload){
+    const response = await api.agendamento.cancelAgendamento(state, agendamentoPayload)
+    console.log('CANCELAR_ENTREVISTA', response)
+    commit(mutationTypes.SET_AGENDA, response.data.updateAgenda.agenda)
   },
   async [actionTypes.CANCELAR_AGENDAMENTO]({commit, state}, agendamentoPayload){
     const response = await api.agendamento.cancelAgendamento(state, agendamentoPayload)
-  },
-  async [actionTypes.CANCELAR_ENTREVISTA]({commit, state}, vagaPayload){
-    const response = await api.agendamento.createCandidatura(state, vagaPayload)
+    console.log('CANCELAR_AGENDAMENTO', response)
+    commit(mutationTypes.SET_AGENDA, response.data.updateAgenda.agenda)
   },
   async [actionTypes.CREATE_NOVO_AGENDAMENTO]({commit, state}, agendaPayload){
     const response = await api.agendamento.createAgendamento(state, agendaPayload)
@@ -274,5 +279,11 @@ export default {
   async [actionTypes.RESPOSTA_CONVITE]({commit, state}, resposta){
     const response = await api.convites.respostaConvite(state, resposta)
     console.log('RESPOSTA_CONVITE', response)
+    commit(mutationTypes.SET_CONVITES, response.data.convites.convites)
+  },
+  async [actionTypes.UPDATE_AGENDAMENTO]({commit, state}, agenda){
+    const response = await api.agendamento.updateAgendamento(state, agenda)
+    console.log('UPDATE_AGENDAMENTO', response)
+    return response.data
   },
 }

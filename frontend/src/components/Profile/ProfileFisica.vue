@@ -65,19 +65,33 @@
                               <strong>Estado: </strong>{{pessoaFisicaInfo.endereco.estado}} <br/>
                               <strong>Rua: </strong> {{pessoaFisicaInfo.endereco.rua}} <br/>
                               <strong>Bairro: </strong> {{pessoaFisicaInfo.endereco.bairro}} <br/>
-                              <strong>Número: </strong> {{pessoaFisicaInfo.endereco.numero}} <br/>
-                              <strong>Complemento: </strong> {{pessoaFisicaInfo.endereco.complemento}} <br/>
+                              <span v-if="pessoaFisicaInfo.endereco.numero">
+                                <strong>Número: </strong> {{pessoaFisicaInfo.endereco.numero}} <br/>
+                              </span>
+                              <span v-if="pessoaFisicaInfo.endereco.complemento">
+                                <strong>Complemento: </strong> {{pessoaFisicaInfo.endereco.complemento}} <br/>
+                              </span>
                             </span>
                           </v-list-item-content>
                           <v-list-item-content>
                             <h3 align="left">Contato:</h3>
                             <span align="left" class="mt-1">
-                              <strong>Telefone Fixo: </strong> {{pessoaFisicaInfo.contato.fixo}} <br/>
+                              <span v-if="pessoaFisicaInfo.contato.fixo">
+                                <strong>Telefone Fixo: </strong> {{pessoaFisicaInfo.contato.fixo}} <br/>
+                              </span>
                               <strong>Telefone Celular: </strong>{{pessoaFisicaInfo.contato.celular}} <br/>
-                              <strong>Linkedin: </strong> {{pessoaFisicaInfo.contato.linkedin}} <br/>
-                              <strong>Facebook: </strong> {{pessoaFisicaInfo.contato.facebook}} <br/>
-                              <strong>Twitter: </strong> {{pessoaFisicaInfo.contato.twitter}} <br/>
-                              <strong>Site: </strong> {{pessoaFisicaInfo.contato.site}} <br/>
+                              <span v-if="pessoaFisicaInfo.contato.linkedin">
+                                <strong>Linkedin: </strong> {{pessoaFisicaInfo.contato.linkedin}} <br/>
+                              </span>
+                              <span v-if="pessoaFisicaInfo.contato.facebook">
+                                <strong>Facebook: </strong> {{pessoaFisicaInfo.contato.facebook}} <br/>
+                              </span>
+                              <span v-if="pessoaFisicaInfo.contato.twitter">
+                                <strong>Twitter: </strong> {{pessoaFisicaInfo.contato.twitter}} <br/>
+                              </span>
+                              <span v-if="pessoaFisicaInfo.contato.site">
+                                <strong>Site: </strong> {{pessoaFisicaInfo.contato.site}} <br/>
+                              </span>
                             </span>
                           </v-list-item-content>
                         </v-list-item>

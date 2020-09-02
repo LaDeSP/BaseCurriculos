@@ -36,7 +36,7 @@
               :search="search"
             >
               <template v-slot:[`item.status`]="{item}">
-                <v-chip :color="getColor(item.status)" dark>{{item.status}}</v-chip>
+                <v-chip :color="getColor(item)" dark>{{item.status}}</v-chip>
               </template>
               <template v-slot:[`item.acoes`]="{ item }">
                 <span>
@@ -92,9 +92,9 @@ export default {
     ...mapState(['juridicaUsers'])
   },
   methods: {
-    getColor(status){
-      if(status == 'ATIVO') return 'green'
-      else if(status == 'INATIVO') return 'red'
+    getColor(item){
+      if(item.status == 'ATIVO' && item.deleted_at == null) return 'green'
+      else return 'red'
     },
     async handleUserStatus(item, action){
       let payload = {

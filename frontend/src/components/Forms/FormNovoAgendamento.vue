@@ -3,7 +3,7 @@
   <v-col cols="12" lg="12" md="12" sm="12">
     <router-link to="/candidaturas">
       <v-btn class="mr-2">
-        <v-icon class="pr-1">mdi-arrow-left-circle</v-icon> Voltar
+        <v-icon class="pr-1">fa fa-eye</v-icon> Candidaturas
       </v-btn>
     </router-link>
     <template v-if="tipoPermissao == 'JURIDICA'">
@@ -51,7 +51,12 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker scrollable locale="pt-br" v-model="data" no-title @input="menu = false"></v-date-picker>
+              <v-date-picker 
+                scrollable locale="pt-br" 
+                v-model="data" no-title 
+                @input="menu = false"
+                :min="new Date().toISOString().substr(0, 10)"
+              ></v-date-picker>
             </v-menu>
           </ValidationProvider>
           <ValidationProvider v-slot="{ errors }" name="hora" rules="required">
@@ -131,9 +136,16 @@ export default {
 
     }
   },
+  filters:{
+    hourFormat: function(value){
+      if(value){ 
+        return value.replace(/:[^:]*$/,'')
+      }
+    }
+  },
   async created(){
-    console.log(this.$route.params)
     if(this.$route.params.editCandidaturaId){
+      console.log(this.$route.params)
       this.edicao = true 
       await this.$store.dispatch(actionTypes.GET_AGENDA)
       this.loadDataToEdit()
@@ -146,7 +158,7 @@ export default {
     ...mapState(['agenda']),
     ...mapGetters(['tipoPermissao', 'getAgendaById']),
     agendaById(){
-      return this.agendaById(this.$route.params.id)
+      return this.getAgendaById(this.$route.params.editCandidaturaId)
     },
     dateFormated(){
       if(this.data != '' && this.data != undefined){
@@ -158,15 +170,14 @@ export default {
   },
   methods: {
     async submit(){
-      if(this.edicao) setContraproposta()
+      if(this.edicao) this.setContraproposta()
       else this.candidaturaId = this.$route.params.newCandidaturaId
       let agendaPayload = {
         data: this.data, 
         hora: this.hora, 
         observacao: this.observacao, 
         contraproposta: this.contraproposta, 
-        candidatura_id: this.candidaturaId,
-        updateId: this.$route.params.id
+        candidatura_id: this.candidaturaId
       }
       if(!this.edicao){
         await this.$store.dispatch(actionTypes.CREATE_NOVO_AGENDAMENTO, agendaPayload)
@@ -185,10 +196,9 @@ export default {
             }else{
               if(this.tipoPermissao == 'FISICA'){
                 console.log('deu bom fisica')
-                //this.$router.push({name: 'candidaturas', params:{editouEntrevista: true}})
+                this.$router.push({name: 'candidaturas', params:{editouAgenda: true}})
               }else{
-                console.log('deu bom juridica')
-                //this.$router.push({ name: 'agenda', params:{agendou: true} })
+                this.$router.push({ name: 'agenda', params:{editouAgendaSucesso: true} })
               }
             }
           })
@@ -203,8 +213,9 @@ export default {
       this.candidaturaId = this.$route.params.editCandidaturaId
     },
     loadDataToEdit(){
-      this.data = this.agendaById[0].data 
-      this.hora = this.agendaById[0].hora 
+     console.log(this.agendaById)
+     this.data = this.agendaById.data 
+     this.hora = this.$options.filters.hourFormat(this.agendaById.hora)  
     }
   }
 }

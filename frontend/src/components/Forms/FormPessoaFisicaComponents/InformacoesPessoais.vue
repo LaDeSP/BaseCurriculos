@@ -41,7 +41,14 @@
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker scrollable locale="pt-br" v-model="date" no-title @input="menu = false"></v-date-picker>
+          <v-date-picker 
+            ref="picker"
+            scrollable locale="pt-br" 
+            v-model="date" 
+            no-title
+            :max="new Date().toISOString().substr(0, 10)" 
+            min="1950-01-01"
+            @input="menu = false"></v-date-picker>
         </v-menu>
       </ValidationProvider>
       <ValidationProvider v-slot="{ errors }" name="select" rules="required">
@@ -322,6 +329,11 @@ export default {
       }else{
         return this.date
       }
+    }
+  },
+  watch: {
+    menu(val){
+      val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
     }
   },
   methods: {

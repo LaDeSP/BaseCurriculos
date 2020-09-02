@@ -26,11 +26,10 @@
               <v-col cols="12" lg="6" md="6" sm="12" v-for="candidatura in pageOfItems" :key="candidatura.id">
                 <v-card class="py-2">
                   <v-card-title class="primary--text">
-                    <h3>{{candidatura.vaga.titulo}}</h3>
+                    <h3>{{candidatura.curriculo.fisica.user.name}} </h3>
                   </v-card-title>
                   <v-card-text class="black--text" align="left">
                     <span>
-                      <strong>Nome:</strong> {{candidatura.curriculo.fisica.user.name}} <br/>
                       <strong>Objetivos: </strong> {{candidatura.curriculo.objetivos}} <br/>
                       <strong>Pretensão Salarial: </strong> {{candidatura.curriculo.pretensao}} <br/>
                     </span>

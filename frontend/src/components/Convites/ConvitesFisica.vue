@@ -1,12 +1,26 @@
 <template>
- <v-tabs
+<span>
+  <v-snackbar
+    top
+    v-model="snackbar"
+    :timeout="timeout"
+  >{{notificacao}}
+    <template v-slot:action="{ attrs }">
+      <v-btn
+        color="primary"
+        text
+        v-bind="attrs"
+        @click="snackbar = false"
+      >Fechar</v-btn>
+    </template>
+  </v-snackbar>
+  <v-tabs
     v-model="tab"
     centered
     color="basil"
     grow
     show-arrows
   >
- 
     <v-tab href="#tab-1" class="info lighten-3" @click="active = 'TODOS'">Todos</v-tab>
     <v-tab href="#tab-2" class="amber lighten-3" @click="active = 'AGUARDANDO'">Aguardando</v-tab>
     <v-tab href="#tab-3" class="green darken-1" @click="active = 'ACEITOU'">Aceitos</v-tab>
@@ -18,27 +32,12 @@
         :value="'tab-' + i"
       >
       <v-card align="center" min-height="300">
-        <v-snackbar
-          top
-          v-model="snackbar"
-          :timeout="timeout"
-        >{{notificacao}}
-          <template v-slot:action="{ attrs }">
-            <v-btn
-              color="primary"
-              text
-              v-bind="attrs"
-              @click="snackbar = false"
-            >Fechar</v-btn>
-          </template>
-        </v-snackbar>
         <v-card-text align="center" justify="center"> 
           <template v-if="getConvites.length == 0">
             <span style="font-size: 20px" class="my-10">Não há nenhum convite.</span>
           </template>
           <template v-else>
             <v-row class="my-5" justify="center">
-              sas {{convites}}
               <v-col cols="12" lg="6" md="6" sm="12" v-for="convite in pageOfItems" :key="convite.id">
                 <v-card class="py-2">
                   <v-card-title class="primary--text">
@@ -52,6 +51,9 @@
                     </span>
                   </v-card-text>
                   <v-card-actions class="text-center justify-center">
+                    <template v-if="convite.resposta == 'RECUSOU'">
+                      <v-chip class="red darken-3" dark>Você recusou esse convite.</v-chip>
+                    </template>
                     <template v-if="convite.resposta == 'AGUARDANDO'">
                       <ModalDetalhes :payload="verVaga">
                         <template v-slot:texto>
@@ -113,6 +115,7 @@
     </v-tab-item>
   </v-tabs-items>
   </v-tabs>
+</span>
 </template>
 
 
@@ -169,15 +172,13 @@ export default {
   },
   computed: {
     ...mapState(['convites']),
-    ...mapGetters([
-      'tipoPermissao'
-    ]),
+    ...mapGetters(['tipoPermissao', 'getConvitesDaVaga']),
     getConvites(){
       if(this.active == 'TODOS'){
         return this.convites
       }else{
         console.log('no else', this.active)
-        return this.convitesDaVaga.filter(filtered => {return filtered.resposta == this.active})
+        return this.convites.filter(filtered => {return filtered.resposta == this.active})
       }
     },
     convitesDaVaga(){

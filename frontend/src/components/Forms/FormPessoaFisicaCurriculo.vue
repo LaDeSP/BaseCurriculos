@@ -357,6 +357,7 @@ export default {
             this.pleaseWaitDialog = false
           }else{
             this.pleaseWaitDialog = false
+            this.$emit('isDataCompleted', true)
             //this.$router.push({ name: 'dashboard', params:{cadastroCurriculoSucesso: true} })
           }
         })

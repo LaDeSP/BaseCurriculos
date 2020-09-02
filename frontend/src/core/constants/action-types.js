@@ -34,6 +34,7 @@ export default {
     UPDATE_VAGA_STATUS: 'updateVagaStatus',
     UPDATE_USER_FISICA: 'updateUserFisica',
     UPDATE_USER_JURIDICA: 'updateUserJuridica',
+    UPDATE_AGENDAMENTO: 'updateAgendamento',
     REQUEST_VAGA_DASH: 'requestVagaDash',
     
     REATIVAR_CONTA: 'reativarConta',
@@ -41,7 +42,6 @@ export default {
     DELETE_USER_PIC: 'deleteUserPic',
     DESATIVAR_CONTA: 'desativaConta',
     CANCELAR_CANDIDATURA: 'cancelarCandidatura',
-    CANCELAR_AGENDAMENTO: 'cancelarAgendamento',
     CANCELAR_ENTREVISTA: 'cancelarEntrevista',
     CANCELAR_CONVITE: 'cancelarConvite',
 
