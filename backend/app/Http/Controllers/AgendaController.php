@@ -28,8 +28,13 @@ class AgendaController extends Controller
                         ->orderBy('created_at', 'desc')
                         ->get();
     
-           $countAgenda = count($agenda);
-           
+            $countAgenda = 0;
+
+            foreach($agenda as $value){
+                if($value->candidatura->status != 'CONTRATADO' && $value->candidatura->status != 'RECUSADO' && $value->candidatura->status != 'ENTREVISTA CANCELADA'){
+                    $countAgenda++;
+                }
+            }
             return Response::json([
                 'agenda' => $agenda,
                 'countAgenda' => $countAgenda
@@ -205,6 +210,20 @@ class AgendaController extends Controller
         return Response::json([
             'cancelou entrevista',
             'updateAgenda' => $this->index()->original,
+            'role' => auth()->user()->role
+        ]);
+
+    }
+
+    
+    public function destroy($id){
+
+        $agenda = Agenda::find($id);
+        
+        $agenda->delete();
+
+        return Response::json([
+            'updateCandidaturas' => $this->index()->original,
             'role' => auth()->user()->role
         ]);
 

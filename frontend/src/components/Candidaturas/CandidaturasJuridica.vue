@@ -99,21 +99,8 @@ export default {
   computed: {
     ...mapState(['candidaturas']),
     ...mapGetters([
-      'tipoPermissao', 'getCandidaturasFiltradas', 'getCandidaturasDaVaga',
-      'getCandidaturasFinalizadas', 'getVagasThatHaveCandidaturas'
-    ]),
-    getCandidaturas(){
-      if(this.active == 'TODAS'){
-        return this.candidaturas
-      }else if(status == 'FINALIZADAS'){
-        return this.getCandidaturasFinalizadas(this.active)
-      }else{
-        return this.getCandidaturasFiltradas(this.active)
-      }
-    },
-    candidaturasDaVaga(){
-      return this.getCandidaturasDaVaga(this.vagaId)
-    }
+      'tipoPermissao', 'getVagasThatHaveCandidaturas'
+    ])
   },
   methods: {
     onChangePage(pageOfItems) {

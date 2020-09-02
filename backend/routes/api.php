@@ -73,5 +73,6 @@ Route::group([
     Route::post('/logout', 'UserController@logout');
     Route::get('/users', 'UserController@index');
     Route::post('/userStatus', 'UserController@handleUserStatus');
+    Route::post('/finalizarCandidatura', 'CandidaturaController@finalizarCandidatura');
 });
 Route::post('/activate/{id}', 'UserController@activateAccount');

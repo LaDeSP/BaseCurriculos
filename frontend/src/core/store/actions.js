@@ -153,11 +153,14 @@ export default {
     }
     return response.data
   },
-  async [actionTypes.CANCELAR_CANDIDATURA]({commit, state}, candidaturaId){
-    const response = await api.candidaturas.deleteCandidatura(state, candidaturaId)
-    let payloadCancelarCandidatura = {'candidaturaId': candidaturaId, 'role': state.auth.user.role}
-    console.log('CANCELAR_CANDIDATURA', response)
-    commit(mutationTypes.SET_CANDIDATURAS, response.data.updateCandidaturas.candidaturas)
+  async [actionTypes.FINALIZAR_CANDIDATURA]({commit, state}, payload){
+    const response = await api.candidaturas.finalizarCandidatura(state, payload)
+    console.log('FINALIZAR_CANDIDATURA', response)
+    if(payload.status == 'RECUSADO'){
+      commit(mutationTypes.DELETE_CANDIDATURA_CANCELADA, payload)
+      commit(mutationTypes.SET_VAGAS_COM_CANDIDATURAS, response.data.candidaturas.vagasCandidaturas)
+    }
+    //commit(mutationTypes.SET_CANDIDATURAS, response.data.updateCandidaturas.candidaturas)
   },
   async [actionTypes.CANCELAR_ENTREVISTA]({commit, state}, agendamentoPayload){
     const response = await api.agendamento.cancelAgendamento(state, agendamentoPayload)
@@ -204,6 +207,7 @@ export default {
   },
   async [actionTypes.GET_AGENDA]({commit, state}, status){
     const response = await api.agendamento.getAgenda(state)
+    console.log('GET_AGENDA', response)
     commit(mutationTypes.SET_AGENDA, response.data.agenda)
     commit(mutationTypes.SET_COUNTER_AGENDA, response.data.countAgenda)
     return response.data

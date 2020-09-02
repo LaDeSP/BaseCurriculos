@@ -23,9 +23,10 @@
             <v-btn outlined color="red" @click="dialog = false">Fechar</v-btn>
           </template>
           <template v-if="payload.action == 'ver curriculo' && payload.hasCardActions">
-            <ModalAlert :payload="recusarCandidato">
+            <ModalAlert :payload="recusarCandidato" :candidaturaId="candidaturaId" >
               <template>
-                <h1 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>recusar</strong></span> esse candidato?</h1>
+                <h1 class="text-center line-height">Tem certeza de que deseja <span style="color: #ff0000"><strong>recusar</strong></span> esse candidato?</h1>
+                <h2 class="text-center mt-4">Essa ação não poderá ser desfeita!</h2>
               </template>
             </ModalAlert>
           </template>
@@ -77,7 +78,7 @@ export default {
           },
           recusarCandidato: {
             'title': 'Recusar Candidato',
-            action: 'recusar candidato'
+            action: 'recusar candidatura'
           }
         }
     },

@@ -78,7 +78,6 @@ export default {
         state.agenda = payload
     },
     [mutationTypes.SET_COUNTER_AGENDA](state, payload){
-        console.log('VEIO NO MUT DO COUNTER')
         state.counter.agenda = payload
     },
     [mutationTypes.SET_COUNTER_VAGAS_ATIVAS](state, payload){
@@ -88,13 +87,8 @@ export default {
         state.counter.candidaturas = payload
     },
     [mutationTypes.DELETE_CANDIDATURA_CANCELADA](state, payload){
-        if(payload.role == 'FISICA'){
-            let index = state.candidaturas.findIndex(candidatura => candidatura.id == payload.candidaturaId)
-            state.candidaturas.splice(index, 1)
-        }else{
-            let index = state.agendas.findIndex(agenda => agenda.candidatura_id == payload.candidaturaId)
-            state.candidaturas.splice(index, 1)
-        }
+        let index = state.candidaturas.findIndex(candidatura => candidatura.id == payload.candidaturaId)
+        state.candidaturas.splice(index, 1)
     },
     [mutationTypes.JURIDICA_USERS](state, payload){
         state.juridicaUsers = payload

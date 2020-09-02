@@ -32,6 +32,8 @@ export default {
 </script>
 
 <style lang="stylus">
+  .line-height
+    line-height 35px
   .same-size-card 
     overflow-y auto
     height 280px

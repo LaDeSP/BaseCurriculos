@@ -41,7 +41,7 @@ export default {
 
     DELETE_USER_PIC: 'deleteUserPic',
     DESATIVAR_CONTA: 'desativaConta',
-    CANCELAR_CANDIDATURA: 'cancelarCandidatura',
+    FINALIZAR_CANDIDATURA: 'finalizarCandidatura',
     CANCELAR_ENTREVISTA: 'cancelarEntrevista',
     CANCELAR_CONVITE: 'cancelarConvite',
 

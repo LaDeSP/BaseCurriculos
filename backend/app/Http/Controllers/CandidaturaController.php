@@ -27,6 +27,7 @@ class CandidaturaController extends Controller
                                 ->whereHas('vaga', function($query) use ($juridica_id){ 
                                     $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
                                 })
+                                ->where('status', '!=', 'RECUSADO')
                                 ->orderBy('created_at', 'desc')
                                 ->get();
 
@@ -139,23 +140,39 @@ class CandidaturaController extends Controller
         ], 201);   
     }
 
-    public function recusaCandidato($id){
+    public function finalizarCandidatura(Request $request){
+        $candidatura_id = $request->candidaturaId; 
+        $user_id = auth()->user()->id;
+        if($request->status == 'CONTRATADO'){
+            Candidatura::where('id', $candidatura_id)->update(array(
+                'status' => 'CONTRATADO'
+            ));
+        }else if($request->status == 'RECUSADO'){
+            Candidatura::where('id', $candidatura_id)->update(array(
+                'status' => 'RECUSADO'
+            ));
+        }
+        if(Juridica::where('user_id', $user_id)->exists()){
+            $juridica_id = Juridica::where('user_id', $user_id)->first()->id;
+            $agenda =  Agenda::with(['candidatura.vaga', 'candidatura.curriculo.fisica.user'])
+                        ->whereHas('candidatura.vaga.juridica', function($query) use ($juridica_id){ 
+                            $query->where('id', '=', $juridica_id);
+                        })
+                        ->orderBy('created_at', 'desc')
+                        ->get();
 
-        $candidatura_id = $id;
-        $candidatura = Candidatura::findOrFail($candidatura_id);
-        $candidatura->status = "RECUSADO";
-       
-        $candidatura->update();
-        
-
-        return Response::json([
-            'recusou candidato',
-            
-            'role' => auth()->user()->role
-        ]);
-
+            $countAgenda = count($agenda);
+            return Response::json([
+                'agenda' => $agenda,
+                'candidaturas' => $this->index()->original,
+                'countAgenda' => $countAgenda
+            ]);
+        }else{
+            return Response::json([
+                'candidaturas' => $this->index()->original
+            ]);
+        }
     }
-
 
     public function destroy($id){
 

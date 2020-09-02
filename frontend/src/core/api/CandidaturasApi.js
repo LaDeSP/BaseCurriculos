@@ -6,9 +6,8 @@ const createCandidatura = async (state, vagaPayload) => {
 const getCandidaturas = async (state) => {
     return await axios.get(`candidaturas?token=${state.auth.token}`)
 }
-const deleteCandidatura = async (state, candidaturaId) => {
-    console.log('no api ', candidaturaId)
-    return await axios.delete(`candidaturas/${candidaturaId}?token=${state.auth.token}`)
+const finalizarCandidatura = async (state, payload) => {
+    return await axios.post(`finalizarCandidatura?token=${state.auth.token}`, payload)
 }
 const recusarCandidatura = async (state, candidaturaId) => {
     return await axios.delete(`recusarCandidato/${candidaturaId}?token=${state.auth.token}`, candidaturaId)
@@ -17,7 +16,7 @@ const recusarCandidatura = async (state, candidaturaId) => {
 export default {
     createCandidatura,
     getCandidaturas,
-    deleteCandidatura,
+    finalizarCandidatura,
     recusarCandidatura
    
 }

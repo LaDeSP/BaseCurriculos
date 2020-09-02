@@ -45,7 +45,7 @@ const getVagasThatHaveCandidaturas = state => {
       case 'AGUARDANDO':
       case 'EM AGENDAMENTO':
         return filtered
-    }
+    } 
   })
 }
 const getCandidaturasDaVaga = state => (vagaId) => {

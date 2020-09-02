@@ -54,7 +54,7 @@
                             <v-card-title class="justify-center text-center primary--text">
                               <h3>Candidato: {{agendamento.candidatura.curriculo.fisica.user.name}}</h3>
                               <v-spacer></v-spacer>
-                              <v-chip class="black--text" :color="getColor(agendamento.candidatura.status)" dark>{{agendamento.candidatura.status}}</v-chip>
+                              <v-chip :color="getColor(agendamento.candidatura.status)" dark>{{agendamento.candidatura.status}}</v-chip>
                             </v-card-title>
                             <v-card-text align="left" class="black--text">
                               <strong>Vaga:</strong> {{agendamento.candidatura.vaga.titulo}} <br/>

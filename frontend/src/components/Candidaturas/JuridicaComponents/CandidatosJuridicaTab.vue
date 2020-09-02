@@ -42,10 +42,10 @@
                             <v-col>
                               <h2 class="mb-1">Informações Pessoais</h2>
                               <strong>Nome Completo:</strong> {{candidatura.curriculo.fisica.user.name}} <br/>
-                              <strong>Data de Nascimento:</strong> {{candidatura.curriculo.fisica.data_nascimento}} <br/>
+                              <strong>Data de Nascimento:</strong> {{candidatura.curriculo.fisica.data_nascimento | dateFormat}} <br/>
                               <strong>Gênero:</strong> {{candidatura.curriculo.fisica.genero}} <br/>
                               <strong>Estado Civil:</strong> {{candidatura.curriculo.fisica.estado_civil}} <br/>
-                              <strong>CPF:</strong> {{candidatura.curriculo.fisica.cpf}} <br/> <br/>
+                              <strong>CPF:</strong> {{candidatura.curriculo.fisica.cpf}} <br/> 
                             </v-col>
                             <v-col>
                               <h2 class="mb-1" v-if="candidatura.curriculo.fisica.contato.twitter || 
@@ -125,6 +125,7 @@ import {actionTypes} from '@/core/constants'
 import {mapState, mapGetters} from 'vuex'
 import ModalAlert from '@/components/Utils/ModalAlert'
 import ModalDetalhes from '@/components/Utils/ModalDetalhes'
+import moment from 'moment'
 
 const customLabels = {
   first: "Primeira",
@@ -168,6 +169,13 @@ export default {
         'action': 'cancelar entrevista'
       },
       active: 'TODAS'
+    }
+  },
+  filters:{
+    dateFormat: function(value){
+      if (value) {
+        return moment(String(value)).format('DD/MM/YYYY')
+      }
     }
   },
   created(){

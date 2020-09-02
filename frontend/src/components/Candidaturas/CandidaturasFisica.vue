@@ -29,6 +29,13 @@
                 <v-card class="flex d-flex flex-column">
                   <v-card-title class="primary--text">
                     <h3>{{candidatura.vaga.titulo}}</h3>
+                    <v-spacer></v-spacer>
+                    <template v-if="candidatura.status == 'CONTRATADO'">
+                      <v-chip class="success darken-3" dark>Contratado</v-chip>
+                    </template>
+                    <template v-if="candidatura.status == 'RECUSADO'">
+                      <v-chip class="grey darken-1" dark>Recusado</v-chip>
+                    </template>
                   </v-card-title>
                   <v-card-text class="black--text" align="left">
                     <span>
@@ -87,15 +94,6 @@
                           <h2 class="text-center mt-4">Essa ação não poderá ser desfeita!</h2>
                         </slot>
                       </ModalAlert>
-                    </template>
-                    <template v-if="candidatura.status == 'CONTRATADO'">
-                      <v-chip class="success darken-3" dark>Contratado</v-chip>
-                    </template>
-                    <template v-if="candidatura.status == 'RECUSADO'">
-                      <v-chip class="grey darken-1" dark>Recusado</v-chip>
-                    </template>
-                    <template v-if="candidatura.status == 'ENTREVISTA CANCELADA'">
-                      <v-chip class="red darken-3" dark>A entrevista dessa candidatura foi cancelada.</v-chip>
                     </template>
                   </v-card-actions>
                 </v-card>

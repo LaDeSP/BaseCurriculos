@@ -52,11 +52,11 @@ export default {
       this.dialog = false
     },
     async cancelAction(){
-      console.log('conviteId', this.conviteId)
       let agenda = {}
       switch (this.payload.action) {
-        case 'cancelar candidatura':
-          await this.$store.dispatch(actionTypes.CANCELAR_CANDIDATURA, this.candidaturaId)
+        case 'recusar candidatura':
+          console.log('recysar candidatura', this.candidaturaId)
+          await this.$store.dispatch(actionTypes.FINALIZAR_CANDIDATURA, {candidaturaId: this.candidaturaId, status: 'RECUSADO'})
           break;
         case 'cancelar agendamento':
           agenda = {observacao: this.observacaoCancelamento, candidatura_id: this.candidaturaId, recusa: 'ENTREVISTA CANCELADA'}
