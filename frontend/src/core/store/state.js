@@ -17,8 +17,6 @@ export default{
   vagasCandidaturas: [],
   progressBar: [],
   vagasConvites: [],
-  dataCompleted: false,
-  hasVaga: false,
   resultado: [],
   agenda: [],
   convites: [],

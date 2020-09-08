@@ -49,30 +49,27 @@ export default {
   methods: {
     getStyle(status){
       if(status == 'AGUARDANDO' || status == 'EM AGENDAMENTO'){
-        this.icon = 'fas fa-spinner fa-pulse'
         return 'mt-2 warning--text'
       }else if(status == 'ENTREVISTA CONFIRMADA'){
-        this.icon = 'fas fa-check-circle'
         return 'success--text'
       }else if(status == 'RECUSADO'){
-        this.icon = 'fas fa-frown-open'
         return 'red--text'
       }else if(status == 'ENTREVISTA CANCELADA'){
-        this.icon = 'fas fa-calendar-times'
         return 'red--text'
       }else if(status == 'CONTRATADO'){
-        this.icon = 'fas fa-smile'
         return 'success--text'
       }
     },
     getIcons(status){
       switch (status) {
         case 'AGUARDANDO':
+          return 'yellow--text text--darken-2 fas fa-clock'
+          break;
         case 'EM AGENDAMENTO':
-          return 'warning--text fas fa-spinner fa-pulse'
+          return 'warning--text fas fa-calendar-alt'
           break;
         case 'ENTREVISTA CONFIRMADA':
-          return 'success--text fas fa-check-circle'
+          return 'success--text fas fa-calendar-check'
           break;
         case 'RECUSADO':
           return 'red--text fas fa-frown-open'

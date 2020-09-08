@@ -162,15 +162,14 @@ export default {
     }
     //commit(mutationTypes.SET_CANDIDATURAS, response.data.updateCandidaturas.candidaturas)
   },
-  async [actionTypes.CANCELAR_ENTREVISTA]({commit, state}, agendamentoPayload){
-    const response = await api.agendamento.cancelAgendamento(state, agendamentoPayload)
-    console.log('CANCELAR_ENTREVISTA', response)
-    commit(mutationTypes.SET_AGENDA, response.data.updateAgenda.agenda)
-  },
   async [actionTypes.CANCELAR_AGENDAMENTO]({commit, state}, agendamentoPayload){
     const response = await api.agendamento.cancelAgendamento(state, agendamentoPayload)
     console.log('CANCELAR_AGENDAMENTO', response)
-    commit(mutationTypes.SET_AGENDA, response.data.updateAgenda.agenda)
+    if(state.auth.user.role == 'JURIDICA'){
+      commit(mutationTypes.SET_AGENDA, response.data.updateAgenda.agenda)
+    }else{
+      commit(mutationTypes.SET_CANDIDATURAS, response.data.candidaturas)
+    }
   },
   async [actionTypes.CREATE_NOVO_AGENDAMENTO]({commit, state}, agendaPayload){
     const response = await api.agendamento.createAgendamento(state, agendaPayload)
@@ -181,6 +180,7 @@ export default {
     const response = await api.vagas.getVagasDaPessoaJuridicaLogada(state)
     commit(mutationTypes.SET_COUNTER_VAGAS_ATIVAS, response.data.countVagas)
     commit(mutationTypes.SET_VAGAS, response.data.vagas)
+    if(response.data.vagas.length > 0) commit(mutationTypes.SET_HAS_VAGA, true)
     return response.data
   },
   async [actionTypes.GET_JURIDICA_USERS]({commit, state}){
@@ -285,9 +285,20 @@ export default {
     console.log('RESPOSTA_CONVITE', response)
     commit(mutationTypes.SET_CONVITES, response.data.convites.convites)
   },
+  async [actionTypes.CONFIRM_AGENDAMENTO]({commit, state}, candidaturaId){
+    const response = await api.agendamento.confirmAgendamento(state, candidaturaId)
+    console.log('CONFIRM_AGENDAMENTO', response)
+    commit(mutationTypes.SET_AGENDA, response.data.agenda) 
+    commit(mutationTypes.SET_CANDIDATURAS, response.data.candidaturas)
+  },
   async [actionTypes.UPDATE_AGENDAMENTO]({commit, state}, agenda){
     const response = await api.agendamento.updateAgendamento(state, agenda)
     console.log('UPDATE_AGENDAMENTO', response)
     return response.data
+  },
+  async [actionTypes.CANCELAR_CANDIDATURA]({commit, state}, candidaturaId){
+    const response = await api.candidaturas.cancelCandidatura(state, candidaturaId)
+    console.log('CANCELAR_CANDIDATURA', response)
+    commit(mutationTypes.SET_CANDIDATURAS, response.data.updateCandidaturas.candidaturas) 
   },
 }

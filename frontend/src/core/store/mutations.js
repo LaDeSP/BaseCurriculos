@@ -13,7 +13,6 @@ export default {
     [mutationTypes.LOGOUT](state){
         state.auth = {}
         state.upload.path = ''
-        state.dataCompleted = false
         state.candidaturas = []
         state.convites = []
         state.vagas = []
@@ -29,7 +28,10 @@ export default {
         state.tipoPermissao = payload
     },
     [mutationTypes.SET_DATA_COMPLETED](state, payload){
-        state.dataCompleted = payload
+        state.auth.dataCompleted = payload
+    },
+    [mutationTypes.SET_HAS_VAGA](state, payload){
+        state.auth.hasVaga = payload
     },
     [mutationTypes.SET_NEW_USER_PIC](state, payload){
         state.upload.path = payload

@@ -58,15 +58,14 @@ export default {
           console.log('recysar candidatura', this.candidaturaId)
           await this.$store.dispatch(actionTypes.FINALIZAR_CANDIDATURA, {candidaturaId: this.candidaturaId, status: 'RECUSADO'})
           break;
+        case 'cancelar candidatura':
+          console.log('cancelar candidatura', this.candidaturaId)
+          await this.$store.dispatch(actionTypes.CANCELAR_CANDIDATURA, this.candidaturaId)
+          break;
         case 'cancelar agendamento':
           agenda = {observacao: this.observacaoCancelamento, candidatura_id: this.candidaturaId, recusa: 'ENTREVISTA CANCELADA'}
           console.log('cancel agendamento', agenda)
-          await this.$store.dispatch(actionTypes.CANCELAR_ENTREVISTA, agenda)
-          break;
-        case 'cancelar entrevista':
-          agenda = {observacao: this.observacaoCancelamento, candidatura_id: this.candidaturaId, recusa: 'ENTREVISTA CANCELADA'}
-          console.log('cancel', agenda)
-          await this.$store.dispatch(actionTypes.CANCELAR_ENTREVISTA, agenda)
+          await this.$store.dispatch(actionTypes.CANCELAR_AGENDAMENTO, agenda)
           break;
         case 'cancelar convite':
           let convite = {convite_id: this.conviteId}

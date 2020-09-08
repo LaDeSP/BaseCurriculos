@@ -10,7 +10,7 @@
     <v-col cols="10" md="12" sm="10">
       <router-link to="/candidaturas">
         <v-btn class="mr-1">
-          <v-icon class="pr-1">fa fa-eye</v-icon> Candidaturas
+          <v-icon class="pr-1">fas fa-file</v-icon> Candidaturas
         </v-btn>
       </router-link>
       <router-link to="/dashboard">
@@ -54,7 +54,7 @@
                             <v-card-title class="justify-center text-center primary--text">
                               <h3>Candidato: {{agendamento.candidatura.curriculo.fisica.user.name}}</h3>
                               <v-spacer></v-spacer>
-                              <v-chip :color="getColor(agendamento.candidatura.status)" dark>{{agendamento.candidatura.status}}</v-chip>
+                              <v-chip :color="getColor(agendamento.candidatura.status)">{{agendamento.candidatura.status}}</v-chip>
                             </v-card-title>
                             <v-card-text align="left" class="black--text">
                               <strong>Vaga:</strong> {{agendamento.candidatura.vaga.titulo}} <br/>
@@ -79,10 +79,10 @@
                                 <ModalAlert 
                                   :candidaturaId="agendamento.candidatura.id" 
                                   :observacaoCancelamento="observacaoCancelamento" 
-                                  :payload="cancelarEntrevista"
+                                  :payload="cancelarAgendamento"
                                 >
                                   <slot>
-                                    <h1 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> a entrevista agendada?</h1>
+                                    <h1 class="text-center line-height">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> a entrevista agendada?</h1>
                                     <h3 class="mt-3" align="center">Você pode fazer uma observação para o candidato:</h3>
                                     <v-textarea
                                       class="mt-3"
@@ -150,9 +150,9 @@ export default {
       active: 'ALL',
       customLabels,
       isLoaded: false,
-      cancelarEntrevista: {
-        'title': 'Cancelar Entrevista',
-        'action': 'cancelar entrevista'
+      cancelarAgendamento: {
+        'title': 'Cancelar Agendamento',
+        'action': 'cancelar agendamento'
       }
     }
   },

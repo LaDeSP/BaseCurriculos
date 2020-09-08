@@ -355,9 +355,11 @@ export default {
           if(response.error != undefined){
             this.notificacoes = response.error
             this.pleaseWaitDialog = false
+            console.log('erro form curriculo')
           }else{
             this.pleaseWaitDialog = false
             this.$emit('isDataCompleted', true)
+            console.log('emited is datacompleted')
             //this.$router.push({ name: 'dashboard', params:{cadastroCurriculoSucesso: true} })
           }
         })

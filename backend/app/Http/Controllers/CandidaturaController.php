@@ -181,8 +181,7 @@ class CandidaturaController extends Controller
         $candidatura->delete();
 
         return Response::json([
-            'updateCandidaturas' => $this->index()->original,
-            'role' => auth()->user()->role
+            'updateCandidaturas' => $this->index()->original
         ]);
 
     }

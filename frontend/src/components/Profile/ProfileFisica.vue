@@ -25,7 +25,13 @@
       <template v-if="tab == 'tab-1'">
         <v-card align="center">
           <v-card-text class="black--text">
-            <v-img class="rounded-circle" height="400px" width="400" :src="avatar">
+            <v-img class="rounded-circle"  
+              min-height="250"
+              max-height="250" 
+              width="250"
+              min-width="250"
+              max-width="250"
+              :src="upload.path">
             </v-img>
             <template v-if="modoEdicao">
               <FormPessoaFisicaCurriculo :edicao="modoEdicao"></FormPessoaFisicaCurriculo>
@@ -208,7 +214,6 @@ export default {
   components: {FormPessoaFisicaCurriculo, ModalAlert},
   data(){
     return{
-      avatar: this.$store.state.upload.path,
       nome: this.$store.state.auth.user.name,
       modoEdicao: false,
       isLoaded: false,
@@ -232,7 +237,7 @@ export default {
     console.log('modo edicao no profile?', this.modoEdicao)
   },
   computed:{
-    ...mapState(['pessoaFisicaInfo', 'pessoaFisicaCurriculo'])
+    ...mapState(['pessoaFisicaInfo', 'pessoaFisicaCurriculo', 'upload'])
   },
   methods:{
     async getFisicaProfile(){

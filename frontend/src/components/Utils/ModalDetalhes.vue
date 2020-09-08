@@ -29,6 +29,11 @@
                 <h2 class="text-center mt-4">Essa ação não poderá ser desfeita!</h2>
               </template>
             </ModalAlert>
+            <router-link :to="`/agenda/new/${candidaturaId}`">
+              <v-btn color="success" class="ml-1">
+                Agendar Entrevista
+              </v-btn>
+            </router-link>
           </template>
           <template v-if="payload.action == 'ver agendamento'">
            <ModalAlert 
@@ -37,7 +42,7 @@
               :payload="cancelarAgendamento"
             >
               <slot>
-                <h1 class="text-center">Tem certeza de que deseja <span style="color: #ff0000">
+                <h1 class="text-center line-height">Tem certeza de que deseja <span style="color: #ff0000">
                   <strong>cancelar</strong></span> o processo de agendamento?</h1>
                 <h3 class="mt-3" align="center">Você pode fazer uma observação:</h3>
                 <v-textarea
@@ -66,7 +71,8 @@ export default {
     components: {ModalAlert},
     props:{
       payload: Object,
-      candidaturaId: Number
+      candidaturaId: Number,
+      candidatura: Object
     },
     data(){
         return{
@@ -90,11 +96,7 @@ export default {
         this.dialog = false
       },
       async agendarEntrevista(){
-        let candidatura = {
-          candidatura_id: this.candidaturaId
-        }
-
-        await this.$store.dispatch(actionTypes.FINALIZAR_AGENDAMENTO)
+        await this.$store.dispatch(actionTypes.CONFIRM_AGENDAMENTO, {candidaturaId: this.candidaturaId})
       }
     }
 }

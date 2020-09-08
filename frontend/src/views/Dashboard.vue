@@ -9,12 +9,12 @@
       </v-col>
         <template v-if="tipoPermissao == 'FISICA'">
           <v-col cols="10" lg="8" md="12" sm="12" xs="2">
-            <template v-if="isLoaded && dataCompleted">
+            <template v-if="isLoaded && auth.dataCompleted && refresh">
               <MinhasCandidaturas></MinhasCandidaturas>
               <MeusConvites></MeusConvites>
               <VagasRecomendadas></VagasRecomendadas>
             </template>
-             <template v-else-if="isLoaded && !dataCompleted">
+             <template v-else-if="isLoaded && !auth.dataCompleted">
               <h1 class="text-center justify-center">Complete seus dados para continuar!</h1>
               <FormPessoaFisicaCurriculo :edicao="false" @isDataCompleted="getDataFlag"></FormPessoaFisicaCurriculo>  
             </template>
@@ -22,7 +22,7 @@
         </template>
         <template v-else-if="tipoPermissao == 'JURIDICA'">
           <v-row align="center" justify="center">  
-            <template v-if="isLoaded && dataCompleted && hasVaga">
+            <template v-if="isLoaded && auth.dataCompleted && auth.hasVaga">
               <span class="pagina"><v-icon class="pagina">fas fa-home fa-lg</v-icon> Home</span>
               <TopCards></TopCards>
               <v-row justify="center">
@@ -34,15 +34,15 @@
                 </v-col>
               </v-row>
             </template>
-            <template v-else-if="isLoaded && !dataCompleted">
+            <template v-else-if="isLoaded && !auth.dataCompleted">
               <v-col cols="10" lg="10" md="6" sm="8">
                 <h1 class="text-center justify-center">Complete seus dados para continuar!</h1>
                 <FormPessoaJuridicaData @handleNotifSuccess="getNotifSuccess"></FormPessoaJuridicaData>
               </v-col>
             </template>
           </v-row>    
-          <template v-if="isLoaded && dataCompleted && !hasVaga">
-            <v-col cols="10" lg="10" md="6" sm="8">
+          <template v-if="isLoaded && auth.dataCompleted && !auth.hasVaga">
+            <v-col cols="10" lg="10" md="10" sm="10">
               <FormCreateVaga :title="titlePrimeiraVaga"></FormCreateVaga>
             </v-col>
           </template>
@@ -78,8 +78,8 @@ export default {
   data(){
     return {
       notificacao: '',
-      hasVaga: false,
       isLoaded: false,
+      refresh: false,
       titlePrimeiraVaga: 'Que tal cadastrar sua primeira vaga?'
     }
   },
@@ -88,7 +88,7 @@ export default {
     await this.loadUserData()
   },
   computed: {
-    ...mapState(['dataCompleted']), 
+    ...mapState(['auth']), 
     ...mapGetters(['tipoPermissao'])
   }, 
   methods: {
@@ -107,19 +107,18 @@ export default {
       if(this.tipoPermissao == 'FISICA'){
         console.log('tipo permissao fisica if')
         await this.$store.dispatch(actionTypes.GET_PESSOA_FISICA)
-        if(this.dataCompleted){
+        if(this.auth.dataCompleted){
+          console.log('no if, created, data completed, fisica')
           await this.$store.dispatch(actionTypes.GET_CANDIDATURAS)
           await this.$store.dispatch(actionTypes.GET_VAGAS_RECOMENDADAS)
           await this.$store.dispatch(actionTypes.GET_TODOS_CONVITES)
+          this.refresh = true
         }
         this.isLoaded = true
       }else if(this.tipoPermissao == 'JURIDICA'){
         await this.$store.dispatch(actionTypes.GET_PESSOA_JURIDICA)
-        if(this.dataCompleted){
+        if(this.auth.dataCompleted){
           await this.$store.dispatch(actionTypes.GET_VAGAS_JURIDICAS)
-            .then(response => {
-              if(response.vagas.length > 0) this.hasVaga = true 
-            })
           await this.$store.dispatch(actionTypes.GET_CANDIDATURAS)
           await this.$store.dispatch(actionTypes.GET_AGENDA)
           await this.$store.dispatch(actionTypes.GET_TODOS_CONVITES)
@@ -129,9 +128,11 @@ export default {
       }      
     },
     async getDataFlag(value){
+      console.log('gerDaraFkag', value, this.$store.state.auth)
       if(value){
         this.notificacao = 'Seu currículo foi cadastrado com sucesso!'
         await this.$store.dispatch(actionTypes.GET_VAGAS_RECOMENDADAS)
+        this.refresh = true
       }
     },
     getNotifSuccess(value){

@@ -18,7 +18,7 @@
    </template>
    <template v-if="getVagasAtivas.length > 0">
     <h2 class="text-center my-4">Vagas que podem lhe interessar</h2>
-    <v-row class="my-5">
+    <v-row class="my-5" align="center">
       <v-col cols="12" lg="6" md="6" sm="6" v-for="vaga in pageOfItems" :key="vaga.id">
         <v-card class="py-5">
           <v-card-title class="primary--text text-center justify-center">
@@ -62,6 +62,9 @@
         </template>
       </v-col>
     </v-row>
+   </template>
+   <template v-else>
+    <h2 class="text-center my-4">Não temos nenhuma vaga para recomendar no momento. </h2>
    </template>
   </div>
 </template>

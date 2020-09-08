@@ -42,9 +42,11 @@ export default {
     DELETE_USER_PIC: 'deleteUserPic',
     DESATIVAR_CONTA: 'desativaConta',
     FINALIZAR_CANDIDATURA: 'finalizarCandidatura',
-    CANCELAR_ENTREVISTA: 'cancelarEntrevista',
     CANCELAR_CONVITE: 'cancelarConvite',
+    CANCELAR_CANDIDATURA: 'cancelarCandidatura',
+    CANCELAR_AGENDAMENTO: 'cancelarAgendamento',
 
     HANDLE_USER_STATUS: 'handleUserStatus',
-    RESPOSTA_CONVITE: 'respostaConvite'
+    RESPOSTA_CONVITE: 'respostaConvite',
+    CONFIRM_AGENDAMENTO: 'confirmAgendamento'
 } 
