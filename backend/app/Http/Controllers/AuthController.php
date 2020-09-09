@@ -11,9 +11,10 @@ use Illuminate\Auth\Events\PasswordReset;
 
 class AuthController extends Controller
 {
-
-    use SendsPasswordResetEmails;
-
+    use SendsPasswordResetEmails, ResetsPasswords {
+        SendsPasswordResetEmails::broker insteadof ResetsPasswords;
+        ResetsPasswords::credentials insteadof SendsPasswordResetEmails;
+    }
 
     public function sendPasswordResetLink(Request $request)
     {

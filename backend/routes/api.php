@@ -78,4 +78,4 @@ Route::post('/activate/{id}', 'UserController@activateAccount');
 Route::post('reset-password', 'AuthController@sendPasswordResetLink');
         
 // handle reset password form process
-Route::post('reset/password', 'AuthController@callResetPassword');
+Route::post('input-password', 'AuthController@callResetPassword');

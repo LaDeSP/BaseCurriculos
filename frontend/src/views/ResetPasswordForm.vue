@@ -42,7 +42,7 @@ export default {
     },
     methods: {
         resetPassword() {
-            this.$http.post("http://localhost:8000/api/reset/password", {
+            this.$http.post("http://localhost:8000/api/input-password", {
                 token: this.$route.params.token,
                 email: this.email,
                 password: this.password,
