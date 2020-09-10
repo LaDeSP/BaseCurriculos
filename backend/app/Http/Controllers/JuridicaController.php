@@ -30,6 +30,7 @@ class JuridicaController extends Controller
         
         $pjuridica = new Juridica();
         $cnpj = $pjuridica->cnpj = $request->input('cnpj');
+        $ehPatrocinador = $pjuridica->ehPatrocinador = $request->input('ehPatrocinador');
         $areas_id = $pjuridica->areas_id = $request->input('area');
         $email = $request->input('email');
         $id = User::where('email', $email)->first()->id;

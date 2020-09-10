@@ -146,8 +146,9 @@ export default {
   },
   async [actionTypes.REQUEST_VAGA_DASH]({commit, state}, vagaPayload){
     const response = await api.candidaturas.createCandidatura(state, vagaPayload)
-    console.log('REQUEST_VAGA_DASH', response)
+    console.log('REQUEST_VAGA_DASH', response, response.data.error)
     if(!response.data.error){
+      console.log('entriu aqui')
       commit(mutationTypes.SET_CANDIDATURAS, response.data.candidaturas)
       commit(mutationTypes.SET_VAGAS, response.data.vagas)
     }

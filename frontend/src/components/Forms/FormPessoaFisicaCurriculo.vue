@@ -184,6 +184,7 @@
                 class="ml-3 mr-3 green white--text" 
                 :loading="pleaseWaitDialog" 
                 @click="submit()"
+                :disabled="invalid"
               >Salvar</v-btn>
               <v-dialog
                 v-model="pleaseWaitDialog"
