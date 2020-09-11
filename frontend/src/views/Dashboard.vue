@@ -114,7 +114,6 @@ export default {
           await this.$store.dispatch(actionTypes.GET_TODOS_CONVITES)
           this.refresh = true
         }
-        this.isLoaded = true
       }else if(this.tipoPermissao == 'JURIDICA'){
         await this.$store.dispatch(actionTypes.GET_PESSOA_JURIDICA)
         if(this.auth.dataCompleted){
@@ -124,8 +123,8 @@ export default {
           await this.$store.dispatch(actionTypes.GET_TODOS_CONVITES)
           await this.$store.dispatch(actionTypes.GET_PORCENTAGEM_VAGAS)
         }
-        this.isLoaded = true
       }      
+      this.isLoaded = true
     },
     async getDataFlag(value){
       console.log('gerDaraFkag', value, this.$store.state.auth)

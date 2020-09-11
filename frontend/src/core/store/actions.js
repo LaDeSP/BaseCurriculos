@@ -188,6 +188,11 @@ export default {
     const response = await api.pessoaJuridica.getJuridicaUsers(state)
     commit(mutationTypes.JURIDICA_USERS, response.data.usersJuridica)
   },
+  async [actionTypes.GET_JURIDICA_PATROCINADORAS]({commit}){
+    const response = await api.pessoaJuridica.getJuridicaPatrocinadoras()
+    console.log('GET_JURIDICA_PATROCINADORAS', response)
+    commit(mutationTypes.SET_JURIDICA_PATROCINADORAS, response.data.juridicaPatrocinadoras)
+  },
   async [actionTypes.HANDLE_USER_STATUS]({commit, state}, payload){
     const response = await api.account.handleUserAccount(state, payload)
     console.log('HANDLE_USER_STATUS', response.data[0].usersJuridica)

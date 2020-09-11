@@ -21,6 +21,9 @@ export default {
     [mutationTypes.AUTH_ERROR](state){
         state.auth.status = 'error'
     },
+    [mutationTypes.SET_JURIDICA_PATROCINADORAS](state, payload){
+        state.juridicaPatrocinadoras = payload
+    },
     [mutationTypes.UPDATE_AUTH_USER](state, payload){
         state.auth.user = payload
     },

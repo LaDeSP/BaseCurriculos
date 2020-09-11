@@ -5,6 +5,7 @@ export default{
   pessoaFisicaInfo: {},
   pessoaJuridicaInfo: {},
   pessoaFisicaCurriculo: {},
+  juridicaPatrocinadoras: [],
   upload:{
     path: ''
   },

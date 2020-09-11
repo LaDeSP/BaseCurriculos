@@ -12,6 +12,7 @@ export default {
     COMPLETE_PESSOA_JURIDICA: 'completePessoaJuridica',
     
     GET_JURIDICA_USERS: 'getJuridicaUsers',
+    GET_JURIDICA_PATROCINADORAS: 'getJuridicaPatrocinadoras',
     GET_PESSOA_FISICA: 'getPessoaFisica',
     GET_PESSOA_JURIDICA: 'getPessoaJuridica',
     GET_AREAS: 'getAreas',

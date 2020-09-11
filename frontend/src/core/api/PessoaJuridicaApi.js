@@ -9,6 +9,10 @@ const completePessoaJuridicaData = async (state, completedPessoaJuridicaData) =>
 const getJuridicaUsers = async state => {
     return await axios.get(`users?token=${state.auth.token}`)
 }
+const getJuridicaPatrocinadoras = async () => {
+    console.log('veio aki')
+    return await axios.get(`patrocinadoras`)
+}
 const getPessoaJuridicaData = async (state) => {
     return await axios.get(`pjuridicas/${state.auth.user.id}?token=${state.auth.token}`)
 }
@@ -23,6 +27,7 @@ export default {
     createPessoaJuridica,
     completePessoaJuridicaData,
     getJuridicaUsers,
+    getJuridicaPatrocinadoras,
     getPessoaJuridicaData,
     updatePessoaJuridica,
     updatePessoaJuridicaUser

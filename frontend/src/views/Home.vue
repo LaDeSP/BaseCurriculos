@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="isLoaded">
   <headerImages></headerImages>
   <div class="home-container">
     <h2 class="text-center ma-2" >Essas são as empresas que fazem parte do nosso sistema e que estarão de olho em você!</h2>
@@ -15,9 +15,19 @@
 import HeaderImages from '../components/Home/HeaderImages'
 import FormCreatePessoaFisica from '../components/Create/FormCreatePessoaFisica'
 import EmpresasParceiras from '../components/Home/EmpresasParceiras'
+import {actionTypes} from '@/core/constants'
 
 export default {
-  components:{HeaderImages, FormCreatePessoaFisica, EmpresasParceiras}
+  components:{HeaderImages, FormCreatePessoaFisica, EmpresasParceiras},
+  data() {
+    return {
+      isLoaded: false
+    }
+  },
+  async created(){
+    await this.$store.dispatch(actionTypes.GET_JURIDICA_PATROCINADORAS)
+    this.isLoaded = true
+  }
 }
 </script>
 

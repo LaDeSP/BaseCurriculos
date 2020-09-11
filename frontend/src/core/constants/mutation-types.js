@@ -5,6 +5,7 @@ export default {
     SET_DATA_COMPLETED: 'setDataCompleted',
     SET_HAS_VAGA: 'setHasVaga',
     TIPO_PERMISSAO: 'tipoPermissao',
+    SET_JURIDICA_PATROCINADORAS: 'setJuridicaPatrocinadoras',
     SET_INFOS_PESSOAIS_FISICA: 'setInfosPessoaisFisica',
     SET_NEW_USER_PIC: 'setNewUserPic',
     SET_CONVITES: 'setConvites',

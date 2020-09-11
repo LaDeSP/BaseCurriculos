@@ -49,7 +49,7 @@
         </v-btn>
       </router-link>
     </template>
-    <template v-if="auth.dataCompleted && auth.isLoggedIn">
+    <template v-if="loggedAndCompleted">
       <template v-if="$route.path != '/error' && $route.path != '/error/'
         && $route.path != '/accountStatus' && $route.path != '/accountStatus/'
       ">
@@ -122,7 +122,10 @@ export default {
   },
   computed:{
     ...mapState(['auth', 'upload']),
-    ...mapGetters(['tipoPermissao'])
+    ...mapGetters(['tipoPermissao']),
+    loggedAndCompleted(){
+      return this.auth.dataCompleted && this.auth.isLoggedIn
+    }
   },
   methods:{
     async redirectSimpleSearch(){

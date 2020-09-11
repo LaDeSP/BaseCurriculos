@@ -149,6 +149,17 @@ class JuridicaController extends Controller
         ], 201); 
     }
 
+    public function getJuridicaPatrocinadoras()
+    {
+        $juridicas = Juridica::with(['user.foto', 'endereco'])
+                    ->where('ehPatrocinador', '1')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+        return Response::json([
+            'juridicaPatrocinadoras'=>$juridicas
+        ], 201);
+    }
 
     public function update(Request $request, $id)
     {

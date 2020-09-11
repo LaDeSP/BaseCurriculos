@@ -46,7 +46,7 @@
             scrollable locale="pt-br" 
             v-model="date" 
             no-title
-            :max="new Date().toISOString().substr(0, 10)" 
+            :max="maxDate" 
             min="1950-01-01"
             @input="menu = false"></v-date-picker>
         </v-menu>
@@ -361,6 +361,12 @@ export default {
       if(file.status!='error'){
         this.$store.dispatch(actionTypes.DELETE_USER_PIC)
       }
+    },
+    maxDate(){
+      let date = new Date()
+      date = date.setFullYear(date.getFullYear() - 16)
+      console.log('OK', date)
+      return date.toISOString().substr(0,10)
     }
   }
 }
