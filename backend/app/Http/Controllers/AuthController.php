@@ -65,6 +65,6 @@ class AuthController extends Controller
      */
     protected function sendResetFailedResponse(Request $request, $response)
     {
-        return response()->json(['message' => 'Failed, Invalid Token.']);
+        return response()->json(['message' => 'Token inválido - Email errado.']);
     }
 }
