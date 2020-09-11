@@ -85,6 +85,15 @@ export default {
   methods: {
     requestResetPassword() {
       this.$store.dispatch(actionTypes.FORGOT_PASSWORD, {email: this.email})
+      .then(response => {
+        if (response.errorEmail){
+          this.notificacoes = response.errorEmail;
+        }
+        else{
+          this.notificacoes='';
+          this.email=null;
+        }
+      })
     }
   }
 }
