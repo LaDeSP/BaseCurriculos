@@ -21,7 +21,7 @@ class AuthController extends Controller
         return $this->sendResetLinkEmail($request);
     }
 
-    protected function sendResetLinkResponse(Request $request, $response)
+    protected function sendResetLinkResponse($response)
     {
         return response()->json([
             'message' => 'Password reset email sent.',
