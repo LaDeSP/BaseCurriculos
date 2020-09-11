@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 
 use Hash;
 use Illuminate\Auth\Events\PasswordReset;
+use App\User;
+
 
 class AuthController extends Controller
 {
@@ -18,6 +20,12 @@ class AuthController extends Controller
 
     public function sendPasswordResetLink(Request $request)
     {
+        if(!User::where('email', $request->email)->exists()){
+            return response()->json([
+                'errorEmail' => 'Email não cadastrado no nosso sistema.',
+            ]);
+        }
+        
         return $this->sendResetLinkEmail($request);
     }
 
