@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateCurriculosTable extends Migration
 {
-   
+
     public function up()
     {
         Schema::create('curriculos', function (Blueprint $table) {
@@ -18,16 +18,16 @@ class CreateCurriculosTable extends Migration
             $table->string('estado')->nullable();
             $table->string('cidade')->nullable();
             $table->string('instituicao')->nullable();
-
             $table->string('qualificacoes');
-            $table->string('historicoProfissional')->nullable();
+            //$table->integer('historico_id')->unsigned();
             $table->integer('fisicas_id')->unsigned();
             $table->integer('areas_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
+            //$table->foreign("historico_id")->references('id')->on('historico_profissionals')->onDelete('cascade');
             $table->foreign('fisicas_id')->references('id')->on('fisicas')->onDelete('cascade');
             $table->foreign('areas_id')->references('id')->on('areas')->onDelete('cascade');
-            
+
         });
     }
 

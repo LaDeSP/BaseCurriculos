@@ -3,7 +3,7 @@
   <NavBar></NavBar>
   <div v-if="$route.meta.isHome || $route.meta.isSobre || $route.meta.isLogin">
     <router-view></router-view>
-    <LoadingScreen v-if="isLoading"></LoadingScreen>     
+    <LoadingScreen v-if="isLoading"></LoadingScreen>
   </div>
   <div v-else>
     <v-main>
@@ -22,7 +22,7 @@ import NavBar from './components/Utils/NavBar.vue'
 import Footer from './components/Utils/Footer.vue'
 import LoadingScreen from './views/LoadingScreen'
 import {mapState} from 'vuex'
-  
+
 export default {
   components:{NavBar, Footer, LoadingScreen},
   computed: {
@@ -34,12 +34,12 @@ export default {
 <style lang="stylus">
   .line-height
     line-height 35px
-  .same-size-card 
+  .same-size-card
     overflow-y auto
     height 280px
-  .aviso 
+  .aviso
     font-size 20px
-  .container 
+  .container
     min-height 100vh
   .v-application a
     color inherit !important

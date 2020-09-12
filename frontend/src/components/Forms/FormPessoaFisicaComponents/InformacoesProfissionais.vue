@@ -53,7 +53,7 @@
           hint="Insira sua formação, seus cursos, qualidades, etc."
           outlined
         ></v-textarea>
-      </ValidationProvider>  
+      </ValidationProvider>
     <h3 class="justify-center text-center">Histórico Profissional</h3>
     <v-row align="center" justify="center">
       <v-col cols="12" md="4">
@@ -123,7 +123,7 @@
       <span class="red lighten-2 white--text" v-if="notificacao != ''">
         {{notificacao}}
       </span>
-      <v-col cols="12" md="10"> 
+      <v-col cols="12" md="10">
         <v-btn color="info accent-3 white--text mb-4" @click="adicionarExperiencia">Adicionar</v-btn>
         <template v-if="experiencias.length > 0">
           <v-expansion-panels>
@@ -179,16 +179,16 @@ export default {
       experiencias: [],
       itemsNivelEscolaridade: [
         "Ensino Fundamental(Incompleto)",
-        "Ensino Fundamental(Cursando)", 
+        "Ensino Fundamental(Cursando)",
         "Ensino Fundamental(Completo)",
-        "Ensino Médio(Incompleto)", 
-        "Ensino Médio(Cursando)", 
-        "Ensino Médio(Completo)", 
-        "Ensino Superior(Incompleto)", 
+        "Ensino Médio(Incompleto)",
+        "Ensino Médio(Cursando)",
+        "Ensino Médio(Completo)",
+        "Ensino Superior(Incompleto)",
         "Ensino Superior(Cursando)",
-        "Ensino Superior(Completo)", 
-        "Pós-Graduação(Especialização)", 
-        "Pós-Graduação(Mestrado)", 
+        "Ensino Superior(Completo)",
+        "Pós-Graduação(Especialização)",
+        "Pós-Graduação(Mestrado)",
         "Pós-Graduação(Doutorado)"
       ],
       rulesPeriodo: [value => !!value || 'Esse campo é obrigatório.']
@@ -227,7 +227,8 @@ export default {
         pretensaoSalarial: this.pretensaoSalarial,
         nivelEscolaridade: this.nivelEscolaridade,
         qualificacoes: this.qualificacoes,
-        experiencias: this.experiencias
+        experiencias: this.experiencias,
+        experiênciasEscluidas:this.experienciasExluidas
       }
       this.$emit('handleSubmit', true)
       this.$emit('handlePayload', payload)
@@ -241,25 +242,30 @@ export default {
         'descricaoExperiencia': this.descricaoExperiencia
       }
       let experiencias = this.experiencias,
-          isDuplicate = false 
+          isDuplicate = false
 
       isDuplicate = experiencias.map(value => {
         if(value.descricaoExperiencia == payload.descricaoExperiencia && value.dataInicial == payload.dataInicial && value.dataFinal == payload.dataFinal){
           return true
         }
-      }) 
+      })
 
       if(isDuplicate == false){
         this.experiencias.push(payload)
         this.notificacao = ''
       }else{
         this.notificacao = 'Você já adicionou essa experiência!'
-      } 
+      }
     },
     removerExperiencia(indexExperiencia){
       let filteredExperiencias = this.experiencias.filter((experiencia, index) => {
         return index != indexExperiencia
       })
+      let excluidas = this.experiencias.filter((experiencia, index) => {
+        return index == indexExperiencia
+      })
+
+
       this.experiencias = filteredExperiencias
     }
   }
@@ -267,6 +273,6 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .teste 
+  .teste
     display: block
 </style>

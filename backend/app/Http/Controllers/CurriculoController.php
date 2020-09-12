@@ -17,21 +17,21 @@ class CurriculoController extends Controller
 {
     public function teste(Request $request, $id)
     {
-       
+
         $end_id = 1;
         $con_id = 1;
 
         dd('historico', $request->historicoProfissional);
-
+        die();
         $data = [];
         foreach($request->historicoProfissional as $historico){
             dd('vaaaar', $historico);
             /* $data = HistoricoProfissional::create([
                 'data_inicial' => $request->dataInicial,
-                'data_final' => $request->dataFinal, 
+                'data_final' => $request->dataFinal,
                 'descricao_experiencia' => $request->descricaoExperiencia
             ]); */
-        } 
+        }
         dd('xaaaaa', $data->id);
         Curriculo::create([
             'objetivos' => $request->objetivos,
@@ -43,26 +43,26 @@ class CurriculoController extends Controller
             'fisicas_id' => Fisica::where('user_id', $user_id)->first()->id
         ]);
     }
-    
+
 
     public function index(){
 
-    }    
+    }
 
     public function store(Request $request){
        $validator = Validator::make($request->all(), CurriculoController::rules(), CurriculoController::messages());
-         
+
         if ($validator->fails()) {
              return Response::json([
                 'error' => $validator->messages()
             ], 201);
-        }   
-        
+        }
+
         $user_id = auth()->user()->id;
         User::where('id', $user_id)->update(['name'=>$request->nome]);
-        
+
         $fisica = Fisica::where('user_id', $user_id)->first()->id;
-         
+
         $end_id = Endereco::insertGetId([
             'rua' => $request->rua,
             'bairro' => $request->bairro,
@@ -73,7 +73,7 @@ class CurriculoController extends Controller
             'pais' => $request->pais,
             'cep' => $request->cep
         ]);
-        
+
         $con_id = Contato::insertGetId([
             'celular' => $request->celular,
             'fixo' => $request->fixo,
@@ -88,20 +88,12 @@ class CurriculoController extends Controller
             'data_nascimento' => $request->nascimento,
             'genero'  => $request->genero,
             'estado_civil' => $request->estadoCivil,
-            'contatos_id' => $con_id, 
+            'contatos_id' => $con_id,
             'enderecos_id' => $end_id
         ));
-        
-        foreach($request->historicoProfissional as $historico){
-            HistoricoProfissional::create([
-                'dataInicial' => $historico['dataInicial'],
-                'dataFinal' =>  $historico['dataFinal'], 
-                'descricaoExperiencia' => $historico['descricaoExperiencia'],
-                'fisicas_id'=>$fisica
-            ]);
-        } 
-        
-        Curriculo::create([
+
+
+        $user=Curriculo::create([
             'objetivos' => $request->objetivos,
             'areas_id' => $request->area,
             'pretensao' => $request->pretensao,
@@ -109,7 +101,20 @@ class CurriculoController extends Controller
             'escolaridade' => $request->escolaridade,
             'fisicas_id' => $fisica
         ]);
-        
+
+        foreach($request->historicoProfissional as $historico){
+          if( !isset($historico['id']) ){
+            HistoricoProfissional::create([
+                'dataInicial' => $historico['dataInicial'],
+                'dataFinal' =>  $historico['dataFinal'],
+                'descricaoExperiencia' => $historico['descricaoExperiencia'],
+                'curriculos_id'=>$user->id,
+                'fisicas_id'=>$fisica
+            ]);
+          }
+
+        }
+
         return Response::json([
             'Currículo cadastrado com sucesso!',
             'username'=>$request->nome
@@ -117,7 +122,7 @@ class CurriculoController extends Controller
     }
 
     public function show($id)
-    {  
+    {
         $fisicas_id = Fisica::where('user_id', $id)->first()->id;
         $area_id = 0;
         $area = '';
@@ -143,12 +148,12 @@ class CurriculoController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), CurriculoController::rules(), CurriculoController::messages());
-       
+
         if ($validator->fails()) {
              return Response::json([
                 'error' => $validator->messages()
             ], 201);
-        }   
+        }
 
         $end_id = Fisica::where('user_id', $id)->value('enderecos_id');
         $con_id = Fisica::where('user_id', $id)->value('contatos_id');
@@ -181,34 +186,49 @@ class CurriculoController extends Controller
             'genero'  => $request->genero,
             'estado_civil' => $request->estadoCivil
         ));
-        
+
         $fisicas_id = Fisica::where('user_id', $id)->first()->id;
+        $curriculo_id=Curriculo::where('fisicas_id', $fisicas_id)->first()->id;
+
 
         foreach($request->historicoProfissional as $historico){
+          if( !isset($historico['id']) ){
             HistoricoProfissional::create([
                 'dataInicial' => $historico['dataInicial'],
-                'dataFinal' =>  $historico['dataFinal'], 
+                'dataFinal' =>  $historico['dataFinal'],
                 'descricaoExperiencia' => $historico['descricaoExperiencia'],
+                'curriculos_id'=>$curriculo_id,
                 'fisicas_id'=>$fisicas_id
             ]);
-        } 
+          }
+
+        }
+        if(isset($request->historicoProfissionalExclidos))
+        foreach($request->historicoProfissionalExclidos as $historico){
+          if( isset($historico['id']) ){
+
+            $historico=HistoricoProfissional::find($historico['id']);
+            $historico->delete();
+          }
+        }
 
         Curriculo::where('fisicas_id', $fisicas_id)->update([
             'objetivos' => $request->objetivos,
             'areas_id' => $request->area,
             'pretensao' => $request->pretensao,
             'qualificacoes' => $request->qualificacoes,
-            'historicoProfissional' => $request->historicoProfissional,
+            //'historicoProfissional' => $request->historicoProfissional,
             'escolaridade' => $request->escolaridade
         ]);
-
+        $curriculo = Curriculo::with(['fisica'])->where('fisicas_id', $fisicas_id)->orderBy('created_at', 'desc')->get();
         return Response::json([
-            'Currículo editado com sucesso!'
+            'Currículo editado com sucesso!',
+             "curriculo"=>$curriculo
         ], 200);
-      
-      
+
+
     }
-    
+
     public function rules(){
         $estadoCivil = "Solteiro,Casado,Separado,Viúvo";
         $estado = "AC,AL,AP,AM,BA,CE,DF,ES,GO,MA,MT,MS,MG,PA,PB,PR,PE,PI,RJ,RN,RS,RO,RR,SC,SP,SE,TO";
@@ -216,7 +236,7 @@ class CurriculoController extends Controller
         $pais="África do Sul,Albânia,Alemanha,Andorra,Angola,Anguilla,Antigua,Arábia Saudita,Argentina,Armênia,Aruba,Austrália,Áustria,Azerbaijão,Bahamas,Bahrein,Bangladesh,Barbados,Bélgica,Benin,Bermudas,Botsuana,Brasil,Brunei,Bulgária,Burkina Fasso,Botão,Cabo Verde,Camarões,Camboja,Canadá,Cazaquistão,Chade,Chile,China,Cidade do Vaticano,Colômbia,Congo,Coréia do Sul,Costa do Marfim,Costa Rica,Croácia,Dinamarca,Djibuti,Dominica,EUA,Egito,El Salvador,Emirados Árabes,Equador,Eritréia,Escócia,Eslováquia,Eslovênia,Espanha,Estônia,Etiópia,Fiji,Filipinas,Finlândia,França,Gabão,Gâmbia,Gana,Geórgia,Gibraltar,Granada,Grécia,Guadalupe,Guam,Guatemala,Guiana,Guiana Francesa,Guiné-bissau,Haiti,Holanda,Honduras,Hong Kong,Hungria,Iêmen,Ilhas Cayman,Ilhas Cook,Ilhas Curaçao,Ilhas Marshall,Ilhas Turks & Caicos,Ilhas Virgens (brit.),Ilhas Virgens(amer.),Ilhas Wallis e Futuna,Índia,Indonésia,Inglaterra,Irlanda,Islândia,Israel,Itália,Jamaica,Japão,Jordânia,Kuwait,Latvia,Líbano,Liechtenstein,Lituânia,Luxemburgo,Macau,Macedônia,Madagascar,Malásia,Malaui,Mali,Malta,Marrocos,Martinica,Mauritânia,Mauritius,México,Moldova,Mônaco,Montserrat,Nepal,Nicarágua,Niger,Nigéria,Noruega,Nova Caledônia,Nova Zelândia,Omã,Palau,Panamá,Papua-nova Guiné,Paquistão,Peru,Polinésia Francesa,Polônia,Porto Rico,Portugal,Qatar,Quênia,Rep. Dominicana,Rep. Tcheca,Reunion,Romênia,Ruanda,Rússia,Saipan,Samoa Americana,Senegal,Serra Leone,Seychelles,Singapura,Síria,Sri Lanka,St. Kitts & Nevis,St. Lúcia,St. Vincent,Sudão,Suécia,Suiça,Suriname,Tailândia,Tanzânia,Togo,Trinidad & Tobago,Tunísia,Tunísia,Turquia,Ucrânia,Uganda,Uruguai,Venezuela,Vietnã,Zaire,Zâmbia,Zimbábue";
         return [
             'nome' => 'required|max:250',
-            'nascimento' => 'required|date', 
+            'nascimento' => 'required|date',
             'estadoCivil' => 'required|in:'.$estadoCivil,
             'genero' => 'required', /*validar lista*/
             'linkedin' => 'max:250',
@@ -287,8 +307,8 @@ class CurriculoController extends Controller
             'qualificacoes.max' => 'Insira suas qualificações com no máximo 5000 caracteres!',
             'historicoProfissional.required' => 'Insira seu histórico!'
         ];
-    }   
+    }
 
-   
+
 
 }

@@ -1,5 +1,5 @@
-import axios from 'axios' 
-import router from '../../router' 
+import axios from 'axios'
+import router from '../../router'
 import store from '../../core/store'
 import {mutationTypes} from '@/core/constants'
 import { NavigationUtils, LoadingScreen } from '../../core/utils'
@@ -25,7 +25,7 @@ class InterceptadorHttp {
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
   }
 
-  handleRequest(config){ 
+  handleRequest(config){
     console.log('handle request', config)
     if(config.method == 'get'){
       loadingScreen.startLoadingScreen()
@@ -45,7 +45,7 @@ class InterceptadorHttp {
     loadingScreen.stopLoadingScreen()
     console.log('deu ruim aqui', error.response)
     let errorPayload = {
-        "status": error.response.status, 
+        "status": error.response.status,
         "statusText": error.response.statusText,
         "errorData": error.response.data
     }

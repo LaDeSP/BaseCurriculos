@@ -9,7 +9,7 @@
           <v-divider></v-divider>
       <v-stepper-step :complete="step > 3" editable step="3">Endereço</v-stepper-step>
           <v-divider></v-divider>
-      <v-stepper-step :complete="step > 4" editable step="4">Informações Profissionais</v-stepper-step>  
+      <v-stepper-step :complete="step > 4" editable step="4">Informações Profissionais</v-stepper-step>
     </v-stepper-header>
     <form>
       <ValidationObserver ref="observer" v-slot="{ invalid }">
@@ -79,7 +79,7 @@
                       hint="Insira sua formação, seus cursos, qualidades, etc."
                       outlined
                     ></v-textarea>
-                  </ValidationProvider>  
+                  </ValidationProvider>
                 <h3 class="justify-center text-center">Histórico Profissional</h3>
                 <v-row align="center" justify="center">
                   <v-col cols="12" md="4">
@@ -150,7 +150,7 @@
                   <span class="green lighten-2 white--text" v-if="!isExperienciaDuplicate && aviso != ''">
                     {{aviso}}
                   </span>
-                  <v-col cols="12" md="10"> 
+                  <v-col cols="12" md="10">
                     <v-btn color="info accent-3 white--text mb-4" @click="adicionarExperiencia">Adicionar</v-btn>
                     <template v-if="experiencias.length > 0">
                       <v-expansion-panels>
@@ -180,9 +180,9 @@
               </v-card-text>
               <v-card-actions><small class="red--text">* Campo obrigatório</small></v-card-actions>
               <v-btn color="default" class="mr-3" @click="step = 3">Voltar</v-btn>
-              <v-btn 
-                class="ml-3 mr-3 green white--text" 
-                :loading="pleaseWaitDialog" 
+              <v-btn
+                class="ml-3 mr-3 green white--text"
+                :loading="pleaseWaitDialog"
                 @click="submit()"
               >Salvar</v-btn>
               <v-dialog
@@ -190,7 +190,7 @@
                 hide-overlay
                 persistent
                 width="300"
-              > 
+              >
                 <v-card class="grey darken-3 text-center white--text" dark>
                   <v-card-text>Por favor, aguarde...
                     <v-progress-linear
@@ -265,22 +265,22 @@ export default {
       experiencias: [],
       itemsNivelEscolaridade: [
         "Ensino Fundamental(Incompleto)",
-        "Ensino Fundamental(Cursando)", 
+        "Ensino Fundamental(Cursando)",
         "Ensino Fundamental(Completo)",
-        "Ensino Médio(Incompleto)", 
-        "Ensino Médio(Cursando)", 
-        "Ensino Médio(Completo)", 
-        "Ensino Superior(Incompleto)", 
+        "Ensino Médio(Incompleto)",
+        "Ensino Médio(Cursando)",
+        "Ensino Médio(Completo)",
+        "Ensino Superior(Incompleto)",
         "Ensino Superior(Cursando)",
-        "Ensino Superior(Completo)", 
-        "Pós-Graduação(Especialização)", 
-        "Pós-Graduação(Mestrado)", 
+        "Ensino Superior(Completo)",
+        "Pós-Graduação(Especialização)",
+        "Pós-Graduação(Mestrado)",
         "Pós-Graduação(Doutorado)"
       ],
       itemsAreaAtuacao: [],
       isExperienciaDuplicate: false,
       rulesPeriodo: [value => !!value || 'Esse campo é obrigatório.']
-      
+
     }
   },
   filters:{
@@ -334,20 +334,21 @@ export default {
         linkedin: this.linkedin,
         facebook: this.facebook,
         twitter: this.twitter,
-        site: this.site, 
+        site: this.site,
         cep: this.cep,
-        estado: this.estado, 
-        cidade: this.cidade, 
-        bairro: this.bairro, 
-        rua: this.rua, 
-        complemento: this.complemento, 
+        estado: this.estado,
+        cidade: this.cidade,
+        bairro: this.bairro,
+        rua: this.rua,
+        complemento: this.complemento,
         numero: this.numero,
         objetivos: this.objetivosProfissionais,
         area: this.areaAtuacao,
         pretensao: this.pretensaoSalarial,
         escolaridade: this.nivelEscolaridade,
         qualificacoes: this.qualificacoes,
-        historicoProfissional: this.experiencias
+        historicoProfissional: this.experiencias,
+        historicoProfissionalExclidos: this.experienciasExluidas
       }
       if(!this.edicao){
         this.$store.dispatch(actionTypes.COMPLETE_PESSOA_FISICA, payload)
@@ -393,19 +394,22 @@ export default {
         if(value.descricaoExperiencia == payload.descricaoExperiencia && value.dataInicial == payload.dataInicial && value.dataFinal == payload.dataFinal){
           return true
         }
-      }) 
+      })
       if(this.isExperienciaDuplicate == false){
         this.experiencias.push(payload)
         this.aviso = 'Adicionado com sucesso.'
         this.isExperienciaDuplicate = false
       }else{
         this.aviso = 'Você já adicionou essa experiência!'
-      } 
+      }
     },
     removerExperiencia(indexExperiencia){
       let filteredExperiencias = this.experiencias.filter((experiencia, index) => {
         return index != indexExperiencia
       })
+
+      this.experienciasExluidas = this.pessoaFisicaCurriculo.historicoProfissional.filter(experiencia => !filteredExperiencias.includes(experiencia))
+
       this.experiencias = filteredExperiencias
     },
     getPayloadInfosPessoais(value){
@@ -419,23 +423,23 @@ export default {
       this.fixo = value.fixo
       this.celular = value.celular
       this.linkedin = value.linkedin
-      this.facebook = value.facebook 
+      this.facebook = value.facebook
       this.twitter = value.twitter
-      this.site = value.site 
+      this.site = value.site
     },
     getPayloadEndereco(value){
-      this.cep = value.cep 
-      this.estado = value.estado 
-      this.cidade = value.cidade 
-      this.bairro = value.bairro 
-      this.rua = value.rua 
-      this.complemento = value.complemento 
+      this.cep = value.cep
+      this.estado = value.estado
+      this.cidade = value.cidade
+      this.bairro = value.bairro
+      this.rua = value.rua
+      this.complemento = value.complemento
       this.numero = value.numero
     },
-    loadDataToEdit(){  
+    loadDataToEdit(){
       this.objetivosProfissionais = this.pessoaFisicaCurriculo.curriculo.objetivos
       this.areaAtuacao = this.pessoaFisicaCurriculo.area.id
-      this.pretensaoSalarial = this.pessoaFisicaCurriculo.curriculo.pretensao 
+      this.pretensaoSalarial = this.pessoaFisicaCurriculo.curriculo.pretensao
       this.nivelEscolaridade = this.pessoaFisicaCurriculo.curriculo.escolaridade
       this.qualificacoes = this.pessoaFisicaCurriculo.curriculo.qualificacoes
       this.experiencias = this.pessoaFisicaCurriculo.historicoProfissional
