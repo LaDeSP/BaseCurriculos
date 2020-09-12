@@ -18,7 +18,9 @@
               </span>
             </template>
             <template v-if="pleaseWait">
-              <PleaseWait></PleaseWait>
+              <v-row align="center" justify="center">
+                <PleaseWait></PleaseWait>
+              </v-row>
             </template>
             <template v-else>
               <ValidationProvider v-slot="{ errors }" name="name" rules="required|max:250">
@@ -73,6 +75,14 @@
                     type="password"
                   ></v-text-field>
               </ValidationProvider>
+              <ValidationProvider v-slot="{ errors }" name="ehPatrocinador" rules="required">
+                  <v-checkbox
+                    v-model="ehPatrocinador"
+                    label="É patrocinador?"
+                    :error-messages="errors"
+                    name="ehPatrocinador"
+                  ></v-checkbox>
+              </ValidationProvider>
             </template>
           </v-card-text>
           <v-divider></v-divider>
@@ -101,6 +111,7 @@ export default {
       areaAtuacao: '',
       itemsAreaAtuacao: [],
       cnpj: '',
+      ehPatrocinador: false,
       role: 'JURIDICA',
       notificacoes: []
     }
@@ -117,6 +128,7 @@ export default {
         name: this.name,
         email: this.email,
         cnpj: this.cnpj, 
+        ehPatrocinador: this.ehPatrocinador,
         area: this.areaAtuacao,
         password: this.password, 
         role: this.role

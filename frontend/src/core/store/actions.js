@@ -88,8 +88,9 @@ export default {
     }
     return response.data
   },
-  async [actionTypes.GET_AREAS]({state}){
+  async [actionTypes.GET_AREAS]({commit, state}){
     const response = await api.vagas.getAreas(state)
+    commit(mutationTypes.SET_AREAS, response.data.areas)
     return response.data 
   },
   async [actionTypes.GET_PESSOA_FISICA]({commit, state}){
@@ -146,8 +147,9 @@ export default {
   },
   async [actionTypes.REQUEST_VAGA_DASH]({commit, state}, vagaPayload){
     const response = await api.candidaturas.createCandidatura(state, vagaPayload)
-    console.log('REQUEST_VAGA_DASH', response)
+    console.log('REQUEST_VAGA_DASH', response, response.data.error)
     if(!response.data.error){
+      console.log('entriu aqui')
       commit(mutationTypes.SET_CANDIDATURAS, response.data.candidaturas)
       commit(mutationTypes.SET_VAGAS, response.data.vagas)
     }
@@ -186,6 +188,11 @@ export default {
   async [actionTypes.GET_JURIDICA_USERS]({commit, state}){
     const response = await api.pessoaJuridica.getJuridicaUsers(state)
     commit(mutationTypes.JURIDICA_USERS, response.data.usersJuridica)
+  },
+  async [actionTypes.GET_JURIDICA_PATROCINADORAS]({commit}){
+    const response = await api.pessoaJuridica.getJuridicaPatrocinadoras()
+    console.log('GET_JURIDICA_PATROCINADORAS', response)
+    commit(mutationTypes.SET_JURIDICA_PATROCINADORAS, response.data.juridicaPatrocinadoras)
   },
   async [actionTypes.HANDLE_USER_STATUS]({commit, state}, payload){
     const response = await api.account.handleUserAccount(state, payload)

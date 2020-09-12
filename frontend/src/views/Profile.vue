@@ -25,7 +25,7 @@ import ProfileFisica from '@/components/Profile/ProfileFisica'
 import ProfileJuridica from '@/components/Profile/ProfileJuridica'
 import {actionTypes} from '@/core/constants'
 import ModalAlert from '../components/Utils/ModalAlert'
-import {mapState, mapGetters} from 'vuex'
+import {mapGetters} from 'vuex'
 import moment from 'moment'
 export default {
   components: {ProfileFisica, ProfileJuridica, ModalAlert},
@@ -36,6 +36,7 @@ export default {
       modoEdicao: false,
       isLoaded: false,
       tab: null, 
+      itemsAreaAtuacao: [],
       text: `loremalp ksa kspadejmf iejfiejf oejfpej foej fpejf pe`,
       avisoModal: {
         title: 'Desativar Conta',
@@ -53,11 +54,11 @@ export default {
   async created(){
     if(this.tipoPermissao == 'FISICA'){
       await this.$store.dispatch(actionTypes.GET_PESSOA_FISICA)
-      this.isLoaded = true
     }else if(this.tipoPermissao == 'JURIDICA'){
       await this.$store.dispatch(actionTypes.GET_PESSOA_JURIDICA)
-      this.isLoaded = true
     }
+    await this.$store.dispatch(actionTypes.GET_AREAS)
+    this.isLoaded = true
   },
   computed:{
     ...mapGetters(['tipoPermissao'])

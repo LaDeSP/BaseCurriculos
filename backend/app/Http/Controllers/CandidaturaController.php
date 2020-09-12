@@ -94,12 +94,17 @@ class CandidaturaController extends Controller
         $curriculos_id = Curriculo::where('fisicas_id', $fisicas_id)->first()->id;
        
         $result = Candidatura::where('vagas_id', $vaga_id)
-        ->where('curriculos_id', $curriculos_id)
-        ->exists();
+                    ->where('curriculos_id', $curriculos_id)
+                    ->where(function($q) {
+                        $q->where('status', 'ENTREVISTA CONFIRMADA')
+                            ->orWhere('status', 'EM AGENDAMENTO')
+                            ->orWhere('status', 'AGUARDANDO')
+                            ->orWhere('status', 'CONTRATADO');
+                    })->exists();
 
         if($result){
             return Response::json([
-                'error' => "Você já se candidatou a esta vaga."
+                'error' => "Já existente candidatura sua para esta vaga."
             ], 201);
         }
         

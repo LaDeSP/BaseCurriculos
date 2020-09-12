@@ -15,11 +15,13 @@ class BuscaController extends Controller
     public function buscaVagas($keywords){
 
         $vagas = Vaga::with(['area', 'myCandidatura'])
-            ->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%')
+            ->where('status', 'ATIVA')
+            ->where(function($q) use ($keywords){
+                $q->where('titulo', 'like', '%' . $keywords . '%')
+                ->orWhere('descricao', 'like', '%' . $keywords . '%');
+            })
             ->orderBy('created_at', 'desc')
             ->get();
-
-
 
         return response()->json($vagas);
     }
@@ -45,23 +47,26 @@ class BuscaController extends Controller
         }
 
         $vagas = Vaga::with(['area', 'myCandidatura'])
-                ->when($keywords,function($query, $keywords){
-                    $query->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%');
-                })
-                ->when($cargo,function($query, $cargo){
-                    $query->where('cargo', 'like', '%' . $cargo . '%');
-                })
-                ->when($beneficio, function($query, $beneficio){
-                    $query->where('beneficio', 'like', '%' . $beneficio . '%');
-                })
-                ->when($jornada, function($query, $jornada){
-                    $query->where('jornada', 'like', '%' . $jornada . '%');
-                })
-                ->when($requisitos, function($query, $requisitos){
-                    $query->where('requisito', 'like', '%' . $requisitos . '%');
-                })
-                ->when($area, function($query, $area){
-                    $query->where('areas_id', $area);
+                ->where('status', 'ATIVA')
+                ->where(function($q) use ($keywords, $cargo, $beneficio, $jornada, $requisitos, $area){
+                    $q->when($keywords,function($query, $keywords){
+                        $query->where('titulo', 'like', '%' . $keywords . '%')->orWhere('descricao', 'like', '%' . $keywords . '%');
+                    })
+                    ->when($cargo,function($query, $cargo){
+                        $query->where('cargo', 'like', '%' . $cargo . '%');
+                    })
+                    ->when($beneficio, function($query, $beneficio){
+                        $query->where('beneficio', 'like', '%' . $beneficio . '%');
+                    })
+                    ->when($jornada, function($query, $jornada){
+                        $query->where('jornada', 'like', '%' . $jornada . '%');
+                    })
+                    ->when($requisitos, function($query, $requisitos){
+                        $query->where('requisito', 'like', '%' . $requisitos . '%');
+                    })
+                    ->when($area, function($query, $area){
+                        $query->where('areas_id', $area);
+                    });
                 })
                 ->orderBy('created_at', 'desc')
                 ->get();

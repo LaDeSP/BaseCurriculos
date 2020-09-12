@@ -34,7 +34,7 @@
               :src="upload.path">
             </v-img>
             <template v-if="modoEdicao">
-              <FormPessoaFisicaCurriculo :edicao="modoEdicao"></FormPessoaFisicaCurriculo>
+              <FormPessoaFisicaCurriculo :itemsAreaAtuacao="itemsAreaAtuacao" :edicao="modoEdicao"></FormPessoaFisicaCurriculo>
             </template>
             <template v-else>
                   <h1 class="mb-3">{{nome}}</h1>
@@ -130,7 +130,7 @@
       <v-card align="center">
         <v-card-text>
           <template v-if="modoEdicao">
-            <FormPessoaFisicaCurriculo :edicao="true"></FormPessoaFisicaCurriculo>
+            <FormPessoaFisicaCurriculo :itemsAreaAtuacao="itemsAreaAtuacao" :edicao="true"></FormPessoaFisicaCurriculo>
           </template>
           <template v-else>
             <v-list flat>
@@ -211,6 +211,7 @@ import ModalAlert from '@/components/Utils/ModalAlert'
 import {mapState} from 'vuex'
 import moment from 'moment'
 export default {
+  props: {itemsAreaAtuacao: Array},
   components: {FormPessoaFisicaCurriculo, ModalAlert},
   data(){
     return{
@@ -234,7 +235,7 @@ export default {
   },
   async created(){
     //await this.getFisicaProfile()
-    console.log('modo edicao no profile?', this.modoEdicao)
+    console.log('modo edicao no profile?', this.itemsAreaAtuacao)
   },
   computed:{
     ...mapState(['pessoaFisicaInfo', 'pessoaFisicaCurriculo', 'upload'])

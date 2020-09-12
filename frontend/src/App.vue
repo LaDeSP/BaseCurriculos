@@ -1,10 +1,10 @@
 <template>
 <v-app>
   <NavBar></NavBar>
-  <div v-if="$route.meta.isHome || $route.meta.isSobre || $route.meta.isLogin">
-    <router-view></router-view>
+  <template v-if="$route.meta.isHome || $route.meta.isSobre || $route.meta.isLogin">
     <LoadingScreen v-if="isLoading"></LoadingScreen>
-  </div>
+    <router-view></router-view>
+  </template>
   <div v-else>
     <v-main>
       <v-container class="fill-height">

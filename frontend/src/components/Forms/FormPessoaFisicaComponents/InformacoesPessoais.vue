@@ -46,7 +46,7 @@
             scrollable locale="pt-br" 
             v-model="date" 
             no-title
-            :max="new Date().toISOString().substr(0, 10)" 
+            :max="maxDate" 
             min="1950-01-01"
             @input="menu = false"></v-date-picker>
         </v-menu>
@@ -315,6 +315,12 @@ export default {
     }
   },
   async created(){
+    let date = new Date(),
+      year = date.getFullYear() - 16
+      date.setFullYear(year)
+      date.setMonth(0)
+      date.setDate(1)
+      console.log(typeof(date.toISOString().substr(0,10))) 
     console.log('no info fisica', this.edicao)
     this.name = this.$store.state.auth.user.name
     if(this.edicao){
@@ -340,6 +346,7 @@ export default {
     async loadDataToEdit(){
       this.date = this.pessoaFisicaInfo.data_nascimento
       this.genero = this.pessoaFisicaInfo.genero
+      console.log(this.pessoaFisicaInfo)
       this.estadoCivil = this.pessoaFisicaInfo.estado_civil
       this.paisNacionalidade = this.pessoaFisicaInfo.endereco.pais
     },
@@ -361,6 +368,14 @@ export default {
       if(file.status!='error'){
         this.$store.dispatch(actionTypes.DELETE_USER_PIC)
       }
+    },
+    maxDate(){
+      let date = new Date(),
+      year = date.getFullYear() - 16
+      date.setFullYear(year)
+      date.setMonth(0)
+      date.setDate(1)
+      return date.toISOString().substr(0,10)
     }
   }
 }

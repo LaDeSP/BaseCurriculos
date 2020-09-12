@@ -41,7 +41,7 @@ import {mapState} from 'vuex'
 import InformacoesEmpresa from './FormPessoaJuridicaComponents/InformacoesEmpresa'
 import Contato from './FormPessoaJuridicaComponents/Contato'
 import Endereco from './FormPessoaJuridicaComponents/Endereco'
-import { actionTypes } from '../../core/constants'
+import {actionTypes} from '../../core/constants'
 
 export default {
   components: {InformacoesEmpresa, Contato, Endereco},
@@ -65,6 +65,9 @@ export default {
       .then(response => {
         this.itemsAreaAtuacao = response.areas
       })
+  },
+  computed:{
+    ...mapState(['itemsAreaAtuacao'])
   },
   methods: {
     getStep(value){

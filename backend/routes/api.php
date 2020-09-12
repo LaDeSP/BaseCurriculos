@@ -31,6 +31,7 @@ Route::get('/areas', 'AreaController@index');
 
 Route::resource('/pfisicas', 'FisicaController');
 Route::resource('/pjuridicas', 'JuridicaController');
+Route::get('/patrocinadoras', 'JuridicaController@getJuridicaPatrocinadoras');
 Route::resource('/curriculos', 'CurriculoController', [
     'middleware' => 'jwt.auth'
 ]);

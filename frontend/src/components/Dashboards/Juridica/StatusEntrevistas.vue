@@ -4,7 +4,7 @@
         Entrevistas
     </v-card-title> 
     <v-card-text>
-        <v-row>
+        <v-row justify="center">
           <v-col cols="10" lg="6" md="12" sm="8" class="success--text size"> 
               <h3 class="my-3">Confirmadas</h3>
               <h1>{{counter.candidaturas.candidaturasConfirmadas}} <v-icon class="success--text text-lg-80">fas fa-calendar-check</v-icon></h1>

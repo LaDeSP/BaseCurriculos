@@ -1,5 +1,5 @@
 <template>
-<div class="login">
+<v-img src="../../../img/funfo.jpg" lazy-src="../../../img/login_blur.jpg" height="100vh">
   <v-row class="fill-height" align="center" justify="center">
       <v-col cols="12" md="8" sm="10" xs="6">
       <v-card class="mx-auto elevation-12" max-width="800" align="center" justify="center">
@@ -57,7 +57,7 @@
       </v-card>
     </v-col>
   </v-row>
-</div>
+</v-img>
 </template>
 
 <script>

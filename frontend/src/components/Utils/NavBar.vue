@@ -4,7 +4,7 @@
     dark
     absolute
   >
-    <router-link to="/"><v-toolbar-title class="pl-1 hidden-sm-and-down">Sistema de Recrutamento e Seleção</v-toolbar-title></router-link>
+    <router-link to="/"><v-toolbar-title class="pl-1 hidden-sm-and-down">Corumbá Jobs</v-toolbar-title></router-link>
     <v-spacer></v-spacer>
     <template v-if="auth.isLoggedIn && auth.dataCompleted">
       <template v-if="$route.path != '/error' && $route.path != '/error/'
@@ -49,7 +49,7 @@
         </v-btn>
       </router-link>
     </template>
-    <template v-if="auth.dataCompleted && auth.isLoggedIn">
+    <template v-if="loggedAndCompleted">
       <template v-if="$route.path != '/error' && $route.path != '/error/'
         && $route.path != '/accountStatus' && $route.path != '/accountStatus/'
       ">
@@ -122,7 +122,10 @@ export default {
   },
   computed:{
     ...mapState(['auth', 'upload']),
-    ...mapGetters(['tipoPermissao'])
+    ...mapGetters(['tipoPermissao']),
+    loggedAndCompleted(){
+      return this.auth.dataCompleted && this.auth.isLoggedIn
+    }
   },
   methods:{
     async redirectSimpleSearch(){

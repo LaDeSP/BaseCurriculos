@@ -3,8 +3,7 @@
   <template v-slot:activator="{on: evento, attrs}">
     <v-btn
       depressed 
-      class="ml-2"
-      large
+      small
       dark 
       v-bind="attrs"
       v-on="evento"

@@ -42,7 +42,7 @@
     </v-row>
     <v-row align="center" justify="center">
       <v-col cols="12" md="6">
-        <template class="" v-if="getVagasAtivas.length > 6">
+        <template v-if="getVagasAtivas.length > 6">
           <jw-pagination 
             :items="getVagasAtivas"
             @changePage="onChangePage"
