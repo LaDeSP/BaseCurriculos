@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { extend } from 'vee-validate';
-import { required, email, numeric, digits, max, min, min_value, max_value, integer, regex, required_if } from 'vee-validate/dist/rules';
+import { required, email, numeric, digits, max, min, min_value, max_value, integer, regex, required_if, confirmed } from 'vee-validate/dist/rules';
 import { ValidationProvider } from 'vee-validate';
 import { ValidationObserver } from 'vee-validate';
 import { localize } from 'vee-validate';
@@ -16,6 +16,7 @@ extend('max_value', {...max_value} );
 extend('integer', {...integer} );
 extend('regex', {...regex} );
 extend('required_if', {...required_if} );
+extend('confirmed', {...confirmed} );
 
 
 Vue.component('ValidationProvider', ValidationProvider);
@@ -33,6 +34,7 @@ localize('pt_BR', {
       integer: 'O valor não pode ser fracionário.',
       max_value: 'O valor máximo é {max}.',
       regex: 'Valor inválido.',
-      required_if: 'Esse campo é obrigatório.'
+      required_if: 'Esse campo é obrigatório.',
+      confirmed: 'Confirmação se difere da senha.'
     }
   });

@@ -35,7 +35,7 @@
                   type="email"
                   ></v-text-field>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" name="password" rules="required|min:8|max:30">
+              <ValidationProvider v-slot="{ errors }" name="password" rules="required|min:8|max:30" ref="password">
                   <v-text-field
                     v-model="password"
                     label="Nova Senha *"
@@ -45,7 +45,7 @@
                     type="password"
                   ></v-text-field>
               </ValidationProvider>
-              <ValidationProvider v-slot="{ errors }" name="password_confirmation" rules="required|min:8|max:30">
+              <ValidationProvider v-slot="{ errors }" name="password_confirmation" rules="required|min:8|max:30|confirmed:password">
                   <v-text-field
                     v-model="password_confirmation"
                     label="Confirmar Nova Senha *"
