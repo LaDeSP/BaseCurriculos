@@ -45,11 +45,14 @@ class AuthController extends Controller
      */
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {
-        return response()->json(['message' => ['O email não pôde ser enviado para esse endereço de email.']]);
+        return response()->json(['errorEmail' => ['O email não pôde ser enviado para esse endereço de email.']]);
     }
     
     public function callResetPassword(Request $request)
     {
+        if ($request->password != $request->password_confirmation){
+            return response()->json(['errorToken' => ['Senha e confirmação de senha não são iguais.']]);
+        }
         return $this->reset($request);
     }
     
