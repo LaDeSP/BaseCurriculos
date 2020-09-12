@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Validator;
 
-
+use Response;
 use Hash;
 use Illuminate\Auth\Events\PasswordReset;
 use App\User;
@@ -53,6 +54,15 @@ class AuthController extends Controller
         if ($request->password != $request->password_confirmation){
             return response()->json(['errorToken' => ['Senha e confirmação de senha não são iguais.']]);
         }
+
+        $validator = Validator::make($request->all(), AuthController::rules(), AuthController::messages());
+
+        if ($validator->fails()) {
+            return Response::json([
+               'errorToken' => $validator->messages()
+           ], 201);
+        }   
+
         return $this->reset($request);
     }
     
@@ -77,5 +87,23 @@ class AuthController extends Controller
     protected function sendResetFailedResponse(Request $request, $response)
     {
         return response()->json(['errorToken' => ['Email incorreto ou link expirado.']]);
+    }
+
+    public function rules(){
+        return [
+            'password' => 'required|min:8|max:30',
+            'email' => 'required|max:250|email'
+        ];
+    }
+
+    public function messages(){
+        return $messages = [
+            'password.required' => 'Insira uma senha!',
+            'password.min' => 'Insira uma senha com no mínimo 8 caracteres!',
+            'password.max' => 'Insira uma senha com no máximo 30 caracteres!',
+            'email.required' => 'Insira um email!',
+            'email.email' => 'Insira um email válido!',
+            'email.max' => 'Email com no máximo 250 caracteres.'
+        ];
     }
 }
