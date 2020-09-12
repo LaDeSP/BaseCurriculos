@@ -11,7 +11,7 @@
             color="blue"
             text
             v-bind="attrs"
-            @click="snackbar = false"
+            @click="closeAndRedirect()"
           >Fechar</v-btn>
         </template>
       </v-snackbar>
@@ -116,17 +116,23 @@ export default {
             password_confirmation: this.password_confirmation
         })
         .then(response => {
-          if(response.message[0] == 'Token inválido - Email errado.'){
-            this.notificacoes = response.message
+          if(response.errorToken){
+            this.notificacoes = response.errorToken
             this.pleaseWaitDialog = false
           }else{
             this.notificacoes = []
             this.email = null
+            this.password = null
+            this.password_confirmation = null
             this.snackNotificacao = 'Senha atualizada com sucesso!'
             this.snackbar = true
             this.pleaseWaitDialog = false
         }
         })
+      },
+      async closeAndRedirect(){
+        this.snackbar = false
+        this.$router.push({name: 'login'})
       }
     }
 }
