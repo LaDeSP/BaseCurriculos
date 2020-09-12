@@ -18,13 +18,13 @@
       <ValidationObserver v-slot="{ invalid }">
         <v-form>
           <v-card class="mx-auto" max-width="800" align="center" justify="center">
-            <v-card-text class="pa-10">
+            <v-card-title class="justify-center text-center font-weight-bold">Nova Senha</v-card-title>
+            <v-card-text class="pl-10 pr-10">
               <template v-if="notificacoes">
                 <span class="rounded-lg pa-1 mr-1 mt-3 mb-10 text-center red lighten-2 white--text" v-for="(notificacao, index) in notificacoes" :key="index">
-                  {{notificacao[0]}}
+                  {{notificacao}}
                 </span>
               </template>
-              <h2 class="mt-3">Nova Senha</h2>
               <ValidationProvider v-slot="{errors}" name="email" rules="required|email|max:250">
                 <v-text-field
                   v-model="email"
@@ -88,8 +88,9 @@
     </v-col>
   </v-row>
 </template>
-<script>
 
+<script>
+import {actionTypes} from '@/core/constants'
 export default {
     data() {
       return {
@@ -102,24 +103,31 @@ export default {
         snackbar: false,
         snackNotificacao: '',
         timeout: 5000,
-        notificacoes: ''
+        notificacoes: []
       }
     },
     methods: {
-        resetPassword() {
-            this.$http.post("http://localhost:8000/api/input-password", {
-                token: this.$route.params.token,
-                email: this.email,
-                password: this.password,
-                password_confirmation: this.password_confirmation
-            })
-            .then(result => {
-                // console.log(result.data);
-                this.$router.push({name: 'login'})
-            }, error => {
-                console.error(error);
-            });
+      async resetPassword() {
+        this.pleaseWaitDialog = true
+        await this.$store.dispatch(actionTypes.RESET_PASSWORD, {
+            token: this.$route.params.token,
+            email: this.email,
+            password: this.password,
+            password_confirmation: this.password_confirmation
+        })
+        .then(response => {
+          if(response.message[0] == 'Token inválido - Email errado.'){
+            this.notificacoes = response.message
+            this.pleaseWaitDialog = false
+          }else{
+            this.notificacoes = []
+            this.email = null
+            this.snackNotificacao = 'Senha atualizada com sucesso!'
+            this.snackbar = true
+            this.pleaseWaitDialog = false
         }
+        })
+      }
     }
 }
 </script>

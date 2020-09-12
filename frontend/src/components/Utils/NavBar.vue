@@ -26,21 +26,23 @@
       </template>
     </template>
     <v-spacer></v-spacer>
-    <template v-if="this.$route.path == '/login' || this.$route.path == '/sobre'">
+    <template v-if="this.$route.path == '/login' || this.$route.path == '/login/'
+      || this.$route.path == '/sobre' || this.$route.path == '/sobre/'
+      || this.$route.path == '/reset-password' || this.$route.path == '/reset-password/'">
         <router-link to="/">
           <v-btn depressed large class="ma-2">Voltar
             <v-icon right>fas fa-home</v-icon>
           </v-btn>
         </router-link>
     </template>
-    <template v-if="this.$route.path == '/' || this.$route.path == '/sobre'">
+    <template v-if="this.$route.path == '/' || this.$route.path == '/sobre' || this.$route.path == '/sobre/'">
       <router-link to="/login">
         <v-btn depressed large class="ma-2">Entrar
           <v-icon right>fa-sign-in-alt</v-icon>
         </v-btn>
       </router-link>
     </template>
-    <template v-if="this.$route.path == '/' || this.$route.path == '/login'">
+    <template v-if="this.$route.path == '/' || this.$route.path == '/login' || this.$route.path == '/login/'">
       <router-link to="/sobre">
         <v-btn depressed large class="ma-">Sobre
           <v-icon right>far fa-lightbulb</v-icon>

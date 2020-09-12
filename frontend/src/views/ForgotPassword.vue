@@ -18,13 +18,13 @@
       <ValidationObserver v-slot="{ invalid }">
         <v-form>
           <v-card class="mx-auto" max-width="800" align="center" justify="center">
-            <v-card-text class="pa-10">
-              <template v-if="notificacoes">
-                <span class="rounded-lg pa-1 mr-1 mt-3 mb-10 text-center red lighten-2 white--text" v-for="(notificacao, index) in notificacoes" :key="index">
-                  {{notificacao[0]}}
-                </span>
-              </template>
-              <h2 class="mt-3">Esqueci Minha Senha</h2>
+            <v-card-title class="justify-center text-center font-weight-bold">Esqueci Minha Senha</v-card-title>
+            <template v-if="notificacoes">
+              <span class="rounded-lg pa-1 mr-1 mb-10 mt-3 text-center red lighten-2 white--text" v-for="(notificacao, index) in notificacoes" :key="index">
+                {{notificacao}}
+              </span>
+            </template>
+            <v-card-text class="pl-10 pr-10">
               <ValidationProvider v-slot="{errors}" name="email" rules="required|email|max:250">
                 <v-text-field
                   v-model="email"
@@ -79,19 +79,23 @@ export default {
       snackbar: false,
       snackNotificacao: '',
       timeout: 5000,
-      notificacoes: ''
+      notificacoes: []
     }
   },
   methods: {
     requestResetPassword() {
+      this.pleaseWaitDialog = true
       this.$store.dispatch(actionTypes.FORGOT_PASSWORD, {email: this.email})
       .then(response => {
         if (response.errorEmail){
-          this.notificacoes = response.errorEmail;
-        }
-        else{
-          this.notificacoes='';
-          this.email=null;
+          this.notificacoes = response.errorEmail
+          this.pleaseWaitDialog = false
+        }else{
+          this.notificacoes = []
+          this.email = null
+          this.snackNotificacao = 'Email de recuperação de senha enviado com sucesso!'
+          this.snackbar = true
+          this.pleaseWaitDialog = false
         }
       })
     }

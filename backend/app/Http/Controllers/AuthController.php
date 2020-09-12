@@ -22,7 +22,7 @@ class AuthController extends Controller
     {
         if(!User::where('email', $request->email)->exists()){
             return response()->json([
-                'errorEmail' => 'Email não cadastrado no nosso sistema.',
+                'errorEmail' => ['Email não cadastrado no nosso sistema.'],
             ]);
         }
         
@@ -32,7 +32,7 @@ class AuthController extends Controller
     protected function sendResetLinkResponse($response)
     {
         return response()->json([
-            'message' => 'Password reset email sent.',
+            'message' => ['Email de recuperação de senha enviado com sucesso!'],
             'data' => $response
         ]);
     }
@@ -45,7 +45,7 @@ class AuthController extends Controller
      */
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {
-        return response()->json(['message' => 'Email could not be sent to this email address.']);
+        return response()->json(['message' => ['O email não pôde ser enviado para esse endereço de email.']]);
     }
     
     public function callResetPassword(Request $request)
@@ -60,9 +60,9 @@ class AuthController extends Controller
         event(new PasswordReset($user));
     }
 
-    protected function sendResetResponse(Request $request, $response)
+    protected function sendResetResponse($response)
     {
-        return response()->json(['message' => 'Password reset successfully.']);
+        return response()->json(['message' => ['Senha atualizada com sucesso!']]);
     }
     /**
      * Get the response for a failed password reset.
@@ -73,6 +73,6 @@ class AuthController extends Controller
      */
     protected function sendResetFailedResponse(Request $request, $response)
     {
-        return response()->json(['message' => 'Token inválido - Email errado.']);
+        return response()->json(['message' => ['Token inválido - Email incorreto.']]);
     }
 }

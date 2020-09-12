@@ -278,6 +278,11 @@ export default {
   async [actionTypes.FORGOT_PASSWORD]({commit}, payload){
     const response = await api.account.forgotPassword(payload)
     console.log('FORGOT_PASSWORD RESPONSE', response)
-    return response.data;
+    return response.data
+  },
+  async [actionTypes.RESET_PASSWORD]({commit}, payload){
+    const response = await api.account.resetPassword(payload)
+    console.log('RESET_PASSWORD RESPONSE', response)
+    return response.data
   },
 }
