@@ -9,6 +9,7 @@ export default {
     SET_INFOS_PESSOAIS_FISICA: 'setInfosPessoaisFisica',
     SET_NEW_USER_PIC: 'setNewUserPic',
     SET_CONVITES: 'setConvites',
+    SET_AREAS: 'setAreas',
     SET_VAGAS_COM_CONVITES: 'setVagasComConvites',
     SET_CANDIDATURAS: 'setCandidaturas',
     SET_VAGAS_COM_CANDIDATURAS: 'setVagasComCandidaturas',

@@ -4,7 +4,7 @@
     dark
     absolute
   >
-    <router-link to="/"><v-toolbar-title class="pl-1 hidden-sm-and-down">Sistema de Recrutamento e Seleção</v-toolbar-title></router-link>
+    <router-link to="/"><v-toolbar-title class="pl-1 hidden-sm-and-down">Corumbá Jobs</v-toolbar-title></router-link>
     <v-spacer></v-spacer>
     <template v-if="auth.isLoggedIn && auth.dataCompleted">
       <template v-if="$route.path != '/error' && $route.path != '/error/'

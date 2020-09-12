@@ -88,8 +88,9 @@ export default {
     }
     return response.data
   },
-  async [actionTypes.GET_AREAS]({state}){
+  async [actionTypes.GET_AREAS]({commit, state}){
     const response = await api.vagas.getAreas(state)
+    commit(mutationTypes.SET_AREAS, response.data.areas)
     return response.data 
   },
   async [actionTypes.GET_PESSOA_FISICA]({commit, state}){

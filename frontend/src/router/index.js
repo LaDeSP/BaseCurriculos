@@ -167,7 +167,7 @@ router.beforeEach((to, from, next) => {
       next('/')
     }
   }else if(to.matched.some(record => record.meta.requiresAuthMaster)){
-    if(store.state.auth.isLoggedIn && store.state.tipoPermissao === 'MASTER'){
+    if(store.state.auth.isLoggedIn && store.state.auth.user.role === 'MASTER'){
       next()
       return
     }
@@ -177,7 +177,8 @@ router.beforeEach((to, from, next) => {
     }
     next('/')
   }else if(to.matched.some(record => record.meta.requiresAuthJuridica)){
-    if(store.state.auth.isLoggedIn && store.state.tipoPermissao ==='JURIDICA' && store.state.auth.dataCompleted){
+    console.log('isloggedin', store.state.auth.isLoggedIn, 'tipo', store.state.auth.user.role, 'data', store.state.auth.dataCompleted)
+    if(store.state.auth.isLoggedIn && store.state.auth.user.role ==='JURIDICA' && store.state.auth.dataCompleted){
       next()
       return
     }
@@ -187,7 +188,7 @@ router.beforeEach((to, from, next) => {
     }
     next('/')
   }else if(to.matched.some(record => record.meta.requiresAuthFisica)){
-    if(store.state.auth.isLoggedIn && store.state.tipoPermissao ==='FISICA' && store.state.auth.dataCompleted){
+    if(store.state.auth.isLoggedIn && store.state.auth.user.role ==='FISICA' && store.state.auth.dataCompleted){
       next()
       return
     }

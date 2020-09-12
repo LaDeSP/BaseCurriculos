@@ -184,7 +184,6 @@
                 class="ml-3 mr-3 green white--text" 
                 :loading="pleaseWaitDialog" 
                 @click="submit()"
-                :disabled="invalid"
               >Salvar</v-btn>
               <v-dialog
                 v-model="pleaseWaitDialog"
@@ -220,7 +219,7 @@ import InformacoesPessoais from './FormPessoaFisicaComponents/InformacoesPessoai
 import Contato from './FormPessoaFisicaComponents/Contato'
 import Endereco from './FormPessoaFisicaComponents/Endereco'
 import InformacoesProfissionais from './FormPessoaFisicaComponents/InformacoesProfissionais'
-import { actionTypes } from '../../core/constants'
+import {actionTypes} from '@/core/constants'
 
 export default {
   components: {InformacoesPessoais, Contato, Endereco, InformacoesProfissionais},
@@ -278,7 +277,6 @@ export default {
         "Pós-Graduação(Mestrado)", 
         "Pós-Graduação(Doutorado)"
       ],
-      itemsAreaAtuacao: [],
       isExperienciaDuplicate: false,
       rulesPeriodo: [value => !!value || 'Esse campo é obrigatório.']
       
@@ -292,17 +290,18 @@ export default {
     }
   },
   async created(){
-    await this.$store.dispatch(actionTypes.GET_AREAS)
-      .then(response => {
-        this.itemsAreaAtuacao = response.areas
-      })
-    console.log('modo edicao?', this.edicao)
+    console.log('AREAAA?', this.itemsAreaAtuacao)
     if(this.edicao){
       this.loadDataToEdit()
+    }else{
+      await this.$store.dispatch(actionTypes.GET_AREAS)
+        .then(response => {
+          this.itemsAreaAtuacao = response.areas
+        })
     }
   },
   computed: {
-    ...mapState(['pessoaFisicaInfo', 'pessoaFisicaCurriculo']),
+    ...mapState(['pessoaFisicaInfo', 'pessoaFisicaCurriculo', 'itemsAreaAtuacao']),
     dataInicialFormatada(){
       if(this.dataInicial != ''){
         return moment(this.dataInicial).format('DD/MM/YYYY')

@@ -13,7 +13,7 @@
       >
        <a href="https://fabricadesoftwaredopantanal.ufms.br"><img class="logoDaFabrica" src="../../../img/logo3.png"></a>   
       </v-col>
-      <h4 class="py-1 text-center white--text">Copyright &copy; {{new Date().getFullYear()}} —  Sistema de Recrutamento e Seleção</h4>
+      <h4 class="py-1 text-center white--text">Copyright &copy; {{new Date().getFullYear()}} —  Corumbá Jobs</h4>
     </v-row>
   </v-footer>
 </template>

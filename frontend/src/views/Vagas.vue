@@ -35,7 +35,7 @@
               :key="i"
               :value="'tab-' + i"
             >
-            <v-card align="center">
+            <v-card flat align="center">
               <v-card-text>
                 <router-link to="/vagas/create">
                   <v-btn class="ml-3" outlined color="primary darken-1">
@@ -48,7 +48,7 @@
                       <span style="font-size: 20px" class="my-10">Não há nenhuma vaga com esse status.</span>
                   </template>
                   <template v-else>
-                    <v-col cols="12" lg="6" md="6" sm="12" v-for="vaga in getVagas" :key="vaga.id">
+                    <v-col cols="12" lg="6" md="6" sm="12" v-for="vaga in pageOfItems" :key="vaga.id">
                       <v-card class="py-5" align="center">
                         <v-card-title class="primary--text text-center justify-center">
                           <h3>{{vaga.titulo}}</h3>
@@ -84,6 +84,28 @@
                 </v-row>
               </v-card-text>
             </v-card>
+            <v-row align="center" justify="center">
+              <v-col>
+                <template v-if="getVagas.length > 4">
+                  <jw-pagination 
+                    :items="getVagas"
+                    @changePage="onChangePage"
+                    :pageSize="4"
+                    :labels="customLabels"
+                  ></jw-pagination>
+                </template>
+                <template v-else>
+                  <span style="display: none" >
+                    <jw-pagination 
+                      :items="getVagas" 
+                      @changePage="onChangePage"
+                      :pageSize="4" 
+                      :labels="customLabels"
+                    ></jw-pagination>
+                  </span>
+                </template>
+              </v-col>
+            </v-row>
             </v-tab-item>
           </v-tabs-items>
           </v-tabs>
@@ -98,6 +120,11 @@ import ModalAlert from '@/components/Utils/ModalAlert'
 import {actionTypes} from '@/core/constants'
 import {mapState, mapGetters} from 'vuex'
 
+const customLabels = {
+  next: '>',
+  previous: '<'
+}
+
 export default {
   components: {FormCreateVaga, ModalAlert},
   data(){ 
@@ -107,7 +134,9 @@ export default {
       status: 'ATIVAS',
       isLoaded: false,
       edicao: false,
+      pageOfItems: [],
       vagasJuridica: [],
+      customLabels,
       avisoModal: {
         title: 'Deletar Vaga',
         action: 'deletar vaga'
@@ -130,6 +159,9 @@ export default {
     }
   },
   methods: {
+    onChangePage(pageOfItems) {
+      this.pageOfItems = pageOfItems;
+    },
     setNotificacoes(){
       if(this.$route.params.cadastroVagaSucesso){
         this.notificacao = 'Vaga cadastrada com sucesso!'

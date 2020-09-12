@@ -27,6 +27,9 @@ export default {
     [mutationTypes.UPDATE_AUTH_USER](state, payload){
         state.auth.user = payload
     },
+    [mutationTypes.SET_AREAS](state, payload){
+        state.itemsAreaAtuacao = payload
+    },
     [mutationTypes.TIPO_PERMISSAO](state, payload){
         state.tipoPermissao = payload
     },

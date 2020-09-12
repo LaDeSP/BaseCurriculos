@@ -25,7 +25,7 @@
               <span class="aviso">Não há nenhuma candidatura.</span>
             </template>
             <template v-else>
-              <v-col cols="12" lg="6" md="6" sm="12" class="d-flex flex-column" v-for="candidatura in getCandidaturas" :key="candidatura.id">
+              <v-col cols="12" lg="6" md="6" sm="12" class="d-flex flex-column" v-for="candidatura in pageOfItems" :key="candidatura.id">
                 <v-card class="flex d-flex flex-column">
                   <v-card-title class="primary--text">
                     <h3 :title="candidatura.vaga.titulo">{{truncate(candidatura.vaga.titulo, 25)}}</h3>
@@ -34,80 +34,88 @@
                   </v-card-title>
                   <v-card-text class="black--text" align="left">
                     <span>
+                      <template class="d-flex d-sm-none"><strong>Título: </strong> {{candidatura.vaga.titulo}}</template><br/>
                       <strong>Cargo: </strong> {{candidatura.vaga.cargo}} <br/>
                       <strong>Descrição da Vaga: </strong> {{candidatura.vaga.descricao}} <br/>
                     </span>
-                    <template v-if="candidatura.status == 'AGUARDANDO'">
-                      <br/><h3 align="center">Enviamos sua solicitação para a empresa. Aguarde retorno!</h3>
+                    <template v-if="candidatura.vaga.status == 'ATIVA'">
+                      <template v-if="candidatura.status == 'AGUARDANDO'">
+                        <br/><h3 align="center">Enviamos sua solicitação para a empresa. Aguarde retorno!</h3>
+                      </template>
+                      <template v-if="candidatura.status == 'ENTREVISTA CANCELADA'">
+                        <template v-if="candidatura.agenda[0].contraproposta == 'JURIDICA'">
+                          <br/><h3 align="center">A empresa optou por cancelar o agendamento.</h3>
+                        </template>
+                        <template v-else>
+                          <br/><h3 align="center">Você optou por cancelar o agendamento.</h3>
+                        </template>
+                        <template v-if="candidatura.agenda[0].observacao != null">
+                          <p align="center">Foi feita a seguinte observação:</p>
+                          <p align="center" class="font-italic">"{{candidatura.agenda[0].observacao}}"</p> 
+                        </template>
+                      </template>
+                      <template v-if="candidatura.status == 'RECUSADO'">
+                        <br/><h3 align="center" class="red--text">Infelizmente, a empresa decidiu não dar continuidade no processo de sua candidatura :(</h3>
+                      </template>
                     </template>
-                    <template v-if="candidatura.status == 'ENTREVISTA CANCELADA'">
-                      <template v-if="candidatura.agenda[0].contraproposta == 'JURIDICA'">
-                        <br/><h3 align="center">A empresa optou por cancelar o agendamento.</h3>
-                      </template>
-                      <template v-else>
-                        <br/><h3 align="center">Você optou por cancelar o agendamento.</h3>
-                      </template>
-                      <template v-if="candidatura.agenda[0].observacao != null">
-                        <p align="center">Foi feita a seguinte observação:</p>
-                        <p align="center" class="font-italic">"{{candidatura.agenda[0].observacao}}"</p> 
-                      </template>
-                    </template>
-                    <template v-if="candidatura.status == 'RECUSADO'">
-                      <br/><h3 align="center" class="red--text">Infelizmente, a empresa decidiu não dar continuidade no processo de sua candidatura :(</h3>
+                    <template v-else>
+                      <br/><h3 align="center">Esta vaga se encontra inativa no momento.</h3>
                     </template>
                   </v-card-text>
                   <v-card-actions class="text-center justify-center">
-                    <template v-if="candidatura.status == 'AGUARDANDO'">
-                      <ModalAlert :candidaturaId="candidatura.id" :payload="cancelarCandidatura">
-                        <slot>
-                          <h1 class="text-center line-height">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> a candidatura nessa vaga?</h1>
-                          <h2 class="text-center mt-4">Essa ação não poderá ser desfeita!</h2>
-                        </slot>
-                      </ModalAlert>
-                    </template>
-                    <template v-if="candidatura.status == 'EM AGENDAMENTO' && getCandidaturaId(candidatura.id)">
-                      <ModalDetalhes :candidatura="candidatura" :payload="verAgendamento" :candidaturaId="candidatura.id">
-                        <template v-slot:texto>
-                          <template v-if="agendaById != undefined">
-                            <span class="text-subtitle-1">Referente à vaga "<strong>{{candidatura.vaga.titulo}}</strong>":</span> <br/><br/>
-                            <template v-if="candidatura.agenda.contraproposta == 'JURIDICA'">
-                              A empresa agendou uma entrevista para o dia 
-                            </template> 
-                            <template v-else>
-                              Você fez uma contraproposta para o dia
+                    <template v-if="candidatura.vaga.status == 'ATIVA'">
+                      <template v-if="candidatura.status == 'AGUARDANDO'">
+                        <ModalAlert :candidaturaId="candidatura.id" :payload="cancelarCandidatura">
+                          <slot>
+                            <h1 class="text-center line-height">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> a candidatura nessa vaga?</h1>
+                            <h2 class="text-center mt-4">Essa ação não poderá ser desfeita!</h2>
+                          </slot>
+                        </ModalAlert>
+                      </template>
+                      <template v-if="candidatura.status == 'EM AGENDAMENTO' && getCandidaturaId(candidatura.id)">
+                        <ModalDetalhes :candidatura="candidatura" :payload="verAgendamento" :candidaturaId="candidatura.id">
+                          <template v-slot:texto>
+                            <template v-if="agendaById != undefined">
+                              <span class="text-subtitle-1">Referente à vaga "<strong>{{candidatura.vaga.titulo}}</strong>":</span> <br/><br/>
+                              <template v-if="candidatura.agenda.contraproposta == 'JURIDICA'">
+                                A empresa agendou uma entrevista para o dia 
+                              </template> 
+                              <template v-else>
+                                Você fez uma contraproposta para o dia
+                              </template>
+                              <strong>{{agendaById.data | dateFormat}}</strong>, 
+                              às <strong>{{agendaById.hora | hourFormat}}</strong> 
+                              <template v-if="agendaById.observacao != null">
+                                com as seguintes <strong>observações:</strong> <br/><br/>
+                                <p class="font-italic subtitle-1" align="center">"{{agendaById.observacao}}"</p>
+                              </template>
+                              <template v-else>
+                                e não fez nenhuma observação. 
+                              </template>
+                              <p align="center">O que deseja fazer?</p>
                             </template>
-                            <strong>{{agendaById.data | dateFormat}}</strong>, 
-                            às <strong>{{agendaById.hora | hourFormat}}</strong> 
-                            <template v-if="agendaById.observacao != null">
-                              com as seguintes <strong>observações:</strong> <br/><br/>
-                              <p class="font-italic subtitle-1" align="center">"{{agendaById.observacao}}"</p>
-                            </template>
-                            <template v-else>
-                              e não fez nenhuma observação. 
-                            </template>
-                            <p align="center">O que deseja fazer?</p>
                           </template>
-                        </template>
-                      </ModalDetalhes>
-                    </template>
-                    <template v-if="candidatura.status == 'ENTREVISTA CONFIRMADA'">
-                      <ModalAlert 
-                          :candidaturaId="candidatura.id" 
-                          :observacaoCancelamento="observacaoCancelamento" 
-                          :payload="cancelarAgendamento"
-                        >
-                        <slot>
-                          <h1 class="text-center line-height">Tem certeza de que deseja <span style="color: #ff0000">
-                          <strong>cancelar</strong></span> esse agendamento?</h1>
-                          <h3 class="mt-3" align="center">Você pode fazer uma observação:</h3>
-                          <v-textarea
-                            class="mt-3"
-                            v-model="observacaoCancelamento"
-                            outlined
-                          ></v-textarea>
-                          <h2 class="text-center mt-4">Essa ação não poderá ser desfeita!</h2>
-                        </slot>
-                      </ModalAlert>
+                        </ModalDetalhes>
+                      </template>
+                      <template v-if="candidatura.status == 'ENTREVISTA CONFIRMADA'">
+                        <ModalAlert 
+                            :candidaturaId="candidatura.id" 
+                            :observacaoCancelamento="observacaoCancelamento" 
+                            :payload="cancelarAgendamento"
+                          >
+                          <slot>
+                            <h1 class="text-center line-height">Tem certeza de que deseja <span style="color: #ff0000">
+                            <strong>cancelar</strong></span> esse agendamento?</h1>
+                            <h3 class="mt-3" align="center">Você pode fazer uma observação:</h3>
+                            <v-textarea
+                              class="mt-3"
+                              v-model="observacaoCancelamento"
+                              outlined
+                            ></v-textarea>
+                            <h2 class="text-center mt-4">Essa ação não poderá ser desfeita!</h2>
+                          </slot>
+                        </ModalAlert>
+                      </template>
                     </template>
                   </v-card-actions>
                 </v-card>
@@ -116,6 +124,28 @@
           </v-row>
         </v-card-text>
       </v-card>
+      <v-row align="center" justify="center">
+        <v-col>
+          <template v-if="getCandidaturas.length > 4">
+            <jw-pagination 
+              :items="getCandidaturas"
+              @changePage="onChangePage"
+              :pageSize="4"
+              :labels="customLabels"
+            ></jw-pagination>
+          </template>
+          <template v-else>
+            <span style="display: none" >
+              <jw-pagination 
+                :items="getCandidaturas" 
+                @changePage="onChangePage"
+                :pageSize="4" 
+                :labels="customLabels"
+              ></jw-pagination>
+            </span>
+          </template>
+        </v-col>
+      </v-row>
     </v-tab-item>
   </v-tabs-items>
   </v-tabs>

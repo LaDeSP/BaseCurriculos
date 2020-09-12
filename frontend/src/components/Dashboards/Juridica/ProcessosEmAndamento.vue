@@ -30,12 +30,12 @@
               ></v-progress-linear>
             </v-col>
             <v-row align="center" justify="center">
-              <v-col cols="12" md="6">
-                <template class="" v-if="progressBar.length > 6">
+              <v-col >
+                <template v-if="progressBar.length > 4">
                   <jw-pagination 
                     :items="progressBar"
                     @changePage="onChangePage"
-                    :pageSize="6"
+                    :pageSize="4"
                     :labels="customLabels"
                   ></jw-pagination>
                 </template>
@@ -44,7 +44,7 @@
                     <jw-pagination 
                       :items="progressBar" 
                       @changePage="onChangePage"
-                      :pageSize="6" 
+                      :pageSize="4" 
                       :labels="customLabels"
                     ></jw-pagination>
                   </span>

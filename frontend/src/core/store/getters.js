@@ -1,6 +1,10 @@
 const tipoPermissao = state => state.auth.user.role
 const getUltimasCandidaturas = state => {
-  return state.candidaturas.slice(0,3)
+  return state.candidaturas.filter(filtered => {
+    if(filtered.vaga.status == 'ATIVA'){
+      return state.candidaturas.slice(0,3)
+    }
+  })
 }
 const getVagasAtivas = state => {
   return state.vagas.filter(vaga => {

@@ -12,7 +12,7 @@
             <span style="font-size: 20px">Nenhuma Candidatura Realizada!</span>
       </template>
       <template v-else>
-        <v-row>
+        <v-row class="justify-space-around">
           <v-col cols="10" sm="4" v-for="candidatura in getUltimasCandidaturas" :key="candidatura.id">
               <v-card class="py-5">
                 <v-card-title class="text-center justify-center">

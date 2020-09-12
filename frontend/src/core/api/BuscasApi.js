@@ -11,8 +11,7 @@ const searchAvancadoVagas = async (state, search) => {
     if (search.requisitos == '') search.requisitos = 'undefined'
     if (search.area == '') search.area = 'undefined'
     //acho que isso aqui seria melhor como um post
-    return await axios.get(`
-        buscaVagasAvancadas/${search.keywords}/${search.cargo}/${search.beneficio}/${search.jornada}/${search.requisitos}/${search.area}?token=${state.auth.token}
+    return await axios.get(`buscaVagasAvancadas/${search.keywords}/${search.cargo}/${search.beneficio}/${search.jornada}/${search.requisitos}/${search.area}?token=${state.auth.token}
     `)
 }
 const searchCurriculos = async (state, keywords) => {
