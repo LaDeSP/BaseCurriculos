@@ -25,19 +25,17 @@
               <span class="aviso">Não há nenhuma candidatura.</span>
             </template>
             <template v-else>
-              <v-col cols="12" lg="6" md="6" sm="12" class="d-flex flex-column" v-for="candidatura in pageOfItems" :key="candidatura.id">
+              <v-col cols="12" lg="6" md="10" sm="12" class="d-flex flex-column" v-for="candidatura in pageOfItems" :key="candidatura.id">
                 <v-card class="flex d-flex flex-column">
                   <v-card-title class="primary--text">
                     <h3 :title="candidatura.vaga.titulo">{{truncate(candidatura.vaga.titulo, 25)}}</h3>
                     <v-spacer></v-spacer>
-                    <v-chip :color="getColor(candidatura.status)">{{candidatura.status}}</v-chip>
+                    <v-chip class="" :color="getColor(candidatura.status)">{{candidatura.status}}</v-chip>
                   </v-card-title>
                   <v-card-text class="black--text" align="left">
-                    <span>
-                      <template class="d-flex d-sm-none"><strong>Título: </strong> {{candidatura.vaga.titulo}}</template><br/>
-                      <strong>Cargo: </strong> {{candidatura.vaga.cargo}} <br/>
-                      <strong>Descrição da Vaga: </strong> {{candidatura.vaga.descricao}} <br/>
-                    </span>
+                    <template v-if="$vuetify.breakpoint.xsOnly"><strong>Título: </strong> {{candidatura.vaga.titulo}}</template><br/>
+                    <strong>Cargo: </strong> {{candidatura.vaga.cargo}} <br/>
+                    <strong>Descrição da Vaga: </strong> {{candidatura.vaga.descricao}} <br/>
                     <template v-if="candidatura.vaga.status == 'ATIVA'">
                       <template v-if="candidatura.status == 'AGUARDANDO'">
                         <br/><h3 align="center">Enviamos sua solicitação para a empresa. Aguarde retorno!</h3>
@@ -218,6 +216,7 @@ export default {
   }
   },
   async created(){
+    console.log('AKIDJSODJKADA', this.$vuetify.breakpoint)
     await this.$store.dispatch(actionTypes.GET_AGENDA)
   },
   computed: {

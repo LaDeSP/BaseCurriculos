@@ -13,10 +13,10 @@
       </template>
       <template v-else>
         <v-row class="justify-space-around">
-          <v-col cols="10" sm="4" v-for="candidatura in getUltimasCandidaturas" :key="candidatura.id">
-              <v-card class="py-5">
+          <v-col class="d-flex flex-column" cols="10" lg="4" md="4" sm="4" v-for="candidatura in getUltimasCandidaturas" :key="candidatura.id">
+              <v-card class="py-5 flex d-flex flex-column">
                 <v-card-title class="text-center justify-center">
-                  {{candidatura.vaga.titulo}}
+                  <h3 :title="candidatura.vaga.titulo">{{truncate(candidatura.vaga.titulo, 25)}}</h3>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-card-text class="mt-1 same-size-card">
@@ -43,10 +43,19 @@ export default {
     }
   },
   computed: {
-    ...mapState(['candidaturas']),
+    ...mapState(['candidaturas', 'auth']),
     ...mapGetters(['getUltimasCandidaturas'])
   },
   methods: {
+    truncate(value, size){
+      if(value.length > size){
+        let title = value.slice(0, size)
+        title = title + '...'
+        return title
+      }else{
+        return value
+      }
+    },
     getStyle(status){
       if(status == 'AGUARDANDO' || status == 'EM AGENDAMENTO'){
         return 'mt-2 warning--text'

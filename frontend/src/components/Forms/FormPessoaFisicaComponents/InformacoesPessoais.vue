@@ -13,6 +13,7 @@
           v-model="name"
           :error-messages="errors"
           label="Nome Completo *"
+          type="text"
           required
         ></v-text-field>
       </ValidationProvider>
@@ -46,7 +47,7 @@
             scrollable locale="pt-br" 
             v-model="date" 
             no-title
-            :max="maxDate" 
+            :max="new Date().toISOString().substr(0,10)" 
             min="1950-01-01"
             @input="menu = false"></v-date-picker>
         </v-menu>

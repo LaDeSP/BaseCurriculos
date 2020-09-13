@@ -1,23 +1,36 @@
 <template>
-  <v-sheet class="mx-auto mt-4" max-width="1500">
-    <v-slide-group class="pa-4" show-arrows>
-      <v-slide-item v-for="patrocinador in juridicaPatrocinadoras" :key="patrocinador.id" v-slot:default="{active, toggle}">
-        <v-card class="ma-4" width="300" elevation="8">
-          <v-img class="white--text align-end" height="200px" :src="getPicPath(patrocinador.user.foto)">
-              <v-card-title class="black--text font-weight-bold text-capitalize">{{patrocinador.user.name}}</v-card-title>
-            </v-img>
-            <v-card-text class="text--primary">
-             {{patrocinador.endereco.cidade}} - {{patrocinador.endereco.estado}}
-            </v-card-text>
+  <v-card elevation="24" max-width="800" height="400" class="mx-auto mt-10">
+    <v-window v-model="window" class="elevation-1" :show-arrows="showArrows">
+      <v-window-item v-for="patrocinador in juridicaPatrocinadoras" :key="patrocinador.id">
+        <v-card flat>
+          <v-img height="300" max-height="300" :src="getPicPath(patrocinador.user.foto)"></v-img>
+          <v-card-title class="primary--text text-center justify-center text-capitalize"><h2>{{patrocinador.user.name}}</h2></v-card-title>
+          <v-card-text class="text-center justify-center">
+            <p>{{patrocinador.endereco.cidade}} - {{patrocinador.endereco.estado}}</p>
+          </v-card-text>
         </v-card>
-      </v-slide-item>
-    </v-slide-group>
-  </v-sheet>
+      </v-window-item>
+    </v-window>
+  </v-card>
 </template>
 
 <script>
 import {mapState} from 'vuex'
 export default {
+  data() {
+    return {
+      window: 0,
+      showArrows: true,
+      length: 0,
+      autorun: true
+    }
+  },
+  created (){
+    this.length = this.juridicaPatrocinadoras.length
+    setInterval(() => {
+      if (++this.window >= this.length) this.window = 0
+    }, 3000)
+  },
   computed: {
     ...mapState(['juridicaPatrocinadoras'])
   },
