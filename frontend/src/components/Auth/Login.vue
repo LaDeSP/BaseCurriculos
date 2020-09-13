@@ -44,9 +44,9 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-              <span>
-                <v-btn outlined color="brown darken-1" text @click="dialog = false">Esqueci minha senha</v-btn>
-              </span>
+              <router-link to="/reset-password">
+                <v-btn outlined color="brown darken-1" text >Esqueci minha senha</v-btn>
+              </router-link>
               <v-spacer></v-spacer>
               <FormCreatePessoaFisica></FormCreatePessoaFisica>
               <v-btn v-on:keyup.enter="login" class="ml-3" outlined color="primary darken-1" text @click.prevent="login">Entrar</v-btn>              
