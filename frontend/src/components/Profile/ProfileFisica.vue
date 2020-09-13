@@ -34,7 +34,7 @@
               :src="upload.path">
             </v-img>
             <template v-if="modoEdicao">
-              <FormPessoaFisicaCurriculo :itemsAreaAtuacao="itemsAreaAtuacao" :edicao="modoEdicao"></FormPessoaFisicaCurriculo>
+              <FormPessoaFisicaCurriculo @ver-perfil="modoEdicao = false" :itemsAreaAtuacao="itemsAreaAtuacao" :edicao="modoEdicao"></FormPessoaFisicaCurriculo>
             </template>
             <template v-else>
                   <h1 class="mb-3">{{nome}}</h1>

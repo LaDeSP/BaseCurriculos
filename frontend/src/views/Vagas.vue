@@ -1,6 +1,6 @@
 <template>
  <v-row align="center" justify="center">
-    <v-col cols="12" lg="12" md="10" sm="10" v-if="isLoaded">
+    <v-col cols="12" lg="12" md="12" sm="12" v-if="isLoaded">
       <span v-if="notificacao">
         <v-alert type="success">
           {{notificacao}}
@@ -48,8 +48,8 @@
                       <span style="font-size: 20px" class="my-10">Não há nenhuma vaga com esse status.</span>
                   </template>
                   <template v-else>
-                    <v-col cols="12" lg="6" md="6" sm="12" v-for="vaga in pageOfItems" :key="vaga.id">
-                      <v-card class="py-5" align="center">
+                    <v-col class="d-flex flex-column" cols="12" lg="6" md="6" sm="10" v-for="vaga in pageOfItems" :key="vaga.id">
+                      <v-card class="py-5 flex d-flex flex-column" align="center">
                         <v-card-title class="primary--text text-center justify-center">
                           <h3>{{vaga.titulo}}</h3>
                         </v-card-title>
@@ -72,7 +72,7 @@
                           <v-btn class="mr-1" outlined :color="getButtonColor(vaga.status)" @click="updateStatus(vaga.id, vaga.status)">
                             {{statusButton}}
                           </v-btn>
-                          <ModalAlert :payload="avisoModal">
+                          <ModalAlert :payload="deletarVaga" :vagaId="vaga.id">
                             <slot>
                               <h1 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>deletar</strong></span> essa vaga?</h1>
                             </slot>
@@ -137,7 +137,7 @@ export default {
       pageOfItems: [],
       vagasJuridica: [],
       customLabels,
-      avisoModal: {
+      deletarVaga: {
         title: 'Deletar Vaga',
         action: 'deletar vaga'
       }

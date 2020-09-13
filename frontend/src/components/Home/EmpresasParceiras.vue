@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="24" max-width="800" height="400" class="mx-auto mt-10">
+  <v-card v-if="juridicaPatrocinadoras.length > 0 && juridicaPatrocinadoras[0].endereco != undefined" elevation="24" max-width="800" height="400" class="mx-auto mt-10">
     <v-window v-model="window" class="elevation-1" :show-arrows="showArrows">
       <v-window-item v-for="patrocinador in juridicaPatrocinadoras" :key="patrocinador.id">
         <v-card flat>

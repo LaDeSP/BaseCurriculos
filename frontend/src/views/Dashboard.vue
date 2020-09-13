@@ -9,20 +9,20 @@
       </v-col>
         <template v-if="tipoPermissao == 'FISICA'">
           <v-col cols="10" lg="8" md="12" sm="12" xs="2">
-            <template v-if="isLoaded && auth.dataCompleted && refresh">
+            <template v-if="isLoaded && dataCompleted && refresh">
               <MinhasCandidaturas></MinhasCandidaturas>
               <MeusConvites></MeusConvites>
               <VagasRecomendadas></VagasRecomendadas>
             </template>
-             <template v-else-if="isLoaded && !auth.dataCompleted">
+             <template v-else-if="isLoaded && !refresh">
               <h1 class="text-center justify-center">Complete seus dados para continuar!</h1>
-              <FormPessoaFisicaCurriculo :edicao="false" @isDataCompleted="getDataFlag"></FormPessoaFisicaCurriculo>  
+              <FormPessoaFisicaCurriculo :toggle="true" :edicao="false" @data-completed="getDataFlag"></FormPessoaFisicaCurriculo>  
             </template>
           </v-col>
         </template>
         <template v-else-if="tipoPermissao == 'JURIDICA'">
           <v-row align="center" justify="center">  
-            <template v-if="isLoaded && auth.dataCompleted && auth.hasVaga">
+            <template v-if="isLoaded && dataCompleted && hasVaga">
               <span class="pagina"><v-icon class="pagina">fas fa-home fa-lg</v-icon> Home</span>
               <TopCards></TopCards>
               <v-row justify="center">
@@ -34,20 +34,20 @@
                 </v-col>
               </v-row>
             </template>
-            <template v-else-if="isLoaded && !auth.dataCompleted">
-              <v-col cols="10" lg="10" md="6" sm="8">
+            <template v-else-if="isLoaded && !dataCompleted">
+              <v-col cols="10" lg="10" md="10" sm="8">
                 <h1 class="text-center justify-center">Complete seus dados para continuar!</h1>
                 <FormPessoaJuridicaData @handleNotifSuccess="getNotifSuccess"></FormPessoaJuridicaData>
               </v-col>
             </template>
           </v-row>    
-          <template v-if="isLoaded && auth.dataCompleted && !auth.hasVaga">
+          <template v-if="isLoaded && dataCompleted && !hasVaga">
             <v-col cols="10" lg="10" md="10" sm="10">
               <FormCreateVaga :title="titlePrimeiraVaga"></FormCreateVaga>
             </v-col>
           </template>
         </template>
-        <template v-else-if="tipoPermissao == 'MASTER'">
+        <template v-if="isLoaded && tipoPermissao == 'MASTER'">
           <TopCardsMaster></TopCardsMaster>
         </template>
   </v-row>
@@ -88,7 +88,7 @@ export default {
     await this.loadUserData()
   },
   computed: {
-    ...mapState(['auth']), 
+    ...mapState(['auth', 'dataCompleted', 'hasVaga']), 
     ...mapGetters(['tipoPermissao'])
   }, 
   methods: {
@@ -107,7 +107,7 @@ export default {
       if(this.tipoPermissao == 'FISICA'){
         console.log('tipo permissao fisica if')
         await this.$store.dispatch(actionTypes.GET_PESSOA_FISICA)
-        if(this.auth.dataCompleted){
+        if(this.dataCompleted){
           console.log('no if, created, data completed, fisica')
           await this.$store.dispatch(actionTypes.GET_CANDIDATURAS)
           await this.$store.dispatch(actionTypes.GET_VAGAS_RECOMENDADAS)
@@ -116,19 +116,21 @@ export default {
         }
       }else if(this.tipoPermissao == 'JURIDICA'){
         await this.$store.dispatch(actionTypes.GET_PESSOA_JURIDICA)
-        if(this.auth.dataCompleted){
+        if(this.dataCompleted){
           await this.$store.dispatch(actionTypes.GET_VAGAS_JURIDICAS)
           await this.$store.dispatch(actionTypes.GET_CANDIDATURAS)
           await this.$store.dispatch(actionTypes.GET_AGENDA)
           await this.$store.dispatch(actionTypes.GET_TODOS_CONVITES)
           await this.$store.dispatch(actionTypes.GET_PORCENTAGEM_VAGAS)
         }
-      }      
+      }   
+      console.log('this tipo permissao', this.tipoPermissao)   
       this.isLoaded = true
     },
     async getDataFlag(value){
-      console.log('gerDaraFkag', value, this.$store.state.auth)
+      console.log('get data flag', value)
       if(value){
+        console.log('gerDaraFkag', value, this.$store.state.auth)
         this.notificacao = 'Seu currículo foi cadastrado com sucesso!'
         await this.$store.dispatch(actionTypes.GET_VAGAS_RECOMENDADAS)
         this.refresh = true

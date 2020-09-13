@@ -24,8 +24,8 @@
           </template>
           <template v-else>
             <v-row class="my-5" justify="center">
-              <v-col cols="12" lg="6" md="6" sm="12" v-for="convite in pageOfItems" :key="convite.id">
-                <v-card class="py-2">
+              <v-col class="d-flex flex-column" cols="12" lg="6" md="6" sm="12" v-for="convite in pageOfItems" :key="convite.id">
+                <v-card class="py-2 flex d-flex flex-column">
                   <v-card-title class="primary--text">
                     <h3>{{convite.vaga.titulo}}</h3>
                   </v-card-title>
@@ -44,7 +44,7 @@
                             <v-col>
                               <h2 class="mb-1">Informações Pessoais</h2>
                               <strong>Nome Completo:</strong> {{convite.curriculo.fisica.user.name}} <br/>
-                              <strong>Data de Nascimento:</strong> {{convite.curriculo.fisica.data_nascimento}} <br/>
+                              <strong>Data de Nascimento:</strong> {{convite.curriculo.fisica.data_nascimento | dateFormat}} <br/>
                               <strong>Gênero:</strong> {{convite.curriculo.fisica.genero}} <br/>
                               <strong>Estado Civil:</strong> {{convite.curriculo.fisica.estado_civil}} <br/>
                               <strong>CPF:</strong> {{convite.curriculo.fisica.cpf}} <br/> <br/>
@@ -75,7 +75,7 @@
                           <strong>Área de Atuação:</strong> {{convite.curriculo.area.tipo}} <br/>
                           <strong>Pretensão Salarial:</strong> {{convite.curriculo.pretensao}} <br/>
                           <strong>Formação Acadêmica:</strong> {{convite.curriculo.escolaridade}} <br/>
-                          <strong>Histórico</strong> {{convite.curriculo}} <br/>
+                          <strong>Histórico</strong> {{convite.curriculo.historicoProfissional}} <br/>
                           <strong>Qualificações:</strong> {{convite.curriculo.qualificacoes}} <br/>
                         </template>
                       </ModalDetalhes>
@@ -131,6 +131,7 @@ import {actionTypes} from '@/core/constants'
 import {mapState, mapGetters} from 'vuex'
 import ModalAlert from '@/components/Utils/ModalAlert'
 import ModalDetalhes from '@/components/Utils/ModalDetalhes'
+import moment from 'moment'
 
 const customLabels = {
   first: "Primeira",
@@ -173,6 +174,13 @@ export default {
         'action': 'cancelar entrevista'
       },
       active: 'TODOS'
+    }
+  },
+  filters:{
+    dateFormat: function(value){
+      if (value) {
+        return moment(String(value)).format('DD/MM/YYYY')
+      }
     }
   },
   created(){

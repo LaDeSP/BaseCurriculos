@@ -38,8 +38,8 @@
           </template>
           <template v-else>
             <v-row class="my-5" justify="center">
-              <v-col cols="12" lg="6" md="6" sm="12" v-for="convite in pageOfItems" :key="convite.id">
-                <v-card class="py-2">
+              <v-col class="d-flex flex-column" cols="12" lg="6" md="6" sm="12" v-for="convite in pageOfItems" :key="convite.id">
+                <v-card class="py-2 flex d-flex flex-column">
                   <v-card-title class="primary--text">
                     <h3>{{convite.vaga.titulo}}</h3>
                   </v-card-title>
@@ -51,6 +51,9 @@
                     </span>
                   </v-card-text>
                   <v-card-actions class="text-center justify-center">
+                    <template v-if="convite.resposta == 'CANCELADO'">
+                      <v-chip class="red darken-3" dark>Esse convite foi cancelado.</v-chip>
+                    </template>
                     <template v-if="convite.resposta == 'RECUSOU'">
                       <v-chip class="red darken-3" dark>Você recusou esse convite.</v-chip>
                     </template>

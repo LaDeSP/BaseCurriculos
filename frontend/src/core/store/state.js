@@ -1,5 +1,9 @@
 export default{
   isLoading: false,
+  isLoaded: false,
+  navBarKey: 0,
+  dataCompleted: false,
+  hasVaga: false,
   auth: {},
   tipoPermissao: '',
   pessoaFisicaInfo: {},

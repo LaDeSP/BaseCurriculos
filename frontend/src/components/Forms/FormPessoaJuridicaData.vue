@@ -4,11 +4,11 @@
     <v-stepper class="mt-3" v-model="step">
     <v-stepper-header>
       <v-divider></v-divider>
-      <v-stepper-step :complete="step > 1" editable step="1">Informações da Empresa</v-stepper-step>
+      <v-stepper-step :complete="step > 1" step="1">Informações da Empresa</v-stepper-step>
           <v-divider></v-divider>
-      <v-stepper-step :complete="step > 2" editable step="2">Contato</v-stepper-step>
+      <v-stepper-step :complete="step > 2" step="2">Contato</v-stepper-step>
           <v-divider></v-divider>
-      <v-stepper-step :complete="step > 3" editable step="3">Endereço</v-stepper-step>
+      <v-stepper-step :complete="step > 3" step="3">Endereço</v-stepper-step>
           <v-divider></v-divider>
     </v-stepper-header>
     <form>
@@ -62,9 +62,6 @@ export default {
   },
   async created(){
     await this.$store.dispatch(actionTypes.GET_AREAS)
-      .then(response => {
-        this.itemsAreaAtuacao = response.areas
-      })
   },
   computed:{
     ...mapState(['itemsAreaAtuacao'])

@@ -93,7 +93,7 @@ class CurriculoController extends Controller
         ));
 
 
-        $user=Curriculo::create([
+        $user = Curriculo::create([
             'objetivos' => $request->objetivos,
             'areas_id' => $request->area,
             'pretensao' => $request->pretensao,
@@ -104,13 +104,19 @@ class CurriculoController extends Controller
 
         foreach($request->historicoProfissional as $historico){
           if( !isset($historico['id']) ){
-            HistoricoProfissional::create([
-                'dataInicial' => $historico['dataInicial'],
-                'dataFinal' =>  $historico['dataFinal'],
-                'descricaoExperiencia' => $historico['descricaoExperiencia'],
-                'curriculos_id'=>$user->id,
-                'fisicas_id'=>$fisica
-            ]);
+            $result = HistoricoProfissional::where('vagas_id', $vaga_id)
+                ->where('curriculos_id', $user->id)
+                ->where('fisicas_id', $fisica)
+                ->exists();
+            if(!$result){
+                HistoricoProfissional::create([
+                    'dataInicial' => $historico['dataInicial'],
+                    'dataFinal' =>  $historico['dataFinal'],
+                    'descricaoExperiencia' => $historico['descricaoExperiencia'],
+                    'curriculos_id'=>$user->id,
+                    'fisicas_id'=>$fisica
+                ]);
+            }
           }
 
         }
@@ -203,8 +209,8 @@ class CurriculoController extends Controller
           }
 
         }
-        if(isset($request->historicoProfissionalExclidos))
-        foreach($request->historicoProfissionalExclidos as $historico){
+        if(isset($request->historicoProfissionalExcluidos))
+        foreach($request->historicoProfissionalExcluidos as $historico){
           if( isset($historico['id']) ){
 
             $historico=HistoricoProfissional::find($historico['id']);
@@ -220,10 +226,9 @@ class CurriculoController extends Controller
             //'historicoProfissional' => $request->historicoProfissional,
             'escolaridade' => $request->escolaridade
         ]);
-        $curriculo = Curriculo::with(['fisica'])->where('fisicas_id', $fisicas_id)->orderBy('created_at', 'desc')->get();
+        //$updatedFisica = Fisica::with(['curriculo.area', 'user'])->where('id', $fisicas_id)->orderBy('created_at', 'desc')->get();
         return Response::json([
-            'Currículo editado com sucesso!',
-             "curriculo"=>$curriculo
+             "updatedFisica"=>$this->show($id)->original
         ], 200);
 
 

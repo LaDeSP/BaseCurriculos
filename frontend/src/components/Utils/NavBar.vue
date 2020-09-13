@@ -6,25 +6,21 @@
   >
     <router-link to="/"><v-toolbar-title class="pl-1 hidden-sm-and-down">Corumbá Jobs</v-toolbar-title></router-link>
     <v-spacer></v-spacer>
-    <template v-if="auth.isLoggedIn && auth.dataCompleted">
-      <template v-if="$route.path != '/error' && $route.path != '/error/'
-        && $route.path != '/accountStatus' && $route.path != '/accountStatus/'
-      ">
-        <template v-if="auth.user.role == 'FISICA' || (auth.user.role == 'JURIDICA' && auth.hasVaga)">
-          <v-text-field justify="center" 
-            flat 
-            v-model="keywords"
-            solo-inverted 
-            hide-details 
-            :label="searchLabel"
-          ></v-text-field>
-          <v-btn fab depressed class="ml-1" @click="redirectSimpleSearch">
-            <v-icon>
-              mdi-magnify
-            </v-icon>
-          </v-btn>
-          <FormBuscaAvancada></FormBuscaAvancada>
-        </template>
+    <template v-if="loggedAndCompleted">
+      <template v-if="juridicaHasVaga || fisica">
+        <v-text-field justify="center" 
+          flat 
+          v-model="keywords"
+          solo-inverted 
+          hide-details 
+          :label="searchLabel"
+        ></v-text-field>
+        <v-btn fab depressed class="ml-1" @click="redirectSimpleSearch">
+          <v-icon>
+            mdi-magnify
+          </v-icon>
+        </v-btn>
+        <FormBuscaAvancada></FormBuscaAvancada>
       </template>
     </template>
     <v-spacer></v-spacer>
@@ -56,7 +52,7 @@
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-btn text slot="activator" v-on="on">
-              <h3 class="white--text mr-2 text-capitalize text-truncate hidden-sm-and-down" title="auth.user.name">{{auth.user.name}}</h3>
+              <h3 class="white--text mr-2 text-capitalize text-truncate d-none d-sm-flex" title="auth.user.name">{{auth.user.name}}</h3>
               <v-avatar
                 size="50px"
                 item
@@ -121,10 +117,16 @@ export default {
     }
   },
   computed:{
-    ...mapState(['auth', 'upload']),
+    ...mapState(['auth', 'dataCompleted', 'upload', 'hasVaga']),
     ...mapGetters(['tipoPermissao']),
     loggedAndCompleted(){
-      return this.auth.dataCompleted && this.auth.isLoggedIn
+      return this.dataCompleted && this.auth.isLoggedIn == true
+    },
+    fisica(){
+      return this.tipoPermissao == 'FISICA'
+    },
+    juridicaHasVaga(){
+      return this.tipoPermissao == 'JURIDICA' && this.hasVaga == true
     }
   },
   methods:{

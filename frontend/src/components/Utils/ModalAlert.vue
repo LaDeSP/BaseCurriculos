@@ -79,7 +79,8 @@ export default {
           await this.$store.dispatch(actionTypes.DESATIVAR_CONTA)
           this.$router.push({name: 'home'})
           break;
-        default:
+        case 'deletar vaga':
+          await this.$store.dispatch(actionTypes.DELETE_VAGA, this.vagaId)
           break;
       }
     }

@@ -36,4 +36,8 @@ class Curriculo extends Model
 	public function convite(){
 		return $this->belongsTo(Convite::class);
 	}
+
+	public function historicoProfissional(){
+		return $this->hasOne(HistoricoProfissional::class, 'id', 'curriculos_id');
+	}
 }

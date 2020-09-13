@@ -41,6 +41,7 @@ export default {
     REATIVAR_CONTA: 'reativarConta',
 
     DELETE_USER_PIC: 'deleteUserPic',
+    DELETE_VAGA: 'deleteVaga',
     DESATIVAR_CONTA: 'desativaConta',
     FINALIZAR_CANDIDATURA: 'finalizarCandidatura',
     CANCELAR_CONVITE: 'cancelarConvite',

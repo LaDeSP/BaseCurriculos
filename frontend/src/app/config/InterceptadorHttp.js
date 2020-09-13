@@ -28,7 +28,11 @@ class InterceptadorHttp {
   handleRequest(config){
     console.log('handle request', config)
     if(config.method == 'get'){
-      loadingScreen.startLoadingScreen()
+      if(!config.url.includes('getActualPhoto')){
+        loadingScreen.startLoadingScreen()
+      }else{
+        console.log('inclui get actual')
+      }
     }
     return config
   }

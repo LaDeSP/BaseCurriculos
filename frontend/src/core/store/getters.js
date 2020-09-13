@@ -1,10 +1,15 @@
-const tipoPermissao = state => state.auth.user.role
+const tipoPermissao = state => {
+    return state.auth.user.role
+}
+const dataCompleted = state => {
+  console.log('no getter ', state.auth)
+  return state.auth.dataCompleted
+}
 const getUltimasCandidaturas = state => {
-  return state.candidaturas.filter(filtered => {
-    if(filtered.vaga.status == 'ATIVA'){
-      return state.candidaturas.slice(0,3)
-    }
+  let candidaturasAtivas = state.candidaturas.filter(filtered => {
+    return filtered.vaga.status == 'ATIVA'
   })
+  return candidaturasAtivas.slice(0,3)
 }
 const getVagasAtivas = state => {
   return state.vagas.filter(vaga => {
@@ -101,6 +106,7 @@ const getConvitesDaVaga = state => (vagaId) => {
 
 export default {
     tipoPermissao,
+    dataCompleted,
     getUltimasCandidaturas,
     getVagasAtivas,
     getVagasInativas,

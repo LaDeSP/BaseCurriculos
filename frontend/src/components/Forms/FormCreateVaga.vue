@@ -20,9 +20,9 @@
         <v-stepper v-model="step">
         <v-stepper-header>
           <v-divider></v-divider>
-          <v-stepper-step :complete="step > 1" editable step="1">Informações da Vaga</v-stepper-step>
+          <v-stepper-step :complete="step > 1" step="1">Informações da Vaga</v-stepper-step>
               <v-divider></v-divider>
-          <v-stepper-step :complete="step > 2" editable step="2">Detalhes da Vaga</v-stepper-step>
+          <v-stepper-step :complete="step > 2" step="2">Detalhes da Vaga</v-stepper-step>
               <v-divider></v-divider>
         </v-stepper-header>
         <form>
@@ -172,7 +172,7 @@ export default {
     async submit(){
       this.pleaseWaitDialog = true
       let payload = {
-        titulo: this.titulo,
+        titulo: this.titulo.charAt(0).toUpperCase() + this.titulo.slice(1),
         descricao: this.descricao,
         cargo: this.cargo,
         quantidade: this.quantidade,

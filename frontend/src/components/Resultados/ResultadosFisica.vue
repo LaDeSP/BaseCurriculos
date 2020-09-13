@@ -1,22 +1,22 @@
 <template>
 <div>
+  <v-snackbar
+    top
+    v-model="snackbar"
+    :timeout="timeout"
+  >{{notificacao}}
+    <template v-slot:action="{ attrs }">
+      <v-btn
+        color="primary"
+        text
+        v-bind="attrs"
+        @click="snackbar = false"
+      >Fechar</v-btn>
+    </template>
+  </v-snackbar>
   <v-row justify="center">
-    <v-snackbar
-      top
-      v-model="snackbar"
-      :timeout="timeout"
-    >{{notificacao}}
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="primary"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >Fechar</v-btn>
-      </template>
-    </v-snackbar>
-    <v-col cols="12" lg="6" md="6" sm="6" v-for="vaga in pageOfItems" :key="vaga.id">
-      <v-card class="py-5 my-5">
+    <v-col class="d-flex flex-column" cols="12" lg="6" md="6" sm="6" v-for="vaga in pageOfItems" :key="vaga.id">
+      <v-card class="py-5 my-5 flex d-flex flex-column">
         <v-card-title class="text-center justify-center primary--text">
           <h3>{{vaga.titulo}}</h3>
         </v-card-title>
@@ -43,11 +43,11 @@
   </v-row>
   <v-row align="center" justify="center">
     <v-col cols="12" md="6">
-      <template class="" v-if="resultado.length > 6">
+      <template class="" v-if="resultado.length > 4">
         <jw-pagination 
           :items="resultado"
           @changePage="onChangePage"
-          :pageSize="6"
+          :pageSize="4"
           :labels="customLabels"
         ></jw-pagination>
       </template>
@@ -56,7 +56,7 @@
           <jw-pagination 
             :items="resultado" 
             @changePage="onChangePage"
-            :pageSize="6" 
+            :pageSize="4" 
             :labels="customLabels"
           ></jw-pagination>
         </span>

@@ -135,7 +135,7 @@ router.beforeEach((to, from, next) => {
   }else if(to.matched.some(record => record.meta.requiresDataCompleted)){
     if(store.state.auth.isLoggedIn){
       if(store.state.auth.user.deleted_at == null){
-        if(store.state.auth.dataCompleted){
+        if(store.state.dataCompleted){
           console.log('deleted null e dataCompleted true')
           next()
           return
@@ -177,8 +177,8 @@ router.beforeEach((to, from, next) => {
     }
     next('/')
   }else if(to.matched.some(record => record.meta.requiresAuthJuridica)){
-    console.log('isloggedin', store.state.auth.isLoggedIn, 'tipo', store.state.auth.user.role, 'data', store.state.auth.dataCompleted)
-    if(store.state.auth.isLoggedIn && store.state.auth.user.role ==='JURIDICA' && store.state.auth.dataCompleted){
+    console.log('isloggedin', store.state.auth.isLoggedIn, 'tipo', store.state.auth.user.role, 'data', store.state.dataCompleted)
+    if(store.state.auth.isLoggedIn && store.state.auth.user.role ==='JURIDICA' && store.state.dataCompleted){
       next()
       return
     }
@@ -188,7 +188,7 @@ router.beforeEach((to, from, next) => {
     }
     next('/')
   }else if(to.matched.some(record => record.meta.requiresAuthFisica)){
-    if(store.state.auth.isLoggedIn && store.state.auth.user.role ==='FISICA' && store.state.auth.dataCompleted){
+    if(store.state.auth.isLoggedIn && store.state.auth.user.role ==='FISICA' && store.state.dataCompleted){
       next()
       return
     }

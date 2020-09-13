@@ -50,11 +50,17 @@ export default {
     const response = await api.foto.deleteUserPic(state)
     commit(mutationTypes.SET_NEW_USER_PIC, response.data.foto)
   },
+  async [actionTypes.DELETE_VAGA]({commit, state}, vagaId){
+    const response = await api.vagas.deleteVaga(state, vagaId)
+    console.log('DELETE_VAGA', response)
+    commit(mutationTypes.SET_VAGAS, response.data.updatedVagas.vagas)
+  },
   async [actionTypes.COMPLETE_PESSOA_FISICA]({commit, state}, completedPessoaFisicaData){
     const response = await api.pessoaFisica.completePessoaFisicaData(completedPessoaFisicaData, state)
     if(!response.data.error){
       state.auth.user.name = response.data.username
       commit(mutationTypes.SET_DATA_COMPLETED, true)
+      //commit(mutationTypes.RE_RENDER_NAVBAR)
     }
     return response.data
   },
@@ -63,17 +69,18 @@ export default {
     if(!response.data.error){
       state.auth.user.name = response.data.username
       commit(mutationTypes.SET_DATA_COMPLETED, true)
+      commit(mutationTypes.RE_RENDER_NAVBAR)
     }
     return response.data
   },
   async [actionTypes.UPDATE_PESSOA_FISICA]({commit, state}, updatedPessoaFisica){
     const response = await api.pessoaFisica.updatePessoaFisica(state, updatedPessoaFisica)
-    if(response.data.curriculo.length > 0){
-      commit(mutationTypes.PESSOA_FISICA_INFO, response.data.fisica[0])
-      state.auth.user.name = response.data.fisica.user.name
+    if(!response.data.error && response.data.updatedFisica.curriculo.length > 0){
+      commit(mutationTypes.PESSOA_FISICA_INFO, response.data.updatedFisica.fisica[0])
       let payload = {
-        curriculo: response.data.curriculo[0],
-        area: {tipo: response.data.area, id: response.data.area_id}
+        curriculo: response.data.updatedFisica.curriculo[0],
+        area: {tipo: response.data.updatedFisica.area, id: response.data.updatedFisica.area_id}, 
+        historicoProfissional: response.data.updatedFisica.historicoProfissional
       }
       commit(mutationTypes.PESSOA_FISICA_CURRICULO, payload)
     }
@@ -95,8 +102,10 @@ export default {
   },
   async [actionTypes.GET_PESSOA_FISICA]({commit, state}){
     const response = await api.pessoaFisica.getPessoaFisicaData(state)
-    if(response.data.curriculo.length > 0){
+    console.log('GET_PESSOA_FISICA')
+    if(!response.data.error && response.data.curriculo.length > 0){
       commit(mutationTypes.SET_DATA_COMPLETED, true)
+      //commit(mutationTypes.RE_RENDER_NAVBAR)
       commit(mutationTypes.PESSOA_FISICA_INFO, response.data.fisica[0])
       let payload = {
         curriculo: response.data.curriculo[0],
@@ -111,6 +120,7 @@ export default {
     const response = await api.pessoaJuridica.getPessoaJuridicaData(state)
     if(response.data.juridica[0].contatos_id != null){
       commit(mutationTypes.SET_DATA_COMPLETED, true)
+      commit(mutationTypes.RE_RENDER_NAVBAR)
       commit(mutationTypes.PESSOA_JURIDICA_INFO, response.data.juridica[0])
     }
   },
@@ -261,6 +271,7 @@ export default {
     console.log('REATIVAR_CONTA', response)
     if(!response.data.error){
       commit(mutationTypes.SET_DATA_COMPLETED, true)
+      commit(mutationTypes.RE_RENDER_NAVBAR)
       commit(mutationTypes.UPDATE_AUTH_USER, response.data.user)
       commit(mutationTypes.SET_NEW_USER_PIC, response.data.foto)
     }

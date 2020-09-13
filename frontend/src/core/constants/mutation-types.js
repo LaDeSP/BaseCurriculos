@@ -2,6 +2,7 @@ export default {
     SET_LOADING_SCREEN: 'setLoadingScreen',
     LOGIN: 'authSuccess', 
     LOGOUT: 'authLogout',
+    RE_RENDER_NAVBAR: 'reRenderNavbar',
     SET_DATA_COMPLETED: 'setDataCompleted',
     SET_HAS_VAGA: 'setHasVaga',
     TIPO_PERMISSAO: 'tipoPermissao',

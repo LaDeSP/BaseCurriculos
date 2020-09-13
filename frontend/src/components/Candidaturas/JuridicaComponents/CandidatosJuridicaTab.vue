@@ -23,8 +23,8 @@
           </template>
           <template v-else>
             <v-row class="my-5" justify="center">
-              <v-col cols="12" lg="6" md="6" sm="12" v-for="candidatura in pageOfItems" :key="candidatura.id">
-                <v-card class="py-2">
+              <v-col class="d-flex flex-column" cols="12" lg="6" md="6" sm="12" v-for="candidatura in pageOfItems" :key="candidatura.id">
+                <v-card class="py-2 flex d-flex flex-column">
                   <v-card-title class="primary--text">
                     <h3>{{candidatura.curriculo.fisica.user.name}} </h3>
                   </v-card-title>

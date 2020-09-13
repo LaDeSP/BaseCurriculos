@@ -4,6 +4,10 @@ export default {
     [mutationTypes.SET_LOADING_SCREEN](state, status){
         state.isLoading = status
     },
+    [mutationTypes.RE_RENDER_NAVBAR](state){
+        state.navBarKey += 1
+        console.log('rerender mut', state.navBarKey)
+    },
     [mutationTypes.LOGIN](state, payload){
         state.auth.isLoggedIn = true
         state.auth.token = payload.token 
@@ -34,10 +38,11 @@ export default {
         state.tipoPermissao = payload
     },
     [mutationTypes.SET_DATA_COMPLETED](state, payload){
-        state.auth.dataCompleted = payload
+        console.log('MUTOU DATA COMPLETED', payload)
+        state.dataCompleted = payload
     },
     [mutationTypes.SET_HAS_VAGA](state, payload){
-        state.auth.hasVaga = payload
+        state.hasVaga = payload
     },
     [mutationTypes.SET_NEW_USER_PIC](state, payload){
         state.upload.path = payload

@@ -1,26 +1,24 @@
 <template>
  <div>
-   <template v-if="this.notificacao != ''">
-    <v-snackbar
-      top
-      v-model="snackbar"
-      :timeout="timeout"
-    > {{notificacao}}
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="blue"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >Fechar</v-btn>
-      </template>
-    </v-snackbar>
-   </template>
+  <v-snackbar
+    top
+    v-model="snackbar"
+    :timeout="timeout"
+  > {{notificacao}}
+    <template v-slot:action="{ attrs }">
+      <v-btn
+        color="blue"
+        text
+        v-bind="attrs"
+        @click="snackbar = false"
+      >Fechar</v-btn>
+    </template>
+  </v-snackbar>
    <template v-if="getVagasAtivas.length > 0">
     <h2 class="text-center my-4">Vagas que podem lhe interessar</h2>
     <v-row class="my-5" align="center">
-      <v-col cols="12" lg="6" md="6" sm="6" v-for="vaga in pageOfItems" :key="vaga.id">
-        <v-card class="py-5">
+      <v-col class="d-flex flex-column" cols="12" lg="6" md="6" sm="6" v-for="vaga in pageOfItems" :key="vaga.id">
+        <v-card class="py-5 flex d-flex flex-column">
           <v-card-title class="primary--text text-center justify-center">
             <h3>{{vaga.titulo}}</h3>
           </v-card-title>
@@ -42,11 +40,11 @@
     </v-row>
     <v-row align="center" justify="center">
       <v-col cols="12" md="6">
-        <template v-if="getVagasAtivas.length > 6">
+        <template v-if="getVagasAtivas.length > 4">
           <jw-pagination 
             :items="getVagasAtivas"
             @changePage="onChangePage"
-            :pageSize="6"
+            :pageSize="4"
             :labels="customLabels"
           ></jw-pagination>
         </template>
@@ -55,7 +53,7 @@
             <jw-pagination 
               :items="getVagasAtivas" 
               @changePage="onChangePage"
-              :pageSize="6" 
+              :pageSize="4" 
               :labels="customLabels"
             ></jw-pagination>
           </span>
@@ -102,9 +100,11 @@ export default {
       this.pageOfItems = pageOfItems
     },
     getNotificacao(value){
-      console.log('dash fisica vagas get notif', value)
+      console.log('getnoi', value)
       this.notificacao = value
       this.snackbar = true
+      
+      console.log('snackbar', this.snackbar)
     }
   }
 }

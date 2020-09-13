@@ -37,7 +37,7 @@
         <v-form>
           <v-card-text class="pa-10">
             <template v-if="notificacoes">
-              <span class="rounded-lg pa-1 mr-1 mb-10 text-center red lighten-2 white--text" v-for="notificacao in notificacoes" :key="notificacao">
+              <span class="rounded-lg pa-1 mr-1 mb-10 text-center red lighten-2 white--text" v-for="(notificacao, index) in notificacoes" :key="index">
                 {{notificacao[0]}}
               </span>
             </template>
