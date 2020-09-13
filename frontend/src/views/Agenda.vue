@@ -9,8 +9,8 @@
     </v-col>
     <v-col cols="10" md="12" sm="10">
       <router-link to="/candidaturas">
-        <v-btn class="mr-1" @click="toggle = false">
-          <v-icon class="pr-1">fa fa-eye</v-icon> Candidaturas
+        <v-btn class="mr-1">
+          <v-icon class="pr-1">fas fa-file</v-icon> Candidaturas
         </v-btn>
       </router-link>
       <router-link to="/dashboard">
@@ -32,7 +32,6 @@
             grow
           >
             <v-tab href="#tab-1" class="info lighten-3" @click="active = 'ALL'">Todas</v-tab>
-            <v-tab href="#tab-2" class="amber lighten-3" @click="active = 'AGUARDANDO'">Aguardando</v-tab>
             <v-tab href="#tab-3" class="amber lighten-1" @click="active = 'EM AGENDAMENTO'">Em Agendamento</v-tab>
             <v-tab href="#tab-4" class="light-green lighten-1" @click="active = 'ENTREVISTA CONFIRMADA'">Confirmadas</v-tab>
             <v-tab href="#tab-5" class="red lighten-1" @click="active = 'ENTREVISTA CANCELADA'">Canceladas</v-tab>
@@ -55,7 +54,7 @@
                             <v-card-title class="justify-center text-center primary--text">
                               <h3>Candidato: {{agendamento.candidatura.curriculo.fisica.user.name}}</h3>
                               <v-spacer></v-spacer>
-                              <v-chip class="black--text" :color="getColor(agendamento.candidatura.status)" dark>{{agendamento.candidatura.status}}</v-chip>
+                              <v-chip :color="getColor(agendamento.candidatura.status)">{{agendamento.candidatura.status}}</v-chip>
                             </v-card-title>
                             <v-card-text align="left" class="black--text">
                               <strong>Vaga:</strong> {{agendamento.candidatura.vaga.titulo}} <br/>
@@ -65,7 +64,7 @@
                                 <strong>Observação:</strong> {{agendamento.observacao}} <br/>
                               </template>
                               <template v-else>
-                                Não há observações.
+                                <p class="font-italic" align="center">Não há observações.</p>
                               </template>
                             </v-card-text>
                             <v-card-actions class="text-center justify-center">
@@ -77,9 +76,13 @@
                                 </router-link>
                               </template>
                               <template v-if="agendamento.candidatura.status == 'EM AGENDAMENTO' || agendamento.candidatura.status == 'ENTREVISTA CONFIRMADA'">
-                                <ModalAlert :candidaturaId="agendamento.candidatura.id" :observacaoCancelamento="observacaoCancelamento" :payload="cancelarEntrevista">
+                                <ModalAlert 
+                                  :candidaturaId="agendamento.candidatura.id" 
+                                  :observacaoCancelamento="observacaoCancelamento" 
+                                  :payload="cancelarAgendamento"
+                                >
                                   <slot>
-                                    <h1 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> o processo de agendamento?</h1>
+                                    <h1 class="text-center line-height">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> a entrevista agendada?</h1>
                                     <h3 class="mt-3" align="center">Você pode fazer uma observação para o candidato:</h3>
                                     <v-textarea
                                       class="mt-3"
@@ -147,9 +150,9 @@ export default {
       active: 'ALL',
       customLabels,
       isLoaded: false,
-      cancelarEntrevista: {
-        'title': 'Cancelar Entrevista',
-        'action': 'cancelar entrevista'
+      cancelarAgendamento: {
+        'title': 'Cancelar Agendamento',
+        'action': 'cancelar agendamento'
       }
     }
   },
@@ -167,6 +170,7 @@ export default {
   },
   async created(){
     this.setNotificacoes()
+    console.log('this. toute', this.$route, this.notificacao)
     await this.$store.dispatch(actionTypes.GET_AGENDA)
     this.isLoaded = true
   },
@@ -190,6 +194,8 @@ export default {
     setNotificacoes(){
       if(this.$route.params.cadastroAgendaSucesso){
         this.notificacao = 'Agendamento cadastrado com sucesso!'
+      }else if(this.$route.params.editouAgendaSucesso){
+        this.notificacao = 'Agendamento atualizado com sucesso!'
       }
     },
     getColor(status){

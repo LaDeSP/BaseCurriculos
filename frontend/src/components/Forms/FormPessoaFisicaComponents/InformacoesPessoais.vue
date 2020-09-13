@@ -13,6 +13,7 @@
           v-model="name"
           :error-messages="errors"
           label="Nome Completo *"
+          type="text"
           required
         ></v-text-field>
       </ValidationProvider>
@@ -41,7 +42,14 @@
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker scrollable locale="pt-br" v-model="date" no-title @input="menu = false"></v-date-picker>
+          <v-date-picker 
+            ref="picker"
+            scrollable locale="pt-br" 
+            v-model="date" 
+            no-title
+            :max="new Date().toISOString().substr(0,10)" 
+            min="1950-01-01"
+            @input="menu = false"></v-date-picker>
         </v-menu>
       </ValidationProvider>
       <ValidationProvider v-slot="{ errors }" name="select" rules="required">
@@ -308,6 +316,12 @@ export default {
     }
   },
   async created(){
+    let date = new Date(),
+      year = date.getFullYear() - 16
+      date.setFullYear(year)
+      date.setMonth(0)
+      date.setDate(1)
+      console.log(typeof(date.toISOString().substr(0,10))) 
     console.log('no info fisica', this.edicao)
     this.name = this.$store.state.auth.user.name
     if(this.edicao){
@@ -324,10 +338,16 @@ export default {
       }
     }
   },
+  watch: {
+    menu(val){
+      val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
+    }
+  },
   methods: {
     async loadDataToEdit(){
       this.date = this.pessoaFisicaInfo.data_nascimento
       this.genero = this.pessoaFisicaInfo.genero
+      console.log(this.pessoaFisicaInfo)
       this.estadoCivil = this.pessoaFisicaInfo.estado_civil
       this.paisNacionalidade = this.pessoaFisicaInfo.endereco.pais
     },
@@ -349,6 +369,14 @@ export default {
       if(file.status!='error'){
         this.$store.dispatch(actionTypes.DELETE_USER_PIC)
       }
+    },
+    maxDate(){
+      let date = new Date(),
+      year = date.getFullYear() - 16
+      date.setFullYear(year)
+      date.setMonth(0)
+      date.setDate(1)
+      return date.toISOString().substr(0,10)
     }
   }
 }

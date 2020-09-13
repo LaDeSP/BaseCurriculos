@@ -12,8 +12,8 @@ class Juridica extends Model
 	use SoftDeletes, SoftCascadeTrait; 
 
 	protected $fillable = [
-		'razao', 'cnpj', 'ramo', 'missao', 
-		'contatos_id', 'enderecos_id', 'user_id', 'areas_id'
+		'cnpj', 'ehPatrocinador', 'contatos_id', 'enderecos_id', 
+		'user_id', 'areas_id'
 	];
 
 	protected $softCascade = ['vaga'];

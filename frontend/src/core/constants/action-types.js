@@ -12,6 +12,7 @@ export default {
     COMPLETE_PESSOA_JURIDICA: 'completePessoaJuridica',
     
     GET_JURIDICA_USERS: 'getJuridicaUsers',
+    GET_JURIDICA_PATROCINADORAS: 'getJuridicaPatrocinadoras',
     GET_PESSOA_FISICA: 'getPessoaFisica',
     GET_PESSOA_JURIDICA: 'getPessoaJuridica',
     GET_AREAS: 'getAreas',
@@ -34,19 +35,22 @@ export default {
     UPDATE_VAGA_STATUS: 'updateVagaStatus',
     UPDATE_USER_FISICA: 'updateUserFisica',
     UPDATE_USER_JURIDICA: 'updateUserJuridica',
+    UPDATE_AGENDAMENTO: 'updateAgendamento',
     REQUEST_VAGA_DASH: 'requestVagaDash',
     
     REATIVAR_CONTA: 'reativarConta',
 
     DELETE_USER_PIC: 'deleteUserPic',
+    DELETE_VAGA: 'deleteVaga',
     DESATIVAR_CONTA: 'desativaConta',
+    FINALIZAR_CANDIDATURA: 'finalizarCandidatura',
+    CANCELAR_CONVITE: 'cancelarConvite',
     CANCELAR_CANDIDATURA: 'cancelarCandidatura',
     CANCELAR_AGENDAMENTO: 'cancelarAgendamento',
-    CANCELAR_ENTREVISTA: 'cancelarEntrevista',
-    CANCELAR_CONVITE: 'cancelarConvite',
 
     HANDLE_USER_STATUS: 'handleUserStatus',
     RESPOSTA_CONVITE: 'respostaConvite',
     FORGOT_PASSWORD: 'forgotPassword',
-    RESET_PASSWORD: 'resetPassword'
+    RESET_PASSWORD: 'resetPassword',
+    CONFIRM_AGENDAMENTO: 'confirmAgendamento'
 } 

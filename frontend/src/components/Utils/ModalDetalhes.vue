@@ -23,20 +23,39 @@
             <v-btn outlined color="red" @click="dialog = false">Fechar</v-btn>
           </template>
           <template v-if="payload.action == 'ver curriculo' && payload.hasCardActions">
-            <router-link :to="`agenda/new/${candidaturaId}`"><v-btn class="mr-1" color="success lighten-1 white--text">Agendar Entrevista</v-btn></router-link>
-            <ModalAlert :payload="recusarCandidato">
+            <ModalAlert :payload="recusarCandidato" :candidaturaId="candidaturaId" >
               <template>
-                <h1 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>recusar</strong></span> esse candidato?</h1>
+                <h1 class="text-center line-height">Tem certeza de que deseja <span style="color: #ff0000"><strong>recusar</strong></span> esse candidato?</h1>
+                <h2 class="text-center mt-4">Essa ação não poderá ser desfeita!</h2>
               </template>
             </ModalAlert>
+            <router-link :to="`/agenda/new/${candidaturaId}`">
+              <v-btn color="success" class="ml-1">
+                Agendar Entrevista
+              </v-btn>
+            </router-link>
           </template>
           <template v-if="payload.action == 'ver agendamento'">
-            <ModalAlert :payload="cancelarAgendamento">
-              <template>
-                <h1 class="text-center">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> o agendamento?</h1>
-              </template>
+           <ModalAlert 
+              :candidaturaId="candidaturaId" 
+              :observacaoCancelamento="observacaoCancelamento" 
+              :payload="cancelarAgendamento"
+            >
+              <slot>
+                <h1 class="text-center line-height">Tem certeza de que deseja <span style="color: #ff0000">
+                  <strong>cancelar</strong></span> o processo de agendamento?</h1>
+                <h3 class="mt-3" align="center">Você pode fazer uma observação:</h3>
+                <v-textarea
+                  class="mt-3"
+                  v-model="observacaoCancelamento"
+                  outlined
+                ></v-textarea>
+                <h2 class="text-center mt-4">Essa ação não poderá ser desfeita!</h2>
+              </slot>
             </ModalAlert>
-            <v-btn class="ml-1" color="primary darken-2 white--text" @click="fazerContraproposta()">Fazer uma contraproposta</v-btn>
+            <router-link :to="`/agenda/edit/${candidaturaId}`">
+              <v-btn class="ml-1" color="primary darken-2 white--text">Fazer uma contraproposta</v-btn>
+            </router-link>
             <v-btn class="ml-1" color="success lighten-1 white--text" @click="agendarEntrevista()">Agendar Entrevista</v-btn>
           </template>
         </v-card-actions>
@@ -46,38 +65,38 @@
 
 <script>
 import ModalAlert from '@/components/Utils/ModalAlert'
+import { actionTypes } from '../../core/constants'
 
 export default {
     components: {ModalAlert},
     props:{
       payload: Object,
-      candidaturaId: Number
+      candidaturaId: Number,
+      candidatura: Object
     },
     data(){
         return{
           dialog: false,
+          observacaoCancelamento: '',
           cancelarAgendamento: {
             'title': 'Cancelar Agendamento',
             'action': 'cancelar agendamento'
           },
           recusarCandidato: {
             'title': 'Recusar Candidato',
-            action: 'recusar candidato'
+            action: 'recusar candidatura'
           }
         }
     },
     created(){
-      //console.log('this ', this.payload)
+      console.log('this ', this.candidaturaId, this.payload)
     },
     methods:{
       closeDialog(){
         this.dialog = false
       },
-      async fazerContraproposta(){
-
-      },
       async agendarEntrevista(){
-
+        await this.$store.dispatch(actionTypes.CONFIRM_AGENDAMENTO, {candidaturaId: this.candidaturaId})
       }
     }
 }

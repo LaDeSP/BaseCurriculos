@@ -50,11 +50,17 @@ export default {
     const response = await api.foto.deleteUserPic(state)
     commit(mutationTypes.SET_NEW_USER_PIC, response.data.foto)
   },
+  async [actionTypes.DELETE_VAGA]({commit, state}, vagaId){
+    const response = await api.vagas.deleteVaga(state, vagaId)
+    console.log('DELETE_VAGA', response)
+    commit(mutationTypes.SET_VAGAS, response.data.updatedVagas.vagas)
+  },
   async [actionTypes.COMPLETE_PESSOA_FISICA]({commit, state}, completedPessoaFisicaData){
     const response = await api.pessoaFisica.completePessoaFisicaData(completedPessoaFisicaData, state)
     if(!response.data.error){
       state.auth.user.name = response.data.username
       commit(mutationTypes.SET_DATA_COMPLETED, true)
+      //commit(mutationTypes.RE_RENDER_NAVBAR)
     }
     return response.data
   },
@@ -63,17 +69,18 @@ export default {
     if(!response.data.error){
       state.auth.user.name = response.data.username
       commit(mutationTypes.SET_DATA_COMPLETED, true)
+      commit(mutationTypes.RE_RENDER_NAVBAR)
     }
     return response.data
   },
   async [actionTypes.UPDATE_PESSOA_FISICA]({commit, state}, updatedPessoaFisica){
     const response = await api.pessoaFisica.updatePessoaFisica(state, updatedPessoaFisica)
-    if(response.data.curriculo.length > 0){
-      commit(mutationTypes.PESSOA_FISICA_INFO, response.data.fisica[0])
-      state.auth.user.name = response.data.fisica.user.name
+    if(!response.data.error && response.data.updatedFisica.curriculo.length > 0){
+      commit(mutationTypes.PESSOA_FISICA_INFO, response.data.updatedFisica.fisica[0])
       let payload = {
-        curriculo: response.data.curriculo[0],
-        area: {tipo: response.data.area, id: response.data.area_id}
+        curriculo: response.data.updatedFisica.curriculo[0],
+        area: {tipo: response.data.updatedFisica.area, id: response.data.updatedFisica.area_id}, 
+        historicoProfissional: response.data.updatedFisica.historicoProfissional
       }
       commit(mutationTypes.PESSOA_FISICA_CURRICULO, payload)
     }
@@ -88,14 +95,17 @@ export default {
     }
     return response.data
   },
-  async [actionTypes.GET_AREAS]({state}){
+  async [actionTypes.GET_AREAS]({commit, state}){
     const response = await api.vagas.getAreas(state)
+    commit(mutationTypes.SET_AREAS, response.data.areas)
     return response.data 
   },
   async [actionTypes.GET_PESSOA_FISICA]({commit, state}){
     const response = await api.pessoaFisica.getPessoaFisicaData(state)
-    if(response.data.curriculo.length > 0){
+    console.log('GET_PESSOA_FISICA')
+    if(!response.data.error && response.data.curriculo.length > 0){
       commit(mutationTypes.SET_DATA_COMPLETED, true)
+      //commit(mutationTypes.RE_RENDER_NAVBAR)
       commit(mutationTypes.PESSOA_FISICA_INFO, response.data.fisica[0])
       let payload = {
         curriculo: response.data.curriculo[0],
@@ -110,6 +120,7 @@ export default {
     const response = await api.pessoaJuridica.getPessoaJuridicaData(state)
     if(response.data.juridica[0].contatos_id != null){
       commit(mutationTypes.SET_DATA_COMPLETED, true)
+      commit(mutationTypes.RE_RENDER_NAVBAR)
       commit(mutationTypes.PESSOA_JURIDICA_INFO, response.data.juridica[0])
     }
   },
@@ -146,23 +157,31 @@ export default {
   },
   async [actionTypes.REQUEST_VAGA_DASH]({commit, state}, vagaPayload){
     const response = await api.candidaturas.createCandidatura(state, vagaPayload)
-    console.log('REQUEST_VAGA_DASH', response)
+    console.log('REQUEST_VAGA_DASH', response, response.data.error)
     if(!response.data.error){
+      console.log('entriu aqui')
       commit(mutationTypes.SET_CANDIDATURAS, response.data.candidaturas)
       commit(mutationTypes.SET_VAGAS, response.data.vagas)
     }
     return response.data
   },
-  async [actionTypes.CANCELAR_CANDIDATURA]({commit, state}, candidaturaId){
-    const response = await api.candidaturas.deleteCandidatura(state, candidaturaId)
-    let payloadCancelarCandidatura = {'candidaturaId': candidaturaId, 'role': state.auth.user.role}
-    commit(mutationTypes.DELETE_CANDIDATURA_CANCELADA, payloadCancelarCandidatura)
+  async [actionTypes.FINALIZAR_CANDIDATURA]({commit, state}, payload){
+    const response = await api.candidaturas.finalizarCandidatura(state, payload)
+    console.log('FINALIZAR_CANDIDATURA', response)
+    if(payload.status == 'RECUSADO'){
+      commit(mutationTypes.DELETE_CANDIDATURA_CANCELADA, payload)
+      commit(mutationTypes.SET_VAGAS_COM_CANDIDATURAS, response.data.candidaturas.vagasCandidaturas)
+    }
+    //commit(mutationTypes.SET_CANDIDATURAS, response.data.updateCandidaturas.candidaturas)
   },
   async [actionTypes.CANCELAR_AGENDAMENTO]({commit, state}, agendamentoPayload){
     const response = await api.agendamento.cancelAgendamento(state, agendamentoPayload)
-  },
-  async [actionTypes.CANCELAR_ENTREVISTA]({commit, state}, vagaPayload){
-    const response = await api.agendamento.createCandidatura(state, vagaPayload)
+    console.log('CANCELAR_AGENDAMENTO', response)
+    if(state.auth.user.role == 'JURIDICA'){
+      commit(mutationTypes.SET_AGENDA, response.data.updateAgenda.agenda)
+    }else{
+      commit(mutationTypes.SET_CANDIDATURAS, response.data.candidaturas)
+    }
   },
   async [actionTypes.CREATE_NOVO_AGENDAMENTO]({commit, state}, agendaPayload){
     const response = await api.agendamento.createAgendamento(state, agendaPayload)
@@ -173,11 +192,17 @@ export default {
     const response = await api.vagas.getVagasDaPessoaJuridicaLogada(state)
     commit(mutationTypes.SET_COUNTER_VAGAS_ATIVAS, response.data.countVagas)
     commit(mutationTypes.SET_VAGAS, response.data.vagas)
+    if(response.data.vagas.length > 0) commit(mutationTypes.SET_HAS_VAGA, true)
     return response.data
   },
   async [actionTypes.GET_JURIDICA_USERS]({commit, state}){
     const response = await api.pessoaJuridica.getJuridicaUsers(state)
     commit(mutationTypes.JURIDICA_USERS, response.data.usersJuridica)
+  },
+  async [actionTypes.GET_JURIDICA_PATROCINADORAS]({commit}){
+    const response = await api.pessoaJuridica.getJuridicaPatrocinadoras()
+    console.log('GET_JURIDICA_PATROCINADORAS', response)
+    commit(mutationTypes.SET_JURIDICA_PATROCINADORAS, response.data.juridicaPatrocinadoras)
   },
   async [actionTypes.HANDLE_USER_STATUS]({commit, state}, payload){
     const response = await api.account.handleUserAccount(state, payload)
@@ -199,6 +224,7 @@ export default {
   },
   async [actionTypes.GET_AGENDA]({commit, state}, status){
     const response = await api.agendamento.getAgenda(state)
+    console.log('GET_AGENDA', response)
     commit(mutationTypes.SET_AGENDA, response.data.agenda)
     commit(mutationTypes.SET_COUNTER_AGENDA, response.data.countAgenda)
     return response.data
@@ -245,6 +271,7 @@ export default {
     console.log('REATIVAR_CONTA', response)
     if(!response.data.error){
       commit(mutationTypes.SET_DATA_COMPLETED, true)
+      commit(mutationTypes.RE_RENDER_NAVBAR)
       commit(mutationTypes.UPDATE_AUTH_USER, response.data.user)
       commit(mutationTypes.SET_NEW_USER_PIC, response.data.foto)
     }
@@ -274,6 +301,23 @@ export default {
   async [actionTypes.RESPOSTA_CONVITE]({commit, state}, resposta){
     const response = await api.convites.respostaConvite(state, resposta)
     console.log('RESPOSTA_CONVITE', response)
+    commit(mutationTypes.SET_CONVITES, response.data.convites.convites)
+  },
+  async [actionTypes.CONFIRM_AGENDAMENTO]({commit, state}, candidaturaId){
+    const response = await api.agendamento.confirmAgendamento(state, candidaturaId)
+    console.log('CONFIRM_AGENDAMENTO', response)
+    commit(mutationTypes.SET_AGENDA, response.data.agenda) 
+    commit(mutationTypes.SET_CANDIDATURAS, response.data.candidaturas)
+  },
+  async [actionTypes.UPDATE_AGENDAMENTO]({commit, state}, agenda){
+    const response = await api.agendamento.updateAgendamento(state, agenda)
+    console.log('UPDATE_AGENDAMENTO', response)
+    return response.data
+  },
+  async [actionTypes.CANCELAR_CANDIDATURA]({commit, state}, candidaturaId){
+    const response = await api.candidaturas.cancelCandidatura(state, candidaturaId)
+    console.log('CANCELAR_CANDIDATURA', response)
+    commit(mutationTypes.SET_CANDIDATURAS, response.data.updateCandidaturas.candidaturas) 
   },
   async [actionTypes.FORGOT_PASSWORD]({commit}, payload){
     const response = await api.account.forgotPassword(payload)

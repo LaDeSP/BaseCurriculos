@@ -143,14 +143,14 @@ class UserController extends Controller implements JWTSubject
     public function handleUserStatus(Request $request){
         $user_id = $request->userId;
         if($request->action == 'act'){
-            User::where('id', $user_id)->update(['status'=>'ATIVO']);
             $this->activateAccount($user_id);
+            $teste = User::where('id', $user_id)->update(['status'=>'ATIVO']);
+            return Response::json([$this->index()->original, 'ativar'=>$teste, 'userId' => $user_id]);
         }else if($request->action == 'deact'){
-            User::where('id', $user_id)->update(['status'=>'INATIVO']);
+            $teste = User::where('id', $user_id)->update(['status'=>'INATIVO']);
             $this->destroy($user_id);
+            return Response::json([$this->index()->original, 'desativar', $teste, 'userId' => $user_id]);
         }
-
-        return Response::json([$this->index()->original]);
     }
 
     public function messages(){

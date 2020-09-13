@@ -186,7 +186,7 @@ class VagaController extends Controller
         $vaga->delete();
 
         return Response::json([
-            'msg' => 'deletado ok'
+            'updatedVagas'=>$this->index()->original
         ], 201);
     }
     

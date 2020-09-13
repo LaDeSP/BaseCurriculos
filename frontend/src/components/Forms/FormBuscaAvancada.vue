@@ -3,8 +3,7 @@
   <template v-slot:activator="{on: evento, attrs}">
     <v-btn
       depressed 
-      class="ml-2"
-      large
+      small
       dark 
       v-bind="attrs"
       v-on="evento"
@@ -17,7 +16,7 @@
         <h3>Busca Avançada</h3>
       </v-card-title>
         <template v-if="tipoPermissao == 'FISICA'">
-          <BuscaAvancadaFisica></BuscaAvancadaFisica>
+          <BuscaAvancadaFisica :itemsAreaAtuacao="itemsAreaAtuacao" @closeDialog="closeDialog"></BuscaAvancadaFisica>
         </template>
         <template v-else-if="tipoPermissao == 'JURIDICA'">
           <BuscaAvancadaJuridica :itemsAreaAtuacao="itemsAreaAtuacao" @closeDialog="closeDialog"></BuscaAvancadaJuridica>
@@ -42,7 +41,6 @@ export default {
     }
   },
   async created(){
-    console.log('this.route', this.$route)
     await this.$store.dispatch(actionTypes.GET_AREAS)
     .then(response => {
       this.itemsAreaAtuacao = response.areas
@@ -51,37 +49,9 @@ export default {
   computed:{
     ...mapGetters(['tipoPermissao'])
   },
-  methods:{
+  methods: {
     closeDialog(value){
       this.dialog = value
-    },
-    async advancedSearchVagas(){
-      if ((this.keywords=='' || this.keywords==undefined)==true && (this.cargo=='' || this.cargo==undefined)
-        && (this.beneficio=='' || this.beneficio==undefined) && (this.jornada=='' || this.jornada==undefined)
-        && (this.requisitos=='' || this.requisitos==undefined) && (this.area=='' || this.area==undefined)){
-        this.notificacao = "Preencha pelo menos um campo para realizar a busca."
-        return
-      }
-      if (this.$router.currentRoute.name == "search"){
-        let pesquisa = {
-          keywords : this.keywords,
-          cargo : this.cargo, 
-          beneficio : this.beneficio, 
-          jornada : this.jornada,
-          requisitos : this.requisitos,
-          area: this.area
-        }
-          this.$store.dispatch('searchVagasAvancadas', pesquisa)
-          .then(response => {
-              this.dialog = false
-              this.notificacao = ''
-          })
-          .catch(error => console.log(error))
-      }
-      else{
-        this.$router.push({ name: 'buscas', query: { keywords: this.keywords, cargo: this.cargo, beneficio: this.beneficio, jornada: this.jornada, requisitos: this.requisitos, area: this.area} })
-        this.dialog = false
-      }
     }
   }
 }

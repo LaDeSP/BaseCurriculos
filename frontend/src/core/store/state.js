@@ -1,10 +1,16 @@
 export default{
   isLoading: false,
+  isLoaded: false,
+  navBarKey: 0,
+  dataCompleted: false,
+  hasVaga: false,
   auth: {},
   tipoPermissao: '',
   pessoaFisicaInfo: {},
   pessoaJuridicaInfo: {},
   pessoaFisicaCurriculo: {},
+  juridicaPatrocinadoras: [],
+  itemsAreaAtuacao: [],
   upload:{
     path: ''
   },
@@ -17,8 +23,6 @@ export default{
   vagasCandidaturas: [],
   progressBar: [],
   vagasConvites: [],
-  dataCompleted: false,
-  hasVaga: false,
   resultado: [],
   agenda: [],
   convites: [],

@@ -1,10 +1,10 @@
 <template>
 <v-app>
   <NavBar></NavBar>
-  <div v-if="$route.meta.isHome || $route.meta.isSobre || $route.meta.isLogin">
+  <template v-if="$route.meta.isHome || $route.meta.isSobre || $route.meta.isLogin">
+    <LoadingScreen v-if="isLoading"></LoadingScreen>
     <router-view></router-view>
-    <LoadingScreen v-if="isLoading"></LoadingScreen>     
-  </div>
+  </template>
   <div v-else>
     <v-main>
       <v-container class="fill-height">
@@ -22,7 +22,7 @@ import NavBar from './components/Utils/NavBar.vue'
 import Footer from './components/Utils/Footer.vue'
 import LoadingScreen from './views/LoadingScreen'
 import {mapState} from 'vuex'
-  
+
 export default {
   components:{NavBar, Footer, LoadingScreen},
   computed: {
@@ -32,12 +32,14 @@ export default {
 </script>
 
 <style lang="stylus">
-  .same-size-card 
+  .line-height
+    line-height 35px
+  .same-size-card
     overflow-y auto
     height 280px
-  .aviso 
+  .aviso
     font-size 20px
-  .container 
+  .container
     min-height 100vh
   .v-application a
     color inherit !important

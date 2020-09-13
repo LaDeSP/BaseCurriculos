@@ -1,38 +1,47 @@
 <template>
-  <v-row class="justify-space-between my-5">
-    <v-col cols="12" sm="4" lg="4">
-        <v-card class="mx-auto" max-width="400">
-          <v-img class="white--text align-end" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
-            <v-card-title>Sansa Tech</v-card-title>
-          </v-img>
-          <v-card-subtitle class="pb-0">Corumbá</v-card-subtitle>
-          <v-card-text class="text--primary">
-            Teste
+  <v-card v-if="juridicaPatrocinadoras.length > 0 && juridicaPatrocinadoras[0].endereco != undefined" elevation="24" max-width="800" height="400" class="mx-auto mt-10">
+    <v-window v-model="window" class="elevation-1" :show-arrows="showArrows">
+      <v-window-item v-for="patrocinador in juridicaPatrocinadoras" :key="patrocinador.id">
+        <v-card flat>
+          <v-img height="300" max-height="300" :src="getPicPath(patrocinador.user.foto)"></v-img>
+          <v-card-title class="primary--text text-center justify-center text-capitalize"><h2>{{patrocinador.user.name}}</h2></v-card-title>
+          <v-card-text class="text-center justify-center">
+            <p>{{patrocinador.endereco.cidade}} - {{patrocinador.endereco.estado}}</p>
           </v-card-text>
         </v-card>
-    </v-col>
-    <v-col cols="12" sm="4" lg="4">
-        <v-card class="mx-auto" max-width="400">
-          <v-img class="white--text align-end" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
-            <v-card-title>Sansa Tech</v-card-title>
-          </v-img>
-          <v-card-subtitle class="pb-0">Corumbá</v-card-subtitle>
-          <v-card-text class="text--primary">
-            Teste
-          </v-card-text>
-        </v-card>
-    </v-col>
-    <v-col cols="12" sm="4" lg="4">
-        <v-card class="mx-auto" max-width="400">
-          <v-img class="white--text align-end" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
-            <v-card-title>Sansa Tech</v-card-title>
-          </v-img>
-          <v-card-subtitle class="pb-0">Corumbá</v-card-subtitle>
-          <v-card-text class="text--primary">
-            Teste
-          </v-card-text>
-        </v-card>
-    </v-col>
-  </v-row>
-  
+      </v-window-item>
+    </v-window>
+  </v-card>
 </template>
+
+<script>
+import {mapState} from 'vuex'
+export default {
+  data() {
+    return {
+      window: 0,
+      showArrows: true,
+      length: 0,
+      autorun: true
+    }
+  },
+  created (){
+    this.length = this.juridicaPatrocinadoras.length
+    setInterval(() => {
+      if (++this.window >= this.length) this.window = 0
+    }, 3000)
+  },
+  computed: {
+    ...mapState(['juridicaPatrocinadoras'])
+  },
+  methods: {
+    getPicPath(foto){
+      if(foto == null){
+        return 'http://localhost:8000/anon.jpg'
+      }else{
+        return `http://localhost:8000/storage/${foto.path}`
+      }
+    }
+  }
+}
+</script>

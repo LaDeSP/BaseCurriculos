@@ -17,7 +17,7 @@ header('Access-Control-Allow-Origin:  *');
 header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, PATCH, DELETE');
 header('Access-Control-Allow-Headers:  *');
 
-Auth::routes(); 
+Auth::routes();
 Route::post('/login', [
     'uses' => 'UserController@login'
 ]);
@@ -31,6 +31,7 @@ Route::get('/areas', 'AreaController@index');
 
 Route::resource('/pfisicas', 'FisicaController');
 Route::resource('/pjuridicas', 'JuridicaController');
+Route::get('/patrocinadoras', 'JuridicaController@getJuridicaPatrocinadoras');
 Route::resource('/curriculos', 'CurriculoController', [
     'middleware' => 'jwt.auth'
 ]);
@@ -73,6 +74,7 @@ Route::group([
     Route::post('/logout', 'UserController@logout');
     Route::get('/users', 'UserController@index');
     Route::post('/userStatus', 'UserController@handleUserStatus');
+    Route::post('/finalizarCandidatura', 'CandidaturaController@finalizarCandidatura');
 });
 Route::post('/activate/{id}', 'UserController@activateAccount');
 Route::post('reset-password', 'AuthController@sendPasswordResetLink');

@@ -8,7 +8,7 @@
     > 
       <v-row class="fill-height" align="center" justify="center">
         <v-col>
-          <h1 class="text-center">Bem-Vindo ao Sistema de Recrutamento e Seleção</h1>
+          <h1 class="text-center">Bem-Vindo ao Corumbá Jobs!</h1>
         </v-col>
     </v-row>
     </v-carousel-item>

@@ -80,10 +80,11 @@ class ConviteController extends Controller
         else{
             $juridica = $user_id->juridica;
             $juridica_id = $juridica->id;
-            $vagasConvites =  Convite::with(['vaga', 'curriculo.area', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
+            $vagasConvites =  Convite::with(['vaga', 'curriculo.historicoProfissional', 'curriculo.area', 'curriculo.fisica.contato', 'curriculo.fisica.user'])
                                 ->whereHas('vaga', function($query) use ($juridica_id){ 
                                     $query->where('juridicas_id', '=', $juridica_id)->groupBy('vagas_id');
                                 })
+                                ->where('resposta', '!=', 'CANCELADO')
                                 ->orderBy('created_at', 'desc')
                                 ->get();
 
@@ -142,7 +143,7 @@ class ConviteController extends Controller
             $convite->resposta='RECUSOU';
             $convite->update();
 
-            $convites=ConviteController::getConvites();
+            $convites=ConviteController::getConvites()->original;
             
             return Response::json([
                 'convites' => $convites,
@@ -160,7 +161,7 @@ class ConviteController extends Controller
                 'status'=>'AGUARDANDO'
             ]);
 
-            $convites=ConviteController::getConvites();
+            $convites=ConviteController::getConvites()->original;
             
             return Response::json([
                 'convites' => $convites,

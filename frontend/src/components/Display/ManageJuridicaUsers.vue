@@ -1,9 +1,9 @@
 <template>
  <v-row class="fill-height" align="center" justify="center">
-    <v-col cols="10" md="12" sm="10" xs="2">
-      <router-link to="/dashboard">
-        <v-btn>
-          <v-icon class="pr-1">fas fa-home fa-lg</v-icon> Home
+    <v-col cols="10" lg="10" md="10" sm="10">
+      <router-link to="/new-user">
+        <v-btn color="primary">
+          <v-icon class="pr-2">fa fa-plus</v-icon> Criar Novo Usuário Jurídico
         </v-btn>
       </router-link>
       <v-card align="center">
@@ -36,11 +36,18 @@
               :search="search"
             >
               <template v-slot:[`item.status`]="{item}">
-                <v-chip :color="getColor(item.status)" dark>{{item.status}}</v-chip>
+                <v-chip :color="getColor(item)" dark>
+                  <template v-if="(item.status == 'ATIVO' && item.deleted_at == null) || (item.status == 'INATIVO' && item.deleted_at != null)">
+                    {{item.status}}
+                  </template>
+                  <template v-else>
+                    INATIVO
+                  </template>
+                </v-chip>
               </template>
               <template v-slot:[`item.acoes`]="{ item }">
                 <span>
-                  <template v-if="item.status == 'ATIVO'">
+                  <template v-if="item.status == 'ATIVO' && item.deleted_at == null">
                     <v-icon
                       large
                       class="mr-2"
@@ -49,7 +56,7 @@
                       mdi-toggle-switch-off
                     </v-icon>
                   </template>
-                  <template v-else>
+                  <template v-else-if="item.status == 'INATIVO'">
                     <v-icon
                       large
                       class="mr-2"
@@ -57,6 +64,9 @@
                     >
                       mdi-toggle-switch
                     </v-icon>
+                  </template>
+                  <template v-else>
+                    <v-chip>O usuário desativou seu perfil.</v-chip>
                   </template>
                 </span>
               </template>
@@ -92,9 +102,9 @@ export default {
     ...mapState(['juridicaUsers'])
   },
   methods: {
-    getColor(status){
-      if(status == 'ATIVO') return 'green'
-      else if(status == 'INATIVO') return 'red'
+    getColor(item){
+      if(item.status == 'ATIVO' && item.deleted_at == null) return 'green'
+      else return 'red'
     },
     async handleUserStatus(item, action){
       let payload = {

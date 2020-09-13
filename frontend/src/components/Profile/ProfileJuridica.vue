@@ -21,7 +21,14 @@
       <template v-if="tab == 'tab-1'">
         <v-card align="center">
           <v-card-text class="black--text">
-            <v-img class="rounded-circle" height="400px" width="400" :src="upload.path">
+            <v-img 
+              class="rounded-circle" 
+              min-height="250"
+              max-height="250"
+              width="250"
+              min-width="250"
+              max-width="250"
+              :src="upload.path">
             </v-img>
             <template v-if="modoEdicao">
               <FormPessoaJuridicaData 
@@ -50,19 +57,33 @@
                               <strong>Estado: </strong>{{pessoaJuridicaInfo.endereco.estado}} <br/>
                               <strong>Rua: </strong> {{pessoaJuridicaInfo.endereco.rua}} <br/>
                               <strong>Bairro: </strong> {{pessoaJuridicaInfo.endereco.bairro}} <br/>
-                              <strong>Número: </strong> {{pessoaJuridicaInfo.endereco.numero}} <br/>
-                              <strong>Complemento: </strong> {{pessoaJuridicaInfo.endereco.complemento}} <br/>
+                              <span v-if="pessoaJuridicaInfo.endereco.numero">
+                                <strong>Número: </strong> {{pessoaJuridicaInfo.endereco.numero}} <br/>
+                              </span>
+                              <span v-if="pessoaJuridicaInfo.endereco.complemento">
+                                <strong>Complemento: </strong> {{pessoaJuridicaInfo.endereco.complemento}} <br/>
+                              </span>
                             </span>
                           </v-list-item-content>
                           <v-list-item-content>
                             <h3 align="left">Contato:</h3>
-                            <span align="left" class="mt-1">
-                              <strong>Telefone Fixo: </strong> {{pessoaJuridicaInfo.contato.fixo}} <br/>
+                             <span align="left" class="mt-1">
+                              <span v-if="pessoaJuridicaInfo.contato.fixo">
+                                <strong>Telefone Fixo: </strong> {{pessoaJuridicaInfo.contato.fixo}} <br/>
+                              </span>
                               <strong>Telefone Celular: </strong>{{pessoaJuridicaInfo.contato.celular}} <br/>
-                              <strong>Linkedin: </strong> {{pessoaJuridicaInfo.contato.linkedin}} <br/>
-                              <strong>Facebook: </strong> {{pessoaJuridicaInfo.contato.facebook}} <br/>
-                              <strong>Twitter: </strong> {{pessoaJuridicaInfo.contato.twitter}} <br/>
-                              <strong>Site: </strong> {{pessoaJuridicaInfo.contato.site}} <br/>
+                              <span v-if="pessoaJuridicaInfo.contato.linkedin">
+                                <strong>Linkedin: </strong> {{pessoaJuridicaInfo.contato.linkedin}} <br/>
+                              </span>
+                              <span v-if="pessoaJuridicaInfo.contato.facebook">
+                                <strong>Facebook: </strong> {{pessoaJuridicaInfo.contato.facebook}} <br/>
+                              </span>
+                              <span v-if="pessoaJuridicaInfo.contato.twitter">
+                                <strong>Twitter: </strong> {{pessoaJuridicaInfo.contato.twitter}} <br/>
+                              </span>
+                              <span v-if="pessoaJuridicaInfo.contato.site">
+                                <strong>Site: </strong> {{pessoaJuridicaInfo.contato.site}} <br/>
+                              </span>
                             </span>
                           </v-list-item-content>
                         </v-list-item>

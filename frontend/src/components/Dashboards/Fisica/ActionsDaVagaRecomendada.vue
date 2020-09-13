@@ -84,32 +84,31 @@ export default {
     }
   },
   computed: {
-    ...mapState(['resultado'])
+    ...mapState(['resultado', 'auth'])
   },
   methods: {
     async criarCandidatura(){
       let payload = {
         vagaId: this.vagaId, 
-        userId: this.$store.state.auth.user.id
+        userId: this.auth.user.id
       }
       this.pleaseWaitDialog = true
-      await this.$store.dispatch(actionTypes.REQUEST_VAGA_DASH, payload)
-        .then(response => {
-          console.log('response er', response, response.error != undefined)
-          if(response.error != undefined){
-            this.$emit('handleNotif', response.error)
-          }else{
-            this.$emit('handleNotif', 'Candidatura realizada com sucesso')
-            if(this.vagaBuscada){
-              for(let i = 0; i < this.resultado.length; i++){
-                if (this.resultado[i].id == this.vagaId) {
-                  this.resultado.splice(i, 1)
-                }
-              }
+      let response = await this.$store.dispatch(actionTypes.REQUEST_VAGA_DASH, payload)
+      console.log('response er', response, response.error != undefined)
+      if(response.error != undefined){
+        this.$emit('handleNotif', response.error)
+      }else{
+        this.$emit('handleNotif', 'Candidatura realizada com sucesso')
+        console.log('EMIT actions')
+        if(this.vagaBuscada){
+          for(let i = 0; i < this.resultado.length; i++){
+            if (this.resultado[i].id == this.vagaId) {
+              this.resultado.splice(i, 1)
             }
           }
-        })
-        this.pleaseWaitDialog = false
+        }
+      }
+      this.pleaseWaitDialog = false
     }
   }
 }

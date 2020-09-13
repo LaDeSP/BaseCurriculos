@@ -26,6 +26,3 @@ Route::post('/store/arquivo/{categoria}/{id}', 'UploadController@storeArquivo')-
 Route::get('/teste', function () {
     return view('teste');
   });
-
-
-

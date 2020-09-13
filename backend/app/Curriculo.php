@@ -8,15 +8,15 @@ use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Curriculo extends Model
 {
-	use SoftDeletes, SoftCascadeTrait; 
+	use SoftDeletes, SoftCascadeTrait;
 
     protected $softCascade = ['candidatura', 'convite'];
 
 	protected $fillable = [
-		'objetivos', 'areas_id', 'pretensao', 'qualificacoes', 
-		'escolaridade', 'historicoProfissional', 'fisicas_id'
+		'objetivos', 'areas_id', 'pretensao', 'qualificacoes',
+		'escolaridade', 'fisicas_id'
 	];
-	
+
   public function fisica(){
     return $this->hasOne(Fisica::class, 'id','fisicas_id');
 	}
@@ -32,9 +32,12 @@ class Curriculo extends Model
 	public function area(){
     	return $this->belongsTo(Area::class, 'areas_id');
 	}
-	
+
 	public function convite(){
 		return $this->belongsTo(Convite::class);
 	}
-}
 
+	public function historicoProfissional(){
+		return $this->hasOne(HistoricoProfissional::class, 'id', 'curriculos_id');
+	}
+}

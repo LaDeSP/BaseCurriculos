@@ -12,6 +12,7 @@ class CreateJuridicasTable extends Migration
         Schema::create('juridicas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('cnpj')->unique();
+            $table->boolean('ehPatrocinador');
             $table->integer('contatos_id')->unsigned()->nullable();
             $table->integer('enderecos_id')->unsigned()->nullable();
             $table->timestamps();

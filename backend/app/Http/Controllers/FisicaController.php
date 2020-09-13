@@ -19,13 +19,13 @@ class FisicaController extends Controller
     use UserTrait;
 
     public function index(){
-        
+
     }
 
     public function store(Request $request)
-    {  
+    {
         $validator = Validator::make($request->all(), FisicaController::rules(), FisicaController::messages());
-         
+
         if ($validator->fails()) {
              return Response::json([
                 'error' => $validator->messages()
@@ -33,7 +33,7 @@ class FisicaController extends Controller
         }
 
         $this->register($request);
-            
+
         $pfisica = new Fisica();
         $cpf = $pfisica->cpf = $request->input('cpf');
         $email = $request->input('email');
@@ -44,7 +44,7 @@ class FisicaController extends Controller
 
         $credentials = $request->only('email', 'password');
         $token = JWTAuth::attempt($credentials);
-        
+
         return Response::json([
             'token'=> $token,
             'name' => $request->input('name'),
@@ -53,35 +53,35 @@ class FisicaController extends Controller
             'user'=>auth()->user(),
             'foto'=> "http://localhost:8000/anon.jpg",
             'message'=>'Pessoa física cadastrada com sucesso!'
-        ], 201); 
-       
+        ], 201);
+
     }
 
     public function show($id)
-    {   
+    {
         $fisica = Fisica::with(['contato', 'endereco', 'user'])
                     ->where('user_id', $id)
                     ->orderBy('created_at', 'desc')
                     ->get();
-                    
+
         return Response::json([
            'fisica' => $fisica
         ], 201);
     }
 
     public function updateDadosCadastroFisica (Request $request){
-        $user_id = auth()->user()->id; 
+        $user_id = auth()->user()->id;
         $user = User::findOrFail($user_id);
         $fisica = $user->fisica;
-        
+
         $validator = Validator::make($request->all(), FisicaController::rules_edit($user->id, $fisica->id), FisicaController::messages());
-        
+
         if ($validator->fails()) {
             return Response::json([
                 'error' => $validator->messages()
             ], 201);
         }
-        
+
         $error = [];
         if($request->newPassword){
             if(!$request->password){
@@ -102,21 +102,21 @@ class FisicaController extends Controller
         }
         $user->email = $request->email;
         $fisica->cpf = $request->cpf;
-        
+
         $user->update();
         $fisica->update();
         return Response::json([
             'message'=>'Pessoa física atualizada com sucesso!',
             'cpf'=>$fisica->cpf,
             'email'=>$user->email,
-        ], 201); 
+        ], 201);
     }
 
     public function destroy($id)
     {
         $end_id = Fisica::where('user_id', $id)->first()->enderecos_id;
         $cont_id = Fisica::where('user_id', $id)->first()->contatos_id;
-        
+
         $user = User::find($id);
         $user->delete();
 
@@ -126,7 +126,7 @@ class FisicaController extends Controller
 
             $cont = Contato::find($cont_id);
             $cont->delete();
-    
+
         }
         return Response::json([
             'msg' => 'deletado ok'
@@ -155,7 +155,7 @@ class FisicaController extends Controller
 
     public function rules(){
         return [
-           
+
             'name' => 'required|max:250',
             'email' => 'required|max:250|email|unique:users,email',
             'password' => 'required|min:8|max:30',
@@ -171,5 +171,5 @@ class FisicaController extends Controller
             'cpf' => 'required|cpf|unique:fisicas,cpf,'.$cpf
         ];
     }
-    
+
 }

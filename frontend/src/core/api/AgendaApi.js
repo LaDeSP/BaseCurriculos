@@ -7,7 +7,7 @@ const getAgenda = async (state) => {
     return await axios.get(`agenda?token=${state.auth.token}`)
 }
 const updateAgendamento = async (state, updatedAgendamentoData) => {
-    return await axios.put(`agenda/${updatedAgendamentoData.updateId}?token=${state.auth.token}`, updatedAgendamentoData)
+    return await axios.put(`agenda/${updatedAgendamentoData.candidatura_id}?token=${state.auth.token}`, updatedAgendamentoData)
 }
 const confirmAgendamento = async (state, candidaturaId) => {
     return await axios.post(`confirmAgenda?token=${state.auth.token}`, candidaturaId)

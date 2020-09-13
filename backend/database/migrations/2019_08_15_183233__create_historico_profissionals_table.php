@@ -20,7 +20,10 @@ class CreateHistoricoProfissionalsTable extends Migration
             $table->date('dataFinal')->nullable();
             $table->longText('descricaoExperiencia')->nullable();
             $table->integer('fisicas_id')->unsigned();
+            $table->integer('curriculos_id')->unsigned();
+            $table->softDeletes();
             $table->foreign('fisicas_id')->references('id')->on('fisicas')->onDelete('cascade');
+            $table->foreign('curriculos_id')->references('id')->on('curriculos');
         });
     }
 

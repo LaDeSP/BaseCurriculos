@@ -2,25 +2,27 @@
 <v-row align="center" justify="center" class="mb-12" v-if="isLoaded">
   <v-col cols="12" lg="12" md="12" sm="12">
     <template v-if="$route.path != '/dashboard' || $route.path != '/dashboard/'">
-       <router-link to="/vagas">
-        <v-btn class="mr-2">
-          <v-icon class="pr-1">mdi-arrow-left-circle</v-icon> Voltar
-        </v-btn>
-      </router-link>
-      <router-link to="/dashboard">
-        <v-btn>
-          <v-icon class="pr-1">fas fa-home fa-lg</v-icon> Home
-        </v-btn>
-      </router-link>
+      <template v-if="$route.path == '/vagas/create' || $route.path == '/vagas/create/'">
+        <router-link to="/vagas">
+          <v-btn class="mr-2">
+            <v-icon class="pr-1">mdi-arrow-left-circle</v-icon> Voltar
+          </v-btn>
+        </router-link>
+        <router-link to="/dashboard">
+          <v-btn>
+            <v-icon class="pr-1">fas fa-home fa-lg</v-icon> Home
+          </v-btn>
+        </router-link>
+      </template>
     </template>
       <v-card>
         <v-card-title class="justify-center text-center"><h1>{{title}}</h1></v-card-title>
         <v-stepper v-model="step">
         <v-stepper-header>
           <v-divider></v-divider>
-          <v-stepper-step :complete="step > 1" editable step="1">Informações da Vaga</v-stepper-step>
+          <v-stepper-step :complete="step > 1" step="1">Informações da Vaga</v-stepper-step>
               <v-divider></v-divider>
-          <v-stepper-step :complete="step > 2" editable step="2">Detalhes da Vaga</v-stepper-step>
+          <v-stepper-step :complete="step > 2" step="2">Detalhes da Vaga</v-stepper-step>
               <v-divider></v-divider>
         </v-stepper-header>
         <form>
@@ -106,7 +108,7 @@
 
 <script>
 import { actionTypes } from '../../core/constants'
-import {mapGetters} from 'vuex'
+import {mapGetters, mapState} from 'vuex'
 import moment from 'moment'
 import InformacoesVaga from './FormCreateVagaComponents/InformacoesVaga'
 
@@ -146,6 +148,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['auth']),
     ...mapGetters(['getVagaById']),
     vagaById(){
       return this.getVagaById(this.vagaId)
@@ -169,7 +172,7 @@ export default {
     async submit(){
       this.pleaseWaitDialog = true
       let payload = {
-        titulo: this.titulo,
+        titulo: this.titulo.charAt(0).toUpperCase() + this.titulo.slice(1),
         descricao: this.descricao,
         cargo: this.cargo,
         quantidade: this.quantidade,

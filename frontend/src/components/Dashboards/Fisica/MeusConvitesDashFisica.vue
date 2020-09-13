@@ -3,7 +3,9 @@
     <v-card-title class="warning--text">
         <router-link to="convites">Meus convites</router-link>  
         <v-spacer></v-spacer>
-        <v-btn outlined color="grey darken-1">Ver mais <v-icon class="pl-1">fa fa-eye</v-icon></v-btn>
+        <router-link to="convites">
+          <v-btn outlined color="grey darken-1">Ver mais <v-icon class="pl-1">fa fa-eye</v-icon></v-btn>
+        </router-link>
     </v-card-title>
     <v-card-text>
         <v-row class="my-5">

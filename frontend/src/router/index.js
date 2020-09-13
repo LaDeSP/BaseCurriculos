@@ -38,98 +38,76 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "Dashboard"*/ '../views/Dashboard')
   },
   {
-    path: '/juridica',
-    name: 'juridica',
-    component: () => import(/* webpackChunkName: "Juridica"*/ '../views/Juridica')
-  },
-  {
-    path: '/loading',
-    name: 'loadingScreen',
-    component: () => import(/* webpackChunkName: "LoadingScreen"*/ '../views/LoadingScreen')
-  },
-  {
     path: '/profile',
     name: 'profile',
-    meta: {requiresAuth: true},
+    meta: {requiresDataCompleted: true},
     component: () => import(/* webpackChunkName: "Profile"*/ '../views/Profile')
   },
    {
     path: '/settings',
     name: 'settings',
-    meta: {requiresAuth: true},
+    meta: {requiresDataCompleted: true},
     component: () => import(/* webpackChunkName: "Settings"*/ '../components/Dashboards/Configuracoes')
   },
   {
     path: '/candidaturas',
     name: 'candidaturas',
-    meta: {requiresAuth: true},
+    meta: {requiresDataCompleted: true},
     component: () => import(/* webpackChunkName: "Candidaturas"*/ '../views/Candidaturas')
   },
   {
     path: '/vagas',
     name: 'vagas',
-    meta: {requiresAuth: true},
+    meta: {requiresAuthJuridica: true},
     component: () => import(/* webpackChunkName: "Vagas"*/ '../views/Vagas'),
   },
   {
     path: '/vagas/create',
     name: 'createVaga',
-    meta: {requiresAuth: true},
+    meta: {requiresAuthJuridica: true},
     component: () => import(/* webpackChunkName: "CreateVaga"*/ '../components/Forms/FormCreateVaga'),
   },
   {
     path: '/vagas/edit/:vagaId',
     name: 'editVaga',
-    meta: {requiresAuth: true},
+    meta: {requiresAuthJuridica: true},
     component: () => import(/* webpackChunkName: "EditVaga"*/ '../components/Forms/FormCreateVaga'),
-  },
-  {
-    path: '/canjur',
-    name: 'canjur',
-    meta: {requiresAuth: true},
-    component: () => import(/* webpackChunkName: "CandidaturasJuridica"*/ '../components/Candidaturas/CandidaturasJuridica')
   },
   {
     path: '/convites',
     name: 'convites',
-    meta: {requiresAuth: true},
+    meta: {requiresDataCompleted: true},
     component: () => import(/* webpackChunkName: "Convites"*/ '../views/Convites')
   },
   {
     path: '/agenda',
     name: 'agenda',
-    meta: {requiresAuth: true},
+    meta: {requiresAuthJuridica: true},
     component: () => import(/* webpackChunkName: "Agenda"*/ '../views/Agenda'),
   },
   {
     path: '/agenda/new/:newCandidaturaId',
     name: 'newAgenda',
-    meta: {requiresAuth: true},
+    meta: {requiresAuthJuridica: true},
     component: () => import(/* webpackChunkName: "NewAgenda"*/ '../components/Forms/FormNovoAgendamento'),
   },
   {
     path: '/agenda/edit/:editCandidaturaId',
     name: 'editAgenda',
-    meta: {requiresAuth: true},
+    meta: {requiresDataCompleted: true},
     component: () => import(/* webpackChunkName: "EditAgenda"*/ '../components/Forms/FormNovoAgendamento'),
   },
   {
     path: '/search',
     name: 'search',
-    meta: {requiresAuth: true},
+    meta: {requiresDataCompleted: true},
     component: () => import(/* webpackChunkName: "Resultados"*/ '../views/Resultados')
   },
   {
     path: '/new-user',
     name: 'newJuridicaUser',
-    meta: {requiresAuth: true},
+    meta: {requiresAuthMaster: true},
     component: () => import(/* webpackChunkName: "NewJuridicaUser"*/ '../components/Forms/FormCreateUserJuridica')
-  },
-  {
-    path: '/manage-users',
-    name: 'manageJuridicaUsers',
-    meta: {requiresAuth: true},
-    component: () => import(/* webpackChunkName: "ManageJuridicaUsers"*/ '../components/Display/ManageJuridicaUsers')
   },
   {
     path: '/accountStatus',
@@ -164,25 +142,59 @@ router.beforeEach((to, from, next) => {
   console.log('beforeEach', store.state)
   if(to.matched.some(record => record.meta.requiresAuth)){
     if(store.state.auth.isLoggedIn){
+      next()
+      return
+    }else{
+      console.log('not logged in')
+      next('/')
+    } 
+  }else if(to.matched.some(record => record.meta.requiresDataCompleted)){
+    if(store.state.auth.isLoggedIn){
       if(store.state.auth.user.deleted_at == null){
-        console.log('deleted null')
-        next()
-        return
+        if(store.state.dataCompleted){
+          console.log('deleted null e dataCompleted true')
+          next()
+          return
+        }else{
+          console.log('data completed false')
+          next('/dashboard')
+        }
       }else{
         console.log('deleted not null')
         next('/accountStatus')
       }
     }else{
       next('/')
-    } 
+    }
   }else if(to.matched.some(record => record.meta.showOnlyIfNoAuth)){
     if(store.state.auth.isLoggedIn){
       next('/dashboard')
       return
     }
     next()
+  }else if(to.matched.some(record => record.meta.requiresInactiveAccount)){
+    if(store.state.auth.isLoggedIn){
+      if(store.state.auth.user.deleted_at != null){
+        next()
+      }else{
+        next('/dashboard')
+      }
+    }else{
+      next('/')
+    }
+  }else if(to.matched.some(record => record.meta.requiresAuthMaster)){
+    if(store.state.auth.isLoggedIn && store.state.auth.user.role === 'MASTER'){
+      next()
+      return
+    }
+    if(store.state.auth.isLoggedIn){
+      next('/dashboard')
+      return
+    }
+    next('/')
   }else if(to.matched.some(record => record.meta.requiresAuthJuridica)){
-    if(store.state.auth.isLoggedIn && store.state.tipoPermissao ==='JURIDICA'){
+    console.log('isloggedin', store.state.auth.isLoggedIn, 'tipo', store.state.auth.user.role, 'data', store.state.dataCompleted)
+    if(store.state.auth.isLoggedIn && store.state.auth.user.role ==='JURIDICA' && store.state.dataCompleted){
       next()
       return
     }
@@ -192,7 +204,7 @@ router.beforeEach((to, from, next) => {
     }
     next('/')
   }else if(to.matched.some(record => record.meta.requiresAuthFisica)){
-    if(store.state.auth.isLoggedIn && store.state.tipoPermissao ==='FISICA'){
+    if(store.state.auth.isLoggedIn && store.state.auth.user.role ==='FISICA' && store.state.dataCompleted){
       next()
       return
     }

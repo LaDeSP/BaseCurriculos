@@ -9,14 +9,14 @@
       </v-col>
         <template v-if="tipoPermissao == 'FISICA'">
           <v-col cols="10" lg="8" md="12" sm="12" xs="2">
-            <template v-if="isLoaded && dataCompleted">
+            <template v-if="isLoaded && dataCompleted && refresh">
               <MinhasCandidaturas></MinhasCandidaturas>
               <MeusConvites></MeusConvites>
               <VagasRecomendadas></VagasRecomendadas>
             </template>
-             <template v-else-if="isLoaded && !dataCompleted">
+             <template v-else-if="isLoaded && !refresh">
               <h1 class="text-center justify-center">Complete seus dados para continuar!</h1>
-              <FormPessoaFisicaCurriculo :edicao="false"></FormPessoaFisicaCurriculo>  
+              <FormPessoaFisicaCurriculo :toggle="true" :edicao="false" @data-completed="getDataFlag"></FormPessoaFisicaCurriculo>  
             </template>
           </v-col>
         </template>
@@ -35,15 +35,19 @@
               </v-row>
             </template>
             <template v-else-if="isLoaded && !dataCompleted">
-              <h1 class="text-center justify-center">Complete seus dados para continuar!</h1>
-              <FormPessoaJuridicaData @handleNotifSuccess="getNotifSuccess"></FormPessoaJuridicaData>
-            </template>
-            <template v-if="isLoaded && !hasVaga">
-              <FormCreateVaga :title="titlePrimeiraVaga"></FormCreateVaga>
+              <v-col cols="10" lg="10" md="10" sm="8">
+                <h1 class="text-center justify-center">Complete seus dados para continuar!</h1>
+                <FormPessoaJuridicaData @handleNotifSuccess="getNotifSuccess"></FormPessoaJuridicaData>
+              </v-col>
             </template>
           </v-row>    
+          <template v-if="isLoaded && dataCompleted && !hasVaga">
+            <v-col cols="10" lg="10" md="10" sm="10">
+              <FormCreateVaga :title="titlePrimeiraVaga"></FormCreateVaga>
+            </v-col>
+          </template>
         </template>
-        <template v-else-if="tipoPermissao == 'MASTER'">
+        <template v-if="isLoaded && tipoPermissao == 'MASTER'">
           <TopCardsMaster></TopCardsMaster>
         </template>
   </v-row>
@@ -74,8 +78,8 @@ export default {
   data(){
     return {
       notificacao: '',
-      hasVaga: false,
       isLoaded: false,
+      refresh: false,
       titlePrimeiraVaga: 'Que tal cadastrar sua primeira vaga?'
     }
   },
@@ -84,14 +88,13 @@ export default {
     await this.loadUserData()
   },
   computed: {
-    ...mapState(['dataCompleted']), 
+    ...mapState(['auth', 'dataCompleted', 'hasVaga']), 
     ...mapGetters(['tipoPermissao'])
   }, 
   methods: {
     async setNotificacoes(){
       if(this.$route.params.cadastroFisicaSucesso){
         this.notificacao = 'Cadastro realizado com sucesso!'
-        await this.$store.dispatch(actionTypes.GET_VAGAS_RECOMENDADAS)
       }else if(this.$route.params.cadastroCurriculoSucesso){
         this.notificacao = 'Seu currículo foi cadastrado com sucesso!'
       }else if(this.$route.params.cadastroJuridicaSucesso){
@@ -105,25 +108,33 @@ export default {
         console.log('tipo permissao fisica if')
         await this.$store.dispatch(actionTypes.GET_PESSOA_FISICA)
         if(this.dataCompleted){
+          console.log('no if, created, data completed, fisica')
           await this.$store.dispatch(actionTypes.GET_CANDIDATURAS)
           await this.$store.dispatch(actionTypes.GET_VAGAS_RECOMENDADAS)
           await this.$store.dispatch(actionTypes.GET_TODOS_CONVITES)
+          this.refresh = true
         }
-        this.isLoaded = true
       }else if(this.tipoPermissao == 'JURIDICA'){
         await this.$store.dispatch(actionTypes.GET_PESSOA_JURIDICA)
         if(this.dataCompleted){
           await this.$store.dispatch(actionTypes.GET_VAGAS_JURIDICAS)
-            .then(response => {
-              if(response.vagas.length > 0) this.hasVaga = true 
-            })
           await this.$store.dispatch(actionTypes.GET_CANDIDATURAS)
           await this.$store.dispatch(actionTypes.GET_AGENDA)
           await this.$store.dispatch(actionTypes.GET_TODOS_CONVITES)
           await this.$store.dispatch(actionTypes.GET_PORCENTAGEM_VAGAS)
         }
-        this.isLoaded = true
-      }      
+      }   
+      console.log('this tipo permissao', this.tipoPermissao)   
+      this.isLoaded = true
+    },
+    async getDataFlag(value){
+      console.log('get data flag', value)
+      if(value){
+        console.log('gerDaraFkag', value, this.$store.state.auth)
+        this.notificacao = 'Seu currículo foi cadastrado com sucesso!'
+        await this.$store.dispatch(actionTypes.GET_VAGAS_RECOMENDADAS)
+        this.refresh = true
+      }
     },
     getNotifSuccess(value){
       console.log('get not if siuccess dash', value)

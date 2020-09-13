@@ -1,6 +1,11 @@
 <template>
  <v-row align="center" justify="center" v-if="isLoaded">
     <v-col cols="12" lg="12" md="12" sm="10">
+      <span v-if="notificacao">
+        <v-alert type="success">
+          {{notificacao}}
+        </v-alert>
+      </span>
       <template v-if="toggle">
         <v-btn class="mr-1" @click="toggle = false">
           <v-icon class="pr-1">mdi-arrow-left-circle</v-icon> Voltar
@@ -48,6 +53,7 @@ export default {
       toggle: false,
       candidaturasData: [],
       statusCandidatura: '',
+      notificacao: '',
       verAgendamento: {
         'buttonText': 'Ver Agendamento',
         'title': 'Detalhes do Agendamento',
@@ -65,6 +71,7 @@ export default {
     }
   },
   async created(){
+    this.setNotificacoes()
     await this.$store.dispatch(actionTypes.GET_CANDIDATURAS)
     if(this.tipoPermissao == 'FISICA'){
       this.title = 'Minhas Candidaturas'
@@ -92,6 +99,13 @@ export default {
     }
   },
   methods: {
+    setNotificacoes(){
+      if(this.$route.params.editouAgenda){
+        this.notificacao = 'Contraproposta feita com sucesso!'
+      }else if(this.$route.params.aceitouAgendamento){
+        this.notificacao = 'Entrevista agendada com sucesso!'
+      }
+    },
     getPayload(payload){
       this.vagaId = payload.vagaId 
       this.toggle = payload.toggle

@@ -1,5 +1,5 @@
 <template>
-<div class="login">
+<v-img src="../../../img/funfo.jpg" lazy-src="../../../img/login_blur.jpg" height="100vh">
   <v-row class="fill-height" align="center" justify="center">
       <v-col cols="12" md="8" sm="10" xs="6">
       <v-card class="mx-auto elevation-12" max-width="800" align="center" justify="center">
@@ -12,7 +12,7 @@
           <PleaseWait></PleaseWait>
         </template>
         <template v-else>
-          <ValidationObserver ref="observer" v-slot="{ invalid }">
+          <ValidationObserver ref="observer">
           <v-form>
             <v-card-text class="pa-10">
               <template v-if="notificacoes">
@@ -49,7 +49,7 @@
               </span>
               <v-spacer></v-spacer>
               <FormCreatePessoaFisica></FormCreatePessoaFisica>
-              <v-btn :disabled="invalid" v-on:keyup.enter="login" class="ml-3" outlined color="primary darken-1" text @click.prevent="login">Entrar</v-btn>              
+              <v-btn v-on:keyup.enter="login" class="ml-3" outlined color="primary darken-1" text @click.prevent="login">Entrar</v-btn>              
             </v-card-actions>
           </v-form>
           </ValidationObserver>
@@ -57,7 +57,7 @@
       </v-card>
     </v-col>
   </v-row>
-</div>
+</v-img>
 </template>
 
 <script>
@@ -86,6 +86,10 @@ export default {
     async login(){
       let email = this.email,
           password = this.password
+      if(this.email == '' || this.password == ''){
+        this.notificacoes = ['Preencha todos os campos.']
+        return
+      }
       this.pleaseWait = true
       await this.$store.dispatch(actionTypes.LOGIN, {email, password})
         .then(response => {

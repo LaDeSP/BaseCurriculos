@@ -3,13 +3,13 @@
   <v-col cols="12" lg="12" md="12" sm="12">
     <v-stepper class="mt-3" v-model="step">
     <v-stepper-header>
-      <v-stepper-step :complete="step > 1" editable step="1">Informações Pessoais</v-stepper-step>
+      <v-stepper-step :complete="step > 1" step="1">Informações Pessoais</v-stepper-step>
           <v-divider></v-divider>
-      <v-stepper-step :complete="step > 2" editable step="2">Contato</v-stepper-step>
+      <v-stepper-step :complete="step > 2" step="2">Contato</v-stepper-step>
           <v-divider></v-divider>
-      <v-stepper-step :complete="step > 3" editable step="3">Endereço</v-stepper-step>
+      <v-stepper-step :complete="step > 3" step="3">Endereço</v-stepper-step>
           <v-divider></v-divider>
-      <v-stepper-step :complete="step > 4" editable step="4">Informações Profissionais</v-stepper-step>  
+      <v-stepper-step :complete="step > 4" step="4">Informações Profissionais</v-stepper-step>
     </v-stepper-header>
     <form>
       <ValidationObserver ref="observer" v-slot="{ invalid }">
@@ -79,23 +79,25 @@
                       hint="Insira sua formação, seus cursos, qualidades, etc."
                       outlined
                     ></v-textarea>
-                  </ValidationProvider>  
+                  </ValidationProvider>
                 <h3 class="justify-center text-center">Histórico Profissional</h3>
                 <v-row align="center" justify="center">
                   <v-col cols="12" md="4">
-                    <ValidationProvider name="dataInicial" v-slot="{errors}" slim>
+                    <ValidationProvider name="periodo" v-slot="{errors}" slim rules="">
                       <v-menu
-                        v-model="menu1"
+                        ref="menu"
+                        v-model="menu"
                         :close-on-content-click="false"
                         transition="scale-transition"
+                        :return-value.sync="intervalo"
                         offset-y
                         max-width="290px"
                         min-width="290px"
                       >
                         <template v-slot:activator="{ on, attrs }">
                           <v-text-field
-                            v-model="dataInicialFormatada"
-                            label="Data Inicial"
+                            v-model="datasIntervaloText"
+                            label="Período"
                             persistent-hint
                             readonly
                             :error-messages="errors"
@@ -104,33 +106,11 @@
                             v-on="on"
                           ></v-text-field>
                         </template>
-                        <v-date-picker locale="pt-br" v-model="dataInicial" no-title @input="menu1 = false"></v-date-picker>
-                      </v-menu>
-                    </ValidationProvider>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <ValidationProvider name="dataFinal" v-slot="{errors}" slim>
-                      <v-menu
-                        v-model="menu2"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        max-width="290px"
-                        min-width="290px"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            v-model="dataFinalFormatada"
-                            label="Data Final"
-                            persistent-hint
-                            readonly
-                            :error-messages="errors"
-                            append-outer-icon="fa-calendar"
-                            v-bind="attrs"
-                            v-on="on"
-                          ></v-text-field>
-                        </template>
-                        <v-date-picker locale="pt-br" v-model="dataFinal" no-title @input="menu2 = false"></v-date-picker>
+                        <v-date-picker range scrollable locale="pt-br" v-model="intervalo" no-title>
+                          <v-spacer></v-spacer>
+                          <v-btn text color="primary" @click="menu = false">Cancelar</v-btn>
+                          <v-btn text color="primary" @click="$refs.menu.save(intervalo)">OK</v-btn>
+                        </v-date-picker>
                       </v-menu>
                     </ValidationProvider>
                   </v-col>
@@ -144,13 +124,14 @@
                       ></v-text-field>
                     </ValidationProvider>
                   </v-col>
+                  {{experiencias}}
                   <span class="red lighten-2 white--text" v-if="isExperienciaDuplicate">
                     {{aviso}}
                   </span>
                   <span class="green lighten-2 white--text" v-if="!isExperienciaDuplicate && aviso != ''">
                     {{aviso}}
                   </span>
-                  <v-col cols="12" md="10"> 
+                  <v-col cols="12" md="10">
                     <v-btn color="info accent-3 white--text mb-4" @click="adicionarExperiencia">Adicionar</v-btn>
                     <template v-if="experiencias.length > 0">
                       <v-expansion-panels>
@@ -180,9 +161,9 @@
               </v-card-text>
               <v-card-actions><small class="red--text">* Campo obrigatório</small></v-card-actions>
               <v-btn color="default" class="mr-3" @click="step = 3">Voltar</v-btn>
-              <v-btn 
-                class="ml-3 mr-3 green white--text" 
-                :loading="pleaseWaitDialog" 
+              <v-btn
+                class="ml-3 mr-3 green white--text"
+                :loading="pleaseWaitDialog"
                 @click="submit()"
               >Salvar</v-btn>
               <v-dialog
@@ -190,7 +171,7 @@
                 hide-overlay
                 persistent
                 width="300"
-              > 
+              >
                 <v-card class="grey darken-3 text-center white--text" dark>
                   <v-card-text>Por favor, aguarde...
                     <v-progress-linear
@@ -219,7 +200,7 @@ import InformacoesPessoais from './FormPessoaFisicaComponents/InformacoesPessoai
 import Contato from './FormPessoaFisicaComponents/Contato'
 import Endereco from './FormPessoaFisicaComponents/Endereco'
 import InformacoesProfissionais from './FormPessoaFisicaComponents/InformacoesProfissionais'
-import { actionTypes } from '../../core/constants'
+import {actionTypes} from '@/core/constants'
 
 export default {
   components: {InformacoesPessoais, Contato, Endereco, InformacoesProfissionais},
@@ -229,6 +210,10 @@ export default {
   data(){
     return {
       step: 1,
+      date_validator: {
+        before: new Date(Date.now())
+      },
+      intervalo: [],
       isLoaded: false,
       pleaseWaitDialog: false,
       aviso: '',
@@ -259,28 +244,27 @@ export default {
       qualificacoes: '',
       dataInicial: '',
       dataFinal: '',
-      menu1: false,
+      menu: false,
       menu2: false,
       descricaoExperiencia: '',
       experiencias: [],
       itemsNivelEscolaridade: [
         "Ensino Fundamental(Incompleto)",
-        "Ensino Fundamental(Cursando)", 
+        "Ensino Fundamental(Cursando)",
         "Ensino Fundamental(Completo)",
-        "Ensino Médio(Incompleto)", 
-        "Ensino Médio(Cursando)", 
-        "Ensino Médio(Completo)", 
-        "Ensino Superior(Incompleto)", 
+        "Ensino Médio(Incompleto)",
+        "Ensino Médio(Cursando)",
+        "Ensino Médio(Completo)",
+        "Ensino Superior(Incompleto)",
         "Ensino Superior(Cursando)",
-        "Ensino Superior(Completo)", 
-        "Pós-Graduação(Especialização)", 
-        "Pós-Graduação(Mestrado)", 
+        "Ensino Superior(Completo)",
+        "Pós-Graduação(Especialização)",
+        "Pós-Graduação(Mestrado)",
         "Pós-Graduação(Doutorado)"
       ],
-      itemsAreaAtuacao: [],
       isExperienciaDuplicate: false,
       rulesPeriodo: [value => !!value || 'Esse campo é obrigatório.']
-      
+
     }
   },
   filters:{
@@ -291,30 +275,19 @@ export default {
     }
   },
   async created(){
-    await this.$store.dispatch(actionTypes.GET_AREAS)
-      .then(response => {
-        this.itemsAreaAtuacao = response.areas
-      })
-    console.log('modo edicao?', this.edicao)
+    console.log('AREAAA?', this.itemsAreaAtuacao)
     if(this.edicao){
       this.loadDataToEdit()
+    }else{
+      await this.$store.dispatch(actionTypes.GET_AREAS)
     }
   },
   computed: {
-    ...mapState(['pessoaFisicaInfo', 'pessoaFisicaCurriculo']),
-    dataInicialFormatada(){
-      if(this.dataInicial != ''){
-        return moment(this.dataInicial).format('DD/MM/YYYY')
-      }else{
-        return this.dataInicial
-      }
-    },
-    dataFinalFormatada(){
-      if(this.dataFinal != ''){
-        return moment(this.dataFinal).format('DD/MM/YYYY')
-      }else{
-        return this.dataFinal
-      }
+    ...mapState(['pessoaFisicaInfo', 'pessoaFisicaCurriculo', 'itemsAreaAtuacao']),
+    datasIntervaloText(){
+      let dataFormatada = this.intervalo.map(data => {return moment(data).format('DD/MM/YYYY')})
+      console.log('Darfsf', dataFormatada)
+      return dataFormatada.join(' ~ ')
     },
     experienciasTratado(){
       return this.experiencias
@@ -323,6 +296,7 @@ export default {
   methods: {
     submit(){
       this.pleaseWaitDialog = true
+      this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1)
       let payload = {
         nome: this.name,
         nascimento: this.nascimento,
@@ -334,41 +308,46 @@ export default {
         linkedin: this.linkedin,
         facebook: this.facebook,
         twitter: this.twitter,
-        site: this.site, 
+        site: this.site,
         cep: this.cep,
-        estado: this.estado, 
-        cidade: this.cidade, 
-        bairro: this.bairro, 
-        rua: this.rua, 
-        complemento: this.complemento, 
+        estado: this.estado,
+        cidade: this.cidade,
+        bairro: this.bairro,
+        rua: this.rua,
+        complemento: this.complemento,
         numero: this.numero,
         objetivos: this.objetivosProfissionais,
         area: this.areaAtuacao,
         pretensao: this.pretensaoSalarial,
         escolaridade: this.nivelEscolaridade,
         qualificacoes: this.qualificacoes,
-        historicoProfissional: this.experiencias
+        historicoProfissional: this.experiencias,
+        historicoProfissionalExcluidos: this.experienciasExcluidas
       }
+      console.log('payload do submit', payload)
       if(!this.edicao){
         this.$store.dispatch(actionTypes.COMPLETE_PESSOA_FISICA, payload)
         .then(response =>{
           if(response.error != undefined){
             this.notificacoes = response.error
             this.pleaseWaitDialog = false
+            console.log('erro form curriculo')
           }else{
             this.pleaseWaitDialog = false
-            //this.$router.push({ name: 'dashboard', params:{cadastroCurriculoSucesso: true} })
+            this.$emit('data-completed', true)
+            console.log('emited is datacompleted')
           }
         })
       }else{
         this.$store.dispatch(actionTypes.UPDATE_PESSOA_FISICA, payload)
         .then(response =>{
+          console.log('RESS', response)
           if(response.error != undefined){
             this.notificacoes = response.error
             this.pleaseWaitDialog = false
           }else{
-            this.pleaseWaitDialog = false
-            //this.$router.push({ name: 'dashboard', params:{cadastroCurriculoSucesso: true} })
+            this.pleaseWaitDialog = false 
+            this.$emit('ver-perfil', false)
           }
         })
       }
@@ -378,31 +357,38 @@ export default {
     },
     adicionarExperiencia(){
       let payload = {
-        'dataInicial': this.dataInicial,
-        'dataInicialFormatada': this.dataInicialFormatada,
-        'dataFinal': this.dataFinal,
-        'dataFinalFormatada': this.dataFinalFormatada,
+        'dataInicial':  this.intervalo[0],
+        'dataFinal': this.intervalo[1],
         'descricaoExperiencia': this.descricaoExperiencia
       }
-      let experiencias = this.experiencias
-
-      this.isExperienciaDuplicate = experiencias.map(value => {
-        if(value.descricaoExperiencia == payload.descricaoExperiencia && value.dataInicial == payload.dataInicial && value.dataFinal == payload.dataFinal){
+      console.log('duplicate before', this.isExperienciaDuplicate)
+      this.isExperienciaDuplicate = this.experiencias.map(value => {
+        console.log('value', value)
+        if(value.dataInicial == payload.dataInicial && value.dataFinal == payload.dataFinal){
+          console.log('eh duplicate')
           return true
+        }else{
+          return false
         }
-      }) 
-      if(this.isExperienciaDuplicate == false){
+      })
+      console.log('duplicate after', this.isExperienciaDuplicate, !this.isExperienciaDuplicate)
+      if(this.isExperienciaDuplicate[0] == false){
         this.experiencias.push(payload)
         this.aviso = 'Adicionado com sucesso.'
+        this.intervalo = []
         this.isExperienciaDuplicate = false
       }else{
+        console.log('cau aqi pq', this.isExperienciaDuplicate)
         this.aviso = 'Você já adicionou essa experiência!'
-      } 
+      }
     },
     removerExperiencia(indexExperiencia){
       let filteredExperiencias = this.experiencias.filter((experiencia, index) => {
         return index != indexExperiencia
       })
+
+      this.experienciasExcluidas = this.pessoaFisicaCurriculo.historicoProfissional.filter(experiencia => !filteredExperiencias.includes(experiencia))
+
       this.experiencias = filteredExperiencias
     },
     getPayloadInfosPessoais(value){
@@ -416,26 +402,34 @@ export default {
       this.fixo = value.fixo
       this.celular = value.celular
       this.linkedin = value.linkedin
-      this.facebook = value.facebook 
+      this.facebook = value.facebook
       this.twitter = value.twitter
-      this.site = value.site 
+      this.site = value.site
     },
     getPayloadEndereco(value){
-      this.cep = value.cep 
-      this.estado = value.estado 
-      this.cidade = value.cidade 
-      this.bairro = value.bairro 
-      this.rua = value.rua 
-      this.complemento = value.complemento 
+      this.cep = value.cep
+      this.estado = value.estado
+      this.cidade = value.cidade
+      this.bairro = value.bairro
+      this.rua = value.rua
+      this.complemento = value.complemento
       this.numero = value.numero
     },
-    loadDataToEdit(){  
+    loadDataToEdit(){
       this.objetivosProfissionais = this.pessoaFisicaCurriculo.curriculo.objetivos
       this.areaAtuacao = this.pessoaFisicaCurriculo.area.id
-      this.pretensaoSalarial = this.pessoaFisicaCurriculo.curriculo.pretensao 
+      this.pretensaoSalarial = this.pessoaFisicaCurriculo.curriculo.pretensao
       this.nivelEscolaridade = this.pessoaFisicaCurriculo.curriculo.escolaridade
       this.qualificacoes = this.pessoaFisicaCurriculo.curriculo.qualificacoes
-      this.experiencias = this.pessoaFisicaCurriculo.historicoProfissional
+      this.experiencias = this.pessoaFisicaCurriculo.historicoProfissional.map(value => {
+        let ob = {
+          dataInicial: value.dataInicial,
+          dataFinal: value.dataFinal, 
+          descricaoExperiencia: value.descricaoExperiencia
+        }
+        return ob
+      })
+      console.log('filt', this.experiencias)
     }
   },
 }
