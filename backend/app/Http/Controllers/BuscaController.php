@@ -5,9 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Response;
-use App\Vaga; 
-use App\Curriculo; 
-use App\User; 
+use App\Vaga;
+use App\Curriculo;
+use App\User;
 use App\Candidatura;
 
 class BuscaController extends Controller
@@ -110,7 +110,8 @@ class BuscaController extends Controller
                 ->join('fisicas', 'fisicas.id', '=', 'curriculos.fisicas_id')
                 ->join('enderecos', 'enderecos.id', '=', 'fisicas.enderecos_id')
                 ->join('users', 'users.id', '=', 'fisicas.user_id')
-                ->when($keywords,function($query, $keywords){//fazer joins com fisica e endereço. mas n lembro como faz kkk 
+                ->join('historico_profissionals', 'historico_profissionals.id', '=', 'curriculos.id')
+                ->when($keywords,function($query, $keywords){//fazer joins com fisica e endereço. mas n lembro como faz kkk
                     $query->where('qualificacoes', 'like', '%' . $keywords . '%');
                 })
                 ->when($escolaridade,function($query, $escolaridade){
@@ -120,7 +121,7 @@ class BuscaController extends Controller
                     $query->where('objetivos', 'like', '%' . $objetivos . '%');
                 })
                 ->when($historicoProfissional, function($query, $historicoProfissional){
-                    $query->where('historicoProfissional', 'like', '%' . $historicoProfissional . '%');
+                    $query->where('descricaoExperiencia', 'like', '%' . $historicoProfissional . '%');
                 })
                 ->when($cidade, function($query, $cidade){
                     $query->where('enderecos.cidade', 'like', '%' . $cidade . '%');
@@ -157,7 +158,7 @@ class BuscaController extends Controller
         foreach($vagas_id as $candidatura){
             $candidaturas[]=$candidatura->vagas_id;
         }
-        
+
         $palavrasQualificacao=BuscaController::tratarPalavras($palavrasQualificacaoPrevia);
         $palavrasHistorico=BuscaController::tratarPalavras($palavrasHistoricoPrevia);
         $palavrasObjetivos=BuscaController::tratarPalavras($palavrasObjetivosPrevia);
@@ -179,7 +180,7 @@ class BuscaController extends Controller
                     ->whereNotIn('id', $candidaturas)
                     ->orderBy('created_at', 'desc')
                     ->get();
-            
+
             if($i==0){
                 $vagastotal=$vagas;
             }
@@ -201,7 +202,7 @@ class BuscaController extends Controller
                     ->whereNotIn('id', $candidaturas)
                     ->orderBy('created_at', 'desc')
                     ->get();
-            
+
             $mergedCollection = $vagastotal->toBase()->merge($vagas);
             $vagastotal = $mergedCollection;
         }
@@ -217,17 +218,17 @@ class BuscaController extends Controller
                     ->whereNotIn('id', $candidaturas)
                     ->orderBy('created_at', 'desc')
                     ->get();
-            
+
             $mergedCollection = $vagastotal->toBase()->merge($vagas);
             $vagastotal = $mergedCollection;
         }
-        
 
-        
+
+
         $collection = collect($mergedCollection);
         $unique = $collection->unique('id');
         $unique_data = $unique->values()->all();
-        
+
 
         return response()->json($unique_data);
     }
@@ -280,7 +281,7 @@ class BuscaController extends Controller
             $vaga->quantidadeContratados = count($vaga->candidaturaContratada);
             $vaga->porcentagem = BuscaController::porcentagem_nx($vaga->quantidadeContratados, $vaga->quantidade);
         }
-        
+
         return response()->json($vagas);
 
     }
@@ -288,5 +289,5 @@ class BuscaController extends Controller
     function porcentagem_nx ($parcial, $total) {
         return ( $parcial * 100 ) / $total;
     }
-    
+
 }
