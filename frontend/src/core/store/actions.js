@@ -21,7 +21,9 @@ export default {
     return response.data
   },
   async [actionTypes.LOGOUT]({commit, state}){
-    await api.auth.logout(state)
+    if(state.auth.user.deleted_at == null){
+      await api.auth.logout(state)
+    }
     commit(mutationTypes.LOGOUT)
     commit(mutationTypes.SET_DATA_COMPLETED, false)
   },

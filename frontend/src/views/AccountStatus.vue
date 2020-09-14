@@ -50,7 +50,7 @@ export default {
       await this.$store.dispatch(actionTypes.REATIVAR_CONTA)
       this.$router.push('/dashboard')
     },
-    async logout(){
+    async logout(){ 
       await this.$store.dispatch(actionTypes.LOGOUT)
       this.$router.push('/')
     }

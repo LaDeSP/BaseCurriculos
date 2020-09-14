@@ -158,8 +158,6 @@ import ModalDetalhes from '@/components/Utils/ModalDetalhes'
 import moment from 'moment'
 
 const customLabels = {
-  first: "Primeira",
-  last: "Última",
   previous: "Anterior",
   next: "Próxima"
 }

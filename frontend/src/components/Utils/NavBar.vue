@@ -7,6 +7,7 @@
     <router-link to="/"><v-toolbar-title class="pl-1 hidden-sm-and-down">Corumbá Jobs</v-toolbar-title></router-link>
     <v-spacer></v-spacer>
     <template v-if="loggedAndCompleted">
+      <h1 color="white">juridicaHasVaga</h1>
       <template v-if="juridicaHasVaga || fisica">
         <v-text-field justify="center" 
           flat 
@@ -90,13 +91,12 @@
 </template>
 
 <script>
-import Logout from '../Auth/Logout'
 import {mapGetters, mapState} from 'vuex'
 import FormBuscaAvancada from '../Forms/FormBuscaAvancada'
 import {actionTypes} from '../../core/constants'
 
 export default {
-  components:{Logout, FormBuscaAvancada},
+  components:{FormBuscaAvancada},
   data() {
     return {
       avatar: '',
@@ -117,6 +117,7 @@ export default {
         this.searchLabel = 'Busque qualificações'
       }
     }
+    console.log('EL ENGRO LLORONA', this.tipoPermissao == 'JURIDICA' && this.hasVaga == true)
   },
   computed:{
     ...mapState(['auth', 'dataCompleted', 'upload', 'hasVaga']),

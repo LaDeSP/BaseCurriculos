@@ -73,8 +73,6 @@ import JwPagination from 'jw-vue-pagination'
 import ActionsDaVagaRecomendada from './ActionsDaVagaRecomendada'
 
 const customLabels = {
-  first: "Primeira",
-  last: "Última", 
   previous: "Anterior",
   next: "Próxima"
 }

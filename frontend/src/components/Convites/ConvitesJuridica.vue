@@ -1,7 +1,6 @@
 <template>
 <v-card-text justify="center" align="center">
   <template v-if="!toggle">
-    as {{getVagasThatHaveConvites}}
     <template v-if="getVagasThatHaveConvites.length == 0">
       <span class="aviso">Não há nenhum convite.</span>
     </template>
@@ -59,8 +58,6 @@ import ModalAlert from '@/components/Utils/ModalAlert'
 import ModalDetalhes from '@/components/Utils/ModalDetalhes'
 
 const customLabels = {
-  first: "Primeira",
-  last: "Última",
   previous: "Anterior",
   next: "Próxima"
 }

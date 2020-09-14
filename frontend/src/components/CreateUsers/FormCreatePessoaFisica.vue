@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import FormCreatePessoaJuridica from './FormCreatePessoaJuridica'
+import FormCreatePessoaJuridica from '@/components/CreateUsers/FormCreatePessoaJuridica'
 import {actionTypes} from '../../core/constants'
 export default {
   components:{FormCreatePessoaJuridica},

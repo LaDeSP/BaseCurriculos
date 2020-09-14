@@ -14,7 +14,7 @@ export default new Vuex.Store({
   plugins: [
     createPersistedState({
       key: 'bdc',
-      paths: ['auth', 'dataCompleted', 'upload'],
+      paths: ['auth', 'hasVaga', 'dataCompleted', 'upload'],
       storage: {
         getItem: (key) => ls.get(key),
         setItem: (key, value) => ls.set(key, value),

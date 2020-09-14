@@ -73,8 +73,6 @@ import {actionTypes} from '@/core/constants'
 import ActionsDaVagaRecomendada from '@/components/Dashboards/Fisica/ActionsDaVagaRecomendada'
 
 const customLabels = {
-  first: 'Primeira',
-  last: 'Última',
   previous: 'Anterior',
   next: 'Próxima' 
 }

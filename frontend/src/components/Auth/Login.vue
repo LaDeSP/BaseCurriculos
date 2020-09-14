@@ -64,7 +64,7 @@
 import {actionTypes} from '../../core/constants'
 import {mapState} from 'vuex'
 import NavBar from '../Utils/NavBar.vue'
-import FormCreatePessoaFisica from '../Create/FormCreatePessoaFisica'
+import FormCreatePessoaFisica from '@/components/CreateUsers/FormCreatePessoaFisica'
 
 export default {
   components: {FormCreatePessoaFisica, NavBar},

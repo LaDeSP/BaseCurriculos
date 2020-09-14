@@ -129,8 +129,6 @@ import ModalAlert from '@/components/Utils/ModalAlert'
 import ModalDetalhes from '@/components/Utils/ModalDetalhes'
 
 const customLabels = {
-  first: "Primeira",
-  last: "Última",
   previous: "Anterior",
   next: "Próxima"
 }

@@ -1,11 +1,11 @@
 <template>
-  <v-card v-if="juridicaPatrocinadoras.length > 0 && juridicaPatrocinadoras[0].endereco != undefined" elevation="24" max-width="800" height="400" class="mx-auto mt-10">
+  <v-card v-if="juridicaPatrocinadoras.length > 0" elevation="24" max-width="800" height="400" class="mx-auto mt-10">
     <v-window v-model="window" class="elevation-1" :show-arrows="showArrows">
       <v-window-item v-for="patrocinador in juridicaPatrocinadoras" :key="patrocinador.id">
-        <v-card flat>
+        <v-card flat min-height="400">
           <v-img height="300" max-height="300" :src="getPicPath(patrocinador.user.foto)"></v-img>
           <v-card-title class="primary--text text-center justify-center text-capitalize"><h2>{{patrocinador.user.name}}</h2></v-card-title>
-          <v-card-text class="text-center justify-center">
+          <v-card-text class="text-center justify-center" v-if="patrocinador.endereco != null">
             <p>{{patrocinador.endereco.cidade}} - {{patrocinador.endereco.estado}}</p>
           </v-card-text>
         </v-card>

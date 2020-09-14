@@ -119,17 +119,13 @@ Vue.use(VueRouter)
     path: '/reset-password', 
     name: 'reset-password', 
     component: () => import(/* webpackChunkName: "AccountStatus"*/ '@/views/ForgotPassword'),
-    meta: { 
-      auth:false 
-    } 
+    meta: {showOnlyIfNoAuth: true} 
   },
   { 
     path: '/reset-password/:token', 
     name: 'reset-password-form', 
     component: () => import(/* webpackChunkName: "AccountStatus"*/ '@/views/ResetPasswordForm'),
-    meta: { 
-      auth:false 
-    } 
+    meta: {showOnlyIfNoAuth: true}
   }
 ]
 
@@ -142,8 +138,13 @@ router.beforeEach((to, from, next) => {
   console.log('beforeEach', store.state)
   if(to.matched.some(record => record.meta.requiresAuth)){
     if(store.state.auth.isLoggedIn){
-      next()
-      return
+      if(store.state.auth.user.deleted_at == null){
+        next()
+        return
+      }else{
+        console.log('deleted not null')
+        next('/accountStatus')
+      }
     }else{
       console.log('not logged in')
       next('/')

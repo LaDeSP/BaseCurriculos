@@ -45,14 +45,16 @@
               <v-card align="center" min-height="200">
                 <v-card-text align="center" justify="center">
                   <template v-if="getAgenda.length == 0">
-                    <span class="aviso">Não há nenhum agendamento com esse status.</span>
+                    <span class="aviso">Não há nenhum agendamento.</span>
                   </template>
                   <template v-else>
                     <v-row justify="center" align="center">
                       <v-col cols="12" lg="6" md="6" sm="12" v-for="agendamento in pageOfItems" :key="agendamento.id">
                           <v-card>
                             <v-card-title class="justify-center text-center primary--text">
-                              <h3>Candidato: {{agendamento.candidatura.curriculo.fisica.user.name}}</h3>
+                              <h3 :title="agendamento.candidatura.curriculo.fisica.user.name">
+                                {{truncate(agendamento.candidatura.curriculo.fisica.user.name, 25)}}
+                              </h3>
                               <v-spacer></v-spacer>
                               <v-chip :color="getColor(agendamento.candidatura.status)">{{agendamento.candidatura.status}}</v-chip>
                             </v-card-title>
@@ -82,7 +84,7 @@
                                   :payload="cancelarAgendamento"
                                 >
                                   <slot>
-                                    <h1 class="text-center line-height">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> a entrevista agendada?</h1>
+                                    <h1 class="text-center line-height">Tem certeza de que deseja <span style="color: #ff0000"><strong>cancelar</strong></span> esse agendamento?</h1>
                                     <h3 class="mt-3" align="center">Você pode fazer uma observação para o candidato:</h3>
                                     <v-textarea
                                       class="mt-3"
@@ -133,8 +135,6 @@ import {actionTypes} from '@/core/constants'
 import ModalAlert from '../components/Utils/ModalAlert'
 
 const customLabels = {
-  first: "Primeira",
-  last: "Última",
   previous: "Anterior",
   next: "Próxima"
 }
@@ -190,6 +190,15 @@ export default {
   methods: {
     onChangePage(pageOfItems) {
       this.pageOfItems = pageOfItems
+    },
+    truncate(value, size){
+      if(value.length > size){
+        let title = value.slice(0, size)
+        title = title + '...'
+        return title
+      }else{
+        return value
+      }
     },
     setNotificacoes(){
       if(this.$route.params.cadastroAgendaSucesso){

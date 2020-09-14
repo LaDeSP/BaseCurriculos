@@ -6,8 +6,8 @@
     </template>
     <template v-else>
       <v-row class="my-5" justify="center">
-        <v-col cols="12" lg="6" md="6" sm="12" v-for="value in pageOfItems" :key="value.id">
-          <v-card>
+        <v-col class="d-flex flex-column" cols="12" lg="6" md="6" sm="12" v-for="value in pageOfItems" :key="value.id">
+          <v-card class="py-2 flex d-flex flex-column"> 
             <v-card-title class="primary--text text-center justify-center">
               <h3>{{value.vaga.titulo}}</h3>
             </v-card-title>
@@ -58,8 +58,6 @@ import ModalAlert from '@/components/Utils/ModalAlert'
 import ModalDetalhes from '@/components/Utils/ModalDetalhes'
 
 const customLabels = {
-  first: "Primeira",
-  last: "Última",
   previous: "Anterior",
   next: "Próxima"
 }

@@ -38,8 +38,6 @@ import ResultadosJuridica from '@/components/Resultados/ResultadosJuridica'
 import ResultadosFisica from '@/components/Resultados/ResultadosFisica'
 
 const customLabels = {
-  first: 'Primeira',
-  last: 'Última',
   previous: 'Anterior',
   next: 'Próxima' 
 }

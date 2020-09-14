@@ -89,13 +89,12 @@
 <script>
 import moment from 'moment'
 import {mapState} from 'vuex'
-import UploadPhoto from '@/components/Utils/UploadPhoto'
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import {mutationTypes, actionTypes} from '@/core/constants'
 
 export default {
-  components: {UploadPhoto, vueDropzone: vue2Dropzone},
+  components: {vueDropzone: vue2Dropzone},
   props: {
     edicao: Boolean
   },

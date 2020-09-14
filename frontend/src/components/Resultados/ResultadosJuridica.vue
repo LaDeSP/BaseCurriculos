@@ -96,8 +96,6 @@ import {actionTypes} from '@/core/constants'
 import ThumbnailPic from '@/components/Utils/ThumbnailPic'
 
 const customLabels = {
-  first: 'Primeira',
-  last: 'Última',
   previous: 'Anterior',
   next: 'Próxima' 
 }

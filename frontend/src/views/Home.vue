@@ -13,7 +13,7 @@
 
 <script>
 import HeaderImages from '../components/Home/HeaderImages'
-import FormCreatePessoaFisica from '../components/Create/FormCreatePessoaFisica'
+import FormCreatePessoaFisica from '@/components/CreateUsers/FormCreatePessoaFisica'
 import EmpresasParceiras from '../components/Home/EmpresasParceiras'
 import {actionTypes} from '@/core/constants'
 

@@ -1,6 +1,6 @@
 <template>
 <v-row class="fill-height" align="center" justify="center">
-  <v-col cols="12" lg="12" md="8" sm="12">
+  <v-col cols="12" lg="12" md="10" sm="12">
     <router-link to="/dashboard">
         <v-btn>
           <v-icon class="pr-1">fas fa-home fa-lg</v-icon> Home
@@ -125,7 +125,7 @@ export default {
   methods:{
     async register(){
       let juridica = {
-        name: this.name,
+        name: this.name.charAt(0).toUpperCase() + this.name.slice(1),
         email: this.email,
         cnpj: this.cnpj, 
         ehPatrocinador: this.ehPatrocinador,
